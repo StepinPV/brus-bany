@@ -1,0 +1,22 @@
+.container {
+    height: 80px;
+    background: #91001d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+}
+
+.logo {
+    background-image: url('./resources/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 50px;
+    display: block;
+}
+
+.title {
+    color: #fff;
+    font-size: 20px;
+}

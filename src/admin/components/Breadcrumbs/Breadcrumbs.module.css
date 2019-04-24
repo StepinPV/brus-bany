@@ -1,0 +1,15 @@
+.container {
+    margin: 16px 32px;
+}
+
+.item {
+    color: #707070;
+}
+
+.link-item {
+    color: #91001c;
+}
+
+.arrow {
+    margin: 0 8px;
+}

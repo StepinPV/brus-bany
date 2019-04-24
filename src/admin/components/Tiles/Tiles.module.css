@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 16px;
+}
+
+.tile {
+    width: 300px;
+    height: 100px;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 8px;
+    margin: 16px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.loading-tile {
+    background: linear-gradient(to right, #ffffff, #eaeaea);
+}
+
+.link-tile {
+    background: linear-gradient(to right, #ffe4e9, #792939);
+    font-size: 22px;
+}
+
+.add-tile {
+    background: linear-gradient(to right, #b6e4c0, #19712c);
+    font-size: 36px;
+}

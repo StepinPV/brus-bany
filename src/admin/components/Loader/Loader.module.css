@@ -1,0 +1,7 @@
+.loader {
+    background-image: url('./resources/loader.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+}
