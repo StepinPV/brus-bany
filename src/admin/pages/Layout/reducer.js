@@ -1,16 +1,14 @@
 import {
     GET_LAYOUT, GET_LAYOUT_SUCCESS, GET_LAYOUT_ERROR,
-    GET_LAYOUT_FORMAT, GET_LAYOUT_FORMAT_SUCCESS, GET_LAYOUT_FORMAT_ERROR
+    SET_LAYOUT, RESET_DATA
 } from './constants';
 
 export const initialState = {
+    id: null,
     layout: null,
     isLayoutFetch: false,
     isLayoutError: null,
-
-    layoutFormat: null,
-    isLayoutFormatFetch: false,
-    isLayoutFormatError: null,
+    error: null
 };
 
 /**
@@ -31,6 +29,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isLayoutFetch: false,
+                id: action.payload['_id'],
                 layout: action.payload
             };
 
@@ -38,27 +37,19 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isLayoutFetch: false,
-                isLayoutError: true
+                isLayoutError: true,
+                error: action.payload.message
             };
 
-        case GET_LAYOUT_FORMAT:
+        case SET_LAYOUT:
             return {
                 ...state,
-                isLayoutFormatFetch: true
+                layout: action.payload
             };
 
-        case GET_LAYOUT_FORMAT_SUCCESS:
+        case RESET_DATA:
             return {
-                ...state,
-                isLayoutFormatFetch: false,
-                layoutFormat: action.payload
-            };
-
-        case GET_LAYOUT_FORMAT_ERROR:
-            return {
-                ...state,
-                isLayoutFormatFetch: false,
-                isLayoutFormatError: true
+                ...initialState
             };
 
         default:

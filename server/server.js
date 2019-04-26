@@ -1,15 +1,21 @@
 const express = require('express');
 const path = require('path');
-const app = express();
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const errorhandler = require('errorhandler');
 
 const db = require('./db');
 const logger = require('./logger');
 const routes = require('./routes');
+const config = require('./config');
 
-const DB_URL = 'mongodb://localhost:27017';
-const DB_NAME = 'brus-bany';
-const PORT = process.env.PORT || 8080;
+const app = express();
+const PORT = process.env.PORT || config.port;
 
+app.set('port', PORT);
+
+app.use(morgan('dev'));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/', function (req, res) {
@@ -18,12 +24,16 @@ app.get('/', function (req, res) {
 
 app.use('/api', routes);
 
-db.init(DB_URL, DB_NAME, () => {
-    logger.success(`Success connection to ${DB_URL}!`);
+if (process.env.NODE_ENV === 'development') {
+    app.use(errorhandler())
+}
+
+db.init(config.db_url, config.db_name, () => {
+    logger.success(`Success connection to ${config.db_url}!`);
     app.listen(PORT);
     logger.success(`Server is started in ${PORT} port!`);
 }, (err) => {
-    logger.error(`Error connection to ${DB_URL}:`, err);
+    logger.error(`Error connection to ${config.db_url}:`, err);
 });
 
 

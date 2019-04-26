@@ -4,7 +4,7 @@ let client = null;
 let db = null;
 
 exports.init = (url, name, callBack, errBack) => {
-    MongoClient.connect(url, (err, database) => {
+    MongoClient.connect(url, { useNewUrlParser: true }, (err, database) => {
         if (err) {
             return errBack(err);
         }

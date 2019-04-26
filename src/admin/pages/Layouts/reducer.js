@@ -1,4 +1,4 @@
-import { GET_LAYOUTS, GET_LAYOUTS_SUCCESS, GET_LAYOUTS_ERROR } from './constants';
+import { GET_LAYOUTS, GET_LAYOUTS_SUCCESS, GET_LAYOUTS_ERROR, RESET_DATA } from './constants';
 
 export const initialState = {
     layouts: null,
@@ -32,6 +32,11 @@ export default function(state = initialState, action) {
                 ...state,
                 isLayoutsFetch: false,
                 isLayoutsError: true
+            };
+
+        case RESET_DATA:
+            return {
+                ...initialState
             };
 
         default:

@@ -5,32 +5,48 @@ import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Form from './resources/Form';
-import { getLayout, getLayoutFormat } from './actions';
+import { getLayout, setLayout, saveLayout, resetData } from './actions';
+import withNotification from '../../../plugins/Notifications/withNotification';
+import format from './resources/format';
+import styles from './Layout.module.css';
 
-const breadcrumbsItems = [{
+const breadcrumbsDefault = [{
     title: 'Главная',
     link: '/admin'
 }, {
     title: 'Планировки',
     link: '/admin/layouts'
-}, {
-    title: 'Редактирование или добавление планировки'
 }];
 
 class Layout extends PureComponent {
     static defaultProps = {
         layout: PropTypes.array,
+        error: PropTypes.string,
         isLayoutFetch: PropTypes.bool,
 
-        layoutFormat: PropTypes.array,
-        isLayoutFormatFetch: PropTypes.bool,
-
         actions: PropTypes.object,
-        match: PropTypes.object
+        match: PropTypes.object,
+        showNotification: PropTypes.func,
+        history: PropTypes.object
     };
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (!prevState.breadcrumbs) {
+            const { match } = nextProps;
+            return {
+                breadcrumbs: [
+                    ...breadcrumbsDefault,
+                    { title: match.params.id === 'add' ? 'Создание планировки' : 'Редактирование планировки' }
+                    ]
+            }
+        }
+
+        return null;
+    }
+
     state = {
-        addMode: false
+        errors: {},
+        breadcrumbs: null
     };
 
     componentDidMount() {
@@ -38,22 +54,119 @@ class Layout extends PureComponent {
         const { id } = match.params;
 
         if (id === 'add') {
-            this.setState({ addMode: true })
+            actions.setLayout({});
         } else {
             actions.getLayout(id);
         }
+    }
 
-        actions.getLayoutFormat();
+    componentWillUnmount() {
+        const { actions } = this.props;
+        actions.resetData();
     }
 
     render() {
+        const { error } = this.props;
+        const { breadcrumbs } = this.state;
+
         return (
             <Fragment>
                 <Header />
-                <Breadcrumbs items={breadcrumbsItems} />
-                <Form />
+                <Breadcrumbs items={breadcrumbs} />
+                { error ? <div className={styles.error}>{error}</div> : this.renderForm() }
             </Fragment>
         );
+    }
+
+    renderForm = () => {
+        const { layout } = this.props;
+        const { errors } = this.state;
+
+        return layout ? (
+            <div className={styles.formContainer}>
+                <div className={styles.formWrapper}>
+                    <Form format={format} value={layout} onChange={this.handleChangeLayout} errors={errors} />
+
+                    <div className={styles.saveButton} onClick={this.handleSave}>Cохранить</div>
+                </div>
+            </div>
+        ) : null;
+    };
+
+    handleChangeLayout = (id, layout) => {
+        const { actions } = this.props;
+        const { errors } = this.state;
+
+        this.setState({ errors: { ...errors, [id]: null }});
+        actions.setLayout(layout);
+    };
+
+    handleSave = async () => {
+        const { showNotification, actions, history } = this.props;
+        const errors = this.getErrors();
+
+        if (errors) {
+            showNotification({ message: 'Исправьте ошибки!', status: 'error' });
+            this.setState({ errors });
+            return;
+        }
+
+        const { message, status } = await actions.saveLayout();
+
+        showNotification({ message, status });
+
+        if (status === 'success') {
+            history.push('/admin/layouts');
+        }
+    };
+
+    getErrors = () => {
+        const { layout } = this.props;
+        const errors = {};
+        let hasErrors = false;
+
+        const validateItems = (items, values, errors) => {
+            items.forEach(item => {
+                const value = values[item['_id']];
+
+                if (item.required && !value) {
+                    errors[item['_id']] = 'Поле обязательно к заполнению!';
+                    hasErrors = true;
+                    return;
+                }
+
+                if (item.min) {
+                    if ((item.type === 'float number' || item.type === 'integer number') && value < item.min) {
+                        errors[item['_id']] = `Значение должно быть больше ${item.min}!`;
+                        hasErrors = true;
+                        return;
+                    }
+
+                    if (item.type === 'array' && (!value || value.length < item.min)) {
+                        errors[item['_id']] = `Количество записей должно быть больше ${item.min}!`;
+                        hasErrors = true;
+                        return;
+                    }
+                }
+
+                if (item.type === 'object' && value) {
+                    errors[item['_id']] = {};
+                    validateItems(item.format, value, errors[item['_id']]);
+                }
+
+                if (item.type === 'array' && value) {
+                    errors[item['_id']] = [];
+                    value.forEach((val, index) => {
+                        errors[item['_id']][index] = {};
+                        validateItems(item.format, val, errors[item['_id']][index]);
+                    });
+                }
+            });
+        };
+
+        validateItems(format, layout, errors);
+
+        return hasErrors ? errors : null;
     }
 }
 
@@ -66,7 +179,9 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getLayout,
-            getLayoutFormat
+            setLayout,
+            saveLayout,
+            resetData
         }, dispatch),
         dispatch
     };
@@ -78,12 +193,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const {
-        layout, isLayoutFetch, isLayoutError,
-        layoutFormat, isLayoutFormatFetch, isLayoutFormatError
-    } = state['admin-layout'];
+    const { layout, isLayoutFetch, isLayoutError, error } = state['admin-layout'];
 
-    return { layout, isLayoutFetch, isLayoutError, layoutFormat, isLayoutFormatFetch, isLayoutFormatError };
+    return { layout, isLayoutFetch, isLayoutError, error };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Layout));

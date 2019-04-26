@@ -1,11 +1,11 @@
 import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
 import Breadcrumbs from '../../components/Breadcrumbs';
-import {getLayouts} from './actions';
+import { getLayouts, resetData } from './actions';
 
 const breadcrumbsItems = [{
     title: 'Главная',
@@ -14,10 +14,10 @@ const breadcrumbsItems = [{
     title: 'Планировки'
 }];
 
-const loadingTile = {
+/*const loadingTile = {
     type: 'loading',
     key: 'loading'
-};
+};*/
 
 const addTile = {
     type: 'add',
@@ -34,8 +34,16 @@ class Layouts extends PureComponent {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!prevState.tiles && nextProps.layouts) {
+            const tiles = nextProps.layouts.map(item => {
+                return {
+                    key: item['_id'],
+                    type: 'link',
+                    title: item['name'],
+                    link: `/admin/layouts/${item['_id']}`
+                }
+            });
             return {
-                tiles: [addTile]
+                tiles: [...tiles, addTile]
             }
         }
 
@@ -44,12 +52,17 @@ class Layouts extends PureComponent {
 
     state = {
         tiles: null,
-        defaultTiles: [loadingTile, addTile]
+        defaultTiles: [addTile]
     };
 
     componentDidMount() {
-        const {actions} = this.props;
+        const { actions } = this.props;
         actions.getLayouts();
+    }
+
+    componentWillUnmount() {
+        const { actions } = this.props;
+        actions.resetData();
     }
 
     render() {
@@ -73,7 +86,8 @@ class Layouts extends PureComponent {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getLayouts
+            getLayouts,
+            resetData
         }, dispatch),
         dispatch
     };

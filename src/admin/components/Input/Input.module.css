@@ -68,3 +68,9 @@
 .input:focus ~ .bar:after {
     width: 50%;
 }
+
+.error {
+    color: #91001c;
+    font-size: 12px;
+    margin-top: 4px;
+}

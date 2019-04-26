@@ -1,15 +1,15 @@
-db.layoutFormat.insert([{
+export default [{
+    _id: '_id',
+    title: 'Идентификатор',
+    type: 'string',
+    required: true,
+    description: 'Идентификатор'
+}, {
     _id: 'name',
     title: 'Имя',
     type: 'string',
     required: true,
     description: 'Имя планировки на русском языке'
-}, {
-    _id: 'translateName',
-    title: 'Имя транслитом',
-    type: 'string',
-    required: true,
-    description: 'Имя планировки транслитом'
 }, {
     _id: 'width',
     title: 'Ширина',
@@ -58,28 +58,6 @@ db.layoutFormat.insert([{
     type: 'integer number',
     min: 0,
     required: true
-}, {
-    _id: 'porch',
-    title: 'Крыльцо',
-    type: 'object',
-    format: [{
-        _id: 'area',
-        title: 'Площадь',
-        type: 'float number',
-        min: 0,
-        required: true
-    }]
-}, {
-    _id: 'terrace',
-    title: 'Терраса',
-    type: 'object',
-    format: [{
-        _id: 'area',
-        title: 'Площадь',
-        type: 'float number',
-        min: 0,
-        required: true
-    }]
 }, {
     _id: 'floor',
     title: 'Этаж',
@@ -223,6 +201,28 @@ db.layoutFormat.insert([{
     }
     ]
 }, {
+    _id: 'porch',
+    title: 'Крыльцо',
+    type: 'object',
+    format: [{
+        _id: 'area',
+        title: 'Площадь',
+        type: 'float number',
+        min: 0,
+        required: true
+    }]
+}, {
+    _id: 'terrace',
+    title: 'Терраса',
+    type: 'object',
+    format: [{
+        _id: 'area',
+        title: 'Площадь',
+        type: 'float number',
+        min: 0,
+        required: true
+    }]
+}, {
     _id: 'attic',
     title: 'Мансарда',
     type: 'object',
@@ -244,5 +244,11 @@ db.layoutFormat.insert([{
         type: 'float number',
         min: 0,
         required: true
+    }, {
+        _id: 'ceilingArea',
+        title: 'Площадь потолка',
+        type: 'float number',
+        min: 0,
+        required: true
     }]
-}]);
+}];

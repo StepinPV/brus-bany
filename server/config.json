@@ -1,0 +1,6 @@
+{
+    "db_url": "mongodb://localhost:27017",
+    "db_name": "brus-bany",
+    "port": 8080
+}
+

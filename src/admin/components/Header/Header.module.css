@@ -7,16 +7,23 @@
     padding: 0 32px;
 }
 
-.logo {
-    background-image: url('./resources/logo.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 200px;
-    height: 50px;
-    display: block;
+@media only screen and (min-width: 600px) {
+    .logo {
+        background-image: url('./resources/logo.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 200px;
+        height: 50px;
+        display: block;
+    }
+
+    .title {
+        text-align: right;
+    }
 }
 
 .title {
     color: #fff;
     font-size: 20px;
+    flex-grow: 1;
 }
