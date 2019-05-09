@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 
 let client = null;
 let db = null;
@@ -16,4 +17,5 @@ exports.init = (url, name, callBack, errBack) => {
 };
 
 exports.getCollection = (name) => db.collection(name);
+exports.getId = (id) => ObjectID(id);
 

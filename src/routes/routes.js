@@ -1,19 +1,15 @@
-import React from 'react';
 import Loadable from 'react-loadable';
-
-function Loading() {
-    return <div>Loading...</div>;
-}
+import LoaderPage from '../components/LoaderPage';
 
 export default (initModule) => {
     const getLoader = async (importPromise) => {
         const data = await importPromise;
 
         if (initModule && typeof initModule === 'function') {
-            initModule(data.default);
+            await initModule(data.default);
         }
 
-        return data.default.component;
+        return data.default.component || data.default;
     };
 
     return [{
@@ -22,7 +18,7 @@ export default (initModule) => {
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../admin/pages/Admin')),
-            loading: Loading,
+            loading: LoaderPage,
         })
     }, {
         id: 'admin/layouts',
@@ -30,7 +26,7 @@ export default (initModule) => {
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../admin/pages/Layouts')),
-            loading: Loading,
+            loading: LoaderPage,
         })
     }, {
         id: 'admin/layouts/layout',
@@ -38,7 +34,47 @@ export default (initModule) => {
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../admin/pages/Layout')),
-            loading: Loading,
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/materials',
+        path: '/admin/materials',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Materials')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/categories',
+        path: '/admin/categories',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Categories')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/categories/category',
+        path: '/admin/categories/:id',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Category')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/projects',
+        path: '/admin/projects',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Projects')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/projects/category/project',
+        path: '/admin/projects/:categoryId/:layoutId',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Project')),
+            loading: LoaderPage,
         })
     }];
 };

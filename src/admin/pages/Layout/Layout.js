@@ -4,10 +4,10 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../components/Breadcrumbs';
-import Form from './resources/Form';
+import Form from '../../components/Form';
 import { getLayout, setLayout, saveLayout, resetData } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
-import format from './resources/format';
+import format from '../../formats/layout';
 import styles from './Layout.module.css';
 
 const breadcrumbsDefault = [{
@@ -21,7 +21,7 @@ const breadcrumbsDefault = [{
 class Layout extends PureComponent {
     static defaultProps = {
         layout: PropTypes.array,
-        error: PropTypes.string,
+        isLayoutError: PropTypes.string,
         isLayoutFetch: PropTypes.bool,
 
         actions: PropTypes.object,
@@ -66,14 +66,14 @@ class Layout extends PureComponent {
     }
 
     render() {
-        const { error } = this.props;
+        const { isLayoutError } = this.props;
         const { breadcrumbs } = this.state;
 
         return (
             <Fragment>
                 <Header />
                 <Breadcrumbs items={breadcrumbs} />
-                { error ? <div className={styles.error}>{error}</div> : this.renderForm() }
+                { isLayoutError ? <div className={styles.error}>{isLayoutError}</div> : this.renderForm() }
             </Fragment>
         );
     }
@@ -85,7 +85,7 @@ class Layout extends PureComponent {
         return layout ? (
             <div className={styles.formContainer}>
                 <div className={styles.formWrapper}>
-                    <Form format={format} value={layout} onChange={this.handleChangeLayout} errors={errors} />
+                    <Form format={format} value={layout} onChange={this.handleChange} errors={errors} />
 
                     <div className={styles.saveButton} onClick={this.handleSave}>Cохранить</div>
                 </div>
@@ -93,7 +93,7 @@ class Layout extends PureComponent {
         ) : null;
     };
 
-    handleChangeLayout = (id, layout) => {
+    handleChange = (id, layout) => {
         const { actions } = this.props;
         const { errors } = this.state;
 
@@ -193,9 +193,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const { layout, isLayoutFetch, isLayoutError, error } = state['admin-layout'];
+    const { layout, isLayoutFetch, isLayoutError } = state['admin-layout'];
 
-    return { layout, isLayoutFetch, isLayoutError, error };
+    return { layout, isLayoutFetch, isLayoutError };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Layout));

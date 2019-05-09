@@ -37,8 +37,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isLayoutFetch: false,
-                isLayoutError: true,
-                error: action.payload.message
+                isLayoutError: action.payload.message
             };
 
         case SET_LAYOUT:

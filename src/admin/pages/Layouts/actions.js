@@ -18,3 +18,9 @@ export function getLayouts() {
 export function resetData() {
     return { type: RESET_DATA }
 }
+
+export function init() {
+    return async (dispatch) => {
+        await dispatch(getLayouts());
+    }
+}

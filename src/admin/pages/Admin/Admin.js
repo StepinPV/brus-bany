@@ -8,6 +8,21 @@ const tiles = [{
     type: 'link',
     title: 'Планировки',
     link: '/admin/layouts'
+}, {
+    key: '/admin/materials',
+    type: 'link',
+    title: 'Стройматериалы',
+    link: '/admin/materials'
+}, {
+    key: '/admin/categories',
+    type: 'link',
+    title: 'Категории',
+    link: '/admin/categories'
+}, {
+    key: '/admin/projects',
+    type: 'link',
+    title: 'Проекты',
+    link: '/admin/projects'
 }];
 
 const breadcrumbsItems = [{

@@ -1,0 +1,56 @@
+.formContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.formWrapper {
+    max-width: 100%;
+    width: 700px;
+    padding: 16px 32px;
+}
+
+.saveButton {
+    height: 60px;
+    background: #19712c;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.error {
+    text-align: center;
+    margin-top: 64px;
+}
+
+.name {
+    margin-bottom: 30px;
+}
+
+.select {
+    width: 100%;
+    height: 40px;
+    outline: none;
+    border: 1px solid #000;
+}
+
+.images {
+    margin-bottom: 32px;
+}
+
+.imagesTitle {
+    font-size: 23px;
+    margin-bottom: 8px;
+}
+
+.imagesItems {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.imagesItem {
+    margin: 8px;
+}

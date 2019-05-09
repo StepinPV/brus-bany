@@ -17,7 +17,7 @@ if (document.readyState !== 'loading') {
 async function run () {
     const store = configureStore({});
 
-    const routes = getRoutes((module) => {
+    const routes = getRoutes(async (module) => {
         if (module && module.id && module.reducer) {
             store.addReducer(module.id, module.reducer, module.initialState);
         }

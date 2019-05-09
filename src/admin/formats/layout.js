@@ -198,8 +198,7 @@ export default [{
             min: 0,
             required: true
         }]
-    }
-    ]
+    }]
 }, {
     _id: 'porch',
     title: 'Крыльцо',

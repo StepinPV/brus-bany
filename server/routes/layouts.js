@@ -9,6 +9,8 @@ const send = (res, { status, code, message, data }) => {
     res.end();
 };
 
+//TODO Удаление планировки
+
 // Все планировки
 router.get('/', async function(req, res, next) {
     try {
@@ -97,8 +99,6 @@ router.put('/:id', async function(req, res, next) {
         } else {
             await collection.updateOne({ '_id': req.params.id }, { $set: req.body.layout });
         }
-
-        await collection.updateOne({ '_id': req.params.id }, { $set: req.body.layout });
 
         send(res, { message: `Планировка успешно обновлена!`, status: 'success' });
     } catch(err) {

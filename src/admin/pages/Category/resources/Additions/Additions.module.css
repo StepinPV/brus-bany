@@ -1,0 +1,85 @@
+.items {
+    font-size: 18px;
+    font-weight: 300;
+    color: #4d4c4c;
+    border-bottom: 1px solid #ccc;
+    max-width: 1160px;
+    margin-bottom: 30px;
+}
+
+.header {
+    font-weight: bold;
+}
+
+.caption {
+    font-size: 23px;
+    margin-bottom: 8px;
+}
+
+.button {
+    cursor: pointer;
+    padding: 12px;
+    background: #5264AE;
+    color: #fff;
+    text-align: center;
+}
+
+.button:hover {
+    background: #4a5cae;
+}
+
+.title {
+    padding: 20px;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.type {
+    display: flex;
+    align-items: center;
+    width: 70px;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.item {
+    border: 1px solid #ccc;
+    border-bottom: none;
+    display: flex;
+    cursor: pointer;
+}
+
+.sub-item {
+    font-size: 14px;
+}
+
+.input {
+    padding-bottom: 2px;
+    margin-top: 24px;
+}
+
+.editing-block {
+    border: 1px solid #ccc;
+    border-bottom: none;
+    background: #fff;
+    padding: 24px 16px;
+}
+
+.variables {
+    display: flex;
+    align-items: baseline;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.variables-select {
+    margin-right: 8px;
+}
+
+.variables-caption {
+    margin-top: 8px;
+    font-size: 16px;
+}

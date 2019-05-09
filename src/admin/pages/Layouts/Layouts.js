@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
 import Breadcrumbs from '../../components/Breadcrumbs';
-import { getLayouts, resetData } from './actions';
+import { resetData, init } from './actions';
 
 const breadcrumbsItems = [{
     title: 'Главная',
@@ -14,10 +14,10 @@ const breadcrumbsItems = [{
     title: 'Планировки'
 }];
 
-/*const loadingTile = {
+const loadingTile = {
     type: 'loading',
     key: 'loading'
-};*/
+};
 
 const addTile = {
     type: 'add',
@@ -52,12 +52,12 @@ class Layouts extends PureComponent {
 
     state = {
         tiles: null,
-        defaultTiles: [addTile]
+        defaultTiles: [loadingTile]
     };
 
     componentDidMount() {
         const { actions } = this.props;
-        actions.getLayouts();
+        actions.init();
     }
 
     componentWillUnmount() {
@@ -86,8 +86,8 @@ class Layouts extends PureComponent {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getLayouts,
-            resetData
+            resetData,
+            init
         }, dispatch),
         dispatch
     };

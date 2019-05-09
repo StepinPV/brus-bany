@@ -17,6 +17,7 @@ app.set('port', PORT);
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'build')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
