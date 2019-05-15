@@ -1,106 +1,84 @@
 const express = require('express');
-const DB = require('../db');
+const Layouts = require('../models/Layouts');
 
 const router = express.Router();
-const getCollection = () => DB.getCollection('layouts');
 
 const send = (res, { status, code, message, data }) => {
     res.json({ status, code, message, data });
     res.end();
 };
 
-//TODO Удаление планировки
-
-// Все планировки
 router.get('/', async function(req, res, next) {
     try {
-        const collection = getCollection();
+        const { status, data, message } = await Layouts.getAll();
 
-        const layouts = await collection.find({}).toArray();
-        send(res, { data: layouts, status: 'success' });
-
+        switch(status) {
+            case 'success':
+                send(res, { data, status });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
+        }
     } catch(err) {
         next(err);
     }
 });
 
-// Получить планировку
 router.get('/:id', async function(req, res, next) {
     try {
-        const collection = getCollection();
+        const { status, data, message } = await Layouts.get(req.params.id);
 
-        const layout = await collection.findOne({ '_id': req.params.id });
-
-        if (layout) {
-            send(res, { data: layout, status: 'success' });
-        } else {
-            send(res, { status: 'error', message: 'Планировка не найдена!' });
+        switch(status) {
+            case 'success':
+                send(res, { data, status });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
         }
-
     } catch(err) {
         next(err);
     }
 });
 
-// Cоздать планировку
 router.post('/add', async function(req, res, next) {
     try {
-        const collection = getCollection();
+        const { status, data, message } = await Layouts.create(req.body.layout);
 
-        if (await collection.findOne({ '_id': req.body.layout['_id'] })) {
-            send(res, { status: 'error', message: `Планировка с id = ${req.body.layout['_id']} уже существует!` });
-            return;
+        switch(status) {
+            case 'success':
+                send(res, { data, status, message: `Планировка успешно создана!` });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
         }
-
-        if (await collection.findOne({ 'name': req.body.layout['name'] })) {
-            send(res, { status: 'error', message: `Планировка с именем = ${req.body.layout['name']} уже существует!` });
-            return;
-        }
-
-        await collection.insertOne(req.body.layout);
-
-        send(res, { message: `Планировка успешно создана!`, status: 'success' });
     } catch(err) {
         next(err);
     }
 });
 
-// Изменить планировку
 router.put('/:id', async function(req, res, next) {
     try {
-        const collection = getCollection();
+        const { status, data, message } = await Layouts.update(req.params.id, req.body.layout);
 
-        const match = await collection.findOne({ '_id': req.params.id });
-
-        if (!match) {
-            send(res, { status: 'error', message: `Вы пытаетесь изменить несуществующую планировку!` });
-            return;
+        switch(status) {
+            case 'success':
+                send(res, { data, status, message: `Планировка успешно обновлена!` });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
         }
-
-        const idChanged = match['_id'] !== req.body.layout['_id'];
-
-        if (idChanged) {
-            if (await collection.findOne({ '_id': req.body.layout['_id'] })) {
-                send(res, { status: 'error', message: `Планировка с id = ${req.body.layout['_id']} уже существует!` });
-                return;
-            }
-        }
-
-        if (match['name'] !== req.body.layout['name']) {
-            if (await collection.findOne({ 'name': req.body.layout['name'] })) {
-                send(res, { status: 'error', message: `Планировка с именем = ${req.body.layout['name']} уже существует!` });
-                return;
-            }
-        }
-
-        if (idChanged) {
-            await collection.insertOne(req.body.layout);
-            await collection.remove({ '_id': req.params.id });
-        } else {
-            await collection.updateOne({ '_id': req.params.id }, { $set: req.body.layout });
-        }
-
-        send(res, { message: `Планировка успешно обновлена!`, status: 'success' });
     } catch(err) {
         next(err);
     }

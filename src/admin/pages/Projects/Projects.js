@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import { resetData, init, getProjects } from './actions';
 import Select from '../../components/Select';
 import styles from './Projects.module.css';
@@ -22,7 +22,7 @@ const loadingTile = {
 };
 
 class Projects extends PureComponent {
-    static defaultProps = {
+    static propTypes = {
         categories: PropTypes.array,
         projects: PropTypes.array,
         actions: PropTypes.object
@@ -54,7 +54,7 @@ class Projects extends PureComponent {
                 return {
                     key: link,
                     type: 'link',
-                    title: project['name'],
+                    title: project.layout['name'],
                     link: link
                 }
             });

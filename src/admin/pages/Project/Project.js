@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import Select from '../../components/Select';
+import Materials from './resources/Materials';
 import {
     getProject,
     setProject,
@@ -13,10 +14,12 @@ import {
     resetData,
     getLayouts,
     uploadFile,
-    deleteFile
+    deleteFile,
+    getMaterials
 } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import ImageLoader from '../../components/ImageLoader';
+import Input from '../../components/Input';
 import styles from './Project.module.css';
 
 const breadcrumbs = [{
@@ -51,10 +54,11 @@ const getAddModeBreadcrumbs = () => [...breadcrumbs, { title: 'Создание 
 const getEditModeBreadcrumbs = () => [...breadcrumbs, { title: 'Редактирование проекта' }];
 
 class Project extends PureComponent {
-    static defaultProps = {
+    static propTypes = {
         layouts: PropTypes.array,
+        materials: PropTypes.array,
 
-        project: PropTypes.array,
+        project: PropTypes.object,
         isProjectError: PropTypes.string,
         isProjectFetch: PropTypes.bool,
 
@@ -91,6 +95,7 @@ class Project extends PureComponent {
         if (prevProps.match !== match && !addMode) {
             const { categoryId, layoutId } = match.params;
             actions.getProject(categoryId, layoutId);
+            actions.getMaterials();
         }
     }
 
@@ -104,6 +109,7 @@ class Project extends PureComponent {
             actions.getLayouts();
         } else {
             actions.getProject(categoryId, layoutId);
+            actions.getMaterials();
         }
     }
 
@@ -127,18 +133,22 @@ class Project extends PureComponent {
 
     renderContent = () => {
         const { addMode } = this.state;
-        const { project } = this.props;
+        const { project, materials } = this.props;
         // const { errors } = this.state;
 
-        return project ? (
+        return project && materials ? (
             <div className={styles.formContainer}>
                 <div className={styles.formWrapper}>
                     {addMode ? (
                         this.renderLayout()
                     ) : (
-                        this.renderImages()
+                        <Fragment>
+                            {this.renderImages()}
+                            {<Materials onChange={this.handleMaterialsChange} materials={materials} data={project.materials || {}} />}
+                            {this.renderPrice()}
+                        </Fragment>
                     )}
-                    <div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Cохранить'}</div>
+                    <div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Сохранить и обновить'}</div>
                 </div>
             </div>
         ) : null;
@@ -163,6 +173,78 @@ class Project extends PureComponent {
         )
     };
 
+    renderPrice = () => {
+        const { project: { profitPercentage }, project, materials } = this.props;
+
+        const salaryPercentage = 20;
+        const defaultProfitPercentage = 20;
+        const taxiPrice = 12000;
+
+        const finalProfitPercentage = isNaN(parseFloat(profitPercentage)) || profitPercentage < 0 || profitPercentage >= 100 - salaryPercentage ?
+            defaultProfitPercentage : profitPercentage;
+
+        let materialsPrice = 0;
+
+        for (let id in project.materials) {
+            const material = materials.find(material => material._id === id);
+            materialsPrice += material.price * project.materials[id];
+        }
+
+        const finalPrice = materialsPrice / (1 - salaryPercentage / 100 - finalProfitPercentage / 100);
+
+        const round = val => Math.round(val);
+
+        const salaryPrice = round(finalPrice * salaryPercentage / 100);
+        const profitPrice = round(finalPrice * finalProfitPercentage / 100);
+        const finalPriceWithTaxi = round(finalPrice + taxiPrice);
+
+        return (
+            <div className={styles.price}>
+                <div className={styles.priceTitle}>Стоимость проекта</div>
+                <div className={styles.profitPercentageInput}>
+                    <Input
+                        value={profitPercentage || 0}
+                        title='Процент прибыли от общей стоимости'
+                        type='float number'
+                        required
+                        min={0}
+                        onChange={this.handleProfitPercentageCountChange}
+                    />
+                </div>
+                <div className={styles.priceValueContainer}>
+                    <div>Стройматериалы:</div>
+                    <div className={styles.priceValue}>
+                        {`${materialsPrice.toLocaleString()} руб.`}
+                    </div>
+                </div>
+                <div className={styles.priceValueContainer}>
+                    <div>Зарпалата строителей:</div>
+                    <div className={styles.priceValue}>
+                        {`${salaryPercentage}% - ${salaryPrice.toLocaleString()} руб.`}
+                    </div>
+                </div>
+                <div className={styles.priceValueContainer}>
+                    <div>Прибыль:</div>
+                    <div className={styles.priceValue}>
+                        {`${finalProfitPercentage}% - ${profitPrice.toLocaleString()} руб.`}
+                    </div>
+                </div>
+                <div className={styles.priceValueContainer}>
+                    <div>Такси:</div>
+                    <div className={styles.priceValue}>
+                        {`${taxiPrice.toLocaleString()} руб.`}
+                    </div>
+                </div>
+                <div className={styles.priceValueContainer}>
+                    <div>Итоговая стоимость:</div>
+                    <div className={styles.priceValue}>
+                        {`${finalPriceWithTaxi.toLocaleString()} руб.`}
+                    </div>
+                </div>
+            </div>
+        )
+    };
+
     renderLayout = () => {
         const { project: { layoutId }, layouts } = this.props;
         const { errors } = this.state;
@@ -179,6 +261,18 @@ class Project extends PureComponent {
                     error={errors['layoutId']} />
             </div>
         ) : null;
+    };
+
+    handleProfitPercentageCountChange = (profitPercentage) => {
+        const { actions, project } = this.props;
+
+        actions.setProject({ ...project, profitPercentage });
+    };
+
+    handleMaterialsChange = (materials) => {
+        const { actions, project } = this.props;
+
+        actions.setProject({ ...project, materials });
     };
 
     handleLayout = (layoutId) => {
@@ -210,7 +304,7 @@ class Project extends PureComponent {
             return;
         }
 
-        const { message, status } = addMode ? await actions.createProject() : actions.updateProject();
+        const { message, status } = addMode ? await actions.createProject() : await actions.updateProject();
 
         showNotification({ message, status });
 
@@ -249,7 +343,8 @@ function mapDispatchToProps(dispatch) {
             resetData,
             getLayouts,
             uploadFile,
-            deleteFile
+            deleteFile,
+            getMaterials
         }, dispatch),
         dispatch
     };
@@ -261,9 +356,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const { project, isProjectFetch, isProjectError, layouts } = state['admin-project'];
+    const { project, isProjectFetch, isProjectError, layouts, materials } = state['admin-project'];
 
-    return { project, isProjectFetch, isProjectError, layouts };
+    return { project, isProjectFetch, isProjectError, layouts, materials };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Project));

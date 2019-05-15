@@ -17,4 +17,6 @@ export default class Api {
     static deleteFile = (project, imageId) => {
         return axios.put(`/api/projects/${project.categoryId}/${project.layoutId}/${imageId}/delete-file`);
     };
+
+    static getMaterials = () => axios.get('/api/materials');
 }

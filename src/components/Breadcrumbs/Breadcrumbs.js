@@ -1,6 +1,6 @@
 import React, { memo, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Link from '../../../components/Link';
+import Link from '../Link';
 import styles from './Breadcrumbs.module.css';
 
 const Breadcrumbs = ({ items }) => (

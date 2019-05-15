@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 
 const tiles = [{
     key: '/admin/layouts',

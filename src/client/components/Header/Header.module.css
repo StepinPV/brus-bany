@@ -1,0 +1,19 @@
+.container {
+    height: 80px;
+    background: #91001d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+}
+
+@media only screen and (min-width: 600px) {
+    .logo {
+        background-image: url('./resources/logo.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 200px;
+        height: 50px;
+        display: block;
+    }
+}

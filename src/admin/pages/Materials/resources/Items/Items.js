@@ -1,10 +1,11 @@
 import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../../components/Input';
+import Select from '../../../../components/Select';
 import styles from './Items.module.css';
 
 class Items extends PureComponent {
-    static defaultProps = {
+    static propTypes = {
         materials: PropTypes.array,
         createMaterial: PropTypes.func,
         updateMaterial: PropTypes.func,
@@ -29,7 +30,7 @@ class Items extends PureComponent {
                                 className={styles.item}
                                 onClick={() => { this.editItem(_id) }}>
                                 <div className={styles.title}>{name}</div>
-                                <div className={styles.price}>{price}</div>
+                                <div className={styles.price}>{`${price} руб`}</div>
                                 <div className={styles.dimension}>{dimension}</div>
                             </div>
                             {editingItem && editingItem._id === _id ? this.renderEditBlock() : null}
@@ -51,13 +52,14 @@ class Items extends PureComponent {
         return (
             <Fragment>
                 <div className={styles['editing-block']}>
-                    <select
-                        value={editingItem.dimension}
-                        onChange={this.handleItemDimensionChange}>
-                        {!editingItem.dimension ? <option>Не выбрано</option> : null}
-                        <option value="Штука">Штука</option>
-                        <option value="Килограмм">Килограмм</option>
-                    </select>
+                    <Select
+                        title='Размерность'
+                        items={[{ name: 'ед' }, { name: 'кг' }]}
+                        displayProperty='name'
+                        keyProperty='name'
+                        selectedKey={editingItem.dimension}
+                        onChange={this.handleItemDimensionChange}
+                        required />
                     <div className={styles.input}>
                         <Input
                             value={editingItem.name}
@@ -85,13 +87,13 @@ class Items extends PureComponent {
         );
     };
 
-    handleItemDimensionChange = (e) => {
+    handleItemDimensionChange = (value) => {
         const { editingItem } = this.state;
 
         this.setState({
             editingItem: {
                 ...editingItem,
-                dimension: e.target.value
+                dimension: value
             }
         })
     };

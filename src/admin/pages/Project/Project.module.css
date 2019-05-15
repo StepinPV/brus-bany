@@ -37,12 +37,22 @@
     border: 1px solid #000;
 }
 
-.images {
+.priceValueContainer {
+    display: flex;
+    align-items: baseline;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.images, .price {
     margin-bottom: 32px;
 }
 
-.imagesTitle {
+.imagesTitle, .priceTitle {
     font-size: 23px;
+}
+
+.imagesTitle {
     margin-bottom: 8px;
 }
 
@@ -53,4 +63,17 @@
 
 .imagesItem {
     margin: 8px;
+}
+
+.priceTitle {
+    margin-bottom: 20px;
+}
+
+.priceValue {
+    font-size: 20px;
+    margin-left: 8px;
+}
+
+.profitPercentageInput {
+    margin-bottom: 16px;
 }

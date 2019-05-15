@@ -1,8 +1,7 @@
 const express = require('express');
-const DB = require('../db');
+const Materials = require('../models/Materials');
 
 const router = express.Router();
-const getCollection = () => DB.getCollection('materials');
 
 const send = (res, { status, code, message, data }) => {
     res.json({ status, code, message, data });
@@ -11,12 +10,18 @@ const send = (res, { status, code, message, data }) => {
 
 router.get('/', async function(req, res, next) {
     try {
-        const collection = getCollection();
+        const { status, data, message } = await Materials.getAll();
 
-        const materials = await collection.find({ }).toArray();
-
-        send(res, { data: materials, status: 'success' });
-
+        switch(status) {
+            case 'success':
+                send(res, { data, status });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
+        }
     } catch(err) {
         next(err);
     }
@@ -25,67 +30,58 @@ router.get('/', async function(req, res, next) {
 //CREATE
 router.post('/', async function(req, res, next) {
     try {
-        const collection = getCollection();
-        const material = req.body.material;
+        const { status, data, message } = await Materials.create(req.body.material);
 
-        if (await collection.findOne({ name: material.name })) {
-            send(res, { status: 'error', message: `Наименование = ${material.name} уже существует!` });
-            return;
+        switch(status) {
+            case 'success':
+                send(res, { data, status, message: `Наименование успешно создано!` });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
         }
-
-        await collection.insertOne(material);
-        const createdMaterial = await collection.findOne({ name: material.name });
-
-        send(res, { message: `Наименование успешно создано!`, data: createdMaterial._id, status: 'success' });
     } catch(err) {
         next(err);
     }
 });
 
 //UPDATE
-router.put('/:materialId', async function(req, res, next) {
+router.put('/:id', async function(req, res, next) {
     try {
-        const collection = getCollection();
-        const { material } = req.body;
-        const materialId = req.params.materialId;
+        const { status, data, message } = await Materials.update(req.params.id, req.body.material);
 
-        const materialOld = await collection.findOne({ '_id': DB.getId(materialId) });
-
-        if (!materialOld) {
-            send(res, { status: 'error', message: `Наименование не найдено!` });
-            return;
+        switch(status) {
+            case 'success':
+                send(res, { data, status, message: `Наименование успешно обновлено!` });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
         }
-
-        if (material.name !== materialOld.name && await collection.findOne({ 'name': material.name })) {
-            send(res, { status: 'error', message: `Наименование = ${material.name} уже существует!` });
-            return;
-        }
-
-        await collection.deleteOne({ '_id': DB.getId(materialId) });
-        await collection.insertOne({ '_id': DB.getId(materialId), ...material });
-
-        send(res, { message: `Наименование успешно обновлено!`, status: 'success' });
     } catch(err) {
         next(err);
     }
 });
 
 //DELETE
-router.delete('/:materialId', async function(req, res, next) {
+router.delete('/:id', async function(req, res, next) {
     try {
-        const collection = getCollection();
-        const materialId = req.params.materialId;
+        const { status, data, message } = await Materials.delete(req.params.id);
 
-        const materialOld = await collection.findOne({ '_id': DB.getId(materialId) });
-
-        if (!materialOld) {
-            send(res, { status: 'error', message: `Наименование не найдено!` });
-            return;
+        switch(status) {
+            case 'success':
+                send(res, { data, status, message: `Наименование успешно удалено!` });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
         }
-
-        await collection.deleteOne({ '_id': DB.getId(materialId) });
-
-        send(res, { message: `Наименование успешно удалено!`, status: 'success' });
     } catch(err) {
         next(err);
     }

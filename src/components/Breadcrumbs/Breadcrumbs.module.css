@@ -2,7 +2,7 @@
     margin: 16px 32px;
 }
 
-.item {
+.item, .arrow {
     color: #707070;
 }
 

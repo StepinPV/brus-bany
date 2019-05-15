@@ -1,7 +1,10 @@
 const express = require('express');
-const DB = require('../db');
+const Projects = require('../models/Projects');
+const Layouts = require('../models/Layouts');
 const multer  = require('multer');
 const fs = require('fs');
+
+const router = express.Router();
 
 const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -19,37 +22,23 @@ const fileStorage = multer.diskStorage({
 });
 
 async function fileFilter (req, file, cb) {
-    const collection = getCollection();
-    const categoryId = req.params.categoryId;
-    const layoutId = req.params.layoutId;
-    const imageId = req.params.imageId;
-    const projectId = `${categoryId}.${layoutId}`;
+    const { categoryId, layoutId, imageId } = req.params;
 
-    const project = await collection.findOne({ '_id': projectId });
+    const { status } = await Projects.updateImage(categoryId, layoutId, imageId, `/uploads/${categoryId}/${layoutId}/${imageId}.jpg`);
 
-    if (!project) {
-        cb(null, false);
-        return;
+    switch(status) {
+        case 'success':
+            cb(null, true);
+            break;
+        case 'error':
+            cb(null, false);
+            break;
+        default:
+            break;
     }
-
-    await collection.updateOne({ '_id': projectId }, {
-        $set: {
-            ...project,
-            images: {
-                ...project.images,
-                [imageId]: `/uploads/${categoryId}/${layoutId}/${imageId}.jpg`
-            }
-        }
-    });
-
-    cb(null, true);
 }
 
 const upload = multer({ storage: fileStorage, fileFilter });
-
-const router = express.Router();
-const getCollection = () => DB.getCollection('projects');
-const getLayoutsCollection = () => DB.getCollection('layouts');
 
 const send = (res, { status, code, message, data }) => {
     res.json({ status, code, message, data });
@@ -58,27 +47,29 @@ const send = (res, { status, code, message, data }) => {
 
 router.get('/:categoryId', async function(req, res, next) {
     try {
-        const collection = getCollection();
-        const layoutsCollection = getLayoutsCollection();
-        const categoryId = req.params.categoryId;
+        const { status, data: projects, message } = await Projects.getAll(req.params.categoryId);
 
-        const projects = await collection.find({ categoryId }).toArray();
+        switch(status) {
+            case 'success':
+                // TODO Это тоже можно вынести
+                const preparedProjects = await projects.reduce(async (previousPromise, project) => {
+                    const projects = await previousPromise;
 
-        const preparedProjects = await projects.reduce(async (previousPromise, { categoryId, layoutId }) => {
-            const projects = await previousPromise;
-            const layout = await layoutsCollection.findOne({ _id: layoutId });
+                    const { data: layout } = await Layouts.get(project.layoutId);
 
-            projects.push({
-                categoryId,
-                layoutId,
-                name: layout.name
-            });
+                    projects.push({ ...project, layout });
 
-            return projects;
-        }, Promise.resolve([]));
+                    return projects;
+                }, Promise.resolve([]));
 
-        send(res, { data: preparedProjects, status: 'success' });
-
+                send(res, { data: preparedProjects, status });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
+        }
     } catch(err) {
         next(err);
     }
@@ -87,24 +78,21 @@ router.get('/:categoryId', async function(req, res, next) {
 //CREATE
 router.post('/:categoryId/:layoutId', async function(req, res, next) {
     try {
-        const collection = getCollection();
-        const project = req.body.project;
-        const categoryId = req.params.categoryId;
-        const layoutId = req.params.layoutId;
+        const { categoryId, layoutId } = req.params;
+        const { project } = req.body;
 
-        if (await collection.findOne({ categoryId, layoutId })) {
-            send(res, { status: 'error', message: `Проект с планировкой = ${project.layoutId} уже существует!` });
-            return;
+        const { status, data, message } = await Projects.create(categoryId, layoutId, project);
+
+        switch(status) {
+            case 'success':
+                send(res, { data, status, message: `Проект успешно создан!` });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
         }
-
-        await collection.insertOne({
-            ...project,
-            '_id': `${categoryId}.${layoutId}`,
-            categoryId,
-            layoutId
-        });
-
-        send(res, { message: `Проект успешно создан!`, status: 'success' });
     } catch(err) {
         next(err);
     }
@@ -113,18 +101,22 @@ router.post('/:categoryId/:layoutId', async function(req, res, next) {
 //READ
 router.get('/:categoryId/:layoutId', async function(req, res, next) {
     try {
-        const collection = getCollection();
-        const categoryId = req.params.categoryId;
-        const layoutId = req.params.layoutId;
+        const { categoryId, layoutId } = req.params;
 
-        const project = await collection.findOne({ '_id': `${categoryId}.${layoutId}` });
+        const { status, data: project, message } = await Projects.get(categoryId, layoutId);
 
-        if (!project) {
-            send(res, { status: 'error', message: `Проект не найден!` });
-            return;
+        switch(status) {
+            case 'success':
+                // TODO Это тоже можно вынести
+                const { data: layout } = await Layouts.get(layoutId);
+                send(res, { data: { ...project, layout }, status });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
         }
-
-        send(res, { data: project, status: 'success' });
     } catch(err) {
         next(err);
     }
@@ -133,35 +125,21 @@ router.get('/:categoryId/:layoutId', async function(req, res, next) {
 //UPDATE
 router.put('/:categoryId/:layoutId', async function(req, res, next) {
     try {
-        const collection = getCollection();
+        const { categoryId, layoutId } = req.params;
         const { project } = req.body;
-        const categoryId = req.params.categoryId;
-        const layoutId = req.params.layoutId;
-        const projectId = `${categoryId}.${layoutId}`;
 
-        if (project.categoryId !== categoryId) {
-            send(res, { status: 'error', message: `Поле categoryId менять запрещено!` });
-            return;
+        const { status, data, message } = await Projects.update(categoryId, layoutId, project);
+
+        switch(status) {
+            case 'success':
+                send(res, { data, status, message: `Проект успешно обновлен!` });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
         }
-
-        if (project.layoutId !== layoutId) {
-            send(res, { status: 'error', message: `Поле layoutId менять запрещено!` });
-            return;
-        }
-
-        if (project._id !== projectId) {
-            send(res, { status: 'error', message: `Поле _id менять запрещено!` });
-            return;
-        }
-
-        if (!await collection.findOne({ '_id': projectId })) {
-            send(res, { status: 'error', message: `Проект не найден!` });
-            return;
-        }
-
-        await collection.updateOne({ '_id': projectId }, { $set: project });
-
-        send(res, { message: `Проект успешно обновлен!`, status: 'success' });
     } catch(err) {
         next(err);
     }
@@ -169,9 +147,7 @@ router.put('/:categoryId/:layoutId', async function(req, res, next) {
 
 router.put('/:categoryId/:layoutId/:imageId/upload-file', upload.single('file'), async function(req, res, next) {
     try {
-        const categoryId = req.params.categoryId;
-        const layoutId = req.params.layoutId;
-        const imageId = req.params.imageId;
+        const { categoryId, layoutId, imageId } = req.params;
 
         send(res, {
             message: `Изображение загружено!`,
@@ -190,25 +166,20 @@ router.put('/:categoryId/:layoutId/:imageId/delete-file', async function(req, re
         } catch(err){}
 
 
-        const collection = getCollection();
-        const categoryId = req.params.categoryId;
-        const layoutId = req.params.layoutId;
-        const imageId = req.params.imageId;
-        const projectId = `${categoryId}.${layoutId}`;
+        const { categoryId, layoutId, imageId } = req.params;
 
-        const project = await collection.findOne({ '_id': projectId });
+        const { status, data, message } = await Projects.updateImage(categoryId, layoutId, imageId, null);
 
-        await collection.updateOne({ '_id': projectId }, {
-            $set: {
-                ...project,
-                images: {
-                    ...project.images,
-                    [imageId]: null
-                }
-            }
-        });
-
-        send(res, { message: `Изображение удалено!`, status: 'success' });
+        switch(status) {
+            case 'success':
+                send(res, { data, status, message: `Изображение удалено!` });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
+        }
     } catch(err) {
         next(err);
     }

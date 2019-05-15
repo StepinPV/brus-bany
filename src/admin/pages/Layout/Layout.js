@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import Form from '../../components/Form';
 import { getLayout, setLayout, saveLayout, resetData } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
@@ -19,7 +19,7 @@ const breadcrumbsDefault = [{
 }];
 
 class Layout extends PureComponent {
-    static defaultProps = {
+    static propTypes = {
         layout: PropTypes.array,
         isLayoutError: PropTypes.string,
         isLayoutFetch: PropTypes.bool,

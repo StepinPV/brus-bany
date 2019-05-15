@@ -31,7 +31,7 @@ class Select extends PureComponent {
     handleChange = (e) => {
         const { onChange } = this.props;
 
-        onChange(e.target.value);
+        onChange(e.target.value === 'Не выбрано' ? null : e.target.value);
     }
 }
 

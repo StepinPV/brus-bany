@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import { resetData, init } from './actions';
 
 const breadcrumbsItems = [{
@@ -26,7 +26,7 @@ const addTile = {
 };
 
 class Categories extends PureComponent {
-    static defaultProps = {
+    static propTypes = {
         categories: PropTypes.array,
         isCategoriesFetch: PropTypes.bool,
         actions: PropTypes.object

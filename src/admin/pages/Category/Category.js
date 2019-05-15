@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import { getCategory, setCategory, saveCategory, resetData } from './actions';
 import Input from '../../components/Input';
 import withNotification from '../../../plugins/Notifications/withNotification';
@@ -19,7 +19,7 @@ const breadcrumbsDefault = [{
 }];
 
 class Category extends PureComponent {
-    static defaultProps = {
+    static propTypes = {
         category: PropTypes.array,
         isCategoryError: PropTypes.string,
         isCategoryFetch: PropTypes.bool,

@@ -1,3 +1,8 @@
+.caption {
+    font-size: 23px;
+    margin-bottom: 8px;
+}
+
 .items {
     font-size: 18px;
     font-weight: 300;
@@ -5,15 +10,6 @@
     border-bottom: 1px solid #ccc;
     max-width: 1160px;
     margin-bottom: 30px;
-}
-
-.header {
-    font-weight: bold;
-}
-
-.caption {
-    font-size: 23px;
-    margin-bottom: 8px;
 }
 
 .button {
@@ -30,17 +26,19 @@
 
 .title {
     padding: 20px;
-    border-right: 1px solid #ccc;
-    border-left: 1px solid #ccc;
     flex-grow: 1;
     display: flex;
     align-items: center;
 }
 
-.type {
+.title, .count {
+    border-right: 1px solid #ccc;
+}
+
+.price, .count {
     display: flex;
     align-items: center;
-    width: 130px;
+    width: 100px;
     justify-content: center;
     flex-shrink: 0;
 }
@@ -50,9 +48,6 @@
     border-bottom: none;
     display: flex;
     cursor: pointer;
-}
-
-.sub-item {
     font-size: 14px;
 }
 
@@ -66,20 +61,4 @@
     border-bottom: none;
     background: #fff;
     padding: 24px 16px;
-}
-
-.variables {
-    display: flex;
-    align-items: baseline;
-    margin-top: 8px;
-    font-size: 14px;
-}
-
-.variables-select {
-    margin-right: 8px;
-}
-
-.variables-caption {
-    margin-top: 8px;
-    font-size: 16px;
 }

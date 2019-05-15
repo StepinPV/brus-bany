@@ -13,6 +13,22 @@ export default (initModule) => {
     };
 
     return [{
+        id: 'bani/category',
+        path: '/bani/:id',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Category')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/category',
+        path: '/bani/:categoryId/:layoutId\\_:weight(\\d+)x:length(\\d+)',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Project')),
+            loading: LoaderPage,
+        })
+    }, {
         id: 'admin',
         path: '/admin',
         exact: true,

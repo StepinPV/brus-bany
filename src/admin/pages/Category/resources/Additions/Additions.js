@@ -2,13 +2,14 @@ import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../../components/Input';
 import layoutFormat from '../../../../formats/layout';
+import Select from '../../../../components/Select';
 import cx from 'classnames';
 import styles from './Additions.module.css';
 
 const getRandomId = () => Math.floor(Math.random() * (9999999 - 1000000 + 1)) + 1000000;
 
 class Additions extends PureComponent {
-    static defaultProps = {
+    static propTypes = {
         data: PropTypes.array,
         onChange: PropTypes.func
     };
@@ -42,7 +43,7 @@ class Additions extends PureComponent {
                                     <div
                                         className={cx(styles['sub-item'], styles.item)}
                                         onClick={() => { this.editAddition(id, additionId) }}>
-                                        <div className={styles.type}>{type}</div>
+                                        <div className={styles.type}>{type === 'boolean' ? 'Еденичный' : 'Множественный'}</div>
                                         <div className={styles.title}>{name}</div>
                                     </div>
                                     {editingAddition && editingAddition.groupId === id && editingAddition.addition.id === additionId ? this.renderAdditionEditBlock() : null}
@@ -77,12 +78,14 @@ class Additions extends PureComponent {
         return (
             <Fragment>
                 <div className={styles['editing-block']}>
-                    <select
-                        value={editingAddition.addition.type}
-                        onChange={this.handleAdditionTypeChange}>
-                        <option value="boolean">Boolean</option>
-                        <option value="count">Count</option>
-                    </select>
+                    <Select
+                        title='Тип'
+                        items={[{ id: 'boolean', name: 'Единичный' }, { id: 'count', name: 'Множественный' }]}
+                        displayProperty='name'
+                        keyProperty='id'
+                        selectedKey={editingAddition.addition.type}
+                        onChange={this.handleAdditionTypeChange}
+                        required />
                     <div className={styles.input}>
                         <Input
                             value={editingAddition.addition.name}
@@ -156,11 +159,17 @@ class Additions extends PureComponent {
         return (
             <Fragment>
                 <div className={styles.variables}>
-                    <select value={id} onChange={(e) => {handleChange(e.target.value)}} className={styles['variables-select']}>
-                        {!id ? <option key={null} value={null}>Не выбрано</option> : null}
-                        {items.map(item => <option key={item._id} value={item._id}>{item.title}</option>)}
-                    </select>
-                    {selectedItem && selectedItem.type !== 'array' && selectedItem.type !== 'object' ? ` = {${beforeValue}${value}}` : null}
+                    <div className={styles['variables-select']}>
+                        <Select
+                            title='Тип'
+                            items={items}
+                            displayProperty='title'
+                            keyProperty='_id'
+                            selectedKey={id}
+                            onChange={value => {handleChange(value)}}
+                            required />
+                    </div>
+                    {selectedItem && selectedItem.type !== 'array' && selectedItem.type !== 'object' ? ` = params.${beforeValue}${value}` : null}
                 </div>
 
                 {selectedItem && selectedItem.format ? this.renderSubVariables(selectedItem.format, childrenId, handleChildrenId, `${beforeValue}${value}`) : null}
@@ -236,7 +245,7 @@ class Additions extends PureComponent {
         onChange(newData);
     };
 
-    handleAdditionTypeChange = (e) => {
+    handleAdditionTypeChange = (value) => {
         const {editingAddition} = this.state;
 
         this.setState({
@@ -244,7 +253,7 @@ class Additions extends PureComponent {
                 ...editingAddition,
                 addition: {
                     ...editingAddition.addition,
-                    type: e.target.value
+                    type: value
                 }
             }
         })
