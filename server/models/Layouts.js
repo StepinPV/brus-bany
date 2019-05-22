@@ -4,8 +4,6 @@ const Status = require('./Status');
 const COLLECTION_NAME = 'layouts';
 const getCollection = () => DB.getCollection(COLLECTION_NAME);
 
-// TODO Сделать удаление!
-
 class Layouts {
     static async getAll() {
         const collection = getCollection();
@@ -63,6 +61,18 @@ class Layouts {
         } else {
             await collection.updateOne({ '_id': id }, { $set: layout });
         }
+
+        return Status.success();
+    };
+
+    static async delete(id) {
+        const collection = getCollection();
+
+        if (!await collection.findOne({ '_id': id })) {
+            return Status.error(`Планировка не найдена!`);
+        }
+
+        await collection.deleteOne({ '_id': id });
 
         return Status.success();
     };

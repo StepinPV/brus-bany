@@ -10,4 +10,8 @@ export default class Api {
     static createLayout = (layout) => {
         return axios.post(`/api/layouts/add`, { layout });
     };
+
+    static deleteLayout = (id) => {
+        return axios.delete(`/api/layouts/${id}`);
+    };
 }

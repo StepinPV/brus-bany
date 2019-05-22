@@ -4,8 +4,13 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
+import Additions from './resources/Additions';
+import Delivery from './resources/Delivery';
+import Bakes from './resources/Bakes';
+import Foundation from './resources/Foundation';
+import BaseEquipment from './resources/BaseEquipment';
+import Gallery from './resources/Gallery';
 import { getCategory, getProject, resetData } from './actions';
-import cx from 'classnames';
 import styles from './Project.module.css';
 
 const breadcrumbsDefault = [{
@@ -42,8 +47,7 @@ class Project extends PureComponent {
 
     state = {
         projectId: null,
-        breadcrumbs: breadcrumbsDefault,
-        expandedAdditions: []
+        breadcrumbs: breadcrumbsDefault
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -92,7 +96,11 @@ class Project extends PureComponent {
                     {this.renderGallery()}
                     {this.renderInfo()}
                 </div>
-                {this.renderAdditions()}
+                <BaseEquipment />
+                <Foundation />
+                <Bakes />
+                <Additions additions={category.additions} layout={project.layout} />
+                <Delivery />
             </div>
         ) : null;
     };
@@ -101,8 +109,8 @@ class Project extends PureComponent {
         const { project } = this.props;
 
         return (
-            <div className={styles['gallery']}>
-                <img className={styles['gallery-image']} src={project.images ? project.images['main'] : null} alt=""/>
+            <div className={styles.gallery}>
+                <Gallery images={[project.images.main, project.images['1']]} />
             </div>
         )
     };
@@ -150,65 +158,6 @@ class Project extends PureComponent {
         }
 
         return title;
-    };
-
-    renderAdditions = () => {
-        const { category, project } = this.props;
-        const { expandedAdditions } = this.state;
-
-        // eslint-disable-next-line
-        const params = project.layout;
-        const getPrice = price => {
-            // eslint-disable-next-line
-            return eval(price);
-        };
-
-        return (
-            <div className={styles['additions']}>
-                <div className={styles['additions-header']}>Выберите дополнения</div>
-                <div className={styles['additions-items']}>
-                    {category.additions.map(({ name, id, value }) => (
-                        <Fragment key={id}>
-                            <div
-                                className={cx(styles['additions-item'], styles['additions-title'], styles['additions-item-header'])}
-                                onClick={() => { this.expandAdditionBlock(id)}}>
-                                {name}
-                            </div>
-                            {
-                                expandedAdditions.includes(id) ? (
-                                    <Fragment>
-                                        {
-                                            value ? value.map(({ type, name, id, price }) => (
-                                                <div className={styles['additions-item']} key={id}>
-                                                    <div className={styles['additions-item-wrapper']}>
-                                                        {type === 'boolean' ? (
-                                                            <input type='checkbox' />
-                                                        ) : (
-                                                            <input className={styles['additions-item-input']} type='number' min='0'/>
-                                                        )}
-
-                                                    </div>
-                                                    <div className={styles['additions-title']}>{name}</div>
-                                                    <div className={styles['additions-price']}>{`${getPrice(price)} р.`}</div>
-                                                </div>
-                                            )) : null
-                                        }
-                                    </Fragment>
-                                ) : null
-                            }
-                        </Fragment>
-                    ))}
-                </div>
-            </div>
-        );
-    };
-
-    expandAdditionBlock = (id) => {
-        const { expandedAdditions } = this.state;
-
-        this.setState({
-            expandedAdditions: expandedAdditions.includes(id) ? expandedAdditions.filter(_id => _id !== id) : [...expandedAdditions, id]
-        })
     };
 }
 

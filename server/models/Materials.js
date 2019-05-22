@@ -22,11 +22,9 @@ class Materials {
             return Status.error(`Наименование = ${material.name} уже существует!`);
         }
 
-        await collection.insertOne(material);
-        //TODO Нужно проверить результат, там есть id
-        const createdMaterial = await collection.findOne({ name: material.name });
+        const res = await collection.insertOne(material);
 
-        return Status.success(createdMaterial._id);
+        return Status.success(res.insertedId.toString());
     };
 
     // TODO Нужно обновлять цену в проектах! Нотификация!
@@ -48,13 +46,10 @@ class Materials {
         return Status.success();
     };
 
-    // TODO Перед удалением нужно проверять, используется ли!
     static async delete(id) {
         const collection = getCollection();
 
-        const materialOld = await collection.findOne({ '_id': DB.getId(id) });
-
-        if (!materialOld) {
+        if (!await collection.findOne({ '_id': DB.getId(id) })) {
             return Status.error(`Наименование не найдено!`);
         }
 

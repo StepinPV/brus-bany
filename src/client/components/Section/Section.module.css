@@ -1,0 +1,11 @@
+.container {
+    padding: 48px 0;
+}
+
+.container-grey {
+    background: #efefef;
+}
+
+.container-white {
+    background: #fff;
+}

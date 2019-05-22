@@ -1,0 +1,27 @@
+.items-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.items {
+    margin: 0 16px;
+    border: 1px solid #ccc;
+}
+
+.item {
+    display: flex;
+}
+
+.item:nth-child(2n) {
+    background: #e6e6e6;
+}
+
+.title {
+    padding: 16px;
+    width: 160px;
+    flex-shrink: 0;
+}
+
+.description {
+    padding:16px;
+}

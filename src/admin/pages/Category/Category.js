@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import { getCategory, setCategory, saveCategory, resetData } from './actions';
+import { getCategory, setCategory, saveCategory, resetData, deleteCategory } from './actions';
 import Input from '../../components/Input';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import Additions from './resources/Additions';
@@ -89,7 +89,6 @@ class Category extends PureComponent {
 
     renderContent = () => {
         const { category, match } = this.props;
-        // const { errors } = this.state;
 
         return category ? (
             <div className={styles.formContainer}>
@@ -98,6 +97,7 @@ class Category extends PureComponent {
                     {this.renderName()}
                     {this.renderAdditions()}
                     <div className={styles.saveButton} onClick={this.handleSave}>{match.params.id === 'add' ? 'Создать' : 'Cохранить'}</div>
+                    {match.params.id !== 'add' ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
                 </div>
             </div>
         ) : null;
@@ -187,6 +187,20 @@ class Category extends PureComponent {
         }
     };
 
+    handleDelete = async () => {
+        const { showNotification, actions, history } = this.props;
+
+        if (window.confirm('Вы действительно хотите удалить категорию?')) {
+            const { message, status } = await actions.deleteCategory();
+
+            showNotification({ message, status });
+
+            if (status === 'success') {
+                history.push('/admin/categories');
+            }
+        }
+    };
+
     getErrors = () => {
         const { category } = this.props;
         const errors = {};
@@ -218,7 +232,8 @@ function mapDispatchToProps(dispatch) {
             getCategory,
             setCategory,
             saveCategory,
-            resetData
+            resetData,
+            deleteCategory
         }, dispatch),
         dispatch
     };

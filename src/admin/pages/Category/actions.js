@@ -39,6 +39,21 @@ export function saveCategory() {
     }
 }
 
+export function deleteCategory() {
+    return async (dispatch, getStore) => {
+        const store = getStore();
+        const { id } = store['admin-category'];
+
+        try {
+            const res = await Api.deleteCategory(id);
+            return res.data;
+        } catch(err) {
+            // TODO
+            alert(err);
+        }
+    }
+}
+
 export function setCategory(layout) {
     return { type: SET_CATEGORY, payload: layout };
 }

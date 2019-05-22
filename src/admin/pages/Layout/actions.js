@@ -39,6 +39,22 @@ export function saveLayout() {
     }
 }
 
+export function deleteLayout() {
+    return async (dispatch, getStore) => {
+        const store = getStore();
+        const { id } = store['admin-layout'];
+
+        try {
+            const res = await Api.deleteLayout(id);
+
+            return res.data;
+        } catch(err) {
+            // TODO
+            alert(err);
+        }
+    };
+}
+
 export function setLayout(layout) {
     return { type: SET_LAYOUT, payload: layout };
 }

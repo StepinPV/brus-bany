@@ -56,6 +56,21 @@ export function updateProject() {
     }
 }
 
+export function deleteProject() {
+    return async (dispatch, getStore) => {
+        const store = getStore();
+        const { project } = store['admin-project'];
+
+        try {
+            const res = await Api.delete(project);
+            return res.data;
+        } catch(err) {
+            // TODO
+            alert(err);
+        }
+    }
+}
+
 export function getLayouts() {
     return async (dispatch) => {
         dispatch({ type: GET_LAYOUTS });

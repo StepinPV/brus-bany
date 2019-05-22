@@ -138,7 +138,10 @@ class Items extends PureComponent {
     handleItemDelete = () => {
         const { editingItem } = this.state;
         const { deleteMaterial } = this.props;
+
         deleteMaterial(editingItem);
+
+        this.setState({ editingItem: null });
     };
 
     editItem = (_id) => {

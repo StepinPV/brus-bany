@@ -47,7 +47,7 @@ const send = (res, { status, code, message, data }) => {
 
 router.get('/:categoryId', async function(req, res, next) {
     try {
-        const { status, data: projects, message } = await Projects.getAll(req.params.categoryId);
+        const { status, data: projects, message } = await Projects.getAllForCategory(req.params.categoryId);
 
         switch(status) {
             case 'success':
@@ -133,6 +133,28 @@ router.put('/:categoryId/:layoutId', async function(req, res, next) {
         switch(status) {
             case 'success':
                 send(res, { data, status, message: `Проект успешно обновлен!` });
+                break;
+            case 'error':
+                send(res, { message, status });
+                break;
+            default:
+                break;
+        }
+    } catch(err) {
+        next(err);
+    }
+});
+
+//DELETE
+router.delete('/:categoryId/:layoutId', async function(req, res, next) {
+    try {
+        const { categoryId, layoutId } = req.params;
+
+        const { status, data, message } = await Projects.delete(categoryId, layoutId);
+
+        switch(status) {
+            case 'success':
+                send(res, { data, status, message: `Проект успешно удален!` });
                 break;
             case 'error':
                 send(res, { message, status });

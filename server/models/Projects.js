@@ -52,10 +52,13 @@ const getValidProfitPercentage = profitPercentage => {
     return profitPercentage;
 };
 
-// TODO Сделать удаление!
-
 class Projects {
-    static async getAll(categoryId) {
+    static async getAll() {
+        const collection = getCollection();
+        return Status.success(await collection.find({}).toArray());
+    };
+
+    static async getAllForCategory(categoryId) {
         const collection = getCollection();
         return Status.success(await collection.find({ categoryId }).toArray());
     };
@@ -114,7 +117,7 @@ class Projects {
         }
 
         project.profitPercentage = getValidProfitPercentage(project.profitPercentage);
-        project.price = calculatePrice(project);
+        project.price = await calculatePrice(project);
 
         await collection.updateOne({ '_id': projectId }, {
             $set: {
@@ -127,6 +130,18 @@ class Projects {
                 price: project.price
             }
         });
+
+        return Status.success();
+    };
+
+    static async delete(categoryId, layoutId) {
+        const collection = getCollection();
+
+        if (!await collection.findOne({ '_id': `${categoryId}.${layoutId}` })) {
+            return Status.error(`Проект не найден!`);
+        }
+
+        await collection.deleteOne({ '_id': `${categoryId}.${layoutId}` });
 
         return Status.success();
     };

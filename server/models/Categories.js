@@ -4,8 +4,6 @@ const Status = require('./Status');
 const COLLECTION_NAME = 'categories';
 const getCollection = () => DB.getCollection(COLLECTION_NAME);
 
-// TODO Сделать удаление!
-
 class Categories {
     static async getAll() {
         const collection = getCollection();
@@ -66,6 +64,18 @@ class Categories {
         } else {
             await collection.updateOne({ '_id': id }, { $set: category });
         }
+
+        return Status.success();
+    };
+
+    static async delete(id) {
+        const collection = getCollection();
+
+        if (!await collection.findOne({ '_id': id })) {
+            return Status.error(`Категория не найдена!`);
+        }
+
+        await collection.deleteOne({ '_id': id });
 
         return Status.success();
     };

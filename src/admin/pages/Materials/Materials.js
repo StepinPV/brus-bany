@@ -69,9 +69,12 @@ class Materials extends PureComponent {
 
     deleteMaterial = async (material) => {
         const { actions: { deleteMaterial }, showNotification } = this.props;
-        const res = await deleteMaterial(material);
 
-        showNotification({ message: res.message, status: res.status });
+        if (window.confirm('Вы действительно хотите удалить материал?')) {
+            const res = await deleteMaterial(material);
+
+            showNotification({ message: res.message, status: res.status });
+        }
     };
 }
 

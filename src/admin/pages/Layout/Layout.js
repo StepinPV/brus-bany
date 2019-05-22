@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import Form from '../../components/Form';
-import { getLayout, setLayout, saveLayout, resetData } from './actions';
+import { getLayout, setLayout, saveLayout, resetData, deleteLayout } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import format from '../../formats/layout';
 import styles from './Layout.module.css';
@@ -79,8 +79,9 @@ class Layout extends PureComponent {
     }
 
     renderForm = () => {
-        const { layout } = this.props;
+        const { layout, match } = this.props;
         const { errors } = this.state;
+        const { id } = match.params;
 
         return layout ? (
             <div className={styles.formContainer}>
@@ -88,6 +89,7 @@ class Layout extends PureComponent {
                     <Form format={format} value={layout} onChange={this.handleChange} errors={errors} />
 
                     <div className={styles.saveButton} onClick={this.handleSave}>Cохранить</div>
+                    { id !== 'add' ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null }
                 </div>
             </div>
         ) : null;
@@ -117,6 +119,20 @@ class Layout extends PureComponent {
 
         if (status === 'success') {
             history.push('/admin/layouts');
+        }
+    };
+
+    handleDelete = async () => {
+        const { showNotification, actions, history } = this.props;
+
+        if (window.confirm('Вы действительно хотите удалить планировку?')) {
+            const { message, status } = await actions.deleteLayout();
+
+            showNotification({ message, status });
+
+            if (status === 'success') {
+                history.push('/admin/layouts');
+            }
         }
     };
 
@@ -181,7 +197,8 @@ function mapDispatchToProps(dispatch) {
             getLayout,
             setLayout,
             saveLayout,
-            resetData
+            resetData,
+            deleteLayout
         }, dispatch),
         dispatch
     };

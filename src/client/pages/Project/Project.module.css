@@ -9,13 +9,6 @@
 
 .gallery {
     flex-basis: 928px;
-    max-height: 696px;
-}
-
-.gallery-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 
 .info-title {
@@ -42,65 +35,4 @@
     font-size: 20px;
     font-weight: bold;
     color: #000;
-}
-
-.additions {
-    max-width: 1160px;
-    margin: 0 auto 64px;
-}
-
-.additions-header {
-    font-size: 42px;
-    font-weight: bold;
-    margin-bottom: 36px;
-    text-align: center;
-}
-
-.additions-items {
-    font-size: 18px;
-    font-weight: 300;
-    color: #4d4c4c;
-    border-bottom: 1px solid #ccc;
-}
-
-.additions-item {
-    display: flex;
-    border: 1px solid #ccc;
-    border-bottom: none;
-}
-
-.additions-title {
-    padding: 20px;
-    border-right: 1px solid #ccc;
-    border-left: 1px solid #ccc;
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-}
-
-.additions-item-header {
-    font-weight: bold;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.additions-price {
-    padding: 20px;
-    width: 120px;
-    flex-shrink: 0;
-}
-
-.additions-item-wrapper {
-    padding: 8px;
-    width: 40px;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.additions-item-input {
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
 }

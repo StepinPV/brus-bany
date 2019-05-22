@@ -15,7 +15,8 @@ import {
     getLayouts,
     uploadFile,
     deleteFile,
-    getMaterials
+    getMaterials,
+    deleteProject
 } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import ImageLoader from '../../components/ImageLoader';
@@ -149,6 +150,7 @@ class Project extends PureComponent {
                         </Fragment>
                     )}
                     <div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Сохранить и обновить'}</div>
+                    { !addMode ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
                 </div>
             </div>
         ) : null;
@@ -313,6 +315,20 @@ class Project extends PureComponent {
         }
     };
 
+    handleDelete = async () => {
+        const { showNotification, actions, history } = this.props;
+
+        if (window.confirm('Вы действительно хотите удалить проект?')) {
+            const { message, status } = await actions.deleteProject();
+
+            showNotification({ message, status });
+
+            if (status === 'success') {
+                history.push(`/admin/projects`);
+            }
+        }
+    };
+
     getErrors = () => {
         const { project } = this.props;
         const errors = {};
@@ -344,7 +360,8 @@ function mapDispatchToProps(dispatch) {
             getLayouts,
             uploadFile,
             deleteFile,
-            getMaterials
+            getMaterials,
+            deleteProject
         }, dispatch),
         dispatch
     };

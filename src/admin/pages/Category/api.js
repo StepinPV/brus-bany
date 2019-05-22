@@ -10,4 +10,8 @@ export default class Api {
     static createCategory = (category) => {
         return axios.post(`/api/categories/add`, { category });
     };
+
+    static deleteCategory = (id) => {
+        return axios.delete(`/api/categories/${id}`);
+    };
 }
