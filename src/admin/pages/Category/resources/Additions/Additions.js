@@ -1,8 +1,8 @@
 import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
-import Input from '../../../../components/Input';
+import Input from '../../../../../components/Input';
 import layoutFormat from '../../../../formats/layout';
-import Select from '../../../../components/Select';
+import Select from '../../../../../components/Select';
 import cx from 'classnames';
 import styles from './Additions.module.css';
 
@@ -19,10 +19,6 @@ class Additions extends PureComponent {
         editingAddition: null,
         selectedLayoutVariable: null
     };
-
-    componentDidMount() {
-
-    }
 
     render() {
         const {editingGroup, editingAddition} = this.state;

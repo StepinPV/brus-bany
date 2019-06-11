@@ -1,10 +1,10 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { YMaps, Map, RoutePanel } from 'react-yandex-maps';
-import Caption from '../../../../components/Caption';
-import styles from './Delivery.module.css';
+import DataSection from '../DataSection';
+import styles from './DeliveryMap.module.css';
 
-class Delivery extends PureComponent {
+class DeliveryMap extends PureComponent {
     constructor(props) {
         super(props);
 
@@ -94,8 +94,7 @@ class Delivery extends PureComponent {
         const { data } = this.state;
 
         return (
-            <Fragment>
-                <Caption>Рассчитайте стоимость доставки</Caption>
+            <DataSection caption='Рассчитайте стоимость доставки'>
                 <div className={styles.container}>
                     {data ? (
                         <div className={styles.coastContainer}>
@@ -121,9 +120,9 @@ class Delivery extends PureComponent {
                         </Map>
                     </YMaps>
                 </div>
-            </Fragment>
+            </DataSection>
         );
     }
 }
 
-export default Delivery;
+export default DeliveryMap;

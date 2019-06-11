@@ -13,11 +13,11 @@ export default (initModule) => {
     };
 
     return [{
-        id: 'bani/category',
-        path: '/bani/:id',
+        id: 'bani/main',
+        path: '/',
         exact: true,
         component: Loadable({
-            loader: () => getLoader(import('../client/pages/Category')),
+            loader: () => getLoader(import('../client/pages/Main')),
             loading: LoaderPage,
         })
     }, {
@@ -26,6 +26,101 @@ export default (initModule) => {
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Project')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/category',
+        path: '/bani/:id',
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Category')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/requisites',
+        path: '/rekvizity',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Requisites')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/payment',
+        path: '/uslovia-oplati',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Payment')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/jobs',
+        path: '/vakansii',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Jobs')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/privacy',
+        path: '/politika_konfidencialnosty',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Privacy')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/delivery',
+        path: '/dostavka',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Delivery')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/contacts',
+        path: '/contakti',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Contacts')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/custom-project',
+        path: '/individualniy-proekt',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/CustomProject')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/feedback',
+        path: '/otzivi',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Feedback')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/promo',
+        path: '/akcii',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Promo')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/questions',
+        path: '/voprosy-i-otvety',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Questions')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/gosty-i-snipy',
+        path: '/gosty-i-snipy',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/GOST')),
             loading: LoaderPage,
         })
     }, {
@@ -90,6 +185,14 @@ export default (initModule) => {
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../admin/pages/Project')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'not-found',
+        path: '*',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/NotFound')),
             loading: LoaderPage,
         })
     }];

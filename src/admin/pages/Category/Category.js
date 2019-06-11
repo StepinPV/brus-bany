@@ -5,9 +5,10 @@ import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import { getCategory, setCategory, saveCategory, resetData, deleteCategory } from './actions';
-import Input from '../../components/Input';
+import Input from '../../../components/Input';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import Additions from './resources/Additions';
+import Filters from './resources/Filters';
 import styles from './Category.module.css';
 
 const breadcrumbsDefault = [{
@@ -20,7 +21,7 @@ const breadcrumbsDefault = [{
 
 class Category extends PureComponent {
     static propTypes = {
-        category: PropTypes.array,
+        category: PropTypes.object,
         isCategoryError: PropTypes.string,
         isCategoryFetch: PropTypes.bool,
 
@@ -95,6 +96,7 @@ class Category extends PureComponent {
                 <div className={styles.formWrapper}>
                     {this.renderId()}
                     {this.renderName()}
+                    {this.renderFilters()}
                     {this.renderAdditions()}
                     <div className={styles.saveButton} onClick={this.handleSave}>{match.params.id === 'add' ? 'Создать' : 'Cохранить'}</div>
                     {match.params.id !== 'add' ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
@@ -150,6 +152,17 @@ class Category extends PureComponent {
         )
     };
 
+    renderFilters = () => {
+        const { category } = this.props;
+
+        return (
+            <div className={styles.filters}>
+                <Filters data={category.filters || []} onChange={this.handleFiltersChange} />
+            </div>
+
+        )
+    };
+
     handleIdChange = (value) => {
         const { actions, category } = this.props;
 
@@ -166,6 +179,12 @@ class Category extends PureComponent {
         const { actions, category } = this.props;
 
         actions.setCategory({ ...category, additions });
+    };
+
+    handleFiltersChange = (filters) => {
+        const { actions, category } = this.props;
+
+        actions.setCategory({ ...category, filters });
     };
 
     handleSave = async () => {

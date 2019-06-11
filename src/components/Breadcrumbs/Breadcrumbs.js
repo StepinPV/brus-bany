@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import Link from '../Link';
 import styles from './Breadcrumbs.module.css';
 
-const Breadcrumbs = ({ items }) => (
-    <div className={styles.container}>
+const Breadcrumbs = ({ items, className }) => (
+    <div className={className}>
         {items.map(({ title, link }, index) => {
             return (
                 <Fragment key={title}>
@@ -22,7 +22,8 @@ Breadcrumbs.propTypes = {
             title: PropTypes.string.required,
             link: PropTypes.string
         })
-    )
+    ),
+    className: PropTypes.string
 };
 
 export default memo(Breadcrumbs);

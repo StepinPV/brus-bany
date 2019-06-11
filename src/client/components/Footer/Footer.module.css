@@ -1,0 +1,86 @@
+.container {
+    background-color: #111111;
+    padding-top: 45px;
+}
+
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    width: 120px;
+    height: 30px;
+}
+
+.logo-wrapper {
+    margin-bottom: 24px;
+    display: block;
+}
+
+.social-networks {
+    display: flex;
+    margin-bottom: 24px;
+}
+
+.social-network {
+    margin-right: 8px;
+}
+
+.phone {
+    font-size: 16px;
+    line-height: 24px;
+    text-decoration: none;
+}
+
+.email {
+    color: #ff8562;
+    text-decoration: none;
+}
+
+.color-white {
+    color: #fff;
+}
+
+.color-grey {
+    color: #525252;
+}
+
+.size-default {
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.info-block {
+    margin-bottom: 16px;
+}
+
+.items-header {
+    color: #525252;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.items-item {
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: block;
+    text-decoration: none;
+}
+
+.column {
+    margin: 0 16px 32px;
+    flex-basis: 200px;
+    flex-shrink: 0;
+}
+
+@media screen and (max-width: 768px) and (min-width: 340px){
+    .column {
+        flex-basis: 128px;
+    }
+}

@@ -1,0 +1,36 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table th, .table td {
+    text-align: center;
+    padding: 8px 12px;
+}
+
+.table td:first-child, .table th:first-child {
+    text-align: left;
+}
+
+@media screen and (max-width: 480px) {
+    .table {
+        font-size: 12px;
+    }
+}
+
+.table tr {
+    background: #f1f1f1;
+}
+
+.table tr:nth-child(2n) {
+    background: #ffffff;
+}
+
+.table {
+    margin: 32px 0;
+    border-collapse: collapse;
+}

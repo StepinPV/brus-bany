@@ -11,7 +11,6 @@ import styles from './App.module.css';
 // 2. SSR
 // 3. Удаление редусеров
 // 4. Loader общий
-// 5. Удаление планировок
 
 class App extends Component {
     static propTypes = {

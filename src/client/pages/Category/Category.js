@@ -4,8 +4,12 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
+import Card from '../../components/Card';
 import Link from '../../../components/Link';
+import NotFound from '../NotFound/NotFound';
 import { getCategory, getProjects, resetData } from './actions';
+import filterProjects from './resources/filter';
+import Filters from './resources/Filters';
 import styles from './Category.module.css';
 
 const breadcrumbsDefault = [{
@@ -22,7 +26,9 @@ class Category extends PureComponent {
         projects: PropTypes.array,
 
         actions: PropTypes.object,
-        match: PropTypes.object
+        match: PropTypes.object,
+        location: PropTypes.object,
+        history: PropTypes.object
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -36,13 +42,59 @@ class Category extends PureComponent {
             }
         }
 
+        if ((!prevState.projects && nextProps.category && nextProps.projects) ||
+            (prevState.currentPathName !== null && prevState.currentPathName !== nextProps.location.pathname)) {
+            const filtersIds = nextProps.location.pathname.split('/').slice(3);
+
+            let additionsFilters;
+            let sizeFilter;
+
+            if (/^[\d]+x[\d]+$/.test(filtersIds[0])) {
+                [sizeFilter, ...additionsFilters] = filtersIds;
+            } else {
+                additionsFilters = filtersIds;
+            }
+
+            for (let i = 0; i < additionsFilters.length; i++) {
+                const filter = nextProps.category.filters && nextProps.category.filters.find(filter => filter.id === additionsFilters[i]);
+
+                if (!filter) {
+                    return {
+                        notFound: true
+                    }
+                }
+            }
+
+            const filters = {
+                additions: additionsFilters,
+                size: sizeFilter
+            };
+
+            return {
+                filters,
+                filteredProjects: filterProjects(filters, nextProps.projects, nextProps.category),
+                currentPathName: nextProps.location.pathname
+            }
+        }
+
         return null;
     }
 
     state = {
         categoryId: null,
-        breadcrumbs: breadcrumbsDefault
+        breadcrumbs: breadcrumbsDefault,
+        filters: null,
+        currentPathName: null,
+        notFound: false
     };
+
+    componentDidMount() {
+        const { match, actions } = this.props;
+        const { id } = match.params;
+
+        actions.getCategory(id);
+        actions.getProjects(id);
+    }
 
     componentDidUpdate(prevProps, prevState) {
         const { match, actions } = this.props;
@@ -55,14 +107,6 @@ class Category extends PureComponent {
         }
     }
 
-    componentDidMount() {
-        const { match, actions } = this.props;
-        const { id } = match.params;
-
-        actions.getCategory(id);
-        actions.getProjects(id);
-    }
-
     componentWillUnmount() {
         const { actions } = this.props;
         actions.resetData();
@@ -70,7 +114,11 @@ class Category extends PureComponent {
 
     render() {
         const { isCategoryError } = this.props;
-        const { breadcrumbs } = this.state;
+        const { breadcrumbs, notFound } = this.state;
+
+        if (notFound) {
+            return <NotFound />;
+        }
 
         return (
             <Fragment>
@@ -83,21 +131,21 @@ class Category extends PureComponent {
 
     renderContent = () => {
         const { category } = this.props;
+        const { filteredProjects } = this.state;
 
-        return category ? (
-            <div className={styles.container}>
+        return category && filteredProjects ? (
+            <Fragment>
                 {this.renderTitle()}
+                {this.renderFilters()}
                 {this.renderProjects()}
-            </div>
+            </Fragment>
         ) : null;
     };
 
     renderTitle = () => {
-        const { category } = this.props;
-
         return (
             <div className={styles['title-block']}>
-                <div className={styles['title-title']}>{`${category.name} | проекты и цены`}</div>
+                <div className={styles['title-title']}>{`${this.getTitle()} | проекты и цены`}</div>
                 <div className={styles['title-description']}>
                     Более 65 проектов бань на любой вкус.<br/>
                     Без затяжного строительства и каждому по карману
@@ -106,33 +154,84 @@ class Category extends PureComponent {
         );
     };
 
+    renderFilters = () => {
+        const { category, projects } = this.props;
+        const { filteredProjects, filters } = this.state;
+
+        return (
+            <Filters
+                category={category}
+                filteredProjects={filteredProjects}
+                filters={filters}
+                projects={projects}
+            />
+        )
+    };
+
     renderProjects = () => {
-        const { projects, match } = this.props;
+        const { match } = this.props;
+        const { filteredProjects } = this.state;
         const { id } = match.params;
 
-        if (!projects) {
+        if (!filteredProjects) {
             return null;
         }
 
         return (
             <div className={styles.projects}>
-                {projects.map(({ layoutId, images, layout, price }) => {
+                {filteredProjects.map(({ layoutId, images, layout, price }) => {
                     return (
                         <Link to={`/bani/${id}/${layoutId}_${layout.width}x${layout.length}`} key={layoutId} className={styles.project}>
-                            {/* TODO img alt! */}
-                            <img src={images ? images['main'] : null} alt="" className={styles['project-image']}/>
-                            <div className={styles['project-info']}>
-                                <div className={styles['project-info-name']}>{`Баня ${layout.name}`}</div>
-                                <div className={styles['project-info-size']}>{`${layout.width}x${layout.length}`}</div>
-                                <div className={styles['project-info-area']}>{`Площадь: ${layout.area}м`}<sup>2</sup></div>
-                                <div className={styles['project-info-price']}>{`${price ? price.toLocaleString() : null} руб`}</div>
-                            </div>
+                            <Card
+                                firstImage={images ? images['main'] : null}
+                                firstButton='Подробнее'
+                                secondButton={`${price ? price.toLocaleString() : null} руб`}
+                                bgStyle='grey'
+                                content={(
+                                    <div className={styles['project-info']}>
+                                        <div className={styles['project-info-name']}>{`Баня ${layout.name}`}</div>
+                                        <div className={styles['project-info-size']}>{`${layout.width}x${layout.length}`}</div>
+                                        <div className={styles['project-info-area']}>{`Площадь: ${layout.area}м`}<sup>2</sup></div>
+                                    </div>
+                                )}
+                            />
                         </Link>
                     );
                 })}
             </div>
         )
     };
+
+    getTitle = () => {
+        const { category } = this.props;
+        const { filters } = this.state;
+
+        let title = category.name;
+
+        if (filters.size) {
+            title += ` ${filters.size}`;
+        }
+
+        const filterNames = [];
+
+        if (category.filters) {
+            category.filters.forEach(filter => {
+                if (Boolean(filters.additions.includes(filter.id))) {
+                    filterNames.push(filter.name);
+                }
+            });
+        }
+
+        filterNames.forEach((name, index) => {
+            if (index === filterNames.length - 1 && filterNames.length > 1) {
+                title += ` и ${name}`;
+            } else {
+                title += ` c ${name}`;
+            }
+        });
+
+        return title;
+    }
 }
 
 /**
@@ -146,8 +245,7 @@ function mapDispatchToProps(dispatch) {
             getCategory,
             getProjects,
             resetData
-        }, dispatch),
-        dispatch
+        }, dispatch)
     };
 }
 

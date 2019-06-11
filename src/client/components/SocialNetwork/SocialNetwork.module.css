@@ -1,0 +1,28 @@
+.icon {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 25px;
+    height: 25px;
+    display: block;
+}
+
+.vk {
+    background-image: url('./resources/vk.svg');
+}
+
+.fb {
+    background-image: url('./resources/fb.svg');
+}
+
+.inst {
+    background-image: url('./resources/inst.svg');
+}
+
+.ok {
+    background-image: url('./resources/ok.svg');
+}
+
+.youtube {
+    background-image: url('./resources/youtube.svg');
+}

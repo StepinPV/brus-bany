@@ -1,0 +1,28 @@
+.item {
+    padding: 16px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 50%;
+    height: 360px;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 16px;
+}
+
+.items-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 640px) {
+    .items-line {
+        flex-direction: column;
+    }
+
+    .item {
+        width: 100%;
+    }
+}

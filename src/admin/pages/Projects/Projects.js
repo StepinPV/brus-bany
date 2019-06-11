@@ -6,7 +6,7 @@ import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import { resetData, init, getProjects } from './actions';
-import Select from '../../components/Select';
+import Select from '../../../components/Select';
 import styles from './Projects.module.css';
 
 const breadcrumbsItems = [{

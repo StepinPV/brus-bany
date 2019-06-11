@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import Select from '../../components/Select';
+import Select from '../../../components/Select';
 import Materials from './resources/Materials';
 import {
     getProject,
@@ -20,7 +20,7 @@ import {
 } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import ImageLoader from '../../components/ImageLoader';
-import Input from '../../components/Input';
+import Input from '../../../components/Input';
 import styles from './Project.module.css';
 
 const breadcrumbs = [{
@@ -96,8 +96,9 @@ class Project extends PureComponent {
         if (prevProps.match !== match && !addMode) {
             const { categoryId, layoutId } = match.params;
             actions.getProject(categoryId, layoutId);
-            actions.getMaterials();
         }
+
+        actions.getMaterials();
     }
 
     componentDidMount() {

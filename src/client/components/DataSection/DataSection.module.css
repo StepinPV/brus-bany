@@ -1,0 +1,27 @@
+.caption {
+    margin: 0 48px 32px;
+}
+
+.description {
+    margin: 0 48px 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.description-wrapper {
+    max-width: 800px;
+}
+
+@media screen and (max-width: 1200px) {
+
+}
+
+@media screen and (max-width: 640px) {
+    .caption {
+        margin: 0 48px 16px;
+    }
+
+    .description {
+        margin: 0 48px 16px;
+    }
+}

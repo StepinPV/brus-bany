@@ -1,0 +1,87 @@
+.layout,
+.banner,
+.content-container {
+    height: 100vh;
+    width: 100%;
+}
+
+.banner {
+    background-image: url('./resources/main.jpeg');
+    background-size: cover;
+}
+
+.content-container,
+.layout {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.layout {
+    background-image: linear-gradient(126deg,rgb(0, 49, 90) 32%,rgba(0, 49, 90, 0.8) 42%, rgba(0, 49, 90, 0.7) 48%,rgba(0, 49, 90, 0.6) 52.6%,rgba(39, 143, 186, 0) 66.3%) !important;
+}
+
+.content {
+    margin-top: 34vh;
+    margin-left: 14%;
+    margin-right: 14%;
+}
+
+.header {
+    max-width: 600px;
+    margin: 0 16px 32px;
+}
+
+.description {
+    color: #fff;
+    margin: 0 16px;
+    opacity: .7;
+    max-width: 346px;
+}
+
+.buttons {
+    margin: 64px 16px 32px;
+}
+
+@media screen and (max-width: 1200px) {
+}
+
+@media screen and (min-width: 640px) {
+    .first-button {
+        margin-right: 16px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .first-button {
+        margin-bottom: 16px;
+    }
+
+    .content {
+        margin-top: 24vh;
+    }
+
+    .header {
+        text-align: center;
+    }
+
+    .description {
+        text-align: center;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .banner {
+        background-position-x: 57%;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .buttons {
+        margin-top: 32px;
+    }
+}
+

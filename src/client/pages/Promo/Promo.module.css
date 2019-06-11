@@ -1,0 +1,42 @@
+.items {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.caption {
+    margin-bottom: 32px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    max-width: 500px;
+}
+
+.image {
+    margin: 32px;
+    display: block;
+    max-width: 100%;
+}
+
+.name {
+    margin-bottom: 16px;
+}
+
+.text {
+    margin-bottom: 32px;
+}
+
+@media screen and (max-width: 400px){
+    .item {
+        flex-direction: column;
+    }
+}

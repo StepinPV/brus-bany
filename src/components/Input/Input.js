@@ -19,15 +19,16 @@ class Input extends PureComponent {
         required: PropTypes.bool,
         type: PropTypes.string,
         min: PropTypes.number,
-        error: PropTypes.string
+        error: PropTypes.string,
+        inputClassName: PropTypes.string
     };
 
     render() {
-        const { title, value, required, type, min, error } = this.props;
+        const { title, value, required, type, min, error, inputClassName } = this.props;
 
         return (
             <div className={cx(styles.container, {[styles.required]: required})}>
-                <input type="text" required className={styles.input} value={value || ''} onChange={this.handleChange} min={min} {...getTypeAttrs(type)} />
+                <input type="text" required className={cx(styles.input, inputClassName)} value={value || ''} onChange={this.handleChange} min={min} {...getTypeAttrs(type)} />
                 <span className={styles.bar} />
                 <label className={styles.label}>{title}</label>
                 {error ? <div className={styles.error}>{error}</div> : null}

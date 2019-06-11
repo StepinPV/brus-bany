@@ -14,7 +14,7 @@ function Section(props) {
 }
 
 Section.propTypes = {
-    bgStyle: PropTypes.oneOf(['white', 'grey'])
+    bgStyle: PropTypes.oneOf(['white', 'grey', 'grey2'])
 };
 
 Section.defaultProps = {

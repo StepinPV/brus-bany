@@ -1,19 +1,73 @@
 .text {
-    font-size: 42px;
-    margin: 0 16px 40px;
-    color: #000;
-    text-align: center;
     font-weight: bold;
 }
 
+.color-black {
+    color: #000;
+}
+
+.color-white {
+    color: #fff;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.size-l {
+    font-size: 52px;
+}
+
+.size-m {
+    font-size: 42px;
+}
+
+.size-s {
+    font-size: 26px;
+}
+
 @media screen and (max-width: 1200px) {
-    .text {
+    .size-l {
+        font-size: 52px;
+    }
+
+    .size-m {
         font-size: 38px;
+    }
+
+    .size-s {
+        font-size: 22px;
     }
 }
 
 @media screen and (max-width: 640px) {
-    .text {
+    .size-l {
+        font-size: 38px;
+    }
+
+    .size-m {
         font-size: 30px;
+    }
+
+    .size-s {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .size-l {
+        font-size: 32px;
+    }
+
+    .size-m {
+        font-size: 24px;
+    }
+
+    .size-s {
+        font-size: 14px;
     }
 }

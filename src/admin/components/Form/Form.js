@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import Input from '../../components/Input';
+import Input from '../../../components/Input';
 import ObjectEditor from '../../components/ObjectEditor';
 import ArrayEditor from '../../components/ArrayEditor';
 import AssociativeArrayEditor from '../../components/AssociativeArrayEditor';

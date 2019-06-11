@@ -1,0 +1,23 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+.caption {
+    margin-bottom: 32px;
+}
+
+.subCaption {
+    margin-bottom: 8px;
+}
+
+.data {
+    margin-bottom: 32px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin: 64px 0 16px;
+}

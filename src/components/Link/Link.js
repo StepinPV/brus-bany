@@ -13,13 +13,14 @@ class Link extends PureComponent {
     };
 
     componentDidMount() {
-        const { loadModule, to, history } = this.props;
+        const { loadModule, history } = this.props;
 
         this.handleClick = (e) => {
+            const link = this.props.to;
             e.preventDefault();
 
-            loadModule(to, () => {
-                history.push(to);
+            loadModule(link, () => {
+                history.push(link);
             });
         };
 

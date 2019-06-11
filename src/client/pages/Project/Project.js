@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import Additions from './resources/Additions';
-import Delivery from './resources/Delivery';
+import DeliveryMap from '../../components/DeliveryMap';
 import Bakes from './resources/Bakes';
 import Foundation from './resources/Foundation';
 import BaseEquipment from './resources/BaseEquipment';
@@ -100,7 +100,7 @@ class Project extends PureComponent {
                 <Foundation />
                 <Bakes />
                 <Additions additions={category.additions} layout={project.layout} />
-                <Delivery />
+                <DeliveryMap />
             </div>
         ) : null;
     };
