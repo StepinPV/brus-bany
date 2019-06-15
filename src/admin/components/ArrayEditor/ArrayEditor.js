@@ -1,6 +1,7 @@
 import React, { memo, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import ObjectEditor from '../../components/ObjectEditor';
+import styles from "../../../components/Input/Input.module.css";
 
 const ArrayEditor = ({ title, value, onChange, format, errors }) => (
     <Fragment>
@@ -32,6 +33,7 @@ const ArrayEditor = ({ title, value, onChange, format, errors }) => (
                 newValue[newValue.length] = v;
                 onChange(newValue);
             }} />
+        {errors && typeof errors === 'string' ? <div className={styles.error}>{errors}</div> : null}
     </Fragment>
 );
 

@@ -105,20 +105,22 @@ class Layout extends PureComponent {
 
     handleSave = async () => {
         const { showNotification, actions, history } = this.props;
-        const errors = this.getErrors();
 
-        if (errors) {
-            showNotification({ message: 'Исправьте ошибки!', status: 'error' });
-            this.setState({ errors });
-            return;
-        }
-
-        const { message, status } = await actions.saveLayout();
+        const { message, status, data } = await actions.saveLayout();
 
         showNotification({ message, status });
 
-        if (status === 'success') {
-            history.push('/admin/layouts');
+        switch (status) {
+            case 'success':
+                history.push('/admin/layouts');
+                break;
+            case 'error':
+                if (data && data.errors) {
+                    this.setState({ errors: data.errors });
+                }
+                break;
+            default:
+                break;
         }
     };
 
@@ -135,55 +137,6 @@ class Layout extends PureComponent {
             }
         }
     };
-
-    getErrors = () => {
-        const { layout } = this.props;
-        const errors = {};
-        let hasErrors = false;
-
-        const validateItems = (items, values, errors) => {
-            items.forEach(item => {
-                const value = values[item['_id']];
-
-                if (item.required && !value) {
-                    errors[item['_id']] = 'Поле обязательно к заполнению!';
-                    hasErrors = true;
-                    return;
-                }
-
-                if (item.min) {
-                    if ((item.type === 'float number' || item.type === 'integer number') && value < item.min) {
-                        errors[item['_id']] = `Значение должно быть больше ${item.min}!`;
-                        hasErrors = true;
-                        return;
-                    }
-
-                    if (item.type === 'array' && (!value || value.length < item.min)) {
-                        errors[item['_id']] = `Количество записей должно быть больше ${item.min}!`;
-                        hasErrors = true;
-                        return;
-                    }
-                }
-
-                if (item.type === 'object' && value) {
-                    errors[item['_id']] = {};
-                    validateItems(item.format, value, errors[item['_id']]);
-                }
-
-                if (item.type === 'array' && value) {
-                    errors[item['_id']] = [];
-                    value.forEach((val, index) => {
-                        errors[item['_id']][index] = {};
-                        validateItems(item.format, val, errors[item['_id']][index]);
-                    });
-                }
-            });
-        };
-
-        validateItems(format, layout, errors);
-
-        return hasErrors ? errors : null;
-    }
 }
 
 /**

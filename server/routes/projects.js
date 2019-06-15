@@ -1,6 +1,6 @@
 const express = require('express');
-const Projects = require('../models/Projects');
-const Layouts = require('../models/Layouts');
+const Projects = require('../methods/Projects');
+const Layouts = require('../methods/Layouts');
 const multer  = require('multer');
 const fs = require('fs');
 
@@ -55,9 +55,9 @@ router.get('/:categoryId', async function(req, res, next) {
                 const preparedProjects = await projects.reduce(async (previousPromise, project) => {
                     const projects = await previousPromise;
 
-                    const { data: layout } = await Layouts.get(project.layoutId);
+                    const { data: layout } = await Layouts.get(project.get('layoutId'));
 
-                    projects.push({ ...project, layout });
+                    projects.push({ ...project.toJSON(), layout });
 
                     return projects;
                 }, Promise.resolve([]));
@@ -109,7 +109,7 @@ router.get('/:categoryId/:layoutId', async function(req, res, next) {
             case 'success':
                 // TODO Это тоже можно вынести
                 const { data: layout } = await Layouts.get(layoutId);
-                send(res, { data: { ...project, layout }, status });
+                send(res, { data: { ...project.toJSON(), layout }, status });
                 break;
             case 'error':
                 send(res, { message, status });

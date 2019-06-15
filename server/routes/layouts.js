@@ -1,6 +1,6 @@
 const express = require('express');
-const Layouts = require('../models/Layouts');
-const SafetyMethods = require('../models/SafetyMethods');
+const Layouts = require('../methods/Layouts');
+const Safety = require('../methods/Safety');
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router.get('/', async function(req, res, next) {
                 send(res, { data, status });
                 break;
             case 'error':
-                send(res, { message, status });
+                send(res, { message, status, data });
                 break;
             default:
                 break;
@@ -37,7 +37,7 @@ router.get('/:id', async function(req, res, next) {
                 send(res, { data, status });
                 break;
             case 'error':
-                send(res, { message, status });
+                send(res, { message, status, data });
                 break;
             default:
                 break;
@@ -56,7 +56,7 @@ router.post('/add', async function(req, res, next) {
                 send(res, { data, status, message: `Планировка успешно создана!` });
                 break;
             case 'error':
-                send(res, { message, status });
+                send(res, { message, status, data });
                 break;
             default:
                 break;
@@ -75,7 +75,7 @@ router.put('/:id', async function(req, res, next) {
                 send(res, { data, status, message: `Планировка успешно обновлена!` });
                 break;
             case 'error':
-                send(res, { message, status });
+                send(res, { message, status, data });
                 break;
             default:
                 break;
@@ -87,14 +87,14 @@ router.put('/:id', async function(req, res, next) {
 
 router.delete('/:id', async function(req, res, next) {
     try {
-        const { status, data, message } = await SafetyMethods.deleteLayout(req.params.id);
+        const { status, data, message } = await Safety.deleteLayout(req.params.id);
 
         switch(status) {
             case 'success':
                 send(res, { data, status, message: `Планировка успешно удалена!` });
                 break;
             case 'error':
-                send(res, { message, status });
+                send(res, { message, status, data });
                 break;
             default:
                 break;

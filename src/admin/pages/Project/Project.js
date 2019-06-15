@@ -97,8 +97,6 @@ class Project extends PureComponent {
             const { categoryId, layoutId } = match.params;
             actions.getProject(categoryId, layoutId);
         }
-
-        actions.getMaterials();
     }
 
     componentDidMount() {
@@ -111,8 +109,9 @@ class Project extends PureComponent {
             actions.getLayouts();
         } else {
             actions.getProject(categoryId, layoutId);
-            actions.getMaterials();
         }
+
+        actions.getMaterials();
     }
 
     componentWillUnmount() {

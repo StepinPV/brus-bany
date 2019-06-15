@@ -1,6 +1,6 @@
 const express = require('express');
-const Materials = require('../models/Materials');
-const SafetyMethods = require('../models/SafetyMethods');
+const Materials = require('../methods/Materials');
+const Safety = require('../methods/Safety');
 
 const router = express.Router();
 
@@ -71,7 +71,7 @@ router.put('/:id', async function(req, res, next) {
 //DELETE
 router.delete('/:id', async function(req, res, next) {
     try {
-        const { status, data, message } = await SafetyMethods.deleteMaterial(req.params.id);
+        const { status, data, message } = await Safety.deleteMaterial(req.params.id);
 
         switch(status) {
             case 'success':

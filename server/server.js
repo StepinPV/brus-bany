@@ -30,11 +30,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 db.init(config.db_url, config.db_name, () => {
-    logger.success(`Success connection to ${config.db_url}!`);
+    logger.success(`\nSuccess connection to ${config.db_url}/${config.db_name}!`);
     app.listen(PORT);
     logger.success(`Server is started in ${PORT} port!`);
 }, (err) => {
-    logger.error(`Error connection to ${config.db_url}:`, err);
+    logger.error(`\nError connection to ${config.db_url}/${config.db_name}:`, err);
 });
 
 

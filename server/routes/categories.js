@@ -1,6 +1,6 @@
 const express = require('express');
-const Categories = require('../models/Categories');
-const SafetyMethods = require('../models/SafetyMethods');
+const Categories = require('../methods/Categories');
+const Safety = require('../methods/Safety');
 
 const router = express.Router();
 
@@ -106,7 +106,7 @@ router.put('/:id', async function(req, res, next) {
 
 router.delete('/:id', async function(req, res, next) {
     try {
-        const { status, data, message } = await SafetyMethods.deleteCategory(req.params.id);
+        const { status, data, message } = await Safety.deleteCategory(req.params.id);
 
         switch(status) {
             case 'success':

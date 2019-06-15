@@ -1,9 +1,6 @@
-const DB = require('../db');
+const Project = require('../models/Project');
 const Status = require('./Status');
 const Materials = require('./Materials');
-
-const COLLECTION_NAME = 'projects';
-const getCollection = () => DB.getCollection(COLLECTION_NAME);
 
 const DEFAULT_VALUES = {
     // Итоговая цена
@@ -54,19 +51,15 @@ const getValidProfitPercentage = profitPercentage => {
 
 class Projects {
     static async getAll() {
-        const collection = getCollection();
-        return Status.success(await collection.find({}).toArray());
+        return Status.success(await Project.find({}));
     };
 
     static async getAllForCategory(categoryId) {
-        const collection = getCollection();
-        return Status.success(await collection.find({ categoryId }).toArray());
+        return Status.success(await Project.find({ categoryId }));
     };
 
     static async get(categoryId, layoutId) {
-        const collection = getCollection();
-
-        const project = await collection.findOne({ '_id': `${categoryId}.${layoutId}` });
+        const project = await Project.findOne({ '_id': `${categoryId}.${layoutId}` });
 
         if (!project) {
             return Status.error(`Проект не найден!`);
@@ -76,13 +69,11 @@ class Projects {
     };
 
     static async create(categoryId, layoutId, project) {
-        const collection = getCollection();
-
-        if (await collection.findOne({ categoryId, layoutId })) {
+        if (await Project.findOne({ categoryId, layoutId })) {
             return Status.error(`Проект с планировкой = ${project.layoutId} уже существует!`);
         }
 
-        await collection.insertOne({
+        await Project.insertOne({
             ...project,
             '_id': `${categoryId}.${layoutId}`,
             categoryId,
@@ -95,8 +86,6 @@ class Projects {
     };
 
     static async update(categoryId, layoutId, project) {
-        const collection = getCollection();
-
         const projectId = `${categoryId}.${layoutId}`;
 
         if (project.categoryId !== categoryId) {
@@ -112,56 +101,49 @@ class Projects {
             return Status.error( `Поле _id менять запрещено!`);
         }
 
-        if (!await collection.findOne({ '_id': projectId })) {
+        if (!await Project.findOne({ '_id': projectId })) {
             return Status.error(`Проект не найден!`);
         }
 
         project.profitPercentage = getValidProfitPercentage(project.profitPercentage);
         project.price = await calculatePrice(project);
 
-        await collection.updateOne({ '_id': projectId }, {
-            $set: {
-                _id: project._id,
-                categoryId: project.categoryId,
-                layoutId: project.layoutId,
-                images: project.images,
-                materials: project.materials,
-                profitPercentage: project.profitPercentage,
-                price: project.price
-            }
+        await Project.updateOne({ '_id': projectId }, {
+            _id: project._id,
+            categoryId: project.categoryId,
+            layoutId: project.layoutId,
+            images: project.images,
+            materials: project.materials,
+            profitPercentage: project.profitPercentage,
+            price: project.price
         });
 
         return Status.success();
     };
 
     static async delete(categoryId, layoutId) {
-        const collection = getCollection();
-
-        if (!await collection.findOne({ '_id': `${categoryId}.${layoutId}` })) {
+        if (!await Project.findOne({ '_id': `${categoryId}.${layoutId}` })) {
             return Status.error(`Проект не найден!`);
         }
 
-        await collection.deleteOne({ '_id': `${categoryId}.${layoutId}` });
+        await Project.deleteOne({ '_id': `${categoryId}.${layoutId}` });
 
         return Status.success();
     };
 
     static async updateImage(categoryId, layoutId, imageId, newImagePath) {
-        const collection = getCollection();
         const { data: project } = await Projects.get(categoryId, layoutId);
 
         if (!project) {
             return Status.error(`Проект не найден!`);
         }
 
-        await collection.updateOne({ '_id': project._id }, {
-            $set: {
-                // TODO Проверить, можно ли передать только измененное поле. В других местах тоже
-                ...project,
-                images: {
-                    ...project.images,
-                    [imageId]: newImagePath
-                }
+        await Project.updateOne({ '_id': project._id }, {
+            // TODO Проверить, можно ли передать только измененное поле. В других местах тоже
+            ...project,
+            images: {
+                ...project.images,
+                [imageId]: newImagePath
             }
         });
 

@@ -13,91 +13,81 @@ export default [{
 }, {
     _id: 'width',
     title: 'Ширина',
-    type: 'float number',
-    min: 0,
-    required: true
+    required: true,
+    type: 'float number'
+}, {
+    _id: 'aaa',
+    title: 'AAAAA',
+    required: true,
+    type: 'float number'
 }, {
     _id: 'length',
     title: 'Длина',
     type: 'float number',
-    min: 0,
     required: true
 }, {
     _id: 'area',
     title: 'Общая площадь',
     type: 'float number',
-    min: 0,
     required: true
 }, {
     _id: 'roofArea',
     title: 'Площадь крыши',
     type: 'float number',
-    min: 0,
     required: true
 }, {
     _id: 'frameArea',
     title: 'Площадь сруба',
     type: 'float number',
-    min: 0,
     required: true
 }, {
     _id: 'warmArea',
     title: 'Теплая площадь',
     type: 'float number',
-    min: 0,
     required: true
 }, {
     _id: 'perimeter',
     title: 'Периметр',
     type: 'float number',
-    min: 0,
     required: true
 }, {
     _id: 'stiltCount',
     title: 'Количество свай',
     type: 'integer number',
-    min: 0,
     required: true
 }, {
     _id: 'floor',
     title: 'Этаж',
     type: 'array',
-    min: 1,
     format: [{
         _id: 'wallLength',
         title: 'Длина стен',
         type: 'float number',
-        min: 0,
         required: true
     }, {
         _id: 'wallHeight',
         title: 'Высота стен',
         type: 'float number',
-        min: 0,
         required: true
     }, {
         _id: 'partitionLength',
         title: 'Длина перегородок',
         type: 'float number',
-        min: 0,
         required: true
     }, {
         _id: 'roomCount',
         title: 'Количество комнат',
         type: 'integer number',
-        min: 0,
         required: true
     }, {
         _id: 'ceilingArea',
         title: 'Площадь потолка',
         type: 'float number',
-        min: 0,
         required: true
     }, {
         _id: 'warmArea',
         title: 'Теплая площадь',
         type: 'float number',
-        min: 0,
         required: true
     }, {
         _id: 'balcony',
@@ -107,7 +97,6 @@ export default [{
             _id: 'area',
             title: 'Площадь',
             type: 'float number',
-            min: 0,
             required: true
         }]
     }, {
@@ -118,7 +107,6 @@ export default [{
             _id: 'area',
             title: 'Площадь',
             type: 'float number',
-            min: 0,
             required: true
         }]
     }, {
@@ -129,7 +117,6 @@ export default [{
             _id: 'area',
             title: 'Площадь',
             type: 'float number',
-            min: 0,
             required: true
         }]
     }, {
@@ -140,7 +127,6 @@ export default [{
             _id: 'area',
             title: 'Площадь',
             type: 'float number',
-            min: 0,
             required: true
         }]
     }, {
@@ -151,7 +137,6 @@ export default [{
             _id: 'area',
             title: 'Площадь',
             type: 'float number',
-            min: 0,
             required: true
         }]
     }, {
@@ -162,7 +147,6 @@ export default [{
             _id: 'area',
             title: 'Площадь',
             type: 'float number',
-            min: 0,
             required: true
         }]
     }, {
@@ -173,7 +157,6 @@ export default [{
             _id: 'area',
             title: 'Площадь',
             type: 'float number',
-            min: 0,
             required: true
         }]
     }, {
@@ -184,7 +167,6 @@ export default [{
             _id: 'area',
             title: 'Площадь',
             type: 'float number',
-            min: 0,
             required: true
         }]
     }, {
@@ -195,7 +177,6 @@ export default [{
             _id: 'area',
             title: 'Площадь',
             type: 'float number',
-            min: 0,
             required: true
         }]
     }]
@@ -207,7 +188,6 @@ export default [{
         _id: 'area',
         title: 'Площадь',
         type: 'float number',
-        min: 0,
         required: true
     }]
 }, {
@@ -218,7 +198,6 @@ export default [{
         _id: 'area',
         title: 'Площадь',
         type: 'float number',
-        min: 0,
         required: true
     }]
 }, {
@@ -229,25 +208,21 @@ export default [{
         _id: 'area',
         title: 'Площадь',
         type: 'float number',
-        min: 0,
         required: true
     }, {
         _id: 'wallLength',
         title: 'Длина стен',
         type: 'float number',
-        min: 0,
         required: true
     }, {
         _id: 'wallHeight',
         title: 'Высота стен',
         type: 'float number',
-        min: 0,
         required: true
     }, {
         _id: 'ceilingArea',
         title: 'Площадь потолка',
         type: 'float number',
-        min: 0,
         required: true
     }]
 }];
