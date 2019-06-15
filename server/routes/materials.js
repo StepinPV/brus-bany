@@ -1,6 +1,6 @@
 const express = require('express');
-const Materials = require('../methods/Materials');
-const Safety = require('../methods/Safety');
+const Materials = require('../controllers/Materials');
+const Safety = require('../controllers/Safety');
 
 const router = express.Router();
 

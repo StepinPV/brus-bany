@@ -16,11 +16,6 @@ export default [{
     required: true,
     type: 'float number'
 }, {
-    _id: 'aaa',
-    title: 'AAAAA',
-    required: true,
-    type: 'float number'
-}, {
     _id: 'length',
     title: 'Длина',
     type: 'float number',

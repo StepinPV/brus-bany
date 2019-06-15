@@ -1,6 +1,6 @@
 const express = require('express');
-const Projects = require('../methods/Projects');
-const Layouts = require('../methods/Layouts');
+const Projects = require('../controllers/Projects');
+const Layouts = require('../controllers/Layouts');
 const multer  = require('multer');
 const fs = require('fs');
 

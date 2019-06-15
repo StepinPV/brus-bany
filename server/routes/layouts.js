@@ -1,6 +1,6 @@
 const express = require('express');
-const Layouts = require('../methods/Layouts');
-const Safety = require('../methods/Safety');
+const Layouts = require('../controllers/Layouts');
+const Safety = require('../controllers/Safety');
 
 const router = express.Router();
 
