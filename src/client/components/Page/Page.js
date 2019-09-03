@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Header from '../Header';
 import Footer from '../Footer';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import cx from 'classnames';
 import styles from './Page.module.css';
 
 class Page extends PureComponent {
@@ -14,11 +13,11 @@ class Page extends PureComponent {
     };
 
     render() {
-        const { children, fixedHeader, breadcrumbs, absoluteHeader } = this.props;
+        const { children, fixedHeader, breadcrumbs } = this.props;
 
         return (
             <Fragment>
-                <Header className={cx(styles.header, {[styles['header-fixed']]: fixedHeader, [styles['header-absolute']]: absoluteHeader })} />
+                <Header fixedHeader={fixedHeader} />
                 <div className={styles.content}>
                     {breadcrumbs ? <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} /> : null}
                     {children}

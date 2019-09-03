@@ -42,13 +42,14 @@ function Footer() {
                 </div>
                 <div className={styles.column}>
                     <div className={styles['items-header']}>ВЫБЕРИТЕ БАНЮ</div>
-                    <div className={styles['items-item']}>Мобильные бани</div>
-                    <div className={styles['items-item']}>Бани из бруса</div>
-                    <div className={styles['items-item']}>Каркасные бани</div>
-                    <Link to='/individualniy-proekt' className={styles['items-item']}>Индивидуальный проект</Link>
+                    <Link to='/bani/mobilnie' className={styles['items-item']}>Мобильные бани</Link>
+                    <Link to='/bani/iz-brusa' className={styles['items-item']}>Бани из бруса</Link>
+                    <Link to='/bani/karkasnie' className={styles['items-item']}>Каркасные бани</Link>
+                    <Link to='/bani/individualniy-proekt' className={styles['items-item']}>Индивидуальный проект</Link>
                 </div>
                 <div className={styles.column}>
                     <div className={styles['items-header']}>О КОМПАНИИ</div>
+                    <Link to='/about-company' className={styles['items-item']}>О компании</Link>
                     <Link to='/rekvizity' className={styles['items-item']}>Реквизиты компании</Link>
                     <Link to='/dostavka' className={styles['items-item']}>География доставки</Link>
                     <Link to='/uslovia-oplati' className={styles['items-item']}>Условия оплаты</Link>
@@ -58,9 +59,9 @@ function Footer() {
                 </div>
                 <div className={styles.column}>
                     <div className={styles['items-header']}>ДОПОЛНИТЕЛЬНО</div>
-                    <div className={styles['items-item']}>Фото построенных бань</div>
+                    <Link to='/photos' className={styles['items-item']}>Фото построенных бань</Link>
                     <Link to='/otzivi' className={styles['items-item']}>Отзывы</Link>
-                    <div className={styles['items-item']}>Блог</div>
+                    <Link to='/blog' className={styles['items-item']}>Блог</Link>
                     <a href='https://zen.yandex.ru/brusbany' className={styles['items-item']} target='_blank' rel="noopener noreferrer">Яндекс Дзен</a>
                     <Link to='/akcii' className={styles['items-item']}>Скидки и акции</Link>
                     <Link to='/voprosy-i-otvety' className={styles['items-item']}>Вопросы и ответы</Link>

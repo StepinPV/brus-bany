@@ -28,13 +28,13 @@ router.get('/', async function(req, res, next) {
     }
 });
 
-router.get('/:id', async function(req, res, next) {
+router.post('/', async function(req, res, next) {
     try {
-        const { status, data, message } = await Layouts.get(req.params.id);
+        const { status, data, message } = await Layouts.create(req.body.layout);
 
         switch(status) {
             case 'success':
-                send(res, { data, status });
+                send(res, { data, status, message: `Планировка успешно создана!` });
                 break;
             case 'error':
                 send(res, { message, status, data });
@@ -47,13 +47,14 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
-router.post('/add', async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     try {
-        const { status, data, message } = await Layouts.create(req.body.layout);
+        const searchByName = req.query && req.query.byName;
+        const { status, data, message } = searchByName ? await Layouts.getByName(req.params.id) : await Layouts.get(req.params.id);
 
         switch(status) {
             case 'success':
-                send(res, { data, status, message: `Планировка успешно создана!` });
+                send(res, { data, status });
                 break;
             case 'error':
                 send(res, { message, status, data });

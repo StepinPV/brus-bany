@@ -13,3 +13,8 @@
 .container-white {
     background: #fff;
 }
+
+.container-red {
+    background: #91001d;
+    color: #fff;
+}

@@ -11,9 +11,13 @@ class Layouts {
         return Status.success(await Layout.findOne({ '_id': id }));
     };
 
+    static async getByName(name) {
+        return Status.success(await Layout.findOne({ translateName: name }));
+    };
+
     static async create(data) {
-        if (await Layout.findOne({ '_id': data['_id'] })) {
-            return Status.error(`Планировка с id = ${data['_id']} уже существует!`);
+        if (await Layout.findOne({ 'translateName': data['translateName'] })) {
+            return Status.error(`Планировка с именем на английском = ${data['translateName']} уже существует!`);
         }
 
         if (await Layout.findOne({ 'name': data['name'] })) {
@@ -35,29 +39,27 @@ class Layouts {
             return Status.error(`Вы пытаетесь изменить несуществующую планировку!`);
         }
 
-        const idChanged = match['_id'] !== layout['_id'];
+        const translateNameChanged = match['translateName'] !== layout['translateName'];
         const nameChanged = match['name'] !== layout['name'];
 
-        if (idChanged) {
-            if (await Layout.findOne({ '_id': layout['_id'] })) {
-                return Status.error(`Планировка с id = ${layout['_id']} уже существует!`);
+        if (translateNameChanged) {
+            if (await Layout.findOne({ 'translateName': layout['translateName'] })) {
+                return Status.error(`Планировка с именем на английском = ${layout['translateName']} уже существует!`);
             }
         }
 
-         if (nameChanged) {
+        if (nameChanged) {
             if (await Layout.findOne({ 'name': layout['name'] })) {
                 return Status.error(`Планировка с именем = ${layout['name']} уже существует!`);
             }
         }
 
-        if (idChanged) {
-            await Layout.create(layout);
-            await Layout.deleteOne({ '_id': id });
-        } else {
-            await Layout.updateOne({ '_id': id }, layout);
+        try {
+            await Layout.updateOne({ '_id': id }, layout, { runValidators: true });
+            return Status.success();
+        } catch(err) {
+            return Status.error('Исправьте ошибки!', { errors: prepareErrors(err.errors) });
         }
-
-        return Status.success();
     };
 
 

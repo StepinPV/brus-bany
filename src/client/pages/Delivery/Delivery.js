@@ -6,6 +6,7 @@ import Top from './resources/Top';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import DeliveryMap from '../../components/DeliveryMap';
 import styles from "./Delivery.module.css";
+import FormBlock from "../../components/FormBlock";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -17,12 +18,15 @@ const breadcrumbs = [{
 class Delivery extends PureComponent {
     render() {
         return (
-            <Page absoluteHeader>
+            <Page fixedHeader>
                 <Top />
                 <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
                 <First />
-                <DeliveryMap />
+                <a name="delivery-map">
+                    <DeliveryMap />
+                </a>
                 <Table />
+                <FormBlock source='Страница доставки' />
             </Page>
         );
     }

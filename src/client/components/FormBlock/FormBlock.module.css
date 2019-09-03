@@ -1,0 +1,76 @@
+.content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.phone-block-phone, .phone-block-email {
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+
+.phone-block-phone {
+    font-size: 32px;
+}
+
+.phone-block-email {
+    font-size: 30px;
+}
+
+.phone-block {
+    margin-bottom: 48px;
+}
+
+.address-block {
+    margin-bottom: 24px;
+    font-size: 16px;
+}
+
+.social-networks {
+    display: flex;
+}
+
+.social-network {
+    margin-right: 8px;
+}
+
+.first-column {
+    min-width: 200px;
+    margin: 32px;
+}
+
+.second-column {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px;
+    background: #fff;
+}
+
+@media screen and (max-width: 640px)  {
+    .content {
+        flex-direction: column;
+    }
+
+    .first-column {
+        text-align: center;
+        margin: 16px;
+    }
+
+    .second-column {
+        padding: 16px;
+        background: inherit;
+    }
+
+    .phone-block {
+        margin-bottom: 32px;
+    }
+
+    .social-networks {
+        justify-content: center;
+    }
+}

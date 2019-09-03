@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const layouts = require('./layouts');
-const materials = require('./materials');
-const categories = require('./categories');
-const projects = require('./projects');
-
-router.use('/layouts', layouts);
-router.use('/materials', materials);
-router.use('/categories', categories);
-router.use('/projects', projects);
+router.use('/layouts', require('./layouts'));
+router.use('/materials', require('./materials'));
+router.use('/categories', require('./categories'));
+router.use('/projects', require('./projects'));
+router.use('/articles', require('./articles'));
+router.use('/photos', require('./photos'));
+router.use('/upload-image', require('./image-uploader'));
+router.use('/requests', require('./requests'));
 
 module.exports = router;

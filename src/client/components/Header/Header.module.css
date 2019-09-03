@@ -1,10 +1,26 @@
 .container {
     height: 80px;
     background: #91001d;
+    transition: background-color 300ms ease-in-out;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 32px;
+}
+
+.header {
+    z-index: 10;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+.header-fixed {
+    position: fixed;
+}
+
+.container-opacity {
+    background: rgba(145, 0, 29, 0);
 }
 
 .logo {
@@ -49,7 +65,7 @@
     flex-direction: column;
     justify-content: center;
     text-align: right;
-    margin-right: 16px;
+    margin-right: 32px;
 }
 
 .phone {

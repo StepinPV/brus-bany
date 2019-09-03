@@ -1,10 +1,25 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { YMaps, Map, RoutePanel } from 'react-yandex-maps';
-import DataSection from '../DataSection';
 import styles from './DeliveryMap.module.css';
+import Caption from "../Caption/Caption";
 
 class DeliveryMap extends PureComponent {
+    static propTypes = {
+        tariff: PropTypes.number.isRequired,
+        minimalCost: PropTypes.number.isRequired,
+        onChange: PropTypes.func
+    };
+
+    static defaultProps = {
+        tariff: 75,
+        minimalCost: 500
+    };
+
+    state = {
+        data: null
+    };
+
     constructor(props) {
         super(props);
 
@@ -40,27 +55,25 @@ class DeliveryMap extends PureComponent {
 
                     if (activeRoute) {
                         // Получим протяженность маршрута
-                        const length = route.getActiveRoute().properties.get("distance");
+                        const length = activeRoute.properties.get("distance");
                         // Вычислим стоимость доставки
                         const price = calculate(Math.round(length.value / 1000));
 
                         this.setState({ data: { length, price } });
-                        // Создадим макет содержимого балуна маршрута.
-                        /* const balloonContentLayout = ymaps.templateLayoutFactory.createClass(
-                                '<span>Расстояние: ' + length.text + '.</span><br/>' +
-                                '<span style="font-weight: bold; font-style: italic">Стоимость доставки: ' + price + ' р.</span>');
-                        // Зададим этот макет для содержимого балуна.
-                        route.options.set('routeBalloonContentLayout', balloonContentLayout);
-                        // Откроем балун.
-                        activeRoute.balloon.open(); */
 
-                        // const addressObj = event.get("target").getRoutes()[0].multiRoute.properties._data.rawProperties.RouterMetaData.Waypoints[1];
+                        if (props.onChange) {
+                            props.onChange({ price });
+                        }
                     }
                 });
 
                 route.model.events.add('requestchange', () => {
                     // window.delivery = 0;
                     this.setState({ data: null });
+
+                    if (props.onChange) {
+                        props.onChange(null);
+                    }
                 });
 
             });
@@ -76,51 +89,38 @@ class DeliveryMap extends PureComponent {
         }
     }
 
-    static propTypes = {
-        tariff: PropTypes.number.isRequired,
-        minimalCost: PropTypes.number.isRequired
-    };
-
-    static defaultProps = {
-        tariff: 75,
-        minimalCost: 500
-    };
-
-    state = {
-        data: null
-    };
-
     render() {
         const { data } = this.state;
 
         return (
-            <DataSection caption='Рассчитайте стоимость доставки'>
-                <div className={styles.container}>
-                    {data ? (
-                        <div className={styles.coastContainer}>
-                            <div>{`Расстояние: ${data.length.text}`}</div>
-                            <div className={styles.coast}>{`Стоимость доставки: ${data.price} р`}</div>
-                        </div>
-                    ) : null}
-                    <YMaps version='2.1.63'>
-                        <Map
-                            defaultState={{ center: [60.906882, 30.067233], zoom: 9 }}
-                            instanceRef={this.setMapRef}
-                            className={styles.map}>
-                            <RoutePanel
-                                options={{
-                                    showHeader: true,
-                                    title: 'Расчет доставки',
-                                    autofocus: false,
-                                    maxWidth: '294px',
-                                    types: {auto: true}
-                                }}
-                                instanceRef={this.setRoutePanelRef}
-                            />
-                        </Map>
-                    </YMaps>
+            <div className={styles.container}>
+                <div className={styles.title}>
+                    <Caption align='center' color='black'>Рассчитайте стоимость доставки</Caption>
                 </div>
-            </DataSection>
+                {data ? (
+                    <div className={styles.coastContainer}>
+                        <div>{`Расстояние: ${data.length.text}`}</div>
+                        <div className={styles.coast}>{`Стоимость доставки: ${data.price} р`}</div>
+                    </div>
+                ) : null}
+                <YMaps version='2.1.63'>
+                    <Map
+                        defaultState={{ center: [60.906882, 30.067233], zoom: 9 }}
+                        instanceRef={this.setMapRef}
+                        className={styles.map}>
+                        <RoutePanel
+                            options={{
+                                showHeader: true,
+                                title: 'Расчет доставки',
+                                autofocus: false,
+                                maxWidth: '294px',
+                                types: {auto: true}
+                            }}
+                            instanceRef={this.setRoutePanelRef}
+                        />
+                    </Map>
+                </YMaps>
+            </div>
         );
     }
 }

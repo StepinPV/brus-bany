@@ -1,11 +1,16 @@
-.m {
-    font-size: 18px;
-    line-height: 24px;
+.l {
+    font-size: 24px;
+    line-height: 30px;
 }
 
-.l {
-    font-size: 22px;
-    line-height: 26px;
+.m {
+     font-size: 19px;
+     line-height: 24px;
+ }
+
+.s {
+    font-size: 15px;
+    line-height: 20px;
 }
 
 .align-left {
@@ -16,26 +21,36 @@
     text-align: center;
 }
 
-@media screen and (max-width: 1200px) {
-    .m {
-        font-size: 16px;
-        line-height: 22px;
-    }
-
+@media screen and (max-width: 640px)  {
     .l {
         font-size: 20px;
         line-height: 24px;
     }
-}
 
-@media screen and (max-width: 640px) {
     .m {
-        font-size: 14px;
+        font-size: 16px;
         line-height: 20px;
     }
 
+    .s {
+        font-size: 13px;
+        line-height: 18px;
+    }
+}
+
+@media screen and (max-width: 400px) {
     .l {
-        font-size: 18px;
-        line-height: 22px;
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    .m {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .s {
+        font-size: 12px;
+        line-height: 16px;
     }
 }

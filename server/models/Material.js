@@ -5,11 +5,11 @@ const COLLECTION_NAME = 'materials';
 const REQUIRED_MSG = 'Поле обязательно для заполнения!';
 
 const scheme = new Schema({
-    dimension: {
+    name: {
         type: String,
         required: REQUIRED_MSG
     },
-    name: {
+    dimension: {
         type: String,
         required: REQUIRED_MSG
     },

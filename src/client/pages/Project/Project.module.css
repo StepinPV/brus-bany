@@ -1,10 +1,18 @@
-.container {
-}
-
 .top-block {
     display: flex;
-    flex-wrap: wrap;
     margin: 16px 32px 64px;
+}
+
+.breadcrumbs {
+    max-width: 1200px;
+    margin: 16px 32px 0;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 640px) {
+    .breadcrumbs {
+        display: none;
+    }
 }
 
 .gallery {
@@ -15,6 +23,7 @@
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 8px;
+    max-width: 500px;
 }
 
 .info {
@@ -35,4 +44,72 @@
     font-size: 20px;
     font-weight: bold;
     color: #000;
+    margin-bottom: 24px;
+}
+
+.info-button {
+    margin-bottom: 16px;
+    display: block;
+}
+
+.info-buttons {
+    margin-bottom: 32px;
+    max-width: 400px;
+}
+
+.info-build-time {
+    font-size: 20px;
+    margin-bottom: 32px;
+}
+
+.info-links-header {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.info-links-item {
+    color: #ff8562;
+    text-decoration: none;
+    font-size: 18px;
+    margin-bottom: 4px;
+    display: block;
+    cursor: pointer;
+}
+
+.final-price-block {
+    background: #91001d;
+    text-align: center;
+    padding: 64px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.final-price-block-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 32px;
+}
+
+.final-price-block-res,
+.final-price-block-res-price {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.final-price-block-data {
+    margin-bottom: 8px;
+}
+
+.final-price-block-title,
+.final-price-block-res,
+.final-price-block-res-price,
+.final-price-block-item {
+    color: #fff;
+}
+
+.final-price-block-res-price {
+    margin-bottom: 32px;
 }

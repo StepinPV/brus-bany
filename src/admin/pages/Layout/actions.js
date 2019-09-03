@@ -4,12 +4,12 @@ import {
 } from './constants';
 import Api from './api';
 
-export function getLayout(id) {
+export function getLayout(name) {
     return async (dispatch) => {
         dispatch({ type: GET_LAYOUT });
 
         try {
-            const res = await Api.getLayout(id);
+            const res = await Api.getLayout(name);
 
             if (res.data && res.data.status === 'error') {
                 dispatch({ type: GET_LAYOUT_ERROR, payload: { message: res.data.message } });

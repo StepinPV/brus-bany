@@ -4,17 +4,15 @@ import cx from 'classnames';
 import styles from './Section.module.css';
 
 function Section(props) {
-    const { bgStyle, children } = props;
-
     return (
-        <div className={cx(styles.container, styles[`container-${bgStyle}`])}>
-            {children}
+        <div className={cx(styles.container, styles[`container-${props.bgStyle}`])}>
+            {props.children}
         </div>
     );
 }
 
 Section.propTypes = {
-    bgStyle: PropTypes.oneOf(['white', 'grey', 'grey2'])
+    bgStyle: PropTypes.oneOf(['white', 'grey', 'grey2', 'red'])
 };
 
 Section.defaultProps = {

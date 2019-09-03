@@ -4,6 +4,7 @@ import DataSection from '../../components/DataSection';
 import Caption from '../../components/Caption';
 import Text from '../../components/Text';
 import styles from './Questions.module.css';
+import FormBlock from "../../components/FormBlock";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -127,6 +128,7 @@ class Questions extends PureComponent {
                         })}
                     </div>
                 </DataSection>
+                <FormBlock source='Страница вопрос-ответ' />
             </Page>
         );
     }

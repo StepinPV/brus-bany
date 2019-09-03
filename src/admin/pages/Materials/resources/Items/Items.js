@@ -52,14 +52,6 @@ class Items extends PureComponent {
         return (
             <Fragment>
                 <div className={styles['editing-block']}>
-                    <Select
-                        title='Размерность'
-                        items={[{ name: 'ед' }, { name: 'кг' }]}
-                        displayProperty='name'
-                        keyProperty='name'
-                        selectedKey={editingItem.dimension}
-                        onChange={this.handleItemDimensionChange}
-                        required />
                     <div className={styles.input}>
                         <Input
                             value={editingItem.name}
@@ -68,6 +60,16 @@ class Items extends PureComponent {
                             required
                             onChange={this.handleItemNameChange}
                         />
+                    </div>
+                    <div className={styles.input}>
+                        <Select
+                            title='Размерность'
+                            items={[{ name: 'ед' }, { name: 'кг' }]}
+                            displayProperty='name'
+                            keyProperty='name'
+                            selectedKey={editingItem.dimension}
+                            onChange={this.handleItemDimensionChange}
+                            required />
                     </div>
                     <div className={styles.input}>
                         <Input

@@ -51,12 +51,12 @@ class Layout extends PureComponent {
 
     componentDidMount() {
         const { match, actions } = this.props;
-        const { id } = match.params;
+        const { name } = match.params;
 
-        if (id === 'add') {
+        if (name === 'add') {
             actions.setLayout({});
         } else {
-            actions.getLayout(id);
+            actions.getLayout(name);
         }
     }
 

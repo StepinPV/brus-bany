@@ -1,0 +1,46 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.photos {
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.photo {
+    max-width: calc(50% - 16px);
+    flex-basis: calc(50% - 16px);
+    display: flex;
+    text-decoration: none;
+    margin: 8px;
+}
+
+.projectLink {
+    height: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    background: #eeeeee;
+    text-decoration: none;
+}
+
+.projectLink-image {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.projectLink-text {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+    color: #000;
+}

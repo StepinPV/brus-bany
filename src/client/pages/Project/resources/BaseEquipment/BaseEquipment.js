@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import Caption from '../../../../components/Caption';
-import Section from '../../../../components/Section';
+import DataSection from '../../../../components/DataSection';
 import Text from '../../../../components/Text';
 import styles from './BaseEquipment.module.css';
 
@@ -33,10 +32,9 @@ const items = [{
 class Bakes extends PureComponent {
     render() {
        return (
-           <Section bgStyle='grey'>
-               <Caption>Базовая комплектация</Caption>
+           <DataSection bgStyle='grey' caption='Базовая комплектация'>
                {this.renderItems()}
-           </Section>
+           </DataSection>
        );
     }
 

@@ -56,3 +56,9 @@
 .sub-items .item:nth-child(2n) {
     background: #f3f3f3;
 }
+
+.sum {
+    font-size: 24px;
+    text-align: right;
+    margin: 16px 16px 0;
+}

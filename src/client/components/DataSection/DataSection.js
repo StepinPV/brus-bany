@@ -10,21 +10,25 @@ function DataSection(props) {
 
     return (
         <Section bgStyle={bgStyle}>
-            <div className={styles.caption}>
-                <Caption align='center'>{caption}</Caption>
-            </div>
-            <div className={styles.description}>
-                <div className={styles['description-wrapper']}>
-                    <Text align='center' size='l'>{description}</Text>
+            {caption ? (
+                <div className={styles.caption}>
+                    <Caption align='center' color={bgStyle === 'red' ? 'white' : 'black'}>{caption}</Caption>
                 </div>
-            </div>
+            ) : null}
+            {description ? (
+                <div className={styles.description}>
+                    <div className={styles['description-wrapper']}>
+                        <Text align='center'>{description}</Text>
+                    </div>
+                </div>
+            ) : null}
             {children}
         </Section>
     );
 }
 
 DataSection.propTypes = {
-    bgStyle: PropTypes.oneOf(['white', 'grey']),
+    bgStyle: PropTypes.oneOf(['white', 'grey', 'red']),
     caption: PropTypes.string,
     description: PropTypes.string,
     children: PropTypes.node

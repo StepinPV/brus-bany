@@ -9,6 +9,7 @@ import Input from '../../../components/Input';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import Additions from './resources/Additions';
 import Filters from './resources/Filters';
+import Article from './resources/Article';
 import styles from './Category.module.css';
 
 const breadcrumbsDefault = [{
@@ -54,19 +55,19 @@ class Category extends PureComponent {
         const { match, actions } = this.props;
 
         if (prevProps.match !== match) {
-            const { id } = match.params;
-            actions.getCategory(id);
+            const { name } = match.params;
+            actions.getCategory(name);
         }
     }
 
     componentDidMount() {
         const { match, actions } = this.props;
-        const { id } = match.params;
+        const { name } = match.params;
 
-        if (id === 'add') {
+        if (name === 'add') {
             actions.setCategory({});
         } else {
-            actions.getCategory(id);
+            actions.getCategory(name);
         }
     }
 
@@ -94,10 +95,11 @@ class Category extends PureComponent {
         return category ? (
             <div className={styles.formContainer}>
                 <div className={styles.formWrapper}>
-                    {this.renderId()}
+                    {this.renderTranslateName()}
                     {this.renderName()}
                     {this.renderFilters()}
                     {this.renderAdditions()}
+                    {this.renderArticle()}
                     <div className={styles.saveButton} onClick={this.handleSave}>{match.params.id === 'add' ? 'Создать' : 'Cохранить'}</div>
                     {match.params.id !== 'add' ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
                 </div>
@@ -105,19 +107,19 @@ class Category extends PureComponent {
         ) : null;
     };
 
-    renderId = () => {
+    renderTranslateName = () => {
         const { category } = this.props;
         const { errors } = this.state;
 
         return (
             <div className={styles.name}>
                 <Input
-                    value={category._id}
-                    title='Введите идентификатор'
+                    value={category.translateName}
+                    title='Введите имя на английском'
                     type='string'
                     required
-                    onChange={this.handleIdChange}
-                    error={errors['_id']}
+                    onChange={this.handleTranslateNameChange}
+                    error={errors['translateName']}
                 />
             </div>
         );
@@ -163,10 +165,26 @@ class Category extends PureComponent {
         )
     };
 
-    handleIdChange = (value) => {
+    renderArticle = () => {
+        const { category } = this.props;
+
+        return (
+            <div className={styles.article}>
+                <Article data={category.article} onChange={this.handleChangeArticle} />
+            </div>
+        )
+    };
+
+    handleChangeArticle = (id, article) => {
         const { actions, category } = this.props;
 
-        actions.setCategory({ ...category, _id: value });
+        actions.setCategory({ ...category, article });
+    };
+
+    handleTranslateNameChange = (value) => {
+        const { actions, category } = this.props;
+
+        actions.setCategory({ ...category, translateName: value });
     };
 
     handleNameChange = (name) => {
@@ -230,7 +248,7 @@ class Category extends PureComponent {
             hasErrors = true;
         }
 
-        if (!category._id) {
+        if (!category.translateName) {
             errors['name'] = 'Поле обязательно к заполнению!';
             hasErrors = true;
         }

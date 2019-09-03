@@ -39,7 +39,7 @@ class Categories extends PureComponent {
                     key: item['_id'],
                     type: 'link',
                     title: item['name'],
-                    link: `/admin/categories/${item['_id']}`
+                    link: `/admin/categories/${item['translateName']}`
                 }
             });
             return {

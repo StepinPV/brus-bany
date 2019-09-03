@@ -1,15 +1,15 @@
 import {
-    GET_CATEGORY, GET_CATEGORY_SUCCESS, GET_CATEGORY_ERROR,
     GET_PROJECT, GET_PROJECTS_ERROR, GET_PROJECTS_SUCCESS,
+    GET_PHOTOS, GET_PHOTOS_ERROR, GET_PHOTOS_SUCCESS,
     RESET_DATA
 } from './constants';
 
 export const initialState = {
     id: null,
-    category: null,
-    isCategoryFetch: false,
-    isCategoryError: null,
-    error: null
+    isProjectFetch: false,
+    isProjectError: null,
+    error: null,
+    photos: null
 };
 
 /**
@@ -20,27 +20,6 @@ export const initialState = {
  */
 export default function(state = initialState, action) {
     switch (action.type) {
-        case GET_CATEGORY:
-            return {
-                ...state,
-                isCategoryFetch: true
-            };
-
-        case GET_CATEGORY_SUCCESS:
-            return {
-                ...state,
-                isCategoryFetch: false,
-                id: action.payload._id,
-                category: action.payload
-            };
-
-        case GET_CATEGORY_ERROR:
-            return {
-                ...state,
-                isCategoryFetch: false,
-                isCategoryError: action.payload.message
-            };
-
         case GET_PROJECT:
             return {
                 ...state,
@@ -58,12 +37,32 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isProjectFetch: false,
-                isProjectError: true
+                isProjectError: action.payload.message
             };
 
         case RESET_DATA:
             return {
                 ...initialState
+            };
+
+        case GET_PHOTOS:
+            return {
+                ...state,
+                isPhotosFetch: true
+            };
+
+        case GET_PHOTOS_SUCCESS:
+            return {
+                ...state,
+                isPhotosFetch: false,
+                photos: action.payload
+            };
+
+        case GET_PHOTOS_ERROR:
+            return {
+                ...state,
+                isPhotosFetch: false,
+                isPhotosError: true
             };
 
         default:

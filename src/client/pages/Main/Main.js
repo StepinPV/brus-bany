@@ -1,25 +1,107 @@
 import React, {PureComponent} from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+
 import Page from '../../components/Page';
+import CardList from '../../components/CardList';
+import PhotoCard from '../../components/PhotoCard';
+import ArticleCard from '../../components/ArticleCard';
+import Button from '../../components/Button';
+import Link from '../../../components/Link';
 import Top from './resources/Top';
 import Categories from './resources/Categories';
 import HowWork from './resources/HowWork';
 import WhyMe from './resources/WhyMe';
-import Video from './resources/Video';
 import OurProduction from './resources/OurProduction';
+import DataSection from '../../components/DataSection';
+import FormBlock from '../../components/FormBlock';
+import {getPhotos, getArticles, resetData} from './actions';
+import PropTypes from 'prop-types';
+import styles from './Main.module.css';
 
 class Main extends PureComponent {
+    static propTypes = {
+        photos: PropTypes.array,
+        articles: PropTypes.array,
+        actions: PropTypes.object
+    };
+
+    componentDidMount() {
+        const { actions } = this.props;
+
+        actions.getPhotos();
+        actions.getArticles();
+    }
+
+    componentWillUnmount() {
+        const { actions } = this.props;
+        actions.resetData();
+    }
+
     render() {
+        const { photos, articles } = this.props;
+        const preparedPhotos = photos ? photos.slice(0, 6) : [];
+        const preparedArticles = articles ? articles.slice(0, 6) : [];
+
         return (
             <Page fixedHeader>
                 <Top />
-                <Categories />
+                <a name='categories'>
+                    <Categories />
+                </a>
                 <HowWork />
                 <WhyMe />
-                <Video />
+                {preparedPhotos.length ? (
+                    <DataSection bgStyle='grey' caption='Фотографии готовых проектов'>
+                        <div className={styles['list-container']}>
+                            <CardList items={photos.map(photo => <PhotoCard photo={photo} />)} />
+                            <Link to={`/photos`}>
+                                <Button caption='Смотреть все' />
+                            </Link>
+                        </div>
+                    </DataSection>
+                ) : null}
                 <OurProduction />
+                {preparedArticles.length ? (
+                    <DataSection bgStyle='grey' caption='Делимся накопленным опытом' description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации.'>
+                        <div className={styles['list-container']}>
+                            <CardList items={preparedArticles.map(article => <ArticleCard article={article} />)} />
+                            <Link to={`/articles`}>
+                                <Button caption='Читать больше' />
+                            </Link>
+                        </div>
+                    </DataSection>
+                ) : null}
+                <FormBlock source='Главная страница' />
             </Page>
         );
     }
 }
 
-export default Main;
+/**
+ * mapDispatchToProps
+ * @param {*} dispatch
+ * @returns {Object}
+ */
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            getPhotos,
+            getArticles,
+            resetData
+        }, dispatch)
+    };
+}
+
+/**
+ * mapStateToProps
+ * @param {*} state
+ * @returns {Object}
+ */
+function mapStateToProps(state) {
+    const { photos, articles } = state['client-main'];
+
+    return { photos, articles };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

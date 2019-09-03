@@ -32,7 +32,7 @@ class Materials {
             return Status.error(`Наименование = ${material.name} уже существует!`);
         }
 
-        await Material.findByIdAndUpdate(id, material);
+        await Material.findByIdAndUpdate(id, material, { runValidators: true });
 
         return Status.success();
     };

@@ -13,8 +13,8 @@ function Caption(props) {
 
 Caption.propTypes = {
     color: PropTypes.oneOf(['black', 'white']),
-    size: PropTypes.oneOf('xs', 's', 'm', 'l', 'xl'),
-    align: PropTypes.oneOf('left', 'center', 'right'),
+    size: PropTypes.oneOf(['s', 'm', 'l']),
+    align: PropTypes.oneOf(['left', 'center', 'right']),
     className: PropTypes.string
 };
 

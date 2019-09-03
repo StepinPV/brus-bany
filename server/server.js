@@ -9,6 +9,8 @@ const logger = require('./logger');
 const routes = require('./routes');
 const config = require('./config');
 
+const nodemailer = require('./nodemailer');
+
 const app = express();
 const PORT = process.env.PORT || config.port;
 
@@ -36,5 +38,10 @@ db.init(config.db_url, config.db_name, () => {
 }, (err) => {
     logger.error(`\nError connection to ${config.db_url}/${config.db_name}:`, err);
 });
+
+nodemailer.init('smtp.yandex.ru', 465, 'brus-bany.ru', 'Brus@123');
+
+
+
 
 

@@ -6,7 +6,7 @@ import styles from './Banner.module.css';
 import cx from 'classnames';
 
 function Banner(props) {
-    const { bannerClassName, caption, description, buttonCaption } = props;
+    const { bannerClassName, caption, description, buttonCaption, buttonHref, buttonClick } = props;
 
     return (
         <Fragment>
@@ -16,7 +16,12 @@ function Banner(props) {
                 <div className={styles.content}>
                     <Caption className={styles.header} color='white' size='l' align='center'>{caption}</Caption>
                     <Text className={styles.description} size='l' align='center'>{description}</Text>
-                    {buttonCaption && <Button type='red' caption={buttonCaption} className={styles.button} />}
+                    {buttonCaption && (buttonHref ? (
+                            <a href={buttonHref}>
+                                <Button type='red' caption={buttonCaption} className={styles.button} />
+                            </a>
+                        ) : <Button type='red' caption={buttonCaption} className={styles.button} onClick={buttonClick}/>
+                    )}
                 </div>
             </div>
         </Fragment>

@@ -88,7 +88,7 @@ const floorScheme = new Schema({
 });
 
 const scheme = new Schema({
-    _id: {
+    translateName: {
         type: String,
         required: REQUIRED_MSG
     },
@@ -127,7 +127,7 @@ const scheme = new Schema({
     },
     floor: {
         type: [floorScheme],
-        validate: [floors => floors.length > 0, 'Должен быть хотя бы 1 этаж!']
+        validate: [floors => floors && floors.length > 0, 'Должен быть хотя бы 1 этаж!']
     },
     porch: {
         type: {

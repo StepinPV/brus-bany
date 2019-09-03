@@ -1,6 +1,45 @@
 const Project = require('../models/Project');
 const Status = require('./Status');
 const Materials = require('./Materials');
+const Categories = require('./Categories');
+const Layouts = require('./Layouts');
+const fs = require('fs');
+const rimraf = require('rimraf');
+const prepareErrors = require('./prepareErrors');
+
+const prepareImages = async (data) => {
+    const { data: category } = await Categories.get(data.categoryId);
+    const { data: layout } = await Layouts.get(data.layoutId);
+
+    const regexp = /^\/uploads\/buffer\//;
+    const newFolderPath = `/uploads/projects/${category.translateName}/${layout.translateName}/`;
+
+    const moveImage = (image) => {
+        const newImagePath = image.replace(regexp, newFolderPath);
+        const fullNewFolderPath = './public' + newFolderPath;
+
+        if (!fs.existsSync(fullNewFolderPath)){
+            fs.mkdirSync(fullNewFolderPath, { recursive: true });
+        }
+
+        fs.renameSync('./public' + image, './public' + newImagePath);
+
+        return newImagePath;
+    };
+
+    Object.keys(data.images).forEach(imageKey => {
+        if (regexp.test(data.images[imageKey])) {
+            data.images[imageKey] = moveImage(data.images[imageKey]);
+        }
+    });
+};
+
+const removeImages = async (data) => {
+    const { data: category } = await Categories.get(data.categoryId);
+    const { data: layout } = await Layouts.get(data.layoutId);
+
+    rimraf.sync(`./public/uploads/projects/${category.translateName}/${layout.translateName}`);
+};
 
 const DEFAULT_VALUES = {
     // Итоговая цена
@@ -18,12 +57,12 @@ const calculatePrice = async (project) => {
     let price = 0;
     let materialsPrice = 0;
 
-    if (project.materials) {
-        for (let id in project.materials) {
-            const { data: material } = await Materials.get(id);
+    if (project.material) {
+        for (let i = 0; i < project.material.length; i++) {
+            const { data: material } = await Materials.get(project.material[i].id);
 
             if (material) {
-                materialsPrice += material.price * project.materials[id];
+                materialsPrice += material.price * project.material[i].count;
             }
         }
     }
@@ -54,12 +93,47 @@ class Projects {
         return Status.success(await Project.find({}));
     };
 
-    static async getAllForCategory(categoryId) {
-        return Status.success(await Project.find({ categoryId }));
+    static async getAllForCategory(categoryId, options) {
+        const promise = Project.find({ categoryId });
+
+        if (options) {
+            const { withLayout, withCategory } = options;
+
+            if (withLayout) {
+                promise.populate('layoutId');
+            }
+
+            if (withCategory) {
+                promise.populate('categoryId');
+            }
+        }
+
+        const projects = await promise;
+
+        return Status.success(projects);
     };
 
-    static async get(categoryId, layoutId) {
-        const project = await Project.findOne({ '_id': `${categoryId}.${layoutId}` });
+    static async getAllForCategoryByName(categoryName, options) {
+        const { data: category } = await Categories.getByName(categoryName);
+        return await Projects.getAllForCategory(category.get('_id'), options);
+    };
+
+    static async get(categoryId, layoutId, options) {
+        const promise = Project.findOne({ categoryId, layoutId });
+
+        if (options) {
+            const { withLayout, withCategory } = options;
+
+            if (withLayout) {
+                promise.populate('layoutId');
+            }
+
+            if (withCategory) {
+                promise.populate('categoryId');
+            }
+        }
+
+        const project = await promise;
 
         if (!project) {
             return Status.error(`Проект не найден!`);
@@ -68,87 +142,92 @@ class Projects {
         return Status.success(project);
     };
 
+    static async getByName(categoryName, layoutName, options) {
+        const { data: category } = await Categories.getByName(categoryName);
+        const { data: layout } = await Layouts.getByName(layoutName);
+        return await Projects.get(category.get('_id'), layout.get('_id'), options);
+    };
+
     static async create(categoryId, layoutId, project) {
         if (await Project.findOne({ categoryId, layoutId })) {
-            return Status.error(`Проект с планировкой = ${project.layoutId} уже существует!`);
+            return Status.error(`Проект с выбранной планировкой уже существует!`);
         }
 
-        await Project.insertOne({
-            ...project,
-            '_id': `${categoryId}.${layoutId}`,
-            categoryId,
-            layoutId,
-            price: DEFAULT_VALUES['price'],
-            profitPercentage: DEFAULT_VALUES['profitPercentage']
-        });
+        try {
+            const data = {
+                images: {},
+                ...project,
+                categoryId,
+                layoutId,
+                price: DEFAULT_VALUES['price'],
+                profitPercentage: DEFAULT_VALUES['profitPercentage']
+            };
 
-        return Status.success();
+            const projectInst = new Project(data);
+
+            await projectInst.validate();
+
+            await prepareImages(data);
+
+            await Project.create(data);
+
+            return Status.success();
+        } catch (err) {
+            return Status.error('Исправьте ошибки!', { errors: prepareErrors(err.errors) });
+        }
     };
 
     static async update(categoryId, layoutId, project) {
-        const projectId = `${categoryId}.${layoutId}`;
-
         if (project.categoryId !== categoryId) {
-            return Status.error(`Поле categoryId менять запрещено!`);
+            return Status.error(`Категорию менять запрещено!`);
         }
 
         if (project.layoutId !== layoutId) {
-            return Status.error(`Поле layoutId менять запрещено!`);
+            return Status.error(`Планировку менять запрещено!`);
         }
 
-        if (project._id !== projectId) {
-            // TODO А лучше просто проигнорировать
-            return Status.error( `Поле _id менять запрещено!`);
-        }
-
-        if (!await Project.findOne({ '_id': projectId })) {
+        if (!await Project.findOne({ categoryId, layoutId })) {
             return Status.error(`Проект не найден!`);
         }
 
         project.profitPercentage = getValidProfitPercentage(project.profitPercentage);
         project.price = await calculatePrice(project);
 
-        await Project.updateOne({ '_id': projectId }, {
-            _id: project._id,
-            categoryId: project.categoryId,
-            layoutId: project.layoutId,
-            images: project.images,
-            materials: project.materials,
-            profitPercentage: project.profitPercentage,
-            price: project.price
-        });
+        try {
+            const data = {
+                images: {},
+                ...project
+            };
 
-        return Status.success();
+            const projectInst = new Project(data);
+
+            await projectInst.validate();
+
+            await prepareImages(data);
+
+            await Project.updateOne({ categoryId, layoutId }, data, { runValidators: true });
+
+            return Status.success();
+        } catch (err) {
+            return Status.error('Исправьте ошибки!', { errors: prepareErrors(err.errors) });
+        }
     };
 
-    static async delete(categoryId, layoutId) {
-        if (!await Project.findOne({ '_id': `${categoryId}.${layoutId}` })) {
+    static async delete(id) {
+        const data = await Project.findOne({ _id: id });
+
+        if (!data) {
             return Status.error(`Проект не найден!`);
         }
 
-        await Project.deleteOne({ '_id': `${categoryId}.${layoutId}` });
-
-        return Status.success();
-    };
-
-    static async updateImage(categoryId, layoutId, imageId, newImagePath) {
-        const { data: project } = await Projects.get(categoryId, layoutId);
-
-        if (!project) {
-            return Status.error(`Проект не найден!`);
+        try {
+            await removeImages(data);
+            await Project.deleteOne({ _id: id });
+            return Status.success();
+        } catch(err) {
+            return Status.error(err);
         }
-
-        await Project.updateOne({ '_id': project._id }, {
-            // TODO Проверить, можно ли передать только измененное поле. В других местах тоже
-            ...project,
-            images: {
-                ...project.images,
-                [imageId]: newImagePath
-            }
-        });
-
-        return Status.success();
-    }
+    };
 }
 
 module.exports = Projects;

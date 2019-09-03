@@ -99,32 +99,6 @@ export function getMaterials() {
     };
 }
 
-export function uploadFile(categoryId, file, name) {
-    return async (dispatch, getStore) => {
-        const store = getStore();
-        const { project } = store['admin-project'];
-
-        try {
-            const res = await Api.uploadFile(project, file, name);
-            return res.data;
-        } catch(err) {
-        }
-    };
-}
-
-export function deleteFile(categoryId, name) {
-    return async (dispatch, getStore) => {
-        const store = getStore();
-        const { project } = store['admin-project'];
-
-        try {
-            const res = await Api.deleteFile(project, name);
-            return res.data;
-        } catch(err) {
-        }
-    };
-}
-
 export function setProject(project) {
     return { type: SET_PROJECT, payload: project };
 }

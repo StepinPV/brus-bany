@@ -12,7 +12,9 @@ class Filters extends PureComponent {
         filters: PropTypes.object,
         filteredProjects: PropTypes.array,
         category: PropTypes.object,
-        history: PropTypes.object
+        history: PropTypes.object,
+        priceFilter: PropTypes.object,
+        onChangePriceFilter: PropTypes.func
     };
 
     render() {
@@ -23,6 +25,7 @@ class Filters extends PureComponent {
         return (
             <div className={styles.filters}>
                 <div className={styles['filters-caption']}>Параметры поиска</div>
+                {this.renderPriceFilter()}
                 {this.renderAdditionsFilter()}
                 {this.renderSizesFilter()}
             </div>
@@ -35,13 +38,13 @@ class Filters extends PureComponent {
         const additions = category.filters.filter(filter => {
             return filteredProjects.some(project => {
                 // eslint-disable-next-line
-                const params = project.layout;
+                const params = project.layoutId;
                 // eslint-disable-next-line
                 return eval(filter.condition);
             });
         });
 
-        return (
+        return additions.length ? (
             <div className={styles['filters-item-vertical']}>
                 <div className={styles['filters-item-title']}>Дополнения:</div>
                 <div className={styles['filters-item-editors']}>
@@ -68,15 +71,16 @@ class Filters extends PureComponent {
 
                             const handleFilterChange = (id, checked) => {
                                 let newFilters = checked ? [...filters.additions, id] : filters.additions.filter(fId => fId !== id);
-                                history.push(`/bani/${category._id}${filters.size ? `/${filters.size}` : ''}${getLinkByFilters(newFilters)}`);
+                                history.push(`/bani/${category.translateName}${filters.size ? `/${filters.size}` : ''}${getLinkByFilters(newFilters)}`);
                             };
 
                             return link ? (
-                                <Link to={`/bani/${category._id}${filters.size ? `/${filters.size}` : ''}${link}`} className={styles['filters-link']}>
+                                <Link key={id} to={`/bani/${category.translateName}${filters.size ? `/${filters.size}` : ''}${link}`} className={styles['filters-link']}>
                                     <div className={cx(styles['filters-checkbox'], {[styles['filters-checkbox-checked']]: filterEnabled})}>{`С ${name}`}</div>
                                 </Link>
                             ) : (
                                 <div
+                                    key={id}
                                     onClick={() => { handleFilterChange(id, !filterEnabled) }}
                                     className={cx(styles['filters-checkbox'], {[styles['filters-checkbox-checked']]: filterEnabled})}>{`С ${name}`}</div>
                             )
@@ -84,7 +88,7 @@ class Filters extends PureComponent {
                     }
                 </div>
             </div>
-        );
+        ) : null;
     };
 
     renderSizesFilter = () => {
@@ -95,7 +99,7 @@ class Filters extends PureComponent {
         const projectsForSizes = filters.size ? filterProjects({ ...filters, size: null }, projects, category) : filteredProjects;
 
         projectsForSizes.forEach(project => {
-            const size = `${project.layout.width}x${project.layout.length}`;
+            const size = `${project.layoutId.width}x${project.layoutId.length}`;
 
             if (!sizes.includes(size)) {
                 sizes.push(size);
@@ -106,13 +110,13 @@ class Filters extends PureComponent {
 
         const handleSizeClick = size => {
             if (size === filters.size) {
-                history.push(`/bani/${category._id}${additionsLink ? `/${additionsLink}` : ''}`);
+                history.push(`/bani/${category.translateName}${additionsLink ? `/${additionsLink}` : ''}`);
             } else {
-                history.push(`/bani/${category._id}/${size}${additionsLink ? `/${additionsLink}` : ''}`)
+                history.push(`/bani/${category.translateName}/${size}${additionsLink ? `/${additionsLink}` : ''}`)
             }
         };
 
-        return (
+        return sizes.length ? (
             <div className={styles['filters-item-vertical']}>
                 <div className={styles['filters-item-title']}>Размер:</div>
                 <div className={styles['filters-item-sizes']}>
@@ -120,21 +124,61 @@ class Filters extends PureComponent {
                         if (filters.size) {
                             return (
                                 <div
+                                    key={size}
                                     className={cx(styles['filters-checkbox'], {[styles['filters-checkbox-checked']]: filters.size === size})}
                                     onClick={() => handleSizeClick(size)}>{size}</div>
                             )
                         }
 
                         return (
-                            <Link to={`/bani/${category._id}/${size}${additionsLink ? `/${additionsLink}` : ''}`} className={styles['filters-link']}>
+                            <Link key={size} to={`/bani/${category.translateName}/${size}${additionsLink ? `/${additionsLink}` : ''}`} className={styles['filters-link']}>
                                 <div className={styles['filters-checkbox']}>{size}</div>
                             </Link>
                         )
                     })}
                 </div>
             </div>
-        )
+        ) : null;
     };
+
+    renderPriceFilter = () => {
+        const { priceFilter, onChangePriceFilter } = this.props;
+
+        return (
+            <div className={styles['filters-item-vertical']}>
+                <div className={styles['filters-item-title']}>Цена:</div>
+                <div className={styles['filters-item-prices']}>
+                    <label className={styles['filters-item-prices-label']}>
+                        От <input
+                            type="number"
+                            value={priceFilter.min}
+                            min='0' max='1000000'
+                            step='1000'
+                            onChange={(e) => {
+                                onChangePriceFilter({
+                                    ...priceFilter,
+                                    min: parseInt(e.target.value)
+                                });
+                            }}/>
+                    </label>
+                    <label className={styles['filters-item-prices-label']}>
+                        До <input
+                            type="number"
+                            value={priceFilter.max}
+                            min='0'
+                            max='1000000'
+                            step='1000'
+                            onChange={(e) => {
+                                onChangePriceFilter({
+                                    ...priceFilter,
+                                    max: parseInt(e.target.value)
+                                });
+                            }}/>
+                    </label>
+                </div>
+            </div>
+        )
+    }
 }
 
 export default withRouter(Filters);

@@ -39,7 +39,7 @@ class Layouts extends PureComponent {
                     key: item['_id'],
                     type: 'link',
                     title: item['name'],
-                    link: `/admin/layouts/${item['_id']}`
+                    link: `/admin/layouts/${item['translateName']}`
                 }
             });
             return {

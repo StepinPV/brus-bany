@@ -1,7 +1,7 @@
 const filterProjects = (selectedFilters, projects, category) => {
     return projects.filter(project => {
         if (selectedFilters.size) {
-            if (`${project.layout.width}x${project.layout.length}` !== selectedFilters.size) {
+            if (`${project.layoutId.width}x${project.layoutId.length}` !== selectedFilters.size) {
                 return false;
             }
         }
@@ -11,7 +11,7 @@ const filterProjects = (selectedFilters, projects, category) => {
                 const filter = category.filters.find(filter => filter.id === filterId);
 
                 // eslint-disable-next-line
-                const params = project.layout;
+                const params = project.layoutId;
                 // eslint-disable-next-line
                 return eval(filter.condition);
             });

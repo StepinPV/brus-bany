@@ -4,6 +4,7 @@ import Button from '../../components/Button';
 import Top from './resources/Top';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import styles from "./GOST.module.css";
+import FormBlock from "../../components/FormBlock";
 
 const items = [{
     title: 'ГОСТ 30974-2002',
@@ -41,9 +42,10 @@ const breadcrumbs = [{
 class GOST extends PureComponent {
     render() {
         return (
-            <Page absoluteHeader>
+            <Page fixedHeader>
                 <Top />
                 <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
+                <a name="list"></a>
                 <div className={styles.items}>
                     {items.map(({ title, description, link }) => {
                         return (
@@ -57,6 +59,7 @@ class GOST extends PureComponent {
                         );
                     })}
                 </div>
+                <FormBlock source='Страница ГОСТ' />
             </Page>
         );
     }

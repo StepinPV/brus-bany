@@ -1,0 +1,75 @@
+.container {
+    position: relative;
+}
+
+.input {
+    font-size: 16px;
+    padding: 10px 0;
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.label {
+    color: #999;
+    font-size: 18px;
+    position: absolute;
+    pointer-events: none;
+    top: 10px;
+    transition: 0.2s ease all;
+}
+
+.required .label:before {
+    content: '*';
+    color: #91001c;
+    margin-right: 4px;
+}
+
+/* active state */
+.input:focus ~ .label, .input:valid ~ .label {
+    top: -15px;
+    font-size: 14px;
+    color: #5264AE;
+}
+
+.bar {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.bar:before, .bar:after {
+    content: "";
+    height: 2px;
+    width: 0;
+    bottom: 0;
+    position: absolute;
+    background: #5264AE;
+    transition: 0.2s ease all;
+}
+
+.bar:before {
+    left: 50%;
+}
+
+.bar:after {
+    right: 50%;
+}
+
+/* active state */
+.input:focus ~ .bar:before,
+.input:focus ~ .bar:after {
+    width: 50%;
+}
+
+.error {
+    color: #91001c;
+    font-size: 12px;
+    margin-top: 4px;
+}

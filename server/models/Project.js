@@ -5,16 +5,14 @@ const COLLECTION_NAME = 'projects';
 const REQUIRED_MSG = 'Поле обязательно для заполнения!';
 
 const scheme = new Schema({
-    _id: {
-        type: String,
-        required: REQUIRED_MSG
-    },
     categoryId: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'categories',
         required: REQUIRED_MSG
     },
-    layoutId: {
-        type: String,
+    layoutId:  {
+        type: Schema.Types.ObjectId,
+        ref: 'layouts',
         required: REQUIRED_MSG
     },
     price: {
@@ -27,10 +25,21 @@ const scheme = new Schema({
         default: 20
     },
     images: {
-        type: Object
+        type: Object,
+        default: {}
     },
-    materials: {
-        type: Object
+    material: {
+        type: [{
+            id: {
+                type: Schema.Types.ObjectId,
+                ref: 'materials'
+            },
+            count: {
+                type: Number,
+                required: true
+            }
+        }],
+        default: []
     }
 }, { versionKey: false });
 

@@ -53,7 +53,7 @@ const additionGroupScheme = new Schema({
 });
 
 const scheme = new Schema({
-    _id: {
+    translateName: {
         type: String,
         required: REQUIRED_MSG
     },
@@ -66,7 +66,8 @@ const scheme = new Schema({
     },
     filters: {
         type: [filterScheme]
-    }
+    },
+    article: Object
 }, { versionKey: false });
 
 module.exports = mongoose.model(COLLECTION_NAME, scheme);

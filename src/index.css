@@ -1,6 +1,7 @@
 html {
   min-height: 100%;
-  font-family: Times New Roman, Arial, sans-serif;
+  font-family: system-ui, Helvetica, sans-serif;
+  font-weight: lighter;
 }
 
 body {

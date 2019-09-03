@@ -21,8 +21,16 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
+        id: 'bani/custom-project',
+        path: '/bani/individualniy-proekt',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/CustomProject')),
+            loading: LoaderPage,
+        })
+    }, {
         id: 'bani/category',
-        path: '/bani/:categoryId/:layoutId\\_:weight(\\d+)x:length(\\d+)',
+        path: '/bani/:categoryName/:layoutName\\_:weight([\\d|\\.]+)x:length([\\d|\\.]+)',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Project')),
@@ -30,7 +38,7 @@ export default (initModule) => {
         })
     }, {
         id: 'bani/category',
-        path: '/bani/:id',
+        path: '/bani/:name',
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Category')),
             loading: LoaderPage,
@@ -84,14 +92,6 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
-        id: 'bani/custom-project',
-        path: '/individualniy-proekt',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/CustomProject')),
-            loading: LoaderPage,
-        })
-    }, {
         id: 'bani/feedback',
         path: '/otzivi',
         exact: true,
@@ -108,6 +108,14 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
+        id: 'bani/about-company',
+        path: '/about-company',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/AboutCompany')),
+            loading: LoaderPage,
+        })
+    }, {
         id: 'bani/questions',
         path: '/voprosy-i-otvety',
         exact: true,
@@ -121,6 +129,46 @@ export default (initModule) => {
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/GOST')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/articles',
+        path: '/blog',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Articles')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/article',
+        path: '/blog/:name',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Article')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/photos',
+        path: '/photos',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Photos')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/photos',
+        path: '/photos/:categoryName',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/PhotosCategory')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'bani/photos',
+        path: '/photos/:categoryName/:layoutName\\_:weight([\\d|\\.]+)x:length([\\d|\\.]+)_:photoId',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Photo')),
             loading: LoaderPage,
         })
     }, {
@@ -141,7 +189,7 @@ export default (initModule) => {
         })
     }, {
         id: 'admin/layouts/layout',
-        path: '/admin/layouts/:id',
+        path: '/admin/layouts/:name',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../admin/pages/Layout')),
@@ -165,7 +213,7 @@ export default (initModule) => {
         })
     }, {
         id: 'admin/categories/category',
-        path: '/admin/categories/:id',
+        path: '/admin/categories/:name',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../admin/pages/Category')),
@@ -185,6 +233,38 @@ export default (initModule) => {
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../admin/pages/Project')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/articles',
+        path: '/admin/articles',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Articles')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/articles/article',
+        path: '/admin/articles/:name',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Article')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/photos',
+        path: '/admin/photos',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Photos')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/photos',
+        path: '/admin/photos/:categoryId/:id',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Photo')),
             loading: LoaderPage,
         })
     }, {

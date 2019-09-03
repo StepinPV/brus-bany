@@ -1,0 +1,47 @@
+.content {
+    width: 792px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 32px 32px 0;
+    box-sizing: border-box;
+}
+
+.header-caption {
+    margin-bottom: 48px;
+}
+
+.caption {
+    margin-bottom: 32px;
+}
+
+.text {
+    margin-bottom: 32px;
+}
+
+.block {
+    margin-bottom: 48px;
+}
+
+.image {
+    margin-bottom: 32px;
+    max-width: 100%;
+}
+
+.list-caption {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.ul, .ol {
+    padding: 0;
+}
+
+.li {
+    margin-bottom: 24px;
+    font-size: 20px;
+}
+
+.link {
+    color: #ff8562;
+    text-decoration: none;
+}

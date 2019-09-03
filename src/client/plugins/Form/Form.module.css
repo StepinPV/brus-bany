@@ -1,0 +1,13 @@
+.container {
+    background: #fff;
+    padding: 32px;
+    max-width: 440px;
+}
+
+.caption {
+    margin-bottom: 8px;
+}
+
+.description {
+    margin-bottom: 32px;
+}

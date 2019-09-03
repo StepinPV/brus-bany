@@ -23,6 +23,16 @@ const tiles = [{
     type: 'link',
     title: 'Проекты',
     link: '/admin/projects'
+}, {
+    key: '/admin/articles',
+    type: 'link',
+    title: 'Статьи',
+    link: '/admin/articles'
+}, {
+    key: '/admin/photos',
+    type: 'link',
+    title: 'Фотоотчеты',
+    link: '/admin/photos'
 }];
 
 const breadcrumbsItems = [{

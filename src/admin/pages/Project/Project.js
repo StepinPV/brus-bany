@@ -13,13 +13,11 @@ import {
     updateProject,
     resetData,
     getLayouts,
-    uploadFile,
-    deleteFile,
     getMaterials,
     deleteProject
 } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
-import ImageLoader from '../../components/ImageLoader';
+import ImageUploader from '../../components/ImageUploader';
 import Input from '../../../components/Input';
 import styles from './Project.module.css';
 
@@ -35,17 +33,17 @@ const IMAGES_DATA = [{
     key: 'main',
     title: 'Главное'
 }, {
+    key: 'top',
+    title: 'Вид сверху'
+}, {
     key: '1',
-    title: '1'
+    title: 'Вид сбоку'
 }, {
     key: '2',
-    title: '2'
+    title: 'Вид сбоку 2'
 }, {
     key: '3',
-    title: '3'
-}, {
-    key: '4',
-    title: '4'
+    title: 'Вид сзади'
 }, {
     key: 'layout',
     title: 'Планировка'
@@ -89,6 +87,21 @@ class Project extends PureComponent {
         addMode: false
     };
 
+    componentDidMount() {
+        const { addMode } = this.state;
+        const { match, actions } = this.props;
+        const { categoryId, layoutId } = match.params;
+
+        if (addMode) {
+            actions.setProject({ categoryId });
+        } else {
+            actions.getProject(categoryId, layoutId);
+        }
+
+        actions.getLayouts();
+        actions.getMaterials();
+    }
+
     componentDidUpdate(prevProps, prevState) {
         const { addMode } = this.state;
         const { match, actions } = this.props;
@@ -97,21 +110,6 @@ class Project extends PureComponent {
             const { categoryId, layoutId } = match.params;
             actions.getProject(categoryId, layoutId);
         }
-    }
-
-    componentDidMount() {
-        const { addMode } = this.state;
-        const { match, actions } = this.props;
-        const { categoryId, layoutId } = match.params;
-
-        if (addMode) {
-            actions.setProject({ categoryId });
-            actions.getLayouts();
-        } else {
-            actions.getProject(categoryId, layoutId);
-        }
-
-        actions.getMaterials();
     }
 
     componentWillUnmount() {
@@ -135,20 +133,14 @@ class Project extends PureComponent {
     renderContent = () => {
         const { addMode } = this.state;
         const { project, materials } = this.props;
-        // const { errors } = this.state;
 
         return project && materials ? (
             <div className={styles.formContainer}>
                 <div className={styles.formWrapper}>
-                    {addMode ? (
-                        this.renderLayout()
-                    ) : (
-                        <Fragment>
-                            {this.renderImages()}
-                            {<Materials onChange={this.handleMaterialsChange} materials={materials} data={project.materials || {}} />}
-                            {this.renderPrice()}
-                        </Fragment>
-                    )}
+                    {this.renderLayout()}
+                    {this.renderImages()}
+                    {<Materials onChange={this.handleMaterialsChange} materials={materials} data={project.material || []} />}
+                    {this.renderPrice()}
                     <div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Сохранить и обновить'}</div>
                     { !addMode ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
                 </div>
@@ -165,7 +157,7 @@ class Project extends PureComponent {
                 <div className={styles.imagesItems}>
                     {IMAGES_DATA.map(({ key, title }) => (
                         <div key={key} className={styles.imagesItem}>
-                            <ImageLoader title={title} image={images ? images[key] : null} onChange={file => {
+                            <ImageUploader title={title} image={images ? images[key] : null} onChange={file => {
                                 this.handleImageChange(file, key);
                             }} />
                         </div>
@@ -187,9 +179,11 @@ class Project extends PureComponent {
 
         let materialsPrice = 0;
 
-        for (let id in project.materials) {
-            const material = materials.find(material => material._id === id);
-            materialsPrice += material.price * project.materials[id];
+        if (project.material) {
+            project.material.forEach(material => {
+                const materialData = materials.find(mat => mat._id === material.id);
+                materialsPrice += materialData.price * material.count;
+            });
         }
 
         const finalPrice = materialsPrice / (1 - salaryPercentage / 100 - finalProfitPercentage / 100);
@@ -205,7 +199,7 @@ class Project extends PureComponent {
                 <div className={styles.priceTitle}>Стоимость проекта</div>
                 <div className={styles.profitPercentageInput}>
                     <Input
-                        value={profitPercentage || 0}
+                        value={profitPercentage === undefined ? defaultProfitPercentage : profitPercentage}
                         title='Процент прибыли от общей стоимости'
                         type='float number'
                         required
@@ -271,10 +265,10 @@ class Project extends PureComponent {
         actions.setProject({ ...project, profitPercentage });
     };
 
-    handleMaterialsChange = (materials) => {
+    handleMaterialsChange = (material) => {
         const { actions, project } = this.props;
 
-        actions.setProject({ ...project, materials });
+        actions.setProject({ ...project, material });
     };
 
     handleLayout = (layoutId) => {
@@ -284,20 +278,14 @@ class Project extends PureComponent {
     };
 
     handleImageChange = async (file, key) => {
-        const { actions, match, showNotification, project } = this.props;
-        const { categoryId } = match.params;
-        const res = file ? await actions.uploadFile(categoryId, file, key) : await actions.deleteFile(categoryId, key);
+        const { actions, project } = this.props;
 
-        if (res.status === 'success'){
-            actions.setProject({ ...project, images: { ...project.images, [key]: res.data || null } });
-        }
-
-        showNotification({ message: res.message, status: res.status });
+        actions.setProject({ ...project, images: { ...project.images, [key]: file } });
     };
 
     handleSave = async () => {
         const { addMode } = this.state;
-        const { showNotification, actions, history, project } = this.props;
+        const { showNotification, actions, history } = this.props;
         const errors = this.getErrors();
 
         if (errors) {
@@ -311,7 +299,7 @@ class Project extends PureComponent {
         showNotification({ message, status });
 
         if (status === 'success') {
-            history.push(`/admin/projects/${project.categoryId}/${project.layoutId}`);
+            history.push(`/admin/projects`);
         }
     };
 
@@ -339,7 +327,6 @@ class Project extends PureComponent {
             hasErrors = true;
         }
 
-
         return hasErrors ? errors : null;
     }
 }
@@ -358,8 +345,6 @@ function mapDispatchToProps(dispatch) {
             updateProject,
             resetData,
             getLayouts,
-            uploadFile,
-            deleteFile,
             getMaterials,
             deleteProject
         }, dispatch),

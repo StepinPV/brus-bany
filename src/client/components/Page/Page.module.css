@@ -1,18 +1,3 @@
-.header {
-    z-index: 10;
-    left: 0;
-    right: 0;
-    top: 0;
-}
-
-.header-absolute {
-    position: absolute;
-}
-
-.header-fixed {
-    position: fixed;
-}
-
 .content {
     flex-grow: 1;
 }
@@ -21,6 +6,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 16px;
+    box-sizing: border-box;
 }
 
 @media screen and (max-width: 640px) {

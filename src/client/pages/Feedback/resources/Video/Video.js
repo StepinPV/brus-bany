@@ -1,4 +1,4 @@
-import React, {memo, Fragment} from 'react';
+import React, {memo} from 'react';
 import DataSection from '../../../../components/DataSection';
 import img1 from './resources/1.png';
 import img2 from './resources/2.png';

@@ -32,3 +32,7 @@
 .bake-param {
     font-size: 14px;
 }
+
+.selected {
+    outline: 4px solid #7da78a;
+}

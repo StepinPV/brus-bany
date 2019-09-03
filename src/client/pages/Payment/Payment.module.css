@@ -2,18 +2,15 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 32px;
-}
-
-.caption {
-    margin-bottom: 32px;
+    box-sizing: border-box;
 }
 
 .subCaption {
-    margin-bottom: 8px;
+    margin-bottom: 16px;
 }
 
 .data {
-    margin-bottom: 32px;
+    margin-bottom: 48px;
 }
 
 .button-container {

@@ -1,44 +1,8 @@
 const express = require('express');
 const Projects = require('../controllers/Projects');
-const Layouts = require('../controllers/Layouts');
-const multer  = require('multer');
-const fs = require('fs');
+const Safety = require('../controllers/Safety');
 
 const router = express.Router();
-
-const fileStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const dir = `./public/uploads/${req.params.categoryId}/${req.params.layoutId}`;
-
-        if (!fs.existsSync(dir)){
-            fs.mkdirSync(dir, { recursive: true });
-        }
-
-        cb(null, dir)
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${req.params.imageId}.jpg`);
-    }
-});
-
-async function fileFilter (req, file, cb) {
-    const { categoryId, layoutId, imageId } = req.params;
-
-    const { status } = await Projects.updateImage(categoryId, layoutId, imageId, `/uploads/${categoryId}/${layoutId}/${imageId}.jpg`);
-
-    switch(status) {
-        case 'success':
-            cb(null, true);
-            break;
-        case 'error':
-            cb(null, false);
-            break;
-        default:
-            break;
-    }
-}
-
-const upload = multer({ storage: fileStorage, fileFilter });
 
 const send = (res, { status, code, message, data }) => {
     res.json({ status, code, message, data });
@@ -47,22 +11,19 @@ const send = (res, { status, code, message, data }) => {
 
 router.get('/:categoryId', async function(req, res, next) {
     try {
-        const { status, data: projects, message } = await Projects.getAllForCategory(req.params.categoryId);
+        const searchByName = req.query && req.query.byName;
+        const queryOptions = {
+            withCategory: req.query && req.query.withCategory,
+            withLayout: req.query && req.query.withLayout
+        };
+
+        const { status, data, message } = searchByName ?
+            await Projects.getAllForCategoryByName(req.params.categoryId, queryOptions) :
+            await Projects.getAllForCategory(req.params.categoryId, queryOptions);
 
         switch(status) {
             case 'success':
-                // TODO Это тоже можно вынести
-                const preparedProjects = await projects.reduce(async (previousPromise, project) => {
-                    const projects = await previousPromise;
-
-                    const { data: layout } = await Layouts.get(project.get('layoutId'));
-
-                    projects.push({ ...project.toJSON(), layout });
-
-                    return projects;
-                }, Promise.resolve([]));
-
-                send(res, { data: preparedProjects, status });
+                send(res, { data, status });
                 break;
             case 'error':
                 send(res, { message, status });
@@ -79,6 +40,7 @@ router.get('/:categoryId', async function(req, res, next) {
 router.post('/:categoryId/:layoutId', async function(req, res, next) {
     try {
         const { categoryId, layoutId } = req.params;
+
         const { project } = req.body;
 
         const { status, data, message } = await Projects.create(categoryId, layoutId, project);
@@ -102,14 +64,19 @@ router.post('/:categoryId/:layoutId', async function(req, res, next) {
 router.get('/:categoryId/:layoutId', async function(req, res, next) {
     try {
         const { categoryId, layoutId } = req.params;
+        const searchByName = req.query && req.query.byName;
+        const queryOptions = {
+            withCategory: req.query && req.query.withCategory,
+            withLayout: req.query && req.query.withLayout
+        };
 
-        const { status, data: project, message } = await Projects.get(categoryId, layoutId);
+        const { status, data, message } = searchByName ?
+            await Projects.getByName(categoryId, layoutId, queryOptions) :
+            await Projects.get(categoryId, layoutId, queryOptions);
 
         switch(status) {
             case 'success':
-                // TODO Это тоже можно вынести
-                const { data: layout } = await Layouts.get(layoutId);
-                send(res, { data: { ...project.toJSON(), layout }, status });
+                send(res, { data, status });
                 break;
             case 'error':
                 send(res, { message, status });
@@ -146,55 +113,13 @@ router.put('/:categoryId/:layoutId', async function(req, res, next) {
 });
 
 //DELETE
-router.delete('/:categoryId/:layoutId', async function(req, res, next) {
+router.delete('/:id', async function(req, res, next) {
     try {
-        const { categoryId, layoutId } = req.params;
-
-        const { status, data, message } = await Projects.delete(categoryId, layoutId);
+        const { status, data, message } = await Safety.deleteProject(req.params.id);
 
         switch(status) {
             case 'success':
                 send(res, { data, status, message: `Проект успешно удален!` });
-                break;
-            case 'error':
-                send(res, { message, status });
-                break;
-            default:
-                break;
-        }
-    } catch(err) {
-        next(err);
-    }
-});
-
-router.put('/:categoryId/:layoutId/:imageId/upload-file', upload.single('file'), async function(req, res, next) {
-    try {
-        const { categoryId, layoutId, imageId } = req.params;
-
-        send(res, {
-            message: `Изображение загружено!`,
-            status: 'success',
-            data: `/uploads/${categoryId}/${layoutId}/${imageId}.jpg`
-        });
-    } catch(err) {
-        next(err);
-    }
-});
-
-router.put('/:categoryId/:layoutId/:imageId/delete-file', async function(req, res, next) {
-    try {
-        try {
-            fs.unlinkSync(`./public/uploads/${req.params.categoryId}/${req.params.layoutId}/${req.params.imageId}.jpg`);
-        } catch(err){}
-
-
-        const { categoryId, layoutId, imageId } = req.params;
-
-        const { status, data, message } = await Projects.updateImage(categoryId, layoutId, imageId, null);
-
-        switch(status) {
-            case 'success':
-                send(res, { data, status, message: `Изображение удалено!` });
                 break;
             case 'error':
                 send(res, { message, status });

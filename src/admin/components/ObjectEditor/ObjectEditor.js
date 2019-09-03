@@ -1,8 +1,11 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../components/Input';
-import ArrayEditor from '../../components/ArrayEditor';
-import AssociativeArrayEditor from '../../components/AssociativeArrayEditor';
+import TextArea from '../../../components/TextArea';
+import ArrayEditor from '../ArrayEditor';
+import AssociativeArrayEditor from '../AssociativeArrayEditor';
+import OneOf from '../OneOf';
+import ImageUploader from '../ImageUploader';
 import styles from './ObjectEditor.module.css';
 
 const renderHeader = ({ title, value, onChange }) => {
@@ -28,9 +31,8 @@ const renderItems = ({ value, onChange, format, errors }) => {
             case 'float number':
             case 'integer number':
                 return (
-                    <div className={styles.input}>
+                    <div className={styles.item} key={item['_id']}>
                         <Input
-                            key={item['_id']}
                             value={value[item['_id']]}
                             title={item.title}
                             type={item.type}
@@ -48,6 +50,15 @@ const renderItems = ({ value, onChange, format, errors }) => {
                     value={value[item['_id']]}
                     title={item.title}
                     format={item.format}
+                    onChange={handleChange}
+                    errors={errors[item['_id']]}
+                />;
+            case 'oneOf':
+                return <OneOf
+                    key={item['_id']}
+                    value={value[item['_id']]}
+                    title={item.title}
+                    variants={item.variants}
                     onChange={handleChange}
                     errors={errors[item['_id']]}
                 />;
@@ -70,6 +81,33 @@ const renderItems = ({ value, onChange, format, errors }) => {
                     onChange={handleChange}
                     errors={errors[item['_id']]}
                 />;
+            case 'text':
+                return (
+                    <div className={styles.item} key={item['_id']}>
+                        <TextArea
+                            value={value[item['_id']]}
+                            title={item.title}
+                            required={item.required}
+                            description={item.description}
+                            onChange={handleChange}
+                            error={errors[item['_id']]}
+                        />
+                    </div>
+                );
+            case 'image':
+                return (
+                    <div className={styles.item} key={item['_id']}>
+                        <ImageUploader
+                            key={item['_id']}
+                            image={value[item['_id']]}
+                            title={item.title}
+                            description={item.description}
+                            required={item.required}
+                            onChange={handleChange}
+                            error={errors[item['_id']]}
+                        />
+                    </div>
+                );
             default: break;
         }
 

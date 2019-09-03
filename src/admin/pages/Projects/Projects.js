@@ -49,12 +49,12 @@ class Projects extends PureComponent {
 
         if (projects !== prevProps.projects) {
             const tiles = projects.map(project => {
-                const link = `/admin/projects/${project['categoryId']}/${project['layoutId']}`;
+                const link = `/admin/projects/${project['categoryId']}/${project.layoutId['_id']}`;
 
                 return {
                     key: link,
                     type: 'link',
-                    title: project.layout['name'],
+                    title: project.layoutId['name'],
                     link: link
                 }
             });

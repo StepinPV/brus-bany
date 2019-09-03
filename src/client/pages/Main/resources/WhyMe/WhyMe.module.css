@@ -1,7 +1,6 @@
 .items {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-around;
     max-width: 1200px;
 }
 
@@ -14,6 +13,7 @@
 @media screen and (max-width: 640px) {
     .items {
         flex-direction: column;
+        align-items: center;
     }
 }
 
@@ -44,7 +44,6 @@
     margin: 16px;
     width: 300px;
     max-width: 100%;
-    padding: 16px;
     box-sizing: border-box;
 }
 

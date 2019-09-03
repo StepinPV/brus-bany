@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
+import CardList from '../../components/CardList';
+import PhotoCard from '../../components/PhotoCard';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import Additions from './resources/Additions';
 import DeliveryMap from '../../components/DeliveryMap';
@@ -10,8 +12,12 @@ import Bakes from './resources/Bakes';
 import Foundation from './resources/Foundation';
 import BaseEquipment from './resources/BaseEquipment';
 import Gallery from './resources/Gallery';
-import { getCategory, getProject, resetData } from './actions';
+import { getProject, resetData, getPhotos } from './actions';
 import styles from './Project.module.css';
+import DataSection from '../../components/DataSection';
+import Footer from "../../components/Footer";
+import Button from "../../components/Button";
+import withForm from '../../plugins/Form/withForm';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -20,25 +26,25 @@ const breadcrumbsDefault = [{
 
 class Project extends PureComponent {
     static propTypes = {
-        category: PropTypes.object,
-        isCategoryError: PropTypes.string,
-        isCategoryFetch: PropTypes.bool,
-
+        isProjectError: PropTypes.string,
         project: PropTypes.object,
+        photos: PropTypes.array,
 
         actions: PropTypes.object,
-        match: PropTypes.object
+        match: PropTypes.object,
+
+        showForm: PropTypes.func
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.category && nextProps.project && prevState.projectId !== nextProps.project._id) {
+        if (nextProps.project && prevState.projectId !== nextProps.project._id) {
             return {
                 breadcrumbs: [
                     ...breadcrumbsDefault,
-                    { title: nextProps.category.name, link: `/bani/${nextProps.category._id}`},
-                    { title: nextProps.project.layout.name }
+                    { title: nextProps.project.categoryId.name, link: `/bani/${nextProps.project.categoryId.translateName}`},
+                    { title: nextProps.project.layoutId.name }
                 ],
-                projectId: nextProps.project.layout.name
+                projectId: nextProps.project.layoutId.name
             }
         }
 
@@ -47,26 +53,31 @@ class Project extends PureComponent {
 
     state = {
         projectId: null,
-        breadcrumbs: breadcrumbsDefault
+        breadcrumbs: breadcrumbsDefault,
+        additionsValue: { values: {}, price: 0 },
+        foundationValue: null,
+        bakeValue: null,
+        deliveryValue: null
     };
 
     componentDidUpdate(prevProps, prevState) {
-        const { match, actions } = this.props;
+        const { match, actions, project } = this.props;
 
         if (prevProps.match !== match) {
-            const { categoryId, layoutId } = match.params;
+            const { categoryName, layoutName } = match.params;
+            actions.getProject(categoryName, layoutName);
+        }
 
-            actions.getCategory(categoryId);
-            actions.getProject(categoryId, layoutId);
+        if (project !== prevProps.project) {
+            actions.getPhotos(project._id);
         }
     }
 
     componentDidMount() {
         const { match, actions } = this.props;
-        const { categoryId, layoutId } = match.params;
+        const { categoryName, layoutName } = match.params;
 
-        actions.getCategory(categoryId);
-        actions.getProject(categoryId, layoutId);
+        actions.getProject(categoryName, layoutName);
     }
 
     componentWillUnmount() {
@@ -75,32 +86,40 @@ class Project extends PureComponent {
     }
 
     render() {
-        const { isCategoryError } = this.props;
+        const { isProjectError } = this.props;
         const { breadcrumbs } = this.state;
 
         return (
             <Fragment>
                 <Header />
-                <Breadcrumbs items={breadcrumbs} />
-                { isCategoryError ? <div className={styles.error}>{isCategoryError}</div> : this.renderContent() }
+                <Breadcrumbs items={breadcrumbs} className={styles.breadcrumbs} />
+                { isProjectError ? <div className={styles.error}>{isProjectError}</div> : this.renderContent() }
+                <Footer />
             </Fragment>
         );
     }
 
     renderContent = () => {
-        const { project, category } = this.props;
+        const { project, photos } = this.props;
+        const { additionsValue, foundationValue, bakeValue } = this.state;
 
-        return project && category ? (
+        return project ? (
             <div className={styles.container}>
                 <div className={styles['top-block']}>
                     {this.renderGallery()}
                     {this.renderInfo()}
                 </div>
-                <BaseEquipment />
-                <Foundation />
-                <Bakes />
-                <Additions additions={category.additions} layout={project.layout} />
-                <DeliveryMap />
+                <a name='base'><BaseEquipment /></a>
+                <a name='foundation'><Foundation onChange={this.handleFoundation} value={foundationValue} /></a>
+                <a name='bake'><Bakes onChange={this.handleBake} value={bakeValue} /></a>
+                <a name='additions'><Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} /></a>
+                <a name='delivery'><DeliveryMap onChange={this.handleDelivery} /></a>
+                {this.renderFinalPrice()}
+                {photos && photos.length ? (
+                    <DataSection bgStyle='grey' caption='Фотографии готовых проектов'>
+                        <CardList items={photos.map(photo => <PhotoCard photo={photo} />)} />
+                    </DataSection>
+                ) : null}
             </div>
         ) : null;
     };
@@ -108,40 +127,69 @@ class Project extends PureComponent {
     renderGallery = () => {
         const { project } = this.props;
 
+        // TODO Это надо исключить!
+        if (!project.images) {
+            return null;
+        }
+
+        const images = [];
+        ['main', 'top', '1', '2', '3', 'layout'].forEach(key => {
+            if (project.images[key]) {
+                images.push(project.images[key]);
+            }
+        });
+
         return (
             <div className={styles.gallery}>
-                <Gallery images={[project.images.main, project.images['1']]} />
+                <Gallery images={images} />
             </div>
         )
     };
 
     renderInfo = () => {
-        const { project } = this.props;
+        const { project, showForm, match } = this.props;
 
         return (
             <div className={styles['info']}>
                 <div className={styles['info-title']}>
                     {`${this.renderInfoTitle()} - `}
-                    <span className={styles['info-title-layout']}>{project.layout.name}</span>
+                    <span className={styles['info-title-layout']}>{project.layoutId.name}</span>
                 </div>
                 <div className={styles['info-addition']}>
-                    <div>Общая площадь - {project.layout.area}м<sup>2</sup></div>
+                    <div>Общая площадь - {project.layoutId.area}м<sup>2</sup></div>
+                    <div>Площадь сруба - {project.layoutId.frameArea}м<sup>2</sup></div>
+                    {project.layoutId.terrace && project.layoutId.terrace.area ? (<div>Площадь терассы - {project.layoutId.terrace.area}м<sup>2</sup></div>) : null}
+                    {project.layoutId.porch && project.layoutId.porch.area ? (<div>Площадь крыльца - {project.layoutId.porch.area}м<sup>2</sup></div>) : null}
+                    {project.layoutId.attic && project.layoutId.attic.area ? (<div>Площадь мансарды - {project.layoutId.attic.area}м<sup>2</sup></div>) : null}
                 </div>
                 {project.price ? (
                     <div className={styles['info-price']}>{`${project.price.toLocaleString()} руб.`}</div>
                 ) : null}
+                <div className={styles['info-buttons']}>
+                    <Button onClick={() => { showForm({ source: match.url, title: 'Оформление заявки', data: this.getFormData() }) }} className={styles['info-button']} caption='Заказать баню' size='s' />
+                    <Button onClick={() => { showForm({ source: match.url, data: this.getFormData() }) }} className={styles['info-button']} caption='Обсудить проект со специалистом' size='s' type='yellow' />
+                </div>
+                <div className={styles['info-build-time']}>Срок строительства - 5 дней</div>
+                <div className={styles['info-links']}>
+                    <div className={styles['info-links-header']}>Из чего складывается итоговая цена?</div>
+                    <a href='#base' className={styles['info-links-item']}>1. Базовая комплектация</a>
+                    <a href='#foundation' className={styles['info-links-item']}>2. Фундамент</a>
+                    <a href='#bake' className={styles['info-links-item']}>3. Печь</a>
+                    <a href='#additions' className={styles['info-links-item']}>4. Дополнения к бане</a>
+                    <a href='#delivery' className={styles['info-links-item']}>5. Стоимость доставки</a>
+                </div>
             </div>
         )
     };
 
     renderInfoTitle = () => {
-        const { category, project: { layout } } = this.props;
+        const { project: { layoutId, categoryId } } = this.props;
 
-        let title = category.name;
+        let title = categoryId.name;
 
-        title += ` ${layout.width}x${layout.length}`;
+        title += ` ${layoutId.width}x${layoutId.length}`;
 
-        const { terrace, attic, porch } = layout;
+        const { terrace, attic, porch } = layoutId;
 
         if (terrace && attic && porch) {
             title += ' c террасой, мансардой и крыльцом';
@@ -159,6 +207,151 @@ class Project extends PureComponent {
 
         return title;
     };
+
+    renderFinalPrice = () => {
+        const { project, showForm, match } = this.props;
+        const { bakeValue, foundationValue, additionsValue, deliveryValue } = this.state;
+
+        let finalPrice = project.price;
+        if (bakeValue && bakeValue.price) finalPrice += bakeValue.price;
+        if (foundationValue && foundationValue.price) finalPrice += foundationValue.price;
+        if (additionsValue && additionsValue.price) finalPrice += additionsValue.price;
+        if (deliveryValue && deliveryValue.price) finalPrice += deliveryValue.price;
+
+        return (
+            <div className={styles['final-price-block']}>
+                <div className={styles['final-price-block-title']}>Итоговая стоимость</div>
+                <div className={styles['final-price-block-data']}>
+                    <div className={styles['final-price-block-item']}>{`Базовая комплектация - ${project.price.toLocaleString()} руб`}</div>
+                    <div className={styles['final-price-block-item']}>+</div>
+                    <div className={styles['final-price-block-item']}>{`Печь - ${bakeValue ? bakeValue.price.toLocaleString() + ' руб' : 'Не выбрано'}`}</div>
+                    <div className={styles['final-price-block-item']}>+</div>
+                    <div className={styles['final-price-block-item']}>{`Фундамент - ${foundationValue ? foundationValue.price.toLocaleString() + ' руб' : 'Не выбрано'}`}</div>
+                    <div className={styles['final-price-block-item']}>+</div>
+                    <div className={styles['final-price-block-item']}>{`Дополнения - ${additionsValue ? additionsValue.price.toLocaleString() + ' руб' : 'Не выбрано'}`}</div>
+                    <div className={styles['final-price-block-item']}>+</div>
+                    <div className={styles['final-price-block-item']}>{`Доставка - ${deliveryValue ? deliveryValue.price.toLocaleString() + ' руб' : 'Не выбрано'}`}</div>
+                </div>
+                <div className={styles['final-price-block-res']}>=</div>
+                <div className={styles['final-price-block-res-price']}>{finalPrice.toLocaleString()} руб</div>
+                <Button
+                    onClick={() => { showForm({ source: match.url, title: 'Оформление заявки', data: this.getFormData() }) }}
+                    className={styles['info-button']}
+                    caption='Заказать баню'
+                    type='yellow' />
+            </div>
+        )
+    };
+
+    handleAdditions = (additionsValue) => {
+        this.setState({ additionsValue });
+    };
+
+    handleFoundation = (foundationValue) => {
+        this.setState({ foundationValue });
+    };
+
+    handleBake = (bakeValue) => {
+        this.setState({ bakeValue });
+    };
+
+    handleDelivery = (deliveryValue) => {
+        this.setState({ deliveryValue });
+    };
+
+    getFinalPrice = () => {
+        const { project } = this.props;
+        const { bakeValue, foundationValue, additionsValue, deliveryValue } = this.state;
+
+        let finalPrice = project.price;
+        if (bakeValue && bakeValue.price) finalPrice += bakeValue.price;
+        if (foundationValue && foundationValue.price) finalPrice += foundationValue.price;
+        if (additionsValue && additionsValue.price) finalPrice += additionsValue.price;
+        if (deliveryValue && deliveryValue.price) finalPrice += deliveryValue.price;
+
+        return finalPrice;
+    };
+
+    getFormData = () => {
+        const { project } = this.props;
+        const { foundationValue, bakeValue, additionsValue, deliveryValue } = this.state;
+        const data = [];
+
+        if (foundationValue) {
+            data.push({
+                type: 'fields',
+                title: 'Данные о выбранном фундаменте',
+                fields: [{
+                    name: 'Тип',
+                    value: foundationValue.name
+                }, {
+                    name: 'Цена',
+                    value: foundationValue.price
+                }]
+            })
+        }
+
+        if (bakeValue) {
+            data.push({
+                type: 'fields',
+                title: 'Данные о выбранной печи',
+                fields: [{
+                    name: 'Тип',
+                    value: bakeValue.name
+                }, {
+                    name: 'Цена',
+                    value: bakeValue.price
+                }]
+            })
+        }
+
+        if (additionsValue && additionsValue.price > 0) {
+            const additionsData = {
+                type: 'fields',
+                title: 'Выбраные дополнения',
+                fields: []
+            };
+
+            Object.keys(additionsValue.values).forEach(key => {
+                additionsData.fields.push({
+                    name: additionsValue.values[key].name + (additionsValue.values[key].type === 'count' ? ` (${additionsValue.values[key].value})` : ''),
+                    value: additionsValue.values[key].price
+                })
+            });
+
+            additionsData.fields.push({
+                name: 'Общая стоимость дополнений',
+                value: additionsValue.price
+            });
+
+            data.push(additionsData);
+        }
+
+        if (deliveryValue) {
+            data.push({
+                type: 'fields',
+                title: 'Стоимость доставки',
+                fields: [{
+                    name: 'Стоимость доставки',
+                    value: deliveryValue.price
+                }]
+            })
+        }
+
+        data.push({
+            type: 'fields',
+            title: 'Итог',
+            fields: [{
+                name: 'Базовая стоимость бани',
+                value: project.price
+            }, {
+                name: 'Итоговая стоимость бани',
+                value: this.getFinalPrice()
+            }]
+        });
+
+        return data;
+    }
 }
 
 /**
@@ -169,8 +362,8 @@ class Project extends PureComponent {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getCategory,
             getProject,
+            getPhotos,
             resetData
         }, dispatch),
         dispatch
@@ -183,9 +376,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const { category, isCategoryFetch, isCategoryError, project } = state['client-project'];
+    const { isProjectError, project, photos } = state['client-project'];
 
-    return { category, isCategoryFetch, isCategoryError, project };
+    return { isProjectError, project, photos };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(withForm(Project));

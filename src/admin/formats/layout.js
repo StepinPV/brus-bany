@@ -1,9 +1,9 @@
 export default [{
-    _id: '_id',
-    title: 'Идентификатор',
+    _id: 'translateName',
+    title: 'Имя на английском',
     type: 'string',
     required: true,
-    description: 'Идентификатор'
+    description: 'Имя планировки на английском языке'
 }, {
     _id: 'name',
     title: 'Имя',

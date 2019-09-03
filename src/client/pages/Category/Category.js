@@ -2,15 +2,22 @@ import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import Header from '../../components/Header';
-import Breadcrumbs from '../../../components/Breadcrumbs';
-import Card from '../../components/Card';
+import Page from '../../components/Page';
+import CardList from '../../components/CardList';
+import ProjectCard from '../../components/ProjectCard';
 import Link from '../../../components/Link';
 import NotFound from '../NotFound/NotFound';
-import { getCategory, getProjects, resetData } from './actions';
+import Button from '../../components/Button';
+import Article from '../../components/Article';
+import PhotoCard from '../../components/PhotoCard';
+import DataSection from '../../components/DataSection';
+import H1Block from '../../components/H1Block';
+import { getCategory, getProjects, resetData, getPhotos } from './actions';
 import filterProjects from './resources/filter';
 import Filters from './resources/Filters';
 import styles from './Category.module.css';
+import FormBlock from "../../components/FormBlock";
+import withForm from "../../plugins/Form/withForm";
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -28,7 +35,8 @@ class Category extends PureComponent {
         actions: PropTypes.object,
         match: PropTypes.object,
         location: PropTypes.object,
-        history: PropTypes.object
+        history: PropTypes.object,
+        showForm: PropTypes.func
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -42,14 +50,16 @@ class Category extends PureComponent {
             }
         }
 
-        if ((!prevState.projects && nextProps.category && nextProps.projects) ||
-            (prevState.currentPathName !== null && prevState.currentPathName !== nextProps.location.pathname)) {
+        if (
+            (!prevState.filteredProjects && nextProps.category && nextProps.projects) ||
+            (prevState.currentPathName !== null && prevState.currentPathName !== nextProps.location.pathname) ||
+            (prevState.currentSearch !== null && prevState.currentSearch !== nextProps.location.search)) {
             const filtersIds = nextProps.location.pathname.split('/').slice(3);
 
             let additionsFilters;
             let sizeFilter;
 
-            if (/^[\d]+x[\d]+$/.test(filtersIds[0])) {
+            if (/^[\d|\\.]+x[\d|\\.]+$/.test(filtersIds[0])) {
                 [sizeFilter, ...additionsFilters] = filtersIds;
             } else {
                 additionsFilters = filtersIds;
@@ -73,7 +83,8 @@ class Category extends PureComponent {
             return {
                 filters,
                 filteredProjects: filterProjects(filters, nextProps.projects, nextProps.category),
-                currentPathName: nextProps.location.pathname
+                currentPathName: nextProps.location.pathname,
+                currentSearch: nextProps.location.search
             }
         }
 
@@ -85,25 +96,32 @@ class Category extends PureComponent {
         breadcrumbs: breadcrumbsDefault,
         filters: null,
         currentPathName: null,
-        notFound: false
+        currentSearch: null,
+        notFound: false,
+        priceFilter: {
+            min: 0,
+            max: 1000000
+        }
     };
 
     componentDidMount() {
         const { match, actions } = this.props;
-        const { id } = match.params;
+        const { name } = match.params;
 
-        actions.getCategory(id);
-        actions.getProjects(id);
+        actions.getCategory(name);
+        actions.getProjects(name);
+        actions.getPhotos(name);
     }
 
     componentDidUpdate(prevProps, prevState) {
         const { match, actions } = this.props;
 
         if (prevProps.match !== match) {
-            const { id } = match.params;
+            const { name } = match.params;
 
-            actions.getCategory(id);
-            actions.getProjects(id);
+            actions.getCategory(name);
+            actions.getProjects(name);
+            actions.getPhotos(name);
         }
     }
 
@@ -113,7 +131,8 @@ class Category extends PureComponent {
     }
 
     render() {
-        const { isCategoryError } = this.props;
+        const { isCategoryError, match } = this.props
+        const { name } = match.params;
         const { breadcrumbs, notFound } = this.state;
 
         if (notFound) {
@@ -121,11 +140,10 @@ class Category extends PureComponent {
         }
 
         return (
-            <Fragment>
-                <Header />
-                <Breadcrumbs items={breadcrumbs} />
+            <Page breadcrumbs={breadcrumbs}>
                 { isCategoryError ? <div className={styles.error}>{isCategoryError}</div> : this.renderContent() }
-            </Fragment>
+                <FormBlock source={name} />
+            </Page>
         );
     }
 
@@ -135,28 +153,22 @@ class Category extends PureComponent {
 
         return category && filteredProjects ? (
             <Fragment>
-                {this.renderTitle()}
+                <H1Block
+                    caption={`${this.getTitle()} | проекты и цены`}
+                    description={(<>Более 65 проектов бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</>)}
+                />
                 {this.renderFilters()}
                 {this.renderProjects()}
+                {this.renderNotFoundProject()}
+                {this.renderArticle()}
+                {this.renderPhotos()}
             </Fragment>
         ) : null;
     };
 
-    renderTitle = () => {
-        return (
-            <div className={styles['title-block']}>
-                <div className={styles['title-title']}>{`${this.getTitle()} | проекты и цены`}</div>
-                <div className={styles['title-description']}>
-                    Более 65 проектов бань на любой вкус.<br/>
-                    Без затяжного строительства и каждому по карману
-                </div>
-            </div>
-        );
-    };
-
     renderFilters = () => {
         const { category, projects } = this.props;
-        const { filteredProjects, filters } = this.state;
+        const { filteredProjects, filters, priceFilter } = this.state;
 
         return (
             <Filters
@@ -164,42 +176,71 @@ class Category extends PureComponent {
                 filteredProjects={filteredProjects}
                 filters={filters}
                 projects={projects}
+                priceFilter={priceFilter}
+                onChangePriceFilter={this.handleChangePriceFilter}
             />
         )
     };
 
     renderProjects = () => {
         const { match } = this.props;
-        const { filteredProjects } = this.state;
-        const { id } = match.params;
+        const { filteredProjects, priceFilter } = this.state;
+        const { name } = match.params;
 
-        if (!filteredProjects) {
-            return null;
-        }
+        return filteredProjects ? (
+            <CardList items={filteredProjects.map(project => {
+                    return (!priceFilter.min || priceFilter.min < project.price) && (!priceFilter.max || priceFilter.max > project.price) ? (
+                        <ProjectCard
+                            project={project}
+                            categoryName={name}
+                        />
+                    ) : null;
+            })} />
+        ) : null
+    };
+
+    renderNotFoundProject = () => {
+        const { showForm, match } = this.props;
+        const { name } = match.params;
 
         return (
-            <div className={styles.projects}>
-                {filteredProjects.map(({ layoutId, images, layout, price }) => {
-                    return (
-                        <Link to={`/bani/${id}/${layoutId}_${layout.width}x${layout.length}`} key={layoutId} className={styles.project}>
-                            <Card
-                                firstImage={images ? images['main'] : null}
-                                firstButton='Подробнее'
-                                secondButton={`${price ? price.toLocaleString() : null} руб`}
-                                bgStyle='grey'
-                                content={(
-                                    <div className={styles['project-info']}>
-                                        <div className={styles['project-info-name']}>{`Баня ${layout.name}`}</div>
-                                        <div className={styles['project-info-size']}>{`${layout.width}x${layout.length}`}</div>
-                                        <div className={styles['project-info-area']}>{`Площадь: ${layout.area}м`}<sup>2</sup></div>
-                                    </div>
-                                )}
-                            />
-                        </Link>
-                    );
-                })}
-            </div>
+            <DataSection
+                bgStyle='red'
+                caption='Не нашли интересующий проект бани?'
+                description='Построим баню с учетом ваших замечаний и предложений'>
+                <div className={styles['button-container']}>
+                    <Button caption='Обсудить проект бани' type='yellow' onClick={() => { showForm({ source: `${name}. Обсудить проект бани.` }) }}/>
+                </div>
+            </DataSection>
         )
+    };
+
+    renderArticle = () => {
+        const { category } = this.props;
+
+        return category.article ? (
+            <Article article={category.article} />
+        ) : null;
+    };
+
+    renderPhotos = () => {
+        const { photos } = this.props;
+        const preparedPhotos = photos ? photos.slice(0, 6) : [];
+
+        return photos && photos.length ? (
+            <DataSection bgStyle='grey' caption='Фотографии готовых проектов'>
+                <div className={styles['photos-container']}>
+                    <CardList items={preparedPhotos.map(photo => <PhotoCard photo={photo} />)} />
+                    <Link to={`/photos`}>
+                        <Button caption='Смотреть все' />
+                    </Link>
+                </div>
+            </DataSection>
+        ) : null;
+    };
+
+    handleChangePriceFilter = (priceFilter) => {
+        this.setState({ priceFilter });
     };
 
     getTitle = () => {
@@ -244,6 +285,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getCategory,
             getProjects,
+            getPhotos,
             resetData
         }, dispatch)
     };
@@ -255,9 +297,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const { category, isCategoryFetch, isCategoryError, projects } = state['client-category'];
+    const { category, isCategoryFetch, isCategoryError, projects, photos } = state['client-category'];
 
-    return { category, isCategoryFetch, isCategoryError, projects };
+    return { category, isCategoryFetch, isCategoryError, projects, photos };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Category);
+export default connect(mapStateToProps, mapDispatchToProps)(withForm(Category));

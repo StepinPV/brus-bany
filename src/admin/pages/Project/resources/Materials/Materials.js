@@ -26,7 +26,7 @@ class Materials extends PureComponent {
             <Fragment>
                 <div className={styles.caption}>Стройматериалы</div>
                 <div className={styles.items}>
-                    {data ? Object.keys(data).map(id => {
+                    {data ? data.map(({ id, count }) => {
                         const material = materials.find(material => material._id === id);
 
                         return (
@@ -35,8 +35,8 @@ class Materials extends PureComponent {
                                     className={styles.item}
                                     onClick={() => { this.editItem(id) }}>
                                     <div className={styles.title}>{material.name}</div>
-                                    <div className={styles.count}>{`${data[id]} (${material.dimension})`}</div>
-                                    <div className={styles.price}>{`${data[id] * material.price} руб`}</div>
+                                    <div className={styles.count}>{`${count} (${material.dimension})`}</div>
+                                    <div className={styles.price}>{`${count * material.price} руб`}</div>
                                 </div>
                                 {editingItem && editingItem.id === id ? this.renderEditBlock() : null}
                             </Fragment>
@@ -53,7 +53,7 @@ class Materials extends PureComponent {
     }
 
     renderEditBlock = () => {
-        const { materials } = this.props;
+        const { materials, data } = this.props;
         const { editingItem } = this.state;
 
         return (
@@ -61,7 +61,7 @@ class Materials extends PureComponent {
                 <div className={styles['editing-block']}>
                     <Select
                         title='Материал'
-                        items={materials}
+                        items={materials.filter(material => material._id === editingItem.id || material._id === editingItem.newId || !data.find(mat => mat.id === material._id))}
                         displayProperty='name'
                         keyProperty='_id'
                         selectedKey={editingItem.newId || editingItem.id}
@@ -78,7 +78,7 @@ class Materials extends PureComponent {
                     </div>
                 </div>
                 <div className={styles.button} onClick={this.handleItemSave}>{editingItem.id ? 'Редактировать' : 'Добавить'}</div>
-                {editingItem._id ? (
+                {editingItem.id ? (
                     <div className={styles.button} onClick={this.handleItemDelete}>Удалить</div>
                 ) : null}
             </Fragment>
@@ -112,18 +112,19 @@ class Materials extends PureComponent {
         const { editingItem } = this.state;
         const { onChange, data } = this.props;
 
-        const newData = { ...data };
+        const newData = [...data];
 
         if ((editingItem.id || editingItem.newId) && editingItem.count && parseFloat(editingItem.count) > 0) {
             if (editingItem.id) {
-                if (editingItem.newId) {
-                    delete newData.id;
-                    newData[editingItem.newId] = editingItem.count;
-                } else {
-                    newData[editingItem.id] = editingItem.count;
-                }
+                const findedItem = newData.find(item => item.id === editingItem.id);
+
+                findedItem.id = editingItem.newId || findedItem.id;
+                findedItem.count = editingItem.count;
             } else {
-                newData[editingItem.newId] = editingItem.count;
+                newData.push({
+                    id: editingItem.newId,
+                    count: editingItem.count
+                });
             }
 
             onChange(newData);
@@ -135,8 +136,7 @@ class Materials extends PureComponent {
         const { editingItem } = this.state;
         const { onChange, data } = this.props;
 
-        const newData = { ...data };
-        delete newData[editingItem.id];
+        const newData = data.filter(item => item.id !== editingItem.id);
 
         onChange(newData);
         this.setState({ editingItem: null });
@@ -151,10 +151,12 @@ class Materials extends PureComponent {
             return;
         }
 
+        const material = data.find(d => d.id === id);
+
         this.setState({
             editingItem: {
                 id,
-                count: data[id]
+                count: material.count
             }
         });
     };

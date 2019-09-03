@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import Page from '../../components/Page';
-import Caption from '../../components/Caption';
+import H1Block from '../../components/H1Block';
 import Link from '../../../components/Link';
 import styles from './Privacy.module.css';
 
@@ -16,7 +16,7 @@ class Privacy extends PureComponent {
         return (
             <Page breadcrumbs={breadcrumbs}>
                 <div className={styles.container}>
-                    <Caption className={styles.caption} align='center'>Политика конфиденциальности</Caption>
+                    <H1Block caption='Политика конфиденциальности' />
                     <div className={styles.data}>
                         <strong>Политика в отношении обработки персональных данных</strong>
                         <br /><br />

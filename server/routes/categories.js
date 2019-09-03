@@ -1,6 +1,6 @@
 const express = require('express');
 const Categories = require('../controllers/Categories');
-const Safety = require('../methods/Safety');
+const Safety = require('../controllers/Safety');
 
 const router = express.Router();
 
@@ -28,13 +28,13 @@ router.get('/', async function(req, res, next) {
     }
 });
 
-router.get('/:id', async function(req, res, next) {
+router.post('/', async function(req, res, next) {
     try {
-        const { status, data, message } = await Categories.get(req.params.id);
+        const { status, data, message } = await Categories.create(req.body.category);
 
         switch(status) {
             case 'success':
-                send(res, { data, status });
+                send(res, { data, status, message: `Категория успешно создана!` });
                 break;
             case 'error':
                 send(res, { message, status });
@@ -47,13 +47,15 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
-router.post('/add', async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     try {
-        const { status, data, message } = await Categories.create(req.body.category);
+        const searchByName = req.query && req.query.byName;
+
+        const { status, data, message } = searchByName ? await Categories.getByName(req.params.id) : await Categories.get(req.params.id);
 
         switch(status) {
             case 'success':
-                send(res, { data, status, message: `Категория успешно создана!` });
+                send(res, { data, status });
                 break;
             case 'error':
                 send(res, { message, status });

@@ -1,0 +1,37 @@
+.container {
+    position: relative;
+}
+
+.input {
+    font-size: 16px;
+    padding: 10px 0;
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.label {
+    color: #999;
+    font-size: 14px;
+    pointer-events: none;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.required .label:before {
+    content: '*';
+    color: #91001c;
+    margin-right: 4px;
+}
+
+.error {
+    color: #91001c;
+    font-size: 12px;
+    margin-top: 4px;
+}

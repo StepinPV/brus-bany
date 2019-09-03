@@ -4,12 +4,12 @@ import {
 } from './constants';
 import Api from './api';
 
-export function getCategory(id) {
+export function getCategory(name) {
     return async (dispatch) => {
         dispatch({ type: GET_CATEGORY });
 
         try {
-            const res = await Api.getCategory(id);
+            const res = await Api.getCategory(name);
 
             if (res.data && res.data.status === 'error') {
                 dispatch({ type: GET_CATEGORY_ERROR, payload: { message: res.data.message } });

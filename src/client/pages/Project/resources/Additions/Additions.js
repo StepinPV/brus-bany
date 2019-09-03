@@ -1,15 +1,16 @@
 import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
-import Caption from '../../../../components/Caption';
 import Text from '../../../../components/Text';
-import Section from '../../../../components/Section';
+import DataSection from '../../../../components/DataSection';
 import cx from 'classnames';
 import styles from './Additions.module.css';
 
 class Additions extends PureComponent {
     static propTypes = {
         additions: PropTypes.array,
-        layout: PropTypes.object
+        layout: PropTypes.object,
+        onChange: PropTypes.func,
+        value: PropTypes.object
     };
 
     state = {
@@ -18,7 +19,7 @@ class Additions extends PureComponent {
 
     render() {
         // eslint-disable-next-line
-        const { additions, layout: params } = this.props;
+        const { additions, layout: params, value: v } = this.props;
         const { expandedAdditions } = this.state;
 
         const getPrice = price => {
@@ -27,9 +28,8 @@ class Additions extends PureComponent {
         };
 
         return (
-            <Section bgStyle='white'>
+            <DataSection bgStyle='white' caption='Выберите дополнения'>
                 <div className={styles.container}>
-                    <Caption>Выберите дополнения</Caption>
                     <div className={styles.items}>
                         {additions.map(({ name, id, value }) => (
                             <Fragment key={id}>
@@ -46,9 +46,18 @@ class Additions extends PureComponent {
                                                     <div className={styles.item} key={id}>
                                                         <div className={styles['item-wrapper']}>
                                                             {type === 'boolean' ? (
-                                                                <input type='checkbox' />
+                                                                <input
+                                                                    type='checkbox'
+                                                                    checked={v.values[id] ? v.values[id].value : false}
+                                                                    onChange={(e) => {this.changeValue(id, name, price, type, e.target.checked)}} />
                                                             ) : (
-                                                                <input className={styles['item-input']} type='number' min='0' defaultValue={0} />
+                                                                <input
+                                                                    value={v.values[id] ? v.values[id].value : 0}
+                                                                    className={styles['item-input']}
+                                                                    type='number'
+                                                                    min='0'
+                                                                    defaultValue={0}
+                                                                    onChange={(e) => {this.changeValue(id, name, price, type, e.target.value)}}/>
                                                             )}
 
                                                         </div>
@@ -67,8 +76,9 @@ class Additions extends PureComponent {
                             </Fragment>
                         ))}
                     </div>
+                    <div className={styles.sum}>{`Стоимость: ${v.price} р`}</div>
                 </div>
-            </Section>
+            </DataSection>
         );
     }
 
@@ -78,6 +88,45 @@ class Additions extends PureComponent {
         this.setState({
             expandedAdditions: expandedAdditions.includes(id) ? expandedAdditions.filter(_id => _id !== id) : [...expandedAdditions, id]
         })
+    };
+
+    getFinalPriceByValues = (values) => {
+        const { layout: params } = this.state;
+        let sumPrice = 0;
+
+        const getPrice = price => {
+            // eslint-disable-next-line
+            return eval(price);
+        };
+
+        Object.keys(values).forEach(id => {
+            const { value, type, price } = values[id];
+            if (type === 'boolean') {
+                sumPrice += value ? getPrice(price) : 0;
+            } else {
+                sumPrice += getPrice(price) * parseInt(value);
+            }
+        });
+
+        return sumPrice;
+    };
+
+    changeValue = (id, name, price, type, val) => {
+        const { onChange, value } = this.props;
+
+        const newValues = {
+            ...value.values,
+            [id]: { name, value: val, type, price }
+        };
+
+        if (!val || val === '0') {
+            delete newValues[id];
+        }
+
+        onChange({
+            values: newValues,
+            price: this.getFinalPriceByValues(newValues)
+        });
     };
 }
 
