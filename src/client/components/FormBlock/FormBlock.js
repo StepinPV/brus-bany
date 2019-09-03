@@ -3,7 +3,6 @@ import SocialNetwork from '../../components/SocialNetwork';
 import DataSection from '../DataSection';
 import Form from '../Form';
 import styles from './FormBlock.module.css';
-import cx from "classnames";
 
 export default memo(({ source }) => {
     return (

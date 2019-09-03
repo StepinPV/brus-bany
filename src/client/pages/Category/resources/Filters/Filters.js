@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Link from '../../../../../components/Link';
 import filterProjects from './../filter';
 import cx from 'classnames';
 import styles from './Filters.module.css';
@@ -75,9 +74,9 @@ class Filters extends PureComponent {
                             };
 
                             return link ? (
-                                <Link key={id} to={`/bani/${category.translateName}${filters.size ? `/${filters.size}` : ''}${link}`} className={styles['filters-link']}>
+                                <a key={id} href={`/bani/${category.translateName}${filters.size ? `/${filters.size}` : ''}${link}`} className={styles['filters-link']}>
                                     <div className={cx(styles['filters-checkbox'], {[styles['filters-checkbox-checked']]: filterEnabled})}>{`С ${name}`}</div>
-                                </Link>
+                                </a>
                             ) : (
                                 <div
                                     key={id}
@@ -131,9 +130,9 @@ class Filters extends PureComponent {
                         }
 
                         return (
-                            <Link key={size} to={`/bani/${category.translateName}/${size}${additionsLink ? `/${additionsLink}` : ''}`} className={styles['filters-link']}>
+                            <a key={size} href={`/bani/${category.translateName}/${size}${additionsLink ? `/${additionsLink}` : ''}`} className={styles['filters-link']}>
                                 <div className={styles['filters-checkbox']}>{size}</div>
-                            </Link>
+                            </a>
                         )
                     })}
                 </div>

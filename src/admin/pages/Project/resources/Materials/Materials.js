@@ -23,7 +23,7 @@ class Materials extends PureComponent {
         const { materials, data } = this.props;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles.caption}>Стройматериалы</div>
                 <div className={styles.items}>
                     {data ? data.map(({ id, count }) => {
@@ -48,7 +48,7 @@ class Materials extends PureComponent {
                         <div className={styles.button} onClick={this.createItem}>Добавить стройматериал</div>
                     )}
                 </div>
-            </Fragment>
+            </>
         );
     }
 
@@ -57,7 +57,7 @@ class Materials extends PureComponent {
         const { editingItem } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles['editing-block']}>
                     <Select
                         title='Материал'
@@ -81,7 +81,7 @@ class Materials extends PureComponent {
                 {editingItem.id ? (
                     <div className={styles.button} onClick={this.handleItemDelete}>Удалить</div>
                 ) : null}
-            </Fragment>
+            </>
         );
     };
 

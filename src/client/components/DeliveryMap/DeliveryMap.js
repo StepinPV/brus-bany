@@ -8,7 +8,8 @@ class DeliveryMap extends PureComponent {
     static propTypes = {
         tariff: PropTypes.number.isRequired,
         minimalCost: PropTypes.number.isRequired,
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        id: PropTypes.string
     };
 
     static defaultProps = {
@@ -90,10 +91,11 @@ class DeliveryMap extends PureComponent {
     }
 
     render() {
+        const { id } = this.props;
         const { data } = this.state;
 
         return (
-            <div className={styles.container}>
+            <div id={id} className={styles.container}>
                 <div className={styles.title}>
                     <Caption align='center' color='black'>Рассчитайте стоимость доставки</Caption>
                 </div>

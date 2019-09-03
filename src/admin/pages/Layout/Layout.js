@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -70,11 +70,11 @@ class Layout extends PureComponent {
         const { breadcrumbs } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <Header />
                 <Breadcrumbs items={breadcrumbs} />
                 { isLayoutError ? <div className={styles.error}>{isLayoutError}</div> : this.renderForm() }
-            </Fragment>
+            </>
         );
     }
 

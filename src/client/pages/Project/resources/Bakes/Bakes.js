@@ -87,12 +87,13 @@ class Bakes extends PureComponent {
     render() {
         const { value, onChange } = this.props;
         return (
-           <DataSection bgStyle='grey' caption='Выберите печь' description='В комплект печи входят: установка, кирпичный портал, бак для горячей воды на 60л и комплект двустенного дымохода из нержавейки ferrum.
+           <DataSection id='bake' bgStyle='grey' caption='Выберите печь' description='В комплект печи входят: установка, кирпичный портал, бак для горячей воды на 60л и комплект двустенного дымохода из нержавейки ferrum.
 Не можете определиться? Оставьте заявку'>
                <div className={styles.items}>
                    {bakes.map(bake => {
                        return (
                            <Card
+                               key={bake.name}
                                className={cx({[styles.selected]: value && value.name === bake.name})}
                                onClick={() => { onChange(value && value.name === bake.name ? null : { name: bake.name, price: bake.price }) }}
                                firstImage={bake.image1}

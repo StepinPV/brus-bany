@@ -32,7 +32,7 @@ const items = [{
 class Bakes extends PureComponent {
     render() {
        return (
-           <DataSection bgStyle='grey' caption='Базовая комплектация'>
+           <DataSection id='base' bgStyle='grey' caption='Базовая комплектация'>
                {this.renderItems()}
            </DataSection>
        );
@@ -43,9 +43,8 @@ class Bakes extends PureComponent {
             <div className={styles['items-wrapper']}>
                 <div className={styles.items}>
                     {items.map(item => {
-
                         return (
-                            <div className={styles.item}>
+                            <div key={item.title} className={styles.item}>
                                 <div className={styles.title}>
                                     <Text>{item.title}</Text>
                                 </div>

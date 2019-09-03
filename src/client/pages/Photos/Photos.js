@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -6,8 +6,6 @@ import { loadData, resetData } from './actions';
 import Page from '../../components/Page';
 import Caption from '../../components/Caption';
 import Button from '../../components/Button';
-import Card from '../../components/Card';
-import Link from '../../../components/Link';
 import H1Block from '../../components/H1Block';
 import styles from './Photos.module.css';
 import FormBlock from "../../components/FormBlock";
@@ -62,9 +60,9 @@ class Photos extends PureComponent {
                 <H1Block
                     caption='Фотографии построенных бань'
                     description='На данной странице вы можете посмотреть фотографии бань, которые мы построили' />
-                <Fragment>
+                <>
                     {this.renderCategories()}
-                </Fragment>
+                </>
             </>
         ) : null;
     };
@@ -80,9 +78,9 @@ class Photos extends PureComponent {
                     </div>
                     {this.renderPhotos(category, photos[category._id].photos)}
                     <div className={styles.container}>
-                        <Link to={`/photos/${category.translateName}`}>
+                        <a href={`/photos/${category.translateName}`}>
                             <Button caption='Смотреть все' />
-                        </Link>
+                        </a>
                     </div>
                 </div>
             ) : null;
@@ -91,7 +89,10 @@ class Photos extends PureComponent {
 
     renderPhotos = (category, photos) => {
         const preparedPhotos = photos.slice(0, 6);
-        return <CardList items={preparedPhotos.map(photo => <PhotoCard photo={photo} />)} />;
+        return <CardList items={preparedPhotos.map(photo => ({
+            id: photo._id,
+            element: <PhotoCard photo={photo} />
+        }))} />;
     };
 }
 

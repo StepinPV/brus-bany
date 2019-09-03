@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -16,14 +16,14 @@ class Page extends PureComponent {
         const { children, fixedHeader, breadcrumbs } = this.props;
 
         return (
-            <Fragment>
+            <>
                 <Header fixedHeader={fixedHeader} />
                 <div className={styles.content}>
                     {breadcrumbs ? <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} /> : null}
                     {children}
                 </div>
                 <Footer />
-            </Fragment>
+            </>
         );
     }
 }

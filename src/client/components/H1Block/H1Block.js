@@ -16,8 +16,8 @@ function H1Block(props) {
 }
 
 H1Block.propTypes = {
-    caption: PropTypes.string,
-    description: PropTypes.string
+    caption: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    description: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
 };
 
 export default memo(H1Block);

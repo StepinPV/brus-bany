@@ -1,6 +1,5 @@
 import React, { memo, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Link from '../Link';
 import styles from './Breadcrumbs.module.css';
 
 const Breadcrumbs = ({ items, className }) => (
@@ -9,7 +8,7 @@ const Breadcrumbs = ({ items, className }) => (
             return (
                 <Fragment key={title}>
                     { index !== 0 ? <span className={styles.arrow}>→</span> : null }
-                    { link ? <Link to={link} className={styles['link-item']}>{title}</Link> : <span className={styles['item']}>{title}</span> }
+                    { link ? <a href={link} className={styles['link-item']}>{title}</a> : <span className={styles['item']}>{title}</span> }
                 </Fragment>
             );
         })}

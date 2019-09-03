@@ -7,7 +7,6 @@ import CardList from '../../components/CardList';
 import PhotoCard from '../../components/PhotoCard';
 import ArticleCard from '../../components/ArticleCard';
 import Button from '../../components/Button';
-import Link from '../../../components/Link';
 import Top from './resources/Top';
 import Categories from './resources/Categories';
 import HowWork from './resources/HowWork';
@@ -46,18 +45,19 @@ class Main extends PureComponent {
         return (
             <Page fixedHeader>
                 <Top />
-                <a name='categories'>
-                    <Categories />
-                </a>
+                <Categories id='categories' />
                 <HowWork />
                 <WhyMe />
                 {preparedPhotos.length ? (
                     <DataSection bgStyle='grey' caption='Фотографии готовых проектов'>
                         <div className={styles['list-container']}>
-                            <CardList items={photos.map(photo => <PhotoCard photo={photo} />)} />
-                            <Link to={`/photos`}>
+                            <CardList items={photos.map(photo => ({
+                                id: photo._id,
+                                element: <PhotoCard photo={photo} />
+                            }))} />
+                            <a href={`/photos`}>
                                 <Button caption='Смотреть все' />
-                            </Link>
+                            </a>
                         </div>
                     </DataSection>
                 ) : null}
@@ -65,10 +65,13 @@ class Main extends PureComponent {
                 {preparedArticles.length ? (
                     <DataSection bgStyle='grey' caption='Делимся накопленным опытом' description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации.'>
                         <div className={styles['list-container']}>
-                            <CardList items={preparedArticles.map(article => <ArticleCard article={article} />)} />
-                            <Link to={`/articles`}>
+                            <CardList items={preparedArticles.map(article => ({
+                                id: article._id,
+                                element: <ArticleCard article={article} />
+                            }))} />
+                            <a href='/articles'>
                                 <Button caption='Читать больше' />
-                            </Link>
+                            </a>
                         </div>
                     </DataSection>
                 ) : null}

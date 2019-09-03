@@ -5,14 +5,15 @@ import styles from './Section.module.css';
 
 function Section(props) {
     return (
-        <div className={cx(styles.container, styles[`container-${props.bgStyle}`])}>
+        <div id={props.id} className={cx(styles.container, styles[`container-${props.bgStyle}`])}>
             {props.children}
         </div>
     );
 }
 
 Section.propTypes = {
-    bgStyle: PropTypes.oneOf(['white', 'grey', 'grey2', 'red'])
+    bgStyle: PropTypes.oneOf(['white', 'grey', 'grey2', 'red']),
+    id: PropTypes.string
 };
 
 Section.defaultProps = {

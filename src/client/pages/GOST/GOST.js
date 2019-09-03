@@ -45,8 +45,7 @@ class GOST extends PureComponent {
             <Page fixedHeader>
                 <Top />
                 <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
-                <a name="list"></a>
-                <div className={styles.items}>
+                <div id='list' className={styles.items}>
                     {items.map(({ title, description, link }) => {
                         return (
                             <div className={styles.item}>

@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -90,12 +90,12 @@ class Project extends PureComponent {
         const { breadcrumbs } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <Header />
                 <Breadcrumbs items={breadcrumbs} className={styles.breadcrumbs} />
                 { isProjectError ? <div className={styles.error}>{isProjectError}</div> : this.renderContent() }
                 <Footer />
-            </Fragment>
+            </>
         );
     }
 
@@ -109,15 +109,18 @@ class Project extends PureComponent {
                     {this.renderGallery()}
                     {this.renderInfo()}
                 </div>
-                <a name='base'><BaseEquipment /></a>
-                <a name='foundation'><Foundation onChange={this.handleFoundation} value={foundationValue} /></a>
-                <a name='bake'><Bakes onChange={this.handleBake} value={bakeValue} /></a>
-                <a name='additions'><Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} /></a>
-                <a name='delivery'><DeliveryMap onChange={this.handleDelivery} /></a>
+                <BaseEquipment />
+                <Foundation onChange={this.handleFoundation} value={foundationValue} />
+                <Bakes onChange={this.handleBake} value={bakeValue} />
+                <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
+                <DeliveryMap id='delivery' onChange={this.handleDelivery} />
                 {this.renderFinalPrice()}
                 {photos && photos.length ? (
                     <DataSection bgStyle='grey' caption='Фотографии готовых проектов'>
-                        <CardList items={photos.map(photo => <PhotoCard photo={photo} />)} />
+                        <CardList items={photos.map(photo => ({
+                            id: photo._id,
+                            element: <PhotoCard photo={photo} />
+                        }))} />
                     </DataSection>
                 ) : null}
             </div>

@@ -3,7 +3,6 @@ import DataSection from '../../../../components/DataSection';
 import Caption from '../../../../components/Caption';
 import Button from '../../../../components/Button';
 import Text from '../../../../components/Text';
-import Link from '../../../../../components/Link';
 import cx from 'classnames';
 import styles from './Categories.module.css';
 
@@ -33,13 +32,13 @@ const categories = [{
     link: '/bani/individualniy-proekt'
 }];
 
-function Categories() {
+function Categories(props) {
     return (
-        <DataSection bgStyle='white' caption='Какую баню выбрать?'>
+        <DataSection bgStyle='white' caption='Какую баню выбрать?' id={props.id}>
             <div className={styles.items}>
                 {categories.map(({ className, name, text, caption, link }) => {
                     return (
-                        <Link to={link} key={name} className={cx(styles.item, className)}>
+                        <a href={link} key={name} className={cx(styles.item, className)}>
                             <div className={styles['item-overlay']} />
                             <div className={styles['item-content']}>
                                 <div className={styles['item-caption']}>
@@ -50,7 +49,7 @@ function Categories() {
                                 </div>
                                 <Button caption={caption} className={styles['item-button']} />
                             </div>
-                        </Link>
+                        </a>
                     )
                 })}
             </div>

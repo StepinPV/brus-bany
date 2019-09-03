@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import Logo from '../../../components/Logo';
 import SocialNetwork from '../SocialNetwork';
-import Link from '../../../components/Link';
 import cx from 'classnames';
 import styles from './Footer.module.css';
 
@@ -10,9 +9,9 @@ function Footer() {
         <div className={styles.container}>
             <div className={styles.wrapper}>
                 <div className={styles.column}>
-                    <Link to='/' className={styles['logo-wrapper']}>
+                    <a href='/' className={styles['logo-wrapper']}>
                         <Logo className={styles.logo}/>
-                    </Link>
+                    </a>
                     <div className={styles['social-networks']}>
                         <SocialNetwork type='vk' className={styles['social-network']} />
                         <SocialNetwork type='fb' className={styles['social-network']} />
@@ -42,30 +41,30 @@ function Footer() {
                 </div>
                 <div className={styles.column}>
                     <div className={styles['items-header']}>ВЫБЕРИТЕ БАНЮ</div>
-                    <Link to='/bani/mobilnie' className={styles['items-item']}>Мобильные бани</Link>
-                    <Link to='/bani/iz-brusa' className={styles['items-item']}>Бани из бруса</Link>
-                    <Link to='/bani/karkasnie' className={styles['items-item']}>Каркасные бани</Link>
-                    <Link to='/bani/individualniy-proekt' className={styles['items-item']}>Индивидуальный проект</Link>
+                    <a href='/bani/mobilnie' className={styles['items-item']}>Мобильные бани</a>
+                    <a href='/bani/iz-brusa' className={styles['items-item']}>Бани из бруса</a>
+                    <a href='/bani/karkasnie' className={styles['items-item']}>Каркасные бани</a>
+                    <a href='/bani/individualniy-proekt' className={styles['items-item']}>Индивидуальный проект</a>
                 </div>
                 <div className={styles.column}>
                     <div className={styles['items-header']}>О КОМПАНИИ</div>
-                    <Link to='/about-company' className={styles['items-item']}>О компании</Link>
-                    <Link to='/rekvizity' className={styles['items-item']}>Реквизиты компании</Link>
-                    <Link to='/dostavka' className={styles['items-item']}>География доставки</Link>
-                    <Link to='/uslovia-oplati' className={styles['items-item']}>Условия оплаты</Link>
-                    <Link to='/contakti' className={styles['items-item']}>Контакты</Link>
-                    <Link to='/vakansii' className={styles['items-item']}>Вакансии</Link>
-                    <Link to='/politika_konfidencialnosty' className={styles['items-item']}>Политика конфиденциальности</Link>
+                    <a href='/about-company' className={styles['items-item']}>О компании</a>
+                    <a href='/rekvizity' className={styles['items-item']}>Реквизиты компании</a>
+                    <a href='/dostavka' className={styles['items-item']}>География доставки</a>
+                    <a href='/uslovia-oplati' className={styles['items-item']}>Условия оплаты</a>
+                    <a href='/contakti' className={styles['items-item']}>Контакты</a>
+                    <a href='/vakansii' className={styles['items-item']}>Вакансии</a>
+                    <a href='/politika_konfidencialnosty' className={styles['items-item']}>Политика конфиденциальности</a>
                 </div>
                 <div className={styles.column}>
                     <div className={styles['items-header']}>ДОПОЛНИТЕЛЬНО</div>
-                    <Link to='/photos' className={styles['items-item']}>Фото построенных бань</Link>
-                    <Link to='/otzivi' className={styles['items-item']}>Отзывы</Link>
-                    <Link to='/blog' className={styles['items-item']}>Блог</Link>
+                    <a href='/photos' className={styles['items-item']}>Фото построенных бань</a>
+                    <a href='/otzivi' className={styles['items-item']}>Отзывы</a>
+                    <a href='/blog' className={styles['items-item']}>Блог</a>
                     <a href='https://zen.yandex.ru/brusbany' className={styles['items-item']} target='_blank' rel="noopener noreferrer">Яндекс Дзен</a>
-                    <Link to='/akcii' className={styles['items-item']}>Скидки и акции</Link>
-                    <Link to='/voprosy-i-otvety' className={styles['items-item']}>Вопросы и ответы</Link>
-                    <Link to='/gosty-i-snipy' className={styles['items-item']}>ГОСТы и СНиПы</Link>
+                    <a href='/akcii' className={styles['items-item']}>Скидки и акции</a>
+                    <a href='/voprosy-i-otvety' className={styles['items-item']}>Вопросы и ответы</a>
+                    <a href='/gosty-i-snipy' className={styles['items-item']}>ГОСТы и СНиПы</a>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button';
 import Input from '../../../components/Input';
@@ -24,7 +24,7 @@ class Form extends PureComponent {
         const { name, phone, errors } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <Input
                     title='Ваше имя'
                     required
@@ -43,7 +43,7 @@ class Form extends PureComponent {
 
                 <Button caption='Перезвоните мне' className={styles.button} onClick={this.handleSubmit} />
                 <div className={styles.disclaimer}>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika_konfidencialnosty' target='_blank'>Политика конфиденциальности.</a></div>
-            </Fragment>
+            </>
         );
     }
 

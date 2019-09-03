@@ -1,11 +1,10 @@
-import React, {PureComponent, Fragment} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Page from '../../components/Page';
 import CardList from '../../components/CardList';
 import ProjectCard from '../../components/ProjectCard';
-import Link from '../../../components/Link';
 import NotFound from '../NotFound/NotFound';
 import Button from '../../components/Button';
 import Article from '../../components/Article';
@@ -152,7 +151,7 @@ class Category extends PureComponent {
         const { filteredProjects } = this.state;
 
         return category && filteredProjects ? (
-            <Fragment>
+            <>
                 <H1Block
                     caption={`${this.getTitle()} | проекты и цены`}
                     description={(<>Более 65 проектов бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</>)}
@@ -162,7 +161,7 @@ class Category extends PureComponent {
                 {this.renderNotFoundProject()}
                 {this.renderArticle()}
                 {this.renderPhotos()}
-            </Fragment>
+            </>
         ) : null;
     };
 
@@ -187,16 +186,27 @@ class Category extends PureComponent {
         const { filteredProjects, priceFilter } = this.state;
         const { name } = match.params;
 
-        return filteredProjects ? (
-            <CardList items={filteredProjects.map(project => {
-                    return (!priceFilter.min || priceFilter.min < project.price) && (!priceFilter.max || priceFilter.max > project.price) ? (
+        if (!filteredProjects) {
+            return null;
+        }
+
+        const itemsForRender = [];
+
+        filteredProjects.forEach(project => {
+            if ((!priceFilter.min || priceFilter.min < project.price) && (!priceFilter.max || priceFilter.max > project.price)) {
+                itemsForRender.push({
+                    id: project._id,
+                    element: (
                         <ProjectCard
                             project={project}
                             categoryName={name}
                         />
-                    ) : null;
-            })} />
-        ) : null
+                    )
+                })
+            }
+        });
+
+        return <CardList items={itemsForRender} />;
     };
 
     renderNotFoundProject = () => {
@@ -230,10 +240,13 @@ class Category extends PureComponent {
         return photos && photos.length ? (
             <DataSection bgStyle='grey' caption='Фотографии готовых проектов'>
                 <div className={styles['photos-container']}>
-                    <CardList items={preparedPhotos.map(photo => <PhotoCard photo={photo} />)} />
-                    <Link to={`/photos`}>
+                    <CardList items={preparedPhotos.map(photo => ({
+                        id: photo._id,
+                        element: <PhotoCard photo={photo} />
+                    }))} />
+                    <a href={`/photos`}>
                         <Button caption='Смотреть все' />
-                    </Link>
+                    </a>
                 </div>
             </DataSection>
         ) : null;

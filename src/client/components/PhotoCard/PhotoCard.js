@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import Link from '../../../components/Link';
 import styles from './PhotoCard.module.css';
 import Card from "../Card";
 
@@ -8,7 +7,7 @@ function PhotoCard(props) {
     const { mainPhoto, created, projectId, _id } = props.photo;
 
     return (
-        <Link to={`/photos/${projectId.categoryId.translateName}/${projectId.layoutId.translateName}_${projectId.layoutId.width}x${projectId.layoutId.length}_${_id}`} className={styles.container}>
+        <a href={`/photos/${projectId.categoryId.translateName}/${projectId.layoutId.translateName}_${projectId.layoutId.width}x${projectId.layoutId.length}_${_id}`} className={styles.container}>
             <Card
                 firstImage={mainPhoto}
                 firstButton='Смотреть'
@@ -20,7 +19,7 @@ function PhotoCard(props) {
                     </div>
                 )}
             />
-        </Link>
+        </a>
     );
 }
 

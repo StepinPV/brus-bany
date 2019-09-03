@@ -7,11 +7,7 @@ function CardList(props) {
 
     return (
         <div className={styles.container}>
-            {items.map(item => (
-                <div className={styles.item}>
-                    {item}
-                </div>
-            ))}
+            {items.map(item => <div key={item.id} className={styles.item}>{item.element}</div>)}
             <div className={styles.item} />
             <div className={styles.item} />
         </div>

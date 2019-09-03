@@ -18,8 +18,8 @@ class Additions extends PureComponent {
     };
 
     render() {
-        // eslint-disable-next-line
-        const { additions, layout: params, value: v } = this.props;
+        // eslint-disable-next-line no-unused-vars
+        const { additions, value: v, layout: params } = this.props;
         const { expandedAdditions } = this.state;
 
         const getPrice = price => {
@@ -28,7 +28,7 @@ class Additions extends PureComponent {
         };
 
         return (
-            <DataSection bgStyle='white' caption='Выберите дополнения'>
+            <DataSection id='additions' bgStyle='white' caption='Выберите дополнения'>
                 <div className={styles.container}>
                     <div className={styles.items}>
                         {additions.map(({ name, id, value }) => (
@@ -56,7 +56,6 @@ class Additions extends PureComponent {
                                                                     className={styles['item-input']}
                                                                     type='number'
                                                                     min='0'
-                                                                    defaultValue={0}
                                                                     onChange={(e) => {this.changeValue(id, name, price, type, e.target.value)}}/>
                                                             )}
 

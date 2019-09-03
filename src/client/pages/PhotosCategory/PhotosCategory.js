@@ -1,11 +1,10 @@
-import React, {PureComponent, Fragment} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import { getPhotos, getCategory, resetData } from './actions';
 import Page from '../../components/Page';
 import Card from '../../components/Card';
-import Link from '../../../components/Link';
 import H1Block from '../../components/H1Block';
 import styles from './PhotosCategory.module.css';
 import FormBlock from "../../components/FormBlock";
@@ -79,9 +78,9 @@ class PhotosCategory extends PureComponent {
                 <H1Block
                     caption={`${category.name} - фотографии построенных бань`}
                     description='На данной странице вы можете посмотреть фотографии бань, которые мы построили' />
-                <Fragment>
+                <>
                     {this.renderPhotos()}
-                </Fragment>
+                </>
             </div>
         ) : null;
     };
@@ -94,7 +93,7 @@ class PhotosCategory extends PureComponent {
             <div className={styles.items}>
                 {photos.map(({ mainPhoto, created, projectId, _id }) => {
                     return (
-                        <Link to={`/photos/${categoryName}/${projectId.layoutId.translateName}_${projectId.layoutId.width}x${projectId.layoutId.length}_${_id}`} className={styles.item}>
+                        <a href={`/photos/${categoryName}/${projectId.layoutId.translateName}_${projectId.layoutId.width}x${projectId.layoutId.length}_${_id}`} className={styles.item}>
                             <Card
                                 firstImage={mainPhoto}
                                 firstButton='Смотреть'
@@ -106,7 +105,7 @@ class PhotosCategory extends PureComponent {
                                     </div>
                                 )}
                             />
-                        </Link>
+                        </a>
                     );
                 })}
             </div>

@@ -23,6 +23,7 @@ class Gallery extends PureComponent {
                    {images.map((image, index) => {
                        return (
                            <img
+                               key={image}
                                onClick={() => { this.setState({ activeImageIndex: index }) }}
                                className={cx(styles.image, {[styles.selectedImage]: index === activeImageIndex})}
                                src={image}

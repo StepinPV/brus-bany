@@ -29,12 +29,13 @@ class Foundation extends PureComponent {
     render() {
         const { value, onChange } = this.props;
         return (
-           <DataSection bgStyle='white' caption='Выберите фундамент' description='Если вы сомневаетесь в выборе фундамента,
+           <DataSection id='foundation' bgStyle='white' caption='Выберите фундамент' description='Если вы сомневаетесь в выборе фундамента,
 оставьте заявку, мы поможем подобрать самый оптимальный для вас вариант'>
                <div className={styles.items}>
                    {items.map(item => {
                        return (
                            <Card
+                               key={item.name}
                                className={cx({[styles.selected]: value && value.name === item.name})}
                                onClick={() => { onChange(value && value.name === item.name ? null : { name: item.name, price: item.price }) }}
                                firstImage={item.image}

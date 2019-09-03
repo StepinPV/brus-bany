@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import Link from '../../../components/Link';
 import styles from './ArticleCard.module.css';
 import Card from "../Card";
 
@@ -8,7 +7,7 @@ function ArticleCard(props) {
     const { translateName, image, name, created } = props.article;
 
     return (
-        <Link to={`/blog/${translateName}`} key={translateName} className={styles.container}>
+        <a href={`/blog/${translateName}`} key={translateName} className={styles.container}>
             <Card
                 firstImage={image}
                 firstButton='Читать полностью'
@@ -20,7 +19,7 @@ function ArticleCard(props) {
                     </div>
                 )}
             />
-        </Link>
+        </a>
     );
 }
 

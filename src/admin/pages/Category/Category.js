@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -81,11 +81,11 @@ class Category extends PureComponent {
         const { breadcrumbs } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <Header />
                 <Breadcrumbs items={breadcrumbs} />
                 { isCategoryError ? <div className={styles.error}>{isCategoryError}</div> : this.renderContent() }
-            </Fragment>
+            </>
         );
     }
 

@@ -22,9 +22,7 @@ class Delivery extends PureComponent {
                 <Top />
                 <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
                 <First />
-                <a name="delivery-map">
-                    <DeliveryMap />
-                </a>
+                <DeliveryMap id='delivery-map' />
                 <Table />
                 <FormBlock source='Страница доставки' />
             </Page>

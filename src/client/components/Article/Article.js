@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import Caption from '../../components/Caption';
 import Text from '../../components/Text';
@@ -16,7 +16,7 @@ class Article extends PureComponent {
             <div className={styles.content}>
                 {article.name ? <Caption size='m' align='center' className={styles['header-caption']}>{article.name}</Caption> : null}
                 {article.description ? this.renderText(article.description) : null}
-                {article.content.map(item => this.renderBlock(item))}
+                {article.content.map((item, i) => <Fragment key={i}>{this.renderBlock(item)}</Fragment>)}
             </div>
         );
     }
@@ -27,7 +27,7 @@ class Article extends PureComponent {
         return (
             <div className={styles.block}>
                 {caption ? <Caption size='s' className={styles.caption}>{caption}</Caption> : null}
-                {content ? content.map(data => this.renderItem(data.item)) : null}
+                {content ? content.map((data, i) => <Fragment key={i}>{this.renderItem(data.item)}</Fragment>) : null}
             </div>
         )
     };

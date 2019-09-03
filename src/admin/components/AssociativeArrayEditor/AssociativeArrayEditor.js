@@ -1,11 +1,11 @@
-import React, { memo, Fragment } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import ObjectEditor from '../../components/ObjectEditor';
 
 const getRandomId = () => Math.floor(Math.random() * (9999999 - 1000000 + 1)) + 1000000;
 
 const AssociativeArrayEditor = ({ title, value, onChange, format, errors, titleFieldId }) => (
-    <Fragment>
+    <>
         {
             value ? Object.keys(value).map(id => {
                 return <ObjectEditor
@@ -34,7 +34,7 @@ const AssociativeArrayEditor = ({ title, value, onChange, format, errors, titleF
                 newValue[getRandomId()] = v;
                 onChange(newValue);
             }} />
-    </Fragment>
+    </>
 );
 
 AssociativeArrayEditor.propTypes = {

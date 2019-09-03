@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Logo from '../../../components/Logo';
-import Link from '../../../components/Link';
 import Button from '../Button';
 import withForm from '../../plugins/Form/withForm';
 import styles from './Header.module.css';
@@ -49,14 +48,14 @@ class Header extends PureComponent {
         return (
             <div className={cx(styles.header, {[styles['header-fixed']]: fixedHeader })}>
                 <div className={cx(styles.container, {[styles['container-opacity']]: opacityMode}) }>
-                    <Link to='/'>
+                    <a href='/'>
                         <Logo className={styles.logo}/>
-                    </Link>
+                    </a>
                     <div className={styles.items}>
-                        <Link to='/bani/mobilnie' className={styles.item}>Мобильные бани</Link>
-                        <Link to='/bani/iz-brusa' className={styles.item}>Бани из бруса</Link>
-                        <Link to='/bani/karkasnie' className={styles.item}>Каркасные бани</Link>
-                        <Link to='/bani/individualniy-proekt' className={styles.item}>Индивидуальный проект</Link>
+                        <a href='/bani/mobilnie' className={styles.item}>Мобильные бани</a>
+                        <a href='/bani/iz-brusa' className={styles.item}>Бани из бруса</a>
+                        <a href='/bani/karkasnie' className={styles.item}>Каркасные бани</a>
+                        <a href='/bani/individualniy-proekt' className={styles.item}>Индивидуальный проект</a>
                     </div>
                     <div className={styles.info}>
                         <div className={styles['phone-container']}>
@@ -77,10 +76,10 @@ class Header extends PureComponent {
                 {expanded ? (
                     <div className={styles['expanded-menu']}>
                         <div className={styles.items2}>
-                            <Link to='/bani/mobilnie' className={styles.item2}>Мобильные бани</Link>
-                            <Link to='/bani/iz-brusa' className={styles.item2}>Бани из бруса</Link>
-                            <Link to='/bani/karkasnie' className={styles.item2}>Каркасные бани</Link>
-                            <Link to='/bani/individualniy-proekt' className={styles.item2}>Индивидуальный проект</Link>
+                            <a href='/bani/mobilnie' className={styles.item2}>Мобильные бани</a>
+                            <a href='/bani/iz-brusa' className={styles.item2}>Бани из бруса</a>
+                            <a href='/bani/karkasnie' className={styles.item2}>Каркасные бани</a>
+                            <a href='/bani/individualniy-proekt' className={styles.item2}>Индивидуальный проект</a>
                         </div>
                         <a href="tel:88002010729" className={styles.phone}>8 (800) 201-07-29</a>
                         <a href="mailto:mailto:info@brus-bany.ru" className={styles.email}>info@brus-bany.ru</a>

@@ -19,7 +19,7 @@
 }
 
 .layout {
-    background-image: linear-gradient(top, rgba(0,0,0,0.70), rgba(0,0,0,0.80)) !important;
+    background-image: linear-gradient(to top, rgba(0,0,0,0.70), rgba(0,0,0,0.80)) !important;
 }
 
 .content {

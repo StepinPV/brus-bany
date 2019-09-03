@@ -1,4 +1,4 @@
-import React, {Fragment, memo} from 'react';
+import React, {memo} from 'react';
 import Caption from '../../../../components/Caption';
 import Text from '../../../../components/Text';
 import Button from '../../../../components/Button';
@@ -6,7 +6,7 @@ import styles from './Top.module.css';
 
 function Top() {
     return (
-        <Fragment>
+        <>
             <div className={styles.banner} />
             <div className={styles.layout} />
             <div className={styles['content-container']}>
@@ -25,7 +25,7 @@ function Top() {
                     </div>
                 </div>
             </div>
-        </Fragment>
+        </>
     )
 }
 

@@ -25,7 +25,7 @@ class Additions extends PureComponent {
         const { data } = this.props;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles.caption}>Дополнения</div>
                 <div className={styles.items}>
                     {data.map(({id, name, value}) => (
@@ -64,7 +64,7 @@ class Additions extends PureComponent {
                         ) : null
                     )}
                 </div>
-            </Fragment>
+            </>
         );
     }
 
@@ -72,7 +72,7 @@ class Additions extends PureComponent {
         const { editingAddition } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles['editing-block']}>
                     <Select
                         title='Тип'
@@ -106,7 +106,7 @@ class Additions extends PureComponent {
                 {editingAddition.addition.id ? (
                     <div className={styles.button} onClick={this.handleAdditionDelete}>{`Удалить дополнение`}</div>
                 ) : null}
-            </Fragment>
+            </>
         );
     };
 
@@ -120,10 +120,10 @@ class Additions extends PureComponent {
         };
 
         return (
-            <Fragment>
+            <>
                 <div className={styles['variables-caption']}>Переменные для формулы: </div>
                 {this.renderSubVariables(layoutFormat, selectedLayoutVariableId, handleChange, '')}
-            </Fragment>
+            </>
         );
     };
 
@@ -153,7 +153,7 @@ class Additions extends PureComponent {
         const value = selectedItem ? getValue(selectedItem) : null;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles.variables}>
                     <div className={styles['variables-select']}>
                         <Select
@@ -169,7 +169,7 @@ class Additions extends PureComponent {
                 </div>
 
                 {selectedItem && selectedItem.format ? this.renderSubVariables(selectedItem.format, childrenId, handleChildrenId, `${beforeValue}${value}`) : null}
-            </Fragment>
+            </>
         )
     };
 
@@ -177,7 +177,7 @@ class Additions extends PureComponent {
         const { editingGroup } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles['editing-block']}>
                     <div className={styles.input}>
                         <Input
@@ -194,7 +194,7 @@ class Additions extends PureComponent {
                 {editingGroup.id ? (
                     <div className={styles.button} onClick={this.handleDeleteGroup}>{`Удалить группу`}</div>
                 ) : null}
-            </Fragment>
+            </>
         );
     };
 

@@ -5,7 +5,6 @@ import OfficeMap from './resources/OfficeMap';
 import Button from '../../components/Button';
 import SocialNetwork from '../../components/SocialNetwork';
 import DataSection from '../../components/DataSection';
-import Link from '../../../components/Link';
 import H1Block from '../../components/H1Block';
 import cx from 'classnames';
 import styles from './Contacts.module.css';
@@ -56,7 +55,7 @@ class Contacts extends PureComponent {
                             <SocialNetwork type='inst' className={styles['social-network']} />
                             <SocialNetwork type='youtube' className={styles['social-network']} />
                         </div>
-                        <Link to='/rekvizity'>Реквизиты компании</Link>
+                        <a href='/rekvizity'>Реквизиты компании</a>
                     </div>
                 </div>
                 <DataSection caption='Наши представительства'>

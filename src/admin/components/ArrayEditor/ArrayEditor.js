@@ -1,10 +1,10 @@
-import React, { memo, Fragment } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import ObjectEditor from '../../components/ObjectEditor';
 import styles from "../../../components/Input/Input.module.css";
 
 const ArrayEditor = ({ title, value, onChange, format, errors }) => (
-    <Fragment>
+    <>
         {
             value ? value.map((val, index) => {
                 return <ObjectEditor
@@ -34,7 +34,7 @@ const ArrayEditor = ({ title, value, onChange, format, errors }) => (
                 onChange(newValue);
             }} />
         {errors && typeof errors === 'string' ? <div className={styles.error}>{errors}</div> : null}
-    </Fragment>
+    </>
 );
 
 ArrayEditor.propTypes = {

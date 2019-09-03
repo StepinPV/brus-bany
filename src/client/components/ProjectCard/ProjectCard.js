@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import Link from '../../../components/Link';
 import styles from './ProjectCard.module.css';
 import Card from "../Card";
 
@@ -9,7 +8,7 @@ function ProjectCard(props) {
     const { images, price, layoutId } = project;
 
     return (
-        <Link to={`/bani/${categoryName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
+        <a href={`/bani/${categoryName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
             <Card
                 firstImage={images ? images['main'] : null}
                 firstButton='Подробнее'
@@ -23,7 +22,7 @@ function ProjectCard(props) {
                     </div>
                 )}
             />
-        </Link>
+        </a>
     );
 }
 

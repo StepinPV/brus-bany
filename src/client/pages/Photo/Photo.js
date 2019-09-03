@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import { getPhoto, resetData } from './actions';
 import Page from '../../components/Page';
-import Link from '../../../components/Link';
 import H1Block from '../../components/H1Block';
 import styles from './Photo.module.css';
 import FormBlock from "../../components/FormBlock";
@@ -102,10 +101,10 @@ class Photo extends PureComponent {
         const { photo } = this.props;
 
         return (
-            <Link to={`/bani/${photo.projectId.categoryId.translateName}/${photo.projectId.layoutId.translateName}_${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length}`} className={styles.projectLink}>
+            <a href={`/bani/${photo.projectId.categoryId.translateName}/${photo.projectId.layoutId.translateName}_${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length}`} className={styles.projectLink}>
                 <img src={photo.projectId.images.main} className={styles['projectLink-image']} alt="" />
                 <div className={styles['projectLink-text']}>Перейти к проекту бани</div>
-            </Link>
+            </a>
         )
     };
 }

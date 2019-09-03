@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Loader from '../../../components/Loader';
-import Link from '../../../components/Link';
 import cx from 'classnames';
 import styles from './Tiles.module.css';
 
@@ -10,11 +9,11 @@ const Tiles = ({ items }) => (
         {items.map(({ type, title, link, key }) => {
             switch (type) {
                 case 'link':
-                    return <Link key={key} to={link} className={cx(styles.tile, styles['link-tile'])}>{title}</Link>;
+                    return <a key={key} href={link} className={cx(styles.tile, styles['link-tile'])}>{title}</a>;
                 case 'loading':
                     return <div key={key} className={cx(styles.tile, styles['loading-tile'])}><Loader /></div>;
                 case 'add':
-                    return <Link key={key} to={link} className={cx(styles.tile, styles['add-tile'])}>+</Link>;
+                    return <a key={key} href={link} className={cx(styles.tile, styles['add-tile'])}>+</a>;
                 default:
                     return <div key={key} className={styles.tile}><Loader /></div>;
             }

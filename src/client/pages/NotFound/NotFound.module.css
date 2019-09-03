@@ -1,0 +1,14 @@
+.body {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.code {
+    color: #91001d;
+    margin-top: 16px;
+    font-size: 36px;
+    font-weight: bold;
+}

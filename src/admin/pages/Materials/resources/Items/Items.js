@@ -22,7 +22,7 @@ class Items extends PureComponent {
         const { materials } = this.props;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles.items}>
                     {materials ? materials.map(({ _id, name, dimension, price }) => (
                         <Fragment key={_id}>
@@ -42,7 +42,7 @@ class Items extends PureComponent {
                         <div className={styles.button} onClick={this.createItem}>Создать наименование</div>
                     )}
                 </div>
-            </Fragment>
+            </>
         );
     }
 
@@ -50,7 +50,7 @@ class Items extends PureComponent {
         const { editingItem } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles['editing-block']}>
                     <div className={styles.input}>
                         <Input
@@ -85,7 +85,7 @@ class Items extends PureComponent {
                 {editingItem._id ? (
                     <div className={styles.button} onClick={this.handleItemDelete}>Удалить</div>
                 ) : null}
-            </Fragment>
+            </>
         );
     };
 

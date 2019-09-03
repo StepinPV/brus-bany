@@ -6,10 +6,10 @@ import Text from '../Text';
 import styles from './DataSection.module.css';
 
 function DataSection(props) {
-    const { bgStyle, caption, description, children } = props;
+    const { bgStyle, caption, description, children, id } = props;
 
     return (
-        <Section bgStyle={bgStyle}>
+        <Section bgStyle={bgStyle} id={id}>
             {caption ? (
                 <div className={styles.caption}>
                     <Caption align='center' color={bgStyle === 'red' ? 'white' : 'black'}>{caption}</Caption>
@@ -31,7 +31,8 @@ DataSection.propTypes = {
     bgStyle: PropTypes.oneOf(['white', 'grey', 'red']),
     caption: PropTypes.string,
     description: PropTypes.string,
-    children: PropTypes.node
+    children: PropTypes.node,
+    id: PropTypes.string
 };
 
 DataSection.defaultProps = {

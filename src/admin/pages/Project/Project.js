@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -122,11 +122,11 @@ class Project extends PureComponent {
         const { breadcrumbs } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <Header />
                 <Breadcrumbs items={breadcrumbs} />
                 { isProjectError ? <div className={styles.error}>{isProjectError}</div> : this.renderContent() }
-            </Fragment>
+            </>
         );
     }
 

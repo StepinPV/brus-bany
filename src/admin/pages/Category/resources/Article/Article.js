@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Form from '../../../../components/Form';
 import articleFormat from '../../../../formats/article';
@@ -14,10 +14,10 @@ class Article extends PureComponent {
         const { data, onChange } = this.props;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles.caption}>Статья</div>
                 <Form format={articleFormat} value={data || {}} onChange={onChange} errors={{}} />
-            </Fragment>
+            </>
         );
     }
 }

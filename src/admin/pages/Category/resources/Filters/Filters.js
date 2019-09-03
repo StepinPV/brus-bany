@@ -24,7 +24,7 @@ class Filters extends PureComponent {
         const { data } = this.props;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles.caption}>Фильтры</div>
                 <div className={styles.items}>
                     {data ? data.map(({ id, name }, index) => {
@@ -46,7 +46,7 @@ class Filters extends PureComponent {
                         <div className={styles.button} onClick={this.createItem}>Добавить фильтр</div>
                     )}
                 </div>
-            </Fragment>
+            </>
         );
     }
 
@@ -54,7 +54,7 @@ class Filters extends PureComponent {
         const { editingItem, editingIndex } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles['editing-block']}>
                     <div className={styles.input}>
                         <Input
@@ -89,7 +89,7 @@ class Filters extends PureComponent {
                 {editingIndex !== null ? (
                     <div className={styles.button} onClick={this.handleItemDelete}>Удалить</div>
                 ) : null}
-            </Fragment>
+            </>
         );
     };
 
@@ -103,10 +103,10 @@ class Filters extends PureComponent {
         };
 
         return (
-            <Fragment>
+            <>
                 <div className={styles['variables-caption']}>Переменные для формулы: </div>
                 {this.renderSubVariables(layoutFormat, selectedLayoutVariableId, handleChange, '')}
-            </Fragment>
+            </>
         );
     };
 
@@ -136,7 +136,7 @@ class Filters extends PureComponent {
         const value = selectedItem ? getValue(selectedItem) : null;
 
         return (
-            <Fragment>
+            <>
                 <div className={styles.variables}>
                     <div className={styles['variables-select']}>
                         <Select
@@ -152,7 +152,7 @@ class Filters extends PureComponent {
                 </div>
 
                 {selectedItem && selectedItem.format ? this.renderSubVariables(selectedItem.format, childrenId, handleChildrenId, `${beforeValue}${value}`) : null}
-            </Fragment>
+            </>
         )
     };
 

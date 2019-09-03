@@ -1,4 +1,4 @@
-import React, {memo, Fragment} from 'react';
+import React, {memo} from 'react';
 import DataSection from '../../../../components/DataSection';
 import Button from '../../../../components/Button';
 import Text from '../../../../components/Text';
@@ -33,17 +33,17 @@ function WhyMe(props) {
                 {<Item
                     icon={styles['money-icon']}
                     caption='Работаем без предоплаты'
-                    text={(<Fragment>Оплата производится после успешной сдачи объекта. Более подробная информация в <a href='/uslovia-oplati' style={linkStyles}>условиях оплаты</a></Fragment>)}
+                    text={(<>Оплата производится после успешной сдачи объекта. Более подробная информация в <a href='/uslovia-oplati' style={linkStyles}>условиях оплаты</a></>)}
                     />}
                 {<Item
                     icon={styles['caska-icon']}
                     caption='Построили более 350 объектов'
-                    text={(<Fragment>Накопили достаточно опыта, чтобы построить объект любой сложности, <a href='/photos' style={linkStyles}>убедитесь сами</a></Fragment>)}
+                    text={(<>Накопили достаточно опыта, чтобы построить объект любой сложности, <a href='/photos' style={linkStyles}>убедитесь сами</a></>)}
                 />}
                 {<Item
                     icon={styles['galka-icon']}
-                    caption={<Fragment>Гарантия<br />качества</Fragment>}
-                    text={(<Fragment>Строим строго по <a href='/gosty-i-snipy' style={linkStyles}>ГОСТу</a>. По договору обслуживаем постройку в течение 2-х лет</Fragment>)}
+                    caption={<>Гарантия<br />качества</>}
+                    text={(<>Строим строго по <a href='/gosty-i-snipy' style={linkStyles}>ГОСТу</a>. По договору обслуживаем постройку в течение 2-х лет</>)}
                 />}
             </div>
             <div className={styles['button-container']}>
