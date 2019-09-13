@@ -8,7 +8,7 @@ const rimraf = require('rimraf');
 
 const prepareImages = (data) => {
     const regexp = /^\/uploads\/buffer\//;
-    const newFolderPath = `/uploads/photos/${data.categoryId}/${data.layoutId}/`;
+    const newFolderPath = `/uploads/photos/${data.projectId}/${data.created}/`;
 
     const moveImage = (image) => {
         const newImagePath = image.replace(regexp, newFolderPath);
@@ -77,7 +77,7 @@ class PhotoReports {
         const { data: photos } = await this.getAll(options);
 
         return Status.success(photos.filter(photo => {
-            return photo.projectId.categoryId.toString() === categoryId;
+            return (photo.projectId.categoryId._id || photo.projectId.categoryId).toString() === categoryId;
         }));
     };
 

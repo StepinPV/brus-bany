@@ -9,7 +9,7 @@ function H1Block(props) {
 
     return (
         <div className={styles.container}>
-            {caption ? <Caption align='center' className={styles.caption} size='l'>{caption}</Caption> : null}
+            {caption ? <Caption align='center' className={styles.caption} size='l' tag='h1'>{caption}</Caption> : null}
             {description ? <Text align='center' className={styles.description} size='l'>{description}</Text> : null}
         </div>
     );

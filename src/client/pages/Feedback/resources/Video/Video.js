@@ -21,7 +21,7 @@ const items = [{
 
 function Video() {
     return (
-        <DataSection bgStyle='white' caption='Видео отзывы'>
+        <DataSection bgStyle='white' caption='Видео отзывы' captionTag='h2'>
             {items.map(({ video, image, alt }) => {
                 return (
                     <div className={styles['items-line']}>

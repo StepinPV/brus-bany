@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from '../../../../components/Card';
 import DataSection from '../../../../components/DataSection';
+import withForm from '../../../../plugins/Form/withForm';
 import styles from './Foundation.module.css';
 import cx from 'classnames';
 
@@ -23,19 +24,24 @@ const items = [{
 class Foundation extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
-        value: PropTypes.object
+        value: PropTypes.object,
+        showForm: PropTypes.func
     };
 
     render() {
-        const { value, onChange } = this.props;
+        const { value, onChange, showForm } = this.props;
         return (
-           <DataSection id='foundation' bgStyle='white' caption='Выберите фундамент' description='Если вы сомневаетесь в выборе фундамента,
-оставьте заявку, мы поможем подобрать самый оптимальный для вас вариант'>
+           <DataSection id='foundation' bgStyle='white' caption='Выберите фундамент' captionTag='h2' description={(
+               <>
+                    Если вы сомневаетесь в выборе фундамента, <span style={{ color: '#003093', fontWeight: 'bold' }} onClick={() => { showForm({ source: 'Выбор фундамента' }) }}>оставьте заявку</span>, мы поможем подобрать самый оптимальный для вас вариант
+               </>
+           )}>
                <div className={styles.items}>
                    {items.map(item => {
                        return (
                            <Card
                                key={item.name}
+                               imageAlt={`Фундамент ${item.name.toLowerCase()}`}
                                className={cx({[styles.selected]: value && value.name === item.name})}
                                onClick={() => { onChange(value && value.name === item.name ? null : { name: item.name, price: item.price }) }}
                                firstImage={item.image}
@@ -62,4 +68,4 @@ class Foundation extends PureComponent {
     }
 }
 
-export default Foundation;
+export default withForm(Foundation);

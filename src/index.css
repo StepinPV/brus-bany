@@ -4,9 +4,13 @@ html {
   font-weight: lighter;
 }
 
-body {
+body, h1, h2, h3, li {
   margin: 0;
   padding: 0;
+}
+
+ol {
+  margin: 0;
 }
 
 #root {

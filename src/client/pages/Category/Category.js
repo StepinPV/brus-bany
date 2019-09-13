@@ -229,22 +229,22 @@ class Category extends PureComponent {
         const { category } = this.props;
 
         return category.article ? (
-            <Article article={category.article} />
+            <Article article={category.article} captionTag='h2' />
         ) : null;
     };
 
     renderPhotos = () => {
-        const { photos } = this.props;
+        const { photos, category } = this.props;
         const preparedPhotos = photos ? photos.slice(0, 6) : [];
 
         return photos && photos.length ? (
-            <DataSection bgStyle='grey' caption='Фотографии готовых проектов'>
+            <DataSection bgStyle='grey' caption={`Фотографии построенных ${category.name3}`} captionTag='h2'>
                 <div className={styles['photos-container']}>
                     <CardList items={preparedPhotos.map(photo => ({
                         id: photo._id,
                         element: <PhotoCard photo={photo} />
                     }))} />
-                    <a href={`/photos`}>
+                    <a href={`/photos/${category.translateName}`}>
                         <Button caption='Смотреть все' />
                     </a>
                 </div>

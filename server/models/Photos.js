@@ -18,9 +18,17 @@ const scheme = new Schema({
         type: String,
         required: REQUIRED_MSG
     },
+    mainPhotoAlt: {
+        type: String,
+        required: REQUIRED_MSG
+    },
     photos: {
         type: [{
-            image: String
+            image: String,
+            imageAlt: {
+                type: String,
+                required: REQUIRED_MSG
+            }
         }]
     }
 }, { versionKey: false });

@@ -5,7 +5,8 @@ export default class Api {
         params: {
             forCategory: true,
             withProject: true,
-            withLayout: true
+            withLayout: true,
+            withCategory: true
         }
     });
     static getCategories = () => axios.get('/api/categories');

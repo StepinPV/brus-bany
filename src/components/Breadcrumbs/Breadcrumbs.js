@@ -3,12 +3,19 @@ import PropTypes from 'prop-types';
 import styles from './Breadcrumbs.module.css';
 
 const Breadcrumbs = ({ items, className }) => (
-    <div className={className}>
+    <div className={className} itemScope itemType="http://schema.org/BreadcrumbList">
         {items.map(({ title, link }, index) => {
             return (
                 <Fragment key={title}>
                     { index !== 0 ? <span className={styles.arrow}>→</span> : null }
-                    { link ? <a href={link} className={styles['link-item']}>{title}</a> : <span className={styles['item']}>{title}</span> }
+                    { link ? (
+                        <span itemProp="itemListElement" itemScope itemType="http://schema.org/ListItem">
+                            <a href={link} className={styles['link-item']} itemProp="item">
+                                <span itemProp="name">{title}</span>
+                            </a>
+                            <meta itemProp="position" content={index + 1} />
+                        </span>
+                    ) : <span className={styles['item']}>{title}</span> }
                 </Fragment>
             );
         })}

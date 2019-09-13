@@ -4,12 +4,13 @@ import styles from './ArticleCard.module.css';
 import Card from "../Card";
 
 function ArticleCard(props) {
-    const { translateName, image, name, created } = props.article;
+    const { translateName, image, name, created, imageAlt } = props.article;
 
     return (
         <a href={`/blog/${translateName}`} key={translateName} className={styles.container}>
             <Card
                 firstImage={image}
+                imageAlt={imageAlt}
                 firstButton='Читать полностью'
                 bgStyle='grey'
                 content={(

@@ -13,14 +13,15 @@ function OurProduction() {
         <DataSection
             bgStyle='white'
             caption='Наше производство'
+            captionTag='h2'
             description='Мы строим бани в центре российского деревянного строительства, в городе Пестово. Подробнее о преимуществах региона читайте в нашей статье' >
             <div className={styles.items}>
-                <img src={img1} alt="" className={styles.item} />
-                <img src={img2} alt="" className={styles.item} />
-                <img src={img3} alt="" className={styles.item} />
-                <img src={img4} alt="" className={styles.item} />
-                <img src={img5} alt="" className={styles.item} />
-                <img src={img6} alt="" className={styles.item} />
+                <img src={img1} alt="Станок для обработки дерева" className={styles.item} />
+                <img src={img2} alt="Доски и бревна" className={styles.item} />
+                <img src={img3} alt="Склад хранения окон" className={styles.item} />
+                <img src={img4} alt="Шифер для крыши" className={styles.item} />
+                <img src={img5} alt="Рулоны" className={styles.item} />
+                <img src={img6} alt="Склад для хранения досок" className={styles.item} />
             </div>
         </DataSection>
     )

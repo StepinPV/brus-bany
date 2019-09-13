@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import H1Block from '../../components/H1Block';
 import img1 from './resources/1.jpg';
 import img2 from './resources/2.jpg';
+import img3 from './resources/3.jpg';
 import styles from './Promo.module.css';
 import FormBlock from "../../components/FormBlock";
 import withForm from '../../plugins/Form/withForm';
@@ -31,7 +32,19 @@ class Promo extends PureComponent {
                 <H1Block caption='Скидки и акции' description='Надеемся, что вы найдете для себя интересное предложение и исполните свою мечту' />
                 <div className={styles.items}>
                     <div className={styles.item}>
-                        <img className={styles.image} src={img1} alt="" />
+                        <img className={styles.image} src={img3} alt="Банные пренадлежности" />
+                        <div className={styles.info}>
+                            <Caption className={styles.name} size='s'>Пройдите опрос и получите подарок</Caption>
+                            <Text className={styles.text}>
+                                Мы зададим 5 простых вопросов, чтобы поближе познакомиться с вами. Пройдите опрос, мы подберем для вас баню и <strong style={{ color: '#359bd0' }}>подарим подарок</strong>!
+                            </Text>
+                            <a href='/akcii/quiz'>
+                                <Button caption='Перейти на страницу акции' />
+                            </a>
+                        </div>
+                    </div>
+                    <div className={styles.item}>
+                        <img className={styles.image} src={img1} alt="Гарантия лучшей цены" />
                         <div className={styles.info}>
                             <Caption className={styles.name} size='s'>Гарантия лучшей цены</Caption>
                             <Text className={styles.text}>
@@ -41,7 +54,7 @@ class Promo extends PureComponent {
                         </div>
                     </div>
                     <div className={styles.item}>
-                        <img className={styles.image} src={img2} alt="" />
+                        <img className={styles.image} src={img2} alt="Теплый угол" />
                         <div className={styles.info}>
                             <Caption className={styles.name} size='s'>Теплый угол и утепление!</Caption>
                             <Text className={styles.text}>

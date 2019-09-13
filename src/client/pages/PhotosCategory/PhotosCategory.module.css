@@ -11,27 +11,3 @@
     flex-wrap: wrap;
     margin-bottom: 16px;
 }
-
-.item {
-    max-width: 360px;
-    flex-basis: 360px;
-    display: flex;
-    text-decoration: none;
-}
-
-.item-content {
-    background: #f5f5f5;
-    padding: 24px 24px 0;
-}
-
-.item-caption {
-    color: #000;
-    font-weight: bold;
-    font-size: 20px;
-    margin-bottom: 8px;
-}
-
-.item-date {
-    color: #000;
-    font-size: 18px;
-}

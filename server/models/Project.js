@@ -19,6 +19,10 @@ const scheme = new Schema({
         type: Number,
         required: REQUIRED_MSG
     },
+    buildTime: {
+        type: Number,
+        required: REQUIRED_MSG
+    },
     profitPercentage: {
         type: Number,
         required: REQUIRED_MSG,

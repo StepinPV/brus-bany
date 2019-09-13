@@ -108,6 +108,14 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
+        id: 'bani/promo',
+        path: '/akcii/quiz',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Promo/resources/Quiz')),
+            loading: LoaderPage,
+        })
+    }, {
         id: 'bani/about-company',
         path: '/about-company',
         exact: true,

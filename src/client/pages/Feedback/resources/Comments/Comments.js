@@ -25,7 +25,7 @@ const items = [{
 
 function Comments() {
     return (
-        <DataSection bgStyle='grey' caption='Текстовые отзывы'>
+        <DataSection bgStyle='grey' caption='Текстовые отзывы' captionTag='h2'>
             <div className={styles.container}>
                 {items.map(({ name, address, comment, vk }) => {
                     return (

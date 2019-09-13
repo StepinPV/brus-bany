@@ -1,7 +1,7 @@
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 32px;
+    padding: 16px 16px 32px;
     box-sizing: border-box;
 }
 
@@ -12,12 +12,15 @@
     margin-bottom: 16px;
 }
 
+.photo, .projectLink {
+    margin: 8px;
+}
+
 .photo {
     max-width: calc(50% - 16px);
     flex-basis: calc(50% - 16px);
     display: flex;
     text-decoration: none;
-    margin: 8px;
 }
 
 .projectLink {

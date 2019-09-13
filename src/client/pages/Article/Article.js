@@ -88,7 +88,7 @@ class Article extends PureComponent {
     renderContent = () => {
         const { article } = this.props;
 
-        return article ? <ArticleComponent article={article.article}/> : null;
+        return article ? <ArticleComponent article={article.article} captionTag='h1' /> : null;
     };
 }
 

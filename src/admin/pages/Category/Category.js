@@ -96,7 +96,9 @@ class Category extends PureComponent {
             <div className={styles.formContainer}>
                 <div className={styles.formWrapper}>
                     {this.renderTranslateName()}
-                    {this.renderName()}
+                    {this.renderTemplateName('name', 'Введите имя для шаблона (<<Бани из бруса>> | проекты и цены)', this.handleNameChange)}
+                    {this.renderTemplateName('name2', 'Введите имя для шаблона (<<Баня из бруса>> Алексин)', this.handle2NameChange)}
+                    {this.renderTemplateName('name3', 'Введите имя для шаблона (Фотографии готовых <<бань из бруса>>)', this.handle3NameChange)}
                     {this.renderFilters()}
                     {this.renderAdditions()}
                     {this.renderArticle()}
@@ -125,19 +127,19 @@ class Category extends PureComponent {
         );
     };
 
-    renderName = () => {
+    renderTemplateName = (key, title, handler) => {
         const { category } = this.props;
         const { errors } = this.state;
 
         return (
             <div className={styles.name}>
                 <Input
-                    value={category.name}
-                    title='Введите имя'
+                    value={category[key]}
+                    title={title}
                     type='string'
                     required
-                    onChange={this.handleNameChange}
-                    error={errors['name']}
+                    onChange={handler}
+                    error={errors[key]}
                 />
             </div>
         );
@@ -189,8 +191,17 @@ class Category extends PureComponent {
 
     handleNameChange = (name) => {
         const { actions, category } = this.props;
-
         actions.setCategory({ ...category, name });
+    };
+
+    handle2NameChange = (name2) => {
+        const { actions, category } = this.props;
+        actions.setCategory({ ...category, name2 });
+    };
+
+    handle3NameChange = (name3) => {
+        const { actions, category } = this.props;
+        actions.setCategory({ ...category, name3 });
     };
 
     handleAdditionsChange = (additions) => {
@@ -243,16 +254,12 @@ class Category extends PureComponent {
         const errors = {};
         let hasErrors = false;
 
-        if (!category.name) {
-            errors['name'] = 'Поле обязательно к заполнению!';
-            hasErrors = true;
-        }
-
-        if (!category.translateName) {
-            errors['name'] = 'Поле обязательно к заполнению!';
-            hasErrors = true;
-        }
-
+        ['name', 'name2', 'name3', 'translateName'].forEach(key => {
+            if (!category[key]) {
+                errors[key] = 'Поле обязательно к заполнению!';
+                hasErrors = true;
+            }
+        });
 
         return hasErrors ? errors : null;
     }

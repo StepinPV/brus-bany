@@ -18,16 +18,17 @@ class Gallery extends PureComponent {
 
        return (
            <div className={styles.container}>
-               <img className={styles.activeImage} src={images[activeImageIndex]} alt="" />
+               <img className={styles.activeImage} src={images[activeImageIndex].src} alt={images[activeImageIndex].alt} itemProp="image" />
                <div className={styles.images}>
                    {images.map((image, index) => {
                        return (
                            <img
-                               key={image}
+                               itemProp="image"
+                               key={image.src}
                                onClick={() => { this.setState({ activeImageIndex: index }) }}
                                className={cx(styles.image, {[styles.selectedImage]: index === activeImageIndex})}
-                               src={image}
-                               alt="" />
+                               src={image.src}
+                               alt={image.alt} />
                        )
                    })}
                </div>

@@ -9,6 +9,11 @@ export default [{
     type: 'image',
     required: true
 }, {
+    _id: 'mainPhotoAlt',
+    title: 'Alt для главное изображение',
+    type: 'string',
+    required: true
+}, {
     _id: 'photos',
     title: 'Изображение',
     type: 'array',
@@ -16,5 +21,9 @@ export default [{
         _id: 'image',
         title: 'Изображение',
         type: 'image'
+    }, {
+        _id: 'imageAlt',
+        title: 'Alt',
+        type: 'string'
     }]
 }];

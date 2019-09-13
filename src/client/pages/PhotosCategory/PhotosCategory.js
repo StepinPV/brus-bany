@@ -8,6 +8,8 @@ import Card from '../../components/Card';
 import H1Block from '../../components/H1Block';
 import styles from './PhotosCategory.module.css';
 import FormBlock from "../../components/FormBlock";
+import CardList from '../../components/CardList';
+import PhotoCard from '../../components/PhotoCard';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -76,7 +78,9 @@ class PhotosCategory extends PureComponent {
         return category ? (
             <div className={styles.container}>
                 <H1Block
-                    caption={`${category.name} - фотографии построенных бань`}
+                    caption={(
+                        <>Фотографии построенных {category.name3}</>
+                    )}
                     description='На данной странице вы можете посмотреть фотографии бань, которые мы построили' />
                 <>
                     {this.renderPhotos()}
@@ -86,30 +90,12 @@ class PhotosCategory extends PureComponent {
     };
 
     renderPhotos = () => {
-        const { photos, match } = this.props;
-        const { categoryName } = match.params;
+        const { photos } = this.props;
 
-        return photos ? (
-            <div className={styles.items}>
-                {photos.map(({ mainPhoto, created, projectId, _id }) => {
-                    return (
-                        <a href={`/photos/${categoryName}/${projectId.layoutId.translateName}_${projectId.layoutId.width}x${projectId.layoutId.length}_${_id}`} className={styles.item}>
-                            <Card
-                                firstImage={mainPhoto}
-                                firstButton='Смотреть'
-                                bgStyle='grey'
-                                content={(
-                                    <div className={styles['item-content']}>
-                                        <div className={styles['item-caption']}>{`${projectId.layoutId.name} ${projectId.layoutId.width}x${projectId.layoutId.length}`}</div>
-                                        <div className={styles['item-date']}>{`Дата строительства: ${new Date(created).toLocaleDateString()}`}</div>
-                                    </div>
-                                )}
-                            />
-                        </a>
-                    );
-                })}
-            </div>
-        ) : null;
+        return photos ? <CardList items={photos.map(photo => ({
+            id: photo._id,
+            element: <PhotoCard photo={photo} />
+        }))} /> : null;
     };
 }
 

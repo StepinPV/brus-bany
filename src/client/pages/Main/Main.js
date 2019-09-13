@@ -49,7 +49,7 @@ class Main extends PureComponent {
                 <HowWork />
                 <WhyMe />
                 {preparedPhotos.length ? (
-                    <DataSection bgStyle='grey' caption='Фотографии готовых проектов'>
+                    <DataSection bgStyle='grey' caption='Фотографии готовых проектов' captionTag='h2'>
                         <div className={styles['list-container']}>
                             <CardList items={photos.map(photo => ({
                                 id: photo._id,
@@ -63,7 +63,7 @@ class Main extends PureComponent {
                 ) : null}
                 <OurProduction />
                 {preparedArticles.length ? (
-                    <DataSection bgStyle='grey' caption='Делимся накопленным опытом' description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации.'>
+                    <DataSection captionTag='h2' bgStyle='grey' caption='Делимся накопленным опытом' description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации.'>
                         <div className={styles['list-container']}>
                             <CardList items={preparedArticles.map(article => ({
                                 id: article._id,

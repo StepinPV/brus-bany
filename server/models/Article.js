@@ -17,6 +17,10 @@ const scheme = new Schema({
         type: String,
         required: REQUIRED_MSG
     },
+    imageAlt: {
+        type: String,
+        required: REQUIRED_MSG
+    },
     article: Object,
     created: Date
 }, { versionKey: false });

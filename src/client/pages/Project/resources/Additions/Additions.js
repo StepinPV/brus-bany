@@ -28,7 +28,7 @@ class Additions extends PureComponent {
         };
 
         return (
-            <DataSection id='additions' bgStyle='white' caption='Выберите дополнения'>
+            <DataSection id='additions' bgStyle='white' caption='Выберите дополнения' captionTag='h2'>
                 <div className={styles.container}>
                     <div className={styles.items}>
                         {additions.map(({ name, id, value }) => (

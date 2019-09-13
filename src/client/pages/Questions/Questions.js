@@ -106,7 +106,7 @@ class Questions extends PureComponent {
 
         return (
             <Page breadcrumbs={breadcrumbs}>
-                <DataSection caption='Вопросы и ответы' bgStyle='white'>
+                <DataSection caption='Вопросы и ответы' bgStyle='white' captionTag='h1'>
                     <div className={styles.container}>
                         {items.map(({ name, questions }) => {
                             return (

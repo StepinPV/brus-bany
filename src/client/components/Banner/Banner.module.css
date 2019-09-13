@@ -1,17 +1,20 @@
 .layout,
 .banner,
-.content-container {
+.content {
     height: 100vh;
     width: 100%;
 }
 
-.content-container {
+.content {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding: 0 14%;
+    box-sizing: border-box;
 }
 
-.content-container,
+.content,
 .layout {
     position: absolute;
     top: 0;
@@ -22,15 +25,8 @@
     background-image: linear-gradient(to top, rgba(0,0,0,0.70), rgba(0,0,0,0.80)) !important;
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 14%;
-}
-
 .header {
-    max-width: 600px;
+    max-width: 1000px;
     margin-bottom: 32px;
 }
 
@@ -45,7 +41,7 @@
 
 @media screen and (max-width: 640px) {
     .content {
-        margin: 0 7%;
+        padding: 0 7%;
     }
 
     .button {

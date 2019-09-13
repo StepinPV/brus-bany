@@ -17,7 +17,7 @@ class Requisites extends PureComponent {
         return (
             <Page breadcrumbs={breadcrumbs}>
                 <div className={styles.container}>
-                    <Caption className={styles.caption} align='center'>Реквизиты компании</Caption>
+                    <Caption className={styles.caption} align='center' tag='h1'>Реквизиты компании</Caption>
                     <Text align='center'>ООО «Русская Баня»</Text>
                     <Text align='center'>ИНН 5313015082</Text>
                     <Text align='center'>ОГРН 1185321002910</Text>

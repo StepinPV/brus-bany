@@ -74,7 +74,7 @@ class Photos extends PureComponent {
             return photos[category._id] && photos[category._id].photos && photos[category._id].photos.length ? (
                 <div className={styles.category}>
                     <div className={styles.container}>
-                        <Caption>{category.name}</Caption>
+                        <Caption tag='h2'>{category.name}</Caption>
                     </div>
                     {this.renderPhotos(category, photos[category._id].photos)}
                     <div className={styles.container}>

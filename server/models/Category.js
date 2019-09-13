@@ -61,6 +61,14 @@ const scheme = new Schema({
         type: String,
         required: REQUIRED_MSG
     },
+    name2: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    name3: {
+        type: String,
+        required: REQUIRED_MSG
+    },
     additions: {
         type: [additionGroupScheme]
     },

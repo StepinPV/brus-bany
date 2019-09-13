@@ -11,7 +11,7 @@ function HowWork(props) {
         props.showForm({ source: 'Главная. Как мы работаем?', title: 'Узнать подробнее' });
     };
     return (
-        <DataSection bgStyle='grey' caption='Как мы работаем?'>
+        <DataSection bgStyle='grey' caption='Как мы работаем?' captionTag='h2'>
             <div className={styles.items}>
                 <div className={styles.item}>
                     <i className={cx(styles.icon, styles['call-icon'])} />

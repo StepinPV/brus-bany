@@ -74,7 +74,12 @@ class Photo extends PureComponent {
         return photo ? (
             <div className={styles.container}>
                 <H1Block
-                    caption={`Фотографии проекта: ${photo.projectId.categoryId.name} ${photo.projectId.layoutId.name} ${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length}`}
+                    caption={(
+                        <>
+                            Фотографии проекта<br/>
+                            {photo.projectId.categoryId.name2} {photo.projectId.layoutId.name} {photo.projectId.layoutId.width}x{photo.projectId.layoutId.length}
+                        </>
+                    )}
                     description={`Дата строительства ${new Date(photo.created).toLocaleDateString()}`} />
                 {this.renderPhotos()}
                 {this.renderProjectLink()}
@@ -87,10 +92,10 @@ class Photo extends PureComponent {
 
         return photo ? (
             <div className={styles.photos}>
-                <img className={styles.photo} src={photo.mainPhoto} alt="" />
+                <img className={styles.photo} src={photo.mainPhoto} alt={photo.mainPhotoAlt} />
                 {photo.photos.map(photo => {
                     return (
-                        <img className={styles.photo} src={photo.image} alt="" />
+                        <img className={styles.photo} src={photo.image} alt={photo.imageAlt} />
                     );
                 })}
             </div>
@@ -102,7 +107,7 @@ class Photo extends PureComponent {
 
         return (
             <a href={`/bani/${photo.projectId.categoryId.translateName}/${photo.projectId.layoutId.translateName}_${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length}`} className={styles.projectLink}>
-                <img src={photo.projectId.images.main} className={styles['projectLink-image']} alt="" />
+                <img src={photo.projectId.images.main} className={styles['projectLink-image']} alt={`Баня ${photo.projectId.layoutId.name} ${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length}`} />
                 <div className={styles['projectLink-text']}>Перейти к проекту бани</div>
             </a>
         )

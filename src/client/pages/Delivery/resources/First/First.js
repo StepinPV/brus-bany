@@ -8,7 +8,7 @@ class First extends PureComponent {
     render() {
         return (
             <div className={styles.container}>
-                <Caption className={styles.caption} align='center'>Информация о доставке</Caption>
+                <Caption className={styles.caption} align='center' tag='h2'>Информация о доставке</Caption>
                 <Text className={styles.data} align='center'>Чтобы узнать точную стоимость доставки, укажите на карте точный адрес вашего участка</Text>
                 <div className={styles.items}>
                     <div className={styles.item}>

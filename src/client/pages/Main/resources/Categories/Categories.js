@@ -34,7 +34,7 @@ const categories = [{
 
 function Categories(props) {
     return (
-        <DataSection bgStyle='white' caption='Какую баню выбрать?' id={props.id}>
+        <DataSection bgStyle='white' caption='Какую баню выбрать?' captionTag='h2' id={props.id}>
             <div className={styles.items}>
                 {categories.map(({ className, name, text, caption, link }) => {
                     return (

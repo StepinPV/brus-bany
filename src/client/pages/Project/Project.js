@@ -104,19 +104,19 @@ class Project extends PureComponent {
         const { additionsValue, foundationValue, bakeValue } = this.state;
 
         return project ? (
-            <div className={styles.container}>
+            <div className={styles.container} itemScope itemType="http://schema.org/Product">
                 <div className={styles['top-block']}>
                     {this.renderGallery()}
                     {this.renderInfo()}
                 </div>
-                <BaseEquipment />
+                <BaseEquipment pathname={this.props.location.pathname} />
                 <Foundation onChange={this.handleFoundation} value={foundationValue} />
                 <Bakes onChange={this.handleBake} value={bakeValue} />
                 <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
                 <DeliveryMap id='delivery' onChange={this.handleDelivery} />
                 {this.renderFinalPrice()}
                 {photos && photos.length ? (
-                    <DataSection bgStyle='grey' caption='Фотографии готовых проектов'>
+                    <DataSection bgStyle='grey' caption='Фотоотчеты построенной бани' captionTag='h2'>
                         <CardList items={photos.map(photo => ({
                             id: photo._id,
                             element: <PhotoCard photo={photo} />
@@ -136,9 +136,29 @@ class Project extends PureComponent {
         }
 
         const images = [];
-        ['main', 'top', '1', '2', '3', 'layout'].forEach(key => {
+        const title = this.renderInfoTitle();
+
+        [{
+            key: 'main',
+            alt: title
+        }, {
+            key: 'top',
+            alt: `${title} - фотография сверху`
+        }, {
+            key: '1',
+            alt: `${title} - фотография слева`
+        }, {
+            key: '2',
+            alt: `${title} - фотография справа`
+        }, {
+            key: '3',
+            alt: `${title} - фотография сзади`
+        }, {
+            key: 'layout',
+            alt: `${title} - планировка`
+        }].forEach(({ key, alt }) => {
             if (project.images[key]) {
-                images.push(project.images[key]);
+                images.push({ src: project.images[key], alt });
             }
         });
 
@@ -154,10 +174,10 @@ class Project extends PureComponent {
 
         return (
             <div className={styles['info']}>
-                <div className={styles['info-title']}>
+                <h1 className={styles['info-title']} itemProp="name">
                     {`${this.renderInfoTitle()} - `}
                     <span className={styles['info-title-layout']}>{project.layoutId.name}</span>
-                </div>
+                </h1>
                 <div className={styles['info-addition']}>
                     <div>Общая площадь - {project.layoutId.area}м<sup>2</sup></div>
                     <div>Площадь сруба - {project.layoutId.frameArea}м<sup>2</sup></div>
@@ -166,13 +186,18 @@ class Project extends PureComponent {
                     {project.layoutId.attic && project.layoutId.attic.area ? (<div>Площадь мансарды - {project.layoutId.attic.area}м<sup>2</sup></div>) : null}
                 </div>
                 {project.price ? (
-                    <div className={styles['info-price']}>{`${project.price.toLocaleString()} руб.`}</div>
+                    <div className={styles['info-price']} itemScope itemType="http://schema.org/Offer">
+                        <meta itemProp="price" content={project.price} />
+                        <meta itemProp="priceCurrency" content="RUB" />
+                        <link itemProp="availability" href="http://schema.org/InStock" />
+                        {`${project.price.toLocaleString()} руб.`}
+                    </div>
                 ) : null}
                 <div className={styles['info-buttons']}>
                     <Button onClick={() => { showForm({ source: match.url, title: 'Оформление заявки', data: this.getFormData() }) }} className={styles['info-button']} caption='Заказать баню' size='s' />
                     <Button onClick={() => { showForm({ source: match.url, data: this.getFormData() }) }} className={styles['info-button']} caption='Обсудить проект со специалистом' size='s' type='yellow' />
                 </div>
-                <div className={styles['info-build-time']}>Срок строительства - 5 дней</div>
+                <div className={styles['info-build-time']}>Срок строительства - {project.buildTime} дней</div>
                 <div className={styles['info-links']}>
                     <div className={styles['info-links-header']}>Из чего складывается итоговая цена?</div>
                     <a href='#base' className={styles['info-links-item']}>1. Базовая комплектация</a>
@@ -188,9 +213,7 @@ class Project extends PureComponent {
     renderInfoTitle = () => {
         const { project: { layoutId, categoryId } } = this.props;
 
-        let title = categoryId.name;
-
-        title += ` ${layoutId.width}x${layoutId.length}`;
+        let title = `${categoryId.name2} ${layoutId.width}x${layoutId.length}`;
 
         const { terrace, attic, porch } = layoutId;
 

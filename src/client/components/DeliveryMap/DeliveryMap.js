@@ -97,7 +97,7 @@ class DeliveryMap extends PureComponent {
         return (
             <div id={id} className={styles.container}>
                 <div className={styles.title}>
-                    <Caption align='center' color='black'>Рассчитайте стоимость доставки</Caption>
+                    <Caption align='center' color='black' tag='h2'>Рассчитайте стоимость доставки</Caption>
                 </div>
                 {data ? (
                     <div className={styles.coastContainer}>

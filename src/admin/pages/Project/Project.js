@@ -140,6 +140,7 @@ class Project extends PureComponent {
                     {this.renderLayout()}
                     {this.renderImages()}
                     {<Materials onChange={this.handleMaterialsChange} materials={materials} data={project.material || []} />}
+                    {this.renderBuildTime()}
                     {this.renderPrice()}
                     <div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Сохранить и обновить'}</div>
                     { !addMode ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
@@ -165,6 +166,32 @@ class Project extends PureComponent {
                 </div>
             </div>
         )
+    };
+
+    renderBuildTime = () => {
+        const { project: { buildTime } } = this.props;
+
+        return (
+            <div className={styles.price}>
+                <div className={styles.priceTitle}>Параметры</div>
+                <div className={styles.profitPercentageInput}>
+                    <Input
+                        value={buildTime}
+                        title='Срок строительства (количество дней)'
+                        type='integer number'
+                        required
+                        min={0}
+                        onChange={this.handleBuildTimeChange}
+                    />
+                </div>
+            </div>
+        )
+    };
+
+    handleBuildTimeChange = (buildTime) => {
+        const { actions, project } = this.props;
+
+        actions.setProject({ ...project, buildTime });
     };
 
     renderPrice = () => {

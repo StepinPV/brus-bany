@@ -12,17 +12,15 @@ function Banner(props) {
         <>
             <div className={cx(bannerClassName, styles.banner)} />
             <div className={styles.layout} />
-            <div className={styles['content-container']}>
-                <div className={styles.content}>
-                    <Caption className={styles.header} color='white' size='l' align='center'>{caption}</Caption>
-                    <Text className={styles.description} size='l' align='center'>{description}</Text>
-                    {buttonCaption && (buttonHref ? (
-                            <a href={buttonHref}>
-                                <Button type='red' caption={buttonCaption} className={styles.button} />
-                            </a>
-                        ) : <Button type='red' caption={buttonCaption} className={styles.button} onClick={buttonClick}/>
-                    )}
-                </div>
+            <div className={styles.content}>
+                <Caption className={styles.header} color='white' size='l' align='center' tag='h1'>{caption}</Caption>
+                <Text className={styles.description} size='l' align='center'>{description}</Text>
+                {buttonCaption && (buttonHref ? (
+                        <a href={buttonHref}>
+                            <Button type='red' caption={buttonCaption} className={styles.button} />
+                        </a>
+                    ) : <Button type='red' caption={buttonCaption} className={styles.button} onClick={buttonClick}/>
+                )}
             </div>
         </>
     )

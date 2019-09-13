@@ -46,21 +46,15 @@ class Header extends PureComponent {
         const { expanded, opacityMode } = this.state;
 
         return (
-            <div className={cx(styles.header, {[styles['header-fixed']]: fixedHeader })}>
+            <header className={cx(styles.header, {[styles['header-fixed']]: fixedHeader })}>
                 <div className={cx(styles.container, {[styles['container-opacity']]: opacityMode}) }>
                     <a href='/'>
                         <Logo className={styles.logo}/>
                     </a>
-                    <div className={styles.items}>
-                        <a href='/bani/mobilnie' className={styles.item}>Мобильные бани</a>
-                        <a href='/bani/iz-brusa' className={styles.item}>Бани из бруса</a>
-                        <a href='/bani/karkasnie' className={styles.item}>Каркасные бани</a>
-                        <a href='/bani/individualniy-proekt' className={styles.item}>Индивидуальный проект</a>
-                    </div>
+                    {this.renderLinks(styles.items, styles.item)}
                     <div className={styles.info}>
                         <div className={styles['phone-container']}>
-                            <a href="tel:88002010729" className={styles.phone}>8 (800) 201-07-29</a>
-                            <a href="mailto:mailto:info@brus-bany.ru" className={styles.email}>info@brus-bany.ru</a>
+                            {this.renderContacts()}
                         </div>
                         <Button type='yellow' caption='Обратный звонок' size='s' onClick={() => { showForm({ source: 'Шапка сайта' }) }}/>
                         <div className={styles.burger} onClick={() => {this.setState({ expanded: !expanded })}}>
@@ -75,19 +69,33 @@ class Header extends PureComponent {
                 </div>
                 {expanded ? (
                     <div className={styles['expanded-menu']}>
-                        <div className={styles.items2}>
-                            <a href='/bani/mobilnie' className={styles.item2}>Мобильные бани</a>
-                            <a href='/bani/iz-brusa' className={styles.item2}>Бани из бруса</a>
-                            <a href='/bani/karkasnie' className={styles.item2}>Каркасные бани</a>
-                            <a href='/bani/individualniy-proekt' className={styles.item2}>Индивидуальный проект</a>
-                        </div>
-                        <a href="tel:88002010729" className={styles.phone}>8 (800) 201-07-29</a>
-                        <a href="mailto:mailto:info@brus-bany.ru" className={styles.email}>info@brus-bany.ru</a>
+                        {this.renderLinks(styles.items2, styles.item2)}
+                        {this.renderContacts()}
                     </div>
                 ) : null}
-            </div>
+            </header>
         );
     }
+
+    renderLinks = (containerClass, itemClass) => {
+        return (
+            <nav className={containerClass}>
+                <a href='/bani/mobilnie' className={itemClass}>Мобильные бани</a>
+                <a href='/bani/iz-brusa' className={itemClass}>Бани из бруса</a>
+                <a href='/bani/karkasnie' className={itemClass}>Каркасные бани</a>
+                <a href='/bani/individualniy-proekt' className={itemClass}>Индивидуальный проект</a>
+            </nav>
+        );
+    };
+
+    renderContacts = () => {
+        return (
+            <>
+                <a href="tel:88002010729" className={styles.phone}>8 (800) 201-07-29</a>
+                <a href="mailto:mailto:info@brus-bany.ru" className={styles.email}>info@brus-bany.ru</a>
+            </>
+        )
+    };
 
     handleScroll = () => {
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;

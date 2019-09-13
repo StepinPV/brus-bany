@@ -11,7 +11,12 @@ class Form extends PureComponent {
         source: PropTypes.string,
         data: PropTypes.array,
         showNotification: PropTypes.func,
-        onSuccess: PropTypes.func
+        onSuccess: PropTypes.func,
+        buttonCaption: PropTypes.string
+    };
+
+    static defaultProps = {
+        buttonCaption: 'Перезвоните мне'
     };
 
     state = {
@@ -22,6 +27,7 @@ class Form extends PureComponent {
 
     render() {
         const { name, phone, errors } = this.state;
+        const { buttonCaption } = this.props;
 
         return (
             <>
@@ -41,7 +47,7 @@ class Form extends PureComponent {
                     onChange={this.handlePhoneChange}
                     error={errors.phone} />
 
-                <Button caption='Перезвоните мне' className={styles.button} onClick={this.handleSubmit} />
+                <Button caption={buttonCaption} className={styles.button} onClick={this.handleSubmit} />
                 <div className={styles.disclaimer}>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika_konfidencialnosty' target='_blank'>Политика конфиденциальности.</a></div>
             </>
         );

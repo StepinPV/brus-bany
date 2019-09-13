@@ -4,12 +4,13 @@ import styles from './PhotoCard.module.css';
 import Card from "../Card";
 
 function PhotoCard(props) {
-    const { mainPhoto, created, projectId, _id } = props.photo;
+    const { mainPhoto, mainPhotoAlt, created, projectId, _id } = props.photo;
 
     return (
         <a href={`/photos/${projectId.categoryId.translateName}/${projectId.layoutId.translateName}_${projectId.layoutId.width}x${projectId.layoutId.length}_${_id}`} className={styles.container}>
             <Card
                 firstImage={mainPhoto}
+                imageAlt={mainPhotoAlt}
                 firstButton='Смотреть'
                 bgStyle='grey'
                 content={(

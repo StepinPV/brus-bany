@@ -6,15 +6,16 @@ import styles from './Article.module.css';
 
 class Article extends PureComponent {
     static propTypes = {
-        article: PropTypes.object
+        article: PropTypes.object,
+        captionTag: PropTypes.string
     };
 
     render() {
-        const { article } = this.props;
+        const { article, captionTag } = this.props;
 
         return (
             <div className={styles.content}>
-                {article.name ? <Caption size='m' align='center' className={styles['header-caption']}>{article.name}</Caption> : null}
+                {article.name ? <Caption size='m' align='center' className={styles['header-caption']} tag={captionTag}>{article.name}</Caption> : null}
                 {article.description ? this.renderText(article.description) : null}
                 {article.content.map((item, i) => <Fragment key={i}>{this.renderBlock(item)}</Fragment>)}
             </div>
@@ -22,11 +23,12 @@ class Article extends PureComponent {
     }
 
     renderBlock = (block) => {
+        const { captionTag } = this.props;
         const { caption, content } = block;
 
         return (
             <div className={styles.block}>
-                {caption ? <Caption size='s' className={styles.caption}>{caption}</Caption> : null}
+                {caption ? <Caption size='s' className={styles.caption} tag={captionTag === 'h1' ? 'h2' : 'h3'}>{caption}</Caption> : null}
                 {content ? content.map((data, i) => <Fragment key={i}>{this.renderItem(data.item)}</Fragment>) : null}
             </div>
         )

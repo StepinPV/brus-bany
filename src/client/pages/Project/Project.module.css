@@ -9,9 +9,25 @@
     box-sizing: border-box;
 }
 
+.info {
+    margin: 0 32px;
+}
+
 @media screen and (max-width: 640px) {
     .breadcrumbs {
         display: none;
+    }
+
+    .top-block {
+        flex-wrap: wrap;
+    }
+
+    .gallery {
+        margin-bottom: 32px;
+    }
+
+    .info {
+        margin: 0;
     }
 }
 
@@ -24,10 +40,6 @@
     font-weight: bold;
     margin-bottom: 8px;
     max-width: 500px;
-}
-
-.info {
-    margin: 0 32px;
 }
 
 .info-title-layout {

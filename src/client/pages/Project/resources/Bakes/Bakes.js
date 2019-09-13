@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from '../../../../components/Card';
 import DataSection from '../../../../components/DataSection';
+import withForm from '../../../../plugins/Form/withForm';
 import styles from './Bakes.module.css';
 
 import img1 from './resources/1.jpg';
@@ -81,19 +82,25 @@ const bakes = [{
 class Bakes extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
-        value: PropTypes.object
+        value: PropTypes.object,
+        showForm: PropTypes.func
     };
 
     render() {
-        const { value, onChange } = this.props;
+        const { value, onChange, showForm } = this.props;
         return (
-           <DataSection id='bake' bgStyle='grey' caption='Выберите печь' description='В комплект печи входят: установка, кирпичный портал, бак для горячей воды на 60л и комплект двустенного дымохода из нержавейки ferrum.
-Не можете определиться? Оставьте заявку'>
+           <DataSection id='bake' bgStyle='grey' caption='Выберите печь' captionTag='h2' description={(
+               <>
+                   В комплект печи входят: установка, кирпичный портал, бак для горячей воды на 60л и комплект двустенного дымохода из нержавейки ferrum.
+                   Не можете определиться? <span style={{ color: '#003093', fontWeight: 'bold' }} onClick={() => { showForm({ source: 'Выбор фундамента' }) }}>Оставьте заявку</span>
+               </>
+           )}>
                <div className={styles.items}>
                    {bakes.map(bake => {
                        return (
                            <Card
                                key={bake.name}
+                               imageAlt={`Печь ${bake.name.toLowerCase()}`}
                                className={cx({[styles.selected]: value && value.name === bake.name})}
                                onClick={() => { onChange(value && value.name === bake.name ? null : { name: bake.name, price: bake.price }) }}
                                firstImage={bake.image1}
@@ -127,4 +134,4 @@ class Bakes extends PureComponent {
     }
 }
 
-export default Bakes;
+export default withForm(Bakes);

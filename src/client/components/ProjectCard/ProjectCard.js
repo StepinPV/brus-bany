@@ -11,6 +11,7 @@ function ProjectCard(props) {
         <a href={`/bani/${categoryName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
             <Card
                 firstImage={images ? images['main'] : null}
+                imageAlt={`Баня ${layoutId.name} ${layoutId.width}x${layoutId.length}`}
                 firstButton='Подробнее'
                 secondButton={`${price ? price.toLocaleString() : null} руб`}
                 bgStyle='grey'

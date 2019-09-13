@@ -16,6 +16,11 @@ export default [{
     type: 'image',
     required: true
 }, {
+    _id: 'imageAlt',
+    title: 'Alt для изображения',
+    type: 'string',
+    required: true
+}, {
     _id: 'article',
     title: 'Содержимое',
     type: 'object',
