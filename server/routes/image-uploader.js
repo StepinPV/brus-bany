@@ -3,7 +3,9 @@ const multer  = require('multer');
 const fs = require('fs');
 
 const router = express.Router();
-const FOLDER_PATH = './public/uploads/buffer';
+const FOLDER_PATH = './public/buffer';
+
+const MAX_FILE_SIZE = 1024 * 1024 * 2;
 
 const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -15,12 +17,25 @@ const fileStorage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
-        req.imageId = id;
-        cb(null, `${id}.jpg`);
+        req.imageName = `${id}.jpg`;
+        cb(null, req.imageName);
     }
 });
 
-const upload = multer({ storage: fileStorage });
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg'){
+        cb(null, true);
+    }
+    else{
+        cb(null, false);
+    }
+};
+
+const upload = multer({
+    storage: fileStorage,
+    limits: { fileSize: MAX_FILE_SIZE },
+    fileFilter
+});
 
 const send = (res, { status, code, message, data }) => {
     res.json({ status, code, message, data });
@@ -29,14 +44,26 @@ const send = (res, { status, code, message, data }) => {
 
 router.put('/', upload.single('file'), async function(req, res, next) {
     try {
-        send(res, {
-            message: `Изображение загружено!`,
-            data: `/uploads/buffer/${req.imageId}.jpg`,
-            status: 'success'
-        });
+        if (req.imageName) {
+            send(res, {
+                message: `Изображение загружено!`,
+                data: `/buffer/${req.imageName}`,
+                status: 'success'
+            });
+        } else {
+            send(res, { status: 'error', message: 'Изображение не загружено. Допустимый формат: "jpg"' });
+        }
     } catch(err) {
         next(err);
     }
+});
+
+router.use(function (err, req, res, next) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+        send(res, { status: 'error', message: 'Загрузите изображениие меньшего размера' });
+    }
+
+    next();
 });
 
 module.exports = router;

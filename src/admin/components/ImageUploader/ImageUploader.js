@@ -3,20 +3,14 @@ import PropTypes from 'prop-types';
 import ImageLoader from '../ImageLoader';
 import axios from '../../../utils/axios';
 import toFormData from "../../../utils/MultipartFormData";
-
-const uploadFile = async (file) => {
-    const res = await axios.put(`/api/upload-image`, { file }, {
-        transformRequest: [toFormData],
-    });
-
-    return res.data.status === 'success' ? res.data.data : null;
-};
+import withNotification from '../../../plugins/Notifications/withNotification';
 
 class ImageUploader extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         image: PropTypes.string,
-        title: PropTypes.string
+        title: PropTypes.string,
+        showNotification: PropTypes.func
     };
 
     render() {
@@ -28,9 +22,28 @@ class ImageUploader extends PureComponent {
     }
 
     handleChange = async (file) => {
-        const { onChange } = this.props;
-        onChange(file ? await uploadFile(file) : null);
+        const { onChange, showNotification } = this.props;
+
+        if (file) {
+            const res = await axios.put(`/api/upload-image`, { file }, {
+                transformRequest: [toFormData],
+            });
+
+            switch(res.data.status) {
+                case 'success':
+                    onChange(res.data.data);
+                    break;
+                case 'error':
+                    onChange(null);
+                    showNotification({ message: res.data.message, status: 'error' });
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            onChange(null);
+        }
     };
 }
 
-export default ImageUploader;
+export default withNotification(ImageUploader);

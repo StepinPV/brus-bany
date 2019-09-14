@@ -11,7 +11,7 @@ const prepareImages = async (data) => {
     const { data: category } = await Categories.get(data.categoryId);
     const { data: layout } = await Layouts.get(data.layoutId);
 
-    const regexp = /^\/uploads\/buffer\//;
+    const regexp = /^\/buffer\//;
     const newFolderPath = `/uploads/projects/${category.translateName}/${layout.translateName}/`;
 
     const moveImage = (image) => {
