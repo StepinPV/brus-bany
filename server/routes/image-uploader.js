@@ -1,6 +1,8 @@
 const express = require('express');
 const multer  = require('multer');
 const fs = require('fs');
+const path = require('path');
+const addWatermark = require('../addWatermark');
 
 const router = express.Router();
 const FOLDER_PATH = './public/buffer';
@@ -45,10 +47,23 @@ const send = (res, { status, code, message, data }) => {
 router.put('/', upload.single('file'), async function(req, res, next) {
     try {
         if (req.imageName) {
-            send(res, {
-                message: `Изображение загружено!`,
-                data: `/buffer/${req.imageName}`,
-                status: 'success'
+            addWatermark({
+                source: path.join(__dirname, `../../public/buffer/${req.imageName}`),
+                logo: path.join(__dirname, '../../public/watermark.png'),
+                logoSize: {
+                    width: 400,
+                    height: 150
+                }
+            }, function() {
+                send(res, {
+                    message: `Изображение загружено!`,
+                    data: `/buffer/${req.imageName}`,
+                    status: 'success'
+                });
+            }, function(err) {
+                const message = `Не удалось применить водяной знак: ${err}`;
+                send(res, { status: 'error', message });
+                console.log(message);
             });
         } else {
             send(res, { status: 'error', message: 'Изображение не загружено. Допустимый формат: "jpg"' });
