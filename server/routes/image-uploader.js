@@ -52,7 +52,7 @@ router.put('/', upload.single('file'), async function(req, res, next) {
                 logo: path.join(__dirname, '../../public/watermark.png'),
                 logoSize: {
                     width: 400,
-                    height: 150
+                    height: 100
                 }
             }, function() {
                 send(res, {

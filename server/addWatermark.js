@@ -5,8 +5,8 @@ const addWatermark = function(options, callback, errback) {
     gm(options.source)
         .size(function(err, size) {
             if (!err) {
-                const logoX = 20;
-                const logoY = size.height - options.logoSize.height - 10;
+                const logoX = 30;
+                const logoY = size.height - options.logoSize.height - 30;
 
                 gm(options.source)
                     .draw(['image over ' + logoX + ',' + logoY + ' ' + options.logoSize.width + ',' + options.logoSize.height + ' "' + options.logo + '"'])
