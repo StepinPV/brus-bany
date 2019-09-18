@@ -11,7 +11,8 @@
 /coverage
 
 # production
-/build
+/dist
+/public/mstatic/build
 
 # misc
 .DS_Store
