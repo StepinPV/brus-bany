@@ -2,10 +2,11 @@ import Materials from './Materials';
 import reducer, { initialState } from './reducer';
 import { init } from './actions';
 
-export default {
+export const info = {
     id: 'admin-materials',
-    component: Materials,
     reducer,
     initialState,
     initialAction: init
 };
+
+export default Materials;

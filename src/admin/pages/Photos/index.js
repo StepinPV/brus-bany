@@ -2,10 +2,11 @@ import Photos from './Photos';
 import reducer, { initialState } from './reducer';
 import { init } from './actions';
 
-export default {
+export const info = {
     id: 'admin-photos',
-    component: Photos,
     reducer,
     initialState,
     initialAction: init
 };
+
+export default Photos;

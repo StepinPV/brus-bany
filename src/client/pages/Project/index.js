@@ -1,9 +1,10 @@
 import Project from './Project';
 import reducer, { initialState } from './reducer';
 
-export default {
+export const info = {
     id: 'client-project',
-    component: Project,
     reducer,
     initialState
 };
+
+export default Project;

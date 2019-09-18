@@ -2,10 +2,11 @@ import Projects from './Projects';
 import reducer, { initialState } from './reducer';
 import { init } from './actions';
 
-export default {
+export const info = {
     id: 'admin-projects',
-    component: Projects,
     reducer,
     initialState,
     initialAction: init
 };
+
+export default Projects;

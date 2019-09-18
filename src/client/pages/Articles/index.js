@@ -1,9 +1,10 @@
 import Articles from './Articles';
 import reducer, { initialState } from './reducer';
 
-export default {
+export const info = {
     id: 'client-articles',
-    component: Articles,
     reducer,
     initialState
 };
+
+export default Articles;

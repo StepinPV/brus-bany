@@ -49,7 +49,7 @@ router.put('/', upload.single('file'), async function(req, res, next) {
         if (req.imageName) {
             addWatermark({
                 source: path.join(__dirname, `../../public/buffer/${req.imageName}`),
-                logo: path.join(__dirname, '../../public/watermark.png'),
+                logo: path.join(__dirname, '../watermark.png'),
                 logoSize: {
                     width: 400,
                     height: 100

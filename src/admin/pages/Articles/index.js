@@ -2,10 +2,11 @@ import Articles from './Articles';
 import reducer, { initialState } from './reducer';
 import { init } from './actions';
 
-export default {
+export const info = {
     id: 'admin-articles',
-    component: Articles,
     reducer,
     initialState,
     initialAction: init
 };
+
+export default Articles;

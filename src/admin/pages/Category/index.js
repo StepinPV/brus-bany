@@ -1,9 +1,12 @@
 import Category from './Category';
 import reducer, { initialState } from './reducer';
+import {init} from "../Categories/actions";
 
-export default {
+export const info = {
     id: 'admin-category',
-    component: Category,
     reducer,
-    initialState
+    initialState,
+    initialAction: init
 };
+
+export default Category;

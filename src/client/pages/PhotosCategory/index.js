@@ -1,9 +1,10 @@
 import PhotosCategory from './PhotosCategory';
 import reducer, { initialState } from './reducer';
 
-export default {
+export const info = {
     id: 'client-photos-category',
-    component: PhotosCategory,
     reducer,
     initialState
 };
+
+export default PhotosCategory;

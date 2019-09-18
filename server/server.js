@@ -9,18 +9,16 @@ const db = require('./db');
 const logger = require('./logger');
 const routes = require('./routes');
 const config = require('./config');
+const renderRoute = require('./renderRoute');
 
 const nodemailer = require('./nodemailer');
 
 const app = express();
-const PORT = process.env.PORT || config.port;
+const PORT = config.port;
 
 app.set('port', PORT);
-
-app.use(morgan('dev'));
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'build')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.set('view engine', 'pug');
+app.set('views', __dirname + '/templates');
 
 const auth = function (req, res, next) {
     function unauthorized(res) {
@@ -38,15 +36,19 @@ const auth = function (req, res, next) {
     return user.name === 'admin' && user.pass === 'brus-bany' ? next() : unauthorized(res);
 };
 
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Статика
+app.use('/', express.static(path.join(__dirname, '../public')));
+
 app.use('/admin', auth, function(req, res, next) {
     next();
 });
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
 app.use('/api', routes);
+
+app.get('*', renderRoute);
 
 if (process.env.NODE_ENV === 'development') {
     app.use(errorhandler())

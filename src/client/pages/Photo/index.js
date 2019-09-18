@@ -1,9 +1,10 @@
 import Photo from './Photo';
 import reducer, { initialState } from './reducer';
 
-export default {
+export const info = {
     id: 'client-photo',
-    component: Photo,
     reducer,
     initialState
 };
+
+export default Photo;

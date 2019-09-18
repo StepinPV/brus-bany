@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import Loadable from 'react-loadable';
 import configureStore from './store';
 import App from './components/App';
 import getRoutes from './routes';
@@ -15,15 +16,20 @@ if (document.readyState !== 'loading') {
 }
 
 async function run () {
-    const store = configureStore({});
+    /* eslint-disable no-underscore-dangle */
+    const store = configureStore(window.__initialData__);
+    delete window.__initialData__;
+    /* eslint-enable no-underscore-dangle*/
 
-    const routes = getRoutes(async (module) => {
+    await Loadable.preloadReady();
+
+    const routes = getRoutes(module => {
         if (module && module.id && module.reducer) {
             store.addReducer(module.id, module.reducer, module.initialState);
         }
     });
 
-    ReactDOM.render(
+    ReactDOM.hydrate(
         <Provider store={store}>
             <BrowserRouter>
                 <App routes={routes} />

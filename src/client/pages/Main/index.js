@@ -1,9 +1,10 @@
 import Main from './Main';
 import reducer, {initialState} from './reducer';
 
-export default {
+export const info = {
     id: 'client-main',
-    component: Main,
     reducer,
     initialState
 };
+
+export default Main;

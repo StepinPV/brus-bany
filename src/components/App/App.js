@@ -15,11 +15,12 @@ import styles from './App.module.css';
 
 class App extends Component {
     static propTypes = {
-        routes: PropTypes.array
+        routes: PropTypes.array,
+        preparedComponents: PropTypes.object
     };
 
     render() {
-        const { routes } = this.props;
+        const { routes, preparedComponents } = this.props;
 
         return (
             <NotificationsProvider>
@@ -31,7 +32,7 @@ class App extends Component {
                                     key={route.id}
                                     path={route.path}
                                     exact={route.exact}
-                                    component={route.component}/>)
+                                    component={preparedComponents ? preparedComponents[route.id] : route.component} />)
                             }
                         </Switch>
                         <NotificationsContext.Consumer>

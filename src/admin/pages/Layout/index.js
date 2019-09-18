@@ -1,9 +1,12 @@
 import Layout from './Layout';
 import reducer, { initialState } from './reducer';
+import {init} from "../Categories/actions";
 
-export default {
+export const info = {
     id: 'admin-layout',
-    component: Layout,
     reducer,
-    initialState
+    initialState,
+    initialAction: init
 };
+
+export default Layout;

@@ -3,13 +3,13 @@ import LoaderPage from '../components/LoaderPage';
 
 export default (initModule) => {
     const getLoader = async (importPromise) => {
-        const data = await importPromise;
+        const module = await importPromise;
 
         if (initModule && typeof initModule === 'function') {
-            await initModule(data.default);
+            initModule(module.info);
         }
 
-        return data.default.component || data.default;
+        return module;
     };
 
     return [{

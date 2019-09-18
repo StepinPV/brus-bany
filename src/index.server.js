@@ -1,0 +1,74 @@
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import { StaticRouter, matchPath } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import Helmet from 'react-helmet';
+import Loadable from 'react-loadable';
+import configureStore from './store';
+import getRoutes from './routes';
+import App from './components/App';
+
+const render = async (req, res, context = {}) => {
+    const matchRoute = getRoutes().find(route => matchPath(req.path, route) || false);
+
+    if (!matchRoute) {
+        throw new Error(`Не найден подходящий route для ${req.url}!`);
+    }
+
+    if (!matchRoute.id) {
+        throw new Error('У route не указан id!');
+    }
+
+    const store = configureStore({});
+
+    const loadableComponent = matchRoute.component;
+
+    if (!loadableComponent.preload) {
+        throw new Error('preload() не существует!');
+    }
+
+    const component = await loadableComponent.preload();
+
+    if (component.info && component.info.id && component.info.reducer) {
+        store.addReducer(component.info.id, component.info.reducer, component.info.initialState);
+    }
+
+    const wrappedComponent = component.default && component.default.WrappedComponent;
+
+    const initialActions = await (wrappedComponent && wrappedComponent.initialAction) ?
+        wrappedComponent.initialAction({
+            match: matchPath(req.path, matchRoute),
+            dispatch: store.dispatch,
+            location: {
+                pathname: req.path,
+                query: req.query
+            }
+        }) :
+        [Promise.resolve({})];
+
+    await Promise.all([...initialActions]);
+
+    const modules = [];
+
+    const markup = ReactDOMServer.renderToString(
+        <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+            <Provider store={store}>
+                <StaticRouter location={req.url} context={context}>
+                    <App
+                        preparedComponents={{ [matchRoute.id]: loadableComponent }}
+                        routes={[matchRoute]} />
+                </StaticRouter>
+            </Provider>
+        </Loadable.Capture>
+    );
+
+    return {
+        pageId: matchRoute.id,
+        head: Helmet.renderStatic(),
+        markup,
+        initialData: store.getState(),
+        modules
+    };
+};
+
+export { render };

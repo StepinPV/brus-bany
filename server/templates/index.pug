@@ -1,0 +1,47 @@
+doctype html
+html(lang='ru')
+    head
+        | !{title}
+
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+        meta(name='format-detection', content='telephone=no')
+        meta(name='HandheldFriendly', content='True')
+
+        //- for IE
+        meta(http-equiv='cleartype', content='on')
+
+        //- for iOS
+        meta(name='apple-mobile-web-app-capable', content='yes')
+        meta(name='apple-mobile-web-app-status-bar-style', content='black-translucent')
+
+        //- for Android
+        meta(name='theme-color', content='#00aaff')
+
+        | !{meta}
+
+        link(rel='shortcut icon', href='/favicon.ico', type='image/x-icon')
+        link(rel='manifest', href='/manifest.json')
+
+        link(rel='stylesheet', href=assets.css.main, type='text/css')
+        each chunk in assets.css.chunks
+            link(rel='stylesheet', href=chunk.publicPath, type='text/css')
+
+        | !{link}
+
+        script(src=assets.js.runtimeStats)
+        script(src=assets.js.stats)
+
+    body(onbeforeunload='')
+        div#root !{app}
+        div#modal
+
+        script(type='text/javascript')
+            | window.__initialData__ = !{initialData} || {};
+
+        script(src=assets.js.runtimeMain)
+        each vendor in assets.js.vendors
+            script(src=vendor)
+        each chunk in assets.js.chunks
+            script(src=chunk.publicPath)
+        script(src=assets.js.main)

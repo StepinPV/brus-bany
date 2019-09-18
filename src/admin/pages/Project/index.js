@@ -1,9 +1,12 @@
 import Project from './Project';
 import reducer, { initialState } from './reducer';
+import {init} from "../Photos/actions";
 
-export default {
+export const info = {
     id: 'admin-project',
-    component: Project,
     reducer,
-    initialState
+    initialState,
+    initialAction: init
 };
+
+export default Project;
