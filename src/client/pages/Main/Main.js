@@ -26,21 +26,21 @@ class Main extends PureComponent {
     };
 
     componentDidMount() {
-        /*const { actions } = this.props;
+        const { actions } = this.props;
 
         actions.getPhotos();
-        actions.getArticles();*/
+        actions.getArticles();
     }
 
     componentWillUnmount() {
-        /*const { actions } = this.props;
-        actions.resetData();*/
+        const { actions } = this.props;
+        actions.resetData();
     }
 
     render() {
-        /*const { photos, articles } = this.props;
+        const { photos, articles } = this.props;
         const preparedPhotos = photos ? photos.slice(0, 6) : [];
-        const preparedArticles = articles ? articles.slice(0, 6) : [];*/
+        const preparedArticles = articles ? articles.slice(0, 6) : [];
 
         return (
             <Page fixedHeader>
@@ -48,7 +48,7 @@ class Main extends PureComponent {
                 <Categories id='categories' />
                 <HowWork />
                 <WhyMe />
-                {/*{preparedPhotos.length ? (
+                {preparedPhotos.length ? (
                     <DataSection bgStyle='grey' caption='Фотографии готовых проектов' captionTag='h2'>
                         <div className={styles['list-container']}>
                             <CardList items={photos.map(photo => ({
@@ -74,7 +74,7 @@ class Main extends PureComponent {
                             </a>
                         </div>
                     </DataSection>
-                ) : null}*/}
+                ) : null}
                 <FormBlock source='Главная страница' />
             </Page>
         );

@@ -13,9 +13,10 @@ module.exports = (env) => {
                         loader: 'css-loader',
                         options: {
                             sourceMap: true,
-                            modules: true,
                             importLoaders: 2,
-                            localIdentName: isProduction ? '[hash:base64:5]' : '[name]__[local]__[hash:base64:5]'
+                            modules: {
+                                localIdentName: isProduction ? '[hash:base64:5]' : '[name]__[local]__[hash:base64:5]'
+                            }
                         }
                     }, {
                         loader: 'postcss-loader',
