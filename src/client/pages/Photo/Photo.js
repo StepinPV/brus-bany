@@ -39,16 +39,23 @@ class Photo extends PureComponent {
         }
     }
 
+    static initialAction({ dispatch, match }) {
+        const { photoId } = match.params;
+        return [dispatch(getPhoto(photoId))];
+    }
+
     state = {
         categoryId: null,
         breadcrumbs: breadcrumbsDefault
     };
 
     componentDidMount() {
-        const { actions, match } = this.props;
+        const { actions, match, photo } = this.props;
         const { photoId } = match.params;
 
-        actions.getPhoto(photoId);
+        if (!photo) {
+            actions.getPhoto(photoId);
+        }
     }
 
     componentWillUnmount() {

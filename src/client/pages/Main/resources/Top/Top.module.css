@@ -36,14 +36,11 @@
     color: #fff;
     margin: 0 16px;
     opacity: .7;
-    max-width: 346px;
+    max-width: 400px;
 }
 
 .buttons {
     margin: 64px 16px 32px;
-}
-
-@media screen and (max-width: 1200px) {
 }
 
 @media screen and (min-width: 640px) {

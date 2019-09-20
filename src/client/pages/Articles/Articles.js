@@ -28,10 +28,16 @@ class Articles extends PureComponent {
         history: PropTypes.object
     };
 
-    componentDidMount() {
-        const { actions } = this.props;
+    static initialAction({ dispatch }) {
+        return [dispatch(getArticles())];
+    }
 
-        actions.getArticles();
+    componentDidMount() {
+        const { actions, articles } = this.props;
+
+        if (!articles)  {
+            actions.getArticles();
+        }
     }
 
     componentWillUnmount() {

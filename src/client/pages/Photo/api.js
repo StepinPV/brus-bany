@@ -1,4 +1,4 @@
-import axios from '../../../utils/axios';
+import axios from 'axios';
 
 export default class Api {
     static getPhoto = id => axios.get(`/api/photos/${id}`, {

@@ -51,6 +51,12 @@ class Project extends PureComponent {
         return null;
     }
 
+    static initialAction({ dispatch, match }) {
+        const { categoryName, layoutName } = match.params;
+        //TODO ФОТОГРАФИИ
+        return [dispatch(getProject(categoryName, layoutName))];
+    }
+
     state = {
         projectId: null,
         breadcrumbs: breadcrumbsDefault,
@@ -59,6 +65,13 @@ class Project extends PureComponent {
         bakeValue: null,
         deliveryValue: null
     };
+
+    componentDidMount() {
+        const { match, actions } = this.props;
+        const { categoryName, layoutName } = match.params;
+
+        actions.getProject(categoryName, layoutName);
+    }
 
     componentDidUpdate(prevProps, prevState) {
         const { match, actions, project } = this.props;
@@ -71,13 +84,6 @@ class Project extends PureComponent {
         if (project !== prevProps.project) {
             actions.getPhotos(project._id);
         }
-    }
-
-    componentDidMount() {
-        const { match, actions } = this.props;
-        const { categoryName, layoutName } = match.params;
-
-        actions.getProject(categoryName, layoutName);
     }
 
     componentWillUnmount() {

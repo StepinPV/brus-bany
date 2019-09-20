@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Context from './Context';
 
 export default function withModulesLoader(Component) {
@@ -9,6 +9,10 @@ export default function withModulesLoader(Component) {
             </Context.Consumer>
         );
     }
+
+    const memoComponent = memo(ModulesLoader);
+
+    memoComponent.initialAction = Component.initialAction;
 
     return ModulesLoader;
 }

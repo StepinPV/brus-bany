@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImageLoader from '../ImageLoader';
-import axios from '../../../utils/axios';
+import axios from 'axios';
 import toFormData from "../../../utils/MultipartFormData";
 import withNotification from '../../../plugins/Notifications/withNotification';
 

@@ -1,8 +1,4 @@
-.list-container {
-    max-width: 1200px;
-    margin: 0 auto 32px;
-    box-sizing: border-box;
+.button-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
 }

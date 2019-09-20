@@ -59,7 +59,9 @@
   "scripts": {
     "build": "webpack --watch",
     "build:production": "NODE_ENV=production webpack",
-    "server": "DEBUG=express:router nodemon server/server.js"
+    "server": "DEBUG=express:router nodemon server/server.js",
+    "create-backup": "sh backup_scripts/create",
+    "apply-backup": "sh backup_scripts/apply"
   },
   "eslintConfig": {
     "extends": "react-app"

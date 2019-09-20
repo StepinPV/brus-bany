@@ -7,7 +7,7 @@ const Breadcrumbs = ({ items, className }) => (
         {items.map(({ title, link }, index) => {
             return (
                 <Fragment key={title}>
-                    { index !== 0 ? <span className={styles.arrow}>→</span> : null }
+                    { index !== 0 ? <span className={styles.arrow}>/</span> : null }
                     { link ? (
                         <span itemProp="itemListElement" itemScope itemType="http://schema.org/ListItem">
                             <a href={link} className={styles['link-item']} itemProp="item">

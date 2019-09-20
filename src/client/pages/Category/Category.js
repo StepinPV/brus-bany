@@ -39,8 +39,11 @@ class Category extends PureComponent {
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        let state = null;
+
         if (nextProps.category && prevState.categoryId !== nextProps.category._id) {
-            return {
+            state = {
+                ...(state || {}),
                 breadcrumbs: [
                     ...breadcrumbsDefault,
                     { title: nextProps.category.name }
@@ -79,7 +82,8 @@ class Category extends PureComponent {
                 size: sizeFilter
             };
 
-            return {
+            state = {
+                ...(state || {}),
                 filters,
                 filteredProjects: filterProjects(filters, nextProps.projects, nextProps.category),
                 currentPathName: nextProps.location.pathname,
@@ -87,7 +91,12 @@ class Category extends PureComponent {
             }
         }
 
-        return null;
+        return state;
+    }
+
+    static initialAction({ dispatch, match }) {
+        const { name } = match.params;
+        return [dispatch(getCategory(name)), dispatch(getProjects(name)), dispatch(getPhotos(name))];
     }
 
     state = {
@@ -104,12 +113,20 @@ class Category extends PureComponent {
     };
 
     componentDidMount() {
-        const { match, actions } = this.props;
+        const { match, actions, category, projects, photos } = this.props;
         const { name } = match.params;
 
-        actions.getCategory(name);
-        actions.getProjects(name);
-        actions.getPhotos(name);
+        if (!category) {
+            actions.getCategory(name);
+        }
+
+        if (!projects) {
+            actions.getProjects(name);
+        }
+
+        if (!photos) {
+            actions.getPhotos(name);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -130,8 +147,7 @@ class Category extends PureComponent {
     }
 
     render() {
-        const { isCategoryError, match } = this.props
-        const { name } = match.params;
+        const { isCategoryError } = this.props
         const { breadcrumbs, notFound } = this.state;
 
         if (notFound) {
@@ -141,14 +157,14 @@ class Category extends PureComponent {
         return (
             <Page breadcrumbs={breadcrumbs}>
                 { isCategoryError ? <div className={styles.error}>{isCategoryError}</div> : this.renderContent() }
-                <FormBlock source={name} />
             </Page>
         );
     }
 
     renderContent = () => {
-        const { category } = this.props;
+        const { category, match } = this.props;
         const { filteredProjects } = this.state;
+        const { name } = match.params;
 
         return category && filteredProjects ? (
             <>
@@ -159,8 +175,9 @@ class Category extends PureComponent {
                 {this.renderFilters()}
                 {this.renderProjects()}
                 {this.renderNotFoundProject()}
-                {this.renderArticle()}
                 {this.renderPhotos()}
+                {this.renderArticle()}
+                <FormBlock source={name} />
             </>
         ) : null;
     };
@@ -229,7 +246,9 @@ class Category extends PureComponent {
         const { category } = this.props;
 
         return category.article ? (
-            <Article article={category.article} captionTag='h2' />
+            <DataSection bgStyle='white'>
+                <Article article={category.article} captionTag='h2' />
+            </DataSection>
         ) : null;
     };
 
@@ -239,11 +258,11 @@ class Category extends PureComponent {
 
         return photos && photos.length ? (
             <DataSection bgStyle='grey' caption={`Фотографии построенных ${category.name3}`} captionTag='h2'>
-                <div className={styles['photos-container']}>
-                    <CardList items={preparedPhotos.map(photo => ({
-                        id: photo._id,
-                        element: <PhotoCard photo={photo} />
-                    }))} />
+                <CardList items={preparedPhotos.map(photo => ({
+                    id: photo._id,
+                    element: <PhotoCard photo={photo} />
+                }))} />
+                <div className={styles['photos-button-container']}>
                     <a href={`/photos/${category.translateName}`}>
                         <Button caption='Смотреть все' />
                     </a>

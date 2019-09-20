@@ -5,6 +5,7 @@ const { render } = require('../dist/server/server');
 const stats = require('../dist/react-loadable.json');
 const assetsManifest = require('../public/mstatic/build/manifest.json');
 const logger = require('./logger');
+const config = require('./config');
 
 const router = express.Router();
 
@@ -12,7 +13,11 @@ router.get('*', async (req, res, next) => {
     try {
         const routeContext = {};
 
-        const { pageId, head, markup, initialData, modules } = await render(req, res, routeContext);
+        const axiosOptions = {
+            apiURL: `http://localhost:${config.port}`
+        };
+
+        const { pageId, head, markup, initialData, modules } = await render(req, res, routeContext, axiosOptions);
 
         if (routeContext.status === 404) {
             res.status(404);

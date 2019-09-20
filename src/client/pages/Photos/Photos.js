@@ -30,10 +30,16 @@ class Photos extends PureComponent {
         history: PropTypes.object
     };
 
-    componentDidMount() {
-        const { actions } = this.props;
+    static initialAction({ dispatch }) {
+        return [dispatch(loadData())]
+    }
 
-        actions.loadData();
+    componentDidMount() {
+        const { actions, photos } = this.props;
+
+        if (!photos) {
+            actions.loadData();
+        }
     }
 
     componentWillUnmount() {

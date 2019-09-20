@@ -42,17 +42,27 @@ class PhotosCategory extends PureComponent {
         }
     }
 
+    static initialAction({ dispatch, match }) {
+        const { categoryName } = match.params;
+        return [dispatch(getPhotos(categoryName)), dispatch(getCategory(categoryName))];
+    }
+
     state = {
         categoryId: null,
         breadcrumbs: breadcrumbsDefault
     };
 
     componentDidMount() {
-        const { actions, match } = this.props;
+        const { actions, match, category, photos } = this.props;
         const { categoryName } = match.params;
 
-        actions.getPhotos(categoryName);
-        actions.getCategory(categoryName);
+        if (!photos) {
+            actions.getPhotos(categoryName);
+        }
+
+        if (!category) {
+            actions.getCategory(categoryName);
+        }
     }
 
     componentWillUnmount() {

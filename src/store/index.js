@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { combineReducers } from 'redux';
-import axios from '../utils/axios';
 import thunk from 'redux-thunk';
 
 const applyReduxDevtoolsExtension = !process.env.ssr &&
@@ -106,7 +105,7 @@ export default (state) => {
         state,
         composeEnhancers(
             applyMiddleware(
-                thunk.withExtraArgument({ axios })
+                thunk.withExtraArgument({})
             )
         )
     );

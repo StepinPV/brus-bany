@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import { getArticle, resetData } from './actions';
 import Page from '../../components/Page';
 import ArticleComponent from '../../components/Article';
+import DataSection from '../../components/DataSection';
 import NotFound from '../NotFound/NotFound';
 import FormBlock from "../../components/FormBlock";
 
@@ -43,15 +44,22 @@ class Article extends PureComponent {
         return null;
     }
 
+    static initialAction({ dispatch, match }) {
+        const { name } = match.params;
+        return [dispatch(getArticle(name))];
+    }
+
     state = {
         breadcrumbs: breadcrumbsDefault
     };
 
     componentDidMount() {
-        const { match, actions } = this.props;
+        const { match, actions, article } = this.props;
         const { name } = match.params;
 
-        actions.getArticle(name);
+        if (!article) {
+            actions.getArticle(name);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -80,7 +88,6 @@ class Article extends PureComponent {
         return (
             <Page breadcrumbs={breadcrumbs}>
                 { isArticleError ? <div>{isArticleError}</div> : this.renderContent() }
-                <FormBlock source='Статья' />
             </Page>
         );
     }
@@ -88,7 +95,16 @@ class Article extends PureComponent {
     renderContent = () => {
         const { article } = this.props;
 
-        return article ? <ArticleComponent article={article.article} captionTag='h1' /> : null;
+        return (
+            <>
+                {article ? (
+                    <DataSection bgStyle='white'>
+                        <ArticleComponent article={article.article} captionTag='h1' />
+                    </DataSection>
+                ) : null}
+                <FormBlock source='Статья' />
+            </>
+        );
     };
 }
 

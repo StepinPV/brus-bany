@@ -1,4 +1,4 @@
-import axios from '../../../utils/axios';
+import axios from 'axios';
 
 export default class Api {
     static create = project => axios.post(`/api/projects/${project.categoryId}/${project.layoutId}`, { project });

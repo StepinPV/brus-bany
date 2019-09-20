@@ -25,11 +25,20 @@ class Main extends PureComponent {
         actions: PropTypes.object
     };
 
-    componentDidMount() {
-        const { actions } = this.props;
+    static initialAction({ dispatch }) {
+        return [dispatch(getPhotos()), dispatch(getArticles())];
+    }
 
-        actions.getPhotos();
-        actions.getArticles();
+    componentDidMount() {
+        const { actions, photos, articles } = this.props;
+
+        if (!photos) {
+            actions.getPhotos();
+        }
+
+        if (!articles) {
+            actions.getArticles();
+        }
     }
 
     componentWillUnmount() {
@@ -50,11 +59,11 @@ class Main extends PureComponent {
                 <WhyMe />
                 {preparedPhotos.length ? (
                     <DataSection bgStyle='grey' caption='Фотографии готовых проектов' captionTag='h2'>
-                        <div className={styles['list-container']}>
-                            <CardList items={photos.map(photo => ({
-                                id: photo._id,
-                                element: <PhotoCard photo={photo} />
-                            }))} />
+                        <CardList items={photos.map(photo => ({
+                            id: photo._id,
+                            element: <PhotoCard photo={photo} />
+                        }))} />
+                        <div className={styles['button-container']}>
                             <a href={`/photos`}>
                                 <Button caption='Смотреть все' />
                             </a>
@@ -64,11 +73,11 @@ class Main extends PureComponent {
                 <OurProduction />
                 {preparedArticles.length ? (
                     <DataSection captionTag='h2' bgStyle='grey' caption='Делимся накопленным опытом' description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации.'>
-                        <div className={styles['list-container']}>
-                            <CardList items={preparedArticles.map(article => ({
-                                id: article._id,
-                                element: <ArticleCard article={article} />
-                            }))} />
+                        <CardList items={preparedArticles.map(article => ({
+                            id: article._id,
+                            element: <ArticleCard article={article} />
+                        }))} />
+                        <div className={styles['button-container']}>
                             <a href='/articles'>
                                 <Button caption='Читать больше' />
                             </a>

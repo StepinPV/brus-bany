@@ -1,4 +1,4 @@
-import axios from '../../../utils/axios';
+import axios from 'axios';
 
 export default class Api {
     static create = report => axios.post(`/api/photos/${report.projectId}`, { report });

@@ -7,8 +7,11 @@ import Loadable from 'react-loadable';
 import configureStore from './store';
 import getRoutes from './routes';
 import App from './components/App';
+import axios from 'axios';
 
-const render = async (req, res, context = {}) => {
+const render = async (req, res, context = {}, axiosOptions = {}) => {
+    axios.defaults.baseURL = axiosOptions.apiURL;
+
     const matchRoute = getRoutes().find(route => matchPath(req.path, route) || false);
 
     if (!matchRoute) {

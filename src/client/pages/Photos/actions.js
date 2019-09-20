@@ -12,9 +12,9 @@ export function loadData() {
         try {
             const res = await Api.getCategories();
 
-            res.data.data.forEach(category => {
-                dispatch(getPhotos(category._id));
-            });
+            for (const category of res.data.data) {
+                await dispatch(getPhotos(category._id));
+            }
 
             dispatch({ type: GET_CATEGORIES_SUCCESS, payload: res.data.data });
         } catch(err) {

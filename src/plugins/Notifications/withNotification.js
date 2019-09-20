@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Context from './Context';
 
 export default function withNotification(Component) {
@@ -9,6 +9,10 @@ export default function withNotification(Component) {
             </Context.Consumer>
         );
     }
+
+    const memoComponent = memo(NotificationComponent);
+
+    memoComponent.initialAction = Component.initialAction;
 
     return NotificationComponent;
 }
