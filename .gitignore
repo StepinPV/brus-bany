@@ -13,6 +13,7 @@
 # production
 /dist
 /public/mstatic/build
+/public/uploads
 
 # misc
 .DS_Store
