@@ -53,7 +53,7 @@ class Article extends PureComponent {
     renderImage = (value) => {
         const { image, alt } = value || {};
 
-        return image ? <img className={styles.image} src={image} alt={alt} /> : null
+        return image ? <img className={styles.image} src={image} alt={alt} loading='lazy' /> : null
     };
 
     renderMarkerList = (values) => {

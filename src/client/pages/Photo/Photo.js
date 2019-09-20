@@ -102,7 +102,7 @@ class Photo extends PureComponent {
                 <img className={styles.photo} src={photo.mainPhoto} alt={photo.mainPhotoAlt} />
                 {photo.photos.map(photo => {
                     return (
-                        <img className={styles.photo} src={photo.image} alt={photo.imageAlt} />
+                        <img className={styles.photo} src={photo.image} alt={photo.imageAlt} loading='lazy' />
                     );
                 })}
             </div>

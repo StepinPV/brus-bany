@@ -17,7 +17,7 @@ router.get('*', async (req, res, next) => {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const { pageId, head, markup, initialData, modules } = await render(req, res, routeContext, axiosOptions);
+        const { head, markup, initialData, modules } = await render(req, res, routeContext, axiosOptions);
 
         if (routeContext.status === 404) {
             res.status(404);
@@ -37,7 +37,7 @@ router.get('*', async (req, res, next) => {
                 'react-dom',
                 'redux',
                 'react-redux',
-                'react-helmet',
+                // 'react-helmet',
                 'react-router',
                 'react-router-dom',
                 'react-loadable'
@@ -55,22 +55,14 @@ router.get('*', async (req, res, next) => {
                 link: head.link.toString(),
                 initialData: serialize(initialData),
                 app: markup,
-                options: {
-                    pageId: JSON.stringify(pageId),
-                    buildTag: process.env.BUILD_ID
-                },
                 assets: {
                     js: {
                         runtimeMain: assetsManifest['runtime~main.js'],
-                        runtimeStats: assetsManifest['runtime~stats.js'],
-                        vendors: vendorList.map(vendor => assetsManifest[`${vendor}.js`]),
                         main: assetsManifest['main.js'],
-                        stats: assetsManifest['stats.js'],
+                        vendors: vendorList.map(vendor => assetsManifest[`${vendor}.js`]),
                         chunks: getJSChunks(chunks)
                     },
                     css: {
-                        // vendors: assetsManifest['vendor.css'],
-                        // common: assetsManifest['common.css'],
                         main: assetsManifest['main.css'],
                         chunks: getCSSChunks(chunks)
                     }

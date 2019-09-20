@@ -9,7 +9,7 @@ function Card(props) {
     return (
         <div onClick={onClick} className={cx(className, styles.container, styles[`container-${bgStyle}`])}>
             <div className={styles['image-wrapper']}>
-                <img src={firstImage} alt={imageAlt} className={styles['image']} />
+                <img src={firstImage} alt={imageAlt} className={styles['image']} loading='lazy' />
             </div>
             {content}
             <div className={styles['buttons']}>

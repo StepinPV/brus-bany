@@ -32,7 +32,7 @@ class Promo extends PureComponent {
                 <H1Block caption='Скидки и акции' description='Надеемся, что вы найдете для себя интересное предложение и исполните свою мечту' />
                 <div className={styles.items}>
                     <div className={styles.item}>
-                        <img className={styles.image} src={img3} alt="Банные пренадлежности" />
+                        <img className={styles.image} src={img3} alt="Банные пренадлежности" loading='lazy' />
                         <div className={styles.info}>
                             <Caption className={styles.name} size='s'>Пройдите опрос и получите подарок</Caption>
                             <Text className={styles.text}>
@@ -44,7 +44,7 @@ class Promo extends PureComponent {
                         </div>
                     </div>
                     <div className={styles.item}>
-                        <img className={styles.image} src={img1} alt="Гарантия лучшей цены" />
+                        <img className={styles.image} src={img1} alt="Гарантия лучшей цены" loading='lazy' />
                         <div className={styles.info}>
                             <Caption className={styles.name} size='s'>Гарантия лучшей цены</Caption>
                             <Text className={styles.text}>
@@ -54,7 +54,7 @@ class Promo extends PureComponent {
                         </div>
                     </div>
                     <div className={styles.item}>
-                        <img className={styles.image} src={img2} alt="Теплый угол" />
+                        <img className={styles.image} src={img2} alt="Теплый угол" loading='lazy' />
                         <div className={styles.info}>
                             <Caption className={styles.name} size='s'>Теплый угол и утепление!</Caption>
                             <Text className={styles.text}>

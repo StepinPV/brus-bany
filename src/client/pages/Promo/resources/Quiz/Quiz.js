@@ -123,7 +123,7 @@ class Quiz extends PureComponent {
                     <div
                         className={styles['image-item']}
                         onClick={() => { this.handleChoose(question.question, item.title)}}>
-                        <img className={styles['image-item-image']} src={item.img} alt={item.title} />
+                        <img className={styles['image-item-image']} src={item.img} alt={item.title} loading='lazy' />
                         <div className={styles['image-item-title']}>{item.title}</div>
                     </div>
                 ));

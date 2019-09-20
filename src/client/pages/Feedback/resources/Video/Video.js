@@ -28,7 +28,7 @@ function Video() {
                         <iframe className={styles.item} height="315" src={video} frameBorder="0"
                                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen />
-                        <img src={image} className={styles.item} alt={alt} />
+                        <img src={image} className={styles.item} alt={alt} loading='lazy' />
                     </div>
                 );
             })}

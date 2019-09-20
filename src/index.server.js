@@ -66,7 +66,6 @@ const render = async (req, res, context = {}, axiosOptions = {}) => {
     );
 
     return {
-        pageId: matchRoute.id,
         head: Helmet.renderStatic(),
         markup,
         initialData: store.getState(),
