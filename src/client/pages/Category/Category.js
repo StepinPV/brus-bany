@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import Page from '../../components/Page';
 import CardList from '../../components/CardList';
 import ProjectCard from '../../components/ProjectCard';
-import NotFound from '../NotFound/NotFound';
 import { Link } from '../../components/Button';
 import Article from '../../components/Article';
 import PhotoCard from '../../components/PhotoCard';
@@ -16,7 +15,6 @@ import filterProjects from './resources/filter';
 import Filters from './resources/Filters';
 import styles from './Category.module.css';
 import FormBlock from "../../components/FormBlock";
-import withForm from "../../plugins/Form/withForm";
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -142,16 +140,12 @@ class Category extends PureComponent {
     }
 
     render() {
-        const { isCategoryError } = this.props
+        const { isCategoryError } = this.props;
         const { breadcrumbs, notFound } = this.state;
 
-        if (notFound) {
-            return <NotFound />;
-        }
-
         return (
-            <Page breadcrumbs={breadcrumbs}>
-                { isCategoryError ? <div className={styles.error}>{isCategoryError}</div> : this.renderContent() }
+            <Page breadcrumbs={breadcrumbs} notFound={notFound || isCategoryError}>
+                { this.renderContent() }
             </Page>
         );
     }

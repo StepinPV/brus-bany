@@ -32,7 +32,7 @@ export default (initModule) => {
         simplePage: true
     }, {
         id: 'site/bani/category/project',
-        path: '/bani/:categoryName/:layoutName\\_:weight([\\d|\\.]+)x:length([\\d|\\.]+)',
+        path: '/bani/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Project')),
@@ -192,7 +192,7 @@ export default (initModule) => {
         simplePage: true
     }, {
         id: 'bani/photos/category/project',
-        path: '/photos/:categoryName/:layoutName\\_:weight([\\d|\\.]+)x:length([\\d|\\.]+)_:photoId',
+        path: '/photos/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)_:photoId',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Photo')),

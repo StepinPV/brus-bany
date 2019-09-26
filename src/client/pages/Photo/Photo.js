@@ -6,7 +6,7 @@ import { getPhoto, resetData } from './actions';
 import Page from '../../components/Page';
 import H1Block from '../../components/H1Block';
 import styles from './Photo.module.css';
-import FormBlock from "../../components/FormBlock";
+import FormBlock from '../../components/FormBlock';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -19,6 +19,7 @@ const breadcrumbsDefault = [{
 class Photo extends PureComponent {
     static propTypes = {
         photo: PropTypes.object,
+        isPhotoError: PropTypes.bool,
 
         actions: PropTypes.object,
         match: PropTypes.object,
@@ -64,12 +65,20 @@ class Photo extends PureComponent {
     }
 
     render() {
-        const { isPhotosError } = this.props;
+        const { isPhotoError, photo, match } = this.props;
         const { breadcrumbs } = this.state;
 
+        const { width, length, layoutName } = match.params;
+        const urlValid = !photo || (
+            String(photo.projectId.layoutId.width) === width &&
+            String(photo.projectId.layoutId.length) === length &&
+            photo.projectId.layoutId.translateName === layoutName
+        );
+
+
         return (
-            <Page breadcrumbs={breadcrumbs}>
-                { isPhotosError ? <div>{isPhotosError}</div> : this.renderContent() }
+            <Page breadcrumbs={breadcrumbs} notFound={isPhotoError || !urlValid}>
+                { this.renderContent() }
                 <FormBlock source='Страница фотоотчета' />
             </Page>
         );
@@ -141,9 +150,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const { photo } = state['client-photo'];
+    const { photo, isPhotoError } = state['client-photo'];
 
-    return { photo };
+    return { photo, isPhotoError };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Photo);

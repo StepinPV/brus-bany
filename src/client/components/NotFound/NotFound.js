@@ -1,9 +1,16 @@
 import React, {PureComponent} from 'react';
+import { withRouter } from 'react-router-dom';
 import Caption from '../Caption';
 import styles from './NotFound.module.css';
 
 class NotFound extends PureComponent {
     render() {
+        const { staticContext } = this.props;
+
+        if (staticContext) {
+            staticContext.status = 404;
+        }
+
         return (
             <div className={styles.body}>
                 <Caption align='center'>Страница не найдена</Caption>
@@ -13,4 +20,4 @@ class NotFound extends PureComponent {
     }
 }
 
-export default NotFound;
+export default withRouter(NotFound);

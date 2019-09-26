@@ -6,7 +6,6 @@ import { getArticle, resetData } from './actions';
 import Page from '../../components/Page';
 import ArticleComponent from '../../components/Article';
 import DataSection from '../../components/DataSection';
-import NotFound from '../NotFound/NotFound';
 import FormBlock from "../../components/FormBlock";
 
 const breadcrumbsDefault = [{
@@ -81,12 +80,8 @@ class Article extends PureComponent {
         const { isArticleError, notFound } = this.props;
         const { breadcrumbs } = this.state;
 
-        if (notFound) {
-            return <NotFound />;
-        }
-
         return (
-            <Page breadcrumbs={breadcrumbs}>
+            <Page breadcrumbs={breadcrumbs} notFound={isArticleError || notFound}>
                 { isArticleError ? <div>{isArticleError}</div> : this.renderContent() }
             </Page>
         );

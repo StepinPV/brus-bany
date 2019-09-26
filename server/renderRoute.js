@@ -11,20 +11,18 @@ const router = express.Router();
 
 router.get('*', async (req, res, next) => {
     try {
-        const routeContext = {};
-
         const axiosOptions = {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const { head, markup, initialData, modules, simplePage } = await render(req, res, routeContext, axiosOptions);
+        const { head, markup, initialData, modules, simplePage, context } = await render(req, res, axiosOptions);
 
-        if (routeContext.status === 404) {
+        if (context.status === 404) {
             res.status(404);
         }
 
-        if (routeContext.action === 'REPLACE') {
-            res.writeHead(302, { Location: routeContext.url });
+        if (context.action === 'REPLACE') {
+            res.writeHead(302, { Location: context.url });
             res.end();
         } else {
             const chunks = getBundles(stats, modules);

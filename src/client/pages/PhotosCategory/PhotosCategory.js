@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import { getPhotos, getCategory, resetData } from './actions';
 import Page from '../../components/Page';
-import Card from '../../components/Card';
 import H1Block from '../../components/H1Block';
 import styles from './PhotosCategory.module.css';
 import FormBlock from "../../components/FormBlock";
@@ -23,6 +22,7 @@ class PhotosCategory extends PureComponent {
     static propTypes = {
         photos: PropTypes.array,
         category: PropTypes.object,
+        isPhotosError: PropTypes.bool,
 
         actions: PropTypes.object,
         match: PropTypes.object,
@@ -75,8 +75,8 @@ class PhotosCategory extends PureComponent {
         const { breadcrumbs } = this.state;
 
         return (
-            <Page breadcrumbs={breadcrumbs}>
-                { isPhotosError ? <div>{isPhotosError}</div> : this.renderContent() }
+            <Page breadcrumbs={breadcrumbs} notFound={isPhotosError}>
+                { this.renderContent() }
                 <FormBlock source='Страница готовых проектов' />
             </Page>
         );
@@ -130,9 +130,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const { photos, category } = state['client-photos-category'];
+    const { photos, category, isPhotosError } = state['client-photos-category'];
 
-    return { photos, category };
+    return { photos, category, isPhotosError };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhotosCategory);

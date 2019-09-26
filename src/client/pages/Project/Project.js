@@ -19,6 +19,7 @@ import Footer from "../../components/Footer";
 import { Button } from "../../components/Button";
 import withForm from '../../plugins/Form/withForm';
 import FormBlock from '../../components/FormBlock';
+import NotFound from '../../components/NotFound';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -93,14 +94,21 @@ class Project extends PureComponent {
     }
 
     render() {
-        const { isProjectError } = this.props;
+        const { isProjectError, match, project } = this.props;
+        const { width, length } = match.params;
         const { breadcrumbs } = this.state;
 
         return (
             <>
                 <Header />
-                <Breadcrumbs items={breadcrumbs} className={styles.breadcrumbs} />
-                { isProjectError ? <div className={styles.error}>{isProjectError}</div> : this.renderContent() }
+                {isProjectError || project && (String(project.layoutId.width) !== width || String(project.layoutId.length) !== length) ? (
+                    <NotFound />
+                ) : (
+                    <>
+                        <Breadcrumbs items={breadcrumbs} className={styles.breadcrumbs} />
+                        { this.renderContent() }
+                    </>
+                )}
                 <Footer />
             </>
         );

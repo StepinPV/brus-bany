@@ -9,7 +9,7 @@ import getRoutes from './routes';
 import App from './components/App';
 import axios from 'axios';
 
-const render = async (req, res, context = {}, axiosOptions = {}) => {
+const render = async (req, res, axiosOptions = {}) => {
     axios.defaults.baseURL = axiosOptions.apiURL;
 
     const matchRoute = getRoutes().find(route => matchPath(req.path, route) || false);
@@ -52,6 +52,7 @@ const render = async (req, res, context = {}, axiosOptions = {}) => {
     await Promise.all([...initialActions]);
 
     const modules = [];
+    const context = {};
 
     const markup = ReactDOMServer.renderToString(
         <Loadable.Capture report={moduleName => modules.push(moduleName)}>
@@ -70,7 +71,8 @@ const render = async (req, res, context = {}, axiosOptions = {}) => {
         markup,
         initialData: store.getState(),
         modules,
-        simplePage: matchRoute.simplePage
+        simplePage: matchRoute.simplePage,
+        context
     };
 };
 
