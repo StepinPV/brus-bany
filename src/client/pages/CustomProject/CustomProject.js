@@ -6,7 +6,7 @@ import FormBlock from "../../components/FormBlock";
 class CustomProject extends PureComponent {
     render() {
         return (
-            <Page fixedHeader>
+            <Page opacityHeader>
                 <Top />
                 <FormBlock source='Индивидуальный проект' />
             </Page>

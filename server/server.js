@@ -37,7 +37,10 @@ const auth = function (req, res, next) {
 };
 
 app.use(morgan('dev'));
+
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Статика
 app.use('/', express.static(path.join(__dirname, '../public')));

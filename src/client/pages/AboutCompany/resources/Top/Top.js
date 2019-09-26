@@ -1,11 +1,8 @@
 import React, {memo} from 'react';
 import Banner from '../../../../components/Banner';
-import withForm from '../../../../plugins/Form/withForm';
 import styles from './Top.module.css';
 
-function Top(props) {
-    const showForm = () => props.showForm({ source: 'О компании' });
-
+function Top() {
     return (
         <Banner
             caption='О компании'
@@ -15,10 +12,10 @@ function Top(props) {
                 </>
             )}
             buttonCaption='Узнать больше'
-            buttonClick={showForm}
+            buttonHref='#requestForm'
             bannerClassName={styles.banner} />
     )
 }
 
-export default memo(withForm(Top));
+export default memo(Top);
 

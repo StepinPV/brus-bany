@@ -6,7 +6,7 @@ import Page from '../../components/Page';
 import CardList from '../../components/CardList';
 import PhotoCard from '../../components/PhotoCard';
 import ArticleCard from '../../components/ArticleCard';
-import Button from '../../components/Button';
+import { Link } from '../../components/Button';
 import Top from './resources/Top';
 import Categories from './resources/Categories';
 import HowWork from './resources/HowWork';
@@ -52,7 +52,7 @@ class Main extends PureComponent {
         const preparedArticles = articles ? articles.slice(0, 6) : [];
 
         return (
-            <Page fixedHeader>
+            <Page opacityHeader>
                 <Top />
                 <Categories id='categories' />
                 <HowWork />
@@ -64,9 +64,7 @@ class Main extends PureComponent {
                             element: <PhotoCard photo={photo} />
                         }))} />
                         <div className={styles['button-container']}>
-                            <a href={`/photos`}>
-                                <Button caption='Смотреть все' />
-                            </a>
+                            <Link href='/photos' caption='Смотреть все' />
                         </div>
                     </DataSection>
                 ) : null}
@@ -78,9 +76,7 @@ class Main extends PureComponent {
                             element: <ArticleCard article={article} />
                         }))} />
                         <div className={styles['button-container']}>
-                            <a href='/articles'>
-                                <Button caption='Читать больше' />
-                            </a>
+                            <Link href='/blog' caption='Читать больше' />
                         </div>
                     </DataSection>
                 ) : null}

@@ -13,12 +13,24 @@ ol {
   margin: 0;
 }
 
-#root {
+:global(#root) {
   position: relative;
 }
 
-html, body, #root {
+html, body, :global(#root) {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  border: none;
+}
+
+button:active, button:focus {
+  outline: none;
 }

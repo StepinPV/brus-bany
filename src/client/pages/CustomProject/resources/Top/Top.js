@@ -1,16 +1,13 @@
 import React, {memo} from 'react';
 import Banner from '../../../../components/Banner';
-import withForm from '../../../../plugins/Form/withForm';
 import styles from './Top.module.css';
 
-function Top(props) {
+function Top() {
     const linkStyles = {
         color: '#ffbb00',
         textDecoration: 'none',
         cursor: 'pointer'
     };
-
-    const showForm = () => props.showForm({ source: 'Индивидуальный проект' });
 
     return (
         <Banner
@@ -18,15 +15,15 @@ function Top(props) {
             description={(
                 <>
                     Построим баню любой сложности отталкиваясь от ваших предпочтений и пожеланий.
-                    Отправьте информацию о проекте на почту <a href="mailto:mailto:info@brus-bany.ru" style={linkStyles}>info@brus-bany.ru</a> или <span onClick={showForm} style={linkStyles}>оставьте заявку</span>.
+                    Отправьте информацию о проекте на почту <a href="mailto:mailto:info@brus-bany.ru" style={linkStyles}>info@brus-bany.ru</a> или <a href='#requestForm' style={linkStyles}>оставьте заявку</a>.
                     Мы изучим ваш проект, дадим свои рекомендации и рассчитаем стоимость
                 </>
             )}
             buttonCaption='Обсудить проект'
-            buttonClick={showForm}
+            buttonHref='#requestForm'
             bannerClassName={styles.banner} />
     )
 }
 
-export default memo(withForm(Top));
+export default memo(Top);
 

@@ -17,7 +17,7 @@ router.get('*', async (req, res, next) => {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const { head, markup, initialData, modules } = await render(req, res, routeContext, axiosOptions);
+        const { head, markup, initialData, modules, simplePage } = await render(req, res, routeContext, axiosOptions);
 
         if (routeContext.status === 404) {
             res.status(404);
@@ -43,20 +43,28 @@ router.get('*', async (req, res, next) => {
                 'react-loadable'
             ];
 
-            res.set('Link', [
-                `<${assetsManifest['runtime~main.js']}>; rel=preload; as=script`,
-                `<${assetsManifest['main.js']}>; rel=preload; as=script`,
+            let preloadList = [
                 `<${assetsManifest['main.css']}>; rel=preload; as=style`
-            ]);
+            ];
+
+            if (!simplePage) {
+                preloadList = [
+                    `<${assetsManifest['runtime~main.js']}>; rel=preload; as=script`,
+                    `<${assetsManifest['main.js']}>; rel=preload; as=script`,
+                    ...preloadList
+                ]
+            }
+
+            res.set('Link', preloadList);
 
             res.render('index.pug', {
                 title: head.title.toString(),
                 meta: head.meta.toString(),
                 link: head.link.toString(),
-                initialData: serialize(initialData),
+                initialData: simplePage ? null : serialize(initialData),
                 app: markup,
                 assets: {
-                    js: {
+                    js: simplePage ? null : {
                         runtimeMain: assetsManifest['runtime~main.js'],
                         main: assetsManifest['main.js'],
                         vendors: vendorList.map(vendor => assetsManifest[`${vendor}.js`]),

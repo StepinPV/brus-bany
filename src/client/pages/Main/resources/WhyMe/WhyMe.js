@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import DataSection from '../../../../components/DataSection';
-import Button from '../../../../components/Button';
+import { Link } from '../../../../components/Button';
 import Text from '../../../../components/Text';
 import Caption from '../../../../components/Caption';
 import withForm from '../../../../plugins/Form/withForm';
@@ -21,7 +21,7 @@ function Item({ icon, caption, text }) {
     );
 }
 
-function WhyMe(props) {
+function WhyMe() {
     const linkStyles = {
         color: '#ff8562',
         textDecoration: 'none'
@@ -47,7 +47,7 @@ function WhyMe(props) {
                 />}
             </div>
             <div className={styles['button-container']}>
-                <Button caption='Узнать подробнее' onClick={() => { props.showForm({ source: 'Главная. Почему выбирают нас?', title: 'Узнать подробнее' })}} />
+                <Link caption='Узнать подробнее' href='#requestForm' />
             </div>
         </DataSection>
     )

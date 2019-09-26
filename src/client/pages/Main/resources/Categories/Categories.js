@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import DataSection from '../../../../components/DataSection';
 import Caption from '../../../../components/Caption';
-import Button from '../../../../components/Button';
+import { Simple } from '../../../../components/Button';
 import Text from '../../../../components/Text';
 import cx from 'classnames';
 import styles from './Categories.module.css';
@@ -47,7 +47,7 @@ function Categories(props) {
                                 <div className={styles['item-text']}>
                                     <Text size='m'>{text}</Text>
                                 </div>
-                                <Button caption={caption} className={styles['item-button']} />
+                                <Simple caption={caption} className={styles['item-button']} />
                             </div>
                         </a>
                     )

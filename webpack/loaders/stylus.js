@@ -15,7 +15,7 @@ module.exports = (env) => {
                             sourceMap: true,
                             importLoaders: 2,
                             modules: {
-                                localIdentName: isProduction ? '[hash:base64:5]' : '[name]__[local]__[hash:base64:5]'
+                                localIdentName: isProduction ? '[hash:base64:4]' : '[name]__[local]__[hash:base64:5]'
                             }
                         }
                     }, {

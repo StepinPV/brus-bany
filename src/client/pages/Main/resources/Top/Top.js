@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import Caption from '../../../../components/Caption';
 import Text from '../../../../components/Text';
-import Button from '../../../../components/Button';
+import { Link } from '../../../../components/Button';
 import styles from './Top.module.css';
 
 function Top() {
@@ -18,12 +18,8 @@ function Top() {
                         <Text>Срок строительства от 10 дней, работаем круглый год по всей России, гарантия 2 года</Text>
                     </div>
                     <div className={styles.buttons}>
-                        <a href='#categories'>
-                            <Button type='yellow' caption='Выбрать баню' className={styles['first-button']} />
-                        </a>
-                        <a href='/akcii/quiz'>
-                            <Button type='red' caption='Получить подарок' />
-                        </a>
+                        <Link href='#categories' type='yellow' caption='Выбрать баню' className={styles['first-button']} />
+                        <Link href='/akcii/quiz' type='red' caption='Получить подарок' />
                     </div>
                 </div>
             </div>

@@ -36,20 +36,9 @@
     color: #000;
 }
 
-.filters-item-sizes,
-.filters-item-prices {
+.filters-item-sizes {
     display: flex;
     flex-wrap: wrap;
-}
-
-.filters-item-prices-label {
-    margin: 4px 8px 4px 0;
-}
-
-.filters-item-prices-label input {
-    width: 150px;
-    height: 20px;
-    max-width: 100%;
 }
 
 .filters-checkbox {

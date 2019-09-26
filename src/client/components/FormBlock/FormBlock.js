@@ -6,7 +6,7 @@ import styles from './FormBlock.module.css';
 
 export default memo(({ source }) => {
     return (
-        <DataSection caption='Звоните — расскажем о банях все и поможем с выбором'>
+        <DataSection caption='Звоните — расскажем о банях все и поможем с выбором' id='requestForm'>
             <div className={styles.content}>
                 <div className={styles['first-column']}>
                     <div className={styles['phone-block']}>

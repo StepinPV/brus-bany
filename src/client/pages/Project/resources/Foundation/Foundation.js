@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from '../../../../components/Card';
 import DataSection from '../../../../components/DataSection';
-import withForm from '../../../../plugins/Form/withForm';
 import styles from './Foundation.module.css';
 import cx from 'classnames';
 
@@ -24,16 +23,15 @@ const items = [{
 class Foundation extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
-        value: PropTypes.object,
-        showForm: PropTypes.func
+        value: PropTypes.object
     };
 
     render() {
-        const { value, onChange, showForm } = this.props;
+        const { value, onChange } = this.props;
         return (
            <DataSection id='foundation' bgStyle='white' caption='Выберите фундамент' captionTag='h2' description={(
                <>
-                    Если вы сомневаетесь в выборе фундамента, <span style={{ color: '#003093', fontWeight: 'bold' }} onClick={() => { showForm({ source: 'Выбор фундамента' }) }}>оставьте заявку</span>, мы поможем подобрать самый оптимальный для вас вариант
+                    Если вы сомневаетесь в выборе фундамента, <a style={{ color: '#003093', fontWeight: 'bold' }} href='#requestForm'>оставьте заявку</a>, мы поможем подобрать самый оптимальный для вас вариант
                </>
            )}>
                <div className={styles.items}>
@@ -68,4 +66,4 @@ class Foundation extends PureComponent {
     }
 }
 
-export default withForm(Foundation);
+export default Foundation;

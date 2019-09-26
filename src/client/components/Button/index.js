@@ -1,2 +1,5 @@
 import Button from './Button';
-export default Button;
+import Simple from './Simple';
+import Link from './Link';
+
+export { Button, Link, Simple };

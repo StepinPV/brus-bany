@@ -8,16 +8,16 @@ import styles from './Page.module.css';
 class Page extends PureComponent {
     static propTypes = {
         children: PropTypes.node,
-        fixedHeader: PropTypes.bool,
+        opacityHeader: PropTypes.bool,
         breadcrumbs: PropTypes.array
     };
 
     render() {
-        const { children, fixedHeader, breadcrumbs } = this.props;
+        const { children, opacityHeader, breadcrumbs } = this.props;
 
         return (
             <>
-                <Header fixedHeader={fixedHeader} />
+                <Header opacity={opacityHeader} />
                 <div className={styles.content}>
                     {breadcrumbs ? <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} /> : null}
                     {children}

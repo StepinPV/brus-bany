@@ -1,15 +1,13 @@
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import Page from '../../components/Page';
 import OfficeMap from './resources/OfficeMap';
-import Button from '../../components/Button';
+import { Link } from '../../components/Button';
 import SocialNetwork from '../../components/SocialNetwork';
 import DataSection from '../../components/DataSection';
 import H1Block from '../../components/H1Block';
 import cx from 'classnames';
 import styles from './Contacts.module.css';
 import FormBlock from "../../components/FormBlock";
-import withForm from '../../plugins/Form/withForm';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -19,12 +17,7 @@ const breadcrumbs = [{
 }];
 
 class Contacts extends PureComponent {
-    static propTypes = {
-        showForm: PropTypes.func
-    };
-
     render() {
-        const { showForm} = this.props;
         return (
             <Page breadcrumbs={breadcrumbs}>
                 <H1Block caption='Наши контакты' />
@@ -53,7 +46,7 @@ class Contacts extends PureComponent {
                             <span style={{ fontWeight: 'bold' }}>Время работы: </span>
                             <time itemProp="openingHours" dateTime="Mo-Su 8:00−22:00">c 8:00 до 22:00 без выходных</time>
                         </div>
-                        <Button type='red' caption='Обсудить проект бани' className={styles['info-block']} onClick={() => { showForm({ source: 'Страница контактов' })}}/>
+                        <Link href='#requestForm' type='red' caption='Обсудить проект бани' className={styles['info-block']} />
                         <div className={styles['social-networks']}>
                             <SocialNetwork type='vk' className={styles['social-network']} />
                             <SocialNetwork type='fb' className={styles['social-network']} />
@@ -86,4 +79,4 @@ class Contacts extends PureComponent {
     }
 }
 
-export default withForm(Contacts);
+export default Contacts;

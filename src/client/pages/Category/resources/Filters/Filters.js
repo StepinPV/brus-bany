@@ -11,9 +11,7 @@ class Filters extends PureComponent {
         filters: PropTypes.object,
         filteredProjects: PropTypes.array,
         category: PropTypes.object,
-        history: PropTypes.object,
-        priceFilter: PropTypes.object,
-        onChangePriceFilter: PropTypes.func
+        history: PropTypes.object
     };
 
     render() {
@@ -24,7 +22,6 @@ class Filters extends PureComponent {
         return (
             <div className={styles.filters}>
                 <div className={styles['filters-caption']}>Параметры поиска</div>
-                {this.renderPriceFilter()}
                 {this.renderAdditionsFilter()}
                 {this.renderSizesFilter()}
             </div>
@@ -139,45 +136,6 @@ class Filters extends PureComponent {
             </div>
         ) : null;
     };
-
-    renderPriceFilter = () => {
-        const { priceFilter, onChangePriceFilter } = this.props;
-
-        return (
-            <div className={styles['filters-item-vertical']}>
-                <div className={styles['filters-item-title']}>Цена:</div>
-                <div className={styles['filters-item-prices']}>
-                    <label className={styles['filters-item-prices-label']}>
-                        От <input
-                            type="number"
-                            value={priceFilter.min}
-                            min='0' max='1000000'
-                            step='1000'
-                            onChange={(e) => {
-                                onChangePriceFilter({
-                                    ...priceFilter,
-                                    min: parseInt(e.target.value)
-                                });
-                            }}/>
-                    </label>
-                    <label className={styles['filters-item-prices-label']}>
-                        До <input
-                            type="number"
-                            value={priceFilter.max}
-                            min='0'
-                            max='1000000'
-                            step='1000'
-                            onChange={(e) => {
-                                onChangePriceFilter({
-                                    ...priceFilter,
-                                    max: parseInt(e.target.value)
-                                });
-                            }}/>
-                    </label>
-                </div>
-            </div>
-        )
-    }
 }
 
 export default withRouter(Filters);

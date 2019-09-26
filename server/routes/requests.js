@@ -4,28 +4,26 @@ const nodemailer = require('../nodemailer');
 
 const router = express.Router();
 
-const send = (res, { status, code, message, data }) => {
-    res.json({ status, code, message, data });
-    res.end();
+const send = (res, req, status) => {
+    res.redirect(`${req.headers.referer}?requestStatus=${status}#requestForm`);
 };
 
 router.post('/', async function(req, res, next) {
     try {
         const requestData = {
-            ...req.body.request,
+            ...req.body,
             created: new Date()
         };
 
-        const { status, data, message } = await Requests.create(requestData);
-
-        nodemailer.send(requestData);
+        const { status } = await Requests.create(requestData);
 
         switch(status) {
             case 'success':
-                send(res, { data, status, message: `Заявка успешно создана!` });
+                nodemailer.send(requestData);
+                send(res, req, status);
                 break;
             case 'error':
-                send(res, { message, status, data });
+                send(res, req, status);
                 break;
             default:
                 break;

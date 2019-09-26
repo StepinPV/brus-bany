@@ -1,53 +1,21 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Logo from '../../../components/Logo';
-import Button from '../Button';
-import withForm from '../../plugins/Form/withForm';
+import { Link } from '../Button';
 import styles from './Header.module.css';
 import cx from "classnames";
 
-const OPACITY_MODE_SCROLL_POSITION = 50;
-
 class Header extends PureComponent {
     static propTypes = {
-        fixedHeader: PropTypes.bool
+        opacity: PropTypes.bool
     };
-
-    state = {
-        expanded: false
-    };
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            opacityMode: props.fixedHeader
-        };
-    }
-
-    componentDidMount() {
-        const { fixedHeader } = this.props;
-
-        if (fixedHeader) {
-            document.addEventListener('scroll', this.handleScroll);
-        }
-    }
-
-    componentWillUnmount() {
-        const { fixedHeader } = this.props;
-
-        if (fixedHeader) {
-            document.removeEventListener('scroll', this.handleScroll);
-        }
-    }
 
     render() {
-        const { showForm, fixedHeader } = this.props;
-        const { expanded, opacityMode } = this.state;
+        const { opacity } = this.props;
 
         return (
-            <header className={cx(styles.header, {[styles['header-fixed']]: fixedHeader })}>
-                <div className={cx(styles.container, {[styles['container-opacity']]: opacityMode}) }>
+            <header className={cx(styles.header, {[styles['header-absolute']]: opacity })}>
+                <div className={cx(styles.container, {[styles['container-opacity']]: opacity}) }>
                     <a href='/'>
                         <Logo className={styles.logo}/>
                     </a>
@@ -56,23 +24,9 @@ class Header extends PureComponent {
                         <div className={styles['phone-container']}>
                             {this.renderContacts()}
                         </div>
-                        <Button type='yellow' caption='Обратный звонок' size='s' onClick={() => { showForm({ source: 'Шапка сайта' }) }}/>
-                        <div className={styles.burger} onClick={() => {this.setState({ expanded: !expanded })}}>
-                            <div className={cx(styles['burger-line'], {[styles['burger-line-expanded-opacity']]: expanded})} />
-                            <div className={styles['burger-line-centered']}>
-                                <div className={cx(styles['burger-line'], {[styles['burger-line-expanded-first']]: expanded})} />
-                                <div className={cx(styles['burger-line'], {[styles['burger-line-expanded-second']]: expanded})} />
-                            </div>
-                            <div className={cx(styles['burger-line'], {[styles['burger-line-expanded-opacity']]: expanded})} />
-                        </div>
+                        <Link type='yellow' caption='Обратный звонок' size='s' href='#requestForm' />
                     </div>
                 </div>
-                {expanded ? (
-                    <div className={styles['expanded-menu']}>
-                        {this.renderLinks(styles.items2, styles.item2)}
-                        {this.renderContacts()}
-                    </div>
-                ) : null}
             </header>
         );
     }
@@ -96,14 +50,6 @@ class Header extends PureComponent {
             </>
         )
     };
-
-    handleScroll = () => {
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-
-        this.setState({
-            opacityMode: scrollTop < OPACITY_MODE_SCROLL_POSITION
-        });
-    };
 }
 
-export default withForm(Header);
+export default Header;

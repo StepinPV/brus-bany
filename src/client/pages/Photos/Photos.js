@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import { loadData, resetData } from './actions';
 import Page from '../../components/Page';
 import Caption from '../../components/Caption';
-import Button from '../../components/Button';
+import { Link } from '../../components/Button';
 import H1Block from '../../components/H1Block';
 import styles from './Photos.module.css';
 import FormBlock from "../../components/FormBlock";
@@ -84,9 +84,7 @@ class Photos extends PureComponent {
                     </div>
                     {this.renderPhotos(category, photos[category._id].photos)}
                     <div className={styles.container}>
-                        <a href={`/photos/${category.translateName}`}>
-                            <Button caption='Смотреть все' />
-                        </a>
+                        <Link href={`/photos/${category.translateName}`} caption='Смотреть все' />
                     </div>
                 </div>
             ) : null;

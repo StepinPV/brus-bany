@@ -18,7 +18,7 @@ const breadcrumbs = [{
 class Delivery extends PureComponent {
     render() {
         return (
-            <Page fixedHeader>
+            <Page opacityHeader>
                 <Top />
                 <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
                 <First />

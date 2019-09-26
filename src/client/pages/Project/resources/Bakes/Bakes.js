@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from '../../../../components/Card';
 import DataSection from '../../../../components/DataSection';
-import withForm from '../../../../plugins/Form/withForm';
 import styles from './Bakes.module.css';
 
 import img1 from './resources/1.jpg';
@@ -82,17 +81,16 @@ const bakes = [{
 class Bakes extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
-        value: PropTypes.object,
-        showForm: PropTypes.func
+        value: PropTypes.object
     };
 
     render() {
-        const { value, onChange, showForm } = this.props;
+        const { value, onChange } = this.props;
         return (
            <DataSection id='bake' bgStyle='grey' caption='Выберите печь' captionTag='h2' description={(
                <>
                    В комплект печи входят: установка, кирпичный портал, бак для горячей воды на 60л и комплект двустенного дымохода из нержавейки ferrum.
-                   Не можете определиться? <span style={{ color: '#003093', fontWeight: 'bold' }} onClick={() => { showForm({ source: 'Выбор фундамента' }) }}>Оставьте заявку</span>
+                   Не можете определиться? <a style={{ color: '#003093', fontWeight: 'bold' }} href='#requestForm'>Оставьте заявку</a>
                </>
            )}>
                <div className={styles.items}>
@@ -134,4 +132,4 @@ class Bakes extends PureComponent {
     }
 }
 
-export default withForm(Bakes);
+export default Bakes;

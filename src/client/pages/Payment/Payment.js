@@ -3,7 +3,7 @@ import Page from '../../components/Page';
 import Caption from '../../components/Caption';
 import H1Block from '../../components/H1Block';
 import Text from '../../components/Text';
-import Button from '../../components/Button';
+import { Link } from '../../components/Button';
 import styles from './Payment.module.css';
 import FormBlock from "../../components/FormBlock";
 
@@ -43,9 +43,7 @@ class Payment extends PureComponent {
                         </Text>
                     </div>
                     <div className={styles['button-container']}>
-                        <a href='https://yadi.sk/i/x6PDA_1a3X5Yzg' target='_blank' rel="noopener noreferrer">
-                            <Button caption='Скачать образец договора' />
-                        </a>
+                        <Link href='https://yadi.sk/i/x6PDA_1a3X5Yzg' target='_blank' rel='noopener noreferrer' caption='Скачать образец договора' />
                     </div>
                 </div>
                 <FormBlock source='Страница условия оплаты' />

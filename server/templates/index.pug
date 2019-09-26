@@ -33,12 +33,14 @@ html(lang='ru')
         div#root !{app}
         div#modal
 
-        script(type='text/javascript')
-            | window.__initialData__ = !{initialData} || {};
+        if initialData
+            script(type='text/javascript')
+                | window.__initialData__ = !{initialData} || {};
 
-        script(src=assets.js.runtimeMain)
-        each vendor in assets.js.vendors
-            script(src=vendor)
-        each chunk in assets.js.chunks
-            script(src=chunk.publicPath)
-        script(src=assets.js.main)
+        if assets.js
+            script(src=assets.js.runtimeMain)
+            each vendor in assets.js.vendors
+                script(src=vendor)
+            each chunk in assets.js.chunks
+                script(src=chunk.publicPath)
+            script(src=assets.js.main)

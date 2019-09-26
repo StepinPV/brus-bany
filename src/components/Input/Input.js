@@ -21,15 +21,16 @@ class Input extends PureComponent {
         min: PropTypes.number,
         error: PropTypes.string,
         inputClassName: PropTypes.string,
-        className: PropTypes.string
+        className: PropTypes.string,
+        name: PropTypes.string
     };
 
     render() {
-        const { title, value, required, type, min, error, inputClassName, className } = this.props;
+        const { title, value, required, type, min, error, inputClassName, className, name } = this.props;
 
         return (
             <div className={cx(styles.container, {[styles.required]: required}, className)}>
-                <input type="text" required className={cx(styles.input, inputClassName)} value={value || ''} onChange={this.handleChange} min={min} {...getTypeAttrs(type)} />
+                <input name={name} type="text" required className={cx(styles.input, inputClassName)} value={value} onChange={this.handleChange} min={min} {...getTypeAttrs(type)} />
                 <span className={styles.bar} />
                 <label className={styles.label}>{title}</label>
                 {error ? <div className={styles.error}>{error}</div> : null}
@@ -40,12 +41,13 @@ class Input extends PureComponent {
     handleChange = (e) => {
         const { onChange, type } = this.props;
 
-        switch (type) {
-            case 'float number': onChange(parseFloat(e.target.value)); break;
-            case 'integer number': onChange(parseInt(e.target.value)); break;
-            default: onChange(e.target.value); break;
+        if (onChange) {
+            switch (type) {
+                case 'float number': onChange(parseFloat(e.target.value)); break;
+                case 'integer number': onChange(parseInt(e.target.value)); break;
+                default: onChange(e.target.value); break;
+            }
         }
-
     }
 }
 

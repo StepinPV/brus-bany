@@ -1,95 +1,59 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Button from '../Button';
+import { withRouter } from 'react-router-dom';
+import { Button } from '../Button';
 import Input from '../../../components/Input';
-import Api from './api';
-import withNotification from '../../../plugins/Notifications/withNotification';
 import styles from './Form.module.css';
 
 class Form extends PureComponent {
     static propTypes = {
         source: PropTypes.string,
         data: PropTypes.array,
-        showNotification: PropTypes.func,
         onSuccess: PropTypes.func,
-        buttonCaption: PropTypes.string
+        buttonCaption: PropTypes.string,
+        history: PropTypes.object
     };
 
     static defaultProps = {
         buttonCaption: 'Перезвоните мне'
     };
 
-    state = {
-        name: '',
-        phone: '',
-        errors: {}
-    };
-
     render() {
-        const { name, phone, errors } = this.state;
-        const { buttonCaption } = this.props;
+        const { buttonCaption, history, source, data } = this.props;
 
         return (
             <>
-                <Input
-                    title='Ваше имя'
-                    required
-                    className={styles.input}
-                    value={name}
-                    onChange={this.handleNameChange}
-                    error={errors.name} />
+                {history.location.search && history.location.search.includes('requestStatus=success') ? (
+                    <div className={styles['success-block']}>Заявка успешно отправлена</div>
+                ) : null}
+                <form action='/api/requests' method='post' target='/'>
+                    <Input
+                        title='Ваше имя'
+                        name='name'
+                        required
+                        className={styles.input} />
 
-                <Input
-                    title='Ваш номер телефона'
-                    required
-                    className={styles.input}
-                    value={phone}
-                    onChange={this.handlePhoneChange}
-                    error={errors.phone} />
+                    <Input
+                        title='Ваш номер телефона'
+                        name='phone'
+                        type='tel'
+                        required
+                        className={styles.input} />
 
-                <Button caption={buttonCaption} className={styles.button} onClick={this.handleSubmit} />
-                <div className={styles.disclaimer}>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika_konfidencialnosty' target='_blank'>Политика конфиденциальности.</a></div>
+                    {source ? (
+                        <input type="hidden" name='source' value={source} />
+                    ) : null}
+
+                    {data ? (
+                        <input type="hidden" name='source' value={data} />
+                    ) : null}
+
+                    <Button caption={buttonCaption} className={styles.button} />
+                    <div className={styles.disclaimer}>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika_konfidencialnosty' target='_blank'>Политика конфиденциальности.</a></div>
+                </form>
             </>
         );
     }
-
-    handleSubmit = async () => {
-        const { name, phone } = this.state;
-        const { source, data, showNotification, onSuccess } = this.props;
-
-        if (!name || !phone) {
-            this.setState({
-                errors: {
-                    name: name ? null : 'Поле обязательно для заполнения',
-                    phone: phone ? null : 'Поле обязательно для заполнения'
-                }
-            });
-            return;
-        }
-
-        try {
-            await Api.send({ name, phone, source, data });
-
-            showNotification({
-                message: 'Заявка успешно отправлена',
-                status: 'success'
-            });
-
-            if (onSuccess) {
-                onSuccess();
-            }
-        } catch(err) {
-            showNotification({ message: 'Ошибка отправки заявки. Повторите попытку', status: 'error' });
-        }
-    };
-
-    handleNameChange = (name) => {
-        this.setState({ name, errors: { ...this.state.errors, name: null } });
-    };
-
-    handlePhoneChange = (phone) => {
-        this.setState({ phone, errors: { ...this.state.errors, phone: null } });
-    };
 }
 
-export default withNotification(Form);
+export default withRouter(Form);

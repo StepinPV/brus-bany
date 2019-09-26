@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import Page from '../../components/Page';
-import Button from '../../components/Button';
+import { Link } from '../../components/Button';
 import Top from './resources/Top';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import styles from "./GOST.module.css";
@@ -42,7 +42,7 @@ const breadcrumbs = [{
 class GOST extends PureComponent {
     render() {
         return (
-            <Page fixedHeader>
+            <Page opacityHeader>
                 <Top />
                 <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
                 <div id='list' className={styles.items}>
@@ -51,9 +51,7 @@ class GOST extends PureComponent {
                             <div className={styles.item}>
                                 <div className={styles.title}>{title}</div>
                                 <div className={styles.description}>{description}</div>
-                                <a href={link} target='_blank' rel="noopener noreferrer">
-                                    <Button caption='Скачать' />
-                                </a>
+                                <Link href={link} target='_blank' rel='noopener noreferrer' caption='Скачать' />
                             </div>
                         );
                     })}

@@ -16,8 +16,9 @@ import { getProject, resetData, getPhotos } from './actions';
 import styles from './Project.module.css';
 import DataSection from '../../components/DataSection';
 import Footer from "../../components/Footer";
-import Button from "../../components/Button";
+import { Button } from "../../components/Button";
 import withForm from '../../plugins/Form/withForm';
+import FormBlock from '../../components/FormBlock';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -106,7 +107,7 @@ class Project extends PureComponent {
     }
 
     renderContent = () => {
-        const { project, photos } = this.props;
+        const { project, photos, match } = this.props;
         const { additionsValue, foundationValue, bakeValue } = this.state;
 
         return project ? (
@@ -129,6 +130,7 @@ class Project extends PureComponent {
                         }))} />
                     </DataSection>
                 ) : null}
+                <FormBlock source={match.url} />
             </div>
         ) : null;
     };

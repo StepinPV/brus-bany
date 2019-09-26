@@ -9,10 +9,6 @@ import FormContext from '../../client/plugins/Form/Context';
 import Form from '../../client/plugins/Form/Form';
 import styles from './App.module.css';
 
-// TODO
-// 1. Сделать 404
-// 2. SSR
-
 class App extends Component {
     static propTypes = {
         routes: PropTypes.array,

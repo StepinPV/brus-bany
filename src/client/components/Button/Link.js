@@ -3,26 +3,32 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import styles from './Button.module.css';
 
-function Simple(props) {
+function Link(props) {
     return (
-        <button onClick={props.onClick} className={cx(styles.button, props.className, styles[`type-${props.type}`], styles[`size-${props.size}`])}>
+        <a
+            href={props.href}
+            target={props.target}
+            rel={props.rel}
+            className={cx(styles.button, props.className, styles[`type-${props.type}`], styles[`size-${props.size}`])}>
             {props.caption}
-        </button>
+        </a>
     );
 }
 
-Simple.propTypes = {
+Link.propTypes = {
     type: PropTypes.oneOf(['red', 'yellow']),
     size: PropTypes.oneOf(['xs', 's', 'm', 'l', 'xl']),
     caption: PropTypes.string,
     className: PropTypes.string,
-    onClick: PropTypes.func
+    href: PropTypes.string,
+    target: PropTypes.string,
+    rel: PropTypes.string
 };
 
-Simple.defaultProps = {
+Link.defaultProps = {
     color: 'black',
     size: 'm',
     type: 'red'
 };
 
-export default memo(Simple);
+export default memo(Link);

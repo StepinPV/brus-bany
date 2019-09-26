@@ -13,23 +13,25 @@ export default (initModule) => {
     };
 
     return [{
-        id: 'bani/main',
+        id: 'site/main',
         path: '/',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Main')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/custom-project',
+        id: 'site/bani/custom-project',
         path: '/bani/individualniy-proekt',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/CustomProject')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/category',
+        id: 'site/bani/category/project',
         path: '/bani/:categoryName/:layoutName\\_:weight([\\d|\\.]+)x:length([\\d|\\.]+)',
         exact: true,
         component: Loadable({
@@ -37,148 +39,166 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
-        id: 'bani/category',
+        id: 'site/bani/category',
         path: '/bani/:name',
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Category')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/requisites',
+        id: 'site/requisites',
         path: '/rekvizity',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Requisites')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/payment',
+        id: 'site/payment',
         path: '/uslovia-oplati',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Payment')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/jobs',
+        id: 'site/jobs',
         path: '/vakansii',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Jobs')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/privacy',
+        id: 'site/privacy',
         path: '/politika_konfidencialnosty',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Privacy')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/delivery',
+        id: 'site/delivery',
         path: '/dostavka',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Delivery')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/contacts',
+        id: 'site/contacts',
         path: '/contakti',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Contacts')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/feedback',
+        id: 'site/feedback',
         path: '/otzivi',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Feedback')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/promo',
+        id: 'site/promo',
         path: '/akcii',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Promo')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/promo',
+        id: 'site/promo/quiz',
         path: '/akcii/quiz',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Promo/resources/Quiz')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/about-company',
+        id: 'site/about-company',
         path: '/about-company',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/AboutCompany')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/questions',
+        id: 'site/questions',
         path: '/voprosy-i-otvety',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Questions')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/gosty-i-snipy',
+        id: 'site/gosty-i-snipy',
         path: '/gosty-i-snipy',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/GOST')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/articles',
+        id: 'site/blog',
         path: '/blog',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Articles')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/article',
+        id: 'site/blog/article',
         path: '/blog/:name',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Article')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/photos',
+        id: 'site/photos',
         path: '/photos',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Photos')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/photos',
+        id: 'site/photos/category',
         path: '/photos/:categoryName',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/PhotosCategory')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
-        id: 'bani/photos',
+        id: 'bani/photos/category/project',
         path: '/photos/:categoryName/:layoutName\\_:weight([\\d|\\.]+)x:length([\\d|\\.]+)_:photoId',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Photo')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }, {
         id: 'admin',
         path: '/admin',
@@ -282,6 +302,7 @@ export default (initModule) => {
         component: Loadable({
             loader: () => getLoader(import('../client/pages/NotFound')),
             loading: LoaderPage,
-        })
+        }),
+        simplePage: true
     }];
 };

@@ -48,7 +48,7 @@ const breadcrumbs = [{
 class AboutCompany extends PureComponent {
     render() {
         return (
-            <Page fixedHeader>
+            <Page opacityHeader>
                 <Top />
                 <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
                 <Article article={article} />

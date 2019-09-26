@@ -69,7 +69,8 @@ const render = async (req, res, context = {}, axiosOptions = {}) => {
         head: Helmet.renderStatic(),
         markup,
         initialData: store.getState(),
-        modules
+        modules,
+        simplePage: matchRoute.simplePage
     };
 };
 
