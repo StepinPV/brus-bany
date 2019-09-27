@@ -19,11 +19,7 @@ class App extends Component {
     render() {
         const { routes, simplePage } = this.props;
 
-        if (simplePage) {
-            return this.renderRoute(routes[0]);
-        }
-
-        return (
+        return simplePage ? this.renderRoute(routes[0]) : (
             <NotificationsProvider>
                 <FormProvider>
                     <>
