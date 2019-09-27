@@ -12,24 +12,23 @@ import styles from './App.module.css';
 class App extends Component {
     static propTypes = {
         routes: PropTypes.array,
-        preparedComponents: PropTypes.object
+        preparedComponents: PropTypes.object,
+        simplePage: PropTypes.bool
     };
 
     render() {
-        const { routes, preparedComponents } = this.props;
+        const { routes, simplePage } = this.props;
+
+        if (simplePage) {
+            return this.renderRoute(routes[0]);
+        }
 
         return (
             <NotificationsProvider>
                 <FormProvider>
                     <>
                         <Switch>
-                            {routes.map(route =>
-                                <Route
-                                    key={route.id}
-                                    path={route.path}
-                                    exact={route.exact}
-                                    component={preparedComponents ? preparedComponents[route.id] : route.component} />)
-                            }
+                            {routes.map(route => this.renderRoute(route))}
                         </Switch>
                         <NotificationsContext.Consumer>
                             {({notification}) => {
@@ -48,6 +47,18 @@ class App extends Component {
                     </>
                 </FormProvider>
             </NotificationsProvider>
+        );
+    }
+
+    renderRoute = (route) => {
+        const { preparedComponents } = this.props;
+
+        return (
+            <Route
+                key={route.id}
+                path={route.path}
+                exact={route.exact}
+                component={preparedComponents ? preparedComponents[route.id] : route.component} />
         );
     }
 }

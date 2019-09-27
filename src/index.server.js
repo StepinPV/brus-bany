@@ -60,7 +60,8 @@ const render = async (req, res, axiosOptions = {}) => {
                 <StaticRouter location={req.url} context={context}>
                     <App
                         preparedComponents={{ [matchRoute.id]: loadableComponent }}
-                        routes={[matchRoute]} />
+                        routes={[matchRoute]}
+                        simplePage={matchRoute.simplePage} />
                 </StaticRouter>
             </Provider>
         </Loadable.Capture>
