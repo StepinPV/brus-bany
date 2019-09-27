@@ -3,6 +3,8 @@ const multer  = require('multer');
 const fs = require('fs');
 const path = require('path');
 const addWatermark = require('../addWatermark');
+const compressImage = require('../compressImage');
+const resizeImage = require('../resizeImage');
 
 const router = express.Router();
 const FOLDER_PATH = './public/buffer';
@@ -45,23 +47,37 @@ const send = (res, { status, code, message, data }) => {
 };
 
 router.put('/', upload.single('file'), async function(req, res, next) {
+    const folderPath = path.join(__dirname, '../../public/buffer/');
+
     try {
         if (req.imageName) {
-            addWatermark({
-                source: path.join(__dirname, `../../public/buffer/${req.imageName}`),
-                logo: path.join(__dirname, '../watermark.png'),
-                logoSize: {
-                    width: 400,
-                    height: 100
-                }
-            }, function() {
-                send(res, {
-                    message: `Изображение загружено!`,
-                    data: `/buffer/${req.imageName}`,
-                    status: 'success'
+            resizeImage('../public/buffer/', req.imageName, '../public/buffer/cropped/', function () {
+                addWatermark({
+                    source: `${folderPath}cropped/${req.imageName}`,
+                    logo: path.join(__dirname, '../watermark.png'),
+                    logoSize: {
+                        width: 400,
+                        height: 100
+                    }
+                }, function() {
+                    compressImage(`${folderPath}cropped/${req.imageName}`, `${folderPath}compressed/`, function() {
+                        send(res, {
+                            message: `Изображение загружено!`,
+                            data: `/buffer/compressed/${req.imageName}`,
+                            status: 'success'
+                        });
+                    }, function (error){
+                        const message = `Не удалось сжать изображение: ${error}`;
+                        send(res, { status: 'error', message });
+                        console.log(message);
+                    });
+                }, function(err) {
+                    const message = `Не удалось применить водяной знак: ${err}`;
+                    send(res, { status: 'error', message });
+                    console.log(message);
                 });
-            }, function(err) {
-                const message = `Не удалось применить водяной знак: ${err}`;
+            }, function (err) {
+                const message = `Не удалось обрезать изображение: ${err}`;
                 send(res, { status: 'error', message });
                 console.log(message);
             });
