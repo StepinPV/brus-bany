@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {memo} from 'react';
 import Page from '../../components/Page';
 import { Link } from '../../components/Button';
 import Top from './resources/Top';
@@ -39,27 +39,25 @@ const breadcrumbs = [{
     title: 'ГОСТЫ И СНИПЫ'
 }];
 
-class GOST extends PureComponent {
-    render() {
-        return (
-            <Page opacityHeader>
-                <Top />
-                <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
-                <div id='list' className={styles.items}>
-                    {items.map(({ title, description, link }) => {
-                        return (
-                            <div className={styles.item}>
-                                <div className={styles.title}>{title}</div>
-                                <div className={styles.description}>{description}</div>
-                                <Link href={link} target='_blank' rel='noopener noreferrer' caption='Скачать' />
-                            </div>
-                        );
-                    })}
-                </div>
-                <FormBlock source='Страница ГОСТ' />
-            </Page>
-        );
-    }
+function GOST() {
+    return (
+        <Page opacityHeader>
+            <Top />
+            <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
+            <div id='list' className={styles.items}>
+                {items.map(({ title, description, link }) => {
+                    return (
+                        <div className={styles.item}>
+                            <div className={styles.title}>{title}</div>
+                            <div className={styles.description}>{description}</div>
+                            <Link href={link} target='_blank' rel='noopener noreferrer' caption='Скачать' />
+                        </div>
+                    );
+                })}
+            </div>
+            <FormBlock source='Страница ГОСТ' />
+        </Page>
+    );
 }
 
-export default GOST;
+export default memo(GOST);

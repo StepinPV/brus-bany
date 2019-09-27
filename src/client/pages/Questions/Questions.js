@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, { memo } from 'react';
 import Page from '../../components/Page';
 import DataSection from '../../components/DataSection';
 import Caption from '../../components/Caption';
@@ -96,50 +96,31 @@ const items = [{
     }]
 }];
 
-class Questions extends PureComponent {
-    state = {
-        expandedQuestions: []
-    };
-
-    render() {
-        const { expandedQuestions } = this.state;
-
-        return (
-            <Page breadcrumbs={breadcrumbs}>
-                <DataSection caption='Вопросы и ответы' bgStyle='white' captionTag='h1'>
-                    <div className={styles.container}>
-                        {items.map(({ name, questions }) => {
-                            return (
-                                <div className={styles.item}>
-                                    <div className={styles['group-name']}>{name}</div>
-                                    {questions.map(({ question, answer }) => {
-                                        return (
-                                            <div className={styles.question} onClick={() => this.toggleQuestion(question)}>
-                                                <Caption className={styles['question-text']} size='s'>
-                                                    {question}
-                                                    <i>+</i>
-                                                </Caption>
-                                                {expandedQuestions.includes(question) && <Text className={styles.answer}>{answer}</Text>}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            )
-                        })}
-                    </div>
-                </DataSection>
-                <FormBlock source='Страница вопрос-ответ' />
-            </Page>
-        );
-    }
-
-    toggleQuestion = (question) => {
-        const { expandedQuestions } = this.state;
-
-        this.setState({
-            expandedQuestions: expandedQuestions.includes(question) ? expandedQuestions.filter(q => q !== question) : [...expandedQuestions, question]
-        });
-    }
+function Questions() {
+    return (
+        <Page breadcrumbs={breadcrumbs}>
+            <DataSection caption='Вопросы и ответы' bgStyle='white' captionTag='h1'>
+                <div className={styles.container}>
+                    {items.map(({ name, questions }) => {
+                        return (
+                            <div className={styles.item}>
+                                <div className={styles['group-name']}>{name}</div>
+                                {questions.map(({ question, answer }) => {
+                                    return (
+                                        <div className={styles.question}>
+                                            <Caption className={styles['question-text']} size='s'>{question}</Caption>
+                                            <Text className={styles.answer}>{answer}</Text>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )
+                    })}
+                </div>
+            </DataSection>
+            <FormBlock source='Страница вопрос-ответ' />
+        </Page>
+    );
 }
 
-export default Questions;
+export default memo(Questions);

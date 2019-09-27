@@ -1,10 +1,10 @@
 .container {
     max-width: 760px;
     margin: 0 auto;
-    padding: 32px;
+    padding: 0 32px;
 }
 
-.item {
+.item:not(:last-child) {
     margin-bottom: 32px;
 }
 

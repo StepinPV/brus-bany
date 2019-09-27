@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {memo} from 'react';
 import Page from '../../components/Page';
 import Top from './resources/Top';
 import Article from '../../components/Article';
@@ -45,17 +45,15 @@ const breadcrumbs = [{
     title: 'О компании'
 }];
 
-class AboutCompany extends PureComponent {
-    render() {
-        return (
-            <Page opacityHeader>
-                <Top />
-                <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
-                <Article article={article} />
-                <FormBlock source='О компании' />
-            </Page>
-        );
-    }
+function AboutCompany() {
+    return (
+        <Page opacityHeader>
+            <Top />
+            <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
+            <Article article={article} />
+            <FormBlock source='О компании' />
+        </Page>
+    );
 }
 
-export default AboutCompany;
+export default memo(AboutCompany);

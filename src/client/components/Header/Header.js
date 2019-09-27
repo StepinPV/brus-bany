@@ -1,55 +1,39 @@
-import React, { PureComponent } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Logo from '../../../components/Logo';
 import { Link } from '../Button';
 import styles from './Header.module.css';
 import cx from "classnames";
 
-class Header extends PureComponent {
-    static propTypes = {
-        opacity: PropTypes.bool
-    };
+function Header(props) {
+    const { opacity } = props;
 
-    render() {
-        const { opacity } = this.props;
-
-        return (
-            <header className={cx(styles.header, {[styles['header-absolute']]: opacity })}>
-                <div className={cx(styles.container, {[styles['container-opacity']]: opacity}) }>
-                    <a href='/'>
-                        <Logo className={styles.logo}/>
-                    </a>
-                    {this.renderLinks(styles.items, styles.item)}
-                    <div className={styles.info}>
-                        <div className={styles['phone-container']}>
-                            {this.renderContacts()}
-                        </div>
-                        <Link type='yellow' caption='Обратный звонок' size='s' href='#requestForm' />
+    return (
+        <header className={cx(styles.header, {[styles['header-absolute']]: opacity })}>
+            <div className={cx(styles.container, {[styles['container-opacity']]: opacity}) }>
+                <a href='/'>
+                    <Logo className={styles.logo}/>
+                </a>
+                <nav className={styles.items}>
+                    <a href='/bani/mobilnie' className={styles.item}>Мобильные бани</a>
+                    <a href='/bani/iz-brusa' className={styles.item}>Бани из бруса</a>
+                    <a href='/bani/karkasnie' className={styles.item}>Каркасные бани</a>
+                    <a href='/bani/individualniy-proekt' className={styles.item}>Индивидуальный проект</a>
+                </nav>
+                <div className={styles.info}>
+                    <div className={styles['phone-container']}>
+                        <a href="tel:88002010729" className={styles.phone}>8 (800) 201-07-29</a>
+                        <a href="mailto:mailto:info@brus-bany.ru" className={styles.email}>info@brus-bany.ru</a>
                     </div>
+                    <Link type='yellow' caption='Обратный звонок' size='s' href='#requestForm' />
                 </div>
-            </header>
-        );
-    }
-
-    renderLinks = (containerClass, itemClass) => {
-        return (
-            <nav className={containerClass}>
-                <a href='/bani/mobilnie' className={itemClass}>Мобильные бани</a>
-                <a href='/bani/iz-brusa' className={itemClass}>Бани из бруса</a>
-                <a href='/bani/karkasnie' className={itemClass}>Каркасные бани</a>
-                <a href='/bani/individualniy-proekt' className={itemClass}>Индивидуальный проект</a>
-            </nav>
-        );
-    };
-
-    renderContacts = () => {
-        return (
-            <>
-                <a href="tel:88002010729" className={styles.phone}>8 (800) 201-07-29</a>
-                <a href="mailto:mailto:info@brus-bany.ru" className={styles.email}>info@brus-bany.ru</a>
-            </>
-        )
-    };
+            </div>
+        </header>
+    );
 }
 
-export default Header;
+Header.propTypes = {
+    opacity: PropTypes.bool
+};
+
+export default memo(Header);

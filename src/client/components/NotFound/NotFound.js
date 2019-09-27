@@ -1,23 +1,26 @@
-import React, {PureComponent} from 'react';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Caption from '../Caption';
 import styles from './NotFound.module.css';
 
-class NotFound extends PureComponent {
-    render() {
-        const { staticContext } = this.props;
+function NotFound(props) {
+    const { staticContext } = props;
 
-        if (staticContext) {
-            staticContext.status = 404;
-        }
-
-        return (
-            <div className={styles.body}>
-                <Caption align='center'>Страница не найдена</Caption>
-                <div className={styles.code}>404</div>
-            </div>
-        );
+    if (staticContext) {
+        staticContext.status = 404;
     }
+
+    return (
+        <div className={styles.body}>
+            <Caption align='center'>Страница не найдена</Caption>
+            <div className={styles.code}>404</div>
+        </div>
+    );
 }
 
-export default withRouter(NotFound);
+NotFound.propTypes = {
+    staticContext: PropTypes.object
+};
+
+export default withRouter(memo(NotFound));

@@ -125,8 +125,7 @@ export default (initModule) => {
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Promo/resources/Quiz')),
             loading: LoaderPage,
-        }),
-        simplePage: true
+        })
     }, {
         id: 'site/about-company',
         path: '/about-company',

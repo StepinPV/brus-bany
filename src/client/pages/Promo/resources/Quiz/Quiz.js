@@ -114,6 +114,7 @@ class Quiz extends PureComponent {
             case 'select':
                 return question.items.map(title => (
                     <div
+                        key={title}
                         onClick={() => { this.handleChoose(question.question, title)}}
                         className={styles['title-item']}>{title}</div>
                 ));
@@ -121,6 +122,7 @@ class Quiz extends PureComponent {
             case 'images':
                 return question.items.map(item => (
                     <div
+                        key={item.title}
                         className={styles['image-item']}
                         onClick={() => { this.handleChoose(question.question, item.title)}}>
                         <img className={styles['image-item-image']} src={item.img} alt={item.title} loading='lazy' />

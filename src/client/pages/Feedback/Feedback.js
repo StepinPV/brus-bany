@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {memo} from 'react';
 import Page from '../../components/Page';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import Comments from './resources/Comments';
@@ -14,18 +14,16 @@ const breadcrumbs = [{
     title: 'Отзывы'
 }];
 
-class Feedback extends PureComponent {
-    render() {
-        return (
-            <Page opacityHeader>
-                <Top />
-                <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
-                <Video />
-                <Comments />
-                <FormBlock source='Страница отзывов' />
-            </Page>
-        );
-    }
+function Feedback() {
+    return (
+        <Page opacityHeader>
+            <Top />
+            <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
+            <Video />
+            <Comments />
+            <FormBlock source='Страница отзывов' />
+        </Page>
+    );
 }
 
-export default Feedback;
+export default memo(Feedback);

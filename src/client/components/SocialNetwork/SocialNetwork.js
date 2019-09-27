@@ -12,15 +12,15 @@ const links = {
 };
 
 function SocialNetwork(props) {
-
+    return (
+        <a href={props.link || links[props.type]} target='_blank' rel="noopener noreferrer">
+            <i className={cx(props.className, styles.icon, styles[props.type])} />
+        </a>
+    );
 }
 
 SocialNetwork.propTypes = {
     type: PropTypes.oneOf(['vk', 'fb', 'inst', 'ok', 'youtube'])
 };
 
-export default memo((props) => (
-    <a href={props.link || links[props.type]} target='_blank' rel="noopener noreferrer">
-        <i className={cx(props.className, styles.icon, styles[props.type])} />
-    </a>
-));
+export default memo(SocialNetwork);

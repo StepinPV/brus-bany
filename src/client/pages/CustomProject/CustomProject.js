@@ -1,17 +1,15 @@
-import React, {PureComponent} from 'react';
+import React, {memo} from 'react';
 import Page from '../../components/Page';
 import Top from './resources/Top';
 import FormBlock from "../../components/FormBlock";
 
-class CustomProject extends PureComponent {
-    render() {
-        return (
-            <Page opacityHeader>
-                <Top />
-                <FormBlock source='Индивидуальный проект' />
-            </Page>
-        );
-    }
+function CustomProject() {
+    return (
+        <Page opacityHeader>
+            <Top />
+            <FormBlock source='Индивидуальный проект' />
+        </Page>
+    );
 }
 
-export default CustomProject;
+export default memo(CustomProject);

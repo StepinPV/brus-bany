@@ -68,10 +68,10 @@ const render = async (req, res, axiosOptions = {}) => {
 
     return {
         head: Helmet.renderStatic(),
-        markup,
         initialData: store.getState(),
-        modules,
         simplePage: matchRoute.simplePage,
+        markup,
+        modules,
         context
     };
 };

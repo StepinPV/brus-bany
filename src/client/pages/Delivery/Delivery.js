@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {memo} from 'react';
 import Page from '../../components/Page';
 import First from './resources/First';
 import Table from './resources/Table';
@@ -15,19 +15,17 @@ const breadcrumbs = [{
     title: 'География доставки'
 }];
 
-class Delivery extends PureComponent {
-    render() {
-        return (
-            <Page opacityHeader>
-                <Top />
-                <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
-                <First />
-                <DeliveryMap id='delivery-map' />
-                <Table />
-                <FormBlock source='Страница доставки' />
-            </Page>
-        );
-    }
+function Delivery() {
+    return (
+        <Page opacityHeader>
+            <Top />
+            <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
+            <First />
+            <DeliveryMap id='delivery-map' />
+            <Table />
+            <FormBlock source='Страница доставки' />
+        </Page>
+    );
 }
 
-export default Delivery;
+export default memo(Delivery);
