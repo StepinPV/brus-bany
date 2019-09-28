@@ -21,6 +21,9 @@
     .table {
         font-size: 12px;
     }
+    .table th, .table td {
+        padding: 8px 6px;
+    }
 }
 
 .table tr {

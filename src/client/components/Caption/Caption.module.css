@@ -57,3 +57,17 @@
         font-size: 16px;
     }
 }
+
+@media screen and (max-width: 350px) {
+    .size-l {
+        font-size: 28px;
+    }
+
+    .size-m {
+        font-size: 22px;
+    }
+
+    .size-s {
+        font-size: 14px;
+    }
+}

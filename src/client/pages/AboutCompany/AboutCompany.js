@@ -4,7 +4,7 @@ import Top from './resources/Top';
 import Article from '../../components/Article';
 import FormBlock from "../../components/FormBlock";
 import Breadcrumbs from "../../../components/Breadcrumbs";
-import styles from "../Delivery/Delivery.module.css";
+import styles from './AboutCompany.module.css';
 
 const article = {
     content: [{
@@ -50,7 +50,9 @@ function AboutCompany() {
         <Page opacityHeader>
             <Top />
             <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
-            <Article article={article} />
+            <div className={styles.article}>
+                <Article article={article} />
+            </div>
             <FormBlock source='О компании' />
         </Page>
     );

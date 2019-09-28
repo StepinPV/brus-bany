@@ -1,7 +1,7 @@
 .items {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 32px;
+    padding: 0 16px 32px;
     box-sizing: border-box;
 }
 
@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 16px;
 }
 
 .caption {
@@ -18,12 +19,12 @@
 .info {
     display: flex;
     flex-direction: column;
-    padding: 32px;
+    padding: 16px;
     max-width: 500px;
 }
 
 .image {
-    margin: 32px;
+    margin: 16px;
     display: block;
     max-width: 100%;
 }

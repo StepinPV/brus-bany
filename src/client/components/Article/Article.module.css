@@ -14,7 +14,8 @@
     margin-bottom: 32px;
 }
 
-.text {
+.text:not(:last-child),
+.image:not(:last-child) {
     margin-bottom: 32px;
 }
 
@@ -23,7 +24,6 @@
 }
 
 .image {
-    margin-bottom: 32px;
     max-width: 100%;
 }
 
