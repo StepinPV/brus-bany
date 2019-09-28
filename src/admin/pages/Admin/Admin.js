@@ -44,7 +44,7 @@ class Admin extends PureComponent {
     return (
       <>
         <Header />
-        <Breadcrumbs items={breadcrumbsItems}/>
+        <Breadcrumbs items={breadcrumbsItems} />
         <Tiles items={tiles} />
       </>
     );
