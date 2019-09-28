@@ -89,8 +89,7 @@ export default (initModule) => {
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Delivery')),
             loading: LoaderPage,
-        }),
-        simplePage: true
+        })
     }, {
         id: 'site/contacts',
         path: '/contakti',
@@ -98,8 +97,7 @@ export default (initModule) => {
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Contacts')),
             loading: LoaderPage,
-        }),
-        simplePage: true
+        })
     }, {
         id: 'site/feedback',
         path: '/otzivi',
