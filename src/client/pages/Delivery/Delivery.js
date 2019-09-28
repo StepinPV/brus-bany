@@ -6,7 +6,7 @@ import Top from './resources/Top';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import DeliveryMap from '../../components/DeliveryMap';
 import styles from "./Delivery.module.css";
-import FormBlock from "../../components/FormBlock";
+import FormBlock from '../../components/FormBlock';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -21,7 +21,7 @@ function Delivery() {
             <Top />
             <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
             <First />
-            {/*<DeliveryMap id='delivery-map' />*/}
+            <DeliveryMap id='delivery-map' />
             <Table />
             <FormBlock source='Страница доставки' />
         </Page>

@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { YMaps, Map, RoutePanel } from 'react-yandex-maps';
 import styles from './DeliveryMap.module.css';
-import Caption from "../Caption/Caption";
+import Caption from '../Caption/Caption';
+
+let Map;
 
 class DeliveryMap extends PureComponent {
     static propTypes = {
@@ -18,7 +19,8 @@ class DeliveryMap extends PureComponent {
     };
 
     state = {
-        data: null
+        data: null,
+        mapLoaded: false
     };
 
     constructor(props) {
@@ -90,9 +92,18 @@ class DeliveryMap extends PureComponent {
         }
     }
 
+    componentDidMount() {
+        setTimeout(() => {
+            import('./Map').then(module => {
+                Map = module.default;
+                this.setState({ mapLoaded: true });
+            });
+        }, 1000);
+    }
+
     render() {
         const { id } = this.props;
-        const { data } = this.state;
+        const { data, mapLoaded } = this.state;
 
         return (
             <div id={id} className={styles.container}>
@@ -105,23 +116,7 @@ class DeliveryMap extends PureComponent {
                         <div className={styles.coast}>{`Стоимость доставки: ${data.price} р`}</div>
                     </div>
                 ) : null}
-                <YMaps version='2.1.63'>
-                    <Map
-                        defaultState={{ center: [60.906882, 30.067233], zoom: 9 }}
-                        instanceRef={this.setMapRef}
-                        className={styles.map}>
-                        <RoutePanel
-                            options={{
-                                showHeader: true,
-                                title: 'Расчет доставки',
-                                autofocus: false,
-                                maxWidth: '294px',
-                                types: {auto: true}
-                            }}
-                            instanceRef={this.setRoutePanelRef}
-                        />
-                    </Map>
-                </YMaps>
+                {mapLoaded ? <Map setMapRef={this.setMapRef} setRoutePanelRef={this.setRoutePanelRef} /> : null}
             </div>
         );
     }
