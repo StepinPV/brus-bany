@@ -1,16 +1,11 @@
 import React, { memo } from 'react';
-import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import styles from './OfficeMap.module.css';
 
 function OfficeMap() {
     return (
-        <YMaps version='2.1.63'>
-            <Map
-                defaultState={{ center: [58.599071, 35.798098], zoom: 9 }}
-                className={styles.map}>
-                <Placemark geometry={[58.599071, 35.798098]} />
-            </Map>
-        </YMaps>
+        <div className={styles.map}>
+            <iframe src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=111422907145" width="100%" height="100%" frameBorder="0" />
+        </div>
     );
 }
 
