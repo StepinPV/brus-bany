@@ -6,8 +6,8 @@ const fs = require('fs');
 const MAX_WIDTH = 1200;
 
 const resizeImage = function(sourcePath, imageName, targetPath, callback, errback) {
-    if (!fs.existsSync(targetPath)){
-        fs.mkdirSync(targetPath, { recursive: true });
+    if (!fs.existsSync(path.join(__dirname, targetPath))){
+        fs.mkdirSync(path.join(__dirname, targetPath), { recursive: true });
     }
 
     gm(path.join(__dirname, `${sourcePath}${imageName}`))
@@ -23,6 +23,9 @@ const resizeImage = function(sourcePath, imageName, targetPath, callback, errbac
                                 callback();
                             }
                         });
+                } else {
+                    fs.renameSync(path.join(__dirname, `${sourcePath}${imageName}`), path.join(__dirname, `${targetPath}${imageName}`));
+                    callback();
                 }
             } else {
                 errback(err);
