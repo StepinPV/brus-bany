@@ -21,7 +21,7 @@ function Delivery() {
             <Top />
             <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
             <First />
-            <DeliveryMap id='delivery-map' />
+            {/*<DeliveryMap id='delivery-map' />*/}
             <Table />
             <FormBlock source='Страница доставки' />
         </Page>
