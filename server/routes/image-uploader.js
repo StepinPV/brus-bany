@@ -83,14 +83,14 @@ router.put('/', upload.single('file'), async function(req, res, next) {
             });*/
 
             addWatermark({
-                source: `${folderPath}cropped/${req.imageName}`,
+                source: `${folderPath}${req.imageName}`,
                 logo: path.join(__dirname, '../watermark.png'),
                 logoSize: {
                     width: 400,
                     height: 100
                 }
             }, function() {
-                compressImage(`${folderPath}cropped/${req.imageName}`, `${folderPath}compressed/`, function() {
+                compressImage(`${folderPath}${req.imageName}`, `${folderPath}compressed/`, function() {
                     send(res, {
                         message: `Изображение загружено!`,
                         data: `/buffer/compressed/${req.imageName}`,
