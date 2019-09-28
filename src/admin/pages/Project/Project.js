@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import Select from '../../../components/Select';
 import Materials from './resources/Materials';
 import {

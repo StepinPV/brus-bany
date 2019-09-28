@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import Items from './resources/Items';
 import { resetData, init, createMaterial, updateMaterial, deleteMaterial } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';

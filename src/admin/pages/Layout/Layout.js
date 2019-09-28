@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import Form from '../../components/Form';
 import { getLayout, setLayout, saveLayout, resetData, deleteLayout } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
