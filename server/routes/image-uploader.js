@@ -90,7 +90,12 @@ router.put('/', upload.single('file'), async function(req, res, next) {
                     height: 100
                 }
             }, function() {
-                compressImage(`${folderPath}${req.imageName}`, `${folderPath}compressed/`, function() {
+                send(res, {
+                    message: `Изображение загружено!`,
+                    data: `/buffer/${req.imageName}`,
+                    status: 'success'
+                });
+                /*compressImage(`${folderPath}${req.imageName}`, `${folderPath}compressed/`, function() {
                     send(res, {
                         message: `Изображение загружено!`,
                         data: `/buffer/compressed/${req.imageName}`,
@@ -100,7 +105,7 @@ router.put('/', upload.single('file'), async function(req, res, next) {
                     const message = `Не удалось сжать изображение: ${error}`;
                     send(res, { status: 'error', message });
                     console.log(message);
-                });
+                });*/
             }, function(err) {
                 const message = `Не удалось применить водяной знак: ${err}`;
                 send(res, { status: 'error', message });
