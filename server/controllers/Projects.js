@@ -164,15 +164,20 @@ class Projects {
             };
 
             const projectInst = new Project(data);
+            console.log('1');
 
             await projectInst.validate();
+            console.log('2');
 
             await prepareImages(data);
+            console.log('3');
 
             await Project.create(data);
+            console.log('4');
 
             return Status.success();
         } catch (err) {
+            console.log(err);
             return Status.error('Исправьте ошибки!', { errors: prepareErrors(err.errors) });
         }
     };
