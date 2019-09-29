@@ -13,9 +13,7 @@ const prepareImages = (data) => {
         const newImagePath = image.replace(regexp, newFolderPath);
         const fullNewFolderPath = './public' + newFolderPath;
 
-        if (!fs.existsSync(fullNewFolderPath)){
-            shell.mkdir('-p', fullNewFolderPath);
-        }
+        shell.mkdir('-p', fullNewFolderPath);
 
         fs.renameSync('./public' + image, './public' + newImagePath);
 

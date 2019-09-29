@@ -7,9 +7,7 @@ const fs = require('fs');
 const MAX_WIDTH = 1200;
 
 const resizeImage = function(sourcePath, imageName, targetPath, callback, errback) {
-    if (!fs.existsSync(path.join(__dirname, targetPath))){
-        shell.mkdir('-p', path.join(__dirname, targetPath));
-    }
+    shell.mkdir('-p', path.join(__dirname, targetPath));
 
     gm(path.join(__dirname, `${sourcePath}${imageName}`))
         .size(function(err, size) {

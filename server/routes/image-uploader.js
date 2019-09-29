@@ -14,10 +14,7 @@ const MAX_FILE_SIZE = 1024 * 1024 * 2;
 
 const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        if (!fs.existsSync(FOLDER_PATH)){
-            shell.mkdir('-p', FOLDER_PATH);
-        }
-
+        shell.mkdir('-p', FOLDER_PATH);
         cb(null, FOLDER_PATH)
     },
     filename: function (req, file, cb) {
