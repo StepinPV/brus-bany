@@ -1,5 +1,6 @@
 const path = require('path');
 const sharp = require('sharp');
+const shell = require('shelljs');
 const gm = require('gm');
 const fs = require('fs');
 
@@ -7,7 +8,7 @@ const MAX_WIDTH = 1200;
 
 const resizeImage = function(sourcePath, imageName, targetPath, callback, errback) {
     if (!fs.existsSync(path.join(__dirname, targetPath))){
-        fs.mkdirSync(path.join(__dirname, targetPath), { recursive: true });
+        shell.mkdir('-p', path.join(__dirname, targetPath));
     }
 
     gm(path.join(__dirname, `${sourcePath}${imageName}`))

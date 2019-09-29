@@ -4,6 +4,7 @@ const Materials = require('./Materials');
 const Categories = require('./Categories');
 const Layouts = require('./Layouts');
 const fs = require('fs');
+const shell = require('shelljs');
 const rimraf = require('rimraf');
 const prepareErrors = require('./prepareErrors');
 
@@ -19,7 +20,7 @@ const prepareImages = async (data) => {
         const fullNewFolderPath = './public' + newFolderPath;
 
         if (!fs.existsSync(fullNewFolderPath)){
-            fs.mkdirSync(fullNewFolderPath, { recursive: true });
+            shell.mkdir('-p', fullNewFolderPath);
         }
 
         fs.renameSync('./public' + image, './public' + newImagePath);

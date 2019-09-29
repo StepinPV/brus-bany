@@ -2,6 +2,7 @@ const Status = require('./Status');
 const Article = require('../models/Article');
 const prepareErrors = require('./prepareErrors');
 const fs = require('fs');
+const shell = require('shelljs');
 const rimraf = require('rimraf');
 
 const prepareImages = (data) => {
@@ -13,7 +14,7 @@ const prepareImages = (data) => {
         const fullNewFolderPath = './public' + newFolderPath;
 
         if (!fs.existsSync(fullNewFolderPath)){
-            fs.mkdirSync(fullNewFolderPath, { recursive: true });
+            shell.mkdir('-p', fullNewFolderPath);
         }
 
         fs.renameSync('./public' + image, './public' + newImagePath);

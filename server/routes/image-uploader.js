@@ -1,6 +1,7 @@
 const express = require('express');
 const multer  = require('multer');
 const fs = require('fs');
+const shell = require('shelljs');
 const path = require('path');
 const addWatermark = require('../addWatermark');
 const compressImage = require('../compressImage');
@@ -14,7 +15,7 @@ const MAX_FILE_SIZE = 1024 * 1024 * 2;
 const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         if (!fs.existsSync(FOLDER_PATH)){
-            fs.mkdirSync(FOLDER_PATH, { recursive: true });
+            shell.mkdir('-p', FOLDER_PATH);
         }
 
         cb(null, FOLDER_PATH)
