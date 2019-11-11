@@ -6,6 +6,7 @@ import ImageUploader from '../ImageUploader';
 import styles from './OneOf.module.css';
 import ArrayEditor from '../ArrayEditor';
 import ObjectEditor from '../ObjectEditor';
+import Input from '../../../components/Input';
 
 const renderSelect = ({ title, value, variants, onChange }) => {
     return (
@@ -59,6 +60,20 @@ const renderItem = ({ value, onChange, variants }) => {
                 format={variant.format}
                 onChange={handleChange}
             />;
+        case 'string':
+        case 'float number':
+        case 'integer number':
+            return (
+                <Input
+                    value={value.value}
+                    title={variant.title}
+                    type={variant.type}
+                    required={variant.required}
+                    min={variant.min}
+                    description={variant.description}
+                    onChange={handleChange}
+                />
+            );
         default: break;
     }
 };

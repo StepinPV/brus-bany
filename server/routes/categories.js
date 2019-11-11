@@ -37,7 +37,7 @@ router.post('/', async function(req, res, next) {
                 send(res, { data, status, message: `Категория успешно создана!` });
                 break;
             case 'error':
-                send(res, { message, status });
+                send(res, { message, status, data });
                 break;
             default:
                 break;
@@ -77,7 +77,7 @@ router.put('/:id', async function(req, res, next) {
                 send(res, { data, status, message: `Категория успешно обновлена!` });
                 break;
             case 'error':
-                send(res, { message, status });
+                send(res, { message, status, data });
                 break;
             default:
                 break;

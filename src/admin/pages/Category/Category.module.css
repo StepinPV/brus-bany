@@ -28,12 +28,3 @@
 .deleteButton {
     background: #91001d;
 }
-
-.error {
-    text-align: center;
-    margin-top: 64px;
-}
-
-.additions, .name, .filters, .article {
-    margin-bottom: 30px;
-}

@@ -5,11 +5,10 @@ import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import { getCategory, setCategory, saveCategory, resetData, deleteCategory } from './actions';
-import Input from '../../../components/Input';
 import withNotification from '../../../plugins/Notifications/withNotification';
-import Additions from './resources/Additions';
 import Filters from './resources/Filters';
-import Article from './resources/Article';
+import categoryFormat from '../../formats/category';
+import Form from '../../components/Form';
 import styles from './Category.module.css';
 
 const breadcrumbsDefault = [{
@@ -91,17 +90,13 @@ class Category extends PureComponent {
 
     renderContent = () => {
         const { category, match } = this.props;
+        const { errors } = this.state;
 
         return category ? (
             <div className={styles.formContainer}>
                 <div className={styles.formWrapper}>
-                    {this.renderTranslateName()}
-                    {this.renderTemplateName('name', 'Введите имя для шаблона (<<Бани из бруса>> | проекты и цены)', this.handleNameChange)}
-                    {this.renderTemplateName('name2', 'Введите имя для шаблона (<<Баня из бруса>> Алексин)', this.handle2NameChange)}
-                    {this.renderTemplateName('name3', 'Введите имя для шаблона (Фотографии готовых <<бань из бруса>>)', this.handle3NameChange)}
-                    {this.renderFilters()}
-                    {this.renderAdditions()}
-                    {this.renderArticle()}
+                    <Form format={categoryFormat} value={category} onChange={this.handleChange} errors={errors} />
+                    <Filters />
                     <div className={styles.saveButton} onClick={this.handleSave}>{match.params.id === 'add' ? 'Создать' : 'Cохранить'}</div>
                     {match.params.id !== 'add' ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
                 </div>
@@ -109,129 +104,28 @@ class Category extends PureComponent {
         ) : null;
     };
 
-    renderTranslateName = () => {
-        const { category } = this.props;
-        const { errors } = this.state;
-
-        return (
-            <div className={styles.name}>
-                <Input
-                    value={category.translateName}
-                    title='Введите имя на английском'
-                    type='string'
-                    required
-                    onChange={this.handleTranslateNameChange}
-                    error={errors['translateName']}
-                />
-            </div>
-        );
-    };
-
-    renderTemplateName = (key, title, handler) => {
-        const { category } = this.props;
-        const { errors } = this.state;
-
-        return (
-            <div className={styles.name}>
-                <Input
-                    value={category[key]}
-                    title={title}
-                    type='string'
-                    required
-                    onChange={handler}
-                    error={errors[key]}
-                />
-            </div>
-        );
-    };
-
-    renderAdditions = () => {
-        const { category } = this.props;
-
-        return (
-            <div className={styles.additions}>
-                <Additions data={category.additions || []} onChange={this.handleAdditionsChange} />
-            </div>
-
-        )
-    };
-
-    renderFilters = () => {
-        const { category } = this.props;
-
-        return (
-            <div className={styles.filters}>
-                <Filters data={category.filters || []} onChange={this.handleFiltersChange} />
-            </div>
-
-        )
-    };
-
-    renderArticle = () => {
-        const { category } = this.props;
-
-        return (
-            <div className={styles.article}>
-                <Article data={category.article} onChange={this.handleChangeArticle} />
-            </div>
-        )
-    };
-
-    handleChangeArticle = (id, article) => {
-        const { actions, category } = this.props;
-
-        actions.setCategory({ ...category, article });
-    };
-
-    handleTranslateNameChange = (value) => {
-        const { actions, category } = this.props;
-
-        actions.setCategory({ ...category, translateName: value });
-    };
-
-    handleNameChange = (name) => {
-        const { actions, category } = this.props;
-        actions.setCategory({ ...category, name });
-    };
-
-    handle2NameChange = (name2) => {
-        const { actions, category } = this.props;
-        actions.setCategory({ ...category, name2 });
-    };
-
-    handle3NameChange = (name3) => {
-        const { actions, category } = this.props;
-        actions.setCategory({ ...category, name3 });
-    };
-
-    handleAdditionsChange = (additions) => {
-        const { actions, category } = this.props;
-
-        actions.setCategory({ ...category, additions });
-    };
-
-    handleFiltersChange = (filters) => {
-        const { actions, category } = this.props;
-
-        actions.setCategory({ ...category, filters });
+    handleChange = (id, value) => {
+        const { actions } = this.props;
+        actions.setCategory(value);
     };
 
     handleSave = async () => {
         const { showNotification, actions, history } = this.props;
-        const errors = this.getErrors();
-
-        if (errors) {
-            showNotification({ message: 'Исправьте ошибки!', status: 'error' });
-            this.setState({ errors });
-            return;
-        }
-
-        const { message, status } = await actions.saveCategory();
+        const { message, status, data } = await actions.saveCategory();
 
         showNotification({ message, status });
 
-        if (status === 'success') {
-            history.push('/admin/categories');
+        switch (status) {
+            case 'success':
+                history.push('/admin/categories');
+                break;
+            case 'error':
+                if (data && data.errors) {
+                    this.setState({ errors: data.errors });
+                }
+                break;
+            default:
+                break;
         }
     };
 
@@ -248,21 +142,6 @@ class Category extends PureComponent {
             }
         }
     };
-
-    getErrors = () => {
-        const { category } = this.props;
-        const errors = {};
-        let hasErrors = false;
-
-        ['name', 'name2', 'name3', 'translateName'].forEach(key => {
-            if (!category[key]) {
-                errors[key] = 'Поле обязательно к заполнению!';
-                hasErrors = true;
-            }
-        });
-
-        return hasErrors ? errors : null;
-    }
 }
 
 /**

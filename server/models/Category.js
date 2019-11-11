@@ -52,6 +52,38 @@ const additionGroupScheme = new Schema({
     }
 });
 
+const projectBlockScheme = new Schema({
+    name: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    description: {
+        type: String
+    },
+    items: {
+        type: [{
+            name: {
+                type: String,
+                required: REQUIRED_MSG
+            },
+            description: {
+                type: String
+            },
+            default: {
+                type: Boolean
+            },
+            image: {
+                type: String,
+                required: REQUIRED_MSG
+            },
+            condition: {
+                type: String
+            },
+            price: Object
+        }]
+    },
+});
+
 const scheme = new Schema({
     translateName: {
         type: String,
@@ -74,6 +106,9 @@ const scheme = new Schema({
     },
     filters: {
         type: [filterScheme]
+    },
+    projectBlocks: {
+        type: [projectBlockScheme]
     },
     article: Object
 }, { versionKey: false });

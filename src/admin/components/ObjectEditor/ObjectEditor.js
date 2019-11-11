@@ -2,10 +2,12 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../components/Input';
 import TextArea from '../../../components/TextArea';
+import CheckBox from '../../../components/CheckBox';
 import ArrayEditor from '../ArrayEditor';
 import AssociativeArrayEditor from '../AssociativeArrayEditor';
 import OneOf from '../OneOf';
 import ImageUploader from '../ImageUploader';
+import Select from '../../../components/Select';
 import styles from './ObjectEditor.module.css';
 
 const renderHeader = ({ title, value, onChange }) => {
@@ -107,6 +109,31 @@ const renderItems = ({ value, onChange, format, errors }) => {
                             error={errors[item['_id']]}
                         />
                     </div>
+                );
+            case 'select':
+                return (
+                    <div className={styles.item} key={item['_id']}>
+                        <Select
+                            title={item.title}
+                            items={item.items}
+                            displayProperty='title'
+                            keyProperty='id'
+                            selectedKey={value[item['_id']]}
+                            onChange={handleChange}
+                            required={item.required}
+                            error={errors[item['_id']]} />
+                    </div>
+                );
+            case 'boolean':
+                return (
+                    <div className={styles.item} key={item['_id']}>
+                        <CheckBox
+                            checked={value[item['_id']]}
+                            title={item.title}
+                            onChange={handleChange}
+                        />
+                    </div>
+
                 );
             default: break;
         }

@@ -52,11 +52,11 @@
     margin-bottom: 8px;
 }
 
-.images, .price {
+.images, .price, .projectBlocks {
     margin-bottom: 32px;
 }
 
-.imagesTitle, .priceTitle {
+.imagesTitle, .priceTitle, .projectBlocksTitle {
     font-size: 23px;
 }
 

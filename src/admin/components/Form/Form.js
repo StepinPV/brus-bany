@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../components/Input';
 import Date from '../../../components/Date';
+import CheckBox from '../../../components/CheckBox';
 import TextArea from '../../../components/TextArea';
 import ObjectEditor from '../ObjectEditor';
 import ArrayEditor from '../ArrayEditor';
@@ -104,6 +105,17 @@ const Form = ({ value, onChange, format, errors }) => {
                                 />
                                 {errors[item['_id']] ? <div className={styles.error}>{errors[item['_id']]}</div> : null}
                             </div>
+                        );
+                    case 'boolean':
+                        return (
+                            <div className={styles.item} key={item['_id']}>
+                                <CheckBox
+                                    checked={value[item['_id']]}
+                                    title={item.title}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
                         );
                     default: break;
                 }

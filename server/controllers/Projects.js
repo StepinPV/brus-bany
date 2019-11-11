@@ -55,6 +55,7 @@ const DEFAULT_VALUES = {
 const calculatePrice = async (project) => {
     let price = 0;
     let materialsPrice = 0;
+    let projectBlocksPrice = 0;
 
     if (project.material) {
         for (let i = 0; i < project.material.length; i++) {
@@ -66,8 +67,43 @@ const calculatePrice = async (project) => {
         }
     }
 
-    if (materialsPrice) {
-        price += materialsPrice / (1 - DEFAULT_VALUES['salaryPercentage'] / 100 - project.profitPercentage / 100);
+    if (project.projectBlocks && project.projectBlocks.length) {
+        const { data: category } = await Categories.get(project.categoryId);
+
+        for (let i = 0; i < category.projectBlocks.length; i++) {
+            const block = category.projectBlocks[i];
+
+            let defaultIndex = 0;
+            const defaultItem = block.items.find((item, index) => {
+                if (Boolean(item.default)) {
+                    defaultIndex = index;
+                    return true;
+                }
+            });
+
+            if (defaultItem) {
+                switch(defaultItem.price.typeId) {
+                    case 'material_fix':
+                        const items = project.projectBlocks[i][defaultIndex];
+                        for (let i = 0; i < items; i++) {
+                            const { data: material } = await Materials.get(items[i].id);
+                            projectBlocksPrice += material.price * items[i].count;
+                        }
+                        break;
+                    case 'layout_fix':
+                        const params = project.layoutId;
+                        projectBlocksPrice += eval(defaultItem.price.value);
+                        break;
+                    case 'fix':
+                        projectBlocksPrice += defaultItem.price.value;
+                        break;
+                }
+            }
+        }
+    }
+
+    if (materialsPrice || projectBlocksPrice) {
+        price += (materialsPrice + projectBlocksPrice) / (1 - DEFAULT_VALUES['salaryPercentage'] / 100 - project.profitPercentage / 100);
     }
 
     price += DEFAULT_VALUES['taxiPrice'];

@@ -32,6 +32,10 @@ const scheme = new Schema({
         type: Object,
         default: {}
     },
+    projectBlocks: {
+        type: Array,
+        default: []
+    },
     material: {
         type: [{
             id: {
