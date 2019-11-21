@@ -5,7 +5,7 @@ const shell = require('shelljs');
 const path = require('path');
 const addWatermark = require('../addWatermark');
 const compressImage = require('../compressImage');
-// const resizeImage = require('../resizeImage');
+const resizeImage = require('../resizeImage');
 
 const router = express.Router();
 const FOLDER_PATH = './public/buffer';
@@ -49,7 +49,7 @@ router.put('/', upload.single('file'), async function(req, res, next) {
 
     try {
         if (req.imageName) {
-            /*resizeImage('../public/buffer/', req.imageName, '../public/buffer/cropped/', function () {
+            resizeImage('../public/buffer/', req.imageName, '../public/buffer/cropped/', function () {
                 addWatermark({
                     source: `${folderPath}cropped/${req.imageName}`,
                     logo: path.join(__dirname, '../watermark.png'),
@@ -78,9 +78,9 @@ router.put('/', upload.single('file'), async function(req, res, next) {
                 const message = `Не удалось обрезать изображение: ${err}`;
                 send(res, { status: 'error', message });
                 console.log(message);
-            });*/
+            });
 
-            addWatermark({
+            /*addWatermark({
                 source: `${folderPath}${req.imageName}`,
                 logo: path.join(__dirname, '../watermark.png'),
                 logoSize: {
@@ -93,7 +93,7 @@ router.put('/', upload.single('file'), async function(req, res, next) {
                     data: `/buffer/${req.imageName}`,
                     status: 'success'
                 });
-                /*compressImage(`${folderPath}${req.imageName}`, `${folderPath}compressed/`, function() {
+                /!*compressImage(`${folderPath}${req.imageName}`, `${folderPath}compressed/`, function() {
                     send(res, {
                         message: `Изображение загружено!`,
                         data: `/buffer/compressed/${req.imageName}`,
@@ -103,12 +103,12 @@ router.put('/', upload.single('file'), async function(req, res, next) {
                     const message = `Не удалось сжать изображение: ${error}`;
                     send(res, { status: 'error', message });
                     console.log(message);
-                });*/
+                });*!/
             }, function(err) {
                 const message = `Не удалось применить водяной знак: ${err}`;
                 send(res, { status: 'error', message });
                 console.log(message);
-            });
+            });*/
         } else {
             send(res, { status: 'error', message: 'Изображение не загружено. Допустимый формат: "jpg"' });
         }
