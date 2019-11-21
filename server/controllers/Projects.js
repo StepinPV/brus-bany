@@ -56,6 +56,7 @@ const calculatePrice = async (project) => {
     let price = 0;
     let materialsPrice = 0;
     let projectBlocksPrice = 0;
+    let projectBlocksPriceFixed = 0;
 
     if (project.material) {
         for (let i = 0; i < project.material.length; i++) {
@@ -67,38 +68,49 @@ const calculatePrice = async (project) => {
         }
     }
 
-    if (project.projectBlocks && project.projectBlocks.length) {
-        const { data: category } = await Categories.get(project.categoryId);
+    const { data: category } = await Categories.get(project.categoryId);
 
-        for (let i = 0; i < category.projectBlocks.length; i++) {
-            const block = category.projectBlocks[i];
+    for (let i = 0; i < category.projectBlocks.length; i++) {
+        const block = category.projectBlocks[i];
 
-            let defaultIndex = 0;
-            const defaultItem = block.items.find((item, index) => {
-                if (Boolean(item.default)) {
-                    defaultIndex = index;
-                    return true;
-                }
-            });
+        let defaultItemPrice = 0;
 
-            if (defaultItem) {
-                switch(defaultItem.price.typeId) {
-                    case 'material_fix':
-                        const items = project.projectBlocks[i][defaultIndex];
-                        for (let i = 0; i < items; i++) {
-                            const { data: material } = await Materials.get(items[i].id);
-                            projectBlocksPrice += material.price * items[i].count;
-                        }
-                        break;
-                    case 'layout_fix':
-                        const params = project.layoutId;
-                        projectBlocksPrice += eval(defaultItem.price.value);
-                        break;
-                    case 'fix':
-                        projectBlocksPrice += defaultItem.price.value;
-                        break;
-                }
+        for (let j = 0; j < block.items.length; j++) {
+            const item = block.items[j];
+            let itemPrice = 0;
+
+            switch(item.price.typeId) {
+                case 'material_fix':
+                    const items = project.projectBlocks[block.id][item.id].data;
+                    let sum = 0;
+                    for (let i = 0; i < items.length; i++) {
+                        const { data: material } = await Materials.get(items[i].id);
+                        sum += material.price * items[i].count;
+                    }
+                    itemPrice = sum;
+                    break;
+                case 'layout_fix':
+                    const { data: params } = await Layouts.get(project.layoutId);
+                    itemPrice = eval(item.price.value);
+                    break;
+                case 'fix':
+                    itemPrice = item.price.value;
+                    break;
             }
+
+            project.projectBlocks[block.id] = project.projectBlocks[block.id] || {};
+            project.projectBlocks[block.id][item.id] = project.projectBlocks[block.id][item.id] || {};
+            project.projectBlocks[block.id][item.id].price = itemPrice;
+
+            if (block.defaultItemId === item.id) {
+                defaultItemPrice = itemPrice;
+            }
+        }
+
+        if (block.useInBuildingPrice) {
+            projectBlocksPrice += defaultItemPrice;
+        } else {
+            projectBlocksPriceFixed += defaultItemPrice;
         }
     }
 
@@ -107,11 +119,15 @@ const calculatePrice = async (project) => {
     }
 
     price += DEFAULT_VALUES['taxiPrice'];
+    price += projectBlocksPriceFixed;
 
     // Округляем цену до сотен, возможно стоит делать это на клиенте
     price = Math.round(price / 100) * 100;
 
-    return price;
+    return {
+        price,
+        materialsPrice: materialsPrice
+    };
 };
 
 // Проверить и вернуть валидный profitPercentage
@@ -127,6 +143,32 @@ class Projects {
     static async getAll() {
         return Status.success(await Project.find({}));
     };
+
+    static async updatePrices() {
+        const projects = await Project.find({});
+
+        for (let i = 0; i < projects.length; i++) {
+            const project = projects[i].toObject();
+
+            const prices = await calculatePrice(project);
+            project.price = prices.price;
+            project.materialsPrice = prices.materialsPrice;
+
+            try {
+                const projectInst = new Project(project);
+
+                await projectInst.validate();
+
+                const { categoryId, layoutId } = project;
+
+                await Project.updateOne({ categoryId, layoutId }, project, { runValidators: true });
+
+                return Status.success();
+            } catch (err) {
+                return Status.error('Ошибка обновлен!', { errors: prepareErrors(err.errors) });
+            }
+        }
+    }
 
     static async getAllForCategory(categoryId, options) {
         const promise = Project.find({ categoryId });
@@ -199,16 +241,12 @@ class Projects {
             };
 
             const projectInst = new Project(data);
-            console.log('1');
 
             await projectInst.validate();
-            console.log('2');
 
             await prepareImages(data);
-            console.log('3');
 
             await Project.create(data);
-            console.log('4');
 
             return Status.success();
         } catch (err) {
@@ -231,7 +269,10 @@ class Projects {
         }
 
         project.profitPercentage = getValidProfitPercentage(project.profitPercentage);
-        project.price = await calculatePrice(project);
+
+        const prices = await calculatePrice(project);
+        project.price = prices.price;
+        project.materialsPrice = prices.materialsPrice;
 
         try {
             const data = {

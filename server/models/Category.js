@@ -53,6 +53,14 @@ const additionGroupScheme = new Schema({
 });
 
 const projectBlockScheme = new Schema({
+    id: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    order: {
+        type: Number,
+        required: REQUIRED_MSG
+    },
     name: {
         type: String,
         required: REQUIRED_MSG
@@ -60,17 +68,39 @@ const projectBlockScheme = new Schema({
     description: {
         type: String
     },
+    itemTitle: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    itemButtonTitle: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    useInBuildingPrice: {
+        type: Boolean
+    },
+    required: {
+        type: Boolean
+    },
+    defaultItemId: {
+        type: String
+    },
     items: {
         type: [{
+            id: {
+                type: String,
+                required: REQUIRED_MSG
+            },
+            order: {
+                type: Number,
+                required: REQUIRED_MSG
+            },
             name: {
                 type: String,
                 required: REQUIRED_MSG
             },
             description: {
                 type: String
-            },
-            default: {
-                type: Boolean
             },
             image: {
                 type: String,

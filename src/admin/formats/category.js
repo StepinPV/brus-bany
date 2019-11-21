@@ -87,8 +87,28 @@ export default [{
     title: 'Блок дополнений к цене проекта',
     type: 'array',
     format: [{
+        _id: 'id',
+        title: 'ИД блока',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'order',
+        title: 'Порядок',
+        type: 'integer number',
+        required: true
+    }, {
         _id: 'name',
         title: 'Название',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'itemTitle',
+        title: 'Тайтл для карточки',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'itemButtonTitle',
+        title: 'Тайтл для кнопки',
         type: 'string',
         required: true
     }, {
@@ -96,22 +116,40 @@ export default [{
         title: 'Описание',
         type: 'text'
     }, {
+        _id: 'useInBuildingPrice',
+        title: 'Цена учавствует в вычислениии стоимости строительства',
+        type: 'boolean'
+    }, {
+        _id: 'required',
+        title: 'Обязательное для выбора',
+        type: 'boolean'
+    }, {
+        _id: 'defaultItemId',
+        title: 'ID записи выбранной по умолчанию',
+        type: 'string'
+    }, {
         _id: 'items',
         title: 'Карточка',
         type: 'array',
         format: [{
-            _id: 'image',
-            title: 'Изображение',
-            type: 'image'
+            _id: 'id',
+            title: 'Идентификатор',
+            type: 'string',
+            required: true
         }, {
             _id: 'name',
             title: 'Название',
             type: 'string',
             required: true
         }, {
-            _id: 'default',
-            title: 'По умолчанию',
-            type: 'boolean'
+            _id: 'order',
+            title: 'Порядок',
+            type: 'integer number',
+            required: true
+        }, {
+            _id: 'image',
+            title: 'Изображение',
+            type: 'image'
         }, {
             _id: 'description',
             title: 'Описание',

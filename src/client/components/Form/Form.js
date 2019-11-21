@@ -32,7 +32,7 @@ function Form(props) {
                 ) : null}
 
                 {data ? (
-                    <input type="hidden" name='source' value={data} />
+                    <input type="hidden" name='data' value={JSON.stringify(data)} />
                 ) : null}
 
                 <Button caption={buttonCaption} className={styles.button} />

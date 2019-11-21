@@ -157,7 +157,7 @@ class Project extends PureComponent {
             return (
                 <div className={styles.projectBlocks}>
                     <div className={styles.projectBlocksTitle}>Дополнительные блоки к цене</div>
-                    {project.categoryId.projectBlocks.map((project, index) => this.renderProjectBlock(project, index))}
+                    {project.categoryId.projectBlocks.map(project => this.renderProjectBlock(project))}
                 </div>
             )
         }
@@ -165,30 +165,41 @@ class Project extends PureComponent {
         return null;
     };
 
-    renderProjectBlock = (projectBlock, index) => {
+    renderProjectBlock = (projectBlock) => {
         const { materials, actions, project } = this.props;
 
-        const handleChangeMaterialInProjectBlock = (data, cardIndex) => {
-            const newProjectBlocks = [...(project.projectBlocks || [])];
-            const newCards = [...newProjectBlocks[index]];
-            newCards[cardIndex] = data;
-            newProjectBlocks[index] = newCards;
+        const handleChangeMaterialInProjectBlock = (data, itemId) => {
+            const newProjectBlocks = { ...(project.projectBlocks || {}) };
+            const newCards = { ...newProjectBlocks[projectBlock.id] };
+            newCards[itemId] = {
+                data
+            };
+            newProjectBlocks[projectBlock.id] = newCards;
             actions.setProject({ ...project, projectBlocks: newProjectBlocks });
         };
 
-        const renderPrice = (item, cardIndex) => {
+        const renderPrice = (item) => {
             switch(item.price.typeId) {
                 case 'material_fix':
-                    project.projectBlocks = project.projectBlocks || [];
-                    project.projectBlocks[index] = project.projectBlocks[index] || [];
-                    project.projectBlocks[index][cardIndex] = project.projectBlocks[index][cardIndex] || [];
-                    return <Materials onChange={(data) => { handleChangeMaterialInProjectBlock(data, cardIndex) }} materials={materials} data={project.projectBlocks[index][cardIndex]} />;
+                    project.projectBlocks = project.projectBlocks || {};
+                    project.projectBlocks[projectBlock.id] = project.projectBlocks[projectBlock.id] || {};
+                    project.projectBlocks[projectBlock.id][item.id] = project.projectBlocks[projectBlock.id][item.id] || {
+                        data: []
+                    };
+                    return (
+                        <Materials
+                            onChange={data => {
+                                handleChangeMaterialInProjectBlock(data, item.id) }
+                            }
+                            materials={materials}
+                            data={project.projectBlocks[projectBlock.id][item.id].data} />
+                    );
                 case 'layout_fix':
                     const params = project.layoutId;
-                    return <div>{eval(item.price.value)}</div>;
+                    return <div style={{textAlign: 'center', marginTop: '8px'}}>Цена: {eval(item.price.value)} руб.</div>;
                     break;
                 case 'fix':
-                    return <div>{item.price.value}</div>;
+                    return <div style={{textAlign: 'center', marginTop: '8px'}}>Цена: {item.price.value} руб.</div>;
                     break;
 
             }
@@ -196,13 +207,12 @@ class Project extends PureComponent {
 
         return (
             <div>
-                <div>{`${index + 1}. ${projectBlock.name}`}</div>
-                <div>{projectBlock.items.map((item, cardIndex) => {
+                <div style={{textAlign: 'center', fontWeight: 'bold', marginTop: '16px'}}>{projectBlock.name}</div>
+                <div>{projectBlock.items.map(item => {
                     return (
                         <div>
-                            <div>Блок: {item.name}</div>
-                            <div>Цена:</div>
-                            {renderPrice(item, cardIndex)}
+                            <div style={{textAlign: 'center', marginTop: '16px'}}>{item.name} {item.id === projectBlock.defaultItemId ? ' (По умолчанию)' : null}</div>
+                            {renderPrice(item)}
                         </div>
                     )
                 })}</div>
@@ -277,11 +287,11 @@ class Project extends PureComponent {
 
         let projectBlocksPrice = 0;
         if (project.categoryId.projectBlocks) {
-            project.categoryId.projectBlocks.forEach((block, blockIndex) => {
-                let defaultIndex = 0;
-                const defaultItem = block.items.find((item, index) => {
-                    if (Boolean(item.default)) {
-                        defaultIndex = index;
+            project.categoryId.projectBlocks.forEach(block => {
+                let defaultItemId;
+                const defaultItem = block.items.find(item => {
+                    if (item.id === block.defaultItemId) {
+                        defaultItemId = item.id;
                         return true;
                     }
                 });
@@ -289,7 +299,7 @@ class Project extends PureComponent {
                 if (defaultItem) {
                     switch(defaultItem.price.typeId) {
                         case 'material_fix':
-                            project.projectBlocks[blockIndex][defaultIndex].forEach(material => {
+                            project.projectBlocks[block.id][defaultItemId].data.forEach(material => {
                                 const materialData = materials.find(mat => mat._id === material.id);
                                 projectBlocksPrice += materialData.price * material.count;
                             });

@@ -19,6 +19,10 @@ const scheme = new Schema({
         type: Number,
         required: REQUIRED_MSG
     },
+    materialsPrice: {
+        type: Number,
+        required: REQUIRED_MSG
+    },
     buildTime: {
         type: Number,
         required: REQUIRED_MSG
@@ -33,8 +37,8 @@ const scheme = new Schema({
         default: {}
     },
     projectBlocks: {
-        type: Array,
-        default: []
+        type: Object,
+        default: {}
     },
     material: {
         type: [{

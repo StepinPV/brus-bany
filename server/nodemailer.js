@@ -56,6 +56,7 @@ module.exports.send = ({ name, phone, source, data }) => {
     }]);
 
     if (data) {
+        data = JSON.parse(data);
         data.forEach(elem => {
             switch(elem.type) {
                 case 'fields':

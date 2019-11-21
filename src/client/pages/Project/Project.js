@@ -8,8 +8,7 @@ import PhotoCard from '../../components/PhotoCard';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import Additions from './resources/Additions';
 import DeliveryMap from '../../components/DeliveryMap';
-import Bakes from './resources/Bakes';
-import Foundation from './resources/Foundation';
+import ProjectBlock from './resources/ProjectBlock';
 import BaseEquipment from './resources/BaseEquipment';
 import Gallery from './resources/Gallery';
 import { getProject, resetData, getPhotos } from './actions';
@@ -40,13 +39,20 @@ class Project extends PureComponent {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.project && prevState.projectId !== nextProps.project._id) {
+
+            const projectBlocksValues = {};
+            nextProps.project.categoryId.projectBlocks.forEach(block => {
+                projectBlocksValues[block.id] = block.defaultItemId;
+            });
+
             return {
                 breadcrumbs: [
                     ...breadcrumbsDefault,
                     { title: nextProps.project.categoryId.name, link: `/bani/${nextProps.project.categoryId.translateName}`},
                     { title: nextProps.project.layoutId.name }
                 ],
-                projectId: nextProps.project.layoutId.name
+                projectId: nextProps.project._id,
+                projectBlocksValues
             }
         }
 
@@ -63,8 +69,7 @@ class Project extends PureComponent {
         projectId: null,
         breadcrumbs: breadcrumbsDefault,
         additionsValue: { values: {}, price: 0 },
-        foundationValue: null,
-        bakeValue: null,
+        projectBlocksValues: {},
         deliveryValue: null
     };
 
@@ -99,7 +104,7 @@ class Project extends PureComponent {
         const { breadcrumbs } = this.state;
 
         return (
-            <>
+            <div className={styles['main-container']}>
                 <Header />
                 {isProjectError || project && (String(project.layoutId.width) !== width || String(project.layoutId.length) !== length) ? (
                     <NotFound />
@@ -110,13 +115,13 @@ class Project extends PureComponent {
                     </>
                 )}
                 <Footer />
-            </>
+            </div>
         );
     }
 
     renderContent = () => {
         const { project, photos, match } = this.props;
-        const { additionsValue, foundationValue, bakeValue } = this.state;
+        const { additionsValue } = this.state;
 
         return project ? (
             <div className={styles.container} itemScope itemType="http://schema.org/Product">
@@ -125,8 +130,7 @@ class Project extends PureComponent {
                     {this.renderInfo()}
                 </div>
                 <BaseEquipment pathname={this.props.location.pathname} />
-                <Foundation onChange={this.handleFoundation} value={foundationValue} />
-                <Bakes onChange={this.handleBake} value={bakeValue} />
+                {this.renderProjectBlocks()}
                 <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
                 <DeliveryMap id='delivery' onChange={this.handleDelivery} />
                 {this.renderFinalPrice()}
@@ -217,10 +221,8 @@ class Project extends PureComponent {
                 <div className={styles['info-links']}>
                     <div className={styles['info-links-header']}>Из чего складывается итоговая цена?</div>
                     <a href='#base' className={styles['info-links-item']}>1. Базовая комплектация</a>
-                    <a href='#foundation' className={styles['info-links-item']}>2. Фундамент</a>
-                    <a href='#bake' className={styles['info-links-item']}>3. Печь</a>
-                    <a href='#additions' className={styles['info-links-item']}>4. Дополнения к бане</a>
-                    <a href='#delivery' className={styles['info-links-item']}>5. Стоимость доставки</a>
+                    <a href='#additions' className={styles['info-links-item']}>2. Дополнения к бане</a>
+                    <a href='#delivery' className={styles['info-links-item']}>3. Стоимость доставки</a>
                 </div>
             </div>
         )
@@ -251,50 +253,88 @@ class Project extends PureComponent {
     };
 
     renderFinalPrice = () => {
-        const { project, showForm, match } = this.props;
-        const { bakeValue, foundationValue, additionsValue, deliveryValue } = this.state;
+        const { project, showForm, match, project: { profitPercentage, projectBlocks } } = this.props;
+        const { additionsValue, deliveryValue, projectBlocksValues } = this.state;
 
-        let finalPrice = project.price;
-        if (bakeValue && bakeValue.price) finalPrice += bakeValue.price;
-        if (foundationValue && foundationValue.price) finalPrice += foundationValue.price;
+        const salaryPercentage = 20;
+        const defaultProfitPercentage = 20;
+        const taxiPrice = 12000;
+
+        let projectBlocksPrice = 0;
+        let projectBlocksPriceFixed = 0;
+
+        const finalProfitPercentage = isNaN(parseFloat(profitPercentage)) || profitPercentage < 0 || profitPercentage >= 100 - salaryPercentage ?
+            defaultProfitPercentage : profitPercentage;
+
+        const materialsPrice = project.materialsPrice;
+
+        if (project.categoryId.projectBlocks) {
+            project.categoryId.projectBlocks.forEach(block => {
+                const selectedItemId = projectBlocksValues[block.id];
+                // const selectedItem = block.items.find(item => item.id === selectedItemId);
+
+                if (selectedItemId) {
+                    if (block.useInBuildingPrice) {
+                        projectBlocksPrice += projectBlocks[block.id][selectedItemId].price;
+                    } else {
+                        projectBlocksPriceFixed += projectBlocks[block.id][selectedItemId].price;
+                    }
+                }
+            });
+        }
+
+        let finalPrice = (materialsPrice + projectBlocksPrice) / (1 - salaryPercentage / 100 - finalProfitPercentage / 100);
+
+        finalPrice += taxiPrice;
+        finalPrice += projectBlocksPriceFixed;
+
         if (additionsValue && additionsValue.price) finalPrice += additionsValue.price;
         if (deliveryValue && deliveryValue.price) finalPrice += deliveryValue.price;
 
+        finalPrice = Math.round(finalPrice / 100) * 100;
+
         return (
             <div className={styles['final-price-block']}>
-                <div className={styles['final-price-block-title']}>Итоговая стоимость</div>
-                <div className={styles['final-price-block-data']}>
-                    <div className={styles['final-price-block-item']}>{`Базовая комплектация - ${project.price.toLocaleString()} руб`}</div>
-                    <div className={styles['final-price-block-item']}>+</div>
-                    <div className={styles['final-price-block-item']}>{`Печь - ${bakeValue ? bakeValue.price.toLocaleString() + ' руб' : 'Не выбрано'}`}</div>
-                    <div className={styles['final-price-block-item']}>+</div>
-                    <div className={styles['final-price-block-item']}>{`Фундамент - ${foundationValue ? foundationValue.price.toLocaleString() + ' руб' : 'Не выбрано'}`}</div>
-                    <div className={styles['final-price-block-item']}>+</div>
-                    <div className={styles['final-price-block-item']}>{`Дополнения - ${additionsValue ? additionsValue.price.toLocaleString() + ' руб' : 'Не выбрано'}`}</div>
-                    <div className={styles['final-price-block-item']}>+</div>
-                    <div className={styles['final-price-block-item']}>{`Доставка - ${deliveryValue ? deliveryValue.price.toLocaleString() + ' руб' : 'Не выбрано'}`}</div>
-                </div>
-                <div className={styles['final-price-block-res']}>=</div>
-                <div className={styles['final-price-block-res-price']}>{finalPrice.toLocaleString()} руб</div>
+                <div className={styles['final-price-block-title']}>{`Итоговая стоимость: ${finalPrice.toLocaleString()} руб`}</div>
                 <Button
                     onClick={() => { showForm({ source: match.url, title: 'Оформление заявки', data: this.getFormData() }) }}
-                    className={styles['info-button']}
                     caption='Заказать баню'
+                    size='s'
                     type='yellow' />
             </div>
         )
     };
 
+    renderProjectBlocks = () => {
+        const { project: { categoryId } } = this.props;
+
+        if (categoryId.projectBlocks && categoryId.projectBlocks.length) {
+            return categoryId.projectBlocks.map(projectBlock => this.renderProjectBlock(projectBlock))
+        }
+    };
+
+    renderProjectBlock = (projectBlock) => {
+        const { project } = this.props;
+        const { projectBlocksValues } = this.state;
+
+        return (
+            <ProjectBlock
+                {...projectBlock}
+                project={project}
+                selectedId={projectBlocksValues[projectBlock.id]}
+                onChange={value => {
+                    this.setState({
+                        projectBlocksValues: {
+                            ...projectBlocksValues,
+                            [projectBlock.id]: value
+                        }
+                    })
+                }} />
+        );
+    };
+
     handleAdditions = (additionsValue) => {
         this.setState({ additionsValue });
-    };
-
-    handleFoundation = (foundationValue) => {
-        this.setState({ foundationValue });
-    };
-
-    handleBake = (bakeValue) => {
-        this.setState({ bakeValue });
     };
 
     handleDelivery = (deliveryValue) => {
@@ -303,11 +343,9 @@ class Project extends PureComponent {
 
     getFinalPrice = () => {
         const { project } = this.props;
-        const { bakeValue, foundationValue, additionsValue, deliveryValue } = this.state;
+        const { additionsValue, deliveryValue } = this.state;
 
         let finalPrice = project.price;
-        if (bakeValue && bakeValue.price) finalPrice += bakeValue.price;
-        if (foundationValue && foundationValue.price) finalPrice += foundationValue.price;
         if (additionsValue && additionsValue.price) finalPrice += additionsValue.price;
         if (deliveryValue && deliveryValue.price) finalPrice += deliveryValue.price;
 
@@ -316,35 +354,23 @@ class Project extends PureComponent {
 
     getFormData = () => {
         const { project } = this.props;
-        const { foundationValue, bakeValue, additionsValue, deliveryValue } = this.state;
+        const { additionsValue, deliveryValue, projectBlocksValues } = this.state;
         const data = [];
 
-        if (foundationValue) {
-            data.push({
-                type: 'fields',
-                title: 'Данные о выбранном фундаменте',
-                fields: [{
-                    name: 'Тип',
-                    value: foundationValue.name
-                }, {
-                    name: 'Цена',
-                    value: foundationValue.price
-                }]
-            })
-        }
-
-        if (bakeValue) {
-            data.push({
-                type: 'fields',
-                title: 'Данные о выбранной печи',
-                fields: [{
-                    name: 'Тип',
-                    value: bakeValue.name
-                }, {
-                    name: 'Цена',
-                    value: bakeValue.price
-                }]
-            })
+        if (project.categoryId.projectBlocks && project.categoryId.projectBlocks.length > 0) {
+            project.categoryId.projectBlocks.forEach(block => {
+                if (projectBlocksValues[block.id]) {
+                    const selectedValue = block.items.find(item => item.id === projectBlocksValues[block.id]);
+                    data.push({
+                        type: 'fields',
+                        title: block.itemTitle,
+                        fields: [{
+                            name: selectedValue.name,
+                            value: project.projectBlocks[block.id][projectBlocksValues[block.id]].price
+                        }]
+                    })
+                }
+            });
         }
 
         if (additionsValue && additionsValue.price > 0) {
@@ -377,7 +403,7 @@ class Project extends PureComponent {
                     name: 'Стоимость доставки',
                     value: deliveryValue.price
                 }]
-            })
+            });
         }
 
         data.push({
