@@ -1,5 +1,5 @@
 const sizeOf = require('image-size');
-const gm = require('gm');
+const gm = require('gm').subClass({ imageMagick: true });
 
 // https://github.com/navjotdhanawat/dynamic-watermark/blob/master/index.js
 const addWatermark = function(options, callback, errback) {

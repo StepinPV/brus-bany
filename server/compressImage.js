@@ -1,5 +1,6 @@
 const compressImages = require('compress-images');
 
+// gm("img.png").compress(type) http://aheckmann.github.io/gm/docs.html#compress
 const compressImage = function(sourceUrl, targetFolder, callback, errback) {
     compressImages(sourceUrl, targetFolder, {
         compress_force: false,

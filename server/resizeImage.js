@@ -15,6 +15,7 @@ const resizeImage = async function(sourcePath, imageName, targetPath, callback, 
         }
 
         if (dimensions.width > MAX_WIDTH) {
+            // gm(options.source).resize
             const image = await resizeImg(fs.readFileSync(path.join(__dirname, `${sourcePath}${imageName}`)), {
                 width: MAX_WIDTH
             });
