@@ -13,7 +13,13 @@ const addWatermark = function(options, callback, errback) {
 
         gm(options.source)
             .draw(['image over ' + logoX + ',' + logoY + ' ' + options.logoSize.width + ',' + options.logoSize.height + ' "' + options.logo + '"'])
-            .write(options.source, callback);
+            .write(options.source, (err) => {
+                if (err) {
+                    errback(err);
+                } else {
+                    callback();
+                }
+            });
     });
 };
 
