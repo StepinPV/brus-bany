@@ -130,7 +130,7 @@ class Project extends PureComponent {
                     {this.renderInfo()}
                 </div>
                 <BaseEquipment pathname={this.props.location.pathname} />
-                {this.renderProjectBlocks()}
+                {/*{this.renderProjectBlocks()}*/}
                 <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
                 <DeliveryMap id='delivery' onChange={this.handleDelivery} />
                 {this.renderFinalPrice()}
@@ -266,7 +266,7 @@ class Project extends PureComponent {
         const finalProfitPercentage = isNaN(parseFloat(profitPercentage)) || profitPercentage < 0 || profitPercentage >= 100 - salaryPercentage ?
             defaultProfitPercentage : profitPercentage;
 
-        const materialsPrice = project.materialsPrice;
+        const materialsPrice = project.materialsPrice || 0;
 
         if (project.categoryId.projectBlocks) {
             project.categoryId.projectBlocks.forEach(block => {

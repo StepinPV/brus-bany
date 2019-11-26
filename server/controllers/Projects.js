@@ -12,7 +12,7 @@ const prepareImages = async (data) => {
     const { data: category } = await Categories.get(data.categoryId);
     const { data: layout } = await Layouts.get(data.layoutId);
 
-    const regexp = /^\/buffer\//;
+    const regexp = /^\/buffer\/compressed\//;
     const newFolderPath = `/uploads/projects/${category.translateName}/${layout.translateName}/`;
 
     const moveImage = (image) => {
@@ -236,9 +236,12 @@ class Projects {
                 ...project,
                 categoryId,
                 layoutId,
-                price: DEFAULT_VALUES['price'],
-                profitPercentage: DEFAULT_VALUES['profitPercentage']
+                profitPercentage: project['profitPercentage'] || DEFAULT_VALUES['profitPercentage']
             };
+
+            const prices = await calculatePrice(data);
+            data.price = prices.price;
+            data.materialsPrice = prices.materialsPrice;
 
             const projectInst = new Project(data);
 

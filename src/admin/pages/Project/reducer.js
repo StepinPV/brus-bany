@@ -2,6 +2,7 @@ import {
     GET_PROJECT, GET_PROJECT_SUCCESS, GET_PROJECT_ERROR,
     GET_LAYOUTS, GET_LAYOUTS_SUCCESS, GET_LAYOUTS_ERROR,
     GET_MATERIALS, GET_MATERIALS_SUCCESS, GET_MATERIALS_ERROR,
+    GET_CATEGORY, GET_CATEGORY_SUCCESS, GET_CATEGORY_ERROR,
     SET_PROJECT, RESET_DATA
 } from './constants';
 
@@ -67,6 +68,12 @@ export default function(state = initialState, action) {
                 ...state,
                 isLayoutsFetch: false,
                 isLayoutsError: true
+            };
+
+        case GET_CATEGORY_SUCCESS:
+            return {
+                ...state,
+                category: action.payload
             };
 
         case GET_MATERIALS:

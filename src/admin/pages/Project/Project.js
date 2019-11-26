@@ -14,7 +14,8 @@ import {
     resetData,
     getLayouts,
     getMaterials,
-    deleteProject
+    deleteProject,
+    getCategory
 } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import ImageUploader from '../../components/ImageUploader';
@@ -56,6 +57,7 @@ class Project extends PureComponent {
     static propTypes = {
         layouts: PropTypes.array,
         materials: PropTypes.array,
+        category: PropTypes.object,
 
         project: PropTypes.object,
         isProjectError: PropTypes.string,
@@ -92,23 +94,26 @@ class Project extends PureComponent {
         const { match, actions } = this.props;
         const { categoryId, layoutId } = match.params;
 
-        if (addMode) {
-            actions.setProject({ categoryId });
-        } else {
+        if (!addMode) {
             actions.getProject(categoryId, layoutId);
         }
 
         actions.getLayouts();
         actions.getMaterials();
+        actions.getCategory(categoryId);
     }
 
     componentDidUpdate(prevProps, prevState) {
         const { addMode } = this.state;
-        const { match, actions } = this.props;
+        const { match, actions, category, project } = this.props;
 
         if (prevProps.match !== match && !addMode) {
             const { categoryId, layoutId } = match.params;
             actions.getProject(categoryId, layoutId);
+        }
+
+        if (category && !prevProps.category) {
+            actions.setProject({ ...project, categoryId: category });
         }
     }
 
@@ -138,13 +143,17 @@ class Project extends PureComponent {
             <div className={styles.formContainer}>
                 <div className={styles.formWrapper}>
                     {this.renderLayout()}
-                    {this.renderImages()}
-                    {<Materials onChange={this.handleMaterialsChange} materials={materials} data={project.material || []} />}
-                    {this.renderProjectBlocks()}
-                    {this.renderBuildTime()}
-                    {this.renderPrice()}
-                    <div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Сохранить и обновить'}</div>
-                    { !addMode ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
+                    {project.layoutId ? (
+                        <>
+                            {this.renderImages()}
+                            {<Materials onChange={this.handleMaterialsChange} materials={materials} data={project.material || []} />}
+                            {this.renderProjectBlocks()}
+                            {this.renderBuildTime()}
+                            {this.renderPrice()}
+                            {<div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Сохранить и обновить'}</div>}
+                            { !addMode ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
+                        </>
+                    ) : null}
                 </div>
             </div>
         ) : null;
@@ -402,9 +411,9 @@ class Project extends PureComponent {
     };
 
     handleLayout = (layoutId) => {
-        const { actions, project } = this.props;
+        const { actions, project, layouts } = this.props;
 
-        actions.setProject({ ...project, layoutId });
+        actions.setProject({ ...project, layoutId: layouts.find(l => l._id === layoutId) });
     };
 
     handleImageChange = async (file, key) => {
@@ -476,7 +485,8 @@ function mapDispatchToProps(dispatch) {
             resetData,
             getLayouts,
             getMaterials,
-            deleteProject
+            deleteProject,
+            getCategory
         }, dispatch),
         dispatch
     };
@@ -488,9 +498,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const { project, isProjectFetch, isProjectError, layouts, materials } = state['admin-project'];
+    const { project, isProjectFetch, isProjectError, layouts, materials, category } = state['admin-project'];
 
-    return { project, isProjectFetch, isProjectError, layouts, materials };
+    return { project, isProjectFetch, isProjectError, layouts, materials, category };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Project));

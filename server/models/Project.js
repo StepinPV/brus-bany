@@ -20,8 +20,7 @@ const scheme = new Schema({
         required: REQUIRED_MSG
     },
     materialsPrice: {
-        type: Number,
-        required: REQUIRED_MSG
+        type: Number
     },
     buildTime: {
         type: Number,

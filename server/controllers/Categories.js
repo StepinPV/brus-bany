@@ -6,7 +6,7 @@ const rimraf = require('rimraf');
 const fs = require('fs');
 
 const prepareImages = (data) => {
-    const regexp = /^\/buffer\//;
+    const regexp = /^\/buffer\/compressed\//;
     const newFolderPath = `/uploads/categories/${data.translateName}/`;
 
     const moveImage = (image) => {
