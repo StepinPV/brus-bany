@@ -58,7 +58,7 @@ router.put('/', upload.single('file'), async function(req, res, next) {
                         height: 100
                     }
                 }, function() {
-                    compressImage(`${folderPath}cropped/${req.imageName}`, `${folderPath}compressed/`, function() {
+                    compressImage(`${folderPath}cropped/${req.imageName}`, '../public/buffer/compressed/', req.imageName, function() {
                         send(res, {
                             message: `Изображение загружено!`,
                             data: `/buffer/compressed/${req.imageName}`,

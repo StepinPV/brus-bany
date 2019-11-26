@@ -1,22 +1,17 @@
-const compressImages = require('compress-images');
+const gm = require('gm');
+const shell = require('shelljs');
+const path = require('path');
 
-// gm("img.png").compress(type) http://aheckmann.github.io/gm/docs.html#compress
-const compressImage = function(sourceUrl, targetFolder, callback, errback) {
-    compressImages(sourceUrl, targetFolder, {
-        compress_force: false,
-        statistic: true,
-        autoupdate: false
-    }, false, {
-        jpg: { engine: 'mozjpeg', command: ['-quality', '60'] }
-    }, {
-        png: { engine: 'pngquant', command: ['--quality=20-50'] }
-    }, {
-        svg: { engine: 'svgo', command: '--multipass' }
-    }, {
-        gif: {engine: 'gifsicle', command: ['--colors', '64', '--use-col=web']}
-    }, function(error){
-        if (error) {
-            errback(error);
+const compressImage = function(sourceUrl, targetPath, imageName, callback, errback) {
+    let imageGM = gm(sourceUrl);
+
+    shell.mkdir('-p', path.join(__dirname, targetPath));
+
+    imageGM = imageGM.quality(45);
+
+    imageGM.write(path.join(__dirname, `${targetPath}${imageName}`), (err) => {
+        if (err) {
+            errback(err);
         } else {
             callback();
         }
