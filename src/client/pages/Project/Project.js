@@ -130,7 +130,7 @@ class Project extends PureComponent {
                     {this.renderInfo()}
                 </div>
                 <BaseEquipment pathname={this.props.location.pathname} />
-                {/*{this.renderProjectBlocks()}*/}
+                {this.renderProjectBlocks()}
                 <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
                 <DeliveryMap id='delivery' onChange={this.handleDelivery} />
                 {this.renderFinalPrice()}
