@@ -31,7 +31,7 @@ class Filters extends PureComponent {
     renderAdditionsFilter = () => {
         const { category, history, filters, filteredProjects } = this.props;
 
-        const additions = category.filters.filter(filter => {
+        const additions = (category.filters || []).filter(filter => {
             return filteredProjects.some(project => {
                 // eslint-disable-next-line
                 const params = project.layoutId;
