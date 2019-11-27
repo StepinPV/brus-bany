@@ -62,8 +62,8 @@
     "build:production": "NODE_ENV=production webpack",
     "server": "DEBUG=express:router nodemon server/server.js",
     "server:production": "node server/server.js",
-    "create-backup": "sh backup_scripts/create",
-    "apply-backup": "sh backup_scripts/apply"
+    "create-backup": "sh backup_scripts/create.sh",
+    "apply-backup": "sh backup_scripts/apply.sh"
   },
   "eslintConfig": {
     "extends": "react-app"
