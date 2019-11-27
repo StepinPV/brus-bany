@@ -50,6 +50,11 @@ export default [{
     title: 'Дополнения',
     type: 'array',
     format: [{
+        _id: 'id',
+        title: 'Идентификатор',
+        type: 'string',
+        required: true
+    }, {
         _id: 'name',
         title: 'Имя группы',
         type: 'string',
@@ -60,6 +65,11 @@ export default [{
         type: 'array',
         required: true,
         format: [{
+            _id: 'id',
+            title: 'Идентификатор',
+            type: 'string',
+            required: true
+        }, {
             _id: 'type',
             title: 'Тип',
             type: 'select',
