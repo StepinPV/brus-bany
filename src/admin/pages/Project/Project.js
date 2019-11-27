@@ -391,7 +391,7 @@ class Project extends PureComponent {
                     items={layouts}
                     displayProperty='name'
                     keyProperty='_id'
-                    selectedKey={layoutId}
+                    selectedKey={layoutId ? layoutId._id : null}
                     onChange={this.handleLayout}
                     error={errors['layoutId']} />
             </div>
