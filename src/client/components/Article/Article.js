@@ -17,7 +17,7 @@ class Article extends PureComponent {
             <div className={styles.content}>
                 {article.name ? <Caption size='m' align='center' className={styles['header-caption']} tag={captionTag}>{article.name}</Caption> : null}
                 {article.description ? this.renderText(article.description) : null}
-                {article.content.map((item, i) => <Fragment key={i}>{this.renderBlock(item)}</Fragment>)}
+                {article.content ? article.content.map((item, i) => <Fragment key={i}>{this.renderBlock(item)}</Fragment>) : null}
             </div>
         );
     }
