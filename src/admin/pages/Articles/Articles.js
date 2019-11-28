@@ -38,7 +38,7 @@ class Articles extends PureComponent {
                 return {
                     key: item['_id'],
                     type: 'link',
-                    title: item['name'],
+                    title: item.article['name'],
                     link: `/admin/articles/${item['translateName']}`
                 }
             });

@@ -5,19 +5,7 @@ const COLLECTION_NAME = 'articles';
 const REQUIRED_MSG = 'Поле обязательно для заполнения!';
 
 const scheme = new Schema({
-    name: {
-        type: String,
-        required: REQUIRED_MSG
-    },
     translateName: {
-        type: String,
-        required: REQUIRED_MSG
-    },
-    image: {
-        type: String,
-        required: REQUIRED_MSG
-    },
-    imageAlt: {
         type: String,
         required: REQUIRED_MSG
     },

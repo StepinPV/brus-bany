@@ -272,7 +272,6 @@ class Project extends PureComponent {
         if (project.categoryId.projectBlocks) {
             project.categoryId.projectBlocks.forEach(block => {
                 const selectedItemId = projectBlocksValues[block.id];
-                // const selectedItem = block.items.find(item => item.id === selectedItemId);
 
                 if (selectedItemId) {
                     if (block.useInBuildingPrice) {

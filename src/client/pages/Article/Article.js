@@ -94,7 +94,7 @@ class Article extends PureComponent {
             <>
                 {article ? (
                     <DataSection bgStyle='white'>
-                        <ArticleComponent article={article} captionTag='h1' />
+                        <ArticleComponent article={article.article} captionTag='h1' />
                     </DataSection>
                 ) : null}
                 <FormBlock source='Статья' />

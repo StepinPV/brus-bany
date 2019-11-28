@@ -4,19 +4,19 @@ import styles from './ArticleCard.module.css';
 import Card from "../Card";
 
 function ArticleCard(props) {
-    const { translateName, image, name, created, imageAlt } = props.article;
+    const { translateName, created, article } = props.article;
 
     return (
         <a href={`/blog/${translateName}`} key={translateName} className={styles.container}>
             <Card
-                firstImage={image}
-                imageAlt={imageAlt}
+                firstImage={article.image}
+                imageAlt={article.imageAlt}
                 firstButton='Читать полностью'
                 bgStyle='grey'
                 content={(
                     <div className={styles['item-content']}>
                         <div className={styles['date']}>{new Date(created).toLocaleDateString()}</div>
-                        <div className={styles['item-caption']}>{name}</div>
+                        <div className={styles['item-caption']}>{article.name}</div>
                     </div>
                 )}
             />

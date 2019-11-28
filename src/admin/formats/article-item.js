@@ -6,21 +6,6 @@ export default [{
     type: 'string',
     required: true
 }, {
-    _id: 'name',
-    title: 'Название статьи',
-    type: 'string',
-    required: true
-}, {
-    _id: 'image',
-    title: 'Изображение для обложки',
-    type: 'image',
-    required: true
-}, {
-    _id: 'imageAlt',
-    title: 'Alt для изображения',
-    type: 'string',
-    required: true
-}, {
     _id: 'article',
     title: 'Содержимое',
     type: 'object',
