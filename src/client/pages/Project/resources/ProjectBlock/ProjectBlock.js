@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from '../../../../components/Card';
 import DataSection from '../../../../components/DataSection';
+import numberWithSpaces from '../../../../../utils/numberWithSpaces';
 import styles from './ProjectBlock.module.css';
 
 import cx from "classnames";
@@ -43,7 +44,7 @@ class ProjectBlock extends PureComponent {
                                }}
                                firstImage={item.image}
                                firstButton={itemButtonTitle}
-                               secondButton={useInBuildingPrice ? null : `${project.projectBlocks[id][item.id].price.toLocaleString()} руб`}
+                               secondButton={useInBuildingPrice ? null : `${numberWithSpaces(project.projectBlocks[id][item.id].price)} руб`}
                                bgStyle='white'
                                content={(
                                    <div className={styles['bake-info']}>

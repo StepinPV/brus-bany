@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ProjectCard.module.css';
 import Card from "../Card";
+import numberWithSpaces from '../../../utils/numberWithSpaces';
 
 function ProjectCard(props) {
     const { categoryName, project } = props;
@@ -13,7 +14,7 @@ function ProjectCard(props) {
                 firstImage={images ? images['main'] : null}
                 imageAlt={`Баня ${layoutId.name} ${layoutId.width}x${layoutId.length}`}
                 firstButton='Подробнее'
-                secondButton={`${price ? price.toLocaleString() : null} руб`}
+                secondButton={`${price ? numberWithSpaces(price) : null} руб`}
                 bgStyle='grey'
                 content={(
                     <div className={styles['info']}>

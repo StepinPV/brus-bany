@@ -20,6 +20,7 @@ import {
 import withNotification from '../../../plugins/Notifications/withNotification';
 import ImageUploader from '../../components/ImageUploader';
 import Input from '../../../components/Input';
+import numberWithSpaces from '../../../utils/numberWithSpaces';
 import styles from './Project.module.css';
 
 const breadcrumbs = [{
@@ -349,31 +350,31 @@ class Project extends PureComponent {
                 <div className={styles.priceValueContainer}>
                     <div>Стройматериалы + допы:</div>
                     <div className={styles.priceValue}>
-                        {`${(materialsPrice + projectBlocksPrice).toLocaleString()} руб.`}
+                        {`${numberWithSpaces(materialsPrice + projectBlocksPrice)} руб.`}
                     </div>
                 </div>
                 <div className={styles.priceValueContainer}>
                     <div>Зарпалата строителей:</div>
                     <div className={styles.priceValue}>
-                        {`${salaryPercentage}% - ${salaryPrice.toLocaleString()} руб.`}
+                        {`${salaryPercentage}% - ${numberWithSpaces(salaryPrice)} руб.`}
                     </div>
                 </div>
                 <div className={styles.priceValueContainer}>
                     <div>Прибыль:</div>
                     <div className={styles.priceValue}>
-                        {`${finalProfitPercentage}% - ${profitPrice.toLocaleString()} руб.`}
+                        {`${finalProfitPercentage}% - ${numberWithSpaces(profitPrice)} руб.`}
                     </div>
                 </div>
                 <div className={styles.priceValueContainer}>
                     <div>Такси:</div>
                     <div className={styles.priceValue}>
-                        {`${taxiPrice.toLocaleString()} руб.`}
+                        {`${numberWithSpaces(taxiPrice)} руб.`}
                     </div>
                 </div>
                 <div className={styles.priceValueContainer}>
                     <div>Итоговая стоимость:</div>
                     <div className={styles.priceValue}>
-                        {`${finalPriceWithTaxi.toLocaleString()} руб.`}
+                        {`${numberWithSpaces(finalPriceWithTaxi)} руб.`}
                     </div>
                 </div>
             </div>

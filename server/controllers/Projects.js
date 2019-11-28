@@ -162,12 +162,12 @@ class Projects {
                 const { categoryId, layoutId } = project;
 
                 await Project.updateOne({ categoryId, layoutId }, project, { runValidators: true });
-
-                return Status.success();
             } catch (err) {
                 return Status.error('Ошибка обновлен!', { errors: prepareErrors(err.errors) });
             }
         }
+
+        return Status.success();
     }
 
     static async getAllForCategory(categoryId, options) {

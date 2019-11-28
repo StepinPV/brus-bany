@@ -19,6 +19,7 @@ import { Button } from "../../components/Button";
 import withForm from '../../plugins/Form/withForm';
 import FormBlock from '../../components/FormBlock';
 import NotFound from '../../components/NotFound';
+import numberWithSpaces from '../../../utils/numberWithSpaces';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -210,7 +211,7 @@ class Project extends PureComponent {
                         <meta itemProp="price" content={project.price} />
                         <meta itemProp="priceCurrency" content="RUB" />
                         <link itemProp="availability" href="http://schema.org/InStock" />
-                        {`${project.price.toLocaleString()} руб.`}
+                        {`${numberWithSpaces(project.price)} руб.`}
                     </div>
                 ) : null}
                 <div className={styles['info-buttons']}>
@@ -295,7 +296,7 @@ class Project extends PureComponent {
 
         return (
             <div className={styles['final-price-block']}>
-                <div className={styles['final-price-block-title']}>{`Итоговая стоимость: ${finalPrice.toLocaleString()} руб`}</div>
+                <div className={styles['final-price-block-title']}>{`Итоговая стоимость: ${numberWithSpaces(finalPrice)} руб`}</div>
                 <Button
                     onClick={() => { showForm({ source: match.url, title: 'Оформление заявки', data: this.getFormData() }) }}
                     caption='Заказать баню'
