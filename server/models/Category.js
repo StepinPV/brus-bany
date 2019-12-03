@@ -52,6 +52,17 @@ const additionGroupScheme = new Schema({
     }
 });
 
+const equipmentScheme = new Schema({
+    name: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    text: {
+        type: String,
+        required: REQUIRED_MSG
+    }
+});
+
 const projectBlockScheme = new Schema({
     id: {
         type: String,
@@ -136,6 +147,9 @@ const scheme = new Schema({
     },
     filters: {
         type: [filterScheme]
+    },
+    equipment: {
+        type: [equipmentScheme]
     },
     projectBlocks: {
         type: [projectBlockScheme]

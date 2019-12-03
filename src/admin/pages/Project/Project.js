@@ -38,6 +38,9 @@ const IMAGES_DATA = [{
     key: 'top',
     title: 'Вид сверху'
 }, {
+    key: 'top2',
+    title: 'Вид сверху 2'
+}, {
     key: '1',
     title: 'Вид сбоку'
 }, {

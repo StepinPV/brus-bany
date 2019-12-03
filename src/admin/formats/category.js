@@ -93,6 +93,21 @@ export default [{
         }]
     }]
 }, {
+    _id: 'equipment',
+    title: 'Элемент базовой комплектации',
+    type: 'array',
+    format: [{
+        _id: 'name',
+        title: 'Имя',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'text',
+        title: 'Текст',
+        type: 'string',
+        required: true
+    }]
+}, {
     _id: 'projectBlocks',
     title: 'Блок дополнений к цене проекта',
     type: 'array',

@@ -130,7 +130,7 @@ class Project extends PureComponent {
                     {this.renderGallery()}
                     {this.renderInfo()}
                 </div>
-                <BaseEquipment pathname={this.props.location.pathname} />
+                <BaseEquipment project={project} />
                 {this.renderProjectBlocks()}
                 <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
                 <DeliveryMap id='delivery' onChange={this.handleDelivery} />
@@ -165,6 +165,9 @@ class Project extends PureComponent {
         }, {
             key: 'top',
             alt: `${title} - фотография сверху`
+        }, {
+            key: 'top2',
+            alt: `${title} - фотография сверху (второй этаж)`
         }, {
             key: '1',
             alt: `${title} - фотография слева`

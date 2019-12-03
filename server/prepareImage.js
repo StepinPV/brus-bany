@@ -3,8 +3,8 @@ const gm = require('gm');
 
 const MAX_WIDTH = 1200;
 
-const LOGO = path.join(__dirname, './watermark.png');
-const LOGO_PADDING = 30;
+const LOGO_PATH = path.join(__dirname, './watermark.png');
+const MAX_LOGO_PADDING = 30;
 const LOGO_SIZE = {
     width: 400,
     height: 100
@@ -29,10 +29,16 @@ const prepareImage = async function(imageURL, callback, errback) {
                 imageGM.size((err, size) => {
                     if (err) { errback(err) }
 
+                    const logoWidth = size.width / 2 < LOGO_SIZE.width ? size.width / 2 * 0.8 : LOGO_SIZE.width;
+                    const logoHeight = logoWidth / 4;
+
+
                     // Добавляем логотип
-                    const logoX = LOGO_PADDING;
-                    const logoY = size.height - LOGO_SIZE.height - LOGO_PADDING;
-                    imageGM = imageGM.draw(['image over ' + logoX + ',' + logoY + ' ' + LOGO_SIZE.width + ',' + LOGO_SIZE.height + ' "' + LOGO + '"']);
+                    let logoPadding = size.height / 15;
+                    const logoX = logoPadding > 30 ? 30 : logoPadding;
+                    const logoY = size.height - logoHeight - logoPadding;
+
+                    imageGM = imageGM.draw(['image over ' + logoX + ',' + logoY + ' ' + logoWidth + ',' + logoHeight + ' "' + LOGO_PATH + '"']);
 
                     // Cжимаем
                     imageGM = imageGM.quality(45);
