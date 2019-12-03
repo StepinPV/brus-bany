@@ -288,13 +288,13 @@ class Project extends PureComponent {
 
         let finalPrice = (materialsPrice + projectBlocksPrice) / (1 - salaryPercentage / 100 - finalProfitPercentage / 100);
 
+        finalPrice = Math.round(finalPrice / 100) * 100;
+
         finalPrice += taxiPrice;
         finalPrice += projectBlocksPriceFixed;
 
         if (additionsValue && additionsValue.price) finalPrice += additionsValue.price;
         if (deliveryValue && deliveryValue.price) finalPrice += deliveryValue.price;
-
-        finalPrice = Math.round(finalPrice / 100) * 100;
 
         return (
             <div className={styles['final-price-block']}>

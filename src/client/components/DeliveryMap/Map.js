@@ -4,7 +4,7 @@ import styles from './DeliveryMap.module.css';
 
 function MapWrapper(props) {
     return (
-        <YMaps version='2.1.63'>
+        <YMaps version='2.1.63' query={{ apikey: 'fa735bc8-c259-4135-ba18-08ccba800f4d' }}>
             <Map
                 defaultState={{ center: [60.906882, 30.067233], zoom: 9 }}
                 instanceRef={props.setMapRef}
