@@ -14,7 +14,9 @@ function getURLObject(url, date, dateIsString) {
     return {
         'url': [{
             'loc': `${DOMAIN}${url}`,
-            'lastmod': dateIsString ? date : date.toISOString().split('T')[0]
+            ...(date ? {
+                'lastmod': dateIsString ? date : date.toISOString().split('T')[0]
+            } : {})
         }]
     }
 }
