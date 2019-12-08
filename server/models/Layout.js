@@ -146,7 +146,19 @@ const scheme = new Schema({
             wallHeight,
             ceilingArea
         }
-    }
+    },
+    updated: Date
 }, { versionKey: false });
+
+scheme.pre('save', function(next) {
+    if (!this.updated) {
+        this.updated = new Date();
+    }
+    next();
+});
+
+scheme.pre('updateOne', function() {
+    this.set({ updated: new Date() });
+});
 
 module.exports = mongoose.model(COLLECTION_NAME, scheme);

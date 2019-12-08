@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const errorhandler = require('errorhandler');
 const basicAuth = require('basic-auth');
+const schedule = require('node-schedule');
 
 const db = require('./db');
+const sitemap = require('./sitemap');
 const logger = require('./logger');
 const routes = require('./routes');
 const config = require('./config');
@@ -66,6 +68,13 @@ db.init(config.db_url, config.db_name, () => {
 });
 
 nodemailer.init('smtp.yandex.ru', 465, 'brus-bany.ru', 'Brus@123');
+
+sitemap.generate();
+schedule.scheduleJob('0 0 * * *', function(){
+    sitemap.generate();
+});
+
+
 
 
 

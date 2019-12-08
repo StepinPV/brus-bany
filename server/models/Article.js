@@ -10,12 +10,22 @@ const scheme = new Schema({
         required: REQUIRED_MSG
     },
     article: Object,
-    created: Date
+    created: Date,
+    updated: Date
 }, { versionKey: false });
 
 scheme.pre('save', function(next) {
-    if (!this.created) this.created = new Date();
+    if (!this.created) {
+        this.created = new Date();
+    }
+    if (!this.updated) {
+        this.updated = new Date();
+    }
     next();
+});
+
+scheme.pre('updateOne', function() {
+    this.set({ updated: new Date() });
 });
 
 module.exports = mongoose.model(COLLECTION_NAME, scheme);

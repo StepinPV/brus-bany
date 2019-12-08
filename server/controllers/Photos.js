@@ -73,7 +73,10 @@ class PhotoReports {
     };
 
     static async getAllForCategory(categoryId, options) {
-        const { data: photos } = await this.getAll(options);
+        const { data: photos } = await this.getAll({
+            ...options,
+            withProject: true
+        });
 
         return Status.success(photos.filter(photo => {
             return (photo.projectId.categoryId._id || photo.projectId.categoryId).toString() === categoryId;

@@ -23,7 +23,7 @@ export default (initModule) => {
         simplePage: true
     }, {
         id: 'site/bani/custom-project',
-        path: '/bani/individualniy-proekt',
+        path: '/bani/individualnyy-proekt',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/CustomProject')),
@@ -57,7 +57,7 @@ export default (initModule) => {
         simplePage: true
     }, {
         id: 'site/payment',
-        path: '/uslovia-oplati',
+        path: '/usloviya-oplaty',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Payment')),
@@ -75,7 +75,7 @@ export default (initModule) => {
         simplePage: true
     }, {
         id: 'site/privacy',
-        path: '/politika_konfidencialnosty',
+        path: '/politika-konfidencialnosti',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Privacy')),
@@ -92,7 +92,7 @@ export default (initModule) => {
         })
     }, {
         id: 'site/contacts',
-        path: '/contakti',
+        path: '/kontakty',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Contacts')),
@@ -100,7 +100,7 @@ export default (initModule) => {
         })
     }, {
         id: 'site/feedback',
-        path: '/otzivi',
+        path: '/otzyvy',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Feedback')),
@@ -125,8 +125,8 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
-        id: 'site/about-company',
-        path: '/about-company',
+        id: 'site/o-companii',
+        path: '/o-companii',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/AboutCompany')),

@@ -61,8 +61,12 @@ class Articles {
             return Status.error(`Статья с именем на английском = ${data['translateName']} уже существует!`);
         }
 
-        if (await Article.findOne({ 'name': data['name'] })) {
-            return Status.error(`Статья с именем = ${data['name']} уже существует!`);
+        if (!data.article || !data.article['name']) {
+            return Status.error(`Имя статьи обязательно!`);
+        }
+
+        if (data.article && await Article.findOne({ 'name': data.article['name'] })) {
+            return Status.error(`Статья с именем = ${data.article['name']} уже существует!`);
         }
 
         try {
@@ -88,7 +92,7 @@ class Articles {
         }
 
         const translateNameChanged = match['translateName'] !== data['translateName'];
-        const nameChanged = match['name'] !== data['name'];
+        const nameChanged = data.article && match.article['name'] !== data.article['name'];
 
         if (translateNameChanged) {
             if (await Article.findOne({ 'translateName': data['translateName'] })) {
@@ -96,9 +100,13 @@ class Articles {
             }
         }
 
+        if (!data.article || !data.article['name']) {
+            return Status.error(`Имя статьи обязательно!`);
+        }
+
         if (nameChanged) {
-            if (await Article.findOne({ 'name': data['name'] })) {
-                return Status.error(`Статья с именем = ${data['name']} уже существует!`);
+            if (data.article && await Article.findOne({ 'name': data.article['name'] })) {
+                return Status.error(`Статья с именем = ${data.article['name']} уже существует!`);
             }
         }
 

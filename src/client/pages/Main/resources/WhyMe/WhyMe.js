@@ -33,7 +33,7 @@ function WhyMe() {
                 {<Item
                     icon={styles['money-icon']}
                     caption='Работаем без предоплаты'
-                    text={(<>Оплата производится после успешной сдачи объекта. Более подробная информация в <a href='/uslovia-oplati' style={linkStyles}>условиях оплаты</a></>)}
+                    text={(<>Оплата производится после успешной сдачи объекта. Более подробная информация в <a href='/usloviya-oplaty' style={linkStyles}>условиях оплаты</a></>)}
                     />}
                 {<Item
                     icon={styles['caska-icon']}

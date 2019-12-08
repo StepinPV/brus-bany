@@ -53,22 +53,22 @@ function Footer() {
                     <a href='/bani/mobilnie' className={styles['items-item']}>Мобильные бани</a>
                     <a href='/bani/iz-brusa' className={styles['items-item']}>Бани из бруса</a>
                     <a href='/bani/karkasnie' className={styles['items-item']}>Каркасные бани</a>
-                    <a href='/bani/individualniy-proekt' className={styles['items-item']}>Индивидуальный проект</a>
+                    <a href='/bani/individualnyy-proekt' className={styles['items-item']}>Индивидуальный проект</a>
                 </nav>
                 <nav className={styles.column}>
                     <div className={styles['items-header']}>О КОМПАНИИ</div>
-                    <a href='/about-company' className={styles['items-item']}>О компании</a>
+                    <a href='/o-companii' className={styles['items-item']}>О компании</a>
                     <a href='/rekvizity' className={styles['items-item']}>Реквизиты компании</a>
                     <a href='/dostavka' className={styles['items-item']}>География доставки</a>
-                    <a href='/uslovia-oplati' className={styles['items-item']}>Условия оплаты</a>
-                    <a href='/contakti' className={styles['items-item']}>Контакты</a>
+                    <a href='/usloviya-oplaty' className={styles['items-item']}>Условия оплаты</a>
+                    <a href='/kontakty' className={styles['items-item']}>Контакты</a>
                     <a href='/vakansii' className={styles['items-item']}>Вакансии</a>
-                    <a href='/politika_konfidencialnosty' className={styles['items-item']}>Политика конфиденциальности</a>
+                    <a href='/politika-konfidencialnosti' className={styles['items-item']}>Политика конфиденциальности</a>
                 </nav>
                 <nav className={styles.column}>
                     <div className={styles['items-header']}>ДОПОЛНИТЕЛЬНО</div>
                     <a href='/photos' className={styles['items-item']}>Фото построенных бань</a>
-                    <a href='/otzivi' className={styles['items-item']}>Отзывы</a>
+                    <a href='/otzyvy' className={styles['items-item']}>Отзывы</a>
                     <a href='/blog' className={styles['items-item']}>Блог</a>
                     <a href='https://zen.yandex.ru/brusbany' className={styles['items-item']} target='_blank' rel="noopener noreferrer">Яндекс Дзен</a>
                     <a href='/akcii' className={styles['items-item']}>Скидки и акции</a>

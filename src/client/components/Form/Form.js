@@ -36,7 +36,7 @@ function Form(props) {
                 ) : null}
 
                 <Button caption={buttonCaption} className={styles.button} />
-                <div className={styles.disclaimer}>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika_konfidencialnosty' target='_blank'>Политика конфиденциальности.</a></div>
+                <div className={styles.disclaimer}>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika-konfidencialnosti' target='_blank'>Политика конфиденциальности.</a></div>
             </form>
         </>
     );

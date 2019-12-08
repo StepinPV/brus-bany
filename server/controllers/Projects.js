@@ -140,8 +140,24 @@ const getValidProfitPercentage = profitPercentage => {
 };
 
 class Projects {
-    static async getAll() {
-        return Status.success(await Project.find({}));
+    static async getAll(options) {
+        const promise = Project.find({});
+
+        if (options) {
+            const { withLayout, withCategory } = options;
+
+            if (withLayout) {
+                promise.populate('layoutId');
+            }
+
+            if (withCategory) {
+                promise.populate('categoryId');
+            }
+        }
+
+        const projects = await promise;
+
+        return Status.success(projects);
     };
 
     static async updatePrices() {

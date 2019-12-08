@@ -29,7 +29,7 @@ const categories = [{
     name: 'Индивидуальный проект',
     text: 'Расскажите, какую баню хотите, или покажите картинку - посчитаем, согласуем и сразу приступим к строительству',
     caption: 'Подробнее',
-    link: '/bani/individualniy-proekt'
+    link: '/bani/individualnyy-proekt'
 }];
 
 function Categories(props) {
