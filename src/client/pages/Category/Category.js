@@ -19,6 +19,9 @@ import FormBlock from "../../components/FormBlock";
 const breadcrumbsDefault = [{
     title: 'Главная',
     link: '/'
+}, {
+    title: 'Категории бань',
+    link: '/bani'
 }];
 
 class Category extends PureComponent {

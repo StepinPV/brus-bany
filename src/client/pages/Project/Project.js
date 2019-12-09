@@ -24,6 +24,9 @@ import numberWithSpaces from '../../../utils/numberWithSpaces';
 const breadcrumbsDefault = [{
     title: 'Главная',
     link: '/'
+}, {
+    title: 'Категории бань',
+    link: '/bani'
 }];
 
 class Project extends PureComponent {

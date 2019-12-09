@@ -32,9 +32,9 @@ const categories = [{
     link: '/bani/individualnyy-proekt'
 }];
 
-function Categories(props) {
+function Categories({ caption, captionTag, id }) {
     return (
-        <DataSection bgStyle='white' caption='Какую баню выбрать?' captionTag='h2' id={props.id}>
+        <DataSection bgStyle='white' caption={caption} captionTag={captionTag} id={id}>
             <div className={styles.items}>
                 {categories.map(({ className, name, text, caption, link }) => {
                     return (
@@ -56,5 +56,11 @@ function Categories(props) {
         </DataSection>
     )
 }
+
+Categories.defaultProps = {
+    caption: 'Какую баню выбрать?',
+    captionTag: 'h2'
+
+};
 
 export default memo(Categories);

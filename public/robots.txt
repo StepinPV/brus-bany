@@ -3,3 +3,4 @@ Disallow: /
 Disallow: /admin*
 Disallow: /api*
 Sitemap: https://brus-bany.ru/sitemap.xml
+Host: https://brus-bany.ru
