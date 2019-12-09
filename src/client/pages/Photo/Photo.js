@@ -6,13 +6,17 @@ import { getPhoto, resetData } from './actions';
 import Page from '../../components/Page';
 import H1Block from '../../components/H1Block';
 import styles from './Photo.module.css';
+import Text from '../../components/Text';
+import Caption from '../../components/Caption';
+import YouTube from '../../components/YouTube';
+import { Simple } from '../../components/Button';
 import FormBlock from '../../components/FormBlock';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
     link: '/'
 }, {
-    title: 'Фотографии построенных бань',
+    title: 'Фотоотчеты построенных бань',
     link: '/photos'
 }];
 
@@ -92,12 +96,15 @@ class Photo extends PureComponent {
                 <H1Block
                     caption={(
                         <>
-                            Фотографии проекта<br/>
+                            Фотоотчет проекта<br/>
                             {photo.projectId.categoryId.name2} {photo.projectId.layoutId.name} {photo.projectId.layoutId.width}x{photo.projectId.layoutId.length}
                         </>
                     )}
                     description={`Дата строительства ${new Date(photo.created).toLocaleDateString()}`} />
+                {this.renderDescription()}
                 {this.renderPhotos()}
+                {this.renderFeedback()}
+                {this.renderYouTube()}
                 {this.renderProjectLink()}
             </div>
         ) : null;
@@ -118,13 +125,56 @@ class Photo extends PureComponent {
         ) : null;
     };
 
+    renderDescription = () => {
+        const { photo } = this.props;
+
+        return photo && photo.description ? (
+            <div className={styles.description}>
+                <Caption tag='h2' size='s' className={styles['sub-caption']}>Описание постройки:</Caption>
+                <Text size='l'>{photo.description}</Text>
+            </div>
+        ) : null;
+    };
+
+    renderFeedback = () => {
+        const { photo } = this.props;
+
+        return photo && photo.feedback ? (
+            <div className={styles.feedback}>
+                <Caption tag='h2' size='s' className={styles['sub-caption']}>Отзыв клиента:</Caption>
+                <div className={styles['feedback-content']}>
+                    {photo.clientPhoto ? <img className={styles['feedback-photo']} src={photo.clientPhoto} alt='Фотография клиента' loading='lazy' /> : null}
+                    <Text size='l' className={styles['feedback-text']}>{photo.feedback}</Text>
+                </div>
+            </div>
+        ) : null;
+    };
+
+    renderYouTube = () => {
+        const { photo } = this.props;
+
+        return photo && photo.videoFeedback ? (
+            <div className={styles.feedback}>
+                <Caption tag='h2' size='s' className={styles['sub-caption']}>Видеоотзыв клиента:</Caption>
+                <YouTube link={photo.videoFeedback} height={315} className={styles['feedback-video']} />
+            </div>
+        ) : null;
+    };
+
     renderProjectLink = () => {
         const { photo } = this.props;
 
         return (
             <a href={`/bani/${photo.projectId.categoryId.translateName}/${photo.projectId.layoutId.translateName}_${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length}`} className={styles.projectLink}>
                 <img src={photo.projectId.images.main} className={styles['projectLink-image']} alt={`Баня ${photo.projectId.layoutId.name} ${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length}`} />
-                <div className={styles['projectLink-text']}>Перейти к проекту бани</div>
+                <div className={styles['projectLink-text']}>
+                    <div>
+                        <div className={styles['projectLink-name']}>
+                            {photo.projectId.categoryId.name2} {photo.projectId.layoutId.name} {photo.projectId.layoutId.width}x{photo.projectId.layoutId.length}
+                        </div>
+                        <Simple caption='Перейти к проекту бани' />
+                    </div>
+                </div>
             </a>
         )
     };

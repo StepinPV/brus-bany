@@ -58,7 +58,7 @@ class Main extends PureComponent {
                 <HowWork />
                 <WhyMe />
                 {preparedPhotos.length ? (
-                    <DataSection bgStyle='grey' caption='Фотографии готовых проектов' captionTag='h2'>
+                    <DataSection bgStyle='grey' caption='Фотоотчеты готовых проектов' captionTag='h2'>
                         <CardList items={photos.map(photo => ({
                             id: photo._id,
                             element: <PhotoCard photo={photo} />

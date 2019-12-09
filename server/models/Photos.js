@@ -22,6 +22,18 @@ const scheme = new Schema({
         type: String,
         required: REQUIRED_MSG
     },
+    description: {
+        type: String
+    },
+    feedback: {
+        type: String
+    },
+    videoFeedback: {
+        type: String
+    },
+    clientPhoto: {
+        type: String
+    },
     photos: {
         type: [{
             image: String,

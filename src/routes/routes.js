@@ -108,15 +108,6 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
-        id: 'site/feedback',
-        path: '/otzyvy',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Feedback')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
-    }, {
         id: 'site/promo',
         path: '/akcii',
         exact: true,

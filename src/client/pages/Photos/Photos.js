@@ -16,7 +16,7 @@ const breadcrumbs = [{
     title: 'Главная',
     link: '/'
 }, {
-    title: 'Фотографии построенных бань'
+    title: 'Фотоотчеты построенных бань'
 }];
 
 class Photos extends PureComponent {
@@ -64,8 +64,8 @@ class Photos extends PureComponent {
         return categories ? (
             <>
                 <H1Block
-                    caption='Фотографии построенных бань'
-                    description='На данной странице вы можете посмотреть фотографии бань, которые мы построили' />
+                    caption='Фотоотчеты построенных бань'
+                    description='На данной странице вы можете посмотреть фотоотчеты бань, которые мы построили' />
                 <>
                     {this.renderCategories()}
                 </>

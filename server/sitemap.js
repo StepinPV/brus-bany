@@ -42,7 +42,6 @@ const data = {
         getURLObject('/politika-konfidencialnosti', '2019-12-08', true),
         getURLObject('/dostavka', '2019-12-08', true),
         getURLObject('/kontakty', '2019-12-08', true),
-        getURLObject('/otzyvy', '2019-12-08', true),
         getURLObject('/akcii', '2019-12-08', true),
         getURLObject('/akcii/quiz', '2019-12-08', true),
         getURLObject('/akcii', '2019-12-08', true),

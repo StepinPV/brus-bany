@@ -68,8 +68,7 @@ function Footer() {
                 </nav>
                 <nav className={styles.column}>
                     <div className={styles['items-header']}>ДОПОЛНИТЕЛЬНО</div>
-                    <a href='/photos' className={styles['items-item']}>Фото построенных бань</a>
-                    <a href='/otzyvy' className={styles['items-item']}>Отзывы</a>
+                    <a href='/photos' className={styles['items-item']}>Фотоотчеты построенных бань</a>
                     <a href='/blog' className={styles['items-item']}>Блог</a>
                     <a href='https://zen.yandex.ru/brusbany' className={styles['items-item']} target='_blank' rel="noopener noreferrer">Яндекс Дзен</a>
                     <a href='/akcii' className={styles['items-item']}>Скидки и акции</a>

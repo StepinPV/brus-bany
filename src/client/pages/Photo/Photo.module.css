@@ -9,7 +9,6 @@
     max-width: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 16px;
 }
 
 .photo, .projectLink {
@@ -24,9 +23,7 @@
 }
 
 .projectLink {
-    height: 400px;
     display: flex;
-    flex-wrap: wrap;
     background: #eeeeee;
     text-decoration: none;
 }
@@ -38,8 +35,6 @@
 
 .projectLink-text {
     text-align: center;
-    font-size: 36px;
-    font-weight: bold;
     flex-grow: 1;
     display: flex;
     justify-content: center;
@@ -47,3 +42,52 @@
     padding: 32px;
     color: #000;
 }
+
+.projectLink-name {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 32px;
+}
+
+.description, .feedback, .photos {
+    margin-bottom: 48px;
+}
+
+.sub-caption {
+    margin-bottom: 16px;
+}
+
+.feedback-content {
+    display: flex;
+}
+
+.feedback-text {
+    background: #f7f7f7;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.feedback-photo {
+    width: 78px;
+    height: 78px;
+    margin-right: 16px;
+    border-radius: 78px;
+    flex-shrink: 0;
+}
+
+.feedback-video {
+    width: 100%;
+}
+
+@media screen and (min-width: 769px) {
+    .projectLink {
+        height: 400px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .projectLink {
+        flex-wrap: wrap;
+    }
+}
+
