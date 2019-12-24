@@ -6,7 +6,7 @@ const shell = require('shelljs');
 const rimraf = require('rimraf');
 
 const prepareImages = (data) => {
-    const regexp = /^\/buffer\/compressed\//;
+    const regexp = /^\/buffer\//;
     const newFolderPath = `/uploads/articles/${data.translateName}/`;
 
     const moveImage = (image) => {

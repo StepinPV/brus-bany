@@ -15,7 +15,7 @@ class Article extends PureComponent {
 
         return (
             <div className={styles.content}>
-                {article.name ? <Caption size='m' align='center' className={styles['header-caption']} tag={captionTag}>{article.name}</Caption> : null}
+                {article.name ? <Caption size='m' align='center' className={styles['header-caption']} tag={captionTag} isHTML>{article.name}</Caption> : null}
                 {article.description ? this.renderText(article.description) : null}
                 {article.image ? this.renderImage({
                     image: article.image,
@@ -32,7 +32,7 @@ class Article extends PureComponent {
 
         return (
             <div className={styles.block}>
-                {caption ? <Caption size='s' className={styles.caption} tag={captionTag === 'h1' ? 'h2' : 'h3'}>{caption}</Caption> : null}
+                {caption ? <Caption size='s' className={styles.caption} tag={captionTag === 'h1' ? 'h2' : 'h3'} isHTML>{caption}</Caption> : null}
                 {content ? content.map((data, i) => <Fragment key={i}>{this.renderItem(data.item)}</Fragment>) : null}
             </div>
         )
