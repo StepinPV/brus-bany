@@ -51,7 +51,7 @@ class Article extends PureComponent {
     };
 
     renderText = (text) => {
-        return text ? <Text className={styles.text} size='l' isHTML>{this.prepareText(text)}</Text> : null
+        return text ? <Text className={styles.text} size='l' isHTML>{text}</Text> : null
     };
 
     renderImage = (value) => {
@@ -66,7 +66,7 @@ class Article extends PureComponent {
                 {values.map(value => (
                     <li className={styles.li}>
                         <Text size='l' className={styles['list-caption']} isHTML>{value.caption}</Text>
-                        <Text size='l' isHTML>{this.prepareText(value.text)}</Text>
+                        <Text size='l' isHTML>{value.text}</Text>
                     </li>
                 ))}
             </ul>
@@ -79,34 +79,12 @@ class Article extends PureComponent {
                 {values.map(value => (
                     <li className={styles.li}>
                         <Text size='l' className={styles['list-caption']} isHTML>{value.caption}</Text>
-                        <Text size='l' isHTML>{this.prepareText(value.text)}</Text>
+                        <Text size='l' isHTML>{value.text}</Text>
                     </li>
                 ))}
             </ol>
         )
     };
-
-    prepareText = (text) => {
-        let res;
-
-        while ((res = /{{(.+?)}}/.exec(text)) && res) {
-            if (res[0] && res[1]) {
-                const data = res[1].split('|');
-
-                switch (data[0]) {
-                    case 'link':
-                        if (data[1] && data[2]) {
-                            text = text.replace(res[0], `<a class="${styles.link}" href="${data[2]}">${data[1]}</a>`);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        return text;
-    }
 }
 
 export default Article;
