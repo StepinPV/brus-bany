@@ -1,0 +1,6 @@
+.icon {
+    background-image: url('./resources/logo.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+}

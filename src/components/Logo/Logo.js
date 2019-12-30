@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
-import logo from './resources/logo.png';
+import cx from 'classnames';
+import styles from './Logo.module.css';
 
 export default memo((props) => (
-    <img src={logo} alt="Логотип компании 'Брус бани'" className={props.className} />
+    <i className={cx(props.className, styles.icon)} />
 ));
