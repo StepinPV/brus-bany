@@ -5,8 +5,8 @@ const MAX_WIDTH = 1200;
 
 const LOGO_PATH = path.join(__dirname, './watermark.png');
 const LOGO_SIZE = {
-    width: 387,
-    height: 86
+    width: 384,
+    height: 84
 };
 
 const prepareImage = async function(imageURL, callback, errback) {
