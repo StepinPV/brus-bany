@@ -81,7 +81,7 @@ const calculatePrice = async (project) => {
 
             switch(item.price.typeId) {
                 case 'material_fix':
-                    const items = project.projectBlocks[block.id][item.id].data;
+                    const items = project.projectBlocks && project.projectBlocks[block.id] && project.projectBlocks[block.id][item.id] ? project.projectBlocks[block.id][item.id].data : [];
                     let sum = 0;
                     for (let i = 0; i < items.length; i++) {
                         const { data: material } = await Materials.get(items[i].id);
@@ -98,6 +98,7 @@ const calculatePrice = async (project) => {
                     break;
             }
 
+            project.projectBlocks = project.projectBlocks || {};
             project.projectBlocks[block.id] = project.projectBlocks[block.id] || {};
             project.projectBlocks[block.id][item.id] = project.projectBlocks[block.id][item.id] || {};
             project.projectBlocks[block.id][item.id].price = itemPrice;

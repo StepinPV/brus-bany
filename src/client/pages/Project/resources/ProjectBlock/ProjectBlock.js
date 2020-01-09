@@ -8,7 +8,7 @@ import cx from "classnames";
 
 function ProjectBlock({ id, selectedId, onChange, name, description, items, itemTitle, itemButtonTitle, project, required, useInBuildingPrice }) {
     return (
-        <DataSection bgStyle='grey' caption={name} captionTag='h2' description={description}>
+        <DataSection bgStyle='grey' caption={name} captionTag='h2' description={description} isDescriptionHTML>
             <div className={styles.items}>
                 {items.map(item => {
                     return (
@@ -27,16 +27,13 @@ function ProjectBlock({ id, selectedId, onChange, name, description, items, item
                             }}
                             firstImage={item.image}
                             firstButton={itemButtonTitle}
-                            secondButton={useInBuildingPrice ? null : `${numberWithSpaces(project.projectBlocks[id][item.id].price)} руб`}
+                            secondButton={useInBuildingPrice ? null : (project.projectBlocks && project.projectBlocks[id] && project.projectBlocks[id][item.id] ? `${numberWithSpaces(project.projectBlocks[id][item.id].price)} руб` : null)}
                             bgStyle='white'
                             content={(
                                 <div className={styles['bake-info']}>
                                     <div className={styles['bake-title']}>{itemTitle}</div>
                                     <div className={styles['bake-name']}>{item.name}</div>
-                                    <div className={styles['bake-params']}>
-                                        {item.description}
-                                    </div>
-                                    <div className={styles['bake-param']}>Установка печи входит в стоимость</div>
+                                    <div className={styles['bake-params']} dangerouslySetInnerHTML={{ __html: item.description }} />
                                 </div>
                             )}
                         />

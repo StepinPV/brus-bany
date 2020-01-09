@@ -280,10 +280,11 @@ class Project extends PureComponent {
                 const selectedItemId = projectBlocksValues[block.id];
 
                 if (selectedItemId) {
+                    const blockPrice = projectBlocks && projectBlocks[block.id] && projectBlocks[block.id][selectedItemId].price ? projectBlocks[block.id][selectedItemId].price : 0;
                     if (block.useInBuildingPrice) {
-                        projectBlocksPrice += projectBlocks[block.id][selectedItemId].price;
+                        projectBlocksPrice += blockPrice;
                     } else {
-                        projectBlocksPriceFixed += projectBlocks[block.id][selectedItemId].price;
+                        projectBlocksPriceFixed += blockPrice;
                     }
                 }
             });
@@ -325,6 +326,7 @@ class Project extends PureComponent {
 
         return (
             <ProjectBlock
+                key={projectBlock.id}
                 {...projectBlock}
                 project={project}
                 selectedId={projectBlocksValues[projectBlock.id]}
