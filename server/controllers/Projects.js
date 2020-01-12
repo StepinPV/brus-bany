@@ -126,7 +126,7 @@ const calculatePrice = async (project) => {
     price = Math.round(price / 100) * 100;
 
     return {
-        price,
+        price: project.fixPrice || price,
         materialsPrice: materialsPrice
     };
 };

@@ -16,6 +16,7 @@ function ProjectBlock({ id, selectedId, onChange, name, description, items, item
                             key={item.id}
                             imageAlt={`${itemTitle} ${item.name.toLowerCase()}`}
                             className={cx({[styles.selected]: selectedId === item.id})}
+                            style={{ order: item.order }}
                             onClick={() => {
                                 if (item.id === selectedId) {
                                     if (!required) {

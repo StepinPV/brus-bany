@@ -279,7 +279,7 @@ class Project extends PureComponent {
     };
 
     renderPrice = () => {
-        const { project: { profitPercentage }, project, materials } = this.props;
+        const { project: { profitPercentage, fixPrice }, project, materials } = this.props;
 
         const salaryPercentage = 20;
         const defaultProfitPercentage = 20;
@@ -350,6 +350,16 @@ class Project extends PureComponent {
                         onChange={this.handleProfitPercentageCountChange}
                     />
                 </div>
+                <div className={styles.profitPercentageInput}>
+                    <Input
+                        value={fixPrice}
+                        title='Зафиксировать стоимость'
+                        type='float number'
+                        required
+                        min={0}
+                        onChange={this.handleFixPriceChange}
+                    />
+                </div>
                 <div className={styles.priceValueContainer}>
                     <div>Стройматериалы + допы:</div>
                     <div className={styles.priceValue}>
@@ -377,7 +387,7 @@ class Project extends PureComponent {
                 <div className={styles.priceValueContainer}>
                     <div>Итоговая стоимость:</div>
                     <div className={styles.priceValue}>
-                        {`${numberWithSpaces(finalPriceWithTaxi)} руб.`}
+                        {`${numberWithSpaces(fixPrice || finalPriceWithTaxi)} руб.`}
                     </div>
                 </div>
             </div>
@@ -406,6 +416,12 @@ class Project extends PureComponent {
         const { actions, project } = this.props;
 
         actions.setProject({ ...project, profitPercentage });
+    };
+
+    handleFixPriceChange = (fixPrice) => {
+        const { actions, project } = this.props;
+
+        actions.setProject({ ...project, fixPrice });
     };
 
     handleMaterialsChange = (material) => {

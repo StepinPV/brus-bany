@@ -4,10 +4,10 @@ import cx from 'classnames';
 import styles from './Card.module.css';
 
 function Card(props) {
-    const { bgStyle, firstImage, imageAlt, content, firstButton, secondButton, onClick, className } = props;
+    const { bgStyle, firstImage, imageAlt, content, firstButton, secondButton, onClick, className, style } = props;
 
     return (
-        <div onClick={onClick} className={cx(className, styles.container, styles[`container-${bgStyle}`])}>
+        <div onClick={onClick} className={cx(className, styles.container, styles[`container-${bgStyle}`])} style={style}>
             <div className={styles['image-wrapper']}>
                 <img src={firstImage} alt={imageAlt} className={styles['image']} loading='lazy' />
             </div>
@@ -29,7 +29,8 @@ Card.propTypes = {
     firstButton: PropTypes.string,
     secondButton: PropTypes.string,
     onClick: PropTypes.func,
-    className: PropTypes.string
+    className: PropTypes.string,
+    style: PropTypes.object
 };
 
 Card.defaultProps = {

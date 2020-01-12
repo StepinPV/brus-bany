@@ -71,7 +71,7 @@ class Materials extends PureComponent {
                         <Input
                             value={editingItem.count}
                             title='Количество'
-                            type='integer number'
+                            type='float number'
                             required
                             onChange={this.handleItemCountChange}
                         />

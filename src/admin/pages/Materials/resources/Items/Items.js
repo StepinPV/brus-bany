@@ -64,7 +64,7 @@ class Items extends PureComponent {
                     <div className={styles.input}>
                         <Select
                             title='Размерность'
-                            items={[{ name: 'ед' }, { name: 'кг' }]}
+                            items={[{ name: 'ед' }, { name: 'кг' }, { name: 'мп' }]}
                             displayProperty='name'
                             keyProperty='name'
                             selectedKey={editingItem.dimension}

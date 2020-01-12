@@ -260,7 +260,7 @@ class Project extends PureComponent {
     };
 
     renderFinalPrice = () => {
-        const { project, showForm, match, project: { profitPercentage, projectBlocks } } = this.props;
+        const { project, showForm, match, project: { profitPercentage, projectBlocks, fixPrice } } = this.props;
         const { additionsValue, deliveryValue, projectBlocksValues } = this.state;
 
         const salaryPercentage = 20;
@@ -296,6 +296,10 @@ class Project extends PureComponent {
 
         finalPrice += taxiPrice;
         finalPrice += projectBlocksPriceFixed;
+
+        if (fixPrice) {
+            finalPrice = fixPrice;
+        }
 
         if (additionsValue && additionsValue.price) finalPrice += additionsValue.price;
         if (deliveryValue && deliveryValue.price) finalPrice += deliveryValue.price;
@@ -353,7 +357,7 @@ class Project extends PureComponent {
         const { project } = this.props;
         const { additionsValue, deliveryValue } = this.state;
 
-        let finalPrice = project.price;
+        let finalPrice = project.fixPrice || project.price;
         if (additionsValue && additionsValue.price) finalPrice += additionsValue.price;
         if (deliveryValue && deliveryValue.price) finalPrice += deliveryValue.price;
 

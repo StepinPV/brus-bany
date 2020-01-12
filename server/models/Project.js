@@ -31,6 +31,9 @@ const scheme = new Schema({
         required: REQUIRED_MSG,
         default: 20
     },
+    fixPrice: {
+        type: Number
+    },
     images: {
         type: Object,
         default: {}
