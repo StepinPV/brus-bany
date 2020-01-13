@@ -104,7 +104,11 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     const {materials, isMaterialsFetch, isMaterialsError} = state['admin-materials'];
 
-    return {materials, isMaterialsFetch, isMaterialsError};
+    return {
+        materials: materials ? materials.sort(({ name }, { name: name2 }) => name > name2 ? 1 : (name === name2 ? 0 : -1)) : null,
+        isMaterialsFetch,
+        isMaterialsError
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Materials));
