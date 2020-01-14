@@ -2,6 +2,7 @@ import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../../../components/Input';
 import Select from '../../../../../components/Select';
+import { Button } from '../../../../../client/components/Button';
 import withNotification from '../../../../../plugins/Notifications/withNotification';
 import styles from './Materials.module.css';
 
@@ -11,7 +12,6 @@ class Materials extends PureComponent {
         data: PropTypes.object,
         onChange: PropTypes.func,
         showNotification: PropTypes.func
-
     };
 
     state = {
@@ -24,7 +24,11 @@ class Materials extends PureComponent {
 
         return (
             <>
-                <div className={styles.caption}>Стройматериалы</div>
+                <div className={styles['caption-container']}>
+                    <div className={styles.caption}>Стройматериалы</div>
+                    <Button size='xs' caption='копировать' className={styles['caption-container-button']} onClick={this.handleCopy} />
+                    <Button size='xs' caption='вставить' className={styles['caption-container-button']} onClick={this.handlePaste} />
+                </div>
                 <div className={styles.items}>
                     {data ? data.map(({ id, count }) => {
                         const material = materials.find(material => material._id === id);
@@ -83,6 +87,43 @@ class Materials extends PureComponent {
                 ) : null}
             </>
         );
+    };
+
+    handleCopy = () => {
+        const { data, showNotification } = this.props;
+
+        if (data && data.length){
+            localStorage.setItem('MATERIALS_BUFFER', JSON.stringify(data));
+            showNotification({ message: 'Данные скопированы в буфер', status: 'success' });
+        } else {
+            showNotification({ message: 'Данные для копирования отсутствуют', status: 'error' });
+        }
+    };
+
+    handlePaste = () => {
+        const { onChange, showNotification } = this.props;
+        let data = JSON.parse(localStorage.getItem('MATERIALS_BUFFER'));
+        let error = false;
+
+        if (data && data.length) {
+            data = data.map(({ id, count }) => {
+                if (id && count) {
+                    return { id, count };
+                } else {
+                    error = true;
+                }
+            });
+
+            if (error) {
+                showNotification({ message: 'Данные не подходят для вставки', status: 'success' });
+            } else {
+                onChange(data);
+
+                showNotification({ message: 'Данные успешно вставлены', status: 'success' });
+            }
+        } else {
+            showNotification({ message: 'Данные для вставки отсутствуют', status: 'error' });
+        }
     };
 
     handleItemMaterialChange = (newId) => {

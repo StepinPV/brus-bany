@@ -20,7 +20,6 @@ Simple.propTypes = {
 };
 
 Simple.defaultProps = {
-    color: 'black',
     size: 'm',
     type: 'red'
 };

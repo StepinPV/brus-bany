@@ -26,7 +26,6 @@ Link.propTypes = {
 };
 
 Link.defaultProps = {
-    color: 'black',
     size: 'm',
     type: 'red'
 };
