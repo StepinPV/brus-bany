@@ -32,6 +32,10 @@
     margin-bottom: 8px;
 }
 
+.list-text {
+    margin-bottom: 16px;
+}
+
 .ul, .ol {
     padding: 0;
 }
@@ -40,3 +44,4 @@
     margin-bottom: 24px;
     font-size: 20px;
 }
+

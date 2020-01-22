@@ -34,7 +34,7 @@ class Article extends PureComponent {
             return {
                 breadcrumbs: [
                     ...breadcrumbsDefault,
-                    { title: nextProps.article.name }
+                    { title: nextProps.article.article.name }
                 ],
                 articleId: nextProps.article._id
             }

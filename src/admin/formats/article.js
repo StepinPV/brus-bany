@@ -9,15 +9,23 @@ export default [{
     type: 'text',
     required: true
 }, {
-    _id: 'image',
-    title: 'Изображение для обложки',
+    _id: 'firstImage',
+    title: 'Изображение под описанием',
     type: 'image',
     required: true
 }, {
-    _id: 'imageAlt',
-    title: 'Alt для изображения',
+    _id: 'firstImageAlt',
+    title: 'Alt для изображения под описанием',
     type: 'string',
     required: true
+}, {
+    _id: 'image',
+    title: 'Изображение для обложки',
+    type: 'image'
+}, {
+    _id: 'imageAlt',
+    title: 'Alt для изображения',
+    type: 'string'
 }, {
     _id: 'content',
     title: 'Блок',
@@ -66,6 +74,14 @@ export default [{
                     _id: 'text',
                     title: 'Текст',
                     type: 'text'
+                }, {
+                    _id: 'image',
+                    title: 'Изображение',
+                    type: 'image'
+                }, {
+                    _id: 'imageAlt',
+                    title: 'Alt изображения',
+                    type: 'string'
                 }]
             }, {
                 id: 'marker-list',
@@ -80,6 +96,14 @@ export default [{
                     _id: 'text',
                     title: 'Текст',
                     type: 'text'
+                }, {
+                    _id: 'image',
+                    title: 'Изображение',
+                    type: 'image'
+                }, {
+                    _id: 'imageAlt',
+                    title: 'Alt изображения',
+                    type: 'string'
                 }]
             }]
         }]

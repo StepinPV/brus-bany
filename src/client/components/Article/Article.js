@@ -17,9 +17,9 @@ class Article extends PureComponent {
             <div className={styles.content}>
                 {article.name ? <Caption size='m' align='center' className={styles['header-caption']} tag={captionTag} isHTML>{article.name}</Caption> : null}
                 {article.description ? this.renderText(article.description) : null}
-                {article.image ? this.renderImage({
-                    image: article.image,
-                    alt: article.imageAlt
+                {article.firstImage ? this.renderImage({
+                    image: article.firstImage,
+                    alt: article.firstImageAlt
                 }) : null}
                 {article.content ? article.content.map((item, i) => <Fragment key={i}>{this.renderBlock(item)}</Fragment>) : null}
             </div>
@@ -66,7 +66,8 @@ class Article extends PureComponent {
                 {values.map(value => (
                     <li className={styles.li}>
                         <Text size='l' className={styles['list-caption']} isHTML>{value.caption}</Text>
-                        <Text size='l' isHTML>{value.text}</Text>
+                        <Text size='l' isHTML className={value.image ? styles['list-text'] : null}>{value.text}</Text>
+                        {value.image ? <img className={styles.image} src={value.image} alt={value.imageAlt} loading='lazy' /> : null}
                     </li>
                 ))}
             </ul>
@@ -79,7 +80,8 @@ class Article extends PureComponent {
                 {values.map(value => (
                     <li className={styles.li}>
                         <Text size='l' className={styles['list-caption']} isHTML>{value.caption}</Text>
-                        <Text size='l' isHTML>{value.text}</Text>
+                        <Text size='l' isHTML className={value.image ? styles['list-text'] : null}>{value.text}</Text>
+                        {value.image ? <img className={styles.image} src={value.image} alt={value.imageAlt} loading='lazy' /> : null}
                     </li>
                 ))}
             </ol>
