@@ -57,7 +57,7 @@ class Project extends PureComponent {
                 ],
                 projectId: nextProps.project._id,
                 projectBlocksValues,
-                selectedComplectation: nextProps.project.categoryId.complectationBlocks.defaultItemId
+                selectedComplectation: nextProps.project.categoryId.complectationBlocks ? nextProps.project.categoryId.complectationBlocks.defaultItemId : null
             }
         }
 
@@ -306,6 +306,12 @@ class Project extends PureComponent {
     renderComplectationBlock = () => {
         const { project } = this.props;
         const { selectedComplectation } = this.state;
+
+        const { complectationBlocks } = project.categoryId;
+
+        if (!complectationBlocks || !complectationBlocks.items || complectationBlocks.items.length < 2) {
+            return null;
+        }
 
         return (
             <ProjectBlock
