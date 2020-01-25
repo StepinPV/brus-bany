@@ -1,7 +1,6 @@
 import {
     GET_PROJECT, GET_PROJECT_SUCCESS, GET_PROJECT_ERROR,
     GET_LAYOUTS, GET_LAYOUTS_SUCCESS, GET_LAYOUTS_ERROR,
-    GET_MATERIALS, GET_MATERIALS_SUCCESS, GET_MATERIALS_ERROR,
     GET_CATEGORY, GET_CATEGORY_SUCCESS, GET_CATEGORY_ERROR,
     SET_PROJECT, RESET_DATA
 } from './constants';
@@ -14,11 +13,7 @@ export const initialState = {
 
     layouts: null,
     isLayoutsFetch: false,
-    isLayoutsError: null,
-
-    materials: null,
-    isMaterialsFetch: false,
-    isMaterialsError: null
+    isLayoutsError: null
 };
 
 /**
@@ -74,26 +69,6 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 category: action.payload
-            };
-
-        case GET_MATERIALS:
-            return {
-                ...state,
-                isMaterialsFetch: true
-            };
-
-        case GET_MATERIALS_SUCCESS:
-            return {
-                ...state,
-                isMaterialsFetch: false,
-                materials: action.payload
-            };
-
-        case GET_MATERIALS_ERROR:
-            return {
-                ...state,
-                isMaterialsFetch: false,
-                isMaterialsError: true
             };
 
         case SET_PROJECT:

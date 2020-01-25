@@ -56,7 +56,8 @@ class Project extends PureComponent {
                     { title: nextProps.project.layoutId.name }
                 ],
                 projectId: nextProps.project._id,
-                projectBlocksValues
+                projectBlocksValues,
+                selectedComplectation: nextProps.project.categoryId.complectationBlocks.defaultItemId
             }
         }
 
@@ -134,6 +135,7 @@ class Project extends PureComponent {
                     {this.renderInfo()}
                 </div>
                 <BaseEquipment project={project} />
+                {this.renderComplectationBlock()}
                 {this.renderProjectBlocks()}
                 <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
                 <DeliveryMap id='delivery' onChange={this.handleDelivery} />
@@ -260,46 +262,23 @@ class Project extends PureComponent {
     };
 
     renderFinalPrice = () => {
-        const { project, showForm, match, project: { profitPercentage, projectBlocks, fixPrice } } = this.props;
-        const { additionsValue, deliveryValue, projectBlocksValues } = this.state;
+        const { project, showForm, match, project: { projectBlocks } } = this.props;
+        const { additionsValue, deliveryValue, projectBlocksValues, selectedComplectation } = this.state;
 
-        const salaryPercentage = 20;
-        const defaultProfitPercentage = 20;
-        const taxiPrice = 12000;
-
-        let projectBlocksPrice = 0;
         let projectBlocksPriceFixed = 0;
-
-        const finalProfitPercentage = isNaN(parseFloat(profitPercentage)) || profitPercentage < 0 || profitPercentage >= 100 - salaryPercentage ?
-            defaultProfitPercentage : profitPercentage;
-
-        const materialsPrice = project.materialsPrice || 0;
 
         if (project.categoryId.projectBlocks) {
             project.categoryId.projectBlocks.forEach(block => {
                 const selectedItemId = projectBlocksValues[block.id];
 
                 if (selectedItemId) {
-                    const blockPrice = projectBlocks && projectBlocks[block.id] && projectBlocks[block.id][selectedItemId].price ? projectBlocks[block.id][selectedItemId].price : 0;
-                    if (block.useInBuildingPrice) {
-                        projectBlocksPrice += blockPrice;
-                    } else {
-                        projectBlocksPriceFixed += blockPrice;
-                    }
+                    projectBlocksPriceFixed += projectBlocks && projectBlocks[block.id] && projectBlocks[block.id][selectedItemId].price ? projectBlocks[block.id][selectedItemId].price : 0;
                 }
             });
         }
 
-        let finalPrice = (materialsPrice + projectBlocksPrice) / (1 - salaryPercentage / 100 - finalProfitPercentage / 100);
-
+        let finalPrice = (project.prices ? project.prices[selectedComplectation] || 0 : 0) + projectBlocksPriceFixed;
         finalPrice = Math.round(finalPrice / 100) * 100;
-
-        finalPrice += taxiPrice;
-        finalPrice += projectBlocksPriceFixed;
-
-        if (fixPrice) {
-            finalPrice = fixPrice;
-        }
 
         if (additionsValue && additionsValue.price) finalPrice += additionsValue.price;
         if (deliveryValue && deliveryValue.price) finalPrice += deliveryValue.price;
@@ -322,6 +301,25 @@ class Project extends PureComponent {
         if (categoryId.projectBlocks && categoryId.projectBlocks.length) {
             return categoryId.projectBlocks.map(projectBlock => this.renderProjectBlock(projectBlock))
         }
+    };
+
+    renderComplectationBlock = () => {
+        const { project } = this.props;
+        const { selectedComplectation } = this.state;
+
+        return (
+            <ProjectBlock
+                {...project.categoryId.complectationBlocks}
+                required
+                hidePrice
+                project={project}
+                selectedId={selectedComplectation}
+                onChange={value => {
+                    this.setState({
+                        selectedComplectation: value
+                    })
+                }} />
+        );
     };
 
     renderProjectBlock = (projectBlock) => {
@@ -355,9 +353,9 @@ class Project extends PureComponent {
 
     getFinalPrice = () => {
         const { project } = this.props;
-        const { additionsValue, deliveryValue } = this.state;
+        const { additionsValue, deliveryValue, selectedComplectation } = this.state;
 
-        let finalPrice = project.fixPrice || project.price;
+        let finalPrice = project.prices[selectedComplectation];
         if (additionsValue && additionsValue.price) finalPrice += additionsValue.price;
         if (deliveryValue && deliveryValue.price) finalPrice += deliveryValue.price;
 

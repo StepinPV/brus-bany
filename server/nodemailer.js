@@ -16,7 +16,7 @@ module.exports.init = (host, port, login, password) => {
 
     transporter.verify(function(error) {
         if (error) {
-            logger.error(error);
+            logger.error(error.message);
         } else {
             logger.success('Mailer is ready to take our messages');
         }

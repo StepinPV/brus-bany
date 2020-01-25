@@ -221,14 +221,6 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
-        id: 'admin/materials',
-        path: '/admin/materials',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Materials')),
-            loading: LoaderPage,
-        })
-    }, {
         id: 'admin/categories',
         path: '/admin/categories',
         exact: true,

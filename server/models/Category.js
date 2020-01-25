@@ -63,6 +63,50 @@ const equipmentScheme = new Schema({
     }
 });
 
+const complectationBlockScheme = new Schema({
+    name: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    description: {
+        type: String
+    },
+    itemTitle: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    itemButtonTitle: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    defaultItemId: {
+        type: String
+    },
+    items: {
+        type: [{
+            id: {
+                type: String,
+                required: REQUIRED_MSG
+            },
+            order: {
+                type: Number,
+                required: REQUIRED_MSG
+            },
+            name: {
+                type: String,
+                required: REQUIRED_MSG
+            },
+            description: {
+                type: String
+            },
+            image: {
+                type: String,
+                required: REQUIRED_MSG
+            }
+        }]
+    },
+});
+
 const projectBlockScheme = new Schema({
     id: {
         type: String,
@@ -153,6 +197,9 @@ const scheme = new Schema({
     },
     projectBlocks: {
         type: [projectBlockScheme]
+    },
+    complectationBlocks: {
+        type: complectationBlockScheme
     },
     article: Object,
     updated: Date

@@ -1,7 +1,6 @@
 import {
     GET_PROJECT, GET_PROJECT_SUCCESS, GET_PROJECT_ERROR,
     GET_LAYOUTS, GET_LAYOUTS_ERROR, GET_LAYOUTS_SUCCESS,
-    GET_MATERIALS, GET_MATERIALS_ERROR, GET_MATERIALS_SUCCESS,
     GET_CATEGORY, GET_CATEGORY_SUCCESS, GET_CATEGORY_ERROR,
     SET_PROJECT, RESET_DATA
 } from './constants';
@@ -96,20 +95,6 @@ export function getCategory(id) {
             dispatch({ type: GET_CATEGORY_SUCCESS, payload: res.data.data });
         } catch(err) {
             dispatch({ type: GET_CATEGORY_ERROR });
-        }
-    };
-}
-
-export function getMaterials() {
-    return async (dispatch) => {
-        dispatch({ type: GET_MATERIALS });
-
-        try {
-            const res = await Api.getMaterials();
-
-            dispatch({ type: GET_MATERIALS_SUCCESS, payload: res.data.data });
-        } catch(err) {
-            dispatch({ type: GET_MATERIALS_ERROR });
         }
     };
 }

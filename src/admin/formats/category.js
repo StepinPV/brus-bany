@@ -108,6 +108,62 @@ export default [{
         required: true
     }]
 }, {
+    _id: 'complectationBlocks',
+    title: 'Описание комплектаций',
+    type: 'object',
+    format: [{
+        _id: 'name',
+        title: 'Название',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'itemTitle',
+        title: 'Тайтл для карточки',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'itemButtonTitle',
+        title: 'Тайтл для кнопки',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'description',
+        title: 'Описание',
+        type: 'text'
+    }, {
+        _id: 'defaultItemId',
+        title: 'ID записи выбранной по умолчанию',
+        type: 'string'
+    }, {
+        _id: 'items',
+        title: 'Карточка',
+        type: 'array',
+        format: [{
+            _id: 'id',
+            title: 'Идентификатор',
+            type: 'string',
+            required: true
+        }, {
+            _id: 'name',
+            title: 'Название',
+            type: 'string',
+            required: true
+        }, {
+            _id: 'order',
+            title: 'Порядок',
+            type: 'integer number',
+            required: true
+        }, {
+            _id: 'image',
+            title: 'Изображение',
+            type: 'image'
+        }, {
+            _id: 'description',
+            title: 'Описание',
+            type: 'text'
+        }]
+    }]
+}, {
     _id: 'projectBlocks',
     title: 'Блок дополнений к цене проекта',
     type: 'array',
@@ -140,18 +196,6 @@ export default [{
         _id: 'description',
         title: 'Описание',
         type: 'text'
-    }, {
-        _id: 'useInBuildingPrice',
-        title: 'Цена учавствует в вычислениии стоимости строительства',
-        type: 'boolean'
-    }, {
-        _id: 'required',
-        title: 'Обязательное для выбора',
-        type: 'boolean'
-    }, {
-        _id: 'defaultItemId',
-        title: 'ID записи выбранной по умолчанию',
-        type: 'string'
     }, {
         _id: 'items',
         title: 'Карточка',
@@ -192,9 +236,6 @@ export default [{
                 typeTitle: 'Общая цена в зависимости от планировки',
                 title: 'Формула',
                 type: 'text'
-            }, {
-                id: 'material_fix',
-                typeTitle: 'Цена в зависимости от материала (указывается позже)'
             }, {
                 id: 'fix',
                 typeTitle: 'Фиксированная цена',

@@ -19,20 +19,12 @@ const scheme = new Schema({
         type: Number,
         required: REQUIRED_MSG
     },
-    materialsPrice: {
-        type: Number
+    prices: {
+        type: Object
     },
     buildTime: {
         type: Number,
         required: REQUIRED_MSG
-    },
-    profitPercentage: {
-        type: Number,
-        required: REQUIRED_MSG,
-        default: 20
-    },
-    fixPrice: {
-        type: Number
     },
     images: {
         type: Object,
@@ -41,19 +33,6 @@ const scheme = new Schema({
     projectBlocks: {
         type: Object,
         default: {}
-    },
-    material: {
-        type: [{
-            id: {
-                type: Schema.Types.ObjectId,
-                ref: 'materials'
-            },
-            count: {
-                type: Number,
-                required: true
-            }
-        }],
-        default: []
     },
     updated: Date
 }, { versionKey: false });

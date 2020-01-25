@@ -15,11 +15,6 @@ const tiles = [{
     title: 'Планировки',
     link: '/admin/layouts'
 }, {
-    key: '/admin/materials',
-    type: 'link',
-    title: 'Стройматериалы',
-    link: '/admin/materials'
-}, {
     key: '/admin/categories',
     type: 'link',
     title: 'Категории',

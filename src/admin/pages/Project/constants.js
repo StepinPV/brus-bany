@@ -6,10 +6,6 @@ export const GET_LAYOUTS = 'admin/project/GET_LAYOUTS';
 export const GET_LAYOUTS_SUCCESS = 'admin/project/GET_LAYOUTS_SUCCESS';
 export const GET_LAYOUTS_ERROR = 'admin/project/GET_LAYOUTS_ERROR';
 
-export const GET_MATERIALS = 'admin/project/GET_MATERIALS';
-export const GET_MATERIALS_SUCCESS = 'admin/project/GET_MATERIALS_SUCCESS';
-export const GET_MATERIALS_ERROR = 'admin/project/GET_MATERIALS_ERROR';
-
 export const GET_CATEGORY = 'admin/project/GET_CATEGORY';
 export const GET_CATEGORY_SUCCESS = 'admin/project/GET_CATEGORY_SUCCESS';
 export const GET_CATEGORY_ERROR = 'admin/project/GET_CATEGORY_ERROR';

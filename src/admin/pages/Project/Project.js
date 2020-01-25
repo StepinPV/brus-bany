@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Select from '../../../components/Select';
-import Materials from './resources/Materials';
 import {
     getProject,
     setProject,
@@ -13,14 +12,12 @@ import {
     updateProject,
     resetData,
     getLayouts,
-    getMaterials,
     deleteProject,
     getCategory
 } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import ImageUploader from '../../components/ImageUploader';
 import Input from '../../../components/Input';
-import numberWithSpaces from '../../../utils/numberWithSpaces';
 import styles from './Project.module.css';
 
 const breadcrumbs = [{
@@ -60,7 +57,6 @@ const getEditModeBreadcrumbs = () => [...breadcrumbs, { title: 'Редактир
 class Project extends PureComponent {
     static propTypes = {
         layouts: PropTypes.array,
-        materials: PropTypes.array,
         category: PropTypes.object,
 
         project: PropTypes.object,
@@ -103,7 +99,6 @@ class Project extends PureComponent {
         }
 
         actions.getLayouts();
-        actions.getMaterials();
         actions.getCategory(categoryId);
     }
 
@@ -141,23 +136,56 @@ class Project extends PureComponent {
 
     renderContent = () => {
         const { addMode } = this.state;
-        const { project, materials } = this.props;
+        const { project } = this.props;
 
-        return project && materials ? (
+        return project ? (
             <div className={styles.formContainer}>
                 <div className={styles.formWrapper}>
                     {this.renderLayout()}
                     {project.layoutId ? (
                         <>
                             {this.renderImages()}
-                            {<Materials onChange={this.handleMaterialsChange} materials={materials} data={project.material || []} />}
+                            {this.renderComplectationBlock()}
                             {this.renderProjectBlocks()}
                             {this.renderBuildTime()}
-                            {this.renderPrice()}
                             {<div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Сохранить и обновить'}</div>}
                             { !addMode ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
                         </>
                     ) : null}
+                </div>
+            </div>
+        ) : null;
+    };
+
+    renderComplectationBlock = () => {
+        const { actions, project } = this.props;
+
+        const handleChangePrice = (id, value) => {
+            const newPrices = { ...(project.prices || {}) };
+            newPrices[id] = value;
+            actions.setProject({ ...project, prices: newPrices });
+        };
+
+        return project.categoryId.complectationBlocks ? (
+            <div className={styles.projectBlocks}>
+                <div className={styles.projectBlocksTitle}>Комплектации</div>
+                <div>
+                    <div style={{textAlign: 'center', fontWeight: 'bold', marginTop: '16px'}}>{project.categoryId.complectationBlocks.name}</div>
+                    <div>{project.categoryId.complectationBlocks.items.map(item => {
+                        return (
+                            <div>
+                                <div style={{textAlign: 'center', marginTop: '16px'}}>{item.name} {item.id === project.categoryId.complectationBlocks.defaultItemId ? ' (По умолчанию)' : null}</div>
+                                <Input
+                                    value={project.prices ? project.prices[item.id] : ''}
+                                    title='Укажите стоимость'
+                                    type='integer number'
+                                    required
+                                    min={0}
+                                    onChange={value => { handleChangePrice(item.id, value) } }
+                                />
+                            </div>
+                        )
+                    })}</div>
                 </div>
             </div>
         ) : null;
@@ -169,7 +197,7 @@ class Project extends PureComponent {
         if (project.categoryId.projectBlocks && project.categoryId.projectBlocks.length) {
             return (
                 <div className={styles.projectBlocks}>
-                    <div className={styles.projectBlocksTitle}>Дополнительные блоки к цене</div>
+                    <div className={styles.projectBlocksTitle}>Дополнения</div>
                     {project.categoryId.projectBlocks.map(project => this.renderProjectBlock(project))}
                 </div>
             )
@@ -179,34 +207,10 @@ class Project extends PureComponent {
     };
 
     renderProjectBlock = (projectBlock) => {
-        const { materials, actions, project } = this.props;
-
-        const handleChangeMaterialInProjectBlock = (data, itemId) => {
-            const newProjectBlocks = { ...(project.projectBlocks || {}) };
-            const newCards = { ...newProjectBlocks[projectBlock.id] };
-            newCards[itemId] = {
-                data
-            };
-            newProjectBlocks[projectBlock.id] = newCards;
-            actions.setProject({ ...project, projectBlocks: newProjectBlocks });
-        };
+        const { project } = this.props;
 
         const renderPrice = (item) => {
             switch(item.price.typeId) {
-                case 'material_fix':
-                    project.projectBlocks = project.projectBlocks || {};
-                    project.projectBlocks[projectBlock.id] = project.projectBlocks[projectBlock.id] || {};
-                    project.projectBlocks[projectBlock.id][item.id] = project.projectBlocks[projectBlock.id][item.id] || {
-                        data: []
-                    };
-                    return (
-                        <Materials
-                            onChange={data => {
-                                handleChangeMaterialInProjectBlock(data, item.id) }
-                            }
-                            materials={materials}
-                            data={project.projectBlocks[projectBlock.id][item.id].data} />
-                    );
                 case 'layout_fix':
                     const params = project.layoutId;
                     return <div style={{textAlign: 'center', marginTop: '8px'}}>Цена: {eval(item.price.value)} руб.</div>;
@@ -278,122 +282,6 @@ class Project extends PureComponent {
         actions.setProject({ ...project, buildTime });
     };
 
-    renderPrice = () => {
-        const { project: { profitPercentage, fixPrice }, project, materials } = this.props;
-
-        const salaryPercentage = 20;
-        const defaultProfitPercentage = 20;
-        const taxiPrice = 12000;
-
-        const finalProfitPercentage = isNaN(parseFloat(profitPercentage)) || profitPercentage < 0 || profitPercentage >= 100 - salaryPercentage ?
-            defaultProfitPercentage : profitPercentage;
-
-        let materialsPrice = 0;
-
-        if (project.material) {
-            project.material.forEach(material => {
-                const materialData = materials.find(mat => mat._id === material.id);
-                materialsPrice += materialData.price * material.count;
-            });
-        }
-
-
-        let projectBlocksPrice = 0;
-        if (project.categoryId.projectBlocks) {
-            project.categoryId.projectBlocks.forEach(block => {
-                let defaultItemId;
-                const defaultItem = block.items.find(item => {
-                    if (item.id === block.defaultItemId) {
-                        defaultItemId = item.id;
-                        return true;
-                    }
-                });
-
-                if (defaultItem) {
-                    switch(defaultItem.price.typeId) {
-                        case 'material_fix':
-                            project.projectBlocks[block.id][defaultItemId].data.forEach(material => {
-                                const materialData = materials.find(mat => mat._id === material.id);
-                                projectBlocksPrice += materialData.price * material.count;
-                            });
-                            break;
-                        case 'layout_fix':
-                            const params = project.layoutId;
-                            projectBlocksPrice += eval(defaultItem.price.value);
-                            break;
-                        case 'fix':
-                            projectBlocksPrice += defaultItem.price.value;
-                            break;
-                    }
-                }
-            });
-        }
-
-        const finalPrice = (materialsPrice + projectBlocksPrice) / (1 - salaryPercentage / 100 - finalProfitPercentage / 100);
-
-        const round = val => Math.round(val);
-
-        const salaryPrice = round(finalPrice * salaryPercentage / 100);
-        const profitPrice = round(finalPrice * finalProfitPercentage / 100);
-        const finalPriceWithTaxi = round(finalPrice + taxiPrice);
-
-        return (
-            <div className={styles.price}>
-                <div className={styles.priceTitle}>Стоимость проекта</div>
-                <div className={styles.profitPercentageInput}>
-                    <Input
-                        value={profitPercentage === undefined ? defaultProfitPercentage : profitPercentage}
-                        title='Процент прибыли от общей стоимости'
-                        type='float number'
-                        required
-                        min={0}
-                        onChange={this.handleProfitPercentageCountChange}
-                    />
-                </div>
-                <div className={styles.profitPercentageInput}>
-                    <Input
-                        value={fixPrice}
-                        title='Зафиксировать стоимость'
-                        type='float number'
-                        required
-                        min={0}
-                        onChange={this.handleFixPriceChange}
-                    />
-                </div>
-                <div className={styles.priceValueContainer}>
-                    <div>Стройматериалы + допы:</div>
-                    <div className={styles.priceValue}>
-                        {`${numberWithSpaces(materialsPrice + projectBlocksPrice)} руб.`}
-                    </div>
-                </div>
-                <div className={styles.priceValueContainer}>
-                    <div>Зарпалата строителей:</div>
-                    <div className={styles.priceValue}>
-                        {`${salaryPercentage}% - ${numberWithSpaces(salaryPrice)} руб.`}
-                    </div>
-                </div>
-                <div className={styles.priceValueContainer}>
-                    <div>Прибыль:</div>
-                    <div className={styles.priceValue}>
-                        {`${finalProfitPercentage}% - ${numberWithSpaces(profitPrice)} руб.`}
-                    </div>
-                </div>
-                <div className={styles.priceValueContainer}>
-                    <div>Такси:</div>
-                    <div className={styles.priceValue}>
-                        {`${numberWithSpaces(taxiPrice)} руб.`}
-                    </div>
-                </div>
-                <div className={styles.priceValueContainer}>
-                    <div>Итоговая стоимость:</div>
-                    <div className={styles.priceValue}>
-                        {`${numberWithSpaces(fixPrice || finalPriceWithTaxi)} руб.`}
-                    </div>
-                </div>
-            </div>
-        )
-    };
-
     renderLayout = () => {
         const { project: { layoutId }, layouts } = this.props;
         const { errors } = this.state;
@@ -410,24 +298,6 @@ class Project extends PureComponent {
                     error={errors['layoutId']} />
             </div>
         ) : null;
-    };
-
-    handleProfitPercentageCountChange = (profitPercentage) => {
-        const { actions, project } = this.props;
-
-        actions.setProject({ ...project, profitPercentage });
-    };
-
-    handleFixPriceChange = (fixPrice) => {
-        const { actions, project } = this.props;
-
-        actions.setProject({ ...project, fixPrice });
-    };
-
-    handleMaterialsChange = (material) => {
-        const { actions, project } = this.props;
-
-        actions.setProject({ ...project, material });
     };
 
     handleLayout = (layoutId) => {
@@ -504,7 +374,6 @@ function mapDispatchToProps(dispatch) {
             updateProject,
             resetData,
             getLayouts,
-            getMaterials,
             deleteProject,
             getCategory
         }, dispatch),
@@ -518,9 +387,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const { project, isProjectFetch, isProjectError, layouts, materials, category } = state['admin-project'];
+    const { project, isProjectFetch, isProjectError, layouts, category } = state['admin-project'];
 
-    return { project, isProjectFetch, isProjectError, layouts, materials, category };
+    return { project, isProjectFetch, isProjectError, layouts, category };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Project));

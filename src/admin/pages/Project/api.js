@@ -25,5 +25,4 @@ export default class Api {
 
     static getLayouts = () => axios.get('/api/layouts');
     static getCategory = (id) => axios.get(`/api/categories/${id}`);
-    static getMaterials = () => axios.get('/api/materials');
 }

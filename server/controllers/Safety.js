@@ -1,27 +1,10 @@
 const Status = require('./Status');
 const Projects = require('./Projects');
-const Materials = require('./Materials');
 const Layouts = require('./Layouts');
 const Categories = require('./Categories');
 const Photos = require('./Photos');
 
 class Safety {
-    static async deleteMaterial(id) {
-        const { data: projects } = await Projects.getAll();
-
-        const projectWithMaterial = projects.find(project => {
-            return project.material && project.material.some(material => material.id.toString() === id);
-        });
-
-        if (projectWithMaterial) {
-            return Status.error(`Материал используется в проекте с id = ${projectWithMaterial._id}!`);
-        }
-
-        await Materials.delete(id);
-
-        return Status.success();
-    };
-
     static async deleteLayout(id) {
         const { data: projects } = await Projects.getAll();
 

@@ -6,7 +6,7 @@ import styles from './ProjectBlock.module.css';
 
 import cx from "classnames";
 
-function ProjectBlock({ id, selectedId, onChange, name, description, items, itemTitle, itemButtonTitle, project, required, useInBuildingPrice }) {
+function ProjectBlock({ id, selectedId, onChange, name, description, items, itemTitle, itemButtonTitle, project, required, hidePrice }) {
     return (
         <DataSection bgStyle='grey' caption={name} captionTag='h2' description={description} isDescriptionHTML>
             <div className={styles.items}>
@@ -28,7 +28,7 @@ function ProjectBlock({ id, selectedId, onChange, name, description, items, item
                             }}
                             firstImage={item.image}
                             firstButton={itemButtonTitle}
-                            secondButton={useInBuildingPrice ? null : (project.projectBlocks && project.projectBlocks[id] && project.projectBlocks[id][item.id] ? `${numberWithSpaces(project.projectBlocks[id][item.id].price)} руб` : null)}
+                            secondButton={hidePrice ? null : (project.projectBlocks && project.projectBlocks[id] && project.projectBlocks[id][item.id] ? `${numberWithSpaces(project.projectBlocks[id][item.id].price)} руб` : null)}
                             bgStyle='white'
                             content={(
                                 <div className={styles['bake-info']}>

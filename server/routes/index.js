@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 router.use('/layouts', require('./layouts'));
-router.use('/materials', require('./materials'));
 router.use('/categories', require('./categories'));
 router.use('/projects', require('./projects'));
 router.use('/articles', require('./articles'));

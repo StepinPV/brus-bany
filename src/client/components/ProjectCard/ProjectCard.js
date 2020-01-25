@@ -14,7 +14,7 @@ function ProjectCard(props) {
                 firstImage={images ? images['main'] : null}
                 imageAlt={`Баня ${layoutId.name} ${layoutId.width}x${layoutId.length}`}
                 firstButton='Подробнее'
-                secondButton={`${price ? numberWithSpaces(price) : null} руб`}
+                secondButton={`${price ? numberWithSpaces(price) : 0} руб`}
                 bgStyle='grey'
                 content={(
                     <div className={styles['info']}>
