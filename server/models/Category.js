@@ -100,8 +100,7 @@ const complectationBlockScheme = new Schema({
                 type: String
             },
             image: {
-                type: String,
-                required: REQUIRED_MSG
+                type: String
             }
         }]
     },

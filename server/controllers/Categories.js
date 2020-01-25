@@ -31,6 +31,18 @@ const prepareImages = (data) => {
             }
         });
     }
+
+    if (data.complectationBlocks && data.complectationBlocks.items && data.complectationBlocks.items.length) {
+        data.complectationBlocks.items.forEach(item => {
+            if (item.image && regexp.test(item.image)) {
+                try {
+                    item.image = moveImage(item.image);
+                } catch(err) {
+                    item.image = '';
+                }
+            }
+        });
+    }
 };
 
 const removeImages = (data) => {
