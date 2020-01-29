@@ -1,10 +1,4 @@
 export default [{
-    _id: 'translateName',
-    title: 'Имя на английском',
-    type: 'string',
-    required: true,
-    description: 'Имя планировки на английском языке'
-}, {
     _id: 'name',
     title: 'Имя',
     type: 'string',

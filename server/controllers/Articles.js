@@ -4,6 +4,7 @@ const prepareErrors = require('./prepareErrors');
 const fs = require('fs');
 const shell = require('shelljs');
 const rimraf = require('rimraf');
+const cyrillicToTranslit = require('cyrillic-to-translit-js');
 
 const prepareImages = (data) => {
     const regexp = /^\/buffer\//;
@@ -57,10 +58,6 @@ class Articles {
     };
 
     static async create(data) {
-        if (await Article.findOne({ 'translateName': data['translateName'] })) {
-            return Status.error(`Статья с именем на английском = ${data['translateName']} уже существует!`);
-        }
-
         if (!data.article || !data.article['name']) {
             return Status.error(`Имя статьи обязательно!`);
         }
@@ -75,6 +72,10 @@ class Articles {
             await article.validate();
 
             prepareImages(data);
+
+            data.created = new Date();
+            data.updated = new Date();
+            data.translateName = cyrillicToTranslit().transform(data.article.name.replace(/\?$/,"").toLowerCase(), '-');
 
             await Article.create(data);
 
@@ -91,14 +92,7 @@ class Articles {
             return Status.error(`Вы пытаетесь изменить несуществующую статью!`);
         }
 
-        const translateNameChanged = match['translateName'] !== data['translateName'];
         const nameChanged = data.article && match.article['name'] !== data.article['name'];
-
-        if (translateNameChanged) {
-            if (await Article.findOne({ 'translateName': data['translateName'] })) {
-                return Status.error(`Статья с именем на английском = ${data['translateName']} уже существует!`);
-            }
-        }
 
         if (!data.article || !data.article['name']) {
             return Status.error(`Имя статьи обязательно!`);
@@ -115,6 +109,9 @@ class Articles {
             await article.validate();
 
             prepareImages(data);
+
+            data.updated = new Date();
+            data.translateName = cyrillicToTranslit().transform(data.article.name.replace(/\?$/,"").toLowerCase(), '-');
 
             await Article.updateOne({ '_id': id }, data);
 

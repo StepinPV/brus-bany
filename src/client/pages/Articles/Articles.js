@@ -58,12 +58,14 @@ class Articles extends PureComponent {
     renderContent = () => {
         const { articles } = this.props;
 
+        debugger;
+
         return articles ? (
             <>
                 <H1Block
                     caption='Блог о строительстве бань'
                     description='За все время работы мы узнали так много о технологиях строительства бань, что будет просто не честно, если этими знаниями мы не поделимся с вами' />
-                <CardList items={articles.map(article => ({
+                <CardList items={articles.reverse().map(article => ({
                     id: article._id,
                     element: <ArticleCard article={article} />
                 }))} />

@@ -1,6 +1,7 @@
 const Status = require('./Status');
 const Layout = require('../models/Layout');
 const prepareErrors = require('./prepareErrors');
+const cyrillicToTranslit = require('cyrillic-to-translit-js');
 
 class Layouts {
     static async getAll() {
@@ -16,15 +17,14 @@ class Layouts {
     };
 
     static async create(data) {
-        if (await Layout.findOne({ 'translateName': data['translateName'] })) {
-            return Status.error(`Планировка с именем на английском = ${data['translateName']} уже существует!`);
-        }
-
         if (await Layout.findOne({ 'name': data['name'] })) {
             return Status.error(`Планировка с именем = ${data['name']} уже существует!`);
         }
 
         try {
+            data.updated = new Date();
+            data.translateName = cyrillicToTranslit().transform(data.name.toLowerCase(), '-');
+
             await Layout.create(data);
             return Status.success();
         } catch(err) {
@@ -39,14 +39,7 @@ class Layouts {
             return Status.error(`Вы пытаетесь изменить несуществующую планировку!`);
         }
 
-        const translateNameChanged = match['translateName'] !== layout['translateName'];
         const nameChanged = match['name'] !== layout['name'];
-
-        if (translateNameChanged) {
-            if (await Layout.findOne({ 'translateName': layout['translateName'] })) {
-                return Status.error(`Планировка с именем на английском = ${layout['translateName']} уже существует!`);
-            }
-        }
 
         if (nameChanged) {
             if (await Layout.findOne({ 'name': layout['name'] })) {
@@ -55,6 +48,9 @@ class Layouts {
         }
 
         try {
+            layout.updated = new Date();
+            layout.translateName = cyrillicToTranslit().transform(layout.name.toLowerCase(), '-');
+
             await Layout.updateOne({ '_id': id }, layout, { runValidators: true });
             return Status.success();
         } catch(err) {
