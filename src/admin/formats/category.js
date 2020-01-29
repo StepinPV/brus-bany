@@ -156,7 +156,8 @@ export default [{
         }, {
             _id: 'image',
             title: 'Изображение',
-            type: 'image'
+            type: 'image',
+            withoutLogo: true
         }, {
             _id: 'description',
             title: 'Описание',
@@ -218,7 +219,8 @@ export default [{
         }, {
             _id: 'image',
             title: 'Изображение',
-            type: 'image'
+            type: 'image',
+            withoutLogo: true
         }, {
             _id: 'description',
             title: 'Описание',

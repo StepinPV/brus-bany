@@ -13,7 +13,7 @@ function ArticleCard(props) {
             <Card
                 firstImage={article.image}
                 imageAlt={article.imageAlt}
-                firstButton='Читать полностью'
+                firstButton='Открыть статью'
                 bgStyle='grey'
                 content={(
                     <div className={styles['item-content']}>

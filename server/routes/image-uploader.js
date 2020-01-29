@@ -54,6 +54,8 @@ router.put('/', upload.single('file'), async function(req, res, next) {
                 const message = `Не удалось обработать изображение: ${err}`;
                 send(res, { status: 'error', message });
                 console.log(message);
+            }, {
+                withLogo: !req.body.withoutLogo
             });
         } else {
             send(res, { status: 'error', message: 'Изображение не загружено. Допустимый формат: "jpg"' });
