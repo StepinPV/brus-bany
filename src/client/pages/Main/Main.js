@@ -48,8 +48,8 @@ class Main extends PureComponent {
 
     render() {
         const { photos, articles } = this.props;
-        const preparedPhotos = photos ? photos.slice(0, 6) : [];
-        const preparedArticles = articles ? articles.slice(0, 6) : [];
+        const preparedPhotos = photos ? photos.slice(photos.length - 6, photos.length).reverse() : [];
+        const preparedArticles = articles ? articles.slice(articles.length - 3, articles.length).reverse() : [];
 
         return (
             <Page opacityHeader>
@@ -59,7 +59,7 @@ class Main extends PureComponent {
                 <WhyMe />
                 {preparedPhotos.length ? (
                     <DataSection bgStyle='grey' caption='Фотоотчеты готовых проектов' captionTag='h2'>
-                        <CardList items={photos.slice(photos.length - 6, photos.length).reverse().map(photo => ({
+                        <CardList items={preparedPhotos.map(photo => ({
                             id: photo._id,
                             element: <PhotoCard photo={photo} />
                         }))} />
@@ -71,7 +71,7 @@ class Main extends PureComponent {
                 <OurProduction />
                 {preparedArticles.length ? (
                     <DataSection captionTag='h2' bgStyle='grey' caption='Делимся накопленным опытом' description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации.'>
-                        <CardList items={preparedArticles.slice(preparedArticles.length - 3, preparedArticles.length).reverse().map(article => ({
+                        <CardList items={preparedArticles.map(article => ({
                             id: article._id,
                             element: <ArticleCard article={article} />
                         }))} />

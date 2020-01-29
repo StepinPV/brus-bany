@@ -21,12 +21,16 @@ const prepareImages = (data) => {
         return newImagePath;
     };
 
-    if (regexp.test(data.image)) {
-        data.image = moveImage(data.image);
+    if (regexp.test(data.article.image)) {
+        data.article.image = moveImage(data.article.image);
     }
 
-    if (data.content) {
-        data.content.forEach(block => {
+    if (regexp.test(data.article.firstImage)) {
+        data.article.firstImage = moveImage(data.article.firstImage);
+    }
+
+    if (data.article.content) {
+        data.article.content.forEach(block => {
             if (block.content) {
                 block.content.forEach(({ item }) => {
                     if (item.typeId === 'image' && item.value && item.value.image) {
@@ -67,15 +71,15 @@ class Articles {
         }
 
         try {
+            data.created = new Date();
+            data.updated = new Date();
+            data.translateName = cyrillicToTranslit().transform(data.article.name.replace(/\?$/,"").toLowerCase(), '-');
+
             const article = new Article(data);
 
             await article.validate();
 
             prepareImages(data);
-
-            data.created = new Date();
-            data.updated = new Date();
-            data.translateName = cyrillicToTranslit().transform(data.article.name.replace(/\?$/,"").toLowerCase(), '-');
 
             await Article.create(data);
 
@@ -105,13 +109,13 @@ class Articles {
         }
 
         try {
+            data.updated = new Date();
+            data.translateName = cyrillicToTranslit().transform(data.article.name.replace(/\?$/,"").toLowerCase(), '-');
+
             const article = new Article(data);
             await article.validate();
 
             prepareImages(data);
-
-            data.updated = new Date();
-            data.translateName = cyrillicToTranslit().transform(data.article.name.replace(/\?$/,"").toLowerCase(), '-');
 
             await Article.updateOne({ '_id': id }, data);
 

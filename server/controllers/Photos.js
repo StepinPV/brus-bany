@@ -36,7 +36,7 @@ const prepareImages = (data) => {
 };
 
 const removeImages = (data) => {
-    rimraf.sync(`./public/uploads/photos/${data.categoryId}/${data.layoutId}`);
+    rimraf.sync(`./public/uploads/photos/${data.projectId}/${data.created}`);
 };
 
 class PhotoReports {
