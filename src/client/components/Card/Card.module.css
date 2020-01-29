@@ -29,14 +29,7 @@
 
 .image-wrapper {
     position: relative;
-}
-
-.image-wrapper-size-m {
-     padding-top: 84%;
-}
-
-.image-wrapper-size-s {
-    padding-top: 60%;
+    padding-top: 75%;
 }
 
 .image {

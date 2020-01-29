@@ -15,7 +15,7 @@ function ArticleCard(props) {
                 imageAlt={article.imageAlt}
                 firstButton='Открыть статью'
                 bgStyle='grey'
-                size='s'
+                imageWrapperClassName={styles['image-wrapper']}
                 content={(
                     <div className={styles['item-content']}>
                         <div className={styles['date']}>{renderDate(new Date(created))}</div>

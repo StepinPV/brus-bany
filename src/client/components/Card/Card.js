@@ -4,11 +4,11 @@ import cx from 'classnames';
 import styles from './Card.module.css';
 
 function Card(props) {
-    const { bgStyle, firstImage, imageAlt, content, firstButton, secondButton, onClick, className, style, size } = props;
+    const { bgStyle, firstImage, imageAlt, content, firstButton, secondButton, onClick, className, style, imageWrapperClassName } = props;
 
     return (
         <div onClick={onClick} className={cx(className, styles.container, styles[`container-${bgStyle}`])} style={style}>
-            <div className={cx(styles['image-wrapper'], styles[`image-wrapper-size-${size}`])}>
+            <div className={cx(styles['image-wrapper'], imageWrapperClassName)}>
                 <img src={firstImage} alt={imageAlt} className={styles['image']} loading='lazy' />
             </div>
             <div className={styles['content']}>
@@ -33,12 +33,11 @@ Card.propTypes = {
     onClick: PropTypes.func,
     className: PropTypes.string,
     style: PropTypes.object,
-    size: PropTypes.oneOf(['m', 's'])
+    imageWrapperClassName: PropTypes.string
 };
 
 Card.defaultProps = {
-    bgStyle: 'grey',
-    size: 'm'
+    bgStyle: 'grey'
 };
 
 export default memo(Card);
