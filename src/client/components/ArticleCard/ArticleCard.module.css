@@ -26,5 +26,5 @@
 }
 
 .image-wrapper img {
-    object-fit: cover;
+    object-fit: fill;
 }
