@@ -317,7 +317,6 @@ class Project extends PureComponent {
             <ProjectBlock
                 {...project.categoryId.complectationBlocks}
                 required
-                hidePrice
                 project={project}
                 selectedId={selectedComplectation}
                 onChange={value => {
