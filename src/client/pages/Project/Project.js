@@ -317,13 +317,13 @@ class Project extends PureComponent {
             <ProjectBlock
                 {...project.categoryId.complectationBlocks}
                 required
-                project={project}
                 selectedId={selectedComplectation}
                 onChange={value => {
                     this.setState({
                         selectedComplectation: value
                     })
-                }} />
+                }}
+                getSecondButtonTitle={item => project.prices && project.prices[item.id] ? `${numberWithSpaces(project.prices[item.id])} руб` : null} />
         );
     };
 
@@ -335,7 +335,6 @@ class Project extends PureComponent {
             <ProjectBlock
                 key={projectBlock.id}
                 {...projectBlock}
-                project={project}
                 selectedId={projectBlocksValues[projectBlock.id]}
                 onChange={value => {
                     this.setState({
@@ -344,6 +343,13 @@ class Project extends PureComponent {
                             [projectBlock.id]: value
                         }
                     })
+                }}
+                getSecondButtonTitle={(item) => {
+                    if (project.projectBlocks && project.projectBlocks[projectBlock.id] && project.projectBlocks[projectBlock.id][item.id]) {
+                        return `${numberWithSpaces(project.projectBlocks[projectBlock.id][item.id].price)} руб`
+                    }
+
+                    return null;
                 }} />
         );
     };
