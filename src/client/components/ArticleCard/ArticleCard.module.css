@@ -24,3 +24,7 @@
 .image-wrapper {
     padding-top: 60%;
 }
+
+.image-wrapper img {
+    object-fit: cover;
+}
