@@ -144,7 +144,10 @@ const scheme = new Schema({
             area,
             wallLength,
             wallHeight,
-            ceilingArea
+            ceilingArea,
+            partitionLength: {
+                type: Number
+            }
         }
     },
     updated: Date

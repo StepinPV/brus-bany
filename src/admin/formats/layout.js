@@ -213,5 +213,9 @@ export default [{
         title: 'Площадь потолка',
         type: 'float number',
         required: true
+    }, {
+        _id: 'partitionLength',
+        title: 'Длина перегородок',
+        type: 'float number'
     }]
 }];
