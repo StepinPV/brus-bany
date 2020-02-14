@@ -73,7 +73,7 @@ class Articles {
         try {
             data.created = new Date();
             data.updated = new Date();
-            data.translateName = cyrillicToTranslit().transform(data.article.name.replace(/\?$/,"").toLowerCase(), '-');
+            data.translateName = cyrillicToTranslit().transform(data.article.name.trim().replace(/\?/g,"").toLowerCase(), '-');
 
             const article = new Article(data);
 
@@ -110,7 +110,7 @@ class Articles {
 
         try {
             data.updated = new Date();
-            data.translateName = cyrillicToTranslit().transform(data.article.name.replace(/\?$/,"").toLowerCase(), '-');
+            data.translateName = cyrillicToTranslit().transform(data.article.name.trim().replace(/\?/g,"").toLowerCase(), '-');
 
             const article = new Article(data);
             await article.validate();

@@ -22,7 +22,7 @@
 }
 
 .image-wrapper {
-    padding-top: 60%;
+    padding-top: 60% !important;
 }
 
 .image-wrapper img {
