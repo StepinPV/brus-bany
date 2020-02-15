@@ -85,6 +85,7 @@ class Articles {
 
             return Status.success();
         } catch(err) {
+            console.log('err', err);
             return Status.error('Исправьте ошибки!', { errors: prepareErrors(err.errors) });
         }
     };
