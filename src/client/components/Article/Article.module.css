@@ -15,7 +15,7 @@
 }
 
 .text:not(:last-child),
-.image:not(:last-child) {
+.image-block:not(:last-child) {
     margin-bottom: 32px;
 }
 
@@ -43,5 +43,12 @@
 .li {
     margin-bottom: 24px;
     font-size: 20px;
+}
+
+.image-description {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 8px;
+    color: #999;
 }
 

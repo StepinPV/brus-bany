@@ -16,9 +16,13 @@ export default [{
     required: true
 }, {
     _id: 'firstImageAlt',
-    title: 'Alt для изображения под описанием',
+    title: 'Alt для изображения',
     type: 'string',
     required: true
+}, {
+    _id: 'firstImageDescription',
+    title: 'Подпись к изображению',
+    type: 'string'
 }, {
     _id: 'image',
     title: 'Изображение для обложки',
@@ -28,6 +32,10 @@ export default [{
     _id: 'imageAlt',
     title: 'Alt для изображения',
     type: 'string'
+}, {
+    _id: 'imageDescription',
+    title: 'Описание для обложки',
+    type: 'text'
 }, {
     _id: 'content',
     title: 'Блок',
@@ -63,6 +71,10 @@ export default [{
                     _id: 'alt',
                     title: 'Alt для изображения',
                     type: 'string'
+                }, {
+                    _id: 'description',
+                    title: 'Подпись к изображению',
+                    type: 'string'
                 }]
             }, {
                 id: 'numeric-list',
@@ -86,6 +98,10 @@ export default [{
                     _id: 'imageAlt',
                     title: 'Alt изображения',
                     type: 'string'
+                }, {
+                    _id: 'imageDescription',
+                    title: 'Подпись к изображению',
+                    type: 'string'
                 }]
             }, {
                 id: 'marker-list',
@@ -108,6 +124,10 @@ export default [{
                 }, {
                     _id: 'imageAlt',
                     title: 'Alt изображения',
+                    type: 'string'
+                }, {
+                    _id: 'imageDescription',
+                    title: 'Подпись к изображению',
                     type: 'string'
                 }]
             }]

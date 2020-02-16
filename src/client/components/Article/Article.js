@@ -19,7 +19,8 @@ class Article extends PureComponent {
                 {article.description ? this.renderText(article.description) : null}
                 {article.firstImage ? this.renderImage({
                     image: article.firstImage,
-                    alt: article.firstImageAlt
+                    alt: article.firstImageAlt,
+                    description: article.firstImageDescription
                 }) : null}
                 {article.content ? article.content.map((item, i) => <Fragment key={i}>{this.renderBlock(item)}</Fragment>) : null}
             </div>
@@ -55,9 +56,14 @@ class Article extends PureComponent {
     };
 
     renderImage = (value) => {
-        const { image, alt } = value || {};
+        const { image, alt, description } = value || {};
 
-        return image ? <img className={styles.image} src={image} alt={alt} loading='lazy' /> : null
+        return image ? (
+            <div className={styles['image-block']}>
+                <img className={styles.image} src={image} alt={alt} loading='lazy' />
+                {description ? <div className={styles['image-description']}>{description}</div> : null}
+            </div>
+        ) : null
     };
 
     renderMarkerList = (values) => {
@@ -67,7 +73,11 @@ class Article extends PureComponent {
                     <li className={styles.li}>
                         <Text size='l' className={styles['list-caption']} isHTML>{value.caption}</Text>
                         <Text size='l' isHTML className={value.image ? styles['list-text'] : null}>{value.text}</Text>
-                        {value.image ? <img className={styles.image} src={value.image} alt={value.imageAlt} loading='lazy' /> : null}
+                        {value.image ? this.renderImage({
+                            image: value.image,
+                            alt: value.imageAlt,
+                            description: value.imageDescription
+                        }) : null}
                     </li>
                 ))}
             </ul>
@@ -81,7 +91,11 @@ class Article extends PureComponent {
                     <li className={styles.li}>
                         <Text size='l' className={styles['list-caption']} isHTML>{value.caption}</Text>
                         <Text size='l' isHTML className={value.image ? styles['list-text'] : null}>{value.text}</Text>
-                        {value.image ? <img className={styles.image} src={value.image} alt={value.imageAlt} loading='lazy' /> : null}
+                        {value.image ? this.renderImage({
+                            image: value.image,
+                            alt: value.imageAlt,
+                            description: value.imageDescription
+                        }) : null}
                     </li>
                 ))}
             </ol>

@@ -14,10 +14,12 @@ function Card(props) {
             <div className={styles['content']}>
                 {content}
             </div>
-            <div className={styles['buttons']}>
-                {firstButton ? <div className={cx(styles['button'], styles['button-first'])}>{firstButton}</div> : null}
-                {secondButton ? <div className={cx(styles['button'], styles['button-second'])}>{secondButton}</div> : null}
-            </div>
+            {(firstButton || secondButton) ? (
+                <div className={styles['buttons']}>
+                    {firstButton ? <div className={cx(styles['button'], styles['button-first'])}>{firstButton}</div> : null}
+                    {secondButton ? <div className={cx(styles['button'], styles['button-second'])}>{secondButton}</div> : null}
+                </div>
+            ) : null}
         </div>
     );
 }

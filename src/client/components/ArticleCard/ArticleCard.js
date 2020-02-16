@@ -13,13 +13,13 @@ function ArticleCard(props) {
             <Card
                 firstImage={article.image}
                 imageAlt={article.imageAlt}
-                firstButton='Открыть статью'
                 bgStyle='grey'
                 imageWrapperClassName={styles['image-wrapper']}
                 content={(
                     <div className={styles['item-content']}>
                         <div className={styles['date']}>{renderDate(new Date(created))}</div>
                         <div className={styles['item-caption']}>{article.name}</div>
+                        <div className={styles['item-description']}>{article.imageDescription}</div>
                     </div>
                 )}
             />
