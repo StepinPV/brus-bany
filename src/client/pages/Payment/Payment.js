@@ -6,6 +6,7 @@ import Text from '../../components/Text';
 import { Link } from '../../components/Button';
 import styles from './Payment.module.css';
 import FormBlock from "../../components/FormBlock";
+import {Helmet} from "react-helmet";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -14,9 +15,22 @@ const breadcrumbs = [{
     title: 'Условия оплаты'
 }];
 
+const META = {
+    title: 'Условия оплаты',
+    description: 'Мы работаем без предоплаты! Вы платите только за результат хорошо построенной бани',
+    keywords: 'Условия оплаты'
+};
+
 function Payment() {
     return (
         <Page breadcrumbs={breadcrumbs}>
+            <Helmet>
+                <title>{META.title}</title>
+                <meta name='description' content={META.description} />
+                <meta name='keywords' content={META.keywords} />
+                <meta property='og:title' content={META.title} />
+                <meta property='og:description' content={META.description} />
+            </Helmet>
             <div className={styles.container}>
                 <H1Block caption='Условия оплаты' />
                 <div className={styles.data}>

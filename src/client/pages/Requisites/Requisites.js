@@ -3,7 +3,8 @@ import Page from '../../components/Page';
 import Caption from '../../components/Caption';
 import Text from '../../components/Text';
 import styles from './Requisites.module.css';
-import FormBlock from "../../components/FormBlock";
+import FormBlock from '../../components/FormBlock';
+import { Helmet } from 'react-helmet';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -12,9 +13,22 @@ const breadcrumbs = [{
     title: 'Реквизиты компании'
 }];
 
+const META = {
+    title: 'Реквизиты компании',
+    description: 'Реквизиты компании ООО "Русская баня"',
+    keywords: 'Реквизиты компании ООО "Русская баня"'
+};
+
 function Requisites() {
     return (
         <Page breadcrumbs={breadcrumbs}>
+            <Helmet>
+                <title>{META.title}</title>
+                <meta name='description' content={META.description} />
+                <meta name='keywords' content={META.keywords} />
+                <meta property='og:title' content={META.title} />
+                <meta property='og:description' content={META.description} />
+            </Helmet>
             <div className={styles.container}>
                 <Caption className={styles.caption} align='center' tag='h1'>Реквизиты компании</Caption>
                 <Text align='center'>ООО «Русская Баня»</Text>

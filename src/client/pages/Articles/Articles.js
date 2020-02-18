@@ -8,6 +8,7 @@ import H1Block from '../../components/H1Block';
 import FormBlock from "../../components/FormBlock";
 import ArticleCard from "../../components/ArticleCard";
 import CardList from '../../components/CardList';
+import {Helmet} from "react-helmet";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -15,6 +16,12 @@ const breadcrumbs = [{
 }, {
     title: 'Блог о строительстве бань'
 }];
+
+const META = {
+    title: 'Блог о строительстве бань компании "Брус бани"',
+    description: 'Блог о строительстве бань от компании "Брус бани"',
+    keywords: 'Блог о бане, советы для банщика, статьи про строительство бани'
+};
 
 class Articles extends PureComponent {
     static propTypes = {
@@ -50,6 +57,13 @@ class Articles extends PureComponent {
 
         return (
             <Page breadcrumbs={breadcrumbs}>
+                <Helmet>
+                    <title>{META.title}</title>
+                    <meta name='description' content={META.description} />
+                    <meta name='keywords' content={META.keywords} />
+                    <meta property='og:title' content={META.title} />
+                    <meta property='og:description' content={META.description} />
+                </Helmet>
                 { isArticlesError ? <div>{isArticlesError}</div> : this.renderContent() }
             </Page>
         );

@@ -14,6 +14,7 @@ import img5_1 from './resources/5/1.jpg';
 import img5_2 from './resources/5/2.jpg';
 import img5_3 from './resources/5/3.jpg';
 import img5_4 from './resources/5/4.jpg';
+import {Helmet} from "react-helmet";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -24,6 +25,12 @@ const breadcrumbs = [{
 }, {
     title: 'Пройдите опрос и получите подарок'
 }];
+
+const META = {
+    title: 'Пройдите опрос и получите подарок',
+    description: 'Более 150 проектов бань на любой вкус. Гарантия 3 года. Работаем по всей России.',
+    keywords: 'Подарок при прохождении опраса'
+};
 
 const questions = [{
     type: 'select',
@@ -80,6 +87,13 @@ class Quiz extends PureComponent {
     render() {
         return (
             <Page breadcrumbs={breadcrumbs}>
+                <Helmet>
+                    <title>{META.title}</title>
+                    <meta name='description' content={META.description} />
+                    <meta name='keywords' content={META.keywords} />
+                    <meta property='og:title' content={META.title} />
+                    <meta property='og:description' content={META.description} />
+                </Helmet>
                 <div className={styles.container}>
                     <Caption className={styles.caption} align='center' tag='h1'>Пройдите опрос и получите подарок</Caption>
                 </div>

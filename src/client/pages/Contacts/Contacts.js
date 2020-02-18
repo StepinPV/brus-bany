@@ -7,6 +7,7 @@ import H1Block from '../../components/H1Block';
 import cx from 'classnames';
 import styles from './Contacts.module.css';
 import FormBlock from "../../components/FormBlock";
+import {Helmet} from "react-helmet";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -14,6 +15,12 @@ const breadcrumbs = [{
 }, {
     title: 'Наши контакты'
 }];
+
+const META = {
+    title: 'Контакты компании "Брус бани"',
+    description: 'Привезем уже готовую или построим с нуля Более 350 довольных клиентов по всей России',
+    keywords: 'Контакты компании "Брус бани"'
+};
 
 let Map;
 
@@ -36,6 +43,13 @@ class Contacts extends PureComponent {
 
         return (
             <Page breadcrumbs={breadcrumbs}>
+                <Helmet>
+                    <title>{META.title}</title>
+                    <meta name='description' content={META.description} />
+                    <meta name='keywords' content={META.keywords} />
+                    <meta property='og:title' content={META.title} />
+                    <meta property='og:description' content={META.description} />
+                </Helmet>
                 <H1Block caption='Наши контакты' />
                 <div className={styles.content} itemsope='' itemType='http://schema.org/Organization'>
                     <div className={styles.map}>

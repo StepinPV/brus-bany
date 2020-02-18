@@ -9,6 +9,7 @@ import img2 from './resources/2.jpg';
 import img3 from './resources/3.jpg';
 import styles from './Promo.module.css';
 import FormBlock from "../../components/FormBlock";
+import {Helmet} from "react-helmet";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -17,9 +18,22 @@ const breadcrumbs = [{
     title: 'Скидки и акции'
 }];
 
+const META = {
+    title: 'Скидки и акции | Брус бани',
+    description: 'Закажите баню со скидкой. Ознакомиться с действующими акциями можно тут.',
+    keywords: 'Скидки и акции'
+};
+
 function Promo() {
     return (
         <Page breadcrumbs={breadcrumbs}>
+            <Helmet>
+                <title>{META.title}</title>
+                <meta name='description' content={META.description} />
+                <meta name='keywords' content={META.keywords} />
+                <meta property='og:title' content={META.title} />
+                <meta property='og:description' content={META.description} />
+            </Helmet>
             <H1Block caption='Скидки и акции' description='Надеемся, что вы найдете для себя интересное предложение и исполните свою мечту' />
             <div className={styles.items}>
                 <div className={styles.item}>

@@ -5,6 +5,7 @@ import Text from '../../components/Text';
 import H1Block from '../../components/H1Block';
 import styles from './Jobs.module.css';
 import FormBlock from "../../components/FormBlock";
+import {Helmet} from "react-helmet";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -12,6 +13,12 @@ const breadcrumbs = [{
 }, {
     title: 'Вакансии'
 }];
+
+const META = {
+    title: 'Вакансии компании "Брус бани"',
+    description: 'Будем рады видеть вас в нашей дружной семье!',
+    keywords: 'Вакансии компании "Брус бани"'
+};
 
 const items = [{
     caption: 'Обязанности:',
@@ -41,6 +48,13 @@ const items = [{
 function Jobs() {
     return (
         <Page breadcrumbs={breadcrumbs}>
+            <Helmet>
+                <title>{META.title}</title>
+                <meta name='description' content={META.description} />
+                <meta name='keywords' content={META.keywords} />
+                <meta property='og:title' content={META.title} />
+                <meta property='og:description' content={META.description} />
+            </Helmet>
             <div className={styles.container}>
                 <H1Block caption='Вакансии' />
                 <Text className={styles.data}>

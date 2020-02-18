@@ -5,6 +5,13 @@ import Top from './resources/Top';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import styles from "./GOST.module.css";
 import FormBlock from "../../components/FormBlock";
+import {Helmet} from "react-helmet";
+
+const META = {
+    title: 'ГОСТы и СНиПы | Брус бани',
+    description: 'При возведении строительных объектов мы руководствуемся самыми актуальными стандартами и нормами строительства, именно поэтому наши бани служат очень долго и радуют своих владельцев.',
+    keywords: 'Госты, снипы'
+};
 
 const items = [{
     title: 'ГОСТ 30974-2002',
@@ -42,6 +49,13 @@ const breadcrumbs = [{
 function GOST() {
     return (
         <Page opacityHeader>
+            <Helmet>
+                <title>{META.title}</title>
+                <meta name='description' content={META.description} />
+                <meta name='keywords' content={META.keywords} />
+                <meta property='og:title' content={META.title} />
+                <meta property='og:description' content={META.description} />
+            </Helmet>
             <Top />
             <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
             <div id='list' className={styles.items}>
