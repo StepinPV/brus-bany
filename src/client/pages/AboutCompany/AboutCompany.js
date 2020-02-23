@@ -5,12 +5,12 @@ import Article from '../../components/Article';
 import FormBlock from "../../components/FormBlock";
 import Breadcrumbs from "../../../components/Breadcrumbs";
 import styles from './AboutCompany.module.css';
-import { Helmet } from 'react-helmet';
+import Meta from '../../components/Meta';
 
 const META = {
     title: 'О компании "Брус бани"',
     description: 'Строительство бань под ключ | бани из бруса | каркасная бани | мобильные бани | бани из бревна',
-    keywords: 'О компании "Брус бани"'
+    keywords: 'О компании, год основания, цель компании'
 };
 
 const article = {
@@ -55,13 +55,7 @@ const breadcrumbs = [{
 function AboutCompany() {
     return (
         <Page opacityHeader>
-            <Helmet>
-                <title>{META.title}</title>
-                <meta name='description' content={META.description} />
-                <meta name='keywords' content={META.keywords} />
-                <meta property='og:title' content={META.title} />
-                <meta property='og:description' content={META.description} />
-            </Helmet>
+            <Meta meta={META} />
             <Top />
             <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
             <div className={styles.article}>

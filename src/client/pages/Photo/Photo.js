@@ -11,6 +11,7 @@ import Caption from '../../components/Caption';
 import YouTube from '../../components/YouTube';
 import { Simple } from '../../components/Button';
 import FormBlock from '../../components/FormBlock';
+import Meta from '../../components/Meta';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -79,9 +80,15 @@ class Photo extends PureComponent {
             photo.projectId.layoutId.translateName === layoutName
         );
 
+        const metaTitle = `${photo.projectId.categoryId.name2.toLowerCase()} ${photo.projectId.layoutId.name} ${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length}`;
+        const meta = {
+            title: `Фотоотчет построенного объекта - ${metaTitle}`,
+            description: `Фотографии, отзывы, видео и описание построенного объекта - ${metaTitle}`
+        };
 
         return (
             <Page breadcrumbs={breadcrumbs} notFound={isPhotoError || !urlValid}>
+                <Meta meta={meta} />
                 { this.renderContent() }
                 <FormBlock source='Страница фотоотчета' />
             </Page>

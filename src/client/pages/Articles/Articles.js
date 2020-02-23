@@ -8,7 +8,7 @@ import H1Block from '../../components/H1Block';
 import FormBlock from "../../components/FormBlock";
 import ArticleCard from "../../components/ArticleCard";
 import CardList from '../../components/CardList';
-import {Helmet} from "react-helmet";
+import Meta from '../../components/Meta';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -57,13 +57,7 @@ class Articles extends PureComponent {
 
         return (
             <Page breadcrumbs={breadcrumbs}>
-                <Helmet>
-                    <title>{META.title}</title>
-                    <meta name='description' content={META.description} />
-                    <meta name='keywords' content={META.keywords} />
-                    <meta property='og:title' content={META.title} />
-                    <meta property='og:description' content={META.description} />
-                </Helmet>
+                <Meta meta={META} />
                 { isArticlesError ? <div>{isArticlesError}</div> : this.renderContent() }
             </Page>
         );

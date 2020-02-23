@@ -5,7 +5,7 @@ import Caption from '../../components/Caption';
 import Text from '../../components/Text';
 import styles from './Questions.module.css';
 import FormBlock from "../../components/FormBlock";
-import {Helmet} from "react-helmet";
+import Meta from '../../components/Meta';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -17,7 +17,7 @@ const breadcrumbs = [{
 const META = {
     title: 'Вопросы и ответы',
     description: 'Популярные вопросы и ответы',
-    keywords: 'Вопросы и ответы'
+    keywords: 'Популярные вопросы, вопросы об оплате, вопросы о строительстве, вопросы о гарантии'
 };
 
 const items = [{
@@ -106,13 +106,7 @@ const items = [{
 function Questions() {
     return (
         <Page breadcrumbs={breadcrumbs}>
-            <Helmet>
-                <title>{META.title}</title>
-                <meta name='description' content={META.description} />
-                <meta name='keywords' content={META.keywords} />
-                <meta property='og:title' content={META.title} />
-                <meta property='og:description' content={META.description} />
-            </Helmet>
+            <Meta meta={META} />
             <DataSection caption='Вопросы и ответы' bgStyle='white' captionTag='h1'>
                 <div className={styles.container}>
                     {items.map(({ name, questions }) => {

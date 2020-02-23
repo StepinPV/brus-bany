@@ -7,6 +7,7 @@ import Page from '../../components/Page';
 import ArticleComponent from '../../components/Article';
 import DataSection from '../../components/DataSection';
 import FormBlock from "../../components/FormBlock";
+import Meta from '../../components/Meta';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -77,11 +78,18 @@ class Article extends PureComponent {
     }
 
     render() {
-        const { isArticleError, notFound } = this.props;
+        const { isArticleError, notFound, article } = this.props;
         const { breadcrumbs } = this.state;
+
+        const meta = {
+            title: article.article.name,
+            description: article.article.imageDescription,
+            keywords: article.article.keywords
+        };
 
         return (
             <Page breadcrumbs={breadcrumbs} notFound={isArticleError || notFound}>
+                <Meta meta={meta}/>
                 { isArticleError ? <div>{isArticleError}</div> : this.renderContent() }
             </Page>
         );

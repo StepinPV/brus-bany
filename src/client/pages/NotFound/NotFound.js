@@ -2,24 +2,18 @@ import React, {memo} from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import NotFoundComponent from '../../components/NotFound';
-import {Helmet} from "react-helmet";
+import Meta from '../../components/Meta';
 
 const META = {
     title: '404',
     description: 'Страница не найдена или не существует',
-    keywords: '404'
+    keywords: '404, страница не найдена'
 };
 
 function NotFound() {
     return (
         <>
-            <Helmet>
-                <title>{META.title}</title>
-                <meta name='description' content={META.description} />
-                <meta name='keywords' content={META.keywords} />
-                <meta property='og:title' content={META.title} />
-                <meta property='og:description' content={META.description} />
-            </Helmet>
+            <Meta meta={META} />
             <Header />
             <NotFoundComponent />
             <Footer />

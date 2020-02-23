@@ -4,6 +4,7 @@ import Caption from '../../../../components/Caption';
 import styles from './Quiz.module.css';
 import FormBlock from "../../../../components/FormBlock";
 import Form from "../../../../components/Form";
+import Meta from '../../../../components/Meta';
 
 import img2_1 from './resources/2/1.jpg';
 import img2_2 from './resources/2/2.jpg';
@@ -14,7 +15,6 @@ import img5_1 from './resources/5/1.jpg';
 import img5_2 from './resources/5/2.jpg';
 import img5_3 from './resources/5/3.jpg';
 import img5_4 from './resources/5/4.jpg';
-import {Helmet} from "react-helmet";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -28,8 +28,7 @@ const breadcrumbs = [{
 
 const META = {
     title: 'Пройдите опрос и получите подарок',
-    description: 'Более 150 проектов бань на любой вкус. Гарантия 3 года. Работаем по всей России.',
-    keywords: 'Подарок при прохождении опраса'
+    description: 'Более 150 проектов бань на любой вкус. Гарантия 3 года. Работаем по всей России.'
 };
 
 const questions = [{
@@ -87,13 +86,7 @@ class Quiz extends PureComponent {
     render() {
         return (
             <Page breadcrumbs={breadcrumbs}>
-                <Helmet>
-                    <title>{META.title}</title>
-                    <meta name='description' content={META.description} />
-                    <meta name='keywords' content={META.keywords} />
-                    <meta property='og:title' content={META.title} />
-                    <meta property='og:description' content={META.description} />
-                </Helmet>
+                <Meta meta={META} />
                 <div className={styles.container}>
                     <Caption className={styles.caption} align='center' tag='h1'>Пройдите опрос и получите подарок</Caption>
                 </div>

@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import CategoriesBase from '../Main/resources/Categories';
 import Page from '../../components/Page';
 import FormBlock from '../../components/FormBlock';
-import { Helmet } from 'react-helmet';
+import Meta from '../../components/Meta';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -13,20 +13,13 @@ const breadcrumbs = [{
 
 const META = {
     title: 'Брус бани — категории бань',
-    description: 'Брус бани — категории бань',
-    keywords: 'Категории бань'
+    description: 'Категории бань, которые мы строим'
 };
 
 function Categories() {
     return (
         <Page breadcrumbs={breadcrumbs}>
-            <Helmet>
-                <title>{META.title}</title>
-                <meta name='description' content={META.description} />
-                <meta name='keywords' content={META.keywords} />
-                <meta property='og:title' content={META.title} />
-                <meta property='og:description' content={META.description} />
-            </Helmet>
+            <Meta meta={META} />
             <CategoriesBase caption='Категории бань' captionTag='h1' />
             <FormBlock source='Страница /bani' />
         </Page>

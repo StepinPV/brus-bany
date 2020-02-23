@@ -37,6 +37,10 @@ export default [{
     title: 'Описание для обложки',
     type: 'text'
 }, {
+    _id: 'keywords',
+    title: 'Keywords',
+    type: 'string'
+}, {
     _id: 'content',
     title: 'Блок',
     type: 'array',

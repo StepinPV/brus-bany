@@ -15,6 +15,7 @@ import filterProjects from './resources/filter';
 import Filters from './resources/Filters';
 import styles from './Category.module.css';
 import FormBlock from "../../components/FormBlock";
+import Meta from '../../components/Meta';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -143,18 +144,25 @@ class Category extends PureComponent {
     }
 
     render() {
-        const { isCategoryError } = this.props;
+        const { isCategoryError, category } = this.props;
         const { breadcrumbs, notFound } = this.state;
+
+        const meta = {
+            title: category.title,
+            description: category.description,
+            keywords: category.keywords
+        };
 
         return (
             <Page breadcrumbs={breadcrumbs} notFound={notFound || isCategoryError}>
+                <Meta meta={meta} />
                 { this.renderContent() }
             </Page>
         );
     }
 
     renderContent = () => {
-        const { category, match } = this.props;
+        const { category, match, projects } = this.props;
         const { filteredProjects } = this.state;
         const { name } = match.params;
 
@@ -162,7 +170,7 @@ class Category extends PureComponent {
             <>
                 <H1Block
                     caption={`${this.getTitle()} | проекты и цены`}
-                    description={(<>Более 65 проектов бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</>)}
+                    description={(<>{projects.length} проектов бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</>)}
                 />
                 {this.renderFilters()}
                 {this.renderProjects()}

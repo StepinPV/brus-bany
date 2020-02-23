@@ -7,7 +7,7 @@ import Breadcrumbs from '../../../components/Breadcrumbs';
 import DeliveryMap from '../../components/DeliveryMap';
 import styles from "./Delivery.module.css";
 import FormBlock from '../../components/FormBlock';
-import { Helmet } from 'react-helmet';
+import Meta from '../../components/Meta';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -19,19 +19,13 @@ const breadcrumbs = [{
 const META = {
     title: 'География доставки',
     description: 'Доставим баню в любую точку России',
-    keywords: 'География доставки'
+    keywords: 'География доставки, информация о доставке, стоимость доставки'
 };
 
 function Delivery() {
     return (
         <Page opacityHeader>
-            <Helmet>
-                <title>{META.title}</title>
-                <meta name='description' content={META.description} />
-                <meta name='keywords' content={META.keywords} />
-                <meta property='og:title' content={META.title} />
-                <meta property='og:description' content={META.description} />
-            </Helmet>
+            <Meta meta={META} />
             <Top />
             <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
             <First />

@@ -7,6 +7,7 @@ import CardList from '../../components/CardList';
 import PhotoCard from '../../components/PhotoCard';
 import ArticleCard from '../../components/ArticleCard';
 import { Link } from '../../components/Button';
+import Meta from '../../components/Meta';
 import Top from './resources/Top';
 import Categories from './resources/Categories';
 import HowWork from './resources/HowWork';
@@ -17,6 +18,12 @@ import FormBlock from '../../components/FormBlock';
 import {getPhotos, getArticles, resetData} from './actions';
 import PropTypes from 'prop-types';
 import styles from './Main.module.css';
+
+const META = {
+    title: 'Брус бани — строительство бань под ключ | купить недорого | проекты и цены | собственное производство',
+    description: 'Срок строительства от 7 дней, работаем круглый год по всей России, гарантия 3 года. Привезем уже готовую или построим с нуля. Более 150 проектов бань. Возможна перепланировка, изменение комплектации. Скидки и акции.',
+    keywords: 'Купить баню из бруса под ключ, Бани из бруса под ключ, мобильные бани, каркасные бани, бани из бруса, индивидуальный проект, купить баню'
+};
 
 class Main extends PureComponent {
     static propTypes = {
@@ -53,6 +60,7 @@ class Main extends PureComponent {
 
         return (
             <Page opacityHeader>
+                <Meta meta={META} />
                 <Top />
                 <Categories id='categories' />
                 <HowWork />

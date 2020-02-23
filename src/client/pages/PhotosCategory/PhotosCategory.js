@@ -9,6 +9,7 @@ import styles from './PhotosCategory.module.css';
 import FormBlock from "../../components/FormBlock";
 import CardList from '../../components/CardList';
 import PhotoCard from '../../components/PhotoCard';
+import Meta from '../../components/Meta';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -71,11 +72,17 @@ class PhotosCategory extends PureComponent {
     }
 
     render() {
-        const { isPhotosError } = this.props;
+        const { isPhotosError, category } = this.props;
         const { breadcrumbs } = this.state;
+
+        const meta = {
+            title: `Фотоотчеты построенных ${category.name3}`,
+            description: `Фотографии, отзывы, видео и описание построенных ${category.name3}`
+        };
 
         return (
             <Page breadcrumbs={breadcrumbs} notFound={isPhotosError}>
+                <Meta meta={meta} />
                 { this.renderContent() }
                 <FormBlock source='Страница готовых проектов' />
             </Page>

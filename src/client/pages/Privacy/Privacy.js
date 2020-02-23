@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import Page from '../../components/Page';
 import H1Block from '../../components/H1Block';
 import styles from './Privacy.module.css';
-import {Helmet} from "react-helmet";
+import Meta from '../../components/Meta';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -13,20 +13,13 @@ const breadcrumbs = [{
 
 const META = {
     title: 'Политика в отношении обработки персональных данных',
-    description: 'Условия и обработка персональных данных пользователя',
-    keywords: 'Политика в отношении обработки персональных данных'
+    description: 'Условия и обработка персональных данных пользователя'
 };
 
 function Privacy() {
     return (
         <Page breadcrumbs={breadcrumbs}>
-            <Helmet>
-                <title>{META.title}</title>
-                <meta name='description' content={META.description} />
-                <meta name='keywords' content={META.keywords} />
-                <meta property='og:title' content={META.title} />
-                <meta property='og:description' content={META.description} />
-            </Helmet>
+            <Meta meta={META} />
             <div className={styles.container}>
                 <H1Block caption='Политика в отношении обработки персональных данных' />
                 <div className={styles.data}>

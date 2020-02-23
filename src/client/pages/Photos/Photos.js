@@ -11,7 +11,7 @@ import styles from './Photos.module.css';
 import FormBlock from "../../components/FormBlock";
 import CardList from '../../components/CardList';
 import PhotoCard from '../../components/PhotoCard';
-import {Helmet} from "react-helmet";
+import Meta from '../../components/Meta';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -22,8 +22,7 @@ const breadcrumbs = [{
 
 const META = {
     title: 'Фотоотчеты построенных бань',
-    description: 'Фотоотчеты построенных бань всех категорий',
-    keywords: 'Фотоотчеты построенных бань'
+    description: 'Фотографии, отзывы, видео и описание построенных бань'
 };
 
 class Photos extends PureComponent {
@@ -59,13 +58,7 @@ class Photos extends PureComponent {
 
         return (
             <Page breadcrumbs={breadcrumbs}>
-                <Helmet>
-                    <title>{META.title}</title>
-                    <meta name='description' content={META.description} />
-                    <meta name='keywords' content={META.keywords} />
-                    <meta property='og:title' content={META.title} />
-                    <meta property='og:description' content={META.description} />
-                </Helmet>
+                <Meta meta={META} />
                 { isPhotosError ? <div>{isPhotosError}</div> : this.renderContent() }
                 <FormBlock source='Страница готовых проектов' />
             </Page>

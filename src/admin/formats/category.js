@@ -21,6 +21,26 @@ export default [{
     type: 'string',
     required: true
 }, {
+    _id: 'name4',
+    title: 'Введите имя для шаблона (Заказать <<баню из бруса>>)',
+    type: 'string',
+    required: true
+}, {
+    _id: 'title',
+    title: 'Введите title',
+    type: 'string',
+    required: true
+}, {
+    _id: 'description',
+    title: 'Введите description',
+    type: 'string',
+    required: true
+}, {
+    _id: 'keywords',
+    title: 'Введите keywords',
+    type: 'string',
+    required: true
+}, {
     _id: 'filters',
     title: 'Фильтр',
     type: 'array',

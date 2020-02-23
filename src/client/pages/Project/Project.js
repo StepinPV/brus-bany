@@ -20,6 +20,7 @@ import withForm from '../../plugins/Form/withForm';
 import FormBlock from '../../components/FormBlock';
 import NotFound from '../../components/NotFound';
 import numberWithSpaces from '../../../utils/numberWithSpaces';
+import Meta from '../../components/Meta';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -108,8 +109,15 @@ class Project extends PureComponent {
         const { width, length } = match.params;
         const { breadcrumbs } = this.state;
 
+        const metaTitle = `Закажите ${this.renderInfoTitle(project.categoryId.name4)} - ${project.layoutId.name}`;
+        const meta = {
+            title: `${metaTitle}. Проект, комплектация и цена.`,
+            description: `${metaTitle}. Более 350 довольных клиентов по всей России.`
+        };
+
         return (
             <div className={styles['main-container']}>
+                <Meta meta={meta} />
                 <Header />
                 {isProjectError || project && (String(project.layoutId.width) !== width || String(project.layoutId.length) !== length) ? (
                     <NotFound />
@@ -162,7 +170,7 @@ class Project extends PureComponent {
         }
 
         const images = [];
-        const title = this.renderInfoTitle();
+        const title = this.renderInfoTitle(project.categoryId.name2);
 
         [{
             key: 'main',
@@ -204,7 +212,7 @@ class Project extends PureComponent {
         return (
             <div className={styles['info']}>
                 <h1 className={styles['info-title']} itemProp="name">
-                    {`${this.renderInfoTitle()} - `}
+                    {`${this.renderInfoTitle(project.categoryId.name2)} - `}
                     <span className={styles['info-title-layout']}>{project.layoutId.name}</span>
                 </h1>
                 <div className={styles['info-addition']}>
@@ -237,10 +245,10 @@ class Project extends PureComponent {
         )
     };
 
-    renderInfoTitle = () => {
-        const { project: { layoutId, categoryId } } = this.props;
+    renderInfoTitle = (categoryName) => {
+        const { project: { layoutId } } = this.props;
 
-        let title = `${categoryId.name2} ${layoutId.width}x${layoutId.length}`;
+        let title = `${categoryName} ${layoutId.width}x${layoutId.length}`;
 
         const { terrace, attic, porch } = layoutId;
 

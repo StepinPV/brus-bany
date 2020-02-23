@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import Page from '../../components/Page';
 import Top from './resources/Top';
 import FormBlock from '../../components/FormBlock';
-import { Helmet } from 'react-helmet';
+import Meta from '../../components/Meta';
 
 const META = {
     title: 'Индивидуальный проект бани',
@@ -13,13 +13,7 @@ const META = {
 function CustomProject() {
     return (
         <Page opacityHeader>
-            <Helmet>
-                <title>{META.title}</title>
-                <meta name='description' content={META.description} />
-                <meta name='keywords' content={META.keywords} />
-                <meta property='og:title' content={META.title} />
-                <meta property='og:description' content={META.description} />
-            </Helmet>
+            <Meta meta={META} />
             <Top />
             <FormBlock source='Индивидуальный проект' />
         </Page>
