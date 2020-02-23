@@ -33,12 +33,12 @@ export default [{
 }, {
     _id: 'description',
     title: 'Введите description',
-    type: 'string',
+    type: 'text',
     required: true
 }, {
     _id: 'keywords',
     title: 'Введите keywords',
-    type: 'string',
+    type: 'text',
     required: true
 }, {
     _id: 'filters',

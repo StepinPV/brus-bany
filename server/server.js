@@ -43,9 +43,9 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+/* app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); */
 // Статика
-app.use('/', express.static(path.join(__dirname, '../public')));
+// app.use('/', express.static(path.join(__dirname, '../public')));
 
 app.use('/admin', auth, function(req, res, next) {
     next();

@@ -1,0 +1,31 @@
+server {
+        listen 80;
+        # server_name sitename.ru;
+		root /root/brus-bany/public/;
+        access_log off;
+		error_log /root/brus-bany/nginx-error-logs/ error;
+
+        # proxy_set_header X-Real-IP $remote_addr;
+        # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        # proxy_set_header Host $http_host;
+        # proxy_set_header X-NginX-Proxy true;
+
+        location ~* \.(jpg|jpeg|gif|png|ico|txt|woff|otf|eot|svg|ttf|html|xml|css|js)$ {
+                expires 30d;
+                error_page 404 @notfound;
+        }
+
+        location / {
+                proxy_pass http://localhost:3000;
+                proxy_redirect off;
+        }
+
+        location @notfound {
+                proxy_pass http://localhost:3000/not-found;
+        }
+
+}
+server {
+         server_name "~^www\.(.*)$";
+         return 301 $scheme://$1$request_uri;
+}
