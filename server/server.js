@@ -43,9 +43,10 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
-/* app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); */
 // Статика
-// app.use('/', express.static(path.join(__dirname, '../public')));
+if (1/*process.env.NODE_ENV !== 'production'*/) {
+    app.use('/', express.static(path.join(__dirname, '../public')));
+}
 
 app.use('/admin', auth, function(req, res, next) {
     next();
@@ -55,7 +56,7 @@ app.use('/api', routes);
 
 app.get('*', renderRoute);
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
     app.use(errorhandler())
 }
 
