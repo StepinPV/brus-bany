@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
 import PropTypes from "prop-types";
 
-function YouTube({ link, className, height }) {
+function YouTube({ link, className, height, title }) {
     return (
         <iframe
+            title={title}
             className={className}
             height={height}
             src={link}
@@ -16,7 +17,8 @@ function YouTube({ link, className, height }) {
 YouTube.propTypes = {
     link: PropTypes.string,
     className: PropTypes.string,
-    height: PropTypes.number
+    height: PropTypes.number,
+    title: PropTypes.string
 };
 
 export default memo(YouTube);

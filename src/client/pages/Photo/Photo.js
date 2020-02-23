@@ -163,7 +163,7 @@ class Photo extends PureComponent {
         return photo && photo.videoFeedback ? (
             <div className={styles.feedback}>
                 <Caption tag='h2' size='s' className={styles['sub-caption']}>Видеоотзыв клиента:</Caption>
-                <YouTube link={photo.videoFeedback} height={315} className={styles['feedback-video']} />
+                <YouTube link={photo.videoFeedback} height={315} className={styles['feedback-video']} title='Видеоотзыв' />
             </div>
         ) : null;
     };
