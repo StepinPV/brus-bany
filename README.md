@@ -13,4 +13,6 @@ https://andreyex.ru/operacionnaya-sistema-linux/komanda-nohup-v-linux-pozvolyaet
 403 nginx:
 nginx.conf user root; - костыль
 https://www.internet-technologies.ru/articles/reshenie-problem-svyazannyh-s-oshibkoy-nginx-403-forbidden.html
-
+http://localstorage.ru/konfighuratsiia-nginx-dlia-raboty-s-node-js-i-pm2/
+https://www.8host.com/blog/podgotovka-prilozheniya-node-js-k-proizvodstvu-v-ubuntu-18-04/
+https://www.8host.com/blog/ustanovka-nginx-v-ubuntu-18-04/

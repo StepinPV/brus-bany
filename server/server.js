@@ -44,7 +44,7 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 // Статика
-if (1/*process.env.NODE_ENV !== 'production'*/) {
+if (process.env.NODE_ENV !== 'production') {
     app.use('/', express.static(path.join(__dirname, '../public')));
 }
 
