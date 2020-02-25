@@ -12,6 +12,7 @@ import DataSection from '../../components/DataSection';
 import H1Block from '../../components/H1Block';
 import { getCategory, getProjects, resetData, getPhotos } from './actions';
 import filterProjects from './resources/filter';
+import sortProjects from './resources/sort';
 import Filters from './resources/Filters';
 import styles from './Category.module.css';
 import FormBlock from "../../components/FormBlock";
@@ -86,7 +87,7 @@ class Category extends PureComponent {
             state = {
                 ...(state || {}),
                 filters,
-                filteredProjects: filterProjects(filters, nextProps.projects, nextProps.category),
+                filteredProjects: sortProjects(filterProjects(filters, nextProps.projects, nextProps.category)),
                 currentPathName: nextProps.location.pathname,
                 currentSearch: nextProps.location.search
             }
@@ -277,11 +278,7 @@ class Category extends PureComponent {
         }
 
         filterNames.forEach((name, index) => {
-            if (index === filterNames.length - 1 && filterNames.length > 1) {
-                title += ` и ${name}`;
-            } else {
-                title += ` c ${name}`;
-            }
+            title += ` ${name.toLowerCase()}${index !== filterNames.length - 1 ? ',' : ''}`;
         });
 
         return title;

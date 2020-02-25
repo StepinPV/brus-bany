@@ -17,3 +17,4 @@ https://www.internet-technologies.ru/articles/reshenie-problem-svyazannyh-s-oshi
 http://localstorage.ru/konfighuratsiia-nginx-dlia-raboty-s-node-js-i-pm2/
 https://www.8host.com/blog/podgotovka-prilozheniya-node-js-k-proizvodstvu-v-ubuntu-18-04/
 https://www.8host.com/blog/ustanovka-nginx-v-ubuntu-18-04/
+https://serveradmin.ru/ustanovka-i-nastrojka-nginx/

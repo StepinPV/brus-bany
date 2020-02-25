@@ -72,13 +72,13 @@ class Filters extends PureComponent {
 
                             return link ? (
                                 <a key={id} href={`/bani/${category.translateName}${filters.size ? `/${filters.size}` : ''}${link}`} className={styles['filters-link']}>
-                                    <div className={cx(styles['filters-checkbox'], {[styles['filters-checkbox-checked']]: filterEnabled})}>{`С ${name}`}</div>
+                                    <div className={cx(styles['filters-checkbox'], {[styles['filters-checkbox-checked']]: filterEnabled})}>{name}</div>
                                 </a>
                             ) : (
                                 <div
                                     key={id}
                                     onClick={() => { handleFilterChange(id, !filterEnabled) }}
-                                    className={cx(styles['filters-checkbox'], {[styles['filters-checkbox-checked']]: filterEnabled})}>{`С ${name}`}</div>
+                                    className={cx(styles['filters-checkbox'], {[styles['filters-checkbox-checked']]: filterEnabled})}>{name}</div>
                             )
                         })
                     }
