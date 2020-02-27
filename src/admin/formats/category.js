@@ -59,6 +59,11 @@ export default [{
         title: 'Условие',
         type: 'string',
         required: true
+    }, {
+        _id: 'order',
+        title: 'Порядок',
+        type: 'integer number',
+        required: true
     }]
 }, {
     _id: 'article',

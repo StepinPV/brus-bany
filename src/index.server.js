@@ -38,18 +38,16 @@ const render = async (req, res, axiosOptions = {}) => {
 
     const wrappedComponent = component.default && component.default.WrappedComponent;
 
-    const initialActions = await (wrappedComponent && wrappedComponent.initialAction) ?
-        wrappedComponent.initialAction({
+    if (wrappedComponent && wrappedComponent.initialAction) {
+        await Promise.all(wrappedComponent.initialAction({
             match: matchPath(req.path, matchRoute),
             dispatch: store.dispatch,
             location: {
                 pathname: req.path,
                 query: req.query
             }
-        }) :
-        [Promise.resolve({})];
-
-    await Promise.all([...initialActions]);
+        }));
+    }
 
     const modules = [];
     const context = {};

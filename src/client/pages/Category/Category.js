@@ -58,19 +58,11 @@ class Category extends PureComponent {
             (!prevState.filteredProjects && nextProps.category && nextProps.projects) ||
             (prevState.currentPathName !== null && prevState.currentPathName !== nextProps.location.pathname) ||
             (prevState.currentSearch !== null && prevState.currentSearch !== nextProps.location.search)) {
-            const filtersIds = nextProps.location.pathname.split('/').slice(3);
+            const filterId = nextProps.location.pathname.split('/').slice(3)[0];
+            let filter;
 
-            let additionsFilters;
-            let sizeFilter;
-
-            if (/^[\d|\\.]+x[\d|\\.]+$/.test(filtersIds[0])) {
-                [sizeFilter, ...additionsFilters] = filtersIds;
-            } else {
-                additionsFilters = filtersIds;
-            }
-
-            for (let i = 0; i < additionsFilters.length; i++) {
-                const filter = nextProps.category.filters && nextProps.category.filters.find(filter => filter.id === additionsFilters[i]);
+            if (filterId) {
+                filter = nextProps.category.filters && nextProps.category.filters.find(filter => filter.id === filterId);
 
                 if (!filter) {
                     return {
@@ -79,17 +71,17 @@ class Category extends PureComponent {
                 }
             }
 
-            const filters = {
-                additions: additionsFilters,
-                size: sizeFilter
-            };
-
             state = {
                 ...(state || {}),
-                filters,
-                filteredProjects: sortProjects(filterProjects(filters, nextProps.projects, nextProps.category)),
+                filter,
+                filteredProjects: filter ? sortProjects(filterProjects(filter, nextProps.projects)) : nextProps.projects,
                 currentPathName: nextProps.location.pathname,
-                currentSearch: nextProps.location.search
+                currentSearch: nextProps.location.search,
+                breadcrumbs: [
+                    ...breadcrumbsDefault,
+                    { title: nextProps.category.name, link: filter ? `/bani/${nextProps.category.translateName}` : null },
+                    ...(filter ? [{ title: filter.name }] : [])
+                ]
             }
         }
 
@@ -104,7 +96,7 @@ class Category extends PureComponent {
     state = {
         categoryId: null,
         breadcrumbs: breadcrumbsDefault,
-        filters: null,
+        filter: null,
         currentPathName: null,
         currentSearch: null,
         notFound: false
@@ -185,13 +177,12 @@ class Category extends PureComponent {
 
     renderFilters = () => {
         const { category, projects } = this.props;
-        const { filteredProjects, filters } = this.state;
+        const { filter } = this.state;
 
         return (
             <Filters
                 category={category}
-                filteredProjects={filteredProjects}
-                filters={filters}
+                filter={filter}
                 projects={projects}
             />
         )
@@ -259,27 +250,13 @@ class Category extends PureComponent {
 
     getTitle = () => {
         const { category } = this.props;
-        const { filters } = this.state;
+        const { filter } = this.state;
 
         let title = category.name;
 
-        if (filters.size) {
-            title += ` ${filters.size}`;
+        if (filter) {
+            title += ` ${filter.name.toLowerCase()}`;
         }
-
-        const filterNames = [];
-
-        if (category.filters) {
-            category.filters.forEach(filter => {
-                if (Boolean(filters.additions.includes(filter.id))) {
-                    filterNames.push(filter.name);
-                }
-            });
-        }
-
-        filterNames.forEach((name, index) => {
-            title += ` ${name.toLowerCase()}${index !== filterNames.length - 1 ? ',' : ''}`;
-        });
 
         return title;
     }

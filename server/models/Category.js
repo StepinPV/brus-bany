@@ -35,6 +35,10 @@ const filterScheme = new Schema({
     condition: {
         type: String,
         required: REQUIRED_MSG
+    },
+    order: {
+        type: Number,
+        required: REQUIRED_MSG
     }
 });
 
