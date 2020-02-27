@@ -28,4 +28,5 @@
 .filters-item-enabled {
     color: #fff;
     background: #003159;
+    cursor: default;
 }
