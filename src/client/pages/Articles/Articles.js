@@ -9,6 +9,9 @@ import FormBlock from "../../components/FormBlock";
 import ArticleCard from "../../components/ArticleCard";
 import CardList from '../../components/CardList';
 import Meta from '../../components/Meta';
+import dzenLogo from './resources/dzen.jpeg';
+import styles from './Articles.module.css';
+import {Simple} from "../../components/Button";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -58,7 +61,23 @@ class Articles extends PureComponent {
         return (
             <Page breadcrumbs={breadcrumbs}>
                 <Meta meta={META} />
+                <H1Block
+                    caption='Блог о строительстве бань'
+                    description='За все время работы мы узнали так много о технологиях строительства бань, что будет просто не честно, если этими знаниями мы не поделимся с вами' />
                 { isArticlesError ? <div>{isArticlesError}</div> : this.renderContent() }
+                <a href='https://zen.yandex.ru/brusbany' target="_blank" rel="nofollow" className={styles.dzenLink}>
+                    <img src={dzenLogo} className={styles['dzenLink-image']} alt='Логотип Яндекс Дзен' />
+                    <div className={styles['dzenLink-text']}>
+                        <div className={styles['dzenLink-text-wrapper']}>
+                            <div className={styles['dzenLink-name']}>Читайте нас в Яндекс Дзен</div>
+                            <div className={styles['dzenLink-description']}>
+                                Расскажем об особенностях строительства бань, о традициях и о других интересных фактах
+                            </div>
+                            <Simple caption='Перейти в Яндекс Дзен' />
+                        </div>
+                    </div>
+                </a>
+                <FormBlock source='Список статей' />
             </Page>
         );
     }
@@ -69,16 +88,10 @@ class Articles extends PureComponent {
         debugger;
 
         return articles ? (
-            <>
-                <H1Block
-                    caption='Блог о строительстве бань'
-                    description='За все время работы мы узнали так много о технологиях строительства бань, что будет просто не честно, если этими знаниями мы не поделимся с вами' />
-                <CardList items={articles.reverse().map(article => ({
-                    id: article._id,
-                    element: <ArticleCard article={article} />
-                }))} />
-                <FormBlock source='Список статей' />
-            </>
+            <CardList items={articles.reverse().map(article => ({
+                id: article._id,
+                element: <ArticleCard article={article} />
+            }))} />
         ) : null;
     };
 }

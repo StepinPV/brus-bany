@@ -74,7 +74,7 @@ class Category extends PureComponent {
             state = {
                 ...(state || {}),
                 filter,
-                filteredProjects: filter ? sortProjects(filterProjects(filter, nextProps.projects)) : nextProps.projects,
+                filteredProjects: sortProjects(filter ? filterProjects(filter, nextProps.projects) : nextProps.projects),
                 currentPathName: nextProps.location.pathname,
                 currentSearch: nextProps.location.search,
                 breadcrumbs: [

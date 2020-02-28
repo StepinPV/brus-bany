@@ -1,0 +1,54 @@
+.dzenLink {
+    display: flex;
+    background: #eeeeee;
+    text-decoration: none;
+    width: 1168px;
+    max-width: 100%;
+    margin: 0 auto 48px;
+}
+
+.dzenLink-image {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.dzenLink-text {
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+    color: #000;
+}
+
+.dzenLink-text-wrapper {
+    max-width: 520px;
+}
+
+.dzenLink-name {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.dzenLink-description {
+    font-size: 24px;
+    margin-bottom: 32px;
+    color: #777;
+}
+
+@media screen and (min-width: 769px) {
+    .dzenLink {
+        height: 400px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .dzenLink {
+        flex-wrap: wrap;
+        margin-bottom: 0;
+        border-bottom: 2px solid #777;
+    }
+}
+
