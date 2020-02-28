@@ -25,27 +25,24 @@ class Filters extends PureComponent {
 
         return filters.length ? (
             <div className={styles.filters}>
-                <div className={styles['filters-caption']}>Популярные запросы</div>
-                <div className={styles['filters-items']}>
-                    {
-                        filters.map(({ id, name }) => {
-                            const options = {
-                                key: id,
-                                className: cx(styles['filters-item'], {[styles['filters-item-enabled']]: filter && filter.id === id})
-                            };
+                {
+                    filters.map(({ id, name }) => {
+                        const options = {
+                            key: id,
+                            className: cx(styles['filters-item'], {[styles['filters-item-enabled']]: filter && filter.id === id})
+                        };
 
-                            return filter && filter.id === id ? (
-                                <div {...options}>{name}</div>
-                            ) : (
-                                <a
-                                    {...options}
-                                    href={`/bani/${category.translateName}/${id}`}>
-                                    {name}
-                                </a>
-                            );
-                        })
-                    }
-                </div>
+                        return filter && filter.id === id ? (
+                            <div {...options}>{name}</div>
+                        ) : (
+                            <a
+                                {...options}
+                                href={`/bani/${category.translateName}/${id}`}>
+                                {name}
+                            </a>
+                        );
+                    })
+                }
             </div>
         ) : null;
     }

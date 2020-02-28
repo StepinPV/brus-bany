@@ -3,18 +3,16 @@
     padding: 24px 24px 0;
 }
 
-.info-name {
-    color: #ff8562;
-    font-size: 16px;
+.info-title {
+    color: #000;
+    font-size: 17px;
     font-weight: bold;
     margin-bottom: 8px;
+    line-height: 21px;
 }
 
-.info-size {
-    color: #000;
-    font-weight: bold;
-    font-size: 20px;
-    margin-bottom: 4px;
+.info-title-name {
+    color: #ff8562;
 }
 
 .info-area {

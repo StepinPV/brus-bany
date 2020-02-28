@@ -1,17 +1,9 @@
 .filters {
-    width: 1168px;
+    width: 1200px;
+    padding: 0 16px;
     max-width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
-}
-
-.filters-caption {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.filters-items {
     display: flex;
     flex-wrap: wrap;
 }

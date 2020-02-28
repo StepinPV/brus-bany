@@ -18,7 +18,7 @@ function Top() {
                         <Text>Срок строительства от 10 дней, работаем круглый год по всей России, гарантия 3 года</Text>
                     </div>
                     <div className={styles.buttons}>
-                        <Link href='#categories' type='yellow' caption='Выбрать баню' className={styles['first-button']} />
+                        <Link href='/bani' type='yellow' caption='Выбрать баню' className={styles['first-button']} />
                         <Link href='/akcii/quiz' type='red' caption='Получить подарок' />
                     </div>
                 </div>

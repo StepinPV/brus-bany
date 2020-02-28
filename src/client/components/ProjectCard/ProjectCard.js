@@ -4,22 +4,44 @@ import styles from './ProjectCard.module.css';
 import Card from "../Card";
 import numberWithSpaces from '../../../utils/numberWithSpaces';
 
+function renderInfoTitle(project){
+    const { layoutId } = project;
+    const { terrace, attic, porch } = layoutId;
+
+    if (terrace && attic && porch) {
+        return ' c террасой, мансардой и крыльцом';
+    } else if (terrace && attic) {
+        return ' c террасой и мансардой';
+    } else if (terrace && porch) {
+        return ' c террасой и крыльцом';
+    } else if (terrace) {
+        return ' c террасой';
+    } else if (attic) {
+        return ' c мансардой';
+    } else if (porch) {
+        return ' c крыльцом';
+    }
+}
+
 function ProjectCard(props) {
-    const { categoryName, project } = props;
+    const { category, project } = props;
     const { images, price, layoutId } = project;
 
     return (
-        <a href={`/bani/${categoryName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
+        <a href={`/bani/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
             <Card
                 firstImage={images ? images['main'] : null}
                 imageAlt={`Баня ${layoutId.name} ${layoutId.width}x${layoutId.length}`}
                 firstButton='Подробнее'
-                secondButton={`${price ? numberWithSpaces(price) : 0} руб`}
+                secondButton={`от ${price ? numberWithSpaces(price) : 0} руб`}
                 bgStyle='grey'
                 content={(
                     <div className={styles['info']}>
-                        <div className={styles['info-name']}>{`Баня ${layoutId.name}`}</div>
-                        <div className={styles['info-size']}>{`${layoutId.width}x${layoutId.length}`}</div>
+                        <div className={styles['info-title']}>
+                            {category.name2} {`${layoutId.width}x${layoutId.length}`}
+                            {renderInfoTitle(project)}
+                            <span className={styles['info-title-name']} dangerouslySetInnerHTML={{ __html: ` «${project.layoutId.name.replace(/ /g, '&nbsp')}»` }} />
+                        </div>
                         <div className={styles['info-area']}>{`Площадь: ${layoutId.area}м`}<sup>2</sup></div>
                     </div>
                 )}
@@ -30,7 +52,7 @@ function ProjectCard(props) {
 
 ProjectCard.propTypes = {
     project: PropTypes.object,
-    categoryName: PropTypes.string
+    category: PropTypes.object
 };
 
 export default memo(ProjectCard);

@@ -189,9 +189,8 @@ class Category extends PureComponent {
     };
 
     renderProjects = () => {
-        const { match } = this.props;
+        const { category } = this.props;
         const { filteredProjects } = this.state;
-        const { name } = match.params;
 
         if (!filteredProjects) {
             return null;
@@ -202,7 +201,7 @@ class Category extends PureComponent {
             element: (
                 <ProjectCard
                     project={project}
-                    categoryName={name}
+                    category={category}
                 />
             )
         }))} />;

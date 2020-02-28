@@ -212,8 +212,8 @@ class Project extends PureComponent {
         return (
             <div className={styles['info']}>
                 <h1 className={styles['info-title']} itemProp="name">
-                    {`${this.renderInfoTitle(project.categoryId.name2)} - `}
-                    <span className={styles['info-title-layout']}>{project.layoutId.name}</span>
+                    {`${this.renderInfoTitle(project.categoryId.name2)} `}
+                    <span className={styles['info-title-layout']}>«{project.layoutId.name}»</span>
                 </h1>
                 <div className={styles['info-addition']}>
                     <div>Общая площадь - {project.layoutId.area}м<sup>2</sup></div>
