@@ -15,7 +15,7 @@ function Top() {
                         <Caption color='white' size='l' tag='h1'>Купить баню под ключ от производителя</Caption>
                     </div>
                     <div className={styles.description}>
-                        <Text>Срок строительства от 10 дней, работаем круглый год по всей России, гарантия 2 года</Text>
+                        <Text>Срок строительства от 10 дней, работаем круглый год по всей России, гарантия 3 года</Text>
                     </div>
                     <div className={styles.buttons}>
                         <Link href='#categories' type='yellow' caption='Выбрать баню' className={styles['first-button']} />
