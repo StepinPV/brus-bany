@@ -55,7 +55,7 @@ function Promo() {
                     <div className={styles.info}>
                         <Caption className={styles.name} size='s'>Теплый угол и утепление!</Caption>
                         <Text className={styles.text}>
-                            При заказе бани до конца <strong style={{ color: '#5e9300' }}>августа 2019</strong> года получите <strong style={{ color: ' #d7b32a' }}>теплый угол</strong> и <strong style={{ color: '#d7b32a' }}>утепление</strong> в подарок!
+                            При заказе бани до конца <strong style={{ color: '#5e9300' }}>августа 2020</strong> года получите <strong style={{ color: ' #d7b32a' }}>теплый угол</strong> и <strong style={{ color: '#d7b32a' }}>утепление</strong> в подарок!
                         </Text>
                         <Link caption='Узнать подробнее' href='#requestForm' />
                     </div>

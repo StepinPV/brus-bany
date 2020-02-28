@@ -52,7 +52,7 @@ const render = async (req, res, axiosOptions = {}) => {
     const modules = [];
     const context = {};
 
-    const markup = ReactDOMServer.renderToString(
+    const markup = ReactDOMServer[matchRoute.simplePage ? 'renderToStaticMarkup' : 'renderToString'](
         <Loadable.Capture report={moduleName => modules.push(moduleName)}>
             <Provider store={store}>
                 <StaticRouter location={req.url} context={context}>
