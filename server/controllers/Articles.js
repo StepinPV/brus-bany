@@ -38,6 +38,15 @@ const prepareImages = (data) => {
                             item.value.image = moveImage(item.value.image);
                         }
                     }
+                    if ((item.typeId === 'numeric-list' || item.typeId === 'marker-list') && item.value && item.value.length) {
+                        item.value.forEach((item) => {
+                            if (item.image) {
+                                if (regexp.test(item.image)) {
+                                    item.image = moveImage(item.image);
+                                }
+                            }
+                        });
+                    }
                 });
             }
         });
