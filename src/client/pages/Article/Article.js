@@ -102,7 +102,10 @@ class Article extends PureComponent {
             <>
                 {article ? (
                     <DataSection bgStyle='white'>
-                        <ArticleComponent article={article.article} captionTag='h1' />
+                        <ArticleComponent
+                            article={article.article}
+                            captionTag='h1'
+                            date={new Date(article.created)} />
                     </DataSection>
                 ) : null}
                 <FormBlock source='Статья' />

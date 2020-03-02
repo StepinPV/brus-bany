@@ -2,16 +2,18 @@ import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import Caption from '../../components/Caption';
 import Text from '../../components/Text';
+import renderDate from '@utils/RenderDate';
 import styles from './Article.module.css';
 
 class Article extends PureComponent {
     static propTypes = {
         article: PropTypes.object,
-        captionTag: PropTypes.string
+        captionTag: PropTypes.string,
+        date: PropTypes.object
     };
 
     render() {
-        const { article, captionTag } = this.props;
+        const { article, captionTag, date } = this.props;
 
         return (
             <div className={styles.content}>
@@ -23,6 +25,12 @@ class Article extends PureComponent {
                     description: article.firstImageDescription
                 }) : null}
                 {article.content ? article.content.map((item, i) => <Fragment key={i}>{this.renderBlock(item)}</Fragment>) : null}
+                {date ? <div className={styles.date}>
+                    Дата публикации:
+                    <time className='date' dateTime={date.toISOString()}>
+                        {` ${renderDate(date)}`}
+                    </time>
+                </div> : null}
             </div>
         );
     }

@@ -2,8 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ArticleCard.module.css';
 import Card from "../Card";
-
-const renderDate = (date) => `${date.getDate()}.${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}.${date.getFullYear()}`;
+import renderDate from '@utils/RenderDate';
 
 function ArticleCard(props) {
     const { translateName, created, article } = props.article;

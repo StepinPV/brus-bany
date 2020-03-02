@@ -9,6 +9,7 @@ const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const resolve = require('./webpack/resolve.js');
 const stats = require('./webpack/stats.js');
 
 const babelLoader = require('./webpack/loaders/babel.js');
@@ -23,7 +24,7 @@ const publicPath = '/mstatic/build/';
 
 console.info('NODE_ENV:', NODE_ENV);
 
-const commonConfig = () => merge([stats, stylusLoader(process.env), assetsLoader(publicPath)]);
+const commonConfig = () => merge([resolve, stats, stylusLoader(process.env), assetsLoader(publicPath)]);
 
 const client = () => merge([
     {
