@@ -12,6 +12,7 @@ import YouTube from '../../components/YouTube';
 import { Simple } from '../../components/Button';
 import FormBlock from '../../components/FormBlock';
 import Meta from '../../components/Meta';
+import renderDate from '@utils/RenderDate';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -107,7 +108,7 @@ class Photo extends PureComponent {
                             {photo.projectId.categoryId.name2} {photo.projectId.layoutId.name} {photo.projectId.layoutId.width}x{photo.projectId.layoutId.length}
                         </>
                     )}
-                    description={`Дата строительства ${new Date(photo.created).toLocaleDateString()}`} />
+                    description={`Дата строительства: ${renderDate(new Date(photo.created))}`} />
                 {this.renderDescription()}
                 {this.renderPhotos()}
                 {this.renderFeedback()}
@@ -160,11 +161,17 @@ class Photo extends PureComponent {
     renderYouTube = () => {
         const { photo } = this.props;
 
-        return photo && photo.videoFeedback ? (
-            <div className={styles.feedback}>
-                <Caption tag='h2' size='s' className={styles['sub-caption']}>Видеоотзыв клиента:</Caption>
-                <YouTube link={photo.videoFeedback} height={315} className={styles['feedback-video']} title='Видеоотзыв' />
-            </div>
+        return photo && (photo.videoFeedback || photo.video) ? (
+            <>
+                { photo.videoFeedback ? <div className={styles.feedback}>
+                    <Caption tag='h2' size='s' className={styles['sub-caption']}>Видеоотзыв клиента:</Caption>
+                    <YouTube link={photo.videoFeedback} height={315} className={styles['feedback-video']} title='Видеоотзыв' />
+                </div> : null }
+                { photo.video ? <div className={styles.feedback}>
+                    <Caption tag='h2' size='s' className={styles['sub-caption']}>Видеообзор бани:</Caption>
+                    <YouTube link={photo.video} height={315} className={styles['feedback-video']} title='Видеообзор' />
+                </div> : null }
+            </>
         ) : null;
     };
 

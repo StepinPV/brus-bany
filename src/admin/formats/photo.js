@@ -29,6 +29,10 @@ export default [{
     title: 'Ссылка на видеоотзыв на youtube',
     type: 'string'
 }, {
+    _id: 'video',
+    title: 'Ссылка на видеообзор на youtube',
+    type: 'string'
+}, {
     _id: 'photos',
     title: 'Изображение',
     type: 'array',

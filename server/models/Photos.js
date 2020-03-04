@@ -31,6 +31,9 @@ const scheme = new Schema({
     videoFeedback: {
         type: String
     },
+    video: {
+        type: String
+    },
     clientPhoto: {
         type: String
     },
