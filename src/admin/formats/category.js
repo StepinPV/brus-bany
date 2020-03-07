@@ -106,6 +106,10 @@ export default [{
                 title: 'Множественный'
             }]
         }, {
+            _id: 'order',
+            title: 'Порядок',
+            type: 'integer number'
+        }, {
             _id: 'name',
             title: 'Наименование',
             type: 'string',

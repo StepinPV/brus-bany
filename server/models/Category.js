@@ -9,6 +9,9 @@ const additionScheme = new Schema({
         type: Number,
         required: REQUIRED_MSG
     },
+    order: {
+        type: Number
+    },
     name: {
         type: String,
         required: REQUIRED_MSG

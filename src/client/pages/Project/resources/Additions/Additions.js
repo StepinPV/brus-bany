@@ -42,7 +42,11 @@ class Additions extends PureComponent {
                                     expandedAdditions.includes(id) ? (
                                         <div className={styles['sub-items']}>
                                             {
-                                                value ? value.map(({ type, name, id, price }) => (
+                                                value ? value.sort((a, b) => {
+                                                    if (a.order > b.order) return 1;
+                                                    if (a.order === b.order) return 0;
+                                                    if (a.order < b.order) return -1;
+                                                }).map(({ type, name, id, price }) => (
                                                     <div className={styles.item} key={id}>
                                                         <div className={styles['item-wrapper']}>
                                                             {type === 'boolean' ? (
