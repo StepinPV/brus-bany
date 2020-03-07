@@ -79,7 +79,7 @@ class Article extends PureComponent {
             <ul className={styles.ul}>
                 {values.map(value => (
                     <li className={styles.li}>
-                        <Text size='l' className={styles['list-caption']} isHTML>{value.caption}</Text>
+                        <Text size='m' className={styles['list-caption']} isHTML>{value.caption}</Text>
                         <Text size='l' isHTML className={value.image ? styles['list-text'] : null}>{value.text}</Text>
                         {value.image ? this.renderImage({
                             image: value.image,
@@ -97,7 +97,7 @@ class Article extends PureComponent {
             <ol className={styles.ul}>
                 {values.map(value => (
                     <li className={styles.li}>
-                        <Text size='l' className={styles['list-caption']} isHTML>{value.caption}</Text>
+                        <Text size='m' className={styles['list-caption']} isHTML>{value.caption}</Text>
                         <Text size='l' isHTML className={value.image ? styles['list-text'] : null}>{value.text}</Text>
                         {value.image ? this.renderImage({
                             image: value.image,
