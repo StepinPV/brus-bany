@@ -24,7 +24,12 @@ class Additions extends PureComponent {
 
         const getPrice = price => {
             // eslint-disable-next-line
-            return eval(price);
+            try {
+                // eslint-disable-next-line
+                return eval(price);
+            } catch(err) {
+                return 0;
+            }
         };
 
         return (
@@ -98,8 +103,12 @@ class Additions extends PureComponent {
         let sumPrice = 0;
 
         const getPrice = price => {
-            // eslint-disable-next-line
-            return eval(price);
+            try {
+                // eslint-disable-next-line
+                return eval(price);
+            } catch(err) {
+                return 0;
+            }
         };
 
         Object.keys(values).forEach(id => {
