@@ -13,7 +13,6 @@ function PhotoCard(props) {
                 firstImage={mainPhoto}
                 imageAlt={mainPhotoAlt}
                 imageWrapperClassName={styles['image-wrapper']}
-                firstButton='Смотреть'
                 bgStyle='grey'
                 content={(
                     <div className={styles['content']}>
