@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { YMaps, Map, RoutePanel } from 'react-yandex-maps';
+import { YMaps, Map, RoutePanel, ZoomControl } from 'react-yandex-maps';
 import styles from './DeliveryMap.module.css';
 
 function MapWrapper(props) {
@@ -18,6 +18,16 @@ function MapWrapper(props) {
                         types: {auto: true}
                     }}
                     instanceRef={props.setRoutePanelRef}
+                />
+                <ZoomControl
+                    options={{
+                        float: 'none',
+                        position: {
+                            bottom: 145,
+                            right: 10
+                        },
+                        autofocus: false
+                    }}
                 />
             </Map>
         </YMaps>

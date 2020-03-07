@@ -1,13 +1,10 @@
-.container {
-
-}
-
 .activeImage {
     width: 100%;
 }
 
 .images {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .image {

@@ -99,7 +99,7 @@ class Additions extends PureComponent {
     };
 
     getFinalPriceByValues = (values) => {
-        const { layout: params } = this.state;
+        const { layout: params } = this.props;
         let sumPrice = 0;
 
         const getPrice = price => {

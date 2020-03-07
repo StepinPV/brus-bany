@@ -113,7 +113,7 @@ class DeliveryMap extends PureComponent {
                 {data ? (
                     <div className={styles.coastContainer}>
                         <div>{`Расстояние: ${data.length.text}`}</div>
-                        <div className={styles.coast}>{`Стоимость доставки: ${data.price} р`}</div>
+                        <div>{`Стоимость доставки: ${data.price} р`}</div>
                     </div>
                 ) : null}
                 {mapLoaded ? <Map setMapRef={this.setMapRef} setRoutePanelRef={this.setRoutePanelRef} /> : null}

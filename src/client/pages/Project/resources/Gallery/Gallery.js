@@ -17,7 +17,7 @@ class Gallery extends PureComponent {
         const { activeImageIndex } = this.state;
 
        return (
-           <div className={styles.container}>
+           <>
                <img className={styles.activeImage} src={images[activeImageIndex].src} alt={images[activeImageIndex].alt} itemProp="image" />
                <div className={styles.images}>
                    {images.map((image, index) => {
@@ -32,7 +32,7 @@ class Gallery extends PureComponent {
                        )
                    })}
                </div>
-           </div>
+           </>
        );
     }
 }
