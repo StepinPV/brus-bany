@@ -26,7 +26,7 @@ class Additions extends PureComponent {
             // eslint-disable-next-line
             try {
                 // eslint-disable-next-line
-                return eval(price);
+                return Math.round(eval(price) / 100) * 100;
             } catch(err) {
                 return 0;
             }
@@ -105,7 +105,7 @@ class Additions extends PureComponent {
         const getPrice = price => {
             try {
                 // eslint-disable-next-line
-                return eval(price);
+                return Math.round(eval(price) / 100) * 100;
             } catch(err) {
                 return 0;
             }
