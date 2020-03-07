@@ -14,8 +14,8 @@ class CheckBox extends PureComponent {
 
         return (
             <div>
-                <input type='checkbox' checked={checked} onChange={this.handleChange} />
-                <label htmlFor="filters-withTerr">{title}</label>
+                <input id={title} type='checkbox' checked={checked} onChange={this.handleChange} />
+                <label htmlFor={title}>{title}</label>
             </div>
         )
     }

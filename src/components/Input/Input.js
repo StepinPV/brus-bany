@@ -30,9 +30,9 @@ class Input extends PureComponent {
 
         return (
             <div className={cx(styles.container, {[styles.required]: required}, className)}>
-                <input id="name" name={name} type="text" required className={cx(styles.input, inputClassName)} value={value} onChange={this.handleChange} min={min} {...getTypeAttrs(type)} />
+                <input id={name} name={name} type="text" required className={cx(styles.input, inputClassName)} value={value} onChange={this.handleChange} min={min} {...getTypeAttrs(type)} />
                 <span className={styles.bar} />
-                <label for="name" className={styles.label}>{title}</label>
+                <label htmlFor={name} className={styles.label}>{title}</label>
                 {error ? <div className={styles.error}>{error}</div> : null}
             </div>
         )
