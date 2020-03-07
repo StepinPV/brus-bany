@@ -6,6 +6,7 @@ export default [{
 }, {
     _id: 'mainPhoto',
     title: 'Главное изображение',
+    withoutLogo: true,
     type: 'image',
     required: true
 }, {
@@ -23,6 +24,7 @@ export default [{
 }, {
     _id: 'clientPhoto',
     title: 'Фотография клиента',
+    withoutLogo: true,
     type: 'image'
 }, {
     _id: 'videoFeedback',
