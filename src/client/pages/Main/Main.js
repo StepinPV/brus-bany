@@ -66,7 +66,11 @@ class Main extends PureComponent {
                 <HowWork />
                 <WhyMe />
                 {preparedPhotos.length ? (
-                    <DataSection bgStyle='grey' caption='Фотоотчеты построенных бань' captionTag='h2'>
+                    <DataSection
+                        bgStyle='grey'
+                        caption='Фотоотчеты построенных бань'
+                        description='За все время работы мы построили огромное количество объектов различной сложности. В данном разделе вы можете просмотреть фотографии, видеообзоры, отзывы и описание данных проектов.'
+                        captionTag='h2'>
                         <CardList items={preparedPhotos.map(photo => ({
                             id: photo._id,
                             element: <PhotoCard photo={photo} />
@@ -78,7 +82,11 @@ class Main extends PureComponent {
                 ) : null}
                 <OurProduction />
                 {preparedArticles.length ? (
-                    <DataSection captionTag='h2' bgStyle='grey' caption='Делимся накопленным опытом' description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации.'>
+                    <DataSection
+                        captionTag='h2'
+                        bgStyle='grey'
+                        caption='Делимся накопленным опытом'
+                        description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации.'>
                         <CardList items={preparedArticles.map(article => ({
                             id: article._id,
                             element: <ArticleCard article={article} />
