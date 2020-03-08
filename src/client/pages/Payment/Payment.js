@@ -27,7 +27,7 @@ function Payment() {
             <div className={styles.container}>
                 <H1Block caption='Условия оплаты' />
                 <div className={styles.data}>
-                    <Caption className={styles.subCaption} size='s' tag='h2'>При покупке мобильной бани:</Caption>
+                    <Caption className={styles.subCaption} size='s' tag='h2'>При покупке готовой бани:</Caption>
                     <Text>
                         <ol>
                             <li>Заключаем договор</li>

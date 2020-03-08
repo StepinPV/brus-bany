@@ -14,12 +14,12 @@ class First extends PureComponent {
                     <div className={styles.item}>
                         <div className={styles['item-number']}>-1-</div>
                         <div className={styles['item-price']}>45 руб / км</div>
-                        <div className={styles['item-title']}>Мобильные бани до 7м длинной</div>
+                        <div className={styles['item-title']}>Готовые бани до 7м длинной</div>
                     </div>
                     <div className={cx(styles.item, styles['item-centered'])}>
                         <div className={styles['item-number']}>-2-</div>
                         <div className={styles['item-price']}>70 руб / км</div>
-                        <div className={styles['item-title']}>Мобильные бани больше 7м длинной</div>
+                        <div className={styles['item-title']}>Готовые бани больше 7м длинной</div>
                     </div>
                     <div className={styles.item}>
                         <div className={styles['item-number']}>-3-</div>

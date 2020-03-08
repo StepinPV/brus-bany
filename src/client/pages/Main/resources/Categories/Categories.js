@@ -8,10 +8,10 @@ import styles from './Categories.module.css';
 
 const categories = [{
     className: styles.mobilnie,
-    name: 'Мобильные бани',
+    name: 'Готовые бани',
     text: 'Недорого и без хлопот. Построим баню у себя, быстро привезем и установим на участке без шума и мусора',
     caption: 'Посмотреть бани',
-    link: '/bani/mobilnie'
+    link: '/bani/gotovie'
 }, {
     className: styles.brus,
     name: 'Бани из бруса',

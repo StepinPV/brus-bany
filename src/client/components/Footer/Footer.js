@@ -51,7 +51,7 @@ function Footer() {
                 <nav className={styles.column}>
                     <div className={styles['items-header']}>ВЫБЕРИТЕ БАНЮ</div>
                     <a href='/bani' className={styles['items-item']}>Категории бань</a>
-                    <a href='/bani/mobilnie' className={styles['items-item']}>Мобильные бани</a>
+                    <a href='/bani/gotovie' className={styles['items-item']}>Готовые бани</a>
                     <a href='/bani/iz-brusa' className={styles['items-item']}>Бани из бруса</a>
                     <a href='/bani/karkasnie' className={styles['items-item']}>Каркасные бани</a>
                     <a href='/bani/individualnyy-proekt' className={styles['items-item']}>Индивидуальный проект</a>
