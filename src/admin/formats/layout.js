@@ -139,16 +139,6 @@ export default [{
             required: true
         }]
     }, {
-        _id: 'vestibule',
-        type: 'array',
-        title: 'Тамбур',
-        format: [{
-            _id: 'area',
-            title: 'Площадь',
-            type: 'float number',
-            required: true
-        }]
-    }, {
         _id: 'steamRoom',
         type: 'array',
         title: 'Парная',

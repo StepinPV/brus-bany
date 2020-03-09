@@ -15,7 +15,7 @@ router.get('*', async (req, res, next) => {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const { head, markup, initialData, modules, simplePage, context } = await render(req, res, axiosOptions);
+        const { head, markup, initialData, modules, simplePage, context, timings } = await render(req, res, axiosOptions);
 
         if (context.status === 404) {
             res.status(404);
@@ -61,6 +61,7 @@ router.get('*', async (req, res, next) => {
                 link: head.link.toString(),
                 initialData: simplePage ? null : serialize(initialData),
                 app: markup,
+                timings: JSON.stringify(timings || {}),
                 assets: {
                     js: simplePage ? null : {
                         runtimeMain: assetsManifest['runtime~main.js'],

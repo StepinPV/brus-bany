@@ -36,9 +36,14 @@ const render = async (req, res, axiosOptions = {}) => {
         store.addReducer(component.info.id, component.info.reducer, component.info.initialState);
     }
 
+    let initialDataTime;
+    let renderTime;
+
     const wrappedComponent = component.default && component.default.WrappedComponent;
 
     if (wrappedComponent && wrappedComponent.initialAction) {
+        const startInitialDataTime = Date.now();
+
         await Promise.all(wrappedComponent.initialAction({
             match: matchPath(req.path, matchRoute),
             dispatch: store.dispatch,
@@ -47,10 +52,16 @@ const render = async (req, res, axiosOptions = {}) => {
                 query: req.query
             }
         }));
+
+        const endInitialDataTime = Date.now();
+
+        initialDataTime = Number(endInitialDataTime - startInitialDataTime);
     }
 
     const modules = [];
     const context = {};
+
+    const startRenderTime = Date.now();
 
     const markup = ReactDOMServer[matchRoute.simplePage ? 'renderToStaticMarkup' : 'renderToString'](
         <Loadable.Capture report={moduleName => modules.push(moduleName)}>
@@ -65,13 +76,21 @@ const render = async (req, res, axiosOptions = {}) => {
         </Loadable.Capture>
     );
 
+    const endRenderTime = Date.now();
+
+    renderTime = Number(endRenderTime - startRenderTime);
+
     return {
         head: Helmet.renderStatic(),
         initialData: store.getState(),
         simplePage: matchRoute.simplePage,
         markup,
         modules,
-        context
+        context,
+        timings: {
+            initialData: initialDataTime,
+            render: renderTime
+        }
     };
 };
 
