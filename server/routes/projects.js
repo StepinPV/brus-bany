@@ -2,6 +2,10 @@ const express = require('express');
 const Projects = require('../controllers/Projects');
 const Safety = require('../controllers/Safety');
 
+let apicache = require('apicache');
+let cache = apicache.middleware;
+const GROUP_KEY = 'projects';
+
 const router = express.Router();
 
 const send = (res, { status, code, message, data }) => {
@@ -9,8 +13,10 @@ const send = (res, { status, code, message, data }) => {
     res.end();
 };
 
-router.get('/:categoryId', async function(req, res, next) {
+router.get('/:categoryId', cache('1 day'), async function(req, res, next) {
     try {
+        req.apicacheGroup = GROUP_KEY;
+
         const searchByName = req.query && req.query.byName;
         const queryOptions = {
             withCategory: req.query && req.query.withCategory,
@@ -39,6 +45,8 @@ router.get('/:categoryId', async function(req, res, next) {
 //UPDATE PRICES
 router.post('/update-prices', async function(req, res, next) {
     try {
+        apicache.clear(GROUP_KEY);
+
         const { status, data, message } = await Projects.updatePrices();
 
         switch(status) {
@@ -59,6 +67,8 @@ router.post('/update-prices', async function(req, res, next) {
 //CREATE
 router.post('/:categoryId/:layoutId', async function(req, res, next) {
     try {
+        apicache.clear(GROUP_KEY);
+
         const { categoryId, layoutId } = req.params;
 
         const { project } = req.body;
@@ -81,8 +91,10 @@ router.post('/:categoryId/:layoutId', async function(req, res, next) {
 });
 
 //READ
-router.get('/:categoryId/:layoutId', async function(req, res, next) {
+router.get('/:categoryId/:layoutId', cache('1 day'), async function(req, res, next) {
     try {
+        req.apicacheGroup = GROUP_KEY;
+
         const { categoryId, layoutId } = req.params;
         const searchByName = req.query && req.query.byName;
         const queryOptions = {
@@ -112,6 +124,8 @@ router.get('/:categoryId/:layoutId', async function(req, res, next) {
 //UPDATE
 router.put('/:categoryId/:layoutId', async function(req, res, next) {
     try {
+        apicache.clear(GROUP_KEY);
+
         const { categoryId, layoutId } = req.params;
         const { project } = req.body;
 

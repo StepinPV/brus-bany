@@ -2,6 +2,10 @@ const express = require('express');
 const Layouts = require('../controllers/Layouts');
 const Safety = require('../controllers/Safety');
 
+let apicache = require('apicache');
+let cache = apicache.middleware;
+const GROUP_KEY = 'layouts';
+
 const router = express.Router();
 
 const send = (res, { status, code, message, data }) => {
@@ -9,8 +13,10 @@ const send = (res, { status, code, message, data }) => {
     res.end();
 };
 
-router.get('/', async function(req, res, next) {
+router.get('/', cache('1 day'), async function(req, res, next) {
     try {
+        req.apicacheGroup = GROUP_KEY;
+
         const { status, data, message } = await Layouts.getAll();
 
         switch(status) {
@@ -30,6 +36,8 @@ router.get('/', async function(req, res, next) {
 
 router.post('/', async function(req, res, next) {
     try {
+        apicache.clear(GROUP_KEY);
+
         const { status, data, message } = await Layouts.create(req.body.layout);
 
         switch(status) {
@@ -47,8 +55,10 @@ router.post('/', async function(req, res, next) {
     }
 });
 
-router.get('/:id', async function(req, res, next) {
+router.get('/:id', cache('1 day'), async function(req, res, next) {
     try {
+        req.apicacheGroup = GROUP_KEY;
+
         const searchByName = req.query && req.query.byName;
         const { status, data, message } = searchByName ? await Layouts.getByName(req.params.id) : await Layouts.get(req.params.id);
 
@@ -69,6 +79,8 @@ router.get('/:id', async function(req, res, next) {
 
 router.put('/:id', async function(req, res, next) {
     try {
+        apicache.clear(GROUP_KEY);
+
         const { status, data, message } = await Layouts.update(req.params.id, req.body.layout);
 
         switch(status) {
@@ -88,6 +100,8 @@ router.put('/:id', async function(req, res, next) {
 
 router.delete('/:id', async function(req, res, next) {
     try {
+        apicache.clear(GROUP_KEY);
+
         const { status, data, message } = await Safety.deleteLayout(req.params.id);
 
         switch(status) {
