@@ -12,6 +12,7 @@ const logger = require('./logger');
 const routes = require('./routes');
 const config = require('./config');
 const renderRoute = require('./renderRoute');
+const redirects = require('./redirects');
 
 const nodemailer = require('./nodemailer');
 
@@ -53,6 +54,16 @@ app.use('/admin', auth, function(req, res, next) {
 });
 
 app.use('/api', routes);
+
+app.get('*', (req, res, next) => {
+    const index = redirects.FROM.indexOf(req.originalUrl);
+
+    if (index !== -1) {
+        res.redirect(redirects.TO[index]);
+    } else {
+        next();
+    }
+});
 
 app.get('*', renderRoute);
 
