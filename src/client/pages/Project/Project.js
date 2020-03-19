@@ -215,7 +215,7 @@ class Project extends PureComponent {
                     {`${this.renderInfoTitle(project.categoryId.name2)} `}
                     <span className={styles['info-title-layout']}>«{project.layoutId.name}»</span>
                 </h1>
-                <div className={styles['info-addition']}>
+                <div className={styles['info-addition']} itemProp="description">
                     <div>Общая площадь - {project.layoutId.area}м<sup>2</sup></div>
                     <div>Площадь сруба - {project.layoutId.frameArea}м<sup>2</sup></div>
                     {project.layoutId.terrace && project.layoutId.terrace.area ? (<div>Площадь терассы - {project.layoutId.terrace.area}м<sup>2</sup></div>) : null}
