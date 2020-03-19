@@ -223,7 +223,7 @@ class Project extends PureComponent {
                     {project.layoutId.attic && project.layoutId.attic.area ? (<div>Площадь мансарды - {project.layoutId.attic.area}м<sup>2</sup></div>) : null}
                 </div>
                 {project.price ? (
-                    <div className={styles['info-price']} itemScope itemType="http://schema.org/Offer">
+                    <div className={styles['info-price']} itemProp="offers" itemScope itemType="http://schema.org/Offer">
                         <meta itemProp="price" content={project.price} />
                         <meta itemProp="priceCurrency" content="RUB" />
                         <link itemProp="availability" href="http://schema.org/InStock" />
