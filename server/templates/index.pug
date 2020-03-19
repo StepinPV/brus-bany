@@ -34,5 +34,18 @@ html(lang='ru')
                 script(src=chunk.publicPath)
             script(src=assets.js.main)
 
+        if isProduction
+            script(type='text/javascript')
+                include counters/yaMetrica.js
+
+            script(type='text/javascript')
+                include counters/gTag.js
+
+            noscript
+                //- Яндекс.Метрика
+                img(src='https://mc.yandex.ru/watch/49126414', style='position:absolute; left:-9999px;', alt='')
+
+            script(type='text/javascript', src='https://www.googletagmanager.com/gtag/js?id=UA-120219094-1', async)
+
     //
         Timings: !{timings}

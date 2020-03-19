@@ -56,6 +56,7 @@ router.get('*', async (req, res, next) => {
             res.set('Link', preloadList);
 
             res.render('index.pug', {
+                isProduction: process.env.NODE_ENV === 'production',
                 title: head.title.toString(),
                 meta: head.meta.toString(),
                 link: head.link.toString(),
