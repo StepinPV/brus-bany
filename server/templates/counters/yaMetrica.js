@@ -8,7 +8,7 @@
         clickmap:true,
         trackLinks:true,
         accurateTrackBounce:true,
-        webvisor:true
+        webvisor:false
     });
 })(window, document, 'script');
 /* eslint-enable */
