@@ -4,13 +4,9 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    padding: 64px 0;
 }
 
 .message {
-    font-size: 32px;
     margin-bottom: 16px;
-}
-
-.second-message {
-    font-size: 20px;
 }
