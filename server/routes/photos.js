@@ -3,18 +3,24 @@ const Photos = require('../controllers/Photos');
 
 const router = express.Router();
 
+let apicache = require('apicache');
+let cache = apicache.middleware;
+const GROUP_KEY = 'photos';
+
 const send = (res, { status, code, message, data }) => {
     res.json({ status, code, message, data });
     res.end();
 };
 
-router.get('/', async function(req, res, next) {
+router.get('/', cache('1 day'), async function(req, res, next) {
     try {
         const queryOptions = {
             withCategory: req.query && req.query.withCategory,
             withLayout: req.query && req.query.withLayout,
             withProject: req.query && req.query.withProject
         };
+
+        req.apicacheGroup = GROUP_KEY;
 
         const { status, data, message } = await Photos.getAll(queryOptions);
 
@@ -36,6 +42,8 @@ router.get('/', async function(req, res, next) {
 //CREATE
 router.post('/:projectId', async function(req, res, next) {
     try {
+        apicache.clear(GROUP_KEY);
+
         const { projectId } = req.params;
 
         const { report } = req.body;
@@ -58,11 +66,13 @@ router.post('/:projectId', async function(req, res, next) {
 });
 
 //READ
-router.get('/:id', async function(req, res, next) {
+router.get('/:id', cache('1 day'), async function(req, res, next) {
     try {
         let result;
         const forCategory = req.query && req.query.forCategory;
         const forProject = req.query && req.query.forProject;
+
+        req.apicacheGroup = `${GROUP_KEY}_${req.params.id}`;
 
         const queryOptions = {
             withCategory: req.query && req.query.withCategory,
@@ -101,6 +111,9 @@ router.get('/:id', async function(req, res, next) {
 //UPDATE
 router.put('/:id', async function(req, res, next) {
     try {
+        apicache.clear(GROUP_KEY);
+        apicache.clear(`${GROUP_KEY}_${req.params.id}`);
+
         const { report } = req.body;
 
         const { status, data, message } = await Photos.update(req.params.id, report);
@@ -123,6 +136,9 @@ router.put('/:id', async function(req, res, next) {
 //DELETE
 router.delete('/:id', async function(req, res, next) {
     try {
+        apicache.clear(GROUP_KEY);
+        apicache.clear(`${GROUP_KEY}_${req.params.id}`);
+
         const { status, data, message } = await Photos.delete(req.params.id);
 
         switch(status) {
