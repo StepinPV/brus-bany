@@ -57,6 +57,7 @@ router.get('*', async (req, res, next) => {
 
             res.render('index.pug', {
                 isProduction: process.env.NODE_ENV === 'production',
+                url: `http://brus-bany.ru${req.url}`,
                 title: head.title.toString(),
                 meta: head.meta.toString(),
                 link: head.link.toString(),

@@ -45,7 +45,7 @@ class Contacts extends PureComponent {
             <Page breadcrumbs={breadcrumbs}>
                 <Meta meta={META} />
                 <H1Block caption='Наши контакты' />
-                <div className={styles.content} itemsope='' itemType='http://schema.org/Organization'>
+                <div className={styles.content} itemsope='' itemType='http://schema.org/HomeAndConstructionBusiness'>
                     <div className={styles.map}>
                         {mapLoaded ? <Map /> : null }
                     </div>

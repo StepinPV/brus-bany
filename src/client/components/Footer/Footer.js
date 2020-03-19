@@ -8,7 +8,7 @@ function Footer() {
     return (
         <footer className={styles.container}>
             <div className={styles.wrapper}>
-                <div className={styles.column} itemScope itemType='http://schema.org/Organization'>
+                <div className={styles.column} itemScope itemType='http://schema.org/HomeAndConstructionBusiness'>
                     <meta itemProp="name" content="Брус бани" />
                     <a href='/' className={styles['logo-wrapper']}>
                         <Logo className={styles.logo}/>
