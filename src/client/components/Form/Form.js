@@ -13,7 +13,7 @@ function Form(props) {
             {history.location.search && history.location.search.includes('requestStatus=success') ? (
                 <div className={styles['success-block']}>Заявка успешно отправлена</div>
             ) : null}
-            <form action='/api/requests' method='post' target='/'>
+            <form action='/api/requests' method='post' target='/' onSubmit="ym(49126414,'reachGoal','order'); return true;">
                 <Input
                     title='Ваше имя'
                     name='name'

@@ -7,8 +7,7 @@
     ym(49126414, "init", {
         clickmap:true,
         trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:false
+        accurateTrackBounce:true
     });
 })(window, document, 'script');
 /* eslint-enable */
