@@ -6,39 +6,34 @@ import Input from '../../../components/Input';
 import styles from './Form.module.css';
 
 function Form(props) {
-    const { buttonCaption, history, source, data } = props;
+    const { buttonCaption, source, data } = props;
 
     return (
-        <>
-            {history.location.search && history.location.search.includes('requestStatus=success') ? (
-                <div className={styles['success-block']}>Заявка успешно отправлена</div>
+        <form action='/api/requests' method='post'>
+            <Input
+                title='Ваше имя'
+                name='name'
+                required
+                className={styles.input} />
+
+            <Input
+                title='Ваш номер телефона'
+                name='phone'
+                type='tel'
+                required
+                className={styles.input} />
+
+            {source ? (
+                <input type="hidden" name='source' value={source} />
             ) : null}
-            <form action='/api/requests' method='post' target='/'>
-                <Input
-                    title='Ваше имя'
-                    name='name'
-                    required
-                    className={styles.input} />
 
-                <Input
-                    title='Ваш номер телефона'
-                    name='phone'
-                    type='tel'
-                    required
-                    className={styles.input} />
+            {data ? (
+                <input type="hidden" name='data' value={JSON.stringify(data)} />
+            ) : null}
 
-                {source ? (
-                    <input type="hidden" name='source' value={source} />
-                ) : null}
-
-                {data ? (
-                    <input type="hidden" name='data' value={JSON.stringify(data)} />
-                ) : null}
-
-                <Button caption={buttonCaption} className={styles.button} />
-                <div className={styles.disclaimer}>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika-konfidencialnosti' target='_blank'>Политика конфиденциальности.</a></div>
-            </form>
-        </>
+            <Button caption={buttonCaption} className={styles.button} />
+            <div className={styles.disclaimer}>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika-konfidencialnosti' target='_blank'>Политика конфиденциальности.</a></div>
+        </form>
     );
 }
 
@@ -46,8 +41,7 @@ Form.propTypes = {
     source: PropTypes.string,
     data: PropTypes.array,
     onSuccess: PropTypes.func,
-    buttonCaption: PropTypes.string,
-    history: PropTypes.object
+    buttonCaption: PropTypes.string
 };
 
 Form.defaultProps = {

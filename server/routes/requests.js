@@ -4,8 +4,8 @@ const nodemailer = require('../nodemailer');
 
 const router = express.Router();
 
-const send = (res, req, status) => {
-    res.redirect(`${req.headers.referer}?requestStatus=${status}#requestForm`);
+const send = (res) => {
+    res.redirect(`/thanks`);
 };
 
 router.post('/', async function(req, res, next) {

@@ -188,11 +188,20 @@ export default (initModule) => {
         }),
         simplePage: true
     }, {
-        id: 'bani/photos/category/project',
+        id: 'site/photos/category/project',
         path: '/photos/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)_:photoId',
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Photo')),
+            loading: LoaderPage,
+        }),
+        simplePage: true
+    }, {
+        id: 'site/thanks',
+        path: '/thanks',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../client/pages/Thanks')),
             loading: LoaderPage,
         }),
         simplePage: true

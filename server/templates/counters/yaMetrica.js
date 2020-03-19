@@ -9,9 +9,5 @@
         trackLinks:true,
         accurateTrackBounce:true
     });
-
-    if (location.search.indexOf('requestStatus=success') !== -1) {
-        ym(49126414,'reachGoal','order');
-    }
 })(window, document, 'script');
 /* eslint-enable */
