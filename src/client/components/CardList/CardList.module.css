@@ -23,3 +23,9 @@
         flex-basis: 50%;
     }
 }
+
+@media screen and (max-width: 400px) {
+    .item {
+        flex-basis: 100%;
+    }
+}
