@@ -10,6 +10,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
 }
 
 .photo, .projectLink {
@@ -26,6 +27,7 @@
 
 .projectLink {
     display: flex;
+    align-items: center;
     background: #eeeeee;
     text-decoration: none;
 }
