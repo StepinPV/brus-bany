@@ -59,7 +59,7 @@ app.get('*', (req, res, next) => {
     const index = redirects.FROM.indexOf(req.originalUrl);
 
     if (index !== -1) {
-        res.redirect(redirects.TO[index]);
+        res.redirect(301, redirects.TO[index]);
     } else {
         next();
     }
@@ -68,7 +68,7 @@ app.get('*', (req, res, next) => {
 app.get('*', renderRoute);
 
 if (process.env.NODE_ENV !== 'production') {
-    app.use(errorhandler())
+    app.use(errorhandler());
 }
 
 db.init(config.db_url, config.db_name, () => {

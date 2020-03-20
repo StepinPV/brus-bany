@@ -34,29 +34,33 @@ const data = {
         'xsi:schemaLocation': 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'
     },
     'urlset': [
-        getURLObject('/', '2019-12-08', true),
-        getURLObject('/bani/individualnyy-proekt', '2019-12-08', true),
-        getURLObject('/rekvizity', '2019-12-08', true),
-        getURLObject('/usloviya-oplaty', '2019-12-08', true),
-        getURLObject('/vakansii', '2019-12-08', true),
-        getURLObject('/politika-konfidencialnosti', '2019-12-08', true),
-        getURLObject('/dostavka', '2019-12-08', true),
-        getURLObject('/kontakty', '2019-12-08', true),
-        getURLObject('/akcii', '2019-12-08', true),
-        getURLObject('/akcii/quiz', '2019-12-08', true),
-        getURLObject('/akcii', '2019-12-08', true),
-        getURLObject('/o-companii', '2019-12-08', true),
-        getURLObject('/voprosy-i-otvety', '2019-12-08', true),
-        getURLObject('/gosty-i-snipy', '2019-12-08', true),
-        getURLObject('/blog', '2019-12-08', true),
-        getURLObject('/photos', '2019-12-08', true)]
+        getURLObject('/bani/individualnyy-proekt', '2020-03-20', true),
+        getURLObject('/rekvizity', '2020-03-20', true),
+        getURLObject('/usloviya-oplaty', '2020-03-20', true),
+        getURLObject('/vakansii', '2020-03-20', true),
+        getURLObject('/politika-konfidencialnosti', '2020-03-20', true),
+        getURLObject('/dostavka', '2020-03-20', true),
+        getURLObject('/kontakty', '2020-03-20', true),
+        getURLObject('/akcii', '2020-03-20', true),
+        getURLObject('/akcii/quiz', '2020-03-20', true),
+        getURLObject('/akcii', '2020-03-20', true),
+        getURLObject('/o-companii', '2020-03-20', true),
+        getURLObject('/voprosy-i-otvety', '2020-03-20', true),
+        getURLObject('/gosty-i-snipy', '2020-03-20', true)]
 };
 
 exports.generate = async function () {
     // articles
+    let lastArticle;
     const {data: articles} = await Articles.getAll();
     articles.forEach(article => {
-        data.urlset.push(getURLObject(`/blog/${article.get('translateName')}`, article.get('updated')));
+        const date = article.get('updated');
+
+        if (!lastArticle || lastArticle < date) {
+            lastArticle = date;
+        }
+
+        data.urlset.push(getURLObject(`/blog/${article.get('translateName')}`, date));
     });
 
     // categories
@@ -66,6 +70,7 @@ exports.generate = async function () {
     });
 
     // photos
+    let lastPhoto;
     for (let i = 0; i < categories.length; i++) {
         const {data: photos} = await Photos.getAllForCategory(categories[i].get('_id').toString());
 
@@ -81,9 +86,16 @@ exports.generate = async function () {
             const project = photo.get('projectId');
             const layout = project.get('layoutId');
             const category = project.get('categoryId');
+
+            const last = getLastDate([category.get('updated'), layout.get('updated'), photo.get('updated')]);
+
+            if (!lastPhoto || lastPhoto < last) {
+                lastPhoto = last;
+            }
+
             data.urlset.push(getURLObject(
                 `/photos/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}_${photo.get('_id')}`,
-                getLastDate([category.get('updated'), layout.get('updated'), photo.get('updated')])
+                last
             ));
         });
     }
@@ -100,6 +112,13 @@ exports.generate = async function () {
             getLastDate([category.get('updated'), layout.get('updated'), project.get('updated')])
         ));
     });
+
+    // main
+    data.urlset.push(getURLObject('/', getLastDate([lastArticle, lastPhoto])));
+    //photos
+    data.urlset.push(getURLObject('/photos', lastPhoto));
+    //articles
+    data.urlset.push(getURLObject('/blog', lastArticle));
 
     fs.writeFile('./public/sitemap.xml', json2xml(data, {attributes_key: ATTRIBUTES_KEY}), function (err) {
         if (err) {

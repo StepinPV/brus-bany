@@ -162,6 +162,8 @@ class PhotoReports {
         try {
             const fullData = { ...report, projectId };
 
+            fullData.created = new Date();
+            fullData.updated = new Date();
             const photo = new Photos(fullData);
 
             await photo.validate();
@@ -184,6 +186,7 @@ class PhotoReports {
         }
 
         try {
+            report.updated = new Date();
             const photo = new Photos(report);
 
             await photo.validate();

@@ -84,6 +84,8 @@ class Categories {
         }
 
         try {
+            data.created = new Date();
+            data.updated = new Date();
             const category = new Category(data);
             await category.validate();
 
@@ -116,6 +118,7 @@ class Categories {
         }
 
         try {
+            data.updated = new Date();
             const category = new Category(data);
             await category.validate();
 

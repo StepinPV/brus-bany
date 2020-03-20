@@ -186,6 +186,9 @@ class Projects {
                 layoutId
             };
 
+            data.created = new Date();
+            data.updated = new Date();
+
             const prices = await calculatePrice(data);
             data.price = prices.price;
 
@@ -225,6 +228,8 @@ class Projects {
                 images: {},
                 ...project
             };
+
+            data.updated = new Date();
 
             const projectInst = new Project(data);
 
