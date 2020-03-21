@@ -17,7 +17,7 @@ import Filters from './resources/Filters';
 import styles from './Category.module.css';
 import FormBlock from "../../components/FormBlock";
 import Meta from '../../components/Meta';
-import wordByNumber from '../../../utils/WordByNumber';
+import wordByNumber from '../../../utils/wordByNumber';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
