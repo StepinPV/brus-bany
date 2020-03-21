@@ -83,8 +83,8 @@ class Photo extends PureComponent {
 
         const metaTitle = `${photo.projectId.categoryId.name2.toLowerCase()} ${photo.projectId.layoutId.name} ${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length}`;
         const meta = {
-            title: `Фотоотчет построенного объекта - ${metaTitle}`,
-            description: `Фотографии, отзывы, видео и описание построенного объекта - ${metaTitle}`
+            title: `Фотоотчет построенного объекта - ${metaTitle} построенного ${renderDate(new Date(photo.created))}`,
+            description: `Фотографии, отзывы, видео и описание построенного объекта - ${metaTitle} построенного ${renderDate(new Date(photo.created))}`
         };
 
         return (

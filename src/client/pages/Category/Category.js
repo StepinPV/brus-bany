@@ -141,8 +141,8 @@ class Category extends PureComponent {
         const { breadcrumbs, notFound } = this.state;
 
         const meta = {
-            title: category.title,
-            description: category.description,
+            title: `${this.getTitle()} под ключ | проекты и цены`,
+            description: `${this.getTitle()}. ${category.description}`,
             keywords: category.keywords
         };
 
