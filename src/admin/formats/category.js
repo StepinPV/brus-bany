@@ -26,21 +26,6 @@ export default [{
     type: 'string',
     required: true
 }, {
-    _id: 'title',
-    title: 'Введите title',
-    type: 'string',
-    required: true
-}, {
-    _id: 'description',
-    title: 'Введите description',
-    type: 'text',
-    required: true
-}, {
-    _id: 'keywords',
-    title: 'Введите keywords',
-    type: 'text',
-    required: true
-}, {
     _id: 'filters',
     title: 'Фильтр',
     type: 'array',

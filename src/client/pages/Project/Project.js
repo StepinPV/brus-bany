@@ -109,10 +109,9 @@ class Project extends PureComponent {
         const { width, length } = match.params;
         const { breadcrumbs } = this.state;
 
-        const metaTitle = `Закажите ${this.renderInfoTitle(project.categoryId.name4)} - ${project.layoutId.name}`;
         const meta = {
-            title: `${metaTitle}. Проект, комплектация и цена.`,
-            description: `${metaTitle}. Более 350 довольных клиентов по всей России.`
+            title: `Проект ${this.renderInfoTitle(project.categoryId.name).toLowerCase()} - ${project.layoutId.name} от ${numberWithSpaces(project.price)} рублей`,
+            description: `Построим баню за ${project.buildTime} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`
         };
 
         return (

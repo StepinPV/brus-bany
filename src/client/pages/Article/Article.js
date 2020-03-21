@@ -82,7 +82,7 @@ class Article extends PureComponent {
         const { breadcrumbs } = this.state;
 
         const meta = {
-            title: article.article.name,
+            title: `${article.article.name} | Брус бани`,
             description: article.article.imageDescription,
             keywords: article.article.keywords
         };

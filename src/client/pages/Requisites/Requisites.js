@@ -14,9 +14,8 @@ const breadcrumbs = [{
 }];
 
 const META = {
-    title: 'Реквизиты компании',
-    description: 'Реквизиты компании ООО "Русская баня"',
-    keywords: 'Реквизиты компании, инн, огрн'
+    title: 'Реквизиты компании | Брус бани',
+    description: 'Реквизиты компании ООО "Русская баня"'
 };
 
 function Requisites() {

@@ -5,9 +5,8 @@ import NotFoundComponent from '../../components/NotFound';
 import Meta from '../../components/Meta';
 
 const META = {
-    title: '404',
-    description: 'Страница не найдена или не существует',
-    keywords: '404, страница не найдена'
+    title: '404 | Брус бани',
+    description: 'Страница не найдена или не существует'
 };
 
 function NotFound() {

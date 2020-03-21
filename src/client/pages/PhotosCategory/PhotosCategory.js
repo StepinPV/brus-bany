@@ -76,8 +76,8 @@ class PhotosCategory extends PureComponent {
         const { breadcrumbs } = this.state;
 
         const meta = {
-            title: `Фотоотчеты построенных ${category.name3}`,
-            description: `Фотографии, отзывы, видео и описание построенных ${category.name3}`
+            title: `Фотографии, отзывы, видео и описание построенных ${category.name3} | Брус бани`,
+            description: `За все время работы мы построили огромное количество ${category.name3} различной сложности. На сайте вы можете просмотреть фотоотчеты данных проектов.`
         };
 
         return (

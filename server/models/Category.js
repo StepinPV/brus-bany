@@ -196,18 +196,6 @@ const scheme = new Schema({
         type: String,
         required: REQUIRED_MSG
     },
-    title: {
-        type: String,
-        required: REQUIRED_MSG
-    },
-    description: {
-        type: String,
-        required: REQUIRED_MSG
-    },
-    keywords: {
-        type: String,
-        required: REQUIRED_MSG
-    },
     additions: {
         type: [additionGroupScheme]
     },

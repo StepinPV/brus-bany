@@ -8,11 +8,11 @@ const breadcrumbs = [{
     title: 'Главная',
     link: '/'
 }, {
-    title: 'Категории бань'
+    title: 'Виды бань'
 }];
 
 const META = {
-    title: 'Брус бани — категории бань',
+    title: 'Виды бань | Брус бани',
     description: 'Категории бань, которые мы строим'
 };
 
@@ -20,7 +20,7 @@ function Categories() {
     return (
         <Page breadcrumbs={breadcrumbs}>
             <Meta meta={META} />
-            <CategoriesBase caption='Категории бань' captionTag='h1' />
+            <CategoriesBase caption='Виды бань' captionTag='h1' />
             <FormBlock source='Страница /bani' />
         </Page>
     )

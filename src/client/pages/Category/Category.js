@@ -17,6 +17,7 @@ import Filters from './resources/Filters';
 import styles from './Category.module.css';
 import FormBlock from "../../components/FormBlock";
 import Meta from '../../components/Meta';
+import wordByNumber from '../../../utils/WordByNumber';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -138,12 +139,12 @@ class Category extends PureComponent {
 
     render() {
         const { isCategoryError, category } = this.props;
-        const { breadcrumbs, notFound } = this.state;
+        const { breadcrumbs, notFound, filteredProjects } = this.state;
 
         const meta = {
-            title: `${this.getTitle()} под ключ | проекты и цены`,
-            description: `${this.getTitle()}. ${category.description}`,
-            keywords: category.keywords
+            title: `Купить недорогие ${this.getTitle().toLowerCase()} под ключ | Проекты и цены`,
+            description: `Строим недорогие ${this.getTitle().toLowerCase()} под ключ по всей России. ${filteredProjects.length} ${wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань с гарантией 3 года. Собственное производство. Срок строительства от 7 дней.`,
+            keywords: `Купить ${category.name} под ключ, Купить ${category.name} недорого, Купить ${category.name} цены`
         };
 
         return (
@@ -155,7 +156,7 @@ class Category extends PureComponent {
     }
 
     renderContent = () => {
-        const { category, match, projects } = this.props;
+        const { category, match } = this.props;
         const { filteredProjects } = this.state;
         const { name } = match.params;
 
@@ -163,7 +164,7 @@ class Category extends PureComponent {
             <>
                 <H1Block
                     caption={`${this.getTitle()} | проекты и цены`}
-                    description={(<>{projects.length} проектов бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</>)}
+                    description={(<>{filteredProjects.length} {wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</>)}
                 />
                 {this.renderFilters()}
                 {this.renderProjects()}

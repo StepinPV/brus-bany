@@ -17,16 +17,15 @@ const breadcrumbs = [{
 }];
 
 const META = {
-    title: 'Контакты компании "Брус бани"',
-    description: 'Привезем уже готовую или построим с нуля Более 350 довольных клиентов по всей России',
-    keywords: 'Контакты компании, реквизиты, офисы'
+    title: 'Наши контакты | Брус бани',
+    description: '174510, Новгородская область, Пестово, Курганная, 12. 8 (800) 201-07-29'
 };
 
 let Map;
 
 class Contacts extends PureComponent {
     state = {
-      mapLoaded: false
+        mapLoaded: false
     };
 
     componentDidMount() {
