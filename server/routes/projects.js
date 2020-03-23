@@ -13,7 +13,7 @@ const send = (res, { status, code, message, data }) => {
     res.end();
 };
 
-router.get('/:categoryId', cache('1 day'), async function(req, res, next) {
+router.get('/:categoryId', /*cache('1 day')*/null, async function(req, res, next) {
     try {
         req.apicacheGroup = GROUP_KEY;
 
@@ -91,7 +91,7 @@ router.post('/:categoryId/:layoutId', async function(req, res, next) {
 });
 
 //READ
-router.get('/:categoryId/:layoutId', cache('1 day'), async function(req, res, next) {
+router.get('/:categoryId/:layoutId', /*cache('1 day')*/null, async function(req, res, next) {
     try {
         req.apicacheGroup = GROUP_KEY;
 
