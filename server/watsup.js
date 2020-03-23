@@ -29,7 +29,7 @@ module.exports.send = ({ name, phone, source, data }) => {
         value: phone
     }, {
         name: 'Источник',
-        value: source
+        value: `https://brus-bany.ru${source}`
     }]);
 
     message += `---+---+---`;
