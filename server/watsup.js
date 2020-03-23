@@ -3,7 +3,7 @@ const request = require('request'); //bash: npm install request
 const url = 'https://eu95.chat-api.com/instance109742/sendMessage?token=fm0kivqf2bmgwwup';
 const chatId = '79998639369-1584998464@g.us';
 
-module.exports.send = ({ name, phone, source, data }) => {
+module.exports.send = ({ name, phone, source, data }, host) => {
     let message = '';
 
     function addTitle(title) {
@@ -28,8 +28,11 @@ module.exports.send = ({ name, phone, source, data }) => {
         name: 'Номер телефона',
         value: phone
     }, {
-        name: 'Источник',
+        name: 'Имя страницы',
         value: source
+    }, {
+        name: 'Ссылка на страницу',
+        value: host
     }]);
 
     message += `---+---+---`;
