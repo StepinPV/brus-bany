@@ -46,6 +46,7 @@
     "react-yandex-maps": "^4.2.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "request": "^2.88.2",
     "serialize-javascript": "^2.1.0",
     "shelljs": "^0.8.3",
     "terser-webpack-plugin": "^2.1.0",
