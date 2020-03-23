@@ -1,6 +1,7 @@
 User-agent: *
 Disallow: /admin*
 Disallow: /api*
+Disallow: /bani/iz-brevna*
 Disallow: /thanks
 Sitemap: https://brus-bany.ru/sitemap.xml
 Host: https://brus-bany.ru

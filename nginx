@@ -26,6 +26,9 @@ server {
         listen 443 ssl http2;
         server_name brus-bany.ru;
 
+        # Редирект со слэшом на конце на без слэша
+        rewrite ^/(.*)/$ /$1 permanent;
+
 		root /root/brus-bany/public/;
         access_log /root/brus-bany/nginx-access-logs.log;
 		error_log /root/brus-bany/nginx-error-logs.log;
