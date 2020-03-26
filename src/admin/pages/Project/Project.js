@@ -173,7 +173,7 @@ class Project extends PureComponent {
                     <div style={{textAlign: 'center', fontWeight: 'bold', marginTop: '16px'}}>{project.categoryId.complectationBlocks.name}</div>
                     <div>{project.categoryId.complectationBlocks.items.map(item => {
                         return (
-                            <div>
+                            <div key={item.id}>
                                 <div style={{textAlign: 'center', marginTop: '16px'}}>{item.name} {item.id === project.categoryId.complectationBlocks.defaultItemId ? ' (По умолчанию)' : null}</div>
                                 <Input
                                     value={project.prices ? project.prices[item.id] : ''}
