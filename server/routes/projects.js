@@ -1,10 +1,7 @@
 const express = require('express');
 const Projects = require('../controllers/Projects');
 const Safety = require('../controllers/Safety');
-
-let apicache = require('apicache');
-let cache = apicache.middleware;
-const GROUP_KEY = 'projects';
+const cache = require('../cache');
 
 const router = express.Router();
 
@@ -13,19 +10,17 @@ const send = (res, { status, code, message, data }) => {
     res.end();
 };
 
-router.get('/:categoryId', cache('1 day'), async function(req, res, next) {
+router.get('/:categoryId', async function(req, res, next) {
     try {
-        req.apicacheGroup = GROUP_KEY;
-
         const searchByName = req.query && req.query.byName;
         const queryOptions = {
             withCategory: req.query && req.query.withCategory,
             withLayout: req.query && req.query.withLayout
         };
 
-        const { status, data, message } = searchByName ?
+        const { status, data, message } = cache.get(req) || cache.add(req, searchByName ?
             await Projects.getAllForCategoryByName(req.params.categoryId, queryOptions) :
-            await Projects.getAllForCategory(req.params.categoryId, queryOptions);
+            await Projects.getAllForCategory(req.params.categoryId, queryOptions), 'projects');
 
         switch(status) {
             case 'success':
@@ -45,9 +40,9 @@ router.get('/:categoryId', cache('1 day'), async function(req, res, next) {
 //UPDATE PRICES
 router.post('/update-prices', async function(req, res, next) {
     try {
-        apicache.clear(GROUP_KEY);
-
         const { status, data, message } = await Projects.updatePrices();
+
+        cache.clear(['projects']);
 
         switch(status) {
             case 'success':
@@ -67,13 +62,13 @@ router.post('/update-prices', async function(req, res, next) {
 //CREATE
 router.post('/:categoryId/:layoutId', async function(req, res, next) {
     try {
-        apicache.clear(GROUP_KEY);
-
         const { categoryId, layoutId } = req.params;
 
         const { project } = req.body;
 
         const { status, data, message } = await Projects.create(categoryId, layoutId, project);
+
+        cache.clear(['projects']);
 
         switch(status) {
             case 'success':
@@ -91,10 +86,8 @@ router.post('/:categoryId/:layoutId', async function(req, res, next) {
 });
 
 //READ
-router.get('/:categoryId/:layoutId', cache('1 day'), async function(req, res, next) {
+router.get('/:categoryId/:layoutId', async function(req, res, next) {
     try {
-        req.apicacheGroup = GROUP_KEY;
-
         const { categoryId, layoutId } = req.params;
         const searchByName = req.query && req.query.byName;
         const queryOptions = {
@@ -102,9 +95,9 @@ router.get('/:categoryId/:layoutId', cache('1 day'), async function(req, res, ne
             withLayout: req.query && req.query.withLayout
         };
 
-        const { status, data, message } = searchByName ?
+        const { status, data, message } = cache.get(req) || cache.add(req, searchByName ?
             await Projects.getByName(categoryId, layoutId, queryOptions) :
-            await Projects.get(categoryId, layoutId, queryOptions);
+            await Projects.get(categoryId, layoutId, queryOptions), 'projects');
 
         switch(status) {
             case 'success':
@@ -124,12 +117,12 @@ router.get('/:categoryId/:layoutId', cache('1 day'), async function(req, res, ne
 //UPDATE
 router.put('/:categoryId/:layoutId', async function(req, res, next) {
     try {
-        apicache.clear(GROUP_KEY);
-
         const { categoryId, layoutId } = req.params;
         const { project } = req.body;
 
         const { status, data, message } = await Projects.update(categoryId, layoutId, project);
+
+        cache.clear(['projects']);
 
         switch(status) {
             case 'success':
@@ -150,6 +143,8 @@ router.put('/:categoryId/:layoutId', async function(req, res, next) {
 router.delete('/:id', async function(req, res, next) {
     try {
         const { status, data, message } = await Safety.deleteProject(req.params.id);
+
+        cache.clear(['projects']);
 
         switch(status) {
             case 'success':

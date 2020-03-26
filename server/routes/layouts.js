@@ -1,11 +1,7 @@
 const express = require('express');
 const Layouts = require('../controllers/Layouts');
 const Safety = require('../controllers/Safety');
-
-let apicache = require('apicache');
-let cache = apicache.middleware;
-const GROUP_KEY = 'layouts';
-const GROUP_PROJECTS_KEY = 'projects';
+const cache = require('../cache');
 
 const router = express.Router();
 
@@ -14,11 +10,9 @@ const send = (res, { status, code, message, data }) => {
     res.end();
 };
 
-router.get('/', cache('1 day'), async function(req, res, next) {
+router.get('/', async function(req, res, next) {
     try {
-        req.apicacheGroup = GROUP_KEY;
-
-        const { status, data, message } = await Layouts.getAll();
+        const { status, data, message } = cache.get(req) || cache.add(req, await Layouts.getAll(), 'layouts');
 
         switch(status) {
             case 'success':
@@ -37,10 +31,9 @@ router.get('/', cache('1 day'), async function(req, res, next) {
 
 router.post('/', async function(req, res, next) {
     try {
-        apicache.clear(GROUP_KEY);
-        apicache.clear(GROUP_PROJECTS_KEY);
-
         const { status, data, message } = await Layouts.create(req.body.layout);
+
+        cache.clear(['layouts']);
 
         switch(status) {
             case 'success':
@@ -57,12 +50,10 @@ router.post('/', async function(req, res, next) {
     }
 });
 
-router.get('/:id', cache('1 day'), async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     try {
-        req.apicacheGroup = GROUP_KEY;
-
         const searchByName = req.query && req.query.byName;
-        const { status, data, message } = searchByName ? await Layouts.getByName(req.params.id) : await Layouts.get(req.params.id);
+        const { status, data, message } = cache.get(req) || cache.add(req, searchByName ? await Layouts.getByName(req.params.id) : await Layouts.get(req.params.id), `layouts`);
 
         switch(status) {
             case 'success':
@@ -81,10 +72,9 @@ router.get('/:id', cache('1 day'), async function(req, res, next) {
 
 router.put('/:id', async function(req, res, next) {
     try {
-        apicache.clear(GROUP_KEY);
-        apicache.clear(GROUP_PROJECTS_KEY);
-
         const { status, data, message } = await Layouts.update(req.params.id, req.body.layout);
+
+        cache.clear(['layouts', 'projects']);
 
         switch(status) {
             case 'success':
@@ -103,10 +93,9 @@ router.put('/:id', async function(req, res, next) {
 
 router.delete('/:id', async function(req, res, next) {
     try {
-        apicache.clear(GROUP_KEY);
-        apicache.clear(GROUP_PROJECTS_KEY);
-
         const { status, data, message } = await Safety.deleteLayout(req.params.id);
+
+        cache.clear(['layouts', 'projects']);
 
         switch(status) {
             case 'success':

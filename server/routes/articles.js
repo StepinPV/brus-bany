@@ -3,20 +3,16 @@ const Articles = require('../controllers/Articles');
 
 const router = express.Router();
 
-let apicache = require('apicache');
-let cache = apicache.middleware;
-const GROUP_KEY = 'articles';
+const cache = require('../cache');
 
 const send = (res, { status, code, message, data }) => {
     res.json({ status, code, message, data });
     res.end();
 };
 
-router.get('/', cache('1 day'), async function(req, res, next) {
+router.get('/', async function(req, res, next) {
     try {
-        const { status, data, message } = await Articles.getAll();
-
-        req.apicacheGroup = GROUP_KEY;
+        const { status, data, message } = cache.get(req) || cache.add(req, await Articles.getAll(), 'articles');
 
         switch(status) {
             case 'success':
@@ -37,7 +33,7 @@ router.post('/', async function(req, res, next) {
     try {
         const { status, data, message } = await Articles.create(req.body.article);
 
-        apicache.clear(GROUP_KEY);
+        cache.clear(['articles']);
 
         switch(status) {
             case 'success':
@@ -54,12 +50,10 @@ router.post('/', async function(req, res, next) {
     }
 });
 
-router.get('/:id', cache('1 day'), async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     try {
         const searchByName = req.query && req.query.byName;
-        const { status, data, message } = searchByName ? await Articles.getByName(req.params.id) : await Articles.get(req.params.id);
-
-        req.apicacheGroup = `${GROUP_KEY}_${req.params.id}`;
+        const { status, data, message } = cache.get(req) || cache.add(req, searchByName ? await Articles.getByName(req.params.id) : await Articles.get(req.params.id), `articles_${req.params.id}`);
 
         switch(status) {
             case 'success':
@@ -80,8 +74,7 @@ router.put('/:id', async function(req, res, next) {
     try {
         const { status, data, message } = await Articles.update(req.params.id, req.body.article);
 
-        apicache.clear(GROUP_KEY);
-        apicache.clear(`${GROUP_KEY}_${req.body.article.translateName}`);
+        cache.clear(['articles', `articles_${req.body.article.translateName}`]);
 
         switch(status) {
             case 'success':
@@ -102,8 +95,7 @@ router.delete('/:id', async function(req, res, next) {
     try {
         const { status, data, message } = await Articles.delete(req.params.id);
 
-        apicache.clear(GROUP_KEY);
-        apicache.clear(`${GROUP_KEY}_${req.body.article.translateName}`);
+        cache.clear(['articles', `articles_${req.body.article.translateName}`]);
 
         switch(status) {
             case 'success':

@@ -3,16 +3,14 @@ const Photos = require('../controllers/Photos');
 
 const router = express.Router();
 
-let apicache = require('apicache');
-let cache = apicache.middleware;
-const GROUP_KEY = 'photos';
+const cache = require('../cache');
 
 const send = (res, { status, code, message, data }) => {
     res.json({ status, code, message, data });
     res.end();
 };
 
-router.get('/', cache('1 day'), async function(req, res, next) {
+router.get('/', async function(req, res, next) {
     try {
         const queryOptions = {
             withCategory: req.query && req.query.withCategory,
@@ -20,9 +18,7 @@ router.get('/', cache('1 day'), async function(req, res, next) {
             withProject: req.query && req.query.withProject
         };
 
-        req.apicacheGroup = GROUP_KEY;
-
-        const { status, data, message } = await Photos.getAll(queryOptions);
+        const { status, data, message } = cache.get(req) || cache.add(req, await Photos.getAll(queryOptions), 'photos');
 
         switch(status) {
             case 'success':
@@ -42,7 +38,7 @@ router.get('/', cache('1 day'), async function(req, res, next) {
 //CREATE
 router.post('/:projectId', async function(req, res, next) {
     try {
-        apicache.clear(GROUP_KEY);
+        cache.clear(['photos']);
 
         const { projectId } = req.params;
 
@@ -66,13 +62,12 @@ router.post('/:projectId', async function(req, res, next) {
 });
 
 //READ
-router.get('/:id', cache('1 day'), async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     try {
-        let result;
+        let result = cache.get(req);
+
         const forCategory = req.query && req.query.forCategory;
         const forProject = req.query && req.query.forProject;
-
-        req.apicacheGroup = `${GROUP_KEY}_${req.params.id}`;
 
         const queryOptions = {
             withCategory: req.query && req.query.withCategory,
@@ -80,18 +75,21 @@ router.get('/:id', cache('1 day'), async function(req, res, next) {
             withProject: req.query && req.query.withProject
         };
 
-        if (forCategory) {
-            const searchByName = req.query && req.query.byName;
+        if (!result) {
+            if (forCategory) {
+                const searchByName = req.query && req.query.byName;
 
-            result = searchByName ?
-                await Photos.getAllForCategoryByName(req.params.id, queryOptions) :
-                await Photos.getAllForCategory(req.params.id, queryOptions);
-        } else if (forProject) {
-            result = await Photos.getAllForProjectId(req.params.id, queryOptions);
-        } else {
-            result = await Photos.get(req.params.id, queryOptions);
+                result = searchByName ?
+                    await Photos.getAllForCategoryByName(req.params.id, queryOptions) :
+                    await Photos.getAllForCategory(req.params.id, queryOptions);
+            } else if (forProject) {
+                result = await Photos.getAllForProjectId(req.params.id, queryOptions);
+            } else {
+                result = await Photos.get(req.params.id, queryOptions);
+            }
+
+            cache.add(req, result, `photos_${req.params.id}`)
         }
-
 
         switch(result.status) {
             case 'success':
@@ -111,12 +109,11 @@ router.get('/:id', cache('1 day'), async function(req, res, next) {
 //UPDATE
 router.put('/:id', async function(req, res, next) {
     try {
-        apicache.clear(GROUP_KEY);
-        apicache.clear(`${GROUP_KEY}_${req.params.id}`);
-
         const { report } = req.body;
 
         const { status, data, message } = await Photos.update(req.params.id, report);
+
+        cache.clear(['photos', `photos_${req.params.id}`]);
 
         switch(status) {
             case 'success':
@@ -136,10 +133,9 @@ router.put('/:id', async function(req, res, next) {
 //DELETE
 router.delete('/:id', async function(req, res, next) {
     try {
-        apicache.clear(GROUP_KEY);
-        apicache.clear(`${GROUP_KEY}_${req.params.id}`);
-
         const { status, data, message } = await Photos.delete(req.params.id);
+
+        cache.clear(['photos', `photos_${req.params.id}`]);
 
         switch(status) {
             case 'success':
