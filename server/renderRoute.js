@@ -56,6 +56,7 @@ router.get('*', async (req, res, next) => {
             }
 
             res.set('Link', preloadList);
+            res.setHeader('Cache-Control', 'max-age');
 
             res.render('index.pug', {
                 isProduction: process.env.NODE_ENV === 'production',
