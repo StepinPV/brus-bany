@@ -18,7 +18,7 @@ exports.add = (req, data, group) => {
 
 exports.clear = (groups) => {
     for (let key in storage) {
-        if (groups.includes(storage[key].group)) {
+        if (groups.includes(storage[key].group) || storage[key].group === 'main') {
             delete storage[key];
         }
     }

@@ -7,6 +7,8 @@ const assetsManifest = require('../public/mstatic/build/manifest.json');
 const logger = require('./logger');
 const config = require('./config');
 
+const cache = require('./cache');
+
 const router = express.Router();
 
 router.get('*', async (req, res, next) => {
@@ -15,7 +17,7 @@ router.get('*', async (req, res, next) => {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const { head, markup, initialData, modules, simplePage, context, timings } = await render(req, res, axiosOptions);
+        const { head, markup, initialData, modules, simplePage, context, timings } = cache.get(req) || cache.add(req, await render(req, res, axiosOptions), 'main');
 
         if (context.status === 404) {
             res.status(404);

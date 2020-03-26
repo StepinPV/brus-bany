@@ -5,8 +5,8 @@ const router = express.Router();
 
 const cache = require('../cache');
 
-const send = (res, { status, code, message, data }) => {
-    res.json({ status, code, message, data });
+const send = (res, { status, message, data }) => {
+    res.json({ status, message, data });
     res.end();
 };
 
