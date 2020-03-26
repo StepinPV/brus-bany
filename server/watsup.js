@@ -28,9 +28,6 @@ module.exports.send = ({ name, phone, source, data }, host) => {
         name: 'Номер телефона',
         value: phone
     }, {
-        name: 'Имя страницы',
-        value: source
-    }, {
         name: 'Ссылка на страницу',
         value: host
     }]);

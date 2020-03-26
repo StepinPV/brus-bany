@@ -80,7 +80,7 @@ router.get('/:id', cache('1 day'), async function(req, res, next) {
 
 router.put('/:id', async function(req, res, next) {
     try {
-        apicache.clear(`${GROUP_KEY}_${req.params.id}`);
+        apicache.clear(`${GROUP_KEY}_${req.body.category.translateName}`);
         apicache.clear(GROUP_KEY);
 
         const { status, data, message } = await Categories.update(req.params.id, req.body.category);
@@ -102,7 +102,7 @@ router.put('/:id', async function(req, res, next) {
 
 router.delete('/:id', async function(req, res, next) {
     try {
-        apicache.clear(`${GROUP_KEY}_${req.params.id}`);
+        apicache.clear(`${GROUP_KEY}_${req.body.category.translateName}`);
         apicache.clear(GROUP_KEY);
 
         const { status, data, message } = await Safety.deleteCategory(req.params.id);

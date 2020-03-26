@@ -81,7 +81,7 @@ router.put('/:id', async function(req, res, next) {
         const { status, data, message } = await Articles.update(req.params.id, req.body.article);
 
         apicache.clear(GROUP_KEY);
-        apicache.clear(`${GROUP_KEY}_${req.params.id}`);
+        apicache.clear(`${GROUP_KEY}_${req.body.article.translateName}`);
 
         switch(status) {
             case 'success':
@@ -103,7 +103,7 @@ router.delete('/:id', async function(req, res, next) {
         const { status, data, message } = await Articles.delete(req.params.id);
 
         apicache.clear(GROUP_KEY);
-        apicache.clear(`${GROUP_KEY}_${req.params.id}`);
+        apicache.clear(`${GROUP_KEY}_${req.body.article.translateName}`);
 
         switch(status) {
             case 'success':

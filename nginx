@@ -60,7 +60,7 @@ server {
         gzip_buffers 16 8k;
         gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
 
-        location ~* \.(jpg|jpeg|gif|png|ico|txt|woff|otf|eot|svg|ttf|html|xml|css|js|json)$ {
+        location ~* \.(jpg|jpeg|gif|png|ico|txt|woff|otf|eot|svg|ttf|html|xml|css|js)$ {
                 expires 365d;
                 error_page 404 @notfound;
         }
