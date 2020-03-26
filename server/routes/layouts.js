@@ -5,6 +5,7 @@ const Safety = require('../controllers/Safety');
 let apicache = require('apicache');
 let cache = apicache.middleware;
 const GROUP_KEY = 'layouts';
+const GROUP_PROJECTS_KEY = 'projects';
 
 const router = express.Router();
 
@@ -37,6 +38,7 @@ router.get('/', cache('1 day'), async function(req, res, next) {
 router.post('/', async function(req, res, next) {
     try {
         apicache.clear(GROUP_KEY);
+        apicache.clear(GROUP_PROJECTS_KEY);
 
         const { status, data, message } = await Layouts.create(req.body.layout);
 
@@ -80,6 +82,7 @@ router.get('/:id', cache('1 day'), async function(req, res, next) {
 router.put('/:id', async function(req, res, next) {
     try {
         apicache.clear(GROUP_KEY);
+        apicache.clear(GROUP_PROJECTS_KEY);
 
         const { status, data, message } = await Layouts.update(req.params.id, req.body.layout);
 
@@ -101,6 +104,7 @@ router.put('/:id', async function(req, res, next) {
 router.delete('/:id', async function(req, res, next) {
     try {
         apicache.clear(GROUP_KEY);
+        apicache.clear(GROUP_PROJECTS_KEY);
 
         const { status, data, message } = await Safety.deleteLayout(req.params.id);
 

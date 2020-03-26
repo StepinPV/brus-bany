@@ -5,6 +5,7 @@ const Safety = require('../controllers/Safety');
 let apicache = require('apicache');
 let cache = apicache.middleware;
 const GROUP_KEY = 'categories';
+const GROUP_PROJECTS_KEY = 'projects';
 
 const router = express.Router();
 
@@ -37,6 +38,7 @@ router.get('/', cache('1 day'), async function(req, res, next) {
 router.post('/', async function(req, res, next) {
     try {
         apicache.clear(GROUP_KEY);
+        apicache.clear(GROUP_PROJECTS_KEY);
 
         const { status, data, message } = await Categories.create(req.body.category);
 
@@ -82,6 +84,7 @@ router.put('/:id', async function(req, res, next) {
     try {
         apicache.clear(`${GROUP_KEY}_${req.body.category.translateName}`);
         apicache.clear(GROUP_KEY);
+        apicache.clear(GROUP_PROJECTS_KEY);
 
         const { status, data, message } = await Categories.update(req.params.id, req.body.category);
 
@@ -104,6 +107,7 @@ router.delete('/:id', async function(req, res, next) {
     try {
         apicache.clear(`${GROUP_KEY}_${req.body.category.translateName}`);
         apicache.clear(GROUP_KEY);
+        apicache.clear(GROUP_PROJECTS_KEY);
 
         const { status, data, message } = await Safety.deleteCategory(req.params.id);
 
