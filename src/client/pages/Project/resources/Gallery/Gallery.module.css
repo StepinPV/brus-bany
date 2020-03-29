@@ -2,6 +2,56 @@
     width: 100%;
 }
 
+.imageContainer {
+    position: relative;
+}
+
+.prevContainer, .nextContainer {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: calc(50% - 25px);
+    background: rgba(197, 197, 197, 0.5);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.prevContainer:hover, .nextContainer:hover {
+    background: rgba(197, 197, 197, 0.7);
+}
+
+.prevContainer {
+    left: 20px;
+}
+
+.nextContainer {
+    right: 20px;
+}
+
+.prev, .next {
+    z-index: 10;
+    border: solid #000;
+    border-width: 0 0 2px 2px;
+    width: 20px;
+    height: 20px;
+    line-height: 0;
+    font-size: 0;
+    display: block;
+}
+
+.prev {
+    transform: rotate(45deg);
+    margin-left: 8px;
+}
+
+.next {
+    transform: rotate(-135deg);
+    margin-right: 8px;
+}
+
 .images {
     display: flex;
     flex-wrap: wrap;
@@ -11,10 +61,39 @@
     width: 60px;
     height: 60px;
     object-fit: cover;
-    margin-right: 8px;
+    margin: 8px;
 }
 
 .selectedImage {
     outline: 2px solid #000;
     outline-offset: -2px;
 }
+
+@media screen and (max-width: 640px) {
+    .prevContainer, .nextContainer {
+        width: 30px;
+        height: 30px;
+    }
+
+    .prevContainer {
+        left: 10px;
+    }
+
+    .nextContainer {
+        right: 10px;
+    }
+
+    .prev, .next {
+        width: 10px;
+        height: 10px;
+    }
+
+    .prev {
+        margin-left: 8px;
+    }
+
+    .next {
+        margin-right: 8px;
+    }
+}
+
