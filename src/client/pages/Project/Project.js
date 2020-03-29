@@ -325,7 +325,7 @@ class Project extends PureComponent {
                         selectedComplectation: value
                     })
                 }}
-                getSecondButtonTitle={item => project.prices && project.prices[item.id] ? `${numberWithSpaces(project.prices[item.id])} руб` : null} />
+                getSecondButtonTitle={item => project.prices && project.prices[item.id] ? `${numberWithSpaces(project.prices[item.id], '&nbsp;')}&nbsp;руб` : null} />
         );
     };
 
@@ -348,7 +348,7 @@ class Project extends PureComponent {
                 }}
                 getSecondButtonTitle={(item) => {
                     if (project.projectBlocks && project.projectBlocks[projectBlock.id] && project.projectBlocks[projectBlock.id][item.id]) {
-                        return `${numberWithSpaces(project.projectBlocks[projectBlock.id][item.id].price)} руб`
+                        return `${numberWithSpaces(project.projectBlocks[projectBlock.id][item.id].price, '&nbsp;')}&nbsp;руб`
                     }
 
                     return null;

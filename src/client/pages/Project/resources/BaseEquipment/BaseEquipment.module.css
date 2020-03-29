@@ -20,8 +20,15 @@
     padding: 16px;
     width: 160px;
     flex-shrink: 0;
+    border-right: 1px solid #ccc;
 }
 
 .description {
     padding:16px;
+}
+
+@media screen and (max-width: 650px) {
+    .title {
+        width: 100px;
+    }
 }

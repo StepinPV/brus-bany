@@ -16,8 +16,8 @@ function Card(props) {
             </div>
             {(firstButton || secondButton) ? (
                 <div className={styles['buttons']}>
-                    {firstButton ? <div className={cx(styles['button'], styles['button-first'])}>{firstButton}</div> : null}
-                    {secondButton ? <div className={cx(styles['button'], styles['button-second'])}>{secondButton}</div> : null}
+                    {firstButton ? <div className={cx(styles['button'], styles['button-first'])} dangerouslySetInnerHTML={{ __html: props.firstButton }} /> : null}
+                    {secondButton ? <div className={cx(styles['button'], styles['button-second'])} dangerouslySetInnerHTML={{ __html: props.secondButton }} /> : null}
                 </div>
             ) : null}
         </div>
