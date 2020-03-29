@@ -32,7 +32,7 @@ module.exports.send = ({ name, phone, source, data }, host) => {
         value: host
     }]);
 
-    message += `---+---+---`;
+    message += `---+---+---\n\n`;
 
     if (data) {
         data = JSON.parse(data);
@@ -41,7 +41,7 @@ module.exports.send = ({ name, phone, source, data }, host) => {
                 case 'fields':
                     addTitle(elem.title);
                     addFields(elem.fields);
-                    message += `---+---+---`;
+                    message += `---+---+---\n\n`;
                     break;
                 default:
                     break;

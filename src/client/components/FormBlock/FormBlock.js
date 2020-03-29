@@ -4,7 +4,7 @@ import DataSection from '../DataSection';
 import Form from '../Form';
 import styles from './FormBlock.module.css';
 
-export default memo(({ source }) => {
+export default memo(({ source, data }) => {
     return (
         <DataSection caption='Звоните — расскажем о банях все и поможем с выбором' id='requestForm'>
             <div className={styles.content}>
@@ -23,7 +23,7 @@ export default memo(({ source }) => {
                     </div>
                 </div>
                 <div className={styles['second-column']}>
-                    <Form source={source} />
+                    <Form source={source} data={data} />
                 </div>
             </div>
         </DataSection>
