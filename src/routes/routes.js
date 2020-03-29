@@ -180,10 +180,10 @@ export default (initModule) => {
         simplePage: true
     }, {
         id: 'site/photos/category',
-        path: '/photos/:categoryName',
+        path: '/photos/:name',
         exact: true,
         component: Loadable({
-            loader: () => getLoader(import('../client/pages/PhotosCategory')),
+            loader: () => getLoader(import('../client/pages/Photos')),
             loading: LoaderPage,
         }),
         simplePage: true

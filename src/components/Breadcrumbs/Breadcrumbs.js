@@ -8,7 +8,7 @@ const Breadcrumbs = ({ items, className }) => (
             return (
                 <Fragment key={title}>
                     { index !== 0 ? <span className={styles.arrow}>/</span> : null }
-                    { link ? (
+                    { link && index !== items.length - 1 ? (
                         <span itemProp="itemListElement" itemScope itemType="http://schema.org/ListItem">
                             <a href={link} className={styles['link-item']} itemProp="item">
                                 <span itemProp="name">{title}</span>

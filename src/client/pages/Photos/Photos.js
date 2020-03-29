@@ -1,50 +1,72 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import { loadData, resetData } from './actions';
+import { getCategories, getPhotos, resetData } from './actions';
 import Page from '../../components/Page';
-import Caption from '../../components/Caption';
-import { Link } from '../../components/Button';
 import H1Block from '../../components/H1Block';
 import styles from './Photos.module.css';
 import FormBlock from "../../components/FormBlock";
 import CardList from '../../components/CardList';
 import PhotoCard from '../../components/PhotoCard';
 import Meta from '../../components/Meta';
+import cx from "classnames";
 
-const breadcrumbs = [{
+const breadcrumbsDefault = [{
     title: 'Главная',
     link: '/'
 }, {
-    title: 'Фотоотчеты построенных бань'
+    title: 'Фотоотчеты построенных бань',
+    link: '/photos'
 }];
-
-const META = {
-    title: 'Фотографии, отзывы, видео и описание построенных бань | Брус бани',
-    description: 'За все время работы мы построили огромное количество объектов различной сложности. На сайте вы можете просмотреть фотоотчеты данных проектов.'
-};
 
 class Photos extends PureComponent {
     static propTypes = {
-        photos: PropTypes.object,
+        photos: PropTypes.array,
         categories: PropTypes.array,
 
         actions: PropTypes.object,
-        match: PropTypes.object,
-        location: PropTypes.object,
-        history: PropTypes.object
+        match: PropTypes.object
     };
 
-    static initialAction({ dispatch }) {
-        return [dispatch(loadData())]
+
+    static initialAction({ dispatch, match }) {
+        const { name } = match.params;
+        return [dispatch(getCategories()), dispatch(getPhotos(name))]
     }
 
+    static getDerivedStateFromProps(nextProps) {
+        const { name } = nextProps.match.params;
+
+        if (nextProps.categories && name) {
+
+            const category = nextProps.categories.find(category => category.translateName === name);
+
+            return {
+                breadcrumbs: [
+                    ...breadcrumbsDefault,
+                    ...(category ? [{ title: category.name }] : [])
+                ]
+            }
+        }
+
+        return null;
+    }
+
+    state = {
+        breadcrumbs: breadcrumbsDefault
+    };
+
     componentDidMount() {
-        const { actions, photos } = this.props;
+        const { actions, photos, categories, match } = this.props;
+        const { name } = match.params;
 
         if (!photos) {
-            actions.loadData();
+            actions.getPhotos(name);
+        }
+
+        if (!categories) {
+            actions.getCategories();
         }
     }
 
@@ -54,56 +76,81 @@ class Photos extends PureComponent {
     }
 
     render() {
-        const { isPhotosError } = this.props;
+        const { breadcrumbs } = this.state;
+
+        const title = this.getTitle();
+        const meta = {
+            title: `Фотографии, отзывы, видео и описание построенных ${title} | Брус бани`,
+            description: `За все время работы мы построили огромное количество ${title} различной сложности. На сайте вы можете просмотреть фотоотчеты данных проектов.`
+        };
 
         return (
             <Page breadcrumbs={breadcrumbs}>
-                <Meta meta={META} />
-                { isPhotosError ? <div>{isPhotosError}</div> : this.renderContent() }
+                <Meta meta={meta} />
+                { this.renderContent() }
                 <FormBlock source='Страница готовых проектов' />
             </Page>
         );
     }
 
     renderContent = () => {
-        const { categories } = this.props;
+        const { categories, photos } = this.props;
+        const title = this.getTitle();
 
-        return categories ? (
+        return categories && photos ? (
             <>
                 <H1Block
-                    caption='Фотоотчеты построенных бань'
-                    description='За все время работы мы построили огромное количество объектов различной сложности. В данном разделе вы можете просмотреть фотографии, видеообзоры, отзывы и описание данных проектов.' />
-                <>
-                    {this.renderCategories()}
-                </>
+                    caption={`Фотоотчеты построенных ${title}`}
+                    description={`За все время работы мы построили огромное количество ${title}. В данном разделе вы можете просмотреть фотографии, видеообзоры, отзывы и описание данных проектов.`} />
+                {this.renderCategories()}
+                {this.renderPhotos()}
             </>
         ) : null;
     };
 
     renderCategories = () => {
-        const { categories, photos } = this.props;
+        const { categories, match } = this.props;
+        const { name: categoryName } = match.params;
 
-        return categories.map(category => {
-            return photos[category._id] && photos[category._id].photos && photos[category._id].photos.length ? (
-                <div className={styles.category}>
-                    <div className={styles.container}>
-                        <Caption tag='h2'>{category.name}</Caption>
-                    </div>
-                    {this.renderPhotos(category, photos[category._id].photos)}
-                    <div className={styles.container}>
-                        <Link href={`/photos/${category.translateName}`} caption='Смотреть все' />
-                    </div>
-                </div>
-            ) : null;
-        });
+        return categories.length ? (
+            <div className={styles.filters}>
+                {
+                    categories.map(({ _id, translateName, name }) => {
+                        const options = {
+                            key: _id,
+                            className: cx(styles['filters-item'], {[styles['filters-item-enabled']]: categoryName === translateName})
+                        };
+
+                        return categoryName === translateName ? (
+                            <div {...options}>{name}</div>
+                        ) : (
+                            <a
+                                {...options}
+                                href={`/photos/${translateName}`}>
+                                {name}
+                            </a>
+                        );
+                    })
+                }
+            </div>
+        ) : null;
     };
 
-    renderPhotos = (category, photos) => {
-        const preparedPhotos = photos.slice(0, 6);
-        return <CardList items={preparedPhotos.map(photo => ({
+    renderPhotos = () => {
+        const { photos } = this.props;
+
+        return <CardList items={photos.map(photo => ({
             id: photo._id,
             element: <PhotoCard photo={photo} />
         }))} />;
+    };
+
+    getTitle = () => {
+        const { categories, match } = this.props;
+        const { name } = match.params;
+        const category = categories && name ? categories.find(category => category.translateName === name) : null;
+
+        return category ? category.name3 : 'бань';
     };
 }
 
@@ -115,7 +162,8 @@ class Photos extends PureComponent {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            loadData,
+            getCategories,
+            getPhotos,
             resetData
         }, dispatch)
     };

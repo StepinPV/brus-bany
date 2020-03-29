@@ -5,7 +5,29 @@
     box-sizing: border-box;
 }
 
-.category {
-    margin-bottom: 36px;
+.filters {
+    width: 1200px;
+    padding: 0 16px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
 }
+
+.filters-item {
+    padding: 8px;
+    background: #98c4e8;
+    margin: 4px 8px 4px 0;
+    cursor: pointer;
+    color: #000;
+    border-radius: 4px;
+}
+
+.filters-item-enabled {
+    color: #fff;
+    background: #003159;
+    cursor: default;
+}
+
 
