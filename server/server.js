@@ -39,7 +39,9 @@ const auth = function (req, res, next) {
     return user.name === 'admin' && user.pass === 'brus-bany' ? next() : unauthorized(res);
 };
 
-app.use(morgan('dev'));
+app.use(morgan('dev', {
+    skip: function (req, res) { return res.statusCode < 400 }
+}));
 
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
