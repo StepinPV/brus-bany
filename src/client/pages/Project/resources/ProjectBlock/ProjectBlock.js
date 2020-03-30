@@ -31,7 +31,7 @@ function ProjectBlock({ selectedId, onChange, name, description, items, itemTitl
                             bgStyle='white'
                             content={(
                                 <div className={styles['bake-info']}>
-                                    <div className={styles['bake-title']}>{itemTitle}</div>
+                                    <div className={styles['bake-title']}>{item.title}</div>
                                     <div className={styles['bake-name']}>{item.name}</div>
                                     <div className={styles['bake-params']} dangerouslySetInnerHTML={{ __html: item.description }} />
                                 </div>

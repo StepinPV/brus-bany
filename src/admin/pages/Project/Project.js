@@ -174,7 +174,7 @@ class Project extends PureComponent {
                     <div>{project.categoryId.complectationBlocks.items.map(item => {
                         return (
                             <div key={item.id}>
-                                <div style={{textAlign: 'center', marginTop: '16px'}}>{item.name} {item.id === project.categoryId.complectationBlocks.defaultItemId ? ' (По умолчанию)' : null}</div>
+                                <div style={{textAlign: 'center', marginTop: '16px'}}>{item.title} {item.name} {item.id === project.categoryId.complectationBlocks.defaultItemId ? ' (По умолчанию)' : null}</div>
                                 <Input
                                     value={project.prices ? project.prices[item.id] : ''}
                                     title='Укажите стоимость'
@@ -228,7 +228,7 @@ class Project extends PureComponent {
                 <div>{projectBlock.items.map(item => {
                     return (
                         <div>
-                            <div style={{textAlign: 'center', marginTop: '16px'}}>{item.name} {item.id === projectBlock.defaultItemId ? ' (По умолчанию)' : null}</div>
+                            <div style={{textAlign: 'center', marginTop: '16px'}}>{item.title} {item.name} {item.id === projectBlock.defaultItemId ? ' (По умолчанию)' : null}</div>
                             {renderPrice(item)}
                         </div>
                     )

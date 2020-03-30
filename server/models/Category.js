@@ -99,6 +99,10 @@ const complectationBlockScheme = new Schema({
                 type: Number,
                 required: REQUIRED_MSG
             },
+            title: {
+                type: String,
+                required: REQUIRED_MSG
+            },
             name: {
                 type: String,
                 required: REQUIRED_MSG
@@ -154,6 +158,10 @@ const projectBlockScheme = new Schema({
             },
             order: {
                 type: Number,
+                required: REQUIRED_MSG
+            },
+            title: {
+                type: String,
                 required: REQUIRED_MSG
             },
             name: {

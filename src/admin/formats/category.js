@@ -158,6 +158,11 @@ export default [{
             type: 'string',
             required: true
         }, {
+            _id: 'title',
+            title: 'Название',
+            type: 'string',
+            required: true
+        }, {
             _id: 'name',
             title: 'Название',
             type: 'string',
@@ -218,6 +223,11 @@ export default [{
         format: [{
             _id: 'id',
             title: 'Идентификатор',
+            type: 'string',
+            required: true
+        }, {
+            _id: 'title',
+            title: 'Название',
             type: 'string',
             required: true
         }, {
