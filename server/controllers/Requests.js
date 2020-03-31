@@ -17,10 +17,7 @@ class Categories {
     };
 
     static async create(request) {
-        const res = await Request.create(request);
-
-        console.log(res);
-
+        await Request.create(request);
         return Status.success();
     };
 }

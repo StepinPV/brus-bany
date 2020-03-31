@@ -22,7 +22,6 @@ router.post('/', async function(req, res, next) {
             case 'success':
                 nodemailer.send(requestData);
                 watsup.send(requestData, req.headers.referer);
-                console.log(req);
                 send(res, req, status);
                 break;
             case 'error':
