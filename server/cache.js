@@ -8,7 +8,7 @@ exports.get = (req) => {
 exports.add = (req, data, group) => {
     const key = req.originalUrl || req.url;
 
-    if (key.includes('/api/')) {
+    if (/^\/admin/.test(key)) {
         return data;
     }
 

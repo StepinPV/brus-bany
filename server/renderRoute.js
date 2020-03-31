@@ -13,17 +13,24 @@ const router = express.Router();
 
 router.get('*', async (req, res, next) => {
     try {
+        function sendRes(preloadList, data) {
+            res.set('Link', preloadList);
+            res.setHeader('Cache-Control', 'no-cache');
+            res.render('index.pug', data);
+        }
+
+        let fromCache = cache.get(req);
+        if (fromCache) {
+            fromCache = JSON.parse(fromCache);
+            sendRes(fromCache.preloadList, fromCache.data);
+            return;
+        }
+
         const axiosOptions = {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const fromCache = cache.get(req);
-        const renderData = fromCache || await render(req, res, axiosOptions);
-        const { head, markup, initialData, modules, simplePage, context, timings } = renderData;
-
-        if (!fromCache && context.status !== 404 && context.action !== 'REPLACE') {
-            cache.add(req, renderData, 'main');
-        }
+        const { head, markup, initialData, modules, simplePage, context, timings } = await render(req, res, axiosOptions);
 
         if (context.status === 404) {
             res.status(404);
@@ -61,10 +68,7 @@ router.get('*', async (req, res, next) => {
                 ]
             }
 
-            res.set('Link', preloadList);
-            res.setHeader('Cache-Control', 'no-cache');
-
-            res.render('index.pug', {
+            const data = {
                 isProduction: process.env.NODE_ENV === 'production',
                 url: `http://brus-bany.ru${req.url}`,
                 title: head.title.toString(),
@@ -85,7 +89,13 @@ router.get('*', async (req, res, next) => {
                         chunks: getCSSChunks(chunks)
                     }
                 }
-            });
+            };
+
+            if (context.status !== 404) {
+                cache.add(req, JSON.stringify({ preloadList, data }), 'main');
+            }
+
+            sendRes(preloadList, data);
         }
     } catch (error) {
         logger.error(`Error 500: ${req.url} ${error}`);
