@@ -140,12 +140,15 @@ class Category extends PureComponent {
     render() {
         const { isCategoryError, category } = this.props;
         const { breadcrumbs, notFound, filteredProjects } = this.state;
+        let meta;
 
-        const meta = {
-            title: `Купить недорогие ${this.getTitle().toLowerCase()} под ключ | Проекты и цены`,
-            description: `Строим недорогие ${this.getTitle().toLowerCase()} под ключ по всей России. ${filteredProjects.length} ${wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань с гарантией 3 года. Собственное производство. Срок строительства от 7 дней.`,
-            keywords: `Купить ${category.name} под ключ, Купить ${category.name} недорого, Купить ${category.name} цены`
-        };
+        if (!notFound) {
+            meta = {
+                title: `Купить недорогие ${this.getTitle().toLowerCase()} под ключ | Проекты и цены`,
+                description: `Строим недорогие ${this.getTitle().toLowerCase()} под ключ по всей России. ${filteredProjects.length} ${wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань с гарантией 3 года. Собственное производство. Срок строительства от 7 дней.`,
+                keywords: `Купить ${category.name} под ключ, Купить ${category.name} недорого, Купить ${category.name} цены`
+            };
+        }
 
         return (
             <Page breadcrumbs={breadcrumbs} notFound={notFound || isCategoryError}>

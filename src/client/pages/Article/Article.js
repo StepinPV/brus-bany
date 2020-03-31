@@ -80,12 +80,15 @@ class Article extends PureComponent {
     render() {
         const { isArticleError, notFound, article } = this.props;
         const { breadcrumbs } = this.state;
+        let meta = null;
 
-        const meta = {
-            title: `${article.article.name} | Брус бани`,
-            description: article.article.imageDescription,
-            keywords: article.article.keywords
-        };
+        if (article) {
+            meta = {
+                title: `${article.article.name} | Брус бани`,
+                description: article.article.imageDescription,
+                keywords: article.article.keywords
+            };
+        }
 
         return (
             <Page breadcrumbs={breadcrumbs} notFound={isArticleError || notFound}>

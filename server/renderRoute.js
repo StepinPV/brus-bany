@@ -17,7 +17,13 @@ router.get('*', async (req, res, next) => {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const { head, markup, initialData, modules, simplePage, context, timings } = cache.get(req) || cache.add(req, await render(req, res, axiosOptions), 'main');
+        const fromCache = cache.get(req);
+        const renderData = fromCache || await render(req, res, axiosOptions);
+        const { head, markup, initialData, modules, simplePage, context, timings } = renderData;
+
+        if (!fromCache && context.status !== 404 && context.action !== 'REPLACE') {
+            cache.add(req, renderData, 'main');
+        }
 
         if (context.status === 404) {
             res.status(404);
