@@ -3,6 +3,5 @@ import styles from './LoaderPage.module.css';
 
 export default memo(() => (
     <div className={styles.container}>
-        Загрузка...
     </div>
 ));

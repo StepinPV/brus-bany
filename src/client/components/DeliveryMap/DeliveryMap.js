@@ -14,7 +14,7 @@ class DeliveryMap extends PureComponent {
     };
 
     static defaultProps = {
-        tariff: 75,
+        tariff: 55,
         minimalCost: 500
     };
 

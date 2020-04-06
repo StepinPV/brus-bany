@@ -13,17 +13,17 @@ class First extends PureComponent {
                 <div className={styles.items}>
                     <div className={styles.item}>
                         <div className={styles['item-number']}>-1-</div>
-                        <div className={styles['item-price']}>45 руб / км</div>
+                        <div className={styles['item-price']}>55 руб / км</div>
                         <div className={styles['item-title']}>Готовые бани до 7м длинной</div>
                     </div>
                     <div className={cx(styles.item, styles['item-centered'])}>
                         <div className={styles['item-number']}>-2-</div>
-                        <div className={styles['item-price']}>70 руб / км</div>
+                        <div className={styles['item-price']}>55 руб / км</div>
                         <div className={styles['item-title']}>Готовые бани больше 7м длинной</div>
                     </div>
                     <div className={styles.item}>
                         <div className={styles['item-number']}>-3-</div>
-                        <div className={styles['item-price']}>70 руб / км</div>
+                        <div className={styles['item-price']}>75 руб / км</div>
                         <div className={styles['item-title']}>Бани из бруса и каркасные бани</div>
                     </div>
                 </div>
