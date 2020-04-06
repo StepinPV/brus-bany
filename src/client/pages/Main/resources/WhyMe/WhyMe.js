@@ -23,7 +23,8 @@ function Item({ icon, caption, text }) {
 
 function WhyMe() {
     const linkStyles = {
-        color: '#ff8562',
+        color: '#013885',
+        fontWeight: 'bold',
         textDecoration: 'none'
     };
 

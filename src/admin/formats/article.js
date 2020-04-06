@@ -44,6 +44,7 @@ export default [{
     _id: 'content',
     title: 'Блоки',
     type: 'array',
+    itemTitleField: 'caption',
     format: [{
         _id: 'caption',
         title: 'Заголовок',
