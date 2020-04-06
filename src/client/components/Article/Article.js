@@ -67,8 +67,8 @@ class Article extends PureComponent {
         const { image, alt, description } = value || {};
 
         return image ? (
-            <div className={styles['image-block']}>
-                <img className={styles.image} src={image} alt={alt} loading='lazy' />
+            <div className={styles['image-block']} itemScope itemType="http://schema.org/ImageObject">
+                <img className={styles.image} src={image} alt={alt} loading='lazy' itemProp="contentUrl" />
                 {description ? <div className={styles['image-description']}>{description}</div> : null}
             </div>
         ) : null

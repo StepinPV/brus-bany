@@ -8,8 +8,8 @@ function Card(props) {
 
     return (
         <div onClick={onClick} className={cx(className, styles.container, styles[`container-${bgStyle}`])} style={style}>
-            <div className={cx(styles['image-wrapper'], imageWrapperClassName)}>
-                <img src={firstImage} alt={imageAlt} className={styles['image']} loading='lazy' />
+            <div className={cx(styles['image-wrapper'], imageWrapperClassName)} itemScope itemType="http://schema.org/ImageObject">
+                <img src={firstImage} alt={imageAlt} className={styles['image']} loading='lazy' itemProp="contentUrl" />
             </div>
             <div className={styles['content']}>
                 {content}

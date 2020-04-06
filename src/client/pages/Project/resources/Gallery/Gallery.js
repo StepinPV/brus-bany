@@ -25,7 +25,9 @@ class Gallery extends PureComponent {
                     <div className={styles.nextContainer} onClick={this.onNext}>
                         <i className={styles.next} />
                     </div>
-                    <img className={styles.activeImage} src={images[index].src} alt={images[index].alt} itemProp="image" />
+                    <div itemScope itemType="http://schema.org/ImageObject">
+                        <img itemProp="contentUrl" className={styles.activeImage} src={images[index].src} alt={images[index].alt} />
+                    </div>
                 </div>
                 <div className={styles.images}>
                     {images.map((image, i) => {
@@ -60,7 +62,7 @@ class Gallery extends PureComponent {
         const newIndex = index + 1;
 
         this.setState({
-            index: newIndex === images.length ? 0 : newIndex
+            index: newIndex === images. length ? 0 : newIndex
         });
     };
 }
