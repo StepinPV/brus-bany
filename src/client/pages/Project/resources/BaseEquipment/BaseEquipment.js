@@ -4,12 +4,12 @@ import Text from '../../../../components/Text';
 import styles from './BaseEquipment.module.css';
 
 
-function BaseEquipment({ project }) {
+function BaseEquipment({ equipment }) {
     return (
         <DataSection id='base' bgStyle='grey' caption='Базовая комплектация' captionTag='h2'>
             <div className={styles['items-wrapper']}>
                 <div className={styles.items}>
-                    {project.categoryId.equipment.map(item => {
+                    {equipment.map(item => {
                         return (
                             <div key={item.name} className={styles.item}>
                                 <div className={styles.title}>

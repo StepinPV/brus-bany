@@ -151,10 +151,12 @@ class Project extends PureComponent {
                     {this.renderGallery()}
                     {this.renderInfo()}
                 </div>
-                <BaseEquipment project={project} />
+                {project.categoryId.equipment && project.categoryId.equipment.length ? <BaseEquipment equipment={project.categoryId.equipment} /> : null}
                 {this.renderComplectationBlock()}
                 {this.renderProjectBlocks()}
-                <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
+                {project.categoryId.additions && project.categoryId.additions.length ? (
+                    <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
+                ) : null}
                 <DeliveryMap id='delivery' onChange={this.handleDelivery} />
                 {this.renderFinalPrice()}
                 {photos && photos.length ? (
