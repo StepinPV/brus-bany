@@ -10,12 +10,18 @@ const Projects = require('./controllers/Projects');
 const ATTRIBUTES_KEY = 'attr';
 const DOMAIN = 'https://brus-bany.ru';
 
-function getURLObject(url, date, dateIsString) {
+function getURLObject({ url, date, dateIsString, changefreq, priority }) {
     return {
         'url': [{
             'loc': `${DOMAIN}${url}`,
             ...(date ? {
                 'lastmod': dateIsString ? date : date.toISOString().split('T')[0]
+            } : {}),
+            ...(changefreq ? {
+                'changefreq': changefreq
+            } : {}),
+            ...(priority ? {
+                'priority': priority
             } : {})
         }]
     }
@@ -34,19 +40,20 @@ const data = {
         'xsi:schemaLocation': 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'
     },
     'urlset': [
-        getURLObject('/bani/individualnyy-proekt', '2020-03-20', true),
-        getURLObject('/rekvizity', '2020-03-20', true),
-        getURLObject('/usloviya-oplaty', '2020-03-20', true),
-        getURLObject('/vakansii', '2020-03-20', true),
-        getURLObject('/politika-konfidencialnosti', '2020-03-20', true),
-        getURLObject('/dostavka', '2020-03-20', true),
-        getURLObject('/kontakty', '2020-03-20', true),
-        getURLObject('/akcii', '2020-03-20', true),
-        getURLObject('/akcii/quiz', '2020-03-20', true),
-        getURLObject('/akcii', '2020-03-20', true),
-        getURLObject('/o-companii', '2020-03-20', true),
-        getURLObject('/voprosy-i-otvety', '2020-03-20', true),
-        getURLObject('/gosty-i-snipy', '2020-03-20', true)]
+        getURLObject({ url: '/bani/individualnyy-proekt', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/rekvizity', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/usloviya-oplaty', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/vakansii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/politika-konfidencialnosti', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/dostavka', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/kontakty', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/akcii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/akcii/quiz', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/akcii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/o-companii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/voprosy-i-otvety', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+        getURLObject({ url: '/bani', date: '2020-04-06', dateIsString: true, changefreq: 'daily', priority: '0.9' }),
+        getURLObject({ url: '/gosty-i-snipy', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' })]
 };
 
 exports.generate = async function () {
@@ -60,13 +67,21 @@ exports.generate = async function () {
             lastArticle = date;
         }
 
-        data.urlset.push(getURLObject(`/blog/${article.get('translateName')}`, date));
+        data.urlset.push(getURLObject({ url: `/blog/${article.get('translateName')}`, date, changefreq: 'monthly', priority: '0.7' }));
     });
 
     // categories
     const {data: categories} = await Categories.getAll();
     categories.forEach(category => {
-        data.urlset.push(getURLObject(`/bani/${category.get('translateName')}`, category.get('updated')));
+        data.urlset.push(getURLObject({ url: `/bani/${category.get('translateName')}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' }));
+
+        const filters = category.get('filters');
+
+        if (filters && filters.length) {
+            filters.forEach(filter => {
+                data.urlset.push(getURLObject({ url: `/bani/${category.get('translateName')}/${filter.get('id')}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' }));
+            });
+        }
     });
 
     // photos
@@ -78,7 +93,7 @@ exports.generate = async function () {
             const dates = photos.map(photo => photo.get('updated'));
             dates.push(categories[i].get('updated'));
 
-            data.urlset.push(getURLObject(`/photos/${categories[i].get('translateName')}`, getLastDate(dates)));
+            data.urlset.push(getURLObject({ url: `/photos/${categories[i].get('translateName')}`, date: getLastDate(dates), changefreq: 'daily', priority: '0.9' }));
         }
         const {data: photosAll} = await Photos.getAll({withCategory: true, withProject: true, withLayout: true});
 
@@ -93,10 +108,12 @@ exports.generate = async function () {
                 lastPhoto = last;
             }
 
-            data.urlset.push(getURLObject(
-                `/photos/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}_${photo.get('_id')}`,
-                last
-            ));
+            data.urlset.push(getURLObject({
+                url: `/photos/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}_${photo.get('_id')}`,
+                date: last,
+                changefreq: 'monthly',
+                priority: '0.7'
+            }));
         });
     }
 
@@ -107,18 +124,20 @@ exports.generate = async function () {
         const layout = project.get('layoutId');
         const category = project.get('categoryId');
 
-        data.urlset.push(getURLObject(
-            `/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
-            getLastDate([category.get('updated'), layout.get('updated'), project.get('updated')])
-        ));
+        data.urlset.push(getURLObject({
+            url: `/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
+            date: getLastDate([category.get('updated'), layout.get('updated'), project.get('updated')]),
+            changefreq: 'weekly',
+            priority: '0.8'
+        }));
     });
 
     // main
-    data.urlset.push(getURLObject('/', getLastDate([lastArticle, lastPhoto])));
+    data.urlset.push(getURLObject({ url: '/', date: getLastDate([lastArticle, lastPhoto]), changefreq: 'daily', priority: '1.0' }));
     //photos
-    data.urlset.push(getURLObject('/photos', lastPhoto));
+    data.urlset.push(getURLObject({ url: '/photos', date: lastPhoto, changefreq: 'daily', priority: '0.9' }));
     //articles
-    data.urlset.push(getURLObject('/blog', lastArticle));
+    data.urlset.push(getURLObject({ url: '/blog', date: lastArticle, changefreq: 'daily', priority: '0.9' }));
 
     fs.writeFile('./public/sitemap.xml', json2xml(data, {attributes_key: ATTRIBUTES_KEY}), function (err) {
         if (err) {
