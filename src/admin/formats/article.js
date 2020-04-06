@@ -42,7 +42,7 @@ export default [{
     type: 'string'
 }, {
     _id: 'content',
-    title: 'Блок',
+    title: 'Блоки',
     type: 'array',
     format: [{
         _id: 'caption',
@@ -50,7 +50,7 @@ export default [{
         type: 'string'
     }, {
         _id: 'content',
-        title: 'Элемент',
+        title: 'Элементы',
         type: 'array',
         format: [{
             _id: 'item',
@@ -83,7 +83,7 @@ export default [{
             }, {
                 id: 'numeric-list',
                 typeTitle: 'Нумерованный список',
-                title: 'Элемент списка',
+                title: 'Элементы списка',
                 type: 'array',
                 format: [{
                     _id: 'caption',
@@ -110,7 +110,7 @@ export default [{
             }, {
                 id: 'marker-list',
                 typeTitle: 'Маркерованный список',
-                title: 'Элемент списка',
+                title: 'Элементы списка',
                 type: 'array',
                 format: [{
                     _id: 'caption',

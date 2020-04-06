@@ -27,8 +27,9 @@ export default [{
     required: true
 }, {
     _id: 'filters',
-    title: 'Фильтр',
+    title: 'Фильтры',
     type: 'array',
+    itemTitleField: 'name',
     format: [{
         _id: 'id',
         title: 'ID',
@@ -58,6 +59,7 @@ export default [{
 }, {
     _id: 'additions',
     title: 'Дополнения',
+    itemTitleField: 'name',
     type: 'array',
     format: [{
         _id: 'id',
@@ -71,8 +73,9 @@ export default [{
         required: true
     }, {
         _id: 'value',
-        title: 'Дополнение',
+        title: 'Элементы',
         type: 'array',
+        itemTitleField: 'name',
         required: true,
         format: [{
             _id: 'id',
@@ -108,7 +111,8 @@ export default [{
     }]
 }, {
     _id: 'equipment',
-    title: 'Элемент базовой комплектации',
+    title: 'Базовая комплектация',
+    itemTitleField: 'name',
     type: 'array',
     format: [{
         _id: 'name',
@@ -150,8 +154,9 @@ export default [{
         type: 'string'
     }, {
         _id: 'items',
-        title: 'Карточка',
+        title: 'Карточки',
         type: 'array',
+        itemTitleField: 'name',
         format: [{
             _id: 'id',
             title: 'Идентификатор',
@@ -185,7 +190,8 @@ export default [{
     }]
 }, {
     _id: 'projectBlocks',
-    title: 'Блок дополнений к цене проекта',
+    title: 'Дополнительные блоки',
+    itemTitleField: 'name',
     type: 'array',
     format: [{
         _id: 'id',
@@ -218,7 +224,8 @@ export default [{
         type: 'text'
     }, {
         _id: 'items',
-        title: 'Карточка',
+        title: 'Карточки',
+        itemTitleField: 'name',
         type: 'array',
         format: [{
             _id: 'id',

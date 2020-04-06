@@ -46,7 +46,7 @@ export default [{
     required: true
 }, {
     _id: 'floor',
-    title: 'Этаж',
+    title: 'Этажы',
     type: 'array',
     format: [{
         _id: 'wallLength',
@@ -90,7 +90,7 @@ export default [{
         }]
     }, {
         _id: 'toilet-bathroom',
-        title: 'Туалет-ванная',
+        title: 'Туалеты-ванные',
         type: 'array',
         format: [{
             _id: 'area',
@@ -100,7 +100,7 @@ export default [{
         }]
     }, {
         _id: 'toilet',
-        title: 'Туалет',
+        title: 'Туалеты',
         type: 'array',
         format: [{
             _id: 'area',
@@ -111,7 +111,7 @@ export default [{
     }, {
         _id: 'bathroom',
         type: 'array',
-        title: 'Ванная',
+        title: 'Ванные',
         format: [{
             _id: 'area',
             title: 'Площадь',
@@ -121,7 +121,7 @@ export default [{
     }, {
         _id: 'restroom',
         type: 'array',
-        title: 'Комната отдыха',
+        title: 'Комнаты отдыха',
         format: [{
             _id: 'area',
             title: 'Площадь',
@@ -131,7 +131,7 @@ export default [{
     }, {
         _id: 'pantry',
         type: 'array',
-        title: 'Кладовка',
+        title: 'Кладовки',
         format: [{
             _id: 'area',
             title: 'Площадь',
@@ -141,7 +141,7 @@ export default [{
     }, {
         _id: 'steamRoom',
         type: 'array',
-        title: 'Парная',
+        title: 'Парные',
         format: [{
             _id: 'area',
             title: 'Площадь',
@@ -151,7 +151,7 @@ export default [{
     }, {
         _id: 'washingRoom',
         type: 'array',
-        title: 'Мойка',
+        title: 'Мойки',
         format: [{
             _id: 'area',
             title: 'Площадь',

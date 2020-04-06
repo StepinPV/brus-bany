@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, {memo, useState} from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../components/Input';
 import TextArea from '../../../components/TextArea';
@@ -9,12 +9,22 @@ import OneOf from '../OneOf';
 import ImageUploader from '../ImageUploader';
 import Select from '../../../components/Select';
 import styles from './ObjectEditor.module.css';
+import cx from 'classnames';
 
-const renderHeader = ({ title, value, onChange }) => {
+const renderHeader = ({ title, value, onChange, visible, setVisible }) => {
     return (
         <div className={styles.header}>
-            <span className={styles.title}>{title}</span>
-            <span className={styles.addButton} onClick={() => onChange(value ? null : {})}>{value ? '-' : '+'}</span>
+            <span className={cx(styles.title, !value ? styles['disabled-title'] : null)} onClick={() => { setVisible(value && !visible) }}>{value ? (visible ? '▼ ' : '▶ ') : null}{title}</span>
+            <span className={value ? styles.removeButton : styles.addButton} onClick={() => {
+                if (value) {
+                    if (!confirm('Вы точно хотите удалить элемент?')) {
+                        return;
+                    }
+                }
+
+                onChange(value ? null : {});
+                setVisible(!value);
+            }}>{value ? 'Удалить' : 'Создать'}</span>
         </div>
     );
 };
@@ -69,6 +79,7 @@ const renderItems = ({ value, onChange, format, errors }) => {
                     key={item['_id']}
                     value={value[item['_id']]}
                     title={item.title}
+                    itemTitleField={item.itemTitleField}
                     format={item.format}
                     onChange={handleChange}
                     errors={errors[item['_id']]}
@@ -144,11 +155,13 @@ const renderItems = ({ value, onChange, format, errors }) => {
 };
 
 const ObjectEditor = ({ title, value, onChange, format, errors }) => {
+    const [visible, setVisible] = useState(false);
+
     return (
         <div className={styles.container}>
-            {renderHeader({ title, value, onChange })}
+            {renderHeader({ title, value, onChange, visible, setVisible })}
             {typeof errors === 'string' ? <div className={styles.error}>{errors}</div> : null}
-            {value ? (
+            {value && visible ? (
                 <div className={styles.items}>
                     { renderItems({ value, onChange, format, errors: typeof errors === 'object' && errors !== null ? errors : {} }) }
                 </div>

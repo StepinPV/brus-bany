@@ -81,6 +81,7 @@ const Form = ({ value, onChange, format, errors }) => {
                             key={item['_id']}
                             value={value[item['_id']]}
                             title={item.title}
+                            itemTitleField={item.itemTitleField}
                             format={item.format}
                             onChange={handleChange}
                             errors={errors[item['_id']]}

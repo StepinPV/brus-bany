@@ -51,6 +51,7 @@ const renderItem = ({ value, onChange, variants }) => {
             return <ArrayEditor
                 value={value.value}
                 title={variant.title}
+                itemTitleField={variant.itemTitleField}
                 format={variant.format}
                 onChange={handleChange}
             />;

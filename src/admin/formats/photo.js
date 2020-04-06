@@ -36,7 +36,7 @@ export default [{
     type: 'string'
 }, {
     _id: 'photos',
-    title: 'Изображение',
+    title: 'Изображения',
     type: 'array',
     format: [{
         _id: 'image',
