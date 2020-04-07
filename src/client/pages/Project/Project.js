@@ -406,7 +406,7 @@ class Project extends PureComponent {
                 title: 'Комплектация',
                 fields: [{
                     name: `${complectations.itemTitle} ${complectation.name}`,
-                    value: project.prices[selectedComplectation]
+                    value: project.prices && project.prices[selectedComplectation] || 0
                 }]
             });
         }
