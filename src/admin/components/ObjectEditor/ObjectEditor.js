@@ -11,7 +11,7 @@ import Select from '../../../components/Select';
 import styles from './ObjectEditor.module.css';
 import cx from 'classnames';
 
-const renderHeader = ({ title, value, onChange, visible, setVisible }) => {
+const renderHeader = ({ title, value, onChange, visible, setVisible, onBottom, onUp }) => {
     return (
         <div className={styles.header}>
             <span className={cx(styles.title, !value ? styles['disabled-title'] : null)} onClick={() => { setVisible(value && !visible) }}>{value ? (visible ? '▼ ' : '▶ ') : null}{title}</span>
@@ -25,6 +25,8 @@ const renderHeader = ({ title, value, onChange, visible, setVisible }) => {
                 onChange(value ? null : {});
                 setVisible(!value);
             }}>{value ? 'Удалить' : 'Создать'}</span>
+            {onUp ? <span onClick={onUp} className={styles['move-button']}>▲</span> : null }
+            {onBottom ? <span onClick={onBottom} className={styles['move-button']}>▼</span> : null }
         </div>
     );
 };
@@ -154,12 +156,12 @@ const renderItems = ({ value, onChange, format, errors }) => {
     });
 };
 
-const ObjectEditor = ({ title, value, onChange, format, errors }) => {
+const ObjectEditor = ({ title, value, onChange, format, errors, onUp, onBottom }) => {
     const [visible, setVisible] = useState(false);
 
     return (
         <div className={styles.container}>
-            {renderHeader({ title, value, onChange, visible, setVisible })}
+            {renderHeader({ title, value, onChange, visible, setVisible, onUp, onBottom })}
             {typeof errors === 'string' ? <div className={styles.error}>{errors}</div> : null}
             {value && visible ? (
                 <div className={styles.items}>
@@ -175,7 +177,9 @@ ObjectEditor.propTypes = {
     value: PropTypes.object,
     onChange: PropTypes.func,
     format: PropTypes.array,
-    errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
+    errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    onUp: PropTypes.func,
+    onBottom: PropTypes.func
 };
 
 export default memo(ObjectEditor);

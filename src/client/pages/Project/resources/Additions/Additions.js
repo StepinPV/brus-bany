@@ -36,36 +36,32 @@ class Additions extends PureComponent {
             <DataSection id='additions' bgStyle='white' caption='Выберите дополнения' captionTag='h2'>
                 <div className={styles.container}>
                     <div className={styles.items}>
-                        {additions.map(({ name, id, value }) => (
-                            <Fragment key={id}>
+                        {additions.map(({ name, _id, value }) => (
+                            <Fragment key={_id}>
                                 <div
                                     className={cx(styles.item, styles.title, styles['item-header'])}
-                                    onClick={() => { this.expandAdditionBlock(id)}}>
+                                    onClick={() => { this.expandAdditionBlock(_id)}}>
                                     <Text>{name}</Text>
                                 </div>
                                 {
-                                    expandedAdditions.includes(id) ? (
+                                    expandedAdditions.includes(_id) ? (
                                         <div className={styles['sub-items']}>
                                             {
-                                                value ? value.sort((a, b) => {
-                                                    if (a.order > b.order) return 1;
-                                                    if (a.order === b.order) return 0;
-                                                    if (a.order < b.order) return -1;
-                                                }).map(({ type, name, id, price }) => (
-                                                    <div className={styles.item} key={id}>
+                                                value ? value.map(({ type, name, _id, price }) => (
+                                                    <div className={styles.item} key={_id}>
                                                         <div className={styles['item-wrapper']}>
                                                             {type === 'boolean' ? (
                                                                 <input
                                                                     type='checkbox'
-                                                                    checked={v.values[id] ? v.values[id].value : false}
-                                                                    onChange={(e) => {this.changeValue(id, name, price, type, e.target.checked)}} />
+                                                                    checked={v.values[_id] ? v.values[_id].value : false}
+                                                                    onChange={(e) => {this.changeValue(_id, name, price, type, e.target.checked)}} />
                                                             ) : (
                                                                 <input
-                                                                    value={v.values[id] ? v.values[id].value : 0}
+                                                                    value={v.values[_id] ? v.values[_id].value : 0}
                                                                     className={styles['item-input']}
                                                                     type='number'
                                                                     min='0'
-                                                                    onChange={(e) => {this.changeValue(id, name, price, type, e.target.value)}}/>
+                                                                    onChange={(e) => {this.changeValue(_id, name, price, type, e.target.value)}}/>
                                                             )}
 
                                                         </div>
@@ -90,11 +86,11 @@ class Additions extends PureComponent {
         );
     }
 
-    expandAdditionBlock = (id) => {
+    expandAdditionBlock = (_id) => {
         const { expandedAdditions } = this.state;
 
         this.setState({
-            expandedAdditions: expandedAdditions.includes(id) ? expandedAdditions.filter(_id => _id !== id) : [...expandedAdditions, id]
+            expandedAdditions: expandedAdditions.includes(_id) ? expandedAdditions.filter(__id => __id !== _id) : [...expandedAdditions, _id]
         })
     };
 
@@ -111,8 +107,8 @@ class Additions extends PureComponent {
             }
         };
 
-        Object.keys(values).forEach(id => {
-            const { value, type, price } = values[id];
+        Object.keys(values).forEach(_id => {
+            const { value, type, price } = values[_id];
             if (type === 'boolean') {
                 sumPrice += value ? getPrice(price) : 0;
             } else {
@@ -123,16 +119,16 @@ class Additions extends PureComponent {
         return sumPrice;
     };
 
-    changeValue = (id, name, price, type, val) => {
+    changeValue = (_id, name, price, type, val) => {
         const { onChange, value } = this.props;
 
         const newValues = {
             ...value.values,
-            [id]: { name, value: val, type, price }
+            [_id]: { name, value: val, type, price }
         };
 
         if (!val || val === '0') {
-            delete newValues[id];
+            delete newValues[_id];
         }
 
         onChange({

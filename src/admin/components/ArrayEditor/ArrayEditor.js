@@ -27,7 +27,21 @@ const ArrayEditor = ({ title, value, onChange, format, errors, itemTitleField })
                                         newValue.splice(index, 1);
                                     }
                                     onChange(newValue.length ? newValue : null);
-                                }} />
+                                }}
+                                onUp={index !== 0 ? () => {
+                                    const newValue = [...value];
+                                    const temp = newValue[index - 1];
+                                    newValue[index - 1] = newValue[index];
+                                    newValue[index] = temp;
+                                    onChange(newValue);
+                                } : null}
+                                onBottom={index !== value.length - 1 ? () => {
+                                    const newValue = [...value];
+                                    const temp = newValue[index + 1];
+                                    newValue[index + 1] = newValue[index];
+                                    newValue[index] = temp;
+                                    onChange(newValue);
+                                } : null} />
                         }) : null
                     }
                     <ObjectEditor

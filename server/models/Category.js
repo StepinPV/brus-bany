@@ -5,13 +5,6 @@ const COLLECTION_NAME = 'categories';
 const REQUIRED_MSG = 'Поле обязательно для заполнения!';
 
 const additionScheme = new Schema({
-    id: {
-        type: Number,
-        required: REQUIRED_MSG
-    },
-    order: {
-        type: Number
-    },
     name: {
         type: String,
         required: REQUIRED_MSG
@@ -46,10 +39,6 @@ const filterScheme = new Schema({
 });
 
 const additionGroupScheme = new Schema({
-    id: {
-        type: Number,
-        required: REQUIRED_MSG
-    },
     name: {
         type: String,
         required: REQUIRED_MSG

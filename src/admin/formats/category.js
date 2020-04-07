@@ -62,11 +62,6 @@ export default [{
     itemTitleField: 'name',
     type: 'array',
     format: [{
-        _id: 'id',
-        title: 'Идентификатор',
-        type: 'string',
-        required: true
-    }, {
         _id: 'name',
         title: 'Имя группы',
         type: 'string',
@@ -78,8 +73,8 @@ export default [{
         itemTitleField: 'name',
         required: true,
         format: [{
-            _id: 'id',
-            title: 'Идентификатор',
+            _id: 'name',
+            title: 'Наименование',
             type: 'string',
             required: true
         }, {
@@ -93,15 +88,6 @@ export default [{
                 id: 'count',
                 title: 'Множественный'
             }]
-        }, {
-            _id: 'order',
-            title: 'Порядок',
-            type: 'integer number'
-        }, {
-            _id: 'name',
-            title: 'Наименование',
-            type: 'string',
-            required: true
         }, {
             _id: 'price',
             title: 'Формула цены',
