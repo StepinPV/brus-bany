@@ -33,30 +33,30 @@ function getLastDate(dates) {
     }, dates[0])
 }
 
-const data = {
-    [ATTRIBUTES_KEY]: {
-        'xmlns': 'http://www.sitemaps.org/schemas/sitemap/0.9',
-        'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-        'xsi:schemaLocation': 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'
-    },
-    'urlset': [
-        getURLObject({ url: '/bani/individualnyy-proekt', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/rekvizity', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/usloviya-oplaty', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/vakansii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/politika-konfidencialnosti', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/dostavka', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/kontakty', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/akcii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/akcii/quiz', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/akcii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/o-companii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/voprosy-i-otvety', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-        getURLObject({ url: '/bani', date: '2020-04-06', dateIsString: true, changefreq: 'daily', priority: '0.9' }),
-        getURLObject({ url: '/gosty-i-snipy', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' })]
-};
-
 exports.generate = async function () {
+    const data = {
+        [ATTRIBUTES_KEY]: {
+            'xmlns': 'http://www.sitemaps.org/schemas/sitemap/0.9',
+            'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+            'xsi:schemaLocation': 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'
+        },
+        'urlset': [
+            getURLObject({ url: '/bani/individualnyy-proekt', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/rekvizity', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/usloviya-oplaty', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/vakansii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/politika-konfidencialnosti', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/dostavka', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/kontakty', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/akcii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/akcii/quiz', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/akcii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/o-companii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/voprosy-i-otvety', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/bani', date: '2020-04-06', dateIsString: true, changefreq: 'daily', priority: '0.9' }),
+            getURLObject({ url: '/gosty-i-snipy', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' })]
+    };
+
     // articles
     let lastArticle;
     const {data: articles} = await Articles.getAll();
@@ -95,27 +95,27 @@ exports.generate = async function () {
 
             data.urlset.push(getURLObject({ url: `/photos/${categories[i].get('translateName')}`, date: getLastDate(dates), changefreq: 'daily', priority: '0.9' }));
         }
-        const {data: photosAll} = await Photos.getAll({withCategory: true, withProject: true, withLayout: true});
-
-        photosAll.forEach(photo => {
-            const project = photo.get('projectId');
-            const layout = project.get('layoutId');
-            const category = project.get('categoryId');
-
-            const last = getLastDate([category.get('updated'), layout.get('updated'), photo.get('updated')]);
-
-            if (!lastPhoto || lastPhoto < last) {
-                lastPhoto = last;
-            }
-
-            data.urlset.push(getURLObject({
-                url: `/photos/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}_${photo.get('_id')}`,
-                date: last,
-                changefreq: 'monthly',
-                priority: '0.7'
-            }));
-        });
     }
+
+    const {data: photosAll} = await Photos.getAll({withCategory: true, withProject: true, withLayout: true});
+    photosAll.forEach(photo => {
+        const project = photo.get('projectId');
+        const layout = project.get('layoutId');
+        const category = project.get('categoryId');
+
+        const last = getLastDate([category.get('updated'), layout.get('updated'), photo.get('updated')]);
+
+        if (!lastPhoto || lastPhoto < last) {
+            lastPhoto = last;
+        }
+
+        data.urlset.push(getURLObject({
+            url: `/photos/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}_${photo.get('_id')}`,
+            date: last,
+            changefreq: 'monthly',
+            priority: '0.7'
+        }));
+    });
 
     // projects
     const {data: projects} = await Projects.getAll({withCategory: true, withLayout: true});

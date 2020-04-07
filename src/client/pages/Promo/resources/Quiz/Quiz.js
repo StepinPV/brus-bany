@@ -21,7 +21,7 @@ const breadcrumbs = [{
     link: '/'
 }, {
     title: 'Скидки и акции',
-    link: 'arcii'
+    link: '/akcii'
 }, {
     title: 'Пройдите опрос и получите подарок'
 }];
