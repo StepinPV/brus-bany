@@ -31,10 +31,6 @@ const filterScheme = new Schema({
     condition: {
         type: String,
         required: REQUIRED_MSG
-    },
-    order: {
-        type: Number,
-        required: REQUIRED_MSG
     }
 });
 
@@ -84,10 +80,6 @@ const complectationBlockScheme = new Schema({
                 type: String,
                 required: REQUIRED_MSG
             },
-            order: {
-                type: Number,
-                required: REQUIRED_MSG
-            },
             title: {
                 type: String,
                 required: REQUIRED_MSG
@@ -109,10 +101,6 @@ const complectationBlockScheme = new Schema({
 const projectBlockScheme = new Schema({
     id: {
         type: String,
-        required: REQUIRED_MSG
-    },
-    order: {
-        type: Number,
         required: REQUIRED_MSG
     },
     name: {
@@ -143,10 +131,6 @@ const projectBlockScheme = new Schema({
         type: [{
             id: {
                 type: String,
-                required: REQUIRED_MSG
-            },
-            order: {
-                type: Number,
                 required: REQUIRED_MSG
             },
             title: {

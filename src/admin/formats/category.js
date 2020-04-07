@@ -45,11 +45,6 @@ export default [{
         title: 'Условие',
         type: 'string',
         required: true
-    }, {
-        _id: 'order',
-        title: 'Порядок',
-        type: 'integer number',
-        required: true
     }]
 }, {
     _id: 'article',
@@ -159,11 +154,6 @@ export default [{
             type: 'string',
             required: true
         }, {
-            _id: 'order',
-            title: 'Порядок',
-            type: 'integer number',
-            required: true
-        }, {
             _id: 'image',
             title: 'Изображение',
             type: 'image',
@@ -183,11 +173,6 @@ export default [{
         _id: 'id',
         title: 'ИД блока',
         type: 'string',
-        required: true
-    }, {
-        _id: 'order',
-        title: 'Порядок',
-        type: 'integer number',
         required: true
     }, {
         _id: 'name',
@@ -227,11 +212,6 @@ export default [{
             _id: 'name',
             title: 'Название',
             type: 'string',
-            required: true
-        }, {
-            _id: 'order',
-            title: 'Порядок',
-            type: 'integer number',
             required: true
         }, {
             _id: 'image',
