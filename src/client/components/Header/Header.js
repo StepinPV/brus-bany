@@ -18,7 +18,7 @@ function Header(props) {
                     <a href='/bani/gotovie' className={styles.item}>Готовые бани</a>
                     <a href='/bani/iz-brusa' className={styles.item}>Бани из бруса</a>
                     <a href='/bani/karkasnie' className={styles.item}>Каркасные бани</a>
-                    <a href='/bani/individualnyy-proekt' className={styles.item}>Индивидуальный проект</a>
+                    <a href='/bani/iz-brevna' className={styles.item}>Бани из бревна</a>
                 </nav>
                 <div className={styles.info}>
                     <div className={styles['phone-container']}>

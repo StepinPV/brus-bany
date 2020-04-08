@@ -37,7 +37,7 @@ function Payment() {
                     </Text>
                 </div>
                 <div className={styles.data}>
-                    <Caption className={styles.subCaption} size='s' tag='h2'>При покупке бани из бруса или каркасной:</Caption>
+                    <Caption className={styles.subCaption} size='s' tag='h2'>При покупке бани из бруса, каркасной или из бревна:</Caption>
                     <Text>
                         <ol>
                             <li>Заключаем договор</li>

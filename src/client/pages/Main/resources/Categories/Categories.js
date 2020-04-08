@@ -25,11 +25,11 @@ const categories = [{
     caption: 'Посмотреть бани',
     link: '/bani/karkasnie'
 }, {
-    className: styles.custom,
-    name: 'Индивидуальный проект',
-    text: 'Расскажите, какую баню хотите, или покажите картинку - посчитаем, согласуем и сразу приступим к строительству',
+    className: styles.brevn,
+    name: 'Бани из бревна',
+    text: 'Экологочная баня, неповторимая красота которой сохранится навечно',
     caption: 'Подробнее',
-    link: '/bani/individualnyy-proekt'
+    link: '/bani/iz-brevna'
 }];
 
 function Categories({ caption, captionTag, id }) {

@@ -24,7 +24,7 @@ class First extends PureComponent {
                     <div className={styles.item}>
                         <div className={styles['item-number']}>-3-</div>
                         <div className={styles['item-price']}>75 руб / км</div>
-                        <div className={styles['item-title']}>Бани из бруса и каркасные бани</div>
+                        <div className={styles['item-title']}>Бани из бруса/каркасные бани/бани из бревна</div>
                     </div>
                 </div>
             </div>
