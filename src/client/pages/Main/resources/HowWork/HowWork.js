@@ -23,7 +23,7 @@ function HowWork() {
                 <i className={styles['arrow-icon']} />
                 <div className={styles.item}>
                     <i className={cx(styles.icon, styles['dogovor-icon'])} />
-                    <Text align='center'><a href='https://yadi.sk/i/x6PDA_1a3X5Yzg' style={{ color: '#013885', textDecoration: 'none', fontWeight: 'bold', cursor: 'pointer' }}>Заключим договор</a>, приступим к строительству бани или привезем уже готовую</Text>
+                    <Text align='center'><a href='/documents/dogovor.docx' download style={{ color: '#013885', textDecoration: 'none', fontWeight: 'bold', cursor: 'pointer' }}>Заключим договор</a>, приступим к строительству бани или привезем уже готовую</Text>
                 </div>
             </div>
             <div className={styles['button-container']}>

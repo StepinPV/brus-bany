@@ -15,27 +15,27 @@ const META = {
 const items = [{
     title: 'ГОСТ 30974-2002',
     description: 'СОЕДИНЕНИЯ УГЛОВЫЕ ДЕРЕВЯННЫХ БРУСЧАТЫХ И ДЕРЕВЯННЫХ МАЛОЭТАЖНЫХ ЗДАНИЙ',
-    link: 'https://yadi.sk/i/tYzuTTLLXrfWKQ'
+    link: '/documents/GOST-30974-2002.pdf'
 }, {
     title: 'ГОСТ 8242-88',
     description: 'ДЕТАЛИ ПРОФИЛИРОВАННЫЕ ИЗ ДРЕВЕСИНЫ И ДРУГИХ ДРЕВЕСНЫХ МАТЕРИАЛОВ',
-    link: 'https://yadi.sk/i/cDy4mJpEg5ZjpA'
+    link: '/documents/GOST-8242-88.pdf'
 }, {
     title: 'ГОСТ 11047-90',
     description: 'ДЕТАЛИ И ИЗДЕЛИЯ ДЕРЕВЯННЫЕ ДЛЯ МАЛОЭТАЖНЫХ ЖИЛЫХ И ОБЩЕСТВЕННЫХ ЗДАНИЙ',
-    link: 'https://yadi.sk/i/Dxhi-wgFKbA5hg'
+    link: '/documents/GOST-11047-90.pdf'
 }, {
     title: 'ГОСТ 19804-2012',
     description: 'СВАИ ЖЕЛЕЗОБЕТОННЫЕ ЗАВОДСКОГО ИЗГОТОВЛЕНИЯ',
-    link: 'https://yadi.sk/i/w0EIykvwM3bPPw'
+    link: '/documents/GOST-19804-2012.pdf'
 }, {
     title: 'СНиП 2-25-80',
     description: 'ДЕРЕВЯННЫЕ КОНСТРУКЦИИ',
-    link: 'https://yadi.sk/i/dXpRPePBvzmweg'
+    link: '/documents/SNIP-2-25-80.pdf'
 }, {
     title: 'СНиП 53.13330.2011',
     description: 'ПЛАНИРОВКА И ЗАСТРОЙКА ТЕРРИТОРИЙ САДОВОДЧЕСКИХ (ДАЧНЫХ) ОБЪЕДИНЕНИЙ ГРАЖДАН, ЗДАНИЯ И СООРУЖЕНИЯ',
-    link: 'https://yadi.sk/i/OPbn6UgQ8Mv5IQ'
+    link: '/documents/SNIP-53.13330.2011.pdf'
 }];
 
 const breadcrumbs = [{
@@ -57,7 +57,7 @@ function GOST() {
                         <div className={styles.item}>
                             <div className={styles.title}>{title}</div>
                             <div className={styles.description}>{description}</div>
-                            <Link href={link} target='_blank' rel='noopener noreferrer' caption='Скачать' />
+                            <Link href={link} download target='_blank' rel='noopener noreferrer' caption='Скачать' />
                         </div>
                     );
                 })}

@@ -6,6 +6,7 @@ import styles from './Button.module.css';
 function Link(props) {
     return (
         <a
+            download={props.download}
             href={props.href}
             target={props.target}
             rel={props.rel}
@@ -22,7 +23,8 @@ Link.propTypes = {
     className: PropTypes.string,
     href: PropTypes.string,
     target: PropTypes.string,
-    rel: PropTypes.string
+    rel: PropTypes.string,
+    download: PropTypes.bool
 };
 
 Link.defaultProps = {

@@ -49,7 +49,7 @@ function Payment() {
                     </Text>
                 </div>
                 <div className={styles['button-container']}>
-                    <Link href='https://yadi.sk/i/x6PDA_1a3X5Yzg' target='_blank' rel='noopener noreferrer' caption='Скачать образец договора' />
+                    <Link href='/documents/dogovor.docx' download target='_blank' rel='noopener noreferrer' caption='Скачать образец договора' />
                 </div>
             </div>
             <FormBlock source='Страница условия оплаты' />
