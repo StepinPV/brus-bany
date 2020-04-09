@@ -65,7 +65,7 @@ server {
                 error_page 404 @notfound;
         }
 
-        location ~* \.(xml)$ {
+        location ~* \.(xml|docx|pdf)$ {
                 error_page 404 @notfound;
         }
 

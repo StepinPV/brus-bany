@@ -88,7 +88,7 @@ router.get('/:id', async function(req, res, next) {
                 result = await Photos.get(req.params.id, queryOptions);
             }
 
-            cache.add(req, result, `photos_${req.params.id}`)
+            cache.add(req, result, `photos`)
         }
 
         switch(result.status) {
@@ -113,7 +113,7 @@ router.put('/:id', async function(req, res, next) {
 
         const { status, data, message } = await Photos.update(req.params.id, report);
 
-        cache.clear(['photos', `photos_${req.params.id}`]);
+        cache.clear(['photos']);
 
         switch(status) {
             case 'success':
@@ -135,7 +135,7 @@ router.delete('/:id', async function(req, res, next) {
     try {
         const { status, data, message } = await Photos.delete(req.params.id);
 
-        cache.clear(['photos', `photos_${req.params.id}`]);
+        cache.clear(['photos']);
 
         switch(status) {
             case 'success':
