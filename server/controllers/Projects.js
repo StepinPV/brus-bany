@@ -140,7 +140,7 @@ class Projects {
 
     static async getAllForCategoryByName(categoryName, options) {
         const { data: category } = await Categories.getByName(categoryName);
-        return await Projects.getAllForCategory(category.get('_id'), options);
+        return category ? await Projects.getAllForCategory(category.get('_id'), options) : Status.error(`Проект не найден!`);
     };
 
     static async get(categoryId, layoutId, options) {
@@ -170,7 +170,8 @@ class Projects {
     static async getByName(categoryName, layoutName, options) {
         const { data: category } = await Categories.getByName(categoryName);
         const { data: layout } = await Layouts.getByName(layoutName);
-        return await Projects.get(category.get('_id'), layout.get('_id'), options);
+
+        return category && layout ? await Projects.get(category.get('_id'), layout.get('_id'), options) : Status.error(`Проект не найден!`);
     };
 
     static async create(categoryId, layoutId, project) {

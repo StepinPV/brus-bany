@@ -1,5 +1,6 @@
 import {
-    GET_PHOTOS_SUCCESS, GET_CATEGORIES_SUCCESS, RESET_DATA
+    GET_PHOTOS_SUCCESS, GET_PHOTOS_ERROR,
+    GET_CATEGORIES_SUCCESS, RESET_DATA
 } from './constants';
 import Api from './api';
 
@@ -19,8 +20,14 @@ export function getPhotos(categoryId) {
         try {
             const res = await Api.getPhotos(categoryId);
 
+            if (res.data.status === 'error') {
+                dispatch({ type: GET_PHOTOS_ERROR });
+                return;
+            }
+
             dispatch({ type: GET_PHOTOS_SUCCESS, categoryId, payload: res.data.data });
         } catch(err) {
+            dispatch({ type: GET_PHOTOS_ERROR });
         }
     };
 }

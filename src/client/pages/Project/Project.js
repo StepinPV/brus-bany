@@ -18,9 +18,9 @@ import Footer from "../../components/Footer";
 import { Button } from "../../components/Button";
 import withForm from '../../plugins/Form/withForm';
 import FormBlock from '../../components/FormBlock';
-import NotFound from '../../components/NotFound';
 import numberWithSpaces from '../../../utils/numberWithSpaces';
 import Meta from '../../components/Meta';
+import Page from "../../components/Page";
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -81,11 +81,14 @@ class Project extends PureComponent {
     };
 
     componentDidMount() {
-        const { match, actions } = this.props;
+        const { match, actions, project } = this.props;
         const { categoryName, layoutName } = match.params;
 
-        actions.getProject(categoryName, layoutName);
-        this.updateFormData();
+        if (!project) {
+            actions.getProject(categoryName, layoutName);
+        } else {
+            this.updateFormData();
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -118,24 +121,21 @@ class Project extends PureComponent {
         const { isProjectError, match, project } = this.props;
         const { width, length } = match.params;
         const { breadcrumbs } = this.state;
+        const notFound = Boolean(isProjectError) || project && (String(project.layoutId.width) !== width || String(project.layoutId.length) !== length);
 
-        const meta = {
-            title: `Проект ${this.renderInfoTitle(project.categoryId.name).toLowerCase()} - ${project.layoutId.name} от ${numberWithSpaces(project.price)} рублей`,
-            description: `Построим баню за ${project.buildTime} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`
-        };
+        if (notFound) {
+            return <Page breadcrumbs={breadcrumbs} notFound={notFound} />
+        }
 
         return (
             <div className={styles['main-container']}>
-                <Meta meta={meta} />
+                <Meta meta={{
+                    title: `Проект ${this.renderInfoTitle(project.categoryId.name).toLowerCase()} - ${project.layoutId.name} от ${numberWithSpaces(project.price)} рублей`,
+                    description: `Построим баню за ${project.buildTime} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`
+                }} />
                 <Header />
-                {isProjectError || project && (String(project.layoutId.width) !== width || String(project.layoutId.length) !== length) ? (
-                    <NotFound />
-                ) : (
-                    <>
-                        <Breadcrumbs items={breadcrumbs} className={styles.breadcrumbs} />
-                        { this.renderContent() }
-                    </>
-                )}
+                <Breadcrumbs items={breadcrumbs} className={styles.breadcrumbs} />
+                { this.renderContent() }
                 <Footer />
             </div>
         );

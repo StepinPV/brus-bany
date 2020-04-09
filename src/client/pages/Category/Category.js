@@ -142,10 +142,11 @@ class Category extends PureComponent {
         const { breadcrumbs, notFound, filteredProjects } = this.state;
         let meta;
 
-        if (!notFound) {
+        if (!notFound && !isCategoryError) {
+            const title = this.getTitle();
             meta = {
-                title: `Купить недорогие ${this.getTitle().toLowerCase()} под ключ | Проекты и цены`,
-                description: `Строим недорогие ${this.getTitle().toLowerCase()} под ключ по всей России. ${filteredProjects.length} ${wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань с гарантией 3 года. Собственное производство. Срок строительства от 7 дней.`,
+                title: `Купить недорогие ${title.toLowerCase()} под ключ | Проекты и цены`,
+                description: `Строим недорогие ${title.toLowerCase()} под ключ по всей России. ${filteredProjects.length} ${wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань с гарантией 3 года. Собственное производство. Срок строительства от 7 дней.`,
                 keywords: `Купить ${category.name} под ключ, Купить ${category.name} недорого, Купить ${category.name} цены`
             };
         }

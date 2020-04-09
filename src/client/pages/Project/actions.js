@@ -12,6 +12,11 @@ export function getProject(categoryId, layoutId) {
         try {
             const res = await Api.getProject(categoryId, layoutId);
 
+            if (res.data.status === 'error') {
+                dispatch({ type: GET_PROJECTS_ERROR, payload: { message: res.data.message } });
+                return;
+            }
+
             dispatch({ type: GET_PROJECTS_SUCCESS, payload: res.data.data });
         } catch(err) {
             dispatch({ type: GET_PROJECTS_ERROR, payload: { message: 'Неизвестная ошибка!' } });

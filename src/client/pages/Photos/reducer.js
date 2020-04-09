@@ -1,11 +1,12 @@
 import {
-    GET_PHOTOS_SUCCESS, GET_CATEGORIES_SUCCESS, RESET_DATA
+    GET_PHOTOS_SUCCESS, GET_PHOTOS_ERROR,
+    GET_CATEGORIES_SUCCESS, RESET_DATA
 } from './constants';
 
 export const initialState = {
     id: null,
-
     photos: null,
+    photosError: false,
     categories: null
 };
 
@@ -21,6 +22,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 photos: action.payload
+            };
+
+        case GET_PHOTOS_ERROR:
+            return {
+                ...state,
+                photosError: true
             };
 
         case GET_CATEGORIES_SUCCESS:

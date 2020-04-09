@@ -24,6 +24,7 @@ class Photos extends PureComponent {
     static propTypes = {
         photos: PropTypes.array,
         categories: PropTypes.array,
+        photosError: PropTypes.bool,
 
         actions: PropTypes.object,
         match: PropTypes.object
@@ -77,15 +78,20 @@ class Photos extends PureComponent {
 
     render() {
         const { breadcrumbs } = this.state;
+        const { photosError } = this.props;
+        const notFound = Boolean(photosError);
+        let meta;
 
-        const title = this.getTitle();
-        const meta = {
-            title: `Фотографии, отзывы, видео и описание построенных ${title} | Брус бани`,
-            description: `За все время работы мы построили огромное количество ${title} различной сложности. На сайте вы можете просмотреть фотоотчеты данных проектов.`
-        };
+        if (!notFound) {
+            const title = this.getTitle();
+            meta = {
+                title: `Фотографии, отзывы, видео и описание построенных ${title} | Брус бани`,
+                description: `За все время работы мы построили огромное количество ${title} различной сложности. На сайте вы можете просмотреть фотоотчеты данных проектов.`
+            };
+        }
 
         return (
-            <Page breadcrumbs={breadcrumbs}>
+            <Page breadcrumbs={breadcrumbs} notFound={notFound}>
                 <Meta meta={meta} />
                 { this.renderContent() }
                 <FormBlock source='Страница готовых проектов' />
@@ -175,9 +181,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const { photos, categories } = state['client-photos'];
+    const { photos, photosError, categories } = state['client-photos'];
 
-    return { photos, categories };
+    return { photos, photosError, categories };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Photos);

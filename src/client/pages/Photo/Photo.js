@@ -74,22 +74,20 @@ class Photo extends PureComponent {
         const { isPhotoError, photo, match } = this.props;
         const { breadcrumbs } = this.state;
 
-        const { width, length, layoutName } = match.params;
-        const urlValid = !photo || (
-            String(photo.projectId.layoutId.width) === width &&
-            String(photo.projectId.layoutId.length) === length &&
-            photo.projectId.layoutId.translateName === layoutName
+        const { width, length, layoutName, categoryName } = match.params;
+        const notFound = !photo || (
+            String(photo.projectId.layoutId.width) !== width ||
+            String(photo.projectId.layoutId.length) !== length ||
+            photo.projectId.layoutId.translateName !== layoutName ||
+            photo.projectId.categoryId.translateName !== categoryName
         );
 
-        const metaTitle = `${photo.projectId.categoryId.name2} ${photo.projectId.layoutId.name} ${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length}`;
-        const meta = {
-            title: `Фотоотчет | ${metaTitle} | ${renderDate(new Date(photo.created))}`,
-            description: photo.description
-        };
-
         return (
-            <Page breadcrumbs={breadcrumbs} notFound={isPhotoError || !urlValid}>
-                <Meta meta={meta} />
+            <Page breadcrumbs={breadcrumbs} notFound={isPhotoError || notFound}>
+                <Meta meta={isPhotoError || notFound ? null : {
+                    title: `Фотоотчет | ${photo.projectId.categoryId.name2} ${photo.projectId.layoutId.name} ${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length} | ${renderDate(new Date(photo.created))}`,
+                    description: photo.description
+                }} />
                 { this.renderContent() }
                 <FormBlock source='Страница фотоотчета' />
             </Page>

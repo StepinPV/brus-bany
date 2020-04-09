@@ -85,7 +85,7 @@ class PhotoReports {
 
     static async getAllForCategoryByName(categoryName, options) {
         const { data: category } = await Categories.getByName(categoryName);
-        return await PhotoReports.getAllForCategory(category.get('_id').toString(), options);
+        return category ? await PhotoReports.getAllForCategory(category.get('_id').toString(), options) : Status.error(`Фотоотчет не найден!`);
     };
 
     static async getAllForProjectId(projectId, options) {
