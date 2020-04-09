@@ -83,6 +83,7 @@ const renderItems = ({ value, onChange, format, errors }) => {
                     title={item.title}
                     itemTitleField={item.itemTitleField}
                     format={item.format}
+                    expand={item.expand}
                     onChange={handleChange}
                     errors={errors[item['_id']]}
                 />;
@@ -156,8 +157,8 @@ const renderItems = ({ value, onChange, format, errors }) => {
     });
 };
 
-const ObjectEditor = ({ title, value, onChange, format, errors, onUp, onBottom }) => {
-    const [visible, setVisible] = useState(false);
+const ObjectEditor = ({ title, value, onChange, format, errors, onUp, onBottom, expand }) => {
+    const [visible, setVisible] = useState(Boolean(expand));
 
     return (
         <div className={styles.container}>
@@ -179,7 +180,8 @@ ObjectEditor.propTypes = {
     format: PropTypes.array,
     errors: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     onUp: PropTypes.func,
-    onBottom: PropTypes.func
+    onBottom: PropTypes.func,
+    expand: PropTypes.bool
 };
 
 export default memo(ObjectEditor);

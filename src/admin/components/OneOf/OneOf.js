@@ -53,6 +53,7 @@ const renderItem = ({ value, onChange, variants }) => {
                 title={variant.title}
                 itemTitleField={variant.itemTitleField}
                 format={variant.format}
+                expand={variant.expand}
                 onChange={handleChange}
             />;
         case 'object':

@@ -38,6 +38,7 @@ export default [{
     _id: 'photos',
     title: 'Изображения',
     type: 'array',
+    expand: true,
     format: [{
         _id: 'image',
         title: 'Изображение',

@@ -41,8 +41,7 @@ const scheme = new Schema({
         type: [{
             image: String,
             imageAlt: {
-                type: String,
-                required: REQUIRED_MSG
+                type: String
             }
         }]
     },

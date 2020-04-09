@@ -83,6 +83,7 @@ const Form = ({ value, onChange, format, errors }) => {
                             title={item.title}
                             itemTitleField={item.itemTitleField}
                             format={item.format}
+                            expand={item.expand}
                             onChange={handleChange}
                             errors={errors[item['_id']]}
                         />;

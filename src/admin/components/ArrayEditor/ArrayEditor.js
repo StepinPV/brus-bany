@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ObjectEditor from '../../components/ObjectEditor';
 import styles from './ArrayEditor.module.css';
 
-const ArrayEditor = ({ title, value, onChange, format, errors, itemTitleField }) => {
+const ArrayEditor = ({ title, value, onChange, format, errors, itemTitleField, expand }) => {
     const [visible, setVisible] = useState(false);
 
     return (
@@ -18,6 +18,7 @@ const ArrayEditor = ({ title, value, onChange, format, errors, itemTitleField })
                                 title={itemTitleField ? val[itemTitleField] : index + 1}
                                 value={val}
                                 format={format}
+                                expand={expand}
                                 errors={typeof errors === 'object' && errors !== null ? errors[index] : null}
                                 onChange={v => {
                                     const newValue = [...value];
@@ -66,6 +67,7 @@ ArrayEditor.propTypes = {
     value: PropTypes.array,
     onChange: PropTypes.func,
     format: PropTypes.array,
+    expand: PropTypes.bool,
     errors: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
 };
 
