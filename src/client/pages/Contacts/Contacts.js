@@ -59,7 +59,7 @@ class Contacts extends PureComponent {
                         <div className={styles['info-block']}>
                             <div className={styles['info-phone-title']}>Звонок по России бесплатный</div>
                             <a href="tel:88002010729" className={styles['info-phone']} itemProp="telephone">8 (800) 201-07-29</a>
-                            <a href="mailto:mailto:info@brus-bany.ru" className={styles['info-email']} itemProp="email">info@brus-bany.ru</a>
+                            <a href="mailto:info@brus-bany.ru" className={styles['info-email']} itemProp="email">info@brus-bany.ru</a>
                         </div>
                         <div className={cx(styles['info-text'], styles['info-block'])}>
                             Построим баню любой сложности с нуля или привезем готовую!

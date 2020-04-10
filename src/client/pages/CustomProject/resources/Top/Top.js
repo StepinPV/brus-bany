@@ -15,7 +15,7 @@ function Top() {
             description={(
                 <>
                     Построим баню любой сложности отталкиваясь от ваших предпочтений и пожеланий.
-                    Отправьте информацию о проекте на почту <a href="mailto:mailto:info@brus-bany.ru" style={linkStyles}>info@brus-bany.ru</a> или <a href='#requestForm' style={linkStyles}>оставьте заявку</a>.
+                    Отправьте информацию о проекте на почту <a href="mailto:info@brus-bany.ru" style={linkStyles}>info@brus-bany.ru</a> или <a href='#requestForm' style={linkStyles}>оставьте заявку</a>.
                     Мы изучим ваш проект, дадим свои рекомендации и рассчитаем стоимость
                 </>
             )}

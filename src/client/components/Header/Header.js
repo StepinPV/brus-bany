@@ -23,7 +23,7 @@ function Header(props) {
                 <div className={styles.info}>
                     <div className={styles['phone-container']}>
                         <a href="tel:88002010729" className={styles.phone}>8 (800) 201-07-29</a>
-                        <a href="mailto:mailto:info@brus-bany.ru" className={styles.email}>info@brus-bany.ru</a>
+                        <a href="mailto:info@brus-bany.ru" className={styles.email}>info@brus-bany.ru</a>
                     </div>
                     <Link type='yellow' caption='Обратный звонок' size='s' href='#requestForm' />
                 </div>

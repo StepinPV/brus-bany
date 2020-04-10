@@ -63,7 +63,7 @@ function Jobs() {
                         </Text>
                     </div>
                 ))}
-                <Text className={styles.data}>Ждем ваше резюме на почту <a href="mailto:mailto:info@brus-bany.ru">info@brus-bany.ru</a></Text>
+                <Text className={styles.data}>Ждем ваше резюме на почту <a href="mailto:info@brus-bany.ru">info@brus-bany.ru</a></Text>
             </div>
             <FormBlock source='Страница вакансий' />
         </Page>

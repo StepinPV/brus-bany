@@ -11,7 +11,7 @@ export default memo(({ source, data }) => {
                 <div className={styles['first-column']}>
                     <div className={styles['phone-block']}>
                         <a href="tel:88002010729" className={styles['phone-block-phone']}>8 (800) 201-07-29</a>
-                        <a href="mailto:mailto:info@brus-bany.ru" className={styles['phone-block-email']}>info@brus-bany.ru</a>
+                        <a href="mailto:info@brus-bany.ru" className={styles['phone-block-email']}>info@brus-bany.ru</a>
                     </div>
                     <div className={styles['address-block']}>174510, Новгородская обл, <br/> г. Пестово, ул. Курганная 12</div>
                     <div className={styles['social-networks']}>

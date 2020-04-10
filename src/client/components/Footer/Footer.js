@@ -23,7 +23,7 @@ function Footer() {
                     <div className={styles['info-block']}>
                         <a href="tel:88002010729" className={cx(styles.phone, styles['color-white'])} itemProp="telephone">8 (800) 201-07-29</a>
                         <div className={cx(styles['size-default'], styles['color-white'])}>Звонок по России бесплатный</div>
-                        <a href="mailto:mailto:info@brus-bany.ru" className={cx(styles.email, styles['size-default'])} itemProp="email">info@brus-bany.ru</a>
+                        <a href="mailto:info@brus-bany.ru" className={cx(styles.email, styles['size-default'])} itemProp="email">info@brus-bany.ru</a>
                     </div>
                     <div className={styles['info-block']}>
                         <time
