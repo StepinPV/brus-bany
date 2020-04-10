@@ -11,7 +11,7 @@ function Page(props) {
 
     return (
         <>
-            <Header opacity={!notFound && opacityHeader} />
+            <Header opacity={!notFound && opacityHeader} requestLink={notFound ? '/#requestForm' : undefined}/>
             {notFound ? (<NotFound />) : (
                 <div className={styles.content}>
                     {breadcrumbs ? <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} /> : null}

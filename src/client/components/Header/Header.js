@@ -6,7 +6,7 @@ import styles from './Header.module.css';
 import cx from "classnames";
 
 function Header(props) {
-    const { opacity } = props;
+    const { opacity, requestLink } = props;
 
     return (
         <header className={opacity ? styles['header-absolute'] : null}>
@@ -25,7 +25,7 @@ function Header(props) {
                         <a href="tel:88002010729" className={styles.phone}>8 (800) 201-07-29</a>
                         <a href="mailto:info@brus-bany.ru" className={styles.email}>info@brus-bany.ru</a>
                     </div>
-                    <Link type='yellow' caption='Обратный звонок' size='s' href='#requestForm' />
+                    <Link type='yellow' caption='Обратный звонок' size='s' href={requestLink} />
                 </div>
             </div>
         </header>
@@ -33,7 +33,12 @@ function Header(props) {
 }
 
 Header.propTypes = {
-    opacity: PropTypes.bool
+    opacity: PropTypes.bool,
+    requestLink: PropTypes.string
+};
+
+Header.defaultProps = {
+    requestLink: '#requestForm'
 };
 
 export default memo(Header);

@@ -13,7 +13,7 @@ function NotFound() {
     return (
         <>
             <Meta meta={META} />
-            <Header />
+            <Header requestLink='/#requestForm' />
             <NotFoundComponent />
             <Footer />
         </>
