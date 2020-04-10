@@ -1,7 +1,7 @@
 sudo apt-get install imagemagick
 sudo apt-get install graphicsmagick
 
-nohup mongod --dbpath /var/lib/mongodb
+nohup mongod --dbpath /var/lib/mongodb &
 
 Обновить ноду!
 

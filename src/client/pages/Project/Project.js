@@ -131,7 +131,10 @@ class Project extends PureComponent {
             <div className={styles['main-container']}>
                 <Meta meta={{
                     title: `Проект ${this.renderInfoTitle(project.categoryId.name).toLowerCase()} - ${project.layoutId.name} от ${numberWithSpaces(project.price)} рублей`,
-                    description: `Построим баню за ${project.buildTime} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`
+                    description: `Построим баню за ${project.buildTime} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`,
+                    type: 'product',
+                    image: project.images['main'],
+                    imageAlt: `Проект ${this.renderInfoTitle(project.categoryId.name).toLowerCase()} - ${project.layoutId.name}`
                 }} />
                 <Header />
                 <Breadcrumbs items={breadcrumbs} className={styles.breadcrumbs} />

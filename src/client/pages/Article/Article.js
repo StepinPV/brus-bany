@@ -86,7 +86,10 @@ class Article extends PureComponent {
             meta = {
                 title: `${article.article.name} | Брус бани`,
                 description: article.article.imageDescription,
-                keywords: article.article.keywords
+                keywords: article.article.keywords,
+                type: 'article',
+                image: article.article.image,
+                imageAlt: article.article.imageAlt
             };
         }
 

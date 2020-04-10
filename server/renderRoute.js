@@ -70,7 +70,7 @@ router.get('*', async (req, res, next) => {
 
             const data = {
                 isProduction: process.env.NODE_ENV === 'production',
-                url: `http://brus-bany.ru${req.url}`,
+                url: `https://brus-bany.ru${req.url}`,
                 title: head.title.toString(),
                 meta: head.meta.toString(),
                 link: head.link.toString(),

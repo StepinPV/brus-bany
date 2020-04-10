@@ -86,7 +86,9 @@ class Photo extends PureComponent {
             <Page breadcrumbs={breadcrumbs} notFound={isPhotoError || notFound}>
                 <Meta meta={isPhotoError || notFound ? null : {
                     title: `Фотоотчет | ${photo.projectId.categoryId.name2} ${photo.projectId.layoutId.name} ${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length} | ${renderDate(new Date(photo.created))}`,
-                    description: photo.description
+                    description: photo.description,
+                    image: photo.mainPhoto,
+                    imageAlt: photo.mainPhotoAlt
                 }} />
                 { this.renderContent() }
                 <FormBlock source='Страница фотоотчета' />
