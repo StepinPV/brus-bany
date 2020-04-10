@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
 function Meta({ meta }) {
@@ -9,16 +10,11 @@ function Meta({ meta }) {
             {meta.keywords ? <meta name='keywords' content={meta.keywords} /> : null}
             {meta.title ? <meta property='og:title' content={meta.title} /> : null}
             {meta.description ? <meta property='og:description' content={meta.description} /> : null}
-            {meta.type ? <meta property='og:type' content={meta.type} /> : null}
-            {meta.image ? <meta property='og:image' content={`https://brus-bany.ru${meta.image}`} /> : null}
+            <meta property='og:type' content={meta.type || 'website'} />
+            <meta property='og:image' content={`https://brus-bany.ru${meta.image || '/favicon-192x192.png'}`} />
             {meta.imageAlt ? <meta property='og:image:alt' content={meta.imageAlt} /> : null}
         </Helmet>
     );
 }
-
-Meta.defaultProps = {
-    type: 'website',
-    image: '/favicon-192x192.png'
-};
 
 export default memo(Meta);
