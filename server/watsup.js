@@ -2,6 +2,7 @@ const request = require('request'); //bash: npm install request
 // URL for request POST /message
 const url = 'https://eu95.chat-api.com/instance109742/sendMessage?token=fm0kivqf2bmgwwup';
 const chatId = '79998639369-1584998464@g.us';
+const urlParser = require('url');
 
 module.exports.send = ({ name, phone, source, data }, host) => {
     let message = '';
@@ -11,8 +12,7 @@ module.exports.send = ({ name, phone, source, data }, host) => {
     }
 
     function addField(name, value) {
-        message += `${name}:\n`;
-        message += `${value}\n`;
+        message += `${name}: ${value}\n`;
         message += `\n`;
     }
 
@@ -48,6 +48,11 @@ module.exports.send = ({ name, phone, source, data }, host) => {
             }
         });
     }
+
+    const urlParts = urlParser.parse(host, true);
+    Object.keys(urlParts.query).forEach(key => {
+        addField(key, urlParts.query[key]);
+    });
 
     request({
         url: url,

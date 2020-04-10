@@ -26,6 +26,11 @@ export default [{
     type: 'string',
     required: true
 }, {
+    _id: 'name5',
+    title: 'Введите имя для шаблона (Проект <<бани из бруса>>)',
+    type: 'string',
+    required: true
+}, {
     _id: 'filters',
     title: 'Фильтры',
     type: 'array',

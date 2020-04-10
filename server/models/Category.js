@@ -177,6 +177,10 @@ const scheme = new Schema({
         type: String,
         required: REQUIRED_MSG
     },
+    name5: {
+        type: String,
+        required: REQUIRED_MSG
+    },
     additions: {
         type: [additionGroupScheme]
     },
