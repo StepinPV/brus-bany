@@ -91,7 +91,7 @@ export default [{
         }, {
             _id: 'price',
             title: 'Формула цены',
-            type: 'string',
+            type: 'text',
             required: true
         }]
     }]
