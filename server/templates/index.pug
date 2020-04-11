@@ -35,7 +35,7 @@ html(lang='ru')
                 script(src=chunk.publicPath)
             script(src=assets.js.main)
 
-        if isProduction
+        if needCounters
             script(type='text/javascript')
                 include counters/yaMetrica.js
 

@@ -68,8 +68,9 @@ router.get('*', async (req, res, next) => {
                 ]
             }
 
+            const isAdminPage = /^\/admin/.test(req.url);
             const data = {
-                isProduction: process.env.NODE_ENV === 'production',
+                needCounters: process.env.NODE_ENV === 'production' && !isAdminPage,
                 url: `https://brus-bany.ru${req.url}`,
                 title: head.title.toString(),
                 meta: head.meta.toString(),
@@ -91,7 +92,7 @@ router.get('*', async (req, res, next) => {
                 }
             };
 
-            if (context.status !== 404) {
+            if (context.status !== 404 && !isAdminPage) {
                 cache.add(req, JSON.stringify({ preloadList, data }), 'main');
             }
 

@@ -8,10 +8,6 @@ exports.get = (req) => {
 exports.add = (req, data, group) => {
     const key = req.originalUrl || req.url;
 
-    if (/^\/admin/.test(key)) {
-        return data;
-    }
-
     storage[key] = {
         group,
         data
