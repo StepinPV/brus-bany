@@ -1,9 +1,9 @@
 #!/bin/bash
 
 cd /root/brus-bany
-netstat -tulpn | grep ':3000 '
+RESULT=$(netstat -tulpn | grep ':3000 ')
 
-if [ $? -ne 0 ]
+if [ RESULT -ne 0 ]
 then
   nohup npm run server:production &
 fi
