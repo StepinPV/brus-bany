@@ -3,8 +3,10 @@
 cd /root/brus-bany
 RESULT=$(netstat -tulpn | grep ':3000 ')
 
-if [ ${RESULT} -ne 0 ]
+if [ -z $RESULT ]
 then
   nohup npm run server:production &
+else
+  echo server is working
 fi
 
