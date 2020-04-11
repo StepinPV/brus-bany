@@ -141,7 +141,7 @@ exports.generate = async function () {
 
     fs.writeFile('./public/sitemap.xml', json2xml(data, {attributes_key: ATTRIBUTES_KEY}), function (err) {
         if (err) {
-            logger.error('Ошибка генерации sitemap', err);
+            logger.error(`Ошибка генерации sitemap: ${err}`, );
         } else {
             logger.success('Sitemap успешно обновлен!');
         }
