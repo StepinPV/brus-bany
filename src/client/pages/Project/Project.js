@@ -67,8 +67,10 @@ class Project extends PureComponent {
 
     static initialAction({ dispatch, match }) {
         const { categoryName, layoutName } = match.params;
-        //TODO ФОТОГРАФИИ
-        return [dispatch(getProject(categoryName, layoutName))];
+        return [
+            dispatch(getProject(categoryName, layoutName)),
+            dispatch(getPhotos(categoryName, layoutName))
+        ];
     }
 
     state = {
@@ -81,12 +83,18 @@ class Project extends PureComponent {
     };
 
     componentDidMount() {
-        const { match, actions, project } = this.props;
+        const { match, actions, project, photos } = this.props;
         const { categoryName, layoutName } = match.params;
 
         if (!project) {
             actions.getProject(categoryName, layoutName);
-        } else {
+        }
+
+        if (!photos) {
+            actions.getPhotos(categoryName, layoutName);
+        }
+
+        if (project) {
             this.updateFormData();
         }
     }
@@ -97,10 +105,7 @@ class Project extends PureComponent {
         if (prevProps.match !== match) {
             const { categoryName, layoutName } = match.params;
             actions.getProject(categoryName, layoutName);
-        }
-
-        if (project !== prevProps.project) {
-            actions.getPhotos(project._id);
+            actions.getPhotos(categoryName, layoutName);
         }
 
         if (

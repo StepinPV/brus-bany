@@ -1,6 +1,7 @@
 const Layouts = require('./Layouts');
 const Categories = require('./Categories');
 const Photos = require('../models/Photos');
+const Projects = require('./Projects');
 const Status = require('./Status');
 const prepareErrors = require('./prepareErrors');
 const fs = require('fs');
@@ -86,6 +87,16 @@ class PhotoReports {
     static async getAllForCategoryByName(categoryName, options) {
         const { data: category } = await Categories.getByName(categoryName);
         return category ? await PhotoReports.getAllForCategory(category.get('_id').toString(), options) : Status.error(`Фотоотчет не найден!`);
+    };
+
+    static async getAllForProjectByCategoryAndLayout(categoryName, layoutName, options) {
+        const { status, data: project } = await Projects.getByName(categoryName, layoutName);
+
+        if (status === 'success' && project) {
+            return PhotoReports.getAllForProjectId(project._id, options);
+        } else {
+            return Status.error(`Фотоотчет не найден!`);
+        }
     };
 
     static async getAllForProjectId(projectId, options) {

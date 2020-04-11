@@ -8,8 +8,9 @@ export default class Api {
             withLayout: true
         }
     });
-    static getPhotos = (id) => axios.get(`/api/photos/${id}`, {
+    static getPhotos = (categoryId, layoutId) => axios.get(`/api/photos/${categoryId}:${layoutId}`, {
         params: {
+            byName: true,
             forProject: true,
             withProject: true,
             withLayout: true,

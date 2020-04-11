@@ -24,16 +24,16 @@ export function getProject(categoryId, layoutId) {
     };
 }
 
-export function getPhotos(projectId) {
+export function getPhotos(categoryId, layoutId) {
     return async (dispatch) => {
-        dispatch({ type: GET_PHOTOS, projectId });
+        dispatch({ type: GET_PHOTOS });
 
         try {
-            const res = await Api.getPhotos(projectId);
+            const res = await Api.getPhotos(categoryId, layoutId);
 
-            dispatch({ type: GET_PHOTOS_SUCCESS, projectId, payload: res.data.data });
+            dispatch({ type: GET_PHOTOS_SUCCESS, payload: res.data.data });
         } catch(err) {
-            dispatch({ type: GET_PHOTOS_ERROR, projectId });
+            dispatch({ type: GET_PHOTOS_ERROR });
         }
     };
 }

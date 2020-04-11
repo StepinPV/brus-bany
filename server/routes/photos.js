@@ -83,7 +83,10 @@ router.get('/:id', async function(req, res, next) {
                     await Photos.getAllForCategoryByName(req.params.id, queryOptions) :
                     await Photos.getAllForCategory(req.params.id, queryOptions);
             } else if (forProject) {
-                result = await Photos.getAllForProjectId(req.params.id, queryOptions);
+                const searchByName = req.query && req.query.byName;
+                result = searchByName ?
+                    await Photos.getAllForProjectByCategoryAndLayout(req.params.id.split(':')[0], req.params.id.split(':')[1], queryOptions) :
+                    await Photos.getAllForProjectId(req.params.id, queryOptions);
             } else {
                 result = await Photos.get(req.params.id, queryOptions);
             }
