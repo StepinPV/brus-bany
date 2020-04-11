@@ -1,4 +1,4 @@
 #!/bin/bash
 
-ROOT=/root/brus-bany
+cd /root/brus-bany
 npm run server:production
