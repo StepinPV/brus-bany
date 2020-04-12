@@ -85,10 +85,10 @@ db.init(config.db_url, config.db_name, () => {
 nodemailer.init('smtp.yandex.ru', 465, 'brus-bany.ru', 'Brus@123');
 
 sitemap.generate();
-yml.generate();
+// yml.generate();
 schedule.scheduleJob('0 0 * * *', function(){
     sitemap.generate();
-    yml.generate();
+    // yml.generate();
 });
 
 
