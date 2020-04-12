@@ -39,15 +39,19 @@ exports.generate = async function () {
                 currencyId: 'RUR',
                 categoryId: category.get('translateName'),
                 category: category.get('name'),
-                picture: project.get('images').main,
+                picture: `${DOMAIN}${project.get('images').main}`,
                 description: `Построим баню за ${project.get('buildTime')} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`
             }
         });
     });
 
+    const date = new Date();
+    function getNumberWith0(number) {
+        return number <= 9 ? `0${number}` : number
+    }
     const data = {
         [ATTRIBUTES_KEY]: {
-            'date': new Date()
+            'date': `${date.getFullYear()}-${getNumberWith0(date.getMonth())}-${getNumberWith0(date.getDate())} ${getNumberWith0(date.getHours())}:${getNumberWith0(date.getMinutes())}`
         },
         'yml_catalog': [{
             'shop': {
