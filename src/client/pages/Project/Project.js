@@ -247,7 +247,7 @@ class Project extends PureComponent {
                         <meta itemProp="price" content={project.price} />
                         <meta itemProp="priceCurrency" content="RUB" />
                         <link itemProp="availability" href="http://schema.org/InStock" />
-                        {`${numberWithSpaces(project.price)} руб.`}
+                        {`${numberWithSpaces(project.price)} руб`}
                     </div>
                 ) : null}
                 <div className={styles['info-buttons']}>

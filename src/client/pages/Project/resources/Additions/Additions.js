@@ -4,6 +4,7 @@ import Text from '../../../../components/Text';
 import DataSection from '../../../../components/DataSection';
 import cx from 'classnames';
 import styles from './Additions.module.css';
+import numberWithSpaces from '../../../../../utils/numberWithSpaces';
 
 class Additions extends PureComponent {
     static propTypes = {
@@ -69,7 +70,7 @@ class Additions extends PureComponent {
                                                             <Text>{name}</Text>
                                                         </div>
                                                         <div className={styles.price}>
-                                                            <Text>{`${getPrice(price)} р.`}</Text>
+                                                            <Text>{`${numberWithSpaces(getPrice(price))} р.`}</Text>
                                                         </div>
                                                     </div>
                                                 )) : null
