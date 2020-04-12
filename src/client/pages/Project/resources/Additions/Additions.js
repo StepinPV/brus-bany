@@ -81,7 +81,7 @@ class Additions extends PureComponent {
                             </Fragment>
                         ))}
                     </div>
-                    <div className={styles.sum}>{`Стоимость: ${v.price} р`}</div>
+                    <div className={styles.sum}>{`Стоимость: ${numberWithSpaces(v.price)} руб`}</div>
                 </div>
             </DataSection>
         );

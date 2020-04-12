@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styles from './DeliveryMap.module.css';
 import Caption from '../Caption/Caption';
+import numberWithSpaces from '../../../utils/numberWithSpaces';
 
 let Map;
 
@@ -113,7 +114,7 @@ class DeliveryMap extends PureComponent {
                 {data ? (
                     <div className={styles.coastContainer}>
                         <div>{`Расстояние: ${data.length.text}`}</div>
-                        <div>{`Стоимость доставки: ${data.price} р`}</div>
+                        <div>{`Стоимость доставки: ${numberWithSpaces(data.price)} руб`}</div>
                     </div>
                 ) : null}
                 {mapLoaded ? <Map setMapRef={this.setMapRef} setRoutePanelRef={this.setRoutePanelRef} /> : null}
