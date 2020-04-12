@@ -28,17 +28,18 @@ exports.generate = async function () {
         const layout = project.get('layoutId');
         const category = project.get('categoryId');
 
+        const name = category.get('name2');
+
         offers.push({
             [ATTRIBUTES_KEY]: {
                 id: project.get('_id')
             },
             offer: {
-                name: `${category.get('name5')} ${layout.get('name')} ${layout.get('width')}x${layout.get('length')}`,
+                name: `${name[0].toUpperCase() + name.slice(1)} ${layout.get('name')} ${layout.get('width')}x${layout.get('length')}`,
                 url: `${DOMAIN}/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
                 price: project.get('price'),
                 currencyId: 'RUR',
                 categoryId: category.get('translateName'),
-                category: category.get('name'),
                 picture: `${DOMAIN}${project.get('images').main}`,
                 description: `Построим баню за ${project.get('buildTime')} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`
             }
