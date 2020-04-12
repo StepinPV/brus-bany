@@ -173,7 +173,6 @@ class PhotoReports {
         try {
             const fullData = { ...report, projectId };
 
-            fullData.created = new Date();
             fullData.updated = new Date();
             const photo = new Photos(fullData);
 

@@ -145,7 +145,14 @@ class Photos extends PureComponent {
     renderPhotos = () => {
         const { photos } = this.props;
 
-        return <CardList items={photos.map(photo => ({
+        return <CardList items={photos.sort((a, b) => {
+            const aDate = new Date(a.created);
+            const bDate = new Date(b.created);
+
+            if (aDate > bDate) return -1;
+            if (aDate === bDate) return 0;
+            if (aDate < bDate) return 1;
+        }).map(photo => ({
             id: photo._id,
             element: <PhotoCard photo={photo} />
         }))} />;
