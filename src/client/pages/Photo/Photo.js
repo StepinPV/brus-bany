@@ -152,7 +152,7 @@ class Photo extends PureComponent {
                 <Caption tag='h2' size='s' className={styles['sub-caption']}>Отзыв клиента:</Caption>
                 <div className={styles['feedback-content']}>
                     {photo.clientPhoto ? <img className={styles['feedback-photo']} src={photo.clientPhoto} alt='Фотография клиента' loading='lazy' /> : null}
-                    <Text size='l' className={styles['feedback-text']}>{photo.feedback}</Text>
+                    <Text size='l' className={styles['feedback-text']} isHTML>{photo.feedback}</Text>
                 </div>
             </div>
         ) : null;
