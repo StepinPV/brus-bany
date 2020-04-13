@@ -7,6 +7,11 @@ const Projects = require('./controllers/Projects');
 
 const ATTRIBUTES_KEY = 'attr';
 const DOMAIN = 'https://brus-bany.ru';
+
+function convertIdToNumber(val) {
+    return val.toString().match(/(\d+)/g).join('').slice(0,10);
+}
+
 exports.generate = async function () {
     let categories = [];
     // categories
@@ -14,7 +19,7 @@ exports.generate = async function () {
     cat.forEach(category => {
         categories.push({
             [ATTRIBUTES_KEY]: {
-                id: category.get('translateName')
+                id: convertIdToNumber(category.get('_id'))
             },
             category: category.get('name')
         });
@@ -39,7 +44,7 @@ exports.generate = async function () {
                 url: `${DOMAIN}/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
                 price: project.get('price'),
                 currencyId: 'RUR',
-                categoryId: category.get('translateName'),
+                categoryId: convertIdToNumber(category.get('_id')),
                 picture: `${DOMAIN}${project.get('images').main}`,
                 description: `Построим баню за ${project.get('buildTime')} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`
             }
