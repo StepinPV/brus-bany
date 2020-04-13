@@ -37,7 +37,7 @@ exports.generate = async function () {
 
         offers.push({
             [ATTRIBUTES_KEY]: {
-                id: project.get('_id')
+                id: convertIdToNumber(project.get('_id'))
             },
             offer: {
                 name: `${name[0].toUpperCase() + name.slice(1)} ${layout.get('name')} ${layout.get('width')}x${layout.get('length')}`,
