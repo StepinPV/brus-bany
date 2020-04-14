@@ -128,7 +128,7 @@ class Project extends PureComponent {
         return (
             <div className={styles['main-container']}>
                 <Meta meta={{
-                    title: `Проект ${this.renderInfoTitle(project.categoryId['name5']).toLowerCase()} - ${project.layoutId.name} от ${numberWithSpaces(project.price)} рублей`,
+                    title: `Проект ${this.renderInfoTitle(project.categoryId['name5']).toLowerCase()} - ${project.layoutId.name} от ${this.getDefaultPrice()} рублей`,
                     description: `Построим баню за ${project.buildTime} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`,
                     type: 'product',
                     image: project.images['main'],
@@ -164,7 +164,12 @@ class Project extends PureComponent {
                     <DataSection bgStyle='grey' caption='Фотоотчеты построенной бани' captionTag='h2'>
                         <CardList items={photos.map(photo => ({
                             id: photo._id,
-                            element: <PhotoCard photo={photo} />
+                            element: (
+                                <PhotoCard
+                                    photo={photo}
+                                    category={project.categoryId}
+                                    layout={photo.projectId.layoutId} />
+                            )
                         }))} />
                     </DataSection>
                 ) : null}
@@ -221,6 +226,7 @@ class Project extends PureComponent {
     renderInfo = () => {
         const { project, showForm, match } = this.props;
         const { formData } = this.state;
+        const price = this.getDefaultPrice();
 
         return (
             <div className={styles['info']}>
@@ -235,14 +241,12 @@ class Project extends PureComponent {
                     {project.layoutId.porch && project.layoutId.porch.area ? (<div>Площадь крыльца - {project.layoutId.porch.area}м<sup>2</sup></div>) : null}
                     {project.layoutId.attic && project.layoutId.attic.area ? (<div>Площадь мансарды - {project.layoutId.attic.area}м<sup>2</sup></div>) : null}
                 </div>
-                {project.price ? (
-                    <div className={styles['info-price']} itemProp="offers" itemScope itemType="http://schema.org/Offer">
-                        <meta itemProp="price" content={project.price} />
-                        <meta itemProp="priceCurrency" content="RUB" />
-                        <link itemProp="availability" href="http://schema.org/InStock" />
-                        {`${numberWithSpaces(project.price)} руб`}
-                    </div>
-                ) : null}
+                <div className={styles['info-price']} itemProp="offers" itemScope itemType="http://schema.org/Offer">
+                    <meta itemProp="price" content={price} />
+                    <meta itemProp="priceCurrency" content="RUB" />
+                    <link itemProp="availability" href="http://schema.org/InStock" />
+                    {`${numberWithSpaces(price)} руб`}
+                </div>
                 <div className={styles['info-buttons']}>
                     <Button onClick={() => { showForm({ source: match.url, title: 'Оформление заявки', data: formData }) }} className={styles['info-button']} caption='Заказать баню' size='s' />
                     <Button onClick={() => { showForm({ source: match.url, data: formData }) }} className={styles['info-button']} caption='Обсудить проект со специалистом' size='s' type='yellow' />
@@ -487,7 +491,12 @@ class Project extends PureComponent {
         });
 
         this.setState({ formData: data });
-    }
+    };
+
+    getDefaultPrice = () => {
+        const { project } = this.props;
+        return project.prices && project.categoryId.complectationBlocks && project.prices[project.categoryId.complectationBlocks.defaultItemId] || 0;
+    };
 }
 
 /**

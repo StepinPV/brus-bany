@@ -242,7 +242,12 @@ class Category extends PureComponent {
             <DataSection bgStyle='grey' caption={`Фотоотчеты построенных ${category.name3}`} captionTag='h2'>
                 <CardList items={preparedPhotos.map(photo => ({
                     id: photo._id,
-                    element: <PhotoCard photo={photo} />
+                    element: (
+                        <PhotoCard
+                            photo={photo}
+                            category={category}
+                            layout={photo.projectId.layoutId} />
+                    )
                 }))} />
                 <div className={styles['photos-button-container']}>
                     <Link href={`/photos/${category.translateName}`} caption='Смотреть все' />

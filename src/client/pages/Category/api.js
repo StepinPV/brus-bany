@@ -9,8 +9,7 @@ export default class Api {
     static getProjects = (id) => axios.get(`/api/projects/${id}`, {
         params: {
             byName: true,
-            withLayout: true,
-            withCategory: true
+            withLayout: true
         }
     });
     static getPhotos = (id) => axios.get(`/api/photos/${id}`, {
@@ -18,8 +17,7 @@ export default class Api {
             forCategory: true,
             byName: true,
             withProject: true,
-            withLayout: true,
-            withCategory: true
+            withLayout: true
         }
     });
 }

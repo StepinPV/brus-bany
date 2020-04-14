@@ -154,7 +154,12 @@ class Photos extends PureComponent {
             if (aDate < bDate) return 1;
         }).map(photo => ({
             id: photo._id,
-            element: <PhotoCard photo={photo} />
+            element: (
+                <PhotoCard
+                    photo={photo}
+                    category={photo.projectId.categoryId}
+                    layout={photo.projectId.layoutId} />
+            )
         }))} />;
     };
 

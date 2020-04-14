@@ -15,10 +15,6 @@ const scheme = new Schema({
         ref: 'layouts',
         required: REQUIRED_MSG
     },
-    price: {
-        type: Number,
-        required: REQUIRED_MSG
-    },
     prices: {
         type: Object
     },

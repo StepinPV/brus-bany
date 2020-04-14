@@ -37,28 +37,6 @@ router.get('/:categoryId', async function(req, res, next) {
     }
 });
 
-//UPDATE PRICES
-router.post('/update-prices', async function(req, res, next) {
-    try {
-        const { status, data, message } = await Projects.updatePrices();
-
-        cache.clear(['projects']);
-
-        switch(status) {
-            case 'success':
-                send(res, { data, status, message: `Цены успешно обновлены!` });
-                break;
-            case 'error':
-                send(res, { message, status });
-                break;
-            default:
-                break;
-        }
-    } catch(err) {
-        next(err);
-    }
-});
-
 //CREATE
 router.post('/:categoryId/:layoutId', async function(req, res, next) {
     try {

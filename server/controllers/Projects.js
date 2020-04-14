@@ -39,12 +39,6 @@ const removeImages = async (data) => {
     rimraf.sync(`./public/uploads/projects/${category.translateName}/${layout.translateName}`);
 };
 
-// Посчитать цену проекта
-const calculatePrice = async (project) => {
-    const { data: category } = await Categories.get(project.categoryId);
-    return project.prices ? project.prices[category.complectationBlocks.defaultItemId] || 0 : 0;
-};
-
 class Projects {
     static async getAll(options) {
         const promise = Project.find({});
@@ -65,30 +59,6 @@ class Projects {
 
         return Status.success(projects);
     };
-
-    static async updatePrices() {
-        const projects = await Project.find({});
-
-        for (let i = 0; i < projects.length; i++) {
-            const project = projects[i].toObject();
-
-            project.price = await calculatePrice(project);
-
-            try {
-                const projectInst = new Project(project);
-
-                await projectInst.validate();
-
-                const { categoryId, layoutId } = project;
-
-                await Project.updateOne({ categoryId, layoutId }, project, { runValidators: true });
-            } catch (err) {
-                return Status.error('Ошибка обновления!', { errors: prepareErrors(err.errors) });
-            }
-        }
-
-        return Status.success();
-    }
 
     static async getAllForCategory(categoryId, options) {
         const promise = Project.find({ categoryId });
@@ -162,8 +132,6 @@ class Projects {
             data.created = new Date();
             data.updated = new Date();
 
-            data.price = await calculatePrice(data);
-
             const projectInst = new Project(data);
 
             await projectInst.validate();
@@ -191,8 +159,6 @@ class Projects {
         if (!await Project.findOne({ categoryId, layoutId })) {
             return Status.error(`Проект не найден!`);
         }
-
-        project.price = await calculatePrice(project);
 
         try {
             const data = {

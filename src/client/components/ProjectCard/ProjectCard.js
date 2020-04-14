@@ -25,7 +25,8 @@ function renderInfoTitle(project){
 
 function ProjectCard(props) {
     const { category, project } = props;
-    const { images, price, layoutId } = project;
+    const { images, prices, layoutId } = project;
+    const { complectationBlocks } = category;
 
     return (
         <a href={`/bani/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
@@ -33,7 +34,7 @@ function ProjectCard(props) {
                 firstImage={images ? images['main'] : null}
                 imageAlt={`Баня ${layoutId.name} ${layoutId.width}x${layoutId.length}`}
                 firstButton='Подробнее'
-                secondButton={`от ${price ? numberWithSpaces(price) : 0} руб`}
+                secondButton={`от ${prices && complectationBlocks && prices[complectationBlocks.defaultItemId] ? numberWithSpaces(prices[complectationBlocks.defaultItemId]) : 0} руб`}
                 bgStyle='grey'
                 content={(
                     <div className={styles['info']}>

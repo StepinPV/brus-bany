@@ -13,8 +13,7 @@ export default class Api {
             byName: true,
             forProject: true,
             withProject: true,
-            withLayout: true,
-            withCategory: true
+            withLayout: true
         }
     });
 }

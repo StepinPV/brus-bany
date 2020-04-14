@@ -72,7 +72,12 @@ class Main extends PureComponent {
                         captionTag='h2'>
                         <CardList items={preparedPhotos.map(photo => ({
                             id: photo._id,
-                            element: <PhotoCard photo={photo} />
+                            element: (
+                                <PhotoCard
+                                    photo={photo}
+                                    category={photo.projectId.categoryId}
+                                    layout={photo.projectId.layoutId} />
+                            )
                         }))} />
                         <div className={styles['button-container']}>
                             <Link href='/photos' caption='Смотреть все' />
