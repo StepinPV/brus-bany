@@ -7,7 +7,6 @@ function Meta({ meta }) {
         <Helmet>
             {meta.title ? <title>{meta.title}</title> : null}
             {meta.description ? <meta name='description' content={meta.description} /> : null}
-            {meta.keywords ? <meta name='keywords' content={meta.keywords} /> : null}
             {meta.title ? <meta property='og:title' content={meta.title} /> : null}
             {meta.description ? <meta property='og:description' content={meta.description} /> : null}
             <meta property='og:type' content={meta.type || 'website'} />
