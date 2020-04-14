@@ -114,15 +114,6 @@ const projectBlockScheme = new Schema({
         type: String,
         required: REQUIRED_MSG
     },
-    useInBuildingPrice: {
-        type: Boolean
-    },
-    required: {
-        type: Boolean
-    },
-    defaultItemId: {
-        type: String
-    },
     items: {
         type: [{
             title: {
