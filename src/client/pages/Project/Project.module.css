@@ -12,20 +12,6 @@
     padding-top: 16px;
 }
 
-@media screen and (max-width: 640px) {
-    .top-block {
-        flex-wrap: wrap;
-    }
-
-    .gallery {
-        margin-bottom: 32px;
-    }
-
-    .info {
-        margin: 0;
-    }
-}
-
 .gallery {
     flex-basis: 928px;
     max-width: 100%;
@@ -107,4 +93,23 @@
 
 .main-container {
     margin-bottom: 58px;
+}
+
+@media screen and (max-width: 640px) {
+    .top-block {
+        flex-wrap: wrap;
+        margin: 16px 16px 64px;
+    }
+
+    .breadcrumbs {
+        max-width: calc(100% - 32px);
+    }
+
+    .gallery {
+        margin-bottom: 32px;
+    }
+
+    .info {
+        margin: 0 8px;
+    }
 }
