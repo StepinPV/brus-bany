@@ -48,22 +48,12 @@ const calculatePrice = async (project) => {
 
         for (let j = 0; j < block.items.length; j++) {
             const item = block.items[j];
-            let itemPrice = 0;
-
-            switch(item.price.typeId) {
-                case 'layout_fix':
-                    const { data: params } = await Layouts.get(project.layoutId);
-                    itemPrice = eval(item.price.value);
-                    break;
-                case 'fix':
-                    itemPrice = item.price.value;
-                    break;
-            }
+            const { data: params } = await Layouts.get(project.layoutId);
 
             project.projectBlocks = project.projectBlocks || {};
             project.projectBlocks[block.id] = project.projectBlocks[block.id] || {};
             project.projectBlocks[block.id][item.id] = project.projectBlocks[block.id][item.id] || {};
-            project.projectBlocks[block.id][item.id].price = itemPrice;
+            project.projectBlocks[block.id][item.id].price = eval(item.price);
         }
     }
 

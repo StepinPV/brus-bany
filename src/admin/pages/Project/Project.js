@@ -208,19 +208,7 @@ class Project extends PureComponent {
 
     renderProjectBlock = (projectBlock) => {
         const { project } = this.props;
-
-        const renderPrice = (item) => {
-            switch(item.price.typeId) {
-                case 'layout_fix':
-                    const params = project.layoutId;
-                    return <div style={{textAlign: 'center', marginTop: '8px'}}>Цена: {eval(item.price.value)} руб.</div>;
-                    break;
-                case 'fix':
-                    return <div style={{textAlign: 'center', marginTop: '8px'}}>Цена: {item.price.value} руб.</div>;
-                    break;
-
-            }
-        };
+        const params = project.layoutId;
 
         return (
             <div>
@@ -229,7 +217,7 @@ class Project extends PureComponent {
                     return (
                         <div>
                             <div style={{textAlign: 'center', marginTop: '16px'}}>{item.title} {item.name} {item.id === projectBlock.defaultItemId ? ' (По умолчанию)' : null}</div>
-                            {renderPrice(item)}
+                            <div style={{textAlign: 'center', marginTop: '8px'}}>Цена: {eval(item.price)} руб.</div>
                         </div>
                     )
                 })}</div>

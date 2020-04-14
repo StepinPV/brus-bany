@@ -233,18 +233,8 @@ export default [{
             type: 'string'
         }, {
             _id: 'price',
-            title: 'Тип',
-            type: 'oneOf',
-            variants: [{
-                id: 'layout_fix',
-                typeTitle: 'Общая цена в зависимости от планировки',
-                title: 'Формула',
-                type: 'text'
-            }, {
-                id: 'fix',
-                typeTitle: 'Фиксированная цена',
-                type: 'integer number'
-            }]
+            title: 'Формула цены',
+            type: 'string'
         }]
     }]
 }];
