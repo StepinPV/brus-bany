@@ -5,23 +5,23 @@ import styles from './ProjectBlock.module.css';
 
 import cx from "classnames";
 
-function ProjectBlock({ selectedId, onChange, name, description, items, itemTitle, itemButtonTitle, required, getSecondButtonTitle }) {
+function ProjectBlock({ idField='id', selectedId, onChange, name, description, items, itemTitle, itemButtonTitle, required, getSecondButtonTitle }) {
     return (
         <DataSection bgStyle='grey' caption={name} captionTag='h2' description={description} isDescriptionHTML>
             <div className={styles.items}>
                 {items.map(item => {
                     return (
                         <Card
-                            key={item.id}
+                            key={item[idField]}
                             imageAlt={`${itemTitle} ${item.name.toLowerCase()}`}
-                            className={cx({[styles.selected]: selectedId === item.id})}
+                            className={cx({[styles.selected]: selectedId === item[idField]})}
                             onClick={() => {
-                                if (item.id === selectedId) {
+                                if (item[idField] === selectedId) {
                                     if (!required) {
                                         onChange(null);
                                     }
                                 } else {
-                                    onChange(item.id);
+                                    onChange(item[idField]);
                                 }
                             }}
                             firstImage={item.image}

@@ -99,10 +99,6 @@ const complectationBlockScheme = new Schema({
 });
 
 const projectBlockScheme = new Schema({
-    id: {
-        type: String,
-        required: REQUIRED_MSG
-    },
     name: {
         type: String,
         required: REQUIRED_MSG
@@ -129,10 +125,6 @@ const projectBlockScheme = new Schema({
     },
     items: {
         type: [{
-            id: {
-                type: String,
-                required: REQUIRED_MSG
-            },
             title: {
                 type: String,
                 required: REQUIRED_MSG
@@ -151,7 +143,10 @@ const projectBlockScheme = new Schema({
             condition: {
                 type: String
             },
-            price: Object
+            price: {
+                type: String,
+                required: REQUIRED_MSG
+            }
         }]
     },
 });

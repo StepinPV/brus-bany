@@ -146,7 +146,6 @@ class Project extends PureComponent {
                         <>
                             {this.renderImages()}
                             {this.renderComplectationBlock()}
-                            {this.renderProjectBlocks()}
                             {this.renderBuildTime()}
                             {<div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Сохранить и обновить'}</div>}
                             { !addMode ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
@@ -189,40 +188,6 @@ class Project extends PureComponent {
                 </div>
             </div>
         ) : null;
-    };
-
-    renderProjectBlocks = () => {
-        const { project } = this.props;
-
-        if (project.categoryId.projectBlocks && project.categoryId.projectBlocks.length) {
-            return (
-                <div className={styles.projectBlocks}>
-                    <div className={styles.projectBlocksTitle}>Дополнения</div>
-                    {project.categoryId.projectBlocks.map(project => this.renderProjectBlock(project))}
-                </div>
-            )
-        }
-
-        return null;
-    };
-
-    renderProjectBlock = (projectBlock) => {
-        const { project } = this.props;
-        const params = project.layoutId;
-
-        return (
-            <div>
-                <div style={{textAlign: 'center', fontWeight: 'bold', marginTop: '16px'}}>{projectBlock.name}</div>
-                <div>{projectBlock.items.map(item => {
-                    return (
-                        <div>
-                            <div style={{textAlign: 'center', marginTop: '16px'}}>{item.title} {item.name} {item.id === projectBlock.defaultItemId ? ' (По умолчанию)' : null}</div>
-                            <div style={{textAlign: 'center', marginTop: '8px'}}>Цена: {eval(item.price)} руб.</div>
-                        </div>
-                    )
-                })}</div>
-            </div>
-        )
     };
 
     renderImages = () => {

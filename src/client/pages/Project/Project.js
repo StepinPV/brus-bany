@@ -44,12 +44,6 @@ class Project extends PureComponent {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.project && prevState.projectId !== nextProps.project._id) {
-
-            const projectBlocksValues = {};
-            nextProps.project.categoryId.projectBlocks.forEach(block => {
-                projectBlocksValues[block.id] = block.defaultItemId;
-            });
-
             return {
                 breadcrumbs: [
                     ...breadcrumbsDefault,
@@ -57,7 +51,6 @@ class Project extends PureComponent {
                     { title: nextProps.project.layoutId.name }
                 ],
                 projectId: nextProps.project._id,
-                projectBlocksValues,
                 selectedComplectation: nextProps.project.categoryId.complectationBlocks ? nextProps.project.categoryId.complectationBlocks.defaultItemId : null
             }
         }
@@ -342,26 +335,24 @@ class Project extends PureComponent {
     renderProjectBlock = (projectBlock) => {
         const { project } = this.props;
         const { projectBlocksValues } = this.state;
+        const { layoutId: params } = project;
 
         return (
             <ProjectBlock
-                key={projectBlock.id}
+                key={projectBlock._id}
+                idField='_id'
                 {...projectBlock}
-                selectedId={projectBlocksValues[projectBlock.id]}
+                selectedId={projectBlocksValues[projectBlock._id]}
                 onChange={value => {
                     this.setState({
                         projectBlocksValues: {
                             ...projectBlocksValues,
-                            [projectBlock.id]: value
+                            [projectBlock._id]: value
                         }
                     })
                 }}
                 getSecondButtonTitle={(item) => {
-                    if (project.projectBlocks && project.projectBlocks[projectBlock.id] && project.projectBlocks[projectBlock.id][item.id]) {
-                        return `${numberWithSpaces(project.projectBlocks[projectBlock.id][item.id].price, '&nbsp;')}&nbsp;руб`
-                    }
-
-                    return null;
+                    return `${numberWithSpaces(eval(item.price), '&nbsp;')}&nbsp;руб`
                 }} />
         );
     };
@@ -375,17 +366,22 @@ class Project extends PureComponent {
     };
 
     getFinalPrice = () => {
-        const { project, project: { projectBlocks } } = this.props;
+        const { project } = this.props;
         const { additionsValue, deliveryValue, projectBlocksValues, selectedComplectation } = this.state;
 
         let projectBlocksPriceFixed = 0;
+        const { layoutId: params } = project;
 
         if (project.categoryId.projectBlocks) {
             project.categoryId.projectBlocks.forEach(block => {
-                const selectedItemId = projectBlocksValues[block.id];
+                const selectedItemId = projectBlocksValues[block._id];
 
                 if (selectedItemId) {
-                    projectBlocksPriceFixed += projectBlocks && projectBlocks[block.id] && projectBlocks[block.id][selectedItemId].price ? projectBlocks[block.id][selectedItemId].price : 0;
+                    const selectedItem = block.items.find(item => item._id === selectedItemId);
+
+                    if (selectedItem) {
+                        projectBlocksPriceFixed += eval(selectedItem.price);
+                    }
                 }
             });
         }
@@ -419,16 +415,17 @@ class Project extends PureComponent {
             });
         }
 
+        const { layoutId: params } = project;
         if (project.categoryId.projectBlocks && project.categoryId.projectBlocks.length) {
             project.categoryId.projectBlocks.forEach(block => {
-                if (projectBlocksValues[block.id]) {
-                    const selectedValue = block.items.find(item => item.id === projectBlocksValues[block.id]);
+                if (projectBlocksValues[block._id]) {
+                    const selectedValue = block.items.find(item => item._id === projectBlocksValues[block._id]);
                     data.push({
                         type: 'fields',
                         title: block.itemTitle,
                         fields: [{
                             name: selectedValue.name,
-                            value: project.projectBlocks[block.id][projectBlocksValues[block.id]].price
+                            value: eval(selectedValue.price)
                         }]
                     });
                 }

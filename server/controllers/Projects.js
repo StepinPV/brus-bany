@@ -42,24 +42,7 @@ const removeImages = async (data) => {
 // Посчитать цену проекта
 const calculatePrice = async (project) => {
     const { data: category } = await Categories.get(project.categoryId);
-
-    for (let i = 0; i < category.projectBlocks.length; i++) {
-        const block = category.projectBlocks[i];
-
-        for (let j = 0; j < block.items.length; j++) {
-            const item = block.items[j];
-            const { data: params } = await Layouts.get(project.layoutId);
-
-            project.projectBlocks = project.projectBlocks || {};
-            project.projectBlocks[block.id] = project.projectBlocks[block.id] || {};
-            project.projectBlocks[block.id][item.id] = project.projectBlocks[block.id][item.id] || {};
-            project.projectBlocks[block.id][item.id].price = eval(item.price);
-        }
-    }
-
-    return {
-        price: project.prices ? project.prices[category.complectationBlocks.defaultItemId] || 0 : 0
-    };
+    return project.prices ? project.prices[category.complectationBlocks.defaultItemId] || 0 : 0;
 };
 
 class Projects {
@@ -89,8 +72,7 @@ class Projects {
         for (let i = 0; i < projects.length; i++) {
             const project = projects[i].toObject();
 
-            const prices = await calculatePrice(project);
-            project.price = prices.price;
+            project.price = await calculatePrice(project);
 
             try {
                 const projectInst = new Project(project);
@@ -180,8 +162,7 @@ class Projects {
             data.created = new Date();
             data.updated = new Date();
 
-            const prices = await calculatePrice(data);
-            data.price = prices.price;
+            data.price = await calculatePrice(data);
 
             const projectInst = new Project(data);
 
@@ -211,8 +192,7 @@ class Projects {
             return Status.error(`Проект не найден!`);
         }
 
-        const prices = await calculatePrice(project);
-        project.price = prices.price;
+        project.price = await calculatePrice(project);
 
         try {
             const data = {

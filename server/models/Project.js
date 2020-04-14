@@ -30,10 +30,6 @@ const scheme = new Schema({
         type: Object,
         default: {}
     },
-    projectBlocks: {
-        type: Object,
-        default: {}
-    },
     updated: Date
 }, { versionKey: false });
 

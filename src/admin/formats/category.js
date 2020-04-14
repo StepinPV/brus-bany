@@ -175,11 +175,6 @@ export default [{
     itemTitleField: 'name',
     type: 'array',
     format: [{
-        _id: 'id',
-        title: 'ИД блока',
-        type: 'string',
-        required: true
-    }, {
         _id: 'name',
         title: 'Название',
         type: 'string',
@@ -204,11 +199,6 @@ export default [{
         itemTitleField: 'name',
         type: 'array',
         format: [{
-            _id: 'id',
-            title: 'Идентификатор',
-            type: 'string',
-            required: true
-        }, {
             _id: 'title',
             title: 'Название',
             type: 'string',
