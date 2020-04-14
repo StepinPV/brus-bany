@@ -56,7 +56,7 @@ function AboutCompany() {
         <Page opacityHeader>
             <Meta meta={META} />
             <Top />
-            <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
+            <Breadcrumbs items={breadcrumbs} />
             <div className={styles.article}>
                 <Article article={article} />
             </div>

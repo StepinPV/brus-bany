@@ -135,7 +135,6 @@ class Project extends PureComponent {
                     imageAlt: `Проект ${this.renderInfoTitle(project.categoryId['name5']).toLowerCase()} - ${project.layoutId.name}`
                 }} />
                 <Header />
-                <Breadcrumbs items={breadcrumbs} className={styles.breadcrumbs} />
                 { this.renderContent() }
                 <Footer />
             </div>
@@ -144,13 +143,16 @@ class Project extends PureComponent {
 
     renderContent = () => {
         const { project, photos, match } = this.props;
-        const { additionsValue, formData } = this.state;
+        const { additionsValue, formData, breadcrumbs } = this.state;
 
         return project ? (
             <div className={styles.container} itemScope itemType="http://schema.org/Product">
                 <div className={styles['top-block']}>
                     {this.renderGallery()}
                     {this.renderInfo()}
+                </div>
+                <div className={styles['breadcrumbs-container']}>
+                    <Breadcrumbs items={breadcrumbs} />
                 </div>
                 {project.categoryId.equipment && project.categoryId.equipment.length ? <BaseEquipment equipment={project.categoryId.equipment} /> : null}
                 {this.renderComplectationBlock()}

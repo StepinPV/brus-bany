@@ -5,7 +5,6 @@ import Table from './resources/Table';
 import Top from './resources/Top';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import DeliveryMap from '../../components/DeliveryMap';
-import styles from "./Delivery.module.css";
 import FormBlock from '../../components/FormBlock';
 import Meta from '../../components/Meta';
 
@@ -26,7 +25,7 @@ function Delivery() {
         <Page opacityHeader>
             <Meta meta={META} />
             <Top />
-            <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
+            <Breadcrumbs items={breadcrumbs} />
             <First />
             <DeliveryMap id='delivery-map' />
             <Table />

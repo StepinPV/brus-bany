@@ -1,15 +1,14 @@
 .top-block {
     display: flex;
-    margin: 16px 32px 64px;
+    margin: 32px 32px 64px;
 }
 
 .info {
     margin: 0 32px;
 }
 
-.breadcrumbs {
-    max-width: calc(100% - 64px);
-    padding-top: 16px;
+.breadcrumbs-container {
+    background: #efefef;
 }
 
 .gallery {
@@ -98,11 +97,7 @@
 @media screen and (max-width: 640px) {
     .top-block {
         flex-wrap: wrap;
-        margin: 16px 16px 64px;
-    }
-
-    .breadcrumbs {
-        max-width: calc(100% - 32px);
+        margin: 16px 16px 32px;
     }
 
     .gallery {

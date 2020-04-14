@@ -50,7 +50,7 @@ function GOST() {
         <Page opacityHeader>
             <Meta meta={META} />
             <Top />
-            <Breadcrumbs className={styles.breadcrumbs} items={breadcrumbs} />
+            <Breadcrumbs items={breadcrumbs} />
             <div id='list' className={styles.items}>
                 {items.map(({ title, description, link }) => {
                     return (
