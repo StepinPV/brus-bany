@@ -5,7 +5,7 @@ import styles from './Table.module.css';
 function Table() {
     return (
         <div className={styles.container}>
-            <Caption size='s'>Или воспользуйтесь таблицей</Caption>
+            <Caption size='s'>Ориентировочная стоимость доставки в регионы</Caption>
             <table className={styles.table}>
                 <tbody>
                 <tr>
