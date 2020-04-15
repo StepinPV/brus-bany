@@ -17,7 +17,7 @@ exports.generate = async function () {
     }, {
         [ATTRIBUTES_KEY]: {
             'url': `${DOMAIN}/blog`,
-            'text': 'Блог о строительстве бань | Брус бани'
+            'text': 'Блог о строительстве бань'
         },
         'breadcrumb': null
     }];
@@ -104,7 +104,7 @@ exports.generate = async function () {
     articles.forEach(article => {
         const date = article.get('updated');
         const articleUrl = `${DOMAIN}/blog/${article.get('translateName')}`;
-        const articleTitle = `${article.article.name} | Брус бани`;
+        const articleTitle = `${article.article.name}`;
 
         const articleData = article.get('article');
 
@@ -174,11 +174,11 @@ exports.generate = async function () {
         },
         'rss': [{
             'channel': [{
-                title: 'Блог о строительстве бань | Брус бани'
+                title: 'Блог о строительстве бань'
             }, {
                 link: `${DOMAIN}/blog`
             }, {
-                description: '🏠 За все время работы мы узнали так много о строительстве бань, что будет не честно, если мы не поделимся этими знаниями с вами 📳 8(800)201-07-29'
+                description: 'За все время работы мы узнали так много о строительстве бань, что будет не честно, если мы не поделимся этими знаниями с вами'
             }, {
                 language: 'ru'
             }, ...articlesArr]
