@@ -7,6 +7,7 @@ import Page from '../../components/Page';
 import ArticleComponent from '../../components/Article';
 import DataSection from '../../components/DataSection';
 import FormBlock from "../../components/FormBlock";
+import renderDate from '@utils/RenderDate';
 import Meta from '../../components/Meta';
 
 const breadcrumbsDefault = [{
@@ -85,7 +86,7 @@ class Article extends PureComponent {
         if (article) {
             meta = {
                 title: `${article.article.name} | Брус бани`,
-                description: `🏠 ${article.article.name} 💨 Блог о строительстве бань Брус Бани 📳 8(800)201-07-29`,
+                description: `🏠 ${article.article.name} 💨 Дата публикации: ${renderDate(article.created)} 💨 Блог о строительстве бань Брус Бани 📳 8(800)201-07-29`,
                 type: 'article',
                 image: article.article.image,
                 imageAlt: article.article.imageAlt
