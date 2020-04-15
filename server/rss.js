@@ -135,7 +135,7 @@ exports.generate = async function () {
                         }]
                     }]
                 }]
-            }, {
+            }/*, {
                 'turbo:content': `
                     <![CDATA[
                         <header>
@@ -161,7 +161,7 @@ exports.generate = async function () {
                         ` : ''}
                     ]]>
                 `
-            }]
+            }*/]
         });
     });
 
