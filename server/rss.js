@@ -6,6 +6,7 @@ const Articles = require('./controllers/Articles');
 
 const ATTRIBUTES_KEY = 'attr';
 const DOMAIN = 'https://brus-bany.ru';
+const YMetricId = '49126414';
 
 exports.generate = async function () {
     const breadcrumbs = [{
@@ -23,7 +24,7 @@ exports.generate = async function () {
     }];
 
     const renderText = (text) => {
-        return text ? '<p>${text}</p>' : ''
+        return text ? `<p>${text}</p>` : ''
     };
 
     const renderImage = (value) => {
@@ -42,8 +43,8 @@ exports.generate = async function () {
             <ul>
                 ${values.map(value => `
                     <li>
-                        <p><b>${value.caption}</b></p>
-                        <p>${value.text}</p>
+                        ${value.caption ? `<p><b>${value.caption}</b></p>` : ''}
+                        ${value.text ? `<p>${value.text}</p>` : ''}
                         ${value.image ? renderImage({
                             image: value.image,
                             description: value.imageDescription
@@ -59,8 +60,8 @@ exports.generate = async function () {
             <ol>
                 ${values.map(value => `
                     <li>
-                        <p><b>${value.caption}</b></p>
-                        <p>${value.text}</p>
+                        ${value.caption ? `<p><b>${value.caption}</b></p>` : ''}
+                        ${value.text ? `<p>${value.text}</p>` : ''}
                         ${value.image ? renderImage({
                             image: value.image,
                             description: value.imageDescription
@@ -123,7 +124,7 @@ exports.generate = async function () {
             }, {
                 'metrics': [{
                     [ATTRIBUTES_KEY]: {
-                        'schema_identifier': 'Идентификатор'
+                        'schema_identifier': YMetricId
                     },
                     'yandex': [{
                         'breadcrumblist': [...breadcrumbs, {
@@ -135,7 +136,7 @@ exports.generate = async function () {
                         }]
                     }]
                 }]
-            }/*, {
+            }, {
                 'turbo:content': `
                     <![CDATA[
                         <header>
@@ -153,15 +154,9 @@ exports.generate = async function () {
                             </div>
                         </header>
                         ${articleData.content ? `${articleData.content.map((item) => renderBlock(item)).join('')}` : ''}
-                        ${date ? `
-                            <div>
-                                Дата публикации:
-                                <time>${renderDate(date)}</time>
-                            </div>
-                        ` : ''}
                     ]]>
                 `
-            }*/]
+            }]
         });
     });
 
@@ -181,6 +176,12 @@ exports.generate = async function () {
                 description: 'За все время работы мы узнали так много о строительстве бань, что будет не честно, если мы не поделимся этими знаниями с вами'
             }, {
                 language: 'ru'
+            }, {
+                'turbo:analytics': null,
+                [ATTRIBUTES_KEY]: {
+                    'type': 'Yandex',
+                    'id': YMetricId
+                }
             }, ...articlesArr]
         }]
     };
