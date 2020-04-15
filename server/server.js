@@ -16,7 +16,8 @@ const redirects = require('./redirects');
 const nodemailer = require('./nodemailer');
 
 const sitemap = require('./sitemap');
-const yml = require('./YML');
+const yml = require('./yml');
+const rss = require('./rss');
 const google = require('./google');
 
 const app = express();
@@ -89,10 +90,12 @@ nodemailer.init('smtp.yandex.ru', 465, 'brus-bany.ru', 'Brus@123');
 sitemap.generate();
 yml.generate();
 google.generate();
+rss.generate();
 schedule.scheduleJob('0 0 * * *', function(){
     sitemap.generate();
     yml.generate();
     google.generate();
+    rss.generate();
 });
 
 
