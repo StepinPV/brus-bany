@@ -54,7 +54,7 @@ export default (initModule) => {
             loader: () => getLoader(import('../client/pages/Category')),
             loading: LoaderPage,
         }),
-        simplePage: true
+        simplePage: false
     }, {
         id: 'site/requisites',
         path: '/rekvizity',
