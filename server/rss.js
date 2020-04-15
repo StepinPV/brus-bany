@@ -95,10 +95,6 @@ exports.generate = async function () {
         `;
     };
 
-    function renderDate(date) {
-        return `${date.getDate()}.${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}.${date.getFullYear()}`;
-    }
-
     // articles
     let articlesArr = [];
     const {data: articles} = await Articles.getAll();
