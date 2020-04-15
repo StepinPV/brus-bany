@@ -3,7 +3,7 @@ import Page from '../../components/Page';
 import Caption from '../../components/Caption';
 import H1Block from '../../components/H1Block';
 import Text from '../../components/Text';
-import { Link } from '../../components/Button';
+import { Link } from '../../../components/Button';
 import styles from './Payment.module.css';
 import FormBlock from "../../components/FormBlock";
 import Meta from '../../components/Meta';

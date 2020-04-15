@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import Page from '../../components/Page';
-import { Link } from '../../components/Button';
+import { Link } from '../../../components/Button';
 import SocialNetwork from '../../components/SocialNetwork';
 import DataSection from '../../components/DataSection';
 import H1Block from '../../components/H1Block';

@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import DataSection from '../../../../components/DataSection';
-import { Link } from '../../../../components/Button';
+import { Link } from '../../../../../components/Button';
 import Text from '../../../../components/Text';
 import cx from 'classnames';
 import styles from './HowWork.module.css';

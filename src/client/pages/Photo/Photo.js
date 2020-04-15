@@ -9,7 +9,7 @@ import styles from './Photo.module.css';
 import Text from '../../components/Text';
 import Caption from '../../components/Caption';
 import YouTube from '../../components/YouTube';
-import { Simple } from '../../components/Button';
+import { Simple } from '../../../components/Button';
 import FormBlock from '../../components/FormBlock';
 import Meta from '../../components/Meta';
 import renderDate from '@utils/RenderDate';

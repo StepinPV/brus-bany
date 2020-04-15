@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import Form from '../../components/Form';
 import { getLayout, setLayout, saveLayout, resetData, deleteLayout } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import format from '../../formats/layout';
 import styles from './Layout.module.css';
+import {Button} from "../../../components/Button";
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -37,7 +38,7 @@ class Layout extends PureComponent {
                 breadcrumbs: [
                     ...breadcrumbsDefault,
                     { title: match.params.id === 'add' ? 'Создание планировки' : 'Редактирование планировки' }
-                    ]
+                ]
             }
         }
 
@@ -81,15 +82,27 @@ class Layout extends PureComponent {
     renderForm = () => {
         const { layout, match } = this.props;
         const { errors } = this.state;
-        const { id } = match.params;
+        const { name } = match.params;
 
         return layout ? (
             <div className={styles.formContainer}>
                 <div className={styles.formWrapper}>
                     <Form format={format} value={layout} onChange={this.handleChange} errors={errors} />
 
-                    <div className={styles.saveButton} onClick={this.handleSave}>Cохранить</div>
-                    { id !== 'add' ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null }
+                    <Button
+                        caption={name === 'add' ? 'Создать' : 'Сохранить'}
+                        type='yellow'
+                        onClick={this.handleSave}
+                        className={styles.button}
+                    />
+                    {name !== 'add' ? (
+                        <Button
+                            caption='Удалить'
+                            type='red'
+                            onClick={this.handleDelete}
+                            className={styles.button}
+                        />
+                    ) : null}
                 </div>
             </div>
         ) : null;

@@ -8,7 +8,7 @@ function ArticleCard(props) {
     const { translateName, created, article } = props.article;
 
     return (
-        <a href={`/blog/${translateName}`} key={translateName} className={styles.container}>
+        <a href={props.link || `/blog/${translateName}`} key={translateName} className={styles.container}>
             <Card
                 firstImage={article.image}
                 imageAlt={article.imageAlt}
@@ -27,7 +27,8 @@ function ArticleCard(props) {
 }
 
 ArticleCard.propTypes = {
-    article: PropTypes.object
+    article: PropTypes.object,
+    link: PropTypes.string
 };
 
 export default memo(ArticleCard);

@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import { getCategory, setCategory, saveCategory, resetData, deleteCategory } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import Filters from './resources/Filters';
 import categoryFormat from '../../formats/category';
 import Form from '../../components/Form';
 import styles from './Category.module.css';
+import {Button} from "../../../components/Button";
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -97,8 +98,20 @@ class Category extends PureComponent {
                 <div className={styles.formWrapper}>
                     <Form format={categoryFormat} value={category} onChange={this.handleChange} errors={errors} />
                     <Filters />
-                    <div className={styles.saveButton} onClick={this.handleSave}>{match.params.id === 'add' ? 'Создать' : 'Cохранить'}</div>
-                    {match.params.id !== 'add' ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
+                    <Button
+                        caption={match.params.name === 'add' ? 'Создать' : 'Сохранить'}
+                        type='yellow'
+                        onClick={this.handleSave}
+                        className={styles.button}
+                    />
+                    {match.params.name !== 'add' ? (
+                        <Button
+                            caption='Удалить'
+                            type='red'
+                            onClick={this.handleDelete}
+                            className={styles.button}
+                        />
+                    ) : null}
                 </div>
             </div>
         ) : null;

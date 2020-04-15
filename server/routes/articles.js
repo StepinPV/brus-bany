@@ -53,7 +53,7 @@ router.post('/', async function(req, res, next) {
 router.get('/:id', async function(req, res, next) {
     try {
         const searchByName = req.query && req.query.byName;
-        const { status, data, message } = cache.get(req) || cache.add(req, searchByName ? await Articles.getByName(req.params.id) : await Articles.get(req.params.id), `articles_${req.params.id}`);
+        const { status, data, message } = cache.get(req) || cache.add(req, searchByName ? await Articles.getByName(req.params.id) : await Articles.get(req.params.id), `articles`);
 
         switch(status) {
             case 'success':
@@ -74,7 +74,7 @@ router.put('/:id', async function(req, res, next) {
     try {
         const { status, data, message } = await Articles.update(req.params.id, req.body.article);
 
-        cache.clear(['articles', `articles_${req.body.article.translateName}`]);
+        cache.clear(['articles']);
 
         switch(status) {
             case 'success':
@@ -95,7 +95,7 @@ router.delete('/:id', async function(req, res, next) {
     try {
         const { status, data, message } = await Articles.delete(req.params.id);
 
-        cache.clear(['articles', `articles_${req.body.article.translateName}`]);
+        cache.clear(['articles']);
 
         switch(status) {
             case 'success':

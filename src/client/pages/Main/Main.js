@@ -3,10 +3,10 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import Page from '../../components/Page';
-import CardList from '../../components/CardList';
-import PhotoCard from '../../components/PhotoCard';
-import ArticleCard from '../../components/ArticleCard';
-import { Link } from '../../components/Button';
+import CardList from '../../../components/CardList';
+import PhotoCard from '../../../components/PhotoCard';
+import ArticleCard from '../../../components/ArticleCard';
+import { Link } from '../../../components/Button';
 import Meta from '../../components/Meta';
 import Top from './resources/Top';
 import Categories from './resources/Categories';

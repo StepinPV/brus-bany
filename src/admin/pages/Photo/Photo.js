@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import Select from '../../../components/Select';
 import {
     getReport,
@@ -18,6 +18,7 @@ import withNotification from '../../../plugins/Notifications/withNotification';
 import Form from '../../components/Form';
 import format from '../../formats/photo';
 import styles from './Photo.module.css';
+import {Button} from "../../../components/Button";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -115,8 +116,21 @@ class Photo extends PureComponent {
                 <div className={styles.formWrapper}>
                     {this.renderProject()}
                     <Form format={format} value={report} onChange={this.handleChange} errors={errors} />
-                    <div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Сохранить и обновить'}</div>
-                    { !addMode ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
+
+                    <Button
+                        caption={addMode ? 'Создать' : 'Сохранить'}
+                        type='yellow'
+                        onClick={this.handleSave}
+                        className={styles.button}
+                    />
+                    {!addMode ? (
+                        <Button
+                            caption='Удалить'
+                            type='red'
+                            onClick={this.handleDelete}
+                            className={styles.button}
+                        />
+                    ) : null}
                 </div>
             </div>
         ) : null;
@@ -181,7 +195,9 @@ class Photo extends PureComponent {
 
         switch(status){
             case 'success':
-                history.push(`/admin/photos`);
+                if (addMode) {
+                    history.push(`/admin/photos`);
+                }
                 break;
             case 'error':
                 if (data && data.errors) {

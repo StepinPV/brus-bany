@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
-import Tiles from '../../components/Tiles';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import { resetData, init, getReports } from './actions';
 import Select from '../../../components/Select';
 import styles from './Photos.module.css';
+import PhotoCard from "../../../components/PhotoCard";
+import AddCard from "../../../components/AddCard";
+import CardList from "../../../components/CardList/CardList";
 
 const breadcrumbsItems = [{
     title: 'Главная',
@@ -16,11 +18,6 @@ const breadcrumbsItems = [{
     title: 'Фотоотчеты'
 }];
 
-const loadingTile = {
-    type: 'loading',
-    key: 'loading'
-};
-
 class Photos extends PureComponent {
     static propTypes = {
         categories: PropTypes.array,
@@ -28,11 +25,7 @@ class Photos extends PureComponent {
         actions: PropTypes.object
     };
 
-    state = {
-        tiles: null,
-        defaultTiles: [loadingTile],
-        categoryName: undefined
-    };
+    state = {};
 
     componentDidMount() {
         const { actions } = this.props;
@@ -41,31 +34,10 @@ class Photos extends PureComponent {
 
     componentDidUpdate(prevProps, prevState) {
         const { categoryId } = this.state;
-        const { actions, reports } = this.props;
+        const { actions } = this.props;
 
         if (categoryId && categoryId !== prevState.categoryId) {
             actions.getReports(categoryId);
-        }
-
-        if (reports !== prevProps.reports) {
-            const tiles = reports.map(report => {
-                const link = `/admin/photos/${categoryId}/${report['_id']}`;
-
-                return {
-                    key: link,
-                    type: 'link',
-                    title: report.projectId.layoutId['name'],
-                    link: link
-                }
-            });
-
-            this.setState({
-                tiles: [...tiles, {
-                    type: 'add',
-                    link: `/admin/photos/${categoryId}/add`,
-                    key: `/admin/photos/${categoryId}/add`
-                }]}
-            );
         }
     }
 
@@ -75,8 +47,8 @@ class Photos extends PureComponent {
     }
 
     render() {
-        const { categories } = this.props;
-        const { tiles, defaultTiles, categoryId } = this.state;
+        const { categories, reports } = this.props;
+        const { categoryId } = this.state;
 
         return (
             <>
@@ -96,11 +68,39 @@ class Photos extends PureComponent {
                     </div>
                 ) : null}
 
-                {categoryId ? <Tiles items={tiles || defaultTiles} /> : null}
+                {reports ? this.renderPhotos() : null}
 
             </>
         );
     }
+
+    renderPhotos = () => {
+        const { reports } = this.props;
+        const { categoryId } = this.state;
+
+        const items = reports.map(photo => ({
+            id: photo._id,
+            element: (
+                <PhotoCard
+                    photo={photo}
+                    category={photo.projectId.categoryId}
+                    layout={photo.projectId.layoutId}
+                    link={`/admin/photos/${categoryId}/${photo['_id']}`}
+                />
+            )
+        }));
+
+        items.unshift({
+            id: 'add',
+            element: (
+                <AddCard
+                    link={`/admin/photos/${categoryId}/add`}
+                />
+            )
+        });
+
+        return <CardList items={items} />;
+    };
 
     handleCategoryChange = (categoryId) => {
         this.setState({ categoryId });

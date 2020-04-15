@@ -9,7 +9,7 @@ function PhotoCard(props) {
     const { mainPhoto, mainPhotoAlt, created, _id } = props.photo;
 
     return (
-        <a href={`/photos/${category.translateName}/${layout.translateName}_${layout.width}x${layout.length}_${_id}`} className={styles.container}>
+        <a href={props.link || `/photos/${category.translateName}/${layout.translateName}_${layout.width}x${layout.length}_${_id}`} className={styles.container}>
             <Card
                 firstImage={mainPhoto}
                 imageAlt={mainPhotoAlt}
@@ -27,7 +27,8 @@ function PhotoCard(props) {
 }
 
 PhotoCard.propTypes = {
-    photo: PropTypes.object
+    photo: PropTypes.object,
+    link: PropTypes.string
 };
 
 export default memo(PhotoCard);

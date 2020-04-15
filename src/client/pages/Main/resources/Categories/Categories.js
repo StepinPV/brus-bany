@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import DataSection from '../../../../components/DataSection';
 import Caption from '../../../../components/Caption';
-import { Simple } from '../../../../components/Button';
+import { Simple } from '../../../../../components/Button';
 import Text from '../../../../components/Text';
 import cx from 'classnames';
 import styles from './Categories.module.css';

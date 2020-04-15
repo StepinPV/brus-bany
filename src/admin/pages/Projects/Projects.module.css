@@ -1,5 +1,7 @@
 .select {
-    width: 400px;
-    margin: 16px 32px;
-    max-width: calc(100% - 64px);
+    box-sizing: border-box;
+    padding: 16px;
+    margin: 0 auto;
+    max-width: 100%;
+    width: 1200px;
 }

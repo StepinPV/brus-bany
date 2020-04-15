@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import Select from '../../../components/Select';
 import {
     getProject,
@@ -18,6 +18,7 @@ import {
 import withNotification from '../../../plugins/Notifications/withNotification';
 import ImageUploader from '../../components/ImageUploader';
 import Input from '../../../components/Input';
+import { Button } from '../../../components/Button';
 import styles from './Project.module.css';
 
 const breadcrumbs = [{
@@ -147,13 +148,41 @@ class Project extends PureComponent {
                             {this.renderImages()}
                             {this.renderComplectationBlock()}
                             {this.renderBuildTime()}
-                            {<div className={styles.saveButton} onClick={this.handleSave}>{addMode ? 'Создать' : 'Сохранить и обновить'}</div>}
-                            { !addMode ? <div className={styles.deleteButton} onClick={this.handleDelete}>Удалить</div> : null}
+                            <Button
+                                caption={addMode ? 'Создать' : 'Сохранить'}
+                                type='yellow'
+                                onClick={this.handleSave}
+                                className={styles.button}
+                            />
+                            {!addMode ? (
+                                <Button
+                                    caption='Удалить'
+                                    type='red'
+                                    onClick={this.handleDelete}
+                                    className={styles.button}
+                                />
+                            ) : null}
                         </>
                     ) : null}
                 </div>
             </div>
         ) : null;
+    };
+
+    renderImages = () => {
+        const { project: { images } } = this.props;
+
+        return this.renderBlock('Изображения', (
+            <div className={styles.imagesItems}>
+                {IMAGES_DATA.map(({ key, title }) => (
+                    <div key={key} className={styles.imagesItem}>
+                        <ImageUploader title={title} image={images ? images[key] : null} onChange={file => {
+                            this.handleImageChange(file, key);
+                        }} />
+                    </div>
+                ))}
+            </div>
+        ));
     };
 
     renderComplectationBlock = () => {
@@ -166,65 +195,49 @@ class Project extends PureComponent {
         };
 
         return project.categoryId.complectationBlocks ? (
-            <div className={styles.projectBlocks}>
-                <div className={styles.projectBlocksTitle}>Комплектации</div>
-                <div>
-                    <div style={{textAlign: 'center', fontWeight: 'bold', marginTop: '16px'}}>{project.categoryId.complectationBlocks.name}</div>
-                    <div>{project.categoryId.complectationBlocks.items.map(item => {
+            this.renderBlock('Комплектации', (
+                <>
+                    {project.categoryId.complectationBlocks.items.map(item => {
                         return (
-                            <div key={item.id}>
-                                <div style={{textAlign: 'center', marginTop: '16px'}}>{item.title} {item.name} {item.id === project.categoryId.complectationBlocks.defaultItemId ? ' (По умолчанию)' : null}</div>
-                                <Input
-                                    value={project.prices ? project.prices[item.id] : ''}
-                                    title='Укажите стоимость'
-                                    type='integer number'
-                                    required
-                                    min={0}
-                                    onChange={value => { handleChangePrice(item.id, value) } }
-                                />
-                            </div>
+                            <Input
+                                className={styles.input}
+                                key={item.id}
+                                value={project.prices ? project.prices[item.id] : ''}
+                                title={`${item.title} ${item.name} ${item.id === project.categoryId.complectationBlocks.defaultItemId ? ' (По умолчанию)' : ''}`}
+                                type='integer number'
+                                required
+                                min={0}
+                                onChange={value => { handleChangePrice(item.id, value) } }
+                            />
                         )
-                    })}</div>
-                </div>
-            </div>
+                    })}
+                </>
+            ))
         ) : null;
-    };
-
-    renderImages = () => {
-        const { project: { images } } = this.props;
-
-        return (
-            <div className={styles.images}>
-                <div className={styles.imagesTitle}>Изображения</div>
-                <div className={styles.imagesItems}>
-                    {IMAGES_DATA.map(({ key, title }) => (
-                        <div key={key} className={styles.imagesItem}>
-                            <ImageUploader title={title} image={images ? images[key] : null} onChange={file => {
-                                this.handleImageChange(file, key);
-                            }} />
-                        </div>
-                    ))}
-                </div>
-            </div>
-        )
     };
 
     renderBuildTime = () => {
         const { project: { buildTime } } = this.props;
 
+        return this.renderBlock('Параметры', (
+            <div className={styles.input}>
+                <Input
+                    value={buildTime}
+                    title='Срок строительства (количество дней)'
+                    type='integer number'
+                    required
+                    min={0}
+                    onChange={this.handleBuildTimeChange}
+                />
+            </div>
+        ))
+    };
+
+    renderBlock = (title, content) => {
         return (
-            <div className={styles.price}>
-                <div className={styles.priceTitle}>Параметры</div>
-                <div className={styles.profitPercentageInput}>
-                    <Input
-                        value={buildTime}
-                        title='Срок строительства (количество дней)'
-                        type='integer number'
-                        required
-                        min={0}
-                        onChange={this.handleBuildTimeChange}
-                    />
-                </div>
+            <div className={styles.block}>
+                <div className={styles.title}>{title}</div>
+                {content}
             </div>
         )
     };

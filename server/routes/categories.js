@@ -56,7 +56,7 @@ router.get('/:id', async function(req, res, next) {
 
         const { status, data, message } =
                 cache.get(req) ||
-                cache.add(req, searchByName ? await Categories.getByName(req.params.id) : await Categories.get(req.params.id), `categories_${req.params.id}`);
+                cache.add(req, searchByName ? await Categories.getByName(req.params.id) : await Categories.get(req.params.id), `categories`);
 
         switch(status) {
             case 'success':
@@ -77,7 +77,7 @@ router.put('/:id', async function(req, res, next) {
     try {
         const { status, data, message } = await Categories.update(req.params.id, req.body.category);
 
-        cache.clear(['categories', 'projects', `categories_${req.body.category.translateName}`]);
+        cache.clear(['categories', 'projects']);
 
         switch(status) {
             case 'success':
@@ -98,7 +98,7 @@ router.delete('/:id', async function(req, res, next) {
     try {
         const { status, data, message } = await Safety.deleteCategory(req.params.id);
 
-        cache.clear(['categories', 'projects', `categories_${req.body.category.translateName}`]);
+        cache.clear(['categories', 'projects']);
 
         switch(status) {
             case 'success':

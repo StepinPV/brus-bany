@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import Page from '../../components/Page';
-import { Link } from '../../components/Button';
+import { Link } from '../../../components/Button';
 import Top from './resources/Top';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import styles from "./GOST.module.css";

@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Logo from '../../../components/Logo';
-import { Link } from '../Button';
+import { Link } from '../../../components/Button';
 import styles from './Header.module.css';
 import cx from "classnames";
 

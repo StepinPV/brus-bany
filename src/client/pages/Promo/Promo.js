@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import Page from '../../components/Page';
 import Caption from '../../components/Caption';
 import Text from '../../components/Text';
-import { Link } from '../../components/Button';
+import { Link } from '../../../components/Button';
 import H1Block from '../../components/H1Block';
 import img1 from './resources/1.jpg';
 import img2 from './resources/2.jpg';

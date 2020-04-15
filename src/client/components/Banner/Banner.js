@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import Caption from '../Caption';
 import Text from '../Text';
-import { Button, Link } from '../Button';
+import { Button, Link } from '../../../components/Button';
 import styles from './Banner.module.css';
 import cx from 'classnames';
 

@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import { resetData, init } from './actions';
 
 const breadcrumbsItems = [{
@@ -43,7 +43,7 @@ class Layouts extends PureComponent {
                 }
             });
             return {
-                tiles: [...tiles, addTile]
+                tiles: [addTile, ...tiles]
             }
         }
 

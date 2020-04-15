@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import Caption from '../../../../components/Caption';
 import Text from '../../../../components/Text';
-import { Link } from '../../../../components/Button';
+import { Link } from '../../../../../components/Button';
 import styles from './Top.module.css';
 
 function Top() {

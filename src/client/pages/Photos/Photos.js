@@ -7,8 +7,8 @@ import Page from '../../components/Page';
 import H1Block from '../../components/H1Block';
 import styles from './Photos.module.css';
 import FormBlock from "../../components/FormBlock";
-import CardList from '../../components/CardList';
-import PhotoCard from '../../components/PhotoCard';
+import CardList from '../../../components/CardList';
+import PhotoCard from '../../../components/PhotoCard';
 import Meta from '../../components/Meta';
 import cx from "classnames";
 

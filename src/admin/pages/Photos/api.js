@@ -6,6 +6,7 @@ export default class Api {
         params: {
             forCategory: true,
             withLayout: true,
+            withCategory: true,
             withProject: true
         }
     });

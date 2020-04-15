@@ -6,12 +6,12 @@ import { getArticles, resetData } from './actions';
 import Page from '../../components/Page';
 import H1Block from '../../components/H1Block';
 import FormBlock from "../../components/FormBlock";
-import ArticleCard from "../../components/ArticleCard";
-import CardList from '../../components/CardList';
+import ArticleCard from "../../../components/ArticleCard";
+import CardList from '../../../components/CardList';
 import Meta from '../../components/Meta';
 import dzenLogo from './resources/dzen.jpeg';
 import styles from './Articles.module.css';
-import {Simple} from "../../components/Button";
+import {Simple} from "../../../components/Button";
 
 const breadcrumbs = [{
     title: 'Главная',

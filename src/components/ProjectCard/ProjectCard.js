@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ProjectCard.module.css';
 import Card from "../Card";
-import numberWithSpaces from '../../../utils/numberWithSpaces';
+import numberWithSpaces from '../../utils/numberWithSpaces';
 
 function renderInfoTitle(project){
     const { layoutId } = project;
@@ -24,12 +24,12 @@ function renderInfoTitle(project){
 }
 
 function ProjectCard(props) {
-    const { category, project } = props;
+    const { category, project, link } = props;
     const { images, prices, layoutId } = project;
     const { complectationBlocks } = category;
 
     return (
-        <a href={`/bani/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
+        <a href={link || `/bani/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
             <Card
                 firstImage={images ? images['main'] : null}
                 imageAlt={`Баня ${layoutId.name} ${layoutId.width}x${layoutId.length}`}
@@ -53,7 +53,8 @@ function ProjectCard(props) {
 
 ProjectCard.propTypes = {
     project: PropTypes.object,
-    category: PropTypes.object
+    category: PropTypes.object,
+    link: PropTypes.string
 };
 
 export default memo(ProjectCard);

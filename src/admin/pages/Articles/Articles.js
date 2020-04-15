@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
-import Tiles from '../../components/Tiles';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
 import { resetData, init } from './actions';
+import ArticleCard from "../../../components/ArticleCard";
+import AddCard from "../../../components/AddCard";
+import CardList from "../../../components/CardList/CardList";
 
 const breadcrumbsItems = [{
     title: 'Главная',
@@ -14,45 +16,10 @@ const breadcrumbsItems = [{
     title: 'Статьи'
 }];
 
-const loadingTile = {
-    type: 'loading',
-    key: 'loading'
-};
-
-const addTile = {
-    type: 'add',
-    link: '/admin/articles/add',
-    key: '/admin/articles/add'
-};
-
 class Articles extends PureComponent {
     static propTypes = {
         articles: PropTypes.array,
-        isArticlesFetch: PropTypes.bool,
         actions: PropTypes.object
-    };
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (!prevState.tiles && nextProps.articles) {
-            const tiles = nextProps.articles.map(item => {
-                return {
-                    key: item['_id'],
-                    type: 'link',
-                    title: item.article['name'],
-                    link: `/admin/articles/${item['translateName']}`
-                }
-            });
-            return {
-                tiles: [...tiles, addTile]
-            }
-        }
-
-        return null;
-    }
-
-    state = {
-        tiles: null,
-        defaultTiles: [loadingTile]
     };
 
     componentDidMount() {
@@ -66,16 +33,39 @@ class Articles extends PureComponent {
     }
 
     render() {
-        const { tiles, defaultTiles } = this.state;
+        const { articles } = this.props;
 
         return (
             <>
                 <Header/>
                 <Breadcrumbs items={breadcrumbsItems}/>
-                <Tiles items={tiles || defaultTiles} />
+                {articles ? this.renderArticles() : null}
             </>
         );
     }
+
+    renderArticles = () => {
+        const { articles } = this.props;
+
+        const items = articles.map(article => ({
+            id: article._id,
+            element: (
+                <ArticleCard
+                    article={article}
+                    link={`/admin/articles/${article['translateName']}`}
+                />
+            )
+        }));
+
+        items.unshift({
+            id: 'add',
+            element: (
+                <AddCard link='/admin/articles/add' />
+            )
+        });
+
+        return <CardList items={items} />;
+    };
 }
 
 /**
@@ -99,9 +89,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const {articles, isArticlesFetch, isArticlesError} = state['admin-articles'];
+    const {articles} = state['admin-articles'];
 
-    return {articles, isArticlesFetch, isArticlesError};
+    return {articles};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Articles);
