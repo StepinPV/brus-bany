@@ -85,7 +85,7 @@ class Article extends PureComponent {
         if (article) {
             meta = {
                 title: `${article.article.name} | Брус бани`,
-                description: article.article.imageDescription,
+                description: `🏠 ${article.article.name} 💨 Блог о строительстве бань Брус Бани 📳 8(800)201-07-29`,
                 type: 'article',
                 image: article.article.image,
                 imageAlt: article.article.imageAlt

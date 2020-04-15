@@ -84,9 +84,9 @@ class Photo extends PureComponent {
 
         return (
             <Page breadcrumbs={breadcrumbs} notFound={isPhotoError || notFound}>
-                <Meta meta={isPhotoError || notFound ? null : {
+                <Meta meta={isPhotoError || notFound || !photo ? null : {
                     title: `Фотоотчет | ${photo.projectId.categoryId.name2} ${photo.projectId.layoutId.name} ${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length} | ${renderDate(new Date(photo.created))}`,
-                    description: photo.description,
+                    description: `🏠 Фотоотчет проекта ${photo.projectId.categoryId.name5} ${photo.projectId.layoutId.name} ${photo.projectId.layoutId.width}x${photo.projectId.layoutId.length} 💨 Дата строительства: ${renderDate(new Date(photo.created))} 📳 8(800)201-07-29`,
                     image: photo.mainPhoto,
                     imageAlt: photo.mainPhotoAlt
                 }} />
