@@ -30,6 +30,11 @@ export default [{
     title: 'Введите имя для шаблона (Проект <<бани из бруса>>)',
     type: 'string',
     required: true
+},{
+    _id: 'delivery',
+    title: 'Формула стоимости доставки за 1 км',
+    type: 'string',
+    required: true
 }, {
     _id: 'filters',
     title: 'Фильтры',

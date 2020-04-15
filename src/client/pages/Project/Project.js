@@ -160,7 +160,7 @@ class Project extends PureComponent {
                 {project.categoryId.additions && project.categoryId.additions.length ? (
                     <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
                 ) : null}
-                <DeliveryMap id='delivery' onChange={this.handleDelivery} />
+                {this.renderDelivery()}
                 {this.renderFinalPrice()}
                 {photos && photos.length ? (
                     <DataSection bgStyle='grey' caption='Фотоотчеты построенной бани' captionTag='h2'>
@@ -178,6 +178,13 @@ class Project extends PureComponent {
                 <FormBlock source={match.url} data={formData} />
             </div>
         ) : null;
+    };
+
+    renderDelivery = () => {
+        const { project } = this.props;
+        const { layoutId: params } = project;
+
+        return <DeliveryMap id='delivery' onChange={this.handleDelivery} tariff={eval(project.categoryId.delivery)} />;
     };
 
     renderGallery = () => {
