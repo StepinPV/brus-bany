@@ -10,7 +10,7 @@ function Footer() {
             <div className={styles.wrapper}>
                 <div className={styles.column} itemScope itemType='http://schema.org/HomeAndConstructionBusiness'>
                     <meta itemProp="name" content="Брус бани" />
-                    <a href='/' className={styles['logo-wrapper']}>
+                    <a href='/' className={styles['logo-wrapper']} aria-label='Перейти на главную'>
                         <Logo className={styles.logo}/>
                     </a>
                     <div className={styles['social-networks']}>

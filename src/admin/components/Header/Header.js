@@ -4,7 +4,7 @@ import styles from './Header.module.css';
 
 export default memo(() => (
     <div className={styles.container}>
-        <a href='/admin'>
+        <a href='/'>
             <Logo className={styles.logo} />
         </a>
         <span className={styles.title}>Панель администрирования</span>

@@ -11,7 +11,7 @@ function Header(props) {
     return (
         <header className={opacity ? styles['header-absolute'] : null}>
             <div className={cx(styles.container, {[styles['container-opacity']]: opacity}) }>
-                <a href='/' className={styles['logo-wrapper']}>
+                <a href='/' className={styles['logo-wrapper']} aria-label='Перейти на главную'>
                     <Logo className={styles.logo}/>
                 </a>
                 <nav className={styles.items}>
