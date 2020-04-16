@@ -17,12 +17,11 @@ const stylusLoader = require('./webpack/loaders/stylus.js');
 const assetsLoader = require('./webpack/loaders/assets.js');
 
 const NODE_ENV = process.env.NODE_ENV;
+const ANALIZE_MODE = process.env.ANALIZE_MODE;
 
 const isProduction = NODE_ENV === 'production';
 
 const publicPath = '/mstatic/build/';
-
-console.info('NODE_ENV:', NODE_ENV);
 
 const commonConfig = () => merge([resolve, stats, stylusLoader(process.env), assetsLoader(publicPath)]);
 
@@ -95,7 +94,8 @@ const client = () => merge([
                 filename: '[name].[chunkhash:10].css',
                 chunkFilename: '[id].[chunkhash:10].css'
             }),
-            new WebpackBar()
+            new WebpackBar(),
+            ...[...(ANALIZE_MODE ? [new (require('webpack-bundle-analyzer')['BundleAnalyzerPlugin'])] : [])]
         ]
     },
     commonConfig(),
