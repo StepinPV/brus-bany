@@ -44,7 +44,7 @@ const renderItem = ({ value, onChange, variants }) => {
             return <ImageUploader
                 image={value.value}
                 title={variant.title}
-                withoutLogo={item.withoutLogo}
+                props={item.props}
                 onChange={handleChange}
             />;
         case 'array':

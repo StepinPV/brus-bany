@@ -6,7 +6,9 @@ export default [{
 }, {
     _id: 'mainPhoto',
     title: 'Главное изображение',
-    withoutLogo: true,
+    props: {
+        withoutLogo: true,
+    },
     type: 'image',
     required: true
 }, {
@@ -24,7 +26,9 @@ export default [{
 }, {
     _id: 'clientPhoto',
     title: 'Фотография клиента',
-    withoutLogo: true,
+    props: {
+        withoutLogo: true,
+    },
     type: 'image'
 }, {
     _id: 'videoFeedback',

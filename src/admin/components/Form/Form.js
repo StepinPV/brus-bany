@@ -102,7 +102,7 @@ const Form = ({ value, onChange, format, errors }) => {
                             <div className={styles.item} key={item['_id']}>
                                 <ImageUploader
                                     image={value[item['_id']]}
-                                    withoutLogo={item.withoutLogo}
+                                    props={item.props}
                                     title={item.title}
                                     onChange={handleChange}
                                 />

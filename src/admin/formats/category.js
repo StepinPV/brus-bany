@@ -167,7 +167,10 @@ export default [{
             _id: 'image',
             title: 'Изображение',
             type: 'image',
-            withoutLogo: true
+            props: {
+                withoutLogo: true,
+                width: 600
+            }
         }, {
             _id: 'description',
             title: 'Описание',
@@ -217,7 +220,10 @@ export default [{
             _id: 'image',
             title: 'Изображение',
             type: 'image',
-            withoutLogo: true
+            props: {
+                withoutLogo: true,
+                width: 600
+            }
         }, {
             _id: 'description',
             title: 'Описание',

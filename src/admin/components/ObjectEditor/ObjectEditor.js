@@ -118,7 +118,7 @@ const renderItems = ({ value, onChange, format, errors }) => {
                             image={value[item['_id']]}
                             title={item.title}
                             description={item.description}
-                            withoutLogo={item.withoutLogo}
+                            props={item.props}
                             required={item.required}
                             onChange={handleChange}
                             error={errors[item['_id']]}

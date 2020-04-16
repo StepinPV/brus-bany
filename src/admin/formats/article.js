@@ -12,7 +12,9 @@ export default [{
     _id: 'firstImage',
     title: 'Изображение под описанием',
     type: 'image',
-    withoutLogo: true,
+    props: {
+        withoutLogo: true,
+    },
     required: true
 }, {
     _id: 'firstImageAlt',
@@ -27,7 +29,9 @@ export default [{
     _id: 'image',
     title: 'Изображение для обложки',
     type: 'image',
-    withoutLogo: true
+    props: {
+        withoutLogo: true,
+    }
 }, {
     _id: 'imageAlt',
     title: 'Alt для изображения',
@@ -67,7 +71,9 @@ export default [{
                     _id: 'image',
                     title: 'Ресурс',
                     type: 'image',
-                    withoutLogo: true
+                    props: {
+                        withoutLogo: true,
+                    }
                 }, {
                     _id: 'alt',
                     title: 'Alt для изображения',
@@ -94,7 +100,9 @@ export default [{
                     _id: 'image',
                     title: 'Изображение',
                     type: 'image',
-                    withoutLogo: true
+                    props: {
+                        withoutLogo: true,
+                    }
                 }, {
                     _id: 'imageAlt',
                     title: 'Alt изображения',
@@ -121,7 +129,9 @@ export default [{
                     _id: 'image',
                     title: 'Изображение',
                     type: 'image',
-                    withoutLogo: true
+                    props: {
+                        withoutLogo: true,
+                    }
                 }, {
                     _id: 'imageAlt',
                     title: 'Alt изображения',

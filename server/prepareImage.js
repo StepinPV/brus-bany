@@ -9,15 +9,16 @@ const LOGO_SIZE = {
     height: 84
 };
 
-const prepareImage = async function(imageURL, callback, errback, { withLogo }) {
+const prepareImage = async function(imageURL, callback, errback, { withLogo, width }) {
     let imageGM = gm(imageURL);
 
     imageGM.size((err, size) => {
         if (err) { errback(err) }
 
         // Обрезаем
-        if (size.width > MAX_WIDTH) {
-            imageGM = imageGM.resize(MAX_WIDTH);
+        const maxWidth = width || MAX_WIDTH;
+        if (size.width > maxWidth) {
+            imageGM = imageGM.resize(maxWidth);
         }
 
         imageGM.write(imageURL, (err) => {

@@ -55,7 +55,8 @@ router.put('/', upload.single('file'), async function(req, res, next) {
                 send(res, { status: 'error', message });
                 console.log(message);
             }, {
-                withLogo: !req.body.withoutLogo
+                withLogo: !req.body.withoutLogo,
+                width: req.body.width
             });
         } else {
             send(res, { status: 'error', message: 'Изображение не загружено. Допустимый формат: "jpg"' });

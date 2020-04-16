@@ -10,7 +10,7 @@ class ImageUploader extends PureComponent {
         onChange: PropTypes.func.isRequired,
         image: PropTypes.string,
         title: PropTypes.string,
-        withoutLogo: PropTypes.bool,
+        props: PropTypes.object,
         showNotification: PropTypes.func
     };
 
@@ -23,14 +23,13 @@ class ImageUploader extends PureComponent {
     }
 
     handleChange = async (file) => {
-        const { onChange, showNotification, withoutLogo } = this.props;
+        const { onChange, showNotification, props } = this.props;
 
         if (file) {
-            const data = { file };
-
-            if (withoutLogo) {
-                data.withoutLogo = true;
-            }
+            const data = {
+                file,
+                ...(props || {})
+            };
 
             const res = await axios.put(`/api/upload-image`, data, {
                 transformRequest: [toFormData],
