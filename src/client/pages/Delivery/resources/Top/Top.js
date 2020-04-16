@@ -4,7 +4,7 @@ import styles from './Top.module.css';
 
 function Top() {
     const linkStyles = {
-        color: '#f95f33',
+        color: '#963113',
         textDecoration: 'none',
         cursor: 'pointer'
     };
