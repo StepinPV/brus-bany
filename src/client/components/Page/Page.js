@@ -20,8 +20,12 @@ function Page(props) {
                     {children}
                 </div>
             )}
-            <a href='https://api.whatsapp.com/send?phone=79212046512' target='_blank' rel="noopener noreferrer">
-                <i className={styles.whatsup} />
+            <a
+                href='https://api.whatsapp.com/send?phone=79212046512'
+                title='Перейти в WatsApp'
+                target='_blank'
+                rel="noopener noreferrer">
+                <i className={styles['whats-app']} />
             </a>
             <Footer />
         </>
