@@ -50,6 +50,12 @@ const IMAGES_DATA = [{
 }, {
     key: 'layout',
     title: 'Планировка'
+}, {
+    key: 'card',
+    title: 'Для карточки',
+    props: {
+        width: 600
+    }
 }];
 
 const getAddModeBreadcrumbs = () => [...breadcrumbs, { title: 'Создание проекта' }];
@@ -174,9 +180,13 @@ class Project extends PureComponent {
 
         return this.renderBlock('Изображения', (
             <div className={styles.imagesItems}>
-                {IMAGES_DATA.map(({ key, title }) => (
+                {IMAGES_DATA.map(({ key, title, props }) => (
                     <div key={key} className={styles.imagesItem}>
-                        <ImageUploader title={title} image={images ? images[key] : null} onChange={file => {
+                        <ImageUploader
+                            title={title}
+                            image={images ? images[key] : null}
+                            props={props}
+                            onChange={file => {
                             this.handleImageChange(file, key);
                         }} />
                     </div>
