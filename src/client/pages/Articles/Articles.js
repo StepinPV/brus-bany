@@ -64,7 +64,7 @@ class Articles extends PureComponent {
                     caption='Блог о строительстве бань'
                     description='За все время работы мы узнали так много о технологиях строительства бань, что будет просто не честно, если этими знаниями мы не поделимся с вами' />
                 { isArticlesError ? <div>{isArticlesError}</div> : this.renderContent() }
-                <a href='https://zen.yandex.ru/brusbany' target="_blank" rel="nofollow" className={styles.dzenLink}>
+                <a href='https://zen.yandex.ru/brusbany' target="_blank" rel="noopener noreferrer nofollow" className={styles.dzenLink}>
                     <img src={dzenLogo} className={styles['dzenLink-image']} alt='Логотип Яндекс Дзен' />
                     <div className={styles['dzenLink-text']}>
                         <div className={styles['dzenLink-text-wrapper']}>
