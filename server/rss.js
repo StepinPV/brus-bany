@@ -1,28 +1,12 @@
 const fs = require('fs');
-const json2xml = require('json2xml');
 const logger = require('./logger');
 
 const Articles = require('./controllers/Articles');
 
-const ATTRIBUTES_KEY = 'attr';
 const DOMAIN = 'https://brus-bany.ru';
 const YMetricId = '49126414';
 
 exports.generate = async function () {
-    const breadcrumbs = [{
-        [ATTRIBUTES_KEY]: {
-            'url': `${DOMAIN}`,
-            'text': 'Главная'
-        },
-        'breadcrumb': null
-    }, {
-        [ATTRIBUTES_KEY]: {
-            'url': `${DOMAIN}/blog`,
-            'text': 'Блог о строительстве бань'
-        },
-        'breadcrumb': null
-    }];
-
     const renderText = (text) => {
         return text ? `<p>${text}</p>` : ''
     };
@@ -46,9 +30,9 @@ exports.generate = async function () {
                         ${value.caption ? `<p><b>${value.caption}</b></p>` : ''}
                         ${value.text ? `<p>${value.text}</p>` : ''}
                         ${value.image ? renderImage({
-                            image: value.image,
-                            description: value.imageDescription
-                        }) : ''}
+            image: value.image,
+            description: value.imageDescription
+        }) : ''}
                     </li>
                 `)}
             </ul>
@@ -63,9 +47,9 @@ exports.generate = async function () {
                         ${value.caption ? `<p><b>${value.caption}</b></p>` : ''}
                         ${value.text ? `<p>${value.text}</p>` : ''}
                         ${value.image ? renderImage({
-                            image: value.image,
-                            description: value.imageDescription
-                        }) : ''}
+            image: value.image,
+            description: value.imageDescription
+        }) : ''}
                     </li>
                 `)}
             </ol>
@@ -96,7 +80,7 @@ exports.generate = async function () {
     };
 
     // articles
-    let articlesArr = [];
+    let items = '';
     const {data: articles} = await Articles.getAll();
     articles.forEach(article => {
         const date = article.get('updated');
@@ -105,35 +89,22 @@ exports.generate = async function () {
 
         const articleData = article.get('article');
 
-        articlesArr.push({
-            [ATTRIBUTES_KEY]: {
-                'turbo': true
-            },
-            item: [{
-                'link': articleUrl
-            }, {
-                'turbo:source': articleUrl
-            }, {
-                'turbo:topic': articleTitle
-            }, {
-                'pubDate': new Date(date).toUTCString()
-            }, {
-                'metrics': [{
-                    [ATTRIBUTES_KEY]: {
-                        'schema_identifier': YMetricId
-                    },
-                    'yandex': [{
-                        'breadcrumblist': [...breadcrumbs, {
-                            [ATTRIBUTES_KEY]: {
-                                'url': articleUrl,
-                                'text': articleTitle
-                            },
-                            'breadcrumb': null
-                        }]
-                    }]
-                }]
-            }, {
-                'turbo:content': `
+        items += `
+            <item turbo="true">
+                <link>${articleUrl}</link>
+                <turbo:source>${articleUrl}</turbo:source>
+                <turbo:topic>${articleTitle}</turbo:topic>
+                <pubDate>${new Date(date).toUTCString()}</pubDate>
+                <metrics>
+                    <yandex schema_identifier="49126414">
+                        <breadcrumblist>
+                            <breadcrumb url="${DOMAIN}" text="Главная"/>
+                            <breadcrumb url="${DOMAIN}/blog" text="Блог о строительстве бань"/>
+                            <breadcrumb url="${articleUrl}" text="${articleTitle}"/>
+                        </breadcrumblist>
+                    </yandex>
+                </metrics>
+                <turbo:content>
                     <![CDATA[
                         <header>
                             <h1>${articleData.name}</h1>
@@ -151,43 +122,33 @@ exports.generate = async function () {
                         </header>
                         ${articleData.content ? `${articleData.content.map((item) => renderBlock(item)).join('')}` : ''}
                     ]]>
-                `
-            }]
-        });
+                </turbo:content>
+            </item>
+        `;
     });
 
-    const data = {
-        [ATTRIBUTES_KEY]: {
-            'xmlns:yandex': 'http://news.yandex.ru',
-            'xmlns:media': 'http://search.yahoo.com/mrss/',
-            'xmlns:turbo': 'http://turbo.yandex.ru',
-            'version': '2.0'
-        },
-        'rss': [{
-            'channel': [{
-                title: 'Блог о строительстве бань'
-            }, {
-                link: `${DOMAIN}/blog`
-            }, {
-                description: 'За все время работы мы узнали так много о строительстве бань, что будет не честно, если мы не поделимся этими знаниями с вами'
-            }, {
-                language: 'ru'
-            }, {
-                'turbo:analytics': null,
-                [ATTRIBUTES_KEY]: {
-                    'type': 'Yandex',
-                    'id': YMetricId
-                }
-            }, ...articlesArr]
-        }]
-    };
+    const data =
+        `<?xml version="1.0" encoding="UTF-8"?>
+            <rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" xmlns:turbo="http://turbo.yandex.ru" version="2.0">
+            <channel>
+                <title>Блог о строительстве бань</title>
+                <link>${DOMAIN}/blog</link>
+                <description>
+                    За все время работы мы узнали так много о строительстве бань, что будет не честно, если мы не поделимся этими знаниями с вами
+                </description>
+                <language>ru</language>
+                <turbo:analytics type="Yandex" id="${YMetricId}"/>
+                ${items}
+            </channel>
+        </rss>`
+    ;
 
-    fs.writeFile('./public/rss.xml', `<?xml version="1.0" encoding="UTF-8"?>${json2xml(data, {attributes_key: ATTRIBUTES_KEY})}`,
+    fs.writeFile('./public/rss.xml', data,
         function (err) {
-        if (err) {
-            logger.error(`Ошибка генерации RSS: ${err}`, );
-        } else {
-            logger.success('RSS успешно обновлен!');
-        }
-    });
+            if (err) {
+                logger.error(`Ошибка генерации RSS: ${err}`, );
+            } else {
+                logger.success('RSS успешно обновлен!');
+            }
+        });
 };

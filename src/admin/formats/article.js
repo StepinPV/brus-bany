@@ -31,6 +31,7 @@ export default [{
     type: 'image',
     props: {
         withoutLogo: true,
+        width: 600
     }
 }, {
     _id: 'imageAlt',
