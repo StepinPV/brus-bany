@@ -1,7 +1,12 @@
 html {
   min-height: 100%;
   font-family: system-ui, Helvetica, sans-serif;
-  font-weight: lighter;
+}
+
+@media screen and (min-width: 768px) {
+  html {
+    font-weight: lighter;
+  }
 }
 
 body, h1, h2, h3, li {
