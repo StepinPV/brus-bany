@@ -14,6 +14,7 @@ const renderRoute = require('./renderRoute');
 const redirects = require('./redirects');
 
 const nodemailer = require('./nodemailer');
+const sms = require('./sms');
 
 const sitemap = require('./sitemap');
 const yml = require('./yml');
@@ -78,14 +79,15 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 db.init(config.db_url, config.db_name, () => {
-    logger.success(`\nSuccess connection to ${config.db_url}/${config.db_name}!`);
+    logger.success(`\nПодключение к базе данных ${config.db_url}/${config.db_name} установлено!`);
     app.listen(PORT);
-    logger.success(`Server is started in ${PORT} port!`);
+    logger.success(`Сервис запущен на ${PORT} порту!`);
 }, (err) => {
-    logger.error(`\nError connection to ${config.db_url}/${config.db_name}:`, err);
+    logger.error(`\nОшибка подключение к базе данных ${config.db_url}/${config.db_name}:`, err);
 });
 
 nodemailer.init('smtp.yandex.ru', 465, 'brus-bany.ru', 'Brus@123');
+sms.init('5327A0B1-137D-19A9-B7B9-3FE8D2F1CD21');
 
 sitemap.generate();
 yml.generate();

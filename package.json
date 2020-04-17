@@ -48,6 +48,7 @@
     "request": "^2.88.2",
     "serialize-javascript": "^2.1.2",
     "shelljs": "^0.8.3",
+    "sms_ru": "0.0.1",
     "terser-webpack-plugin": "^2.3.5",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",

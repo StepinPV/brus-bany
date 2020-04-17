@@ -16,9 +16,9 @@ module.exports.init = (host, port, login, password) => {
 
     transporter.verify(function(error) {
         if (error) {
-            logger.error(error.message);
+            logger.error(`Ошибка запуска Mailer: ${error.message}`);
         } else {
-            logger.success('Mailer is ready to take our messages');
+            logger.success('Mailer запущен!');
         }
     });
 };

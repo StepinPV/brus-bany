@@ -15,7 +15,7 @@ function Thanks() {
     return (
         <>
             <Meta meta={META} />
-            <Header />
+            <Header requestLink='/#requestForm' />
             <div className={styles.container}>
                 <div className={styles.message}>
                     <Caption size='m' align='center'>Спасибо, что оставили заявку</Caption>

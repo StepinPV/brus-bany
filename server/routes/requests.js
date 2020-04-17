@@ -2,6 +2,7 @@ const express = require('express');
 const Requests = require('../controllers/Requests');
 const nodemailer = require('../nodemailer');
 const watsup = require('../watsup');
+const sms = require('../sms');
 
 const router = express.Router();
 
@@ -22,6 +23,7 @@ router.post('/', async function(req, res, next) {
             case 'success':
                 nodemailer.send(requestData);
                 watsup.send(requestData, req.headers.referer);
+                // sms.send(requestData);
                 send(res, req, status);
                 break;
             case 'error':
