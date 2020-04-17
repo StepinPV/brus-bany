@@ -16,7 +16,9 @@ function renderInfoTitle(project){
         return ' c террасой и крыльцом';
     } else if (terrace) {
         return ' c террасой';
-    } else if (attic) {
+    } else if (attic && porch) {
+        return ' c мансардой и крыльцом';
+    } else if (attic && porch) {
         return ' c мансардой';
     } else if (porch) {
         return ' c крыльцом';

@@ -286,6 +286,8 @@ class Project extends PureComponent {
             title += ' c террасой и крыльцом';
         } else if (terrace) {
             title += ' c террасой';
+        } else if (attic && porch) {
+            return ' c мансардой и крыльцом';
         } else if (attic) {
             title += ' c мансардой';
         } else if (porch) {
