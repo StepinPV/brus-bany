@@ -121,6 +121,7 @@ exports.generate = async function () {
                             </div>
                         </header>
                         ${articleData.content ? `${articleData.content.map((item) => renderBlock(item)).join('')}` : ''}
+                        <div data-block="share" data-network="facebook, odnoklassniki, vkontakte" />
                     ]]>
                 </turbo:content>
             </item>
