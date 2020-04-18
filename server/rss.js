@@ -104,7 +104,7 @@ exports.generate = async function () {
                         </breadcrumblist>
                     </yandex>
                 </metrics>
-                <div>
+                <turbo:content>
                     <![CDATA[
                         <header>
                             <h1>${articleData.name}</h1>
