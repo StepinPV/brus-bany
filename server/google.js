@@ -27,7 +27,9 @@ exports.generate = async function () {
                 'g:image_link': `${DOMAIN}${project.get('images').main}`,
                 'g:availability': 'in stock',
                 'g:price': `${project.get('price')} RUB`,
-                'g:condition': 'new'
+                'g:condition': 'new',
+                'g:google_product_category': `114`,
+                'g:identifier_exists': `false`
             }
         });
     });
