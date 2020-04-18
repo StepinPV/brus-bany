@@ -3,6 +3,7 @@ import {
     GET_ARTICLES, GET_ARTICLES_ERROR, GET_ARTICLES_SUCCESS,
     RESET_DATA
 } from './constants';
+import { sortByDate } from '@utils/sort';
 
 export const initialState = {
     photos: [],
@@ -25,7 +26,7 @@ export default function(state = initialState, action) {
         case GET_PHOTOS_SUCCESS:
             return {
                 ...state,
-                photos: action.payload
+                photos: action.payload ? sortByDate(action.payload).slice(0, 6) : []
             };
 
         case GET_PHOTOS_ERROR:
@@ -46,7 +47,7 @@ export default function(state = initialState, action) {
         case GET_ARTICLES_SUCCESS:
             return {
                 ...state,
-                articles: action.payload
+                articles: action.payload ? sortByDate(action.payload).slice(0, 6) : []
             };
 
         case RESET_DATA:

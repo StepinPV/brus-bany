@@ -4,6 +4,7 @@ import {
     GET_PHOTOS, GET_PHOTOS_ERROR, GET_PHOTOS_SUCCESS,
     RESET_DATA
 } from './constants';
+import { sortByDate } from '@utils/sort';
 
 export const initialState = {
     id: null,
@@ -73,7 +74,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isPhotosFetch: false,
-                photos: action.payload
+                photos: action.payload ? sortByDate(action.payload).slice(0, 6) : []
             };
 
         case GET_PHOTOS_ERROR:

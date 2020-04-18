@@ -236,11 +236,10 @@ class Category extends PureComponent {
 
     renderPhotos = () => {
         const { photos, category } = this.props;
-        const preparedPhotos = photos ? photos.slice(0, 6) : [];
 
         return photos && photos.length ? (
             <DataSection bgStyle='grey' caption={`Фотоотчеты построенных ${category.name3}`} captionTag='h2'>
-                <CardList items={preparedPhotos.map(photo => ({
+                <CardList items={photos.map(photo => ({
                     id: photo._id,
                     element: (
                         <PhotoCard

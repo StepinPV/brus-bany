@@ -44,40 +44,36 @@ class Additions extends PureComponent {
                                     onClick={() => { this.expandAdditionBlock(_id)}}>
                                     <Text>{name}</Text>
                                 </div>
-                                {
-                                    expandedAdditions.includes(_id) ? (
-                                        <div className={styles['sub-items']}>
-                                            {
-                                                value ? value.map(({ type, name, _id, price }) => (
-                                                    <div className={styles.item} key={_id}>
-                                                        <div className={styles['item-wrapper']}>
-                                                            {type === 'boolean' ? (
-                                                                <input
-                                                                    type='checkbox'
-                                                                    checked={v.values[_id] ? v.values[_id].value : false}
-                                                                    onChange={(e) => {this.changeValue(_id, name, price, type, e.target.checked)}} />
-                                                            ) : (
-                                                                <input
-                                                                    value={v.values[_id] ? v.values[_id].value : 0}
-                                                                    className={styles['item-input']}
-                                                                    type='number'
-                                                                    min='0'
-                                                                    onChange={(e) => {this.changeValue(_id, name, price, type, e.target.value)}}/>
-                                                            )}
+                                <div className={cx(styles['sub-items'], {[styles['sub-items-hidden']]: !expandedAdditions.includes(_id)})}>
+                                    {
+                                        value ? value.map(({ type, name, _id, price }) => (
+                                            <div className={styles.item} key={_id}>
+                                                <div className={styles['item-wrapper']}>
+                                                    {type === 'boolean' ? (
+                                                        <input
+                                                            type='checkbox'
+                                                            checked={v.values[_id] ? v.values[_id].value : false}
+                                                            onChange={(e) => {this.changeValue(_id, name, price, type, e.target.checked)}} />
+                                                    ) : (
+                                                        <input
+                                                            value={v.values[_id] ? v.values[_id].value : 0}
+                                                            className={styles['item-input']}
+                                                            type='number'
+                                                            min='0'
+                                                            onChange={(e) => {this.changeValue(_id, name, price, type, e.target.value)}}/>
+                                                    )}
 
-                                                        </div>
-                                                        <div className={styles.title}>
-                                                            <Text>{name}</Text>
-                                                        </div>
-                                                        <div className={styles.price}>
-                                                            <Text>{`${numberWithSpaces(getPrice(price))} р.`}</Text>
-                                                        </div>
-                                                    </div>
-                                                )) : null
-                                            }
-                                        </div>
-                                    ) : null
-                                }
+                                                </div>
+                                                <div className={styles.title}>
+                                                    <Text>{name}</Text>
+                                                </div>
+                                                <div className={styles.price}>
+                                                    <Text>{`${numberWithSpaces(getPrice(price))} р.`}</Text>
+                                                </div>
+                                            </div>
+                                        )) : null
+                                    }
+                                </div>
                             </Fragment>
                         ))}
                     </div>

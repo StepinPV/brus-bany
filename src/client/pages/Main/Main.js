@@ -54,8 +54,6 @@ class Main extends PureComponent {
 
     render() {
         const { photos, articles } = this.props;
-        const preparedPhotos = photos ? photos.slice(photos.length - 6, photos.length).reverse() : [];
-        const preparedArticles = articles ? articles.slice(articles.length - 3, articles.length).reverse() : [];
 
         return (
             <Page opacityHeader>
@@ -64,13 +62,13 @@ class Main extends PureComponent {
                 <Categories id='categories' />
                 <HowWork />
                 <WhyMe />
-                {preparedPhotos.length ? (
+                {photos.length ? (
                     <DataSection
                         bgStyle='grey'
                         caption='Фотоотчеты построенных бань'
                         description='За все время работы мы построили огромное количество объектов различной сложности. В данном разделе вы можете просмотреть фотографии, видеообзоры, отзывы и описание данных проектов.'
                         captionTag='h2'>
-                        <CardList items={preparedPhotos.map(photo => ({
+                        <CardList items={photos.map(photo => ({
                             id: photo._id,
                             element: (
                                 <PhotoCard
@@ -85,13 +83,13 @@ class Main extends PureComponent {
                     </DataSection>
                 ) : null}
                 <OurProduction />
-                {preparedArticles.length ? (
+                {articles.length ? (
                     <DataSection
                         captionTag='h2'
                         bgStyle='grey'
                         caption='Делимся накопленным опытом'
                         description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации.'>
-                        <CardList items={preparedArticles.map(article => ({
+                        <CardList items={articles.map(article => ({
                             id: article._id,
                             element: <ArticleCard article={article} />
                         }))} />
