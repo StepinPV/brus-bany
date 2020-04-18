@@ -26,7 +26,7 @@ exports.generate = async function () {
                 'g:link': `${DOMAIN}/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
                 'g:image_link': `${DOMAIN}${project.get('images').main}`,
                 'g:availability': 'in stock',
-                'g:price': `${project.get('price')} RUR`,
+                'g:price': `${project.get('price')} RUB`,
                 'g:condition': 'new'
             }
         });
