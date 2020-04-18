@@ -9,6 +9,8 @@ import DataSection from '../../components/DataSection';
 import FormBlock from "../../components/FormBlock";
 import renderDate from '@utils/RenderDate';
 import Meta from '../../components/Meta';
+import styles from './Article.module.css';
+import cx from 'classnames';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -114,6 +116,12 @@ class Article extends PureComponent {
                             date={new Date(article.created)} />
                     </DataSection>
                 ) : null}
+                <div>
+
+                </div>
+                <div
+                    className={cx('ya-share2', styles.share)}
+                    data-services='vkontakte,facebook,odnoklassniki' />
                 <FormBlock source='Статья' />
             </>
         );
