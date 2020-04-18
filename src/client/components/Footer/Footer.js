@@ -4,15 +4,23 @@ import SocialNetwork from '../SocialNetwork';
 import cx from 'classnames';
 import styles from './Footer.module.css';
 
-function Footer() {
+function Footer({ hasLinkToMain }) {
+    function renderLink(content) {
+        return hasLinkToMain ? (
+            <a href='/' className={styles['logo-wrapper']} title='Перейти на главную'>{content}</a>
+        ) : (
+            <div className={styles['logo-wrapper']}>
+                <Logo className={styles.logo}/>
+            </div>
+        );
+    }
+
     return (
         <footer className={styles.container}>
             <div className={styles.wrapper}>
                 <div className={styles.column} itemScope itemType='http://schema.org/HomeAndConstructionBusiness'>
                     <meta itemProp="name" content="Брус бани" />
-                    <a href='/' className={styles['logo-wrapper']} title='Перейти на главную'>
-                        <Logo className={styles.logo}/>
-                    </a>
+                    {renderLink(<Logo className={styles.logo}/>)}
                     <div className={styles['social-networks']}>
                         <SocialNetwork type='vk' className={styles['social-network']} />
                         <SocialNetwork type='fb' className={styles['social-network']} />

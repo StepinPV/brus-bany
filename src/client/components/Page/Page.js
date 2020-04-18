@@ -7,11 +7,15 @@ import Breadcrumbs from '../../../components/Breadcrumbs';
 import styles from './Page.module.css';
 
 function Page(props) {
-    const { children, opacityHeader, breadcrumbs, notFound } = props;
+    const { children, opacityHeader, breadcrumbs, notFound, hasLinkToMain } = props;
 
     return (
         <>
-            <Header opacity={!notFound && opacityHeader} requestLink={notFound ? '/#requestForm' : undefined}/>
+            <Header
+                opacity={!notFound && opacityHeader}
+                requestLink={notFound ? '/#requestForm' : undefined}
+                hasLinkToMain={hasLinkToMain}
+            />
             {notFound ? (
                 <NotFound />
                 ) : (
@@ -27,7 +31,7 @@ function Page(props) {
                 rel="noopener noreferrer">
                 <i className={styles['whats-app']} />
             </a>
-            <Footer />
+            <Footer hasLinkToMain={hasLinkToMain} />
         </>
     );
 }
@@ -35,12 +39,14 @@ function Page(props) {
 Page.propTypes = {
     children: PropTypes.node,
     opacityHeader: PropTypes.bool,
+    hasLinkToMain: PropTypes.bool,
     breadcrumbs: PropTypes.array,
     notFound: PropTypes.bool
 };
 
 Page.defaultProps = {
-    notFound: false
+    notFound: false,
+    hasLinkToMain: true
 };
 
 export default memo(Page);

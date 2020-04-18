@@ -6,14 +6,22 @@ import styles from './Header.module.css';
 import cx from "classnames";
 
 function Header(props) {
-    const { opacity, requestLink } = props;
+    const { opacity, requestLink, hasLinkToMain } = props;
+
+    function renderLink(content) {
+        return hasLinkToMain ? (
+            <a href='/' className={styles['logo-wrapper']} title='Перейти на главную'>{content}</a>
+        ) : (
+            <div className={styles['logo-wrapper']}>
+                <Logo className={styles.logo}/>
+            </div>
+        );
+    }
 
     return (
         <header className={opacity ? styles['header-absolute'] : null}>
             <div className={cx(styles.container, {[styles['container-opacity']]: opacity}) }>
-                <a href='/' className={styles['logo-wrapper']} title='Перейти на главную'>
-                    <Logo className={styles.logo}/>
-                </a>
+                {renderLink(<Logo className={styles.logo}/>)}
                 <nav className={styles.items}>
                     <a href='/bani/iz-brusa' className={styles.item}>Бани из бруса</a>
                     <a href='/bani/karkasnie' className={styles.item}>Каркасные бани</a>
@@ -34,11 +42,13 @@ function Header(props) {
 
 Header.propTypes = {
     opacity: PropTypes.bool,
-    requestLink: PropTypes.string
+    requestLink: PropTypes.string,
+    hasLinkToMain: PropTypes.bool
 };
 
 Header.defaultProps = {
-    requestLink: '#requestForm'
+    requestLink: '#requestForm',
+    hasLinkToMain: true
 };
 
 export default memo(Header);

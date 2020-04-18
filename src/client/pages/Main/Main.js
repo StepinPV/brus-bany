@@ -56,7 +56,7 @@ class Main extends PureComponent {
         const { photos, articles } = this.props;
 
         return (
-            <Page opacityHeader>
+            <Page opacityHeader hasLinkToMain={false}>
                 <Meta meta={META} />
                 <Top />
                 <Categories id='categories' />
