@@ -104,7 +104,7 @@ exports.generate = async function () {
                         </breadcrumblist>
                     </yandex>
                 </metrics>
-                <turbo:content>
+                <div>
                     <![CDATA[
                         <header>
                             <h1>${articleData.name}</h1>
@@ -121,7 +121,7 @@ exports.generate = async function () {
                             </div>
                         </header>
                         ${articleData.content ? `${articleData.content.map((item) => renderBlock(item)).join('')}` : ''}
-                        <div data-block="share" data-network="facebook, odnoklassniki, vkontakte" />
+                        <div data-block="share" data-network="facebook, odnoklassniki, vkontakte"></div>
                     ]]>
                 </turbo:content>
             </item>
