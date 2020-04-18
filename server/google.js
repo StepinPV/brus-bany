@@ -29,7 +29,8 @@ exports.generate = async function () {
                 'g:price': `${project.get('price')} RUB`,
                 'g:condition': 'new',
                 'g:google_product_category': `114`,
-                'g:identifier_exists': `false`
+                'g:identifier_exists': `false`,
+                'g:brand': 'Брус бани'
             }
         });
     });
