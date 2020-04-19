@@ -106,7 +106,7 @@ exports.generate = async function () {
                     <![CDATA[
                         <header>
                             <h1>${articleData.name}</h1>
-                            ${articleData.description ? `<div>${articleData.description}</div>` : ''}
+                            ${articleData.description ? `<p>${articleData.description}</p>` : ''}
                             ${articleData.firstImage ? `
                                 <figure>
                                     <img src="${articleData.firstImage}"/>
