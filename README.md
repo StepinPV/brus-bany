@@ -20,3 +20,12 @@ https://www.8host.com/blog/ustanovka-nginx-v-ubuntu-18-04/
 https://serveradmin.ru/ustanovka-i-nastrojka-nginx/
 
 CRON: https://losst.ru/nastrojka-cron
+
+/etc/letsencrypt/live/brus-bany.ru/fullchain.pem
+/etc/letsencrypt/live/brus-bany.ru/privkey.pem
+
+Обновление серта
+0 3 11 */2 * /usr/bin/certbot renew --post-hook "systemctl reload nginx" --force-renew 
+
+Чек сервера
+* * * * * /root/brus-bany/check-server.sh >> /root/brus-bany/cron.log 2>&1
