@@ -12,6 +12,7 @@ const routes = require('./routes');
 const config = require('./config');
 const renderRoute = require('./renderRoute');
 const redirects = require('./redirects');
+require('./telegram');
 
 const nodemailer = require('./nodemailer');
 const sms = require('./sms');

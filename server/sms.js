@@ -13,7 +13,7 @@ function ucFirst(str) {
     return str[0].toUpperCase() + str.slice(1);
 }
 
-module.exports.send = ({ name, phone, source, data }) => {
+module.exports.send = ({ name, phone }) => {
     instance.sms_send({
         to: phone,
         text: `${ucFirst(name)}, спасибо, что оставили заявку на сайте https://brus-bany.ru.\n\nНаш менеджер свяжется с вами в течении 5 минут и будет рад ответить на все ваши вопросы\n\nКомпания Брус бани ♥`,
