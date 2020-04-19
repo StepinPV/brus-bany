@@ -30,9 +30,9 @@ exports.generate = async function () {
                         ${value.caption ? `<p><b>${value.caption}</b></p>` : ''}
                         ${value.text ? `<p>${value.text}</p>` : ''}
                         ${value.image ? renderImage({
-            image: value.image,
-            description: value.imageDescription
-        }) : ''}
+                            image: value.image,
+                            description: value.imageDescription
+                        }) : ''}
                     </li>
                 `)}
             </ul>
@@ -47,9 +47,9 @@ exports.generate = async function () {
                         ${value.caption ? `<p><b>${value.caption}</b></p>` : ''}
                         ${value.text ? `<p>${value.text}</p>` : ''}
                         ${value.image ? renderImage({
-            image: value.image,
-            description: value.imageDescription
-        }) : ''}
+                            image: value.image,
+                            description: value.imageDescription
+                        }) : ''}
                     </li>
                 `)}
             </ol>
@@ -72,10 +72,8 @@ exports.generate = async function () {
         const { caption, content } = block;
 
         return `
-            <div>
-                ${caption ? `<h2>${caption}</h2>` : ''}
-                ${content ? content.map((data) => renderItem(data.item)).join('') : ''}
-            </div>
+            ${caption ? `<h2>${caption}</h2>` : ''}
+            ${content ? content.map((data) => renderItem(data.item)).join('') : ''}
         `;
     };
 
