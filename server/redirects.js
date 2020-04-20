@@ -269,6 +269,10 @@ module.exports.FROM = [
     '/gotovie/mobilnie/olga-051018',
     '/gotovie/mobilnie/volgograd-23-03-17',
     '/gotovie/mobilnie/sukopohya',
+    '/bani/iz-brusa/6x4',
+    '/bani/karkasnie/6x4',
+    '/bani/iz-brevna/6x4',
+    '/photos/iz-brusa/chekhov_6x6_5e6e42aa4304fa6b84918b5a'
 ];
 
 module.exports.TO = [
@@ -542,4 +546,8 @@ module.exports.TO = [
     '/photos/gotovie/don_2.3x7_5e6de6164304fa6b8491762c',
     '/photos/gotovie/ural_2.3x8_5e6b47504304fa6b84913ff8',
     '/photos/gotovie/kama_2.3x7_5e6df7934304fa6b849176d3',
+    '/bani/iz-brusa/4x6',
+    '/bani/karkasnie/4x6',
+    '/bani/iz-brevna/4x6',
+    '/photos/iz-brusa/chekhov_6x6_5e5ffd986d7ec43bda9e2b78'
 ];
