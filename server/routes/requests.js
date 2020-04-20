@@ -3,6 +3,8 @@ const Requests = require('../controllers/Requests');
 const nodemailer = require('../nodemailer');
 const watsup = require('../watsup');
 const sms = require('../sms');
+const bitrix = require('../bitrix');
+const utm = require('../utm');
 
 const router = express.Router();
 
@@ -21,8 +23,11 @@ router.post('/', async function(req, res, next) {
 
         switch(status) {
             case 'success':
+                const utmParams = utm.get(req);
+
                 nodemailer.send(requestData);
-                watsup.send(requestData, req.headers.referer);
+                watsup.send(requestData, req.headers.referer, utmParams);
+                bitrix.send(requestData, req.headers.referer, utmParams);
                 // sms.send(requestData);
                 send(res, req, status);
                 break;

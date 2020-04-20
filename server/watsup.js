@@ -3,7 +3,7 @@ const request = require('request'); //bash: npm install request
 const url = 'https://eu95.chat-api.com/instance109742/sendMessage?token=fm0kivqf2bmgwwup';
 const chatId = '79998639369-1584998464@g.us';
 
-module.exports.send = ({ name, phone, source, data }, host) => {
+module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
     let message = '';
 
     function addTitle(title) {
@@ -12,11 +12,11 @@ module.exports.send = ({ name, phone, source, data }, host) => {
 
     function addField(name, value) {
         message += `${name}: ${value}\n`;
-        message += `\n`;
     }
 
     function addFields(fields) {
         fields.forEach(({ name, value }) => addField(name, value));
+        message += '\n';
     }
 
     addTitle('Данные заявки');
@@ -31,7 +31,7 @@ module.exports.send = ({ name, phone, source, data }, host) => {
         value: host
     }]);
 
-    message += `---+---+---\n\n`;
+    message += `---\n\n`;
 
     if (data) {
         data = JSON.parse(data);
@@ -40,12 +40,17 @@ module.exports.send = ({ name, phone, source, data }, host) => {
                 case 'fields':
                     addTitle(elem.title);
                     addFields(elem.fields);
-                    message += `---+---+---\n\n`;
+                    message += `---\n\n`;
                     break;
                 default:
                     break;
             }
         });
+    }
+
+    if (utmParams) {
+        addTitle('UTM Параметры');
+        addFields(utmParams);
     }
 
     request({

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@2bad/bitrix": "^2.3.1",
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-decorators": "^7.8.3",
@@ -18,6 +19,7 @@
     "body-parser": "^1.19.0",
     "classnames": "^2.2.6",
     "clean-webpack-plugin": "^3.0.0",
+    "cookie-parser": "^1.4.5",
     "core-js": "^3.6.5",
     "css-loader": "^3.5.1",
     "cyrillic-to-translit-js": "^3.1.0",
@@ -50,6 +52,7 @@
     "shelljs": "^0.8.3",
     "sms_ru": "0.0.1",
     "terser-webpack-plugin": "^2.3.5",
+    "url": "^0.11.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-manifest-plugin": "^2.2.0",

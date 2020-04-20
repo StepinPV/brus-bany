@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const errorhandler = require('errorhandler');
 const basicAuth = require('basic-auth');
@@ -15,6 +16,8 @@ const redirects = require('./redirects');
 
 const nodemailer = require('./nodemailer');
 const sms = require('./sms');
+
+const utm = require('./utm');
 
 const sitemap = require('./sitemap');
 const yml = require('./yml');
@@ -50,6 +53,7 @@ app.use(morgan('dev', {
 
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // Статика
 if (process.env.NODE_ENV !== 'production') {
@@ -72,6 +76,7 @@ app.get('*', (req, res, next) => {
     }
 });
 
+app.get('*', utm.middleware);
 app.get('*', renderRoute);
 
 if (process.env.NODE_ENV !== 'production') {
