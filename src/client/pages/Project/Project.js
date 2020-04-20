@@ -128,7 +128,7 @@ class Project extends PureComponent {
         return (
             <div className={styles['main-container']}>
                 <Meta meta={{
-                    title: `Проект ${this.renderInfoTitle(project.categoryId['name5']).toLowerCase()} - ${project.layoutId.name} от ${this.getDefaultPrice()} рублей`,
+                    title: `Проект ${this.renderInfoTitle(project.categoryId['name5']).toLowerCase()} - ${project.layoutId.name} от ${numberWithSpaces(this.getDefaultPrice())} рублей`,
                     description: `🏠 ${this.renderInfoTitle(project.categoryId['name2'])} «${project.layoutId.name}» 💨 Возможна перепланировка и изменение комплектации 💨 Оставьте заявку на сайте 💨 Звоните 📳 8(800)201-07-29`,
                     type: 'product',
                     image: project.images['main'],
