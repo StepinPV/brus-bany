@@ -188,6 +188,10 @@ const scheme = new Schema({
     },
     article: Object,
     updated: Date
-}, { versionKey: false });
+}, {
+    versionKey: false,
+    strict: false,
+    strictQuery: true
+});
 
 module.exports = mongoose.model(COLLECTION_NAME, scheme);

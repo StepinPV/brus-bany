@@ -126,11 +126,9 @@ class Projects {
                 images: {},
                 ...project,
                 categoryId,
-                layoutId
+                layoutId,
+                updated: new Date()
             };
-
-            data.created = new Date();
-            data.updated = new Date();
 
             const projectInst = new Project(data);
 
@@ -156,25 +154,30 @@ class Projects {
             return Status.error(`Планировку менять запрещено!`);
         }
 
-        if (!await Project.findOne({ categoryId, layoutId })) {
+        const document = await Project.findOne({ categoryId, layoutId });
+
+        if (!document) {
             return Status.error(`Проект не найден!`);
         }
 
         try {
             const data = {
                 images: {},
-                ...project
+                ...project,
+                updated: new Date(),
+                // TODO Устаревшие поля
+                price: undefined,
+                projectBlocks: undefined
             };
 
-            data.updated = new Date();
-
-            const projectInst = new Project(data);
-
-            await projectInst.validate();
+            // Валидны ли данные, проверяем заранее
+            await new Project(data).validate();
 
             await prepareImages(data);
 
-            await Project.updateOne({ categoryId, layoutId }, data, { runValidators: true });
+            document.overwrite(data);
+
+            await document.save();
 
             return Status.success();
         } catch (err) {
@@ -183,14 +186,14 @@ class Projects {
     };
 
     static async delete(id) {
-        const data = await Project.findOne({ _id: id });
+        const document = await Project.findOne({ _id: id });
 
-        if (!data) {
+        if (!document) {
             return Status.error(`Проект не найден!`);
         }
 
         try {
-            await removeImages(data);
+            await removeImages(document);
             await Project.deleteOne({ _id: id });
             return Status.success();
         } catch(err) {
