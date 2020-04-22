@@ -14,7 +14,8 @@ function OurProduction() {
             bgStyle='white'
             caption='Наше производство'
             captionTag='h2'
-            description='Мы строим бани в центре российского деревянного строительства, в городе Пестово. Подробнее о преимуществах региона читайте в нашей статье' >
+            description='Мы строим бани в центре российского деревянного строительства, в городе Пестово. Подробнее о преимуществах региона читайте в <a style="color:#003093; font-weight: bold" href="/blog/pochemu-tak-populyarni-bani-iz-pestovo">нашей статье</a>'
+            isDescriptionHTML>
             <div className={styles.items}>
                 <img src={img1} alt="Станок для обработки дерева" className={styles.item} loading='lazy' />
                 <img src={img2} alt="Доски и бревна" className={styles.item} loading='lazy' />

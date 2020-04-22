@@ -5,36 +5,13 @@
     margin: 16px auto 0;
 }
 
-.phone-block-phone, .phone-block-email {
-    display: block;
-    text-decoration: none;
-    color: #fff;
-}
-
-.phone-block-phone {
-    font-size: 32px;
-}
-
-.phone-block-email {
-    font-size: 30px;
-}
-
-.phone-block {
-    margin-bottom: 16px;
-    text-align: center;
-}
-
 .first-column {
     min-width: 200px;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background: #003159;
+    max-width: 600px;
 }
 
 .second-column {
-    max-width: 500px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,28 +19,18 @@
     background: #fff;
 }
 
+.image {
+    width: 100%;
+    height: 100%;
+}
+
 @media screen and (max-width: 640px)  {
     .content {
         flex-direction: column;
-    }
-
-    .first-column {
         margin: 16px 16px 0;
     }
 
     .second-column {
-        margin: 0 16px 16px;
-    }
-
-    .social-networks {
-        justify-content: center;
-    }
-
-    .phone-block-phone {
-        font-size: 20px;
-    }
-
-    .phone-block-email {
-        font-size: 18px;
+        padding: 16px;
     }
 }

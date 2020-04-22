@@ -5,24 +5,20 @@ import Caption from '../Caption';
 import Text from '../Text';
 import Form from '../Form';
 import styles from './FormBlock.module.css';
+import img from './resources/img.jpg';
 
 export default memo(({ source, data }) => {
     return (
         <Section id='requestForm'>
             <div className={styles.content}>
                 <div className={styles['first-column']}>
-                    <div>
-                        <Caption align='center' color='white'>Звоните!</Caption>
-                        <br/>
-                        <Caption size='s' align='center' color='white'>Расскажем о банях все и поможем с выбором</Caption>
-                        <br/>
-                    </div>
-                    <div className={styles['phone-block']}>
-                        <a href="tel:88002010729" className={styles['phone-block-phone']}>8 (800) 201-07-29</a>
-                        <a href="mailto:info@brus-bany.ru" className={styles['phone-block-email']}>info@brus-bany.ru</a>
-                    </div>
+                    <img src={img} alt="Фотография бани" className={styles.image} loading='lazy' />
                 </div>
                 <div className={styles['second-column']}>
+                    <Caption>Закажите обратный звонок!</Caption>
+                    <br/>
+                    <Text size='l'>Перезвоним вам в кратчайшие сроки, расскажем о банях все и поможем с выбором</Text>
+                    <br/><br/>
                     <Form source={source} data={data} />
                 </div>
             </div>
