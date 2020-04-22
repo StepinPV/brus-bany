@@ -25,7 +25,7 @@ router.post('/', async function(req, res, next) {
             case 'success':
                 const utmParams = utm.get(req);
 
-                nodemailer.send(requestData);
+                // nodemailer.send(requestData);
                 watsup.send(requestData, req.headers.referer, utmParams);
                 bitrix.send(requestData, req.headers.referer, utmParams);
                 // sms.send(requestData);

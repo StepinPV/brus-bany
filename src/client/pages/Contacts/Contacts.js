@@ -50,7 +50,7 @@ class Contacts extends PureComponent {
                     </div>
                     <div className={styles.info}>
                         <meta itemProp="name" content="Брус бани" />
-                        <div className={cx(styles['info-name'], styles['info-block'])}>ООО "Русская баня"</div>
+                        <div className={cx(styles['info-name'], styles['info-block'])}>Брус бани</div>
                         <div className={cx(styles['info-address'], styles['info-block'])} itemProp="address" itemScope itemType="http://schema.org/PostalAddress">
                             <span itemProp="postalCode">174510</span>, <span itemProp="addressRegion">Новгородская область</span>,
                             <br/>

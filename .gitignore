@@ -29,3 +29,4 @@ yarn-error.log*
 /public/sitemap.xml
 /public/rss.xml
 /public/yml.xml
+/public/facebook.xml
