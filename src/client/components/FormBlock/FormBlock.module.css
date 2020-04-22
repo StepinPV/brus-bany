@@ -1,15 +1,14 @@
 .content {
     display: flex;
     justify-content: space-around;
-    align-items: center;
-    max-width: 1200px;
+    max-width: 1168px;
     margin: 16px auto 0;
 }
 
 .phone-block-phone, .phone-block-email {
     display: block;
     text-decoration: none;
-    color: #000;
+    color: #fff;
 }
 
 .phone-block-phone {
@@ -21,25 +20,17 @@
 }
 
 .phone-block {
-    margin-bottom: 48px;
-}
-
-.address-block {
-    margin-bottom: 24px;
-    font-size: 16px;
-}
-
-.social-networks {
-    display: flex;
-}
-
-.social-network {
-    margin-right: 8px;
+    margin-bottom: 16px;
+    text-align: center;
 }
 
 .first-column {
     min-width: 200px;
-    margin: 32px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #003159;
 }
 
 .second-column {
@@ -57,20 +48,22 @@
     }
 
     .first-column {
-        text-align: center;
-        margin: 16px;
+        margin: 16px 16px 0;
     }
 
     .second-column {
-        padding: 16px;
-        background: inherit;
-    }
-
-    .phone-block {
-        margin-bottom: 32px;
+        margin: 0 16px 16px;
     }
 
     .social-networks {
         justify-content: center;
+    }
+
+    .phone-block-phone {
+        font-size: 20px;
+    }
+
+    .phone-block-email {
+        font-size: 18px;
     }
 }
