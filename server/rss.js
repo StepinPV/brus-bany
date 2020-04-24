@@ -6,6 +6,11 @@ const Articles = require('./controllers/Articles');
 const DOMAIN = 'https://brus-bany.ru';
 const YMetricId = '49126414';
 
+function renderDate(date) {
+    const monthA = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+    return `${date.getDate()} ${monthA[date.getMonth()]} ${date.getFullYear()}`;
+}
+
 exports.generate = async function () {
     const renderText = (text) => {
         return text ? `<p>${text}</p>` : ''
@@ -77,15 +82,39 @@ exports.generate = async function () {
         `;
     };
 
+    const renderCard = ({ article, created, translateName }) => {
+        return `
+            <div data-block="card">
+                <img src="${article.image}">
+                <time>${renderDate(created)}</time>
+                <h2>${article.name}</h2>
+                <p>${article.imageDescription}</p>
+                <footer>
+                    <a href="/blog/${translateName}">Читать полностью</a>
+                </footer>
+            </div>
+            <div data-block="card">
+                <figure data-turbo-ad-id="first_ad_block"></figure>
+            </div>
+        `;
+    };
+
+    const { data: articles } = await Articles.getAll();
+
     // articles
     let items = '';
-    const {data: articles} = await Articles.getAll();
+    let lastArticle;
+
     articles.forEach(article => {
         const date = article.get('updated');
         const articleUrl = `${DOMAIN}/blog/${article.get('translateName')}`;
         const articleTitle = `${article.article.name}`;
 
         const articleData = article.get('article');
+
+        if (!lastArticle || lastArticle < date) {
+            lastArticle = date;
+        }
 
         items += `
             <item turbo="true">
@@ -126,6 +155,35 @@ exports.generate = async function () {
         `;
     });
 
+    const mainPage = `
+        <item turbo="true">
+            <link>${DOMAIN}/blog</link>
+            <turbo:source>${DOMAIN}/blog</turbo:source>
+            <turbo:topic>Блог о строительстве бань</turbo:topic>
+            <pubDate>${new Date(lastArticle).toUTCString()}</pubDate>
+            <metrics>
+                <yandex schema_identifier="49126414">
+                    <breadcrumblist>
+                        <breadcrumb url="${DOMAIN}" text="Главная"/>
+                        <breadcrumb url="${DOMAIN}/blog" text="Блог о строительстве бань"/>
+                    </breadcrumblist>
+                </yandex>
+            </metrics>
+            <turbo:content>
+                <![CDATA[
+                    <header>
+                        <h1>Блог о строительстве бань</h1>
+                        <p>За все время работы мы узнали так много о технологиях строительства бань, что будет просто не честно, если этими знаниями мы не поделимся с вами</p>
+                        <div data-block="breadcrumblist">
+                            <a href="${DOMAIN}">Главная</a>
+                        </div>
+                    </header>
+                    ${articles ? `<div data-block="cards">${articles.map((article) => renderCard(article)).join('')}</div>` : ''}
+                ]]>
+            </turbo:content>
+        </item>
+    `;
+
     const data =
         `<?xml version="1.0" encoding="UTF-8"?>
             <rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" xmlns:turbo="http://turbo.yandex.ru" version="2.0">
@@ -137,6 +195,7 @@ exports.generate = async function () {
                 </description>
                 <language>ru</language>
                 <turbo:analytics type="Yandex" id="${YMetricId}"/>
+                ${mainPage}
                 ${items}
             </channel>
         </rss>`
