@@ -159,7 +159,7 @@ exports.generate = async function () {
                     <img src="${article.firstImage}"/>
                 </figure>
             ` : ''}
-            ${renderArticleContent(article.content)}
+            ${renderArticleContent(article.content, 'h3')}
         `;
     };
 

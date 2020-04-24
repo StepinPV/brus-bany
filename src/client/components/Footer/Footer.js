@@ -84,6 +84,7 @@ function Footer({ hasLinkToMain }) {
                     <a href='/gosty-i-snipy' className={styles['items-item']}>ГОСТы и СНиПы</a>
                     <a href='https://zen.yandex.ru/brusbany' className={styles['items-item']} target='_blank' rel="noopener noreferrer">Мы в Я.Дзен</a>
                     <a href='https://yandex.ru/profile/111422907145' className={styles['items-item']} target='_blank' rel="noopener noreferrer">Мы в Я.Справочник</a>
+                    <a href='https://g.page/brus-bany' className={styles['items-item']} target='_blank' rel="noopener noreferrer">Мы в Google Справочник</a>
                 </nav>
             </div>
         </footer>

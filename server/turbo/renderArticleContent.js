@@ -59,15 +59,15 @@ const renderItem = (item) => {
     }
 };
 
-const renderBlock = (block) => {
+const renderBlock = (block, title) => {
     const { caption, content } = block;
 
     return `
-            ${caption ? `<h2>${caption}</h2>` : ''}
+            ${caption ? `<${title}>${caption}</${title}>` : ''}
             ${content ? content.map((data) => renderItem(data.item)).join('') : ''}
         `;
 };
 
-module.exports = function renderArticle(content) {
-    return content.map((item) => renderBlock(item)).join('')
+module.exports = function renderArticle(content, title='h2') {
+    return content.map((item) => renderBlock(item, title)).join('')
 };
