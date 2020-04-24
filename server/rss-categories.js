@@ -268,12 +268,12 @@ exports.generate = async function () {
         </rss>`
     ;
 
-    fs.writeFile('./public/rss-projects.xml', data,
+    fs.writeFile('./public/rss-categories.xml', data,
         function (err) {
             if (err) {
-                logger.error(`Ошибка генерации RSS-Projects: ${err}`, );
+                logger.error(`Ошибка генерации RSS-Categories: ${err}`, );
             } else {
-                logger.success('RSS-Projects успешно обновлен!');
+                logger.success('RSS-Categories успешно обновлен!');
             }
         });
 };

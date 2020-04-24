@@ -23,7 +23,7 @@ const sitemap = require('./sitemap');
 const yml = require('./yml');
 const google = require('./google');
 const rss = require('./rss');
-const rssProjects = require('./rss-projects');
+const rssCategories = require('./rss-categories');
 
 const app = express();
 const PORT = config.port;
@@ -101,7 +101,7 @@ function generateFeeds() {
     yml.generate();
     google.generate();
     rss.generate();
-    rssProjects.generate();
+    rssCategories.generate();
 }
 
 generateFeeds();
