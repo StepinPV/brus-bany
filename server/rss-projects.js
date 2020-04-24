@@ -215,6 +215,9 @@ exports.generate = async function () {
             const { data: projects } = await Projects.getAllForCategory(category.get('_id').toString(), { withLayout: true });
             const { data: photos } = await Photos.getAllForCategory(category.get('_id').toString(), { withProject: true, withLayout: true });
 
+            const sortedPhotos = photos ? sortByDate(photos).slice(0, 6) : null;
+            const sortedProjects = projects ? sortProjects(projects) : null;
+
             items += renderCategory({
                 category,
                 link: `https://brus-bany.ru/bani/${category.get('translateName')}`,
@@ -222,8 +225,8 @@ exports.generate = async function () {
                 date: category.get('updated'),
                 name: category.get('name'),
                 translateName: category.get('translateName'),
-                projects: sortProjects(projects),
-                photos: photos ? sortByDate(photos).slice(0, 6) : null
+                projects: sortedProjects,
+                photos: sortedPhotos
             });
 
             const filters = category.get('filters');
@@ -237,8 +240,8 @@ exports.generate = async function () {
                         date: category.get('updated'),
                         name: category.get('name'),
                         translateName: category.get('translateName'),
-                        projects: sortProjects(filterProjects(filter, projects)),
-                        photos,
+                        projects: filterProjects(filter, sortedProjects),
+                        photos: sortedPhotos,
                         filter: {
                             translateName: filter.get('id'),
                             name: filter.get('name')
