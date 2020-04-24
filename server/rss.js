@@ -86,7 +86,7 @@ exports.generate = async function () {
         return `
             <div data-block="card">
                 <img src="${article.image}">
-                <span>${renderDate(created)}</span>
+                <time>${renderDate(created)}</time>
                 <h2>${article.name}</h2>
                 <p>${article.imageDescription}</p>
                 <footer>
