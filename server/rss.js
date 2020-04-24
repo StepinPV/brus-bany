@@ -1,5 +1,6 @@
 const fs = require('fs');
 const logger = require('./logger');
+const renderArticleContent = require('./turbo/renderArticleContent');
 
 const Articles = require('./controllers/Articles');
 
@@ -12,82 +13,12 @@ function renderDate(date) {
 }
 
 exports.generate = async function () {
-    const renderText = (text) => {
-        return text ? `<p>${text}</p>` : ''
-    };
-
-    const renderImage = (value) => {
-        const { image, description } = value || {};
-
-        return image ? `
-            <figure>
-                <img src="${image}"/>
-                ${description ? `<figcaption>${description}</figcaption>` : ''}
-            </figure>
-        ` : '';
-    };
-
-    const renderMarkerList = (values) => {
-        return `
-            <ul>
-                ${values.map(value => `
-                    <li>
-                        ${value.caption ? `<p><b>${value.caption}</b></p>` : ''}
-                        ${value.text ? `<p>${value.text}</p>` : ''}
-                        ${value.image ? renderImage({
-                            image: value.image,
-                            description: value.imageDescription
-                        }) : ''}
-                    </li>
-                `)}
-            </ul>
-        `;
-    };
-
-    const renderNumericList = (values) => {
-        return `
-            <ol>
-                ${values.map(value => `
-                    <li>
-                        ${value.caption ? `<p><b>${value.caption}</b></p>` : ''}
-                        ${value.text ? `<p>${value.text}</p>` : ''}
-                        ${value.image ? renderImage({
-                            image: value.image,
-                            description: value.imageDescription
-                        }) : ''}
-                    </li>
-                `)}
-            </ol>
-        `;
-    };
-
-    const renderItem = (item) => {
-        const { typeId, value } = item || {};
-
-        switch (typeId) {
-            case 'text': return renderText(value);
-            case 'image': return renderImage(value);
-            case 'marker-list': return renderMarkerList(value);
-            case 'numeric-list': return renderNumericList(value);
-            default: return '';
-        }
-    };
-
-    const renderBlock = (block) => {
-        const { caption, content } = block;
-
-        return `
-            ${caption ? `<h2>${caption}</h2>` : ''}
-            ${content ? content.map((data) => renderItem(data.item)).join('') : ''}
-        `;
-    };
-
     const renderCard = ({ article, created, translateName }) => {
         return `
             <div data-block="card">
                 <img src="${article.image}">
                 <time>${renderDate(created)}</time>
-                <h2>${article.name}</h2>
+                <span>${article.name}</span>
                 <p>${article.imageDescription}</p>
                 <footer>
                     <a href="/blog/${translateName}">Читать полностью</a>
@@ -108,7 +39,6 @@ exports.generate = async function () {
     articles.forEach(article => {
         const date = article.get('updated');
         const articleUrl = `${DOMAIN}/blog/${article.get('translateName')}`;
-        const articleTitle = `${article.article.name}`;
 
         const articleData = article.get('article');
 
@@ -120,14 +50,14 @@ exports.generate = async function () {
             <item turbo="true">
                 <link>${articleUrl}</link>
                 <turbo:source>${articleUrl}</turbo:source>
-                <turbo:topic>${articleTitle}</turbo:topic>
+                <turbo:topic>${articleData.name}</turbo:topic>
                 <pubDate>${new Date(date).toUTCString()}</pubDate>
                 <metrics>
                     <yandex schema_identifier="49126414">
                         <breadcrumblist>
                             <breadcrumb url="${DOMAIN}" text="Главная"/>
                             <breadcrumb url="${DOMAIN}/blog" text="Блог о строительстве бань"/>
-                            <breadcrumb url="${articleUrl}" text="${articleTitle}"/>
+                            <breadcrumb url="${articleUrl}" text="${articleData.name}"/>
                         </breadcrumblist>
                     </yandex>
                 </metrics>
@@ -144,10 +74,10 @@ exports.generate = async function () {
                             <div data-block="breadcrumblist">
                                 <a href="${DOMAIN}">Главная</a>
                                 <a href="${DOMAIN}/blog">Блог</a>
-                                <a href="${articleUrl}">${articleTitle}</a>
+                                <a href="${articleUrl}">${articleData.name}</a>
                             </div>
                         </header>
-                        ${articleData.content ? `${articleData.content.map((item) => renderBlock(item)).join('')}` : ''}
+                        ${articleData.content ? `${renderArticleContent(articleData.content)}` : ''}
                         <div data-block="share" data-network="facebook, odnoklassniki, vkontakte"></div>
                     ]]>
                 </turbo:content>
@@ -188,10 +118,10 @@ exports.generate = async function () {
         `<?xml version="1.0" encoding="UTF-8"?>
             <rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" xmlns:turbo="http://turbo.yandex.ru" version="2.0">
             <channel>
-                <title>Блог о строительстве бань</title>
-                <link>${DOMAIN}/blog</link>
+                <title>Купить недорогие бани под ключ от производителя | Брус бани</title>
+                <link>${DOMAIN}</link>
                 <description>
-                    За все время работы мы узнали так много о строительстве бань, что будет не честно, если мы не поделимся этими знаниями с вами
+                    🏠 Строим недорогие бани под ключ по всей России 💨 Более 150 проектов бань с гарантией 3 года 💨 Собственное производство 📳 8(800)201-07-29
                 </description>
                 <language>ru</language>
                 <turbo:analytics type="Yandex" id="${YMetricId}"/>

@@ -138,7 +138,7 @@ class Category extends PureComponent {
     }
 
     render() {
-        const { isCategoryError, category } = this.props;
+        const { isCategoryError } = this.props;
         const { breadcrumbs, notFound, filteredProjects } = this.state;
         let meta;
 

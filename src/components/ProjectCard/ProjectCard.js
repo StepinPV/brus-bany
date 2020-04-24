@@ -25,8 +25,7 @@ function renderInfoTitle(project){
     }
 }
 
-function ProjectCard(props) {
-    const { category, project, link } = props;
+function ProjectCard({ category, project, link }) {
     const { images, prices, layoutId } = project;
     const { complectationBlocks } = category;
 
