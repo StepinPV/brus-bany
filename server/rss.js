@@ -17,9 +17,9 @@ exports.generate = async function () {
         return `
             <div data-block="card">
                 <img src="${article.image}">
-                <time>${renderDate(created)}</time>
                 <span>${article.name}</span>
                 <p>${article.imageDescription}</p>
+                <time><i>Дата публикации: ${renderDate(created)}</i></time>
                 <footer>
                     <a href="/blog/${translateName}">Читать полностью</a>
                 </footer>
