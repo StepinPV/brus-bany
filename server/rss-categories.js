@@ -107,9 +107,12 @@ exports.generate = async function () {
         return `
             <div data-block="card">
                 ${images && images['card'] ? `<img src="${images['card']}" />` : ''}
-                <span>${category.name2} ${layoutId.width}x${layoutId.length}${renderInfoTitle(project)} ${layoutId.name.replace(/ /g, '&nbsp')}</span>
+                <h2>${category.name2} ${layoutId.width}x${layoutId.length}${renderInfoTitle(project)} ${layoutId.name.replace(/ /g, '&nbsp')}</h2>
+                <br/>
                 <p>Площадь: ${layoutId.area}м<sup>2</sup></p>
+                <br/>
                 <p><b>От ${prices && complectationBlocks && prices[complectationBlocks.defaultItemId] ? numberWithSpaces(prices[complectationBlocks.defaultItemId]) : 0} руб</b></p>
+                <br/>
                 <footer>
                     <a href="/bani/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}">Перейти к проекту</a>
                 </footer>
