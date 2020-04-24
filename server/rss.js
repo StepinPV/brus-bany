@@ -107,6 +107,7 @@ exports.generate = async function () {
                         <p>За все время работы мы узнали так много о технологиях строительства бань, что будет просто не честно, если этими знаниями мы не поделимся с вами</p>
                         <div data-block="breadcrumblist">
                             <a href="${DOMAIN}">Главная</a>
+                            <a href="${DOMAIN}/blog">Блог</a>
                         </div>
                     </header>
                     ${articles ? `<div data-block="cards">${articles.map((article) => renderCard(article)).join('')}</div>` : ''}
