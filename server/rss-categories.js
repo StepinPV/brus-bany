@@ -185,14 +185,16 @@ exports.generate = async function () {
                 </metrics>
                 <turbo:content>
                     <![CDATA[
-                        <h1>${title}</h1>
-                        <p>${projects.length} ${wordByNumber(projects.length, 'проект', 'проекта', 'проектов')} бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</p>
-                        <div data-block="breadcrumblist">
-                            <a href="${DOMAIN}">Главная</a>
-                            <a href="${DOMAIN}/bani">Категории бань</a>
-                            <a href="${DOMAIN}/bani/${translateName}">${name}</a>
-                            ${filter ? `<a href="${DOMAIN}/bani/${translateName}/${filter.translateName}">${filter.name}</a>` : ''}
-                        </div>
+                        <header>
+                            <h1>${title}</h1>
+                            <p>${projects.length} ${wordByNumber(projects.length, 'проект', 'проекта', 'проектов')} бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</p>
+                            <div data-block="breadcrumblist">
+                                <a href="${DOMAIN}">Главная</a>
+                                <a href="${DOMAIN}/bani">Категории бань</a>
+                                <a href="${DOMAIN}/bani/${translateName}">${name}</a>
+                                ${filter ? `<a href="${DOMAIN}/bani/${translateName}/${filter.translateName}">${filter.name}</a>` : ''}
+                            </div>
+                        </header>
                         ${projects && projects.length ? renderCards(category, projects) : ''}
                         ${photos && photos.length ? renderPhotos(category, `Фотоотчеты построенных ${category.name3}`, photos) : ''}
                         ${category.article && category.article.content ? renderArticle(category.article) : ''}
@@ -221,35 +223,41 @@ exports.generate = async function () {
             const sortedPhotos = photos ? sortByDate(photos).slice(0, 6) : null;
             const sortedProjects = projects ? sortProjects(projects) : null;
 
-            items += renderCategory({
-                category,
-                link: `https://brus-bany.ru/bani/${category.get('translateName')}`,
-                title: `${getTitle(category)} | проекты и цены`,
-                date: category.get('updated'),
-                name: category.get('name'),
-                translateName: category.get('translateName'),
-                projects: sortedProjects,
-                photos: sortedPhotos
-            });
+            if (sortedProjects <= 40) {
+                items += renderCategory({
+                    category,
+                    link: `https://brus-bany.ru/bani/${category.get('translateName')}`,
+                    title: `${getTitle(category)} | проекты и цены`,
+                    date: category.get('updated'),
+                    name: category.get('name'),
+                    translateName: category.get('translateName'),
+                    projects: sortedProjects,
+                    photos: sortedPhotos
+                });
+            }
 
             const filters = category.get('filters');
 
             if (filters && filters.length) {
                 for (const filter of filters) {
-                    items += renderCategory({
-                        category,
-                        link: `https://brus-bany.ru/bani/${category.get('translateName')}/${filter.get('id')}`,
-                        title: `${getTitle(category, filter)} | проекты и цены`,
-                        date: category.get('updated'),
-                        name: category.get('name'),
-                        translateName: category.get('translateName'),
-                        projects: filterProjects(filter, sortedProjects),
-                        photos: sortedPhotos,
-                        filter: {
-                            translateName: filter.get('id'),
-                            name: filter.get('name')
-                        }
-                    });
+                    const filteredProjects = filterProjects(filter, sortedProjects);
+
+                    if (filteredProjects <= 40) {
+                        items += renderCategory({
+                            category,
+                            link: `https://brus-bany.ru/bani/${category.get('translateName')}/${filter.get('id')}`,
+                            title: `${getTitle(category, filter)} | проекты и цены`,
+                            date: category.get('updated'),
+                            name: category.get('name'),
+                            translateName: category.get('translateName'),
+                            projects: filteredProjects,
+                            photos: sortedPhotos,
+                            filter: {
+                                translateName: filter.get('id'),
+                                name: filter.get('name')
+                            }
+                        });
+                    }
                 }
             }
         }
