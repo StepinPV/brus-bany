@@ -191,7 +191,7 @@ exports.generate = async function () {
                             <a href="${DOMAIN}">Главная</a>
                             <a href="${DOMAIN}/bani">Категории бань</a>
                             <a href="${DOMAIN}/bani/${translateName}">${name}</a>
-                            ${filter ? `<a href="${filter.translateName}">${filter.name}</a>` : ''}
+                            ${filter ? `<a href="${DOMAIN}/bani/${translateName}/${filter.translateName}">${filter.name}</a>` : ''}
                         </div>
                         ${projects && projects.length ? renderCards(category, projects) : ''}
                         ${photos && photos.length ? renderPhotos(category, `Фотоотчеты построенных ${category.name3}`, photos) : ''}
