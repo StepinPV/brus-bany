@@ -179,7 +179,7 @@ exports.generate = async function () {
                             <breadcrumb url="${DOMAIN}" text="Главная"/>
                             <breadcrumb url="${DOMAIN}/bani" text="Категории бань"/>
                             <breadcrumb url="${DOMAIN}/bani/${translateName}" text="${name}"/>
-                            ${filter ? `<breadcrumb url="${filter.translateName}" text="${filter.name}" />` : ''}
+                            ${filter ? `<breadcrumb url="${DOMAIN}/bani/${translateName}/${filter.translateName}" text="${filter.name}" />` : ''}
                         </breadcrumblist>
                     </yandex>
                 </metrics>
