@@ -223,7 +223,7 @@ exports.generate = async function () {
             const sortedPhotos = photos ? sortByDate(photos).slice(0, 6) : null;
             const sortedProjects = projects ? sortProjects(projects) : null;
 
-            if (sortedProjects <= 40) {
+            if (sortedProjects.length && sortedProjects.length <= 40) {
                 items += renderCategory({
                     category,
                     link: `https://brus-bany.ru/bani/${category.get('translateName')}`,
@@ -242,7 +242,7 @@ exports.generate = async function () {
                 for (const filter of filters) {
                     const filteredProjects = filterProjects(filter, sortedProjects);
 
-                    if (filteredProjects <= 40) {
+                    if (filteredProjects.length && filteredProjects.length <= 40) {
                         items += renderCategory({
                             category,
                             link: `https://brus-bany.ru/bani/${category.get('translateName')}/${filter.get('id')}`,
