@@ -187,7 +187,6 @@ exports.generate = async function () {
                     <![CDATA[
                         <header>
                             <h1>${title}</h1>
-                            <p>${projects.length} ${wordByNumber(projects.length, 'проект', 'проекта', 'проектов')} бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</p>
                             <div data-block="breadcrumblist">
                                 <a href="${DOMAIN}">Главная</a>
                                 <a href="${DOMAIN}/bani">Категории бань</a>
@@ -195,6 +194,7 @@ exports.generate = async function () {
                                 ${filter ? `<a href="${DOMAIN}/bani/${translateName}/${filter.translateName}">${filter.name}</a>` : ''}
                             </div>
                         </header>
+                        <p>${projects.length} ${wordByNumber(projects.length, 'проект', 'проекта', 'проектов')} бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</p>
                         ${projects && projects.length ? renderCards(category, projects) : ''}
                         ${photos && photos.length ? renderPhotos(category, `Фотоотчеты построенных ${category.name3}`, photos) : ''}
                         ${category.article && category.article.content ? renderArticle(category.article) : ''}
