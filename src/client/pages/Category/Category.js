@@ -109,7 +109,7 @@ class Category extends PureComponent {
                     ...(state || {}),
                     filters,
                     nextFilters,
-                    filteredProjects: sortProjects(filterProjects(nextProps.projects, filters)),
+                    filteredProjects: sortProjects(filterProjects(nextProps.projects, nextProps.category, filters)),
                     currentPathName: nextProps.location.pathname,
                     currentSearch: nextProps.location.search,
                     breadcrumbs
@@ -180,7 +180,7 @@ class Category extends PureComponent {
         if (!notFound && !isCategoryError) {
             meta = {
                 title: this.getTitle(),
-                description: `🏠 Строим ${this.getH1()} под ключ по всей России 💨 ${filteredProjects.length} ${wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань с гарантией 3 года 📳 8(800)201-07-29`
+                description: `🏠 Строим ${this.getH1().toLowerCase()} под ключ по всей России 💨 ${filteredProjects.length} ${wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань с гарантией 3 года 📳 8(800)201-07-29`
             };
         }
 
@@ -207,8 +207,8 @@ class Category extends PureComponent {
                 {this.renderProjects()}
                 {this.renderNotFoundProject()}
                 {this.renderPhotos()}
-                {this.renderArticle()}
                 <FormBlock source={name} />
+                {this.renderArticle()}
             </>
         ) : null;
     };
@@ -259,6 +259,11 @@ class Category extends PureComponent {
 
     renderArticle = () => {
         const { category } = this.props;
+        const { filters } = this.state;
+
+        if (filters && filters.length) {
+            return null;
+        }
 
         return category.article ? (
             <DataSection bgStyle='white'>
