@@ -1,9 +1,7 @@
-const filterProjects = (filter, projects) => {
+const filterProjects = (projects, filters) => {
     return projects.filter(project => {
         // eslint-disable-next-line
-        const params = project.layoutId;
-        // eslint-disable-next-line
-        return eval(filter.condition);
+        return filters.every(filter => eval(filter.condition));
     });
 };
 

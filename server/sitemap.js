@@ -75,13 +75,20 @@ exports.generate = async function () {
     categories.forEach(category => {
         data.urlset.push(getURLObject({ url: `/bani/${category.get('translateName')}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' }));
 
-        const filters = category.get('filters');
+        let addFilterPages = (filterGroups, href) => {
+            if (filterGroups && filterGroups.length) {
+                filterGroups.forEach(filterGroup => {
+                    if (filterGroup.filters && filterGroup.filters.length) {
+                        filterGroup.filters.forEach(filter => {
+                            data.urlset.push(getURLObject({ url: `${href}/${filter.id}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' }));
+                            addFilterPages(filter.filters, `${href}/${filter.id}`);
+                        });
+                    }
+                });
+            }
+        };
 
-        if (filters && filters.length) {
-            filters.forEach(filter => {
-                data.urlset.push(getURLObject({ url: `/bani/${category.get('translateName')}/${filter.get('id')}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' }));
-            });
-        }
+        addFilterPages(category.get('filters'), `/bani/${category.get('translateName')}`);
     });
 
     // photos

@@ -19,21 +19,6 @@ const additionScheme = new Schema({
     }
 });
 
-const filterScheme = new Schema({
-    id: {
-        type: String,
-        required: REQUIRED_MSG
-    },
-    name: {
-        type: String,
-        required: REQUIRED_MSG
-    },
-    condition: {
-        type: String,
-        required: REQUIRED_MSG
-    }
-});
-
 const additionGroupScheme = new Schema({
     name: {
         type: String,
@@ -171,11 +156,19 @@ const scheme = new Schema({
         type: String,
         required: REQUIRED_MSG
     },
+    h1: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    'seo-title': {
+        type: String,
+        required: REQUIRED_MSG
+    },
     additions: {
         type: [additionGroupScheme]
     },
     filters: {
-        type: [filterScheme]
+        type: Array
     },
     equipment: {
         type: [equipmentScheme]

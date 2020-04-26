@@ -1,51 +1,35 @@
-import React, { PureComponent } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import cx from 'classnames';
 import styles from './Filters.module.css';
 
-class Filters extends PureComponent {
-    static propTypes = {
-        projects: PropTypes.array,
-        filter: PropTypes.object,
-        category: PropTypes.object
-    };
-
-    render() {
-        const { category, filter, projects } = this.props;
-
-        let filters = (category.filters || []).filter(filter => {
-            return projects.some(project => {
-                // eslint-disable-next-line
-                const params = project.layoutId;
-                // eslint-disable-next-line
-                return eval(filter.condition);
-            });
-        });
-
-        return filters.length ? (
-            <div className={styles.filters}>
-                {
-                    filters.map(({ id, name }) => {
-                        const options = {
-                            key: id,
-                            className: cx(styles['filters-item'], {[styles['filters-item-enabled']]: filter && filter.id === id})
-                        };
-
-                        return filter && filter.id === id ? (
-                            <div {...options}>{name}</div>
-                        ) : (
-                            <a
-                                {...options}
-                                href={`/bani/${category.translateName}/${id}`}>
-                                {name}
-                            </a>
-                        );
-                    })
-                }
-            </div>
-        ) : null;
-    }
+function Filters({ filters, pathname }) {
+    return (
+        <div className={styles.filters}>
+            {
+                filters.map(({ name, filters }) => filters && filters.length ? (
+                    <div className={styles.group}>
+                        <div className={styles.name}>{name}:</div>
+                        <div className={styles.items}>
+                            {
+                                filters.map(({ id, name }) => (
+                                    <a
+                                        className={styles['item']}
+                                        href={`${pathname}/${id}`}>
+                                        {name}
+                                    </a>
+                                ))
+                            }
+                        </div>
+                    </div>
+                ) : null)
+            }
+        </div>
+    );
 }
 
-export default withRouter(Filters);
+Filters.propTypes = {
+    filters: PropTypes.array.isRequired,
+    pathname: PropTypes.string.isRequired
+};
+
+export default memo(Filters);

@@ -59,30 +59,65 @@ class Category extends PureComponent {
             (!prevState.filteredProjects && nextProps.category && nextProps.projects) ||
             (prevState.currentPathName !== null && prevState.currentPathName !== nextProps.location.pathname) ||
             (prevState.currentSearch !== null && prevState.currentSearch !== nextProps.location.search)) {
-            const filterId = nextProps.location.pathname.split('/').slice(3)[0];
-            let filter;
 
-            if (filterId) {
-                filter = nextProps.category.filters && nextProps.category.filters.find(filter => filter.id === filterId);
+            const filterIds = nextProps.location.pathname.split('/').slice(3);
+            let nextFilters = nextProps.category.filters || [];
 
-                if (!filter) {
-                    return {
-                        notFound: true
-                    }
-                }
-            }
+            const getFilters = () => {
+                const filters = [];
 
-            state = {
-                ...(state || {}),
-                filter,
-                filteredProjects: sortProjects(filter ? filterProjects(filter, nextProps.projects) : nextProps.projects),
-                currentPathName: nextProps.location.pathname,
-                currentSearch: nextProps.location.search,
-                breadcrumbs: [
+                filterIds.forEach(filterId => {
+                    let foundFilter = null;
+
+                    nextFilters.some(filterGroup => {
+                        const found = (filterGroup.filters || []).find((filter) => {
+                            return filter.id === filterId;
+                        });
+
+                        if (found) {
+                            foundFilter = found;
+                        }
+
+                        return found;
+                    });
+
+
+                    filters.push(foundFilter);
+                    nextFilters = foundFilter.filters || [];
+                });
+
+                return filters;
+            };
+
+            try {
+                const filters = getFilters();
+
+                let url = `/bani/${nextProps.category.translateName}`;
+                const breadcrumbs = [
                     ...breadcrumbsDefault,
-                    { title: nextProps.category.name, link: filter ? `/bani/${nextProps.category.translateName}` : null },
-                    ...(filter ? [{ title: filter.name }] : [])
-                ]
+                    { title: nextProps.category.name, link: filterIds && filterIds.length ? url : null }
+                ];
+
+                filters.forEach((filter, i) => {
+                    breadcrumbs.push({
+                        title: filter.name,
+                        link: i !== filters.length - 1 ? (url += `/${filter.id}`) : null
+                    });
+                });
+
+                state = {
+                    ...(state || {}),
+                    filters,
+                    nextFilters,
+                    filteredProjects: sortProjects(filterProjects(nextProps.projects, filters)),
+                    currentPathName: nextProps.location.pathname,
+                    currentSearch: nextProps.location.search,
+                    breadcrumbs
+                }
+            } catch(err) {
+                return {
+                    notFound: true
+                }
             }
         }
 
@@ -97,7 +132,7 @@ class Category extends PureComponent {
     state = {
         categoryId: null,
         breadcrumbs: breadcrumbsDefault,
-        filter: null,
+        filterIds: null,
         currentPathName: null,
         currentSearch: null,
         notFound: false
@@ -143,10 +178,9 @@ class Category extends PureComponent {
         let meta;
 
         if (!notFound && !isCategoryError) {
-            const title = this.getTitle();
             meta = {
-                title: `Купить недорогие ${title.toLowerCase()} под ключ | Проекты и цены`,
-                description: `🏠 Строим недорогие ${title.toLowerCase()} под ключ по всей России 💨 ${filteredProjects.length} ${wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань с гарантией 3 года 💨 Срок строительства от 7 дней 📳 8(800)201-07-29`
+                title: this.getTitle(),
+                description: `🏠 Строим ${this.getH1()} под ключ по всей России 💨 ${filteredProjects.length} ${wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань с гарантией 3 года 📳 8(800)201-07-29`
             };
         }
 
@@ -166,7 +200,7 @@ class Category extends PureComponent {
         return category && filteredProjects ? (
             <>
                 <H1Block
-                    caption={`${this.getTitle()} | проекты и цены`}
+                    caption={this.getH1()}
                     description={(<>{filteredProjects.length} {wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</>)}
                 />
                 {this.renderFilters()}
@@ -180,16 +214,15 @@ class Category extends PureComponent {
     };
 
     renderFilters = () => {
-        const { category, projects } = this.props;
-        const { filter } = this.state;
+        const { location } = this.props;
+        const { nextFilters } = this.state;
 
-        return (
+        return nextFilters && nextFilters.length ? (
             <Filters
-                category={category}
-                filter={filter}
-                projects={projects}
+                filters={nextFilters}
+                pathname={location.pathname}
             />
-        )
+        ) : null
     };
 
     renderProjects = () => {
@@ -257,16 +290,17 @@ class Category extends PureComponent {
 
     getTitle = () => {
         const { category } = this.props;
-        const { filter } = this.state;
+        const { filters } = this.state;
 
-        let title = category.name;
+        return filters && filters.length ? filters[filters.length - 1]['seo-title'] : category['seo-title'];
+    };
 
-        if (filter) {
-            title += ` ${filter.name.toLowerCase()}`;
-        }
+    getH1 = () => {
+        const { category } = this.props;
+        const { filters } = this.state;
 
-        return title;
-    }
+        return filters && filters.length ? filters[filters.length - 1]['h1'] : category['h1'];
+    };
 }
 
 /**

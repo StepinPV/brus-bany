@@ -118,7 +118,7 @@ exports.generate = async function () {
 
     const data =
         `<?xml version="1.0" encoding="UTF-8"?>
-            <rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" xmlns:turbo="http://turbo.yandex.ru" version="2.0">
+        <rss xmlns:yandex="http://news.yandex.ru" xmlns:media="http://search.yahoo.com/mrss/" xmlns:turbo="http://turbo.yandex.ru" version="2.0">
             <channel>
                 <title>Купить недорогие бани под ключ от производителя | Брус бани</title>
                 <link>${DOMAIN}</link>

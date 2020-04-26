@@ -1,5 +1,51 @@
 import article from './article';
 
+let filters = {
+    _id: 'filters',
+    title: 'Фильтры',
+    type: 'array',
+    itemTitleField: 'name',
+    format: [{
+        _id: 'name',
+        title: 'Имя группы',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'filters',
+        title: 'Фильтры',
+        type: 'array',
+        itemTitleField: 'name',
+        format: [{
+            _id: 'id',
+            title: 'ID',
+            type: 'string',
+            required: true
+        }, {
+            _id: 'name',
+            title: 'Имя',
+            type: 'string',
+            required: true
+        }, {
+            _id: 'condition',
+            title: 'Условие',
+            type: 'string',
+            required: true
+        }, {
+            _id: 'h1',
+            title: 'H1 заголовок',
+            type: 'string',
+            required: true
+        }, {
+            _id: 'seo-title',
+            title: 'SEO Title',
+            type: 'string',
+            required: true
+        }]
+    }]
+};
+
+filters.format[1].format.push(filters);
+
 export default [{
     _id: 'translateName',
     title: 'Введите имя на английском',
@@ -36,27 +82,16 @@ export default [{
     type: 'string',
     required: true
 }, {
-    _id: 'filters',
-    title: 'Фильтры',
-    type: 'array',
-    itemTitleField: 'name',
-    format: [{
-        _id: 'id',
-        title: 'ID',
-        type: 'string',
-        required: true
-    }, {
-        _id: 'name',
-        title: 'Имя',
-        type: 'string',
-        required: true
-    }, {
-        _id: 'condition',
-        title: 'Условие',
-        type: 'string',
-        required: true
-    }]
+    _id: 'h1',
+    title: 'H1 заголовок',
+    type: 'string',
+    required: true
 }, {
+    _id: 'seo-title',
+    title: 'SEO Title',
+    type: 'string',
+    required: true
+}, ...[filters], {
     _id: 'article',
     title: 'Статья',
     type: 'object',
