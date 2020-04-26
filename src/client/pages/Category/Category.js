@@ -8,6 +8,7 @@ import ProjectCard from '../../../components/ProjectCard';
 import { Link } from '../../../components/Button';
 import Article from '../../components/Article';
 import PhotoCard from '../../../components/PhotoCard';
+import CustomProjectCard from '../../../components/CustomProjectCard';
 import DataSection from '../../components/DataSection';
 import H1Block from '../../components/H1Block';
 import { getCategory, getProjects, resetData, getPhotos } from './actions';
@@ -205,6 +206,7 @@ class Category extends PureComponent {
                 />
                 {this.renderFilters()}
                 {this.renderProjects()}
+                {this.renderAdditionalProjects()}
                 {this.renderNotFoundProject()}
                 {this.renderPhotos()}
                 <FormBlock source={name} />
@@ -233,7 +235,7 @@ class Category extends PureComponent {
             return null;
         }
 
-        return <CardList items={filteredProjects.map(project => ({
+        return <CardList items={[...filteredProjects.map(project => ({
             id: project._id,
             element: (
                 <ProjectCard
@@ -241,7 +243,45 @@ class Category extends PureComponent {
                     category={category}
                 />
             )
-        }))} />;
+        })), {
+            id: 'custom',
+            element: (
+                <CustomProjectCard link='/bani/individualnyy-proekt' />
+            )
+        }]} />;
+    };
+
+    renderAdditionalProjects = () => {
+        const { category, projects } = this.props;
+        const { filteredProjects } = this.state;
+
+        if (filteredProjects && filteredProjects.length > 9) {
+            return null;
+        }
+
+        function randomInteger(min, max) {
+            // получить случайное число от (min-0.5) до (max+0.5)
+            let rand = min - 0.5 + Math.random() * (max - min + 1);
+            return Math.round(rand);
+        }
+
+        const randomStart = randomInteger(0, projects.length - 7);
+
+        return (
+            <DataSection
+                captionTag='h2'
+                caption='Вас может заинтересовать'>
+                <CardList items={projects.slice(randomStart, randomStart + 6).map(project => ({
+                    id: project._id,
+                    element: (
+                        <ProjectCard
+                            project={project}
+                            category={category}
+                        />
+                    )
+                }))} />
+            </DataSection>
+        );
     };
 
     renderNotFoundProject = () => {

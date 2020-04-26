@@ -61,27 +61,30 @@ exports.generate = async function () {
         }
 
         const name = `${category.name2} ${layout.width}x${layout.length} ${renderInfoTitle()} «${project.layoutId.name}»`;
+        const price = project.prices && category.complectationBlocks && project.prices[category.complectationBlocks.defaultItemId] ? project.prices[category.complectationBlocks.defaultItemId] : 0;
 
-        offers += `
-            <offer id="${convertIdToNumber(project.get('_id'))}">
-                <name>${name}</name>
-                <url>${DOMAIN}/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}</url>
-                <price>${project.get('price')}</price>
-                <currencyId>RUR</currencyId>
-                <categoryId>${convertIdToNumber(category.get('_id'))}</categoryId>
-                ${images}
-                <description>
-                    <![CDATA[
-                        <p>Построим баню за ${project.get('buildTime')} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</p>
-                    ]]>
-                </description>
-                <param name="Общая площадь">${layout.area} м2</param>
-                <param name="Площадь сруба">${layout.frameArea} м2</param>
-                ${layout.terrace && layout.terrace.area ? `<param name="Площадь терассы">${layout.terrace.area} м2</param>` : ''}
-                ${layout.porch && layout.porch.area ? `<param name="Площадь крыльца">${layout.porch.area} м2</param>` : ''}
-                ${layout.attic && layout.attic.area ? `<param name="Площадь мансарды">${layout.attic.area} м2</param>` : ''}
-            </offer>
-        `;
+        if (price) {
+            offers += `
+                <offer id="${convertIdToNumber(project.get('_id'))}">
+                    <name>${name}</name>
+                    <url>${DOMAIN}/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}</url>
+                    <price>${price}</price>
+                    <currencyId>RUR</currencyId>
+                    <categoryId>${convertIdToNumber(category.get('_id'))}</categoryId>
+                    ${images}
+                    <description>
+                        <![CDATA[
+                            <p>Построим баню за ${project.get('buildTime')} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</p>
+                        ]]>
+                    </description>
+                    <param name="Общая площадь">${layout.area} м2</param>
+                    <param name="Площадь сруба">${layout.frameArea} м2</param>
+                    ${layout.terrace && layout.terrace.area ? `<param name="Площадь терассы">${layout.terrace.area} м2</param>` : ''}
+                    ${layout.porch && layout.porch.area ? `<param name="Площадь крыльца">${layout.porch.area} м2</param>` : ''}
+                    ${layout.attic && layout.attic.area ? `<param name="Площадь мансарды">${layout.attic.area} м2</param>` : ''}
+                </offer>
+            `;
+        }
     });
 
     const date = new Date();
