@@ -272,7 +272,8 @@ module.exports.FROM = [
     '/bani/iz-brusa/6x4',
     '/bani/karkasnie/6x4',
     '/bani/iz-brevna/6x4',
-    '/photos/iz-brusa/chekhov_6x6_5e6e42aa4304fa6b84918b5a'
+    '/photos/iz-brusa/chekhov_6x6_5e6e42aa4304fa6b84918b5a',
+    '/bani/iz-brusa/3x4/nedorogie'
 ];
 
 module.exports.TO = [
@@ -549,5 +550,6 @@ module.exports.TO = [
     '/bani/iz-brusa/4x6',
     '/bani/karkasnie/4x6',
     '/bani/iz-brevna/4x6',
-    '/photos/iz-brusa/chekhov_6x6_5e5ffd986d7ec43bda9e2b78'
+    '/photos/iz-brusa/chekhov_6x6_5e5ffd986d7ec43bda9e2b78',
+    '/bani/iz-brusa/3x4'
 ];

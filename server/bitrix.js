@@ -1,21 +1,34 @@
-const Bitrix = require('@2bad/bitrix').default;
-const bitrix = Bitrix('https://b24-9b1t1w.bitrix24.ru/rest/1/vc07gzhnro4tm4jy');
+const request = require('request');
 
 module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
     let message = '';
 
     function addTitle(title) {
-        message += `${title}:<br><br>`;
+        message += `${title}:\n\n`;
     }
 
     function addField(name, value) {
-        message += `${name}: ${value}<br>`;
+        message += `${name}: ${value}\n`;
     }
 
     function addFields(fields) {
         fields.forEach(({ name, value }) => addField(name, value));
-        message += '<br>';
+        message += '\n';
     }
+
+    addTitle('Данные заявки');
+    addFields([{
+        name: 'Имя',
+        value: name
+    }, {
+        name: 'Номер телефона',
+        value: phone
+    }, {
+        name: 'Ссылка на страницу',
+        value: host
+    }]);
+
+    message += `---\n\n`;
 
     if (data) {
         data = JSON.parse(data);
@@ -24,7 +37,7 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
                 case 'fields':
                     addTitle(elem.title);
                     addFields(elem.fields);
-                    message += `---<br><br>`;
+                    message += `---\n\n`;
                     break;
                 default:
                     break;
@@ -32,21 +45,61 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
         });
     }
 
-    let UTMParams = {};
     if (utmParams) {
-        utmParams.forEach(({ name, value }) => {
-            UTMParams[name.toUpperCase()] = value;
-        });
+        addTitle('UTM Параметры');
+        addFields(utmParams);
     }
 
-    bitrix.leads.create({
-        TITLE: 'Заявка с сайта',
-        NAME: name,
-        SOURCE_DESCRIPTION: host,
-        COMMENTS: message,
-        PHONE: [ { "VALUE": phone, "VALUE_TYPE": "WORK" } ],
-        ...UTMParams
-    }, {
-        REGISTER_SONET_EVENT: 'Y'
+    const custom_fields_data = {
+        id: 187315,
+        values: [{
+            value: message
+        }]
+    };
+
+    const amoDataJson = {
+        json: {
+            add: [
+                {
+                    source_name: 'Заявка с сайта',
+                    created_at: Date.now(),
+                    incoming_entities: {
+                        leads: [
+                            {
+                                name: "Заявка с сайта",
+                                custom_fields: [ custom_fields_data ]
+                            }
+                        ],
+                        contacts: [
+                            {
+                                name: name
+                            }
+                        ]
+                    },
+                    incoming_lead_info: {
+                        form_id: "1",
+                        form_page: host,
+                        add_note: "Заявка с сайта"
+                    }
+                }
+            ]
+        }
+    }
+
+    request.post('https://' + 'brusbany' + '.amocrm.ru/api/v2/incoming_leads/form?login=' + 'admin@brus-bany.ru' + '&api_key=' + '1dce4c770e2e0bd53e31de4d319eebf32134b276' + '&', amoDataJson, function (error, response, body) {
+        console.log('error', error);
     });
+
+    /*const amoDataJson = {
+        json: {
+            delete: [{
+                id: '187309',
+                origin: 'origin'
+            }]
+        }
+    }
+
+    request.post('https://' + 'brusbany' + '.amocrm.ru/api/v2/fields?login=' + 'admin@brus-bany.ru' + '&api_key=' + '1dce4c770e2e0bd53e31de4d319eebf32134b276' + '&', amoDataJson, function (error, response, body) {
+        console.log('error', error);
+    });*/
 };
