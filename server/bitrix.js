@@ -62,7 +62,7 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
             add: [
                 {
                     source_name: 'Заявка с сайта',
-                    created_at: Date.now(),
+                    created_at: Date.now() / 1000,
                     incoming_entities: {
                         leads: [
                             {
@@ -78,8 +78,8 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
                     },
                     incoming_lead_info: {
                         form_id: "1",
-                        form_page: host,
-                        add_note: "Заявка с сайта"
+                        form_page: 'Заявка с сайта',
+                        add_note: 'Заявка с сайта'
                     }
                 }
             ]
