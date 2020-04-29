@@ -11,6 +11,7 @@ function CustomProjectCard({ link }) {
                 firstImage={img}
                 imageAlt='Индивидуальный проект бани'
                 firstButton='Рассчитать'
+                firstButtonColor='yellow'
                 secondButton='Бесплатно'
                 bgStyle='grey'
                 content={(

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import styles from './Card.module.css';
 
 function Card(props) {
-    const { bgStyle, firstImage, imageAlt, content, firstButton, secondButton, onClick, className, style, imageWrapperClassName } = props;
+    const { bgStyle, firstImage, imageAlt, content, firstButton, secondButton, onClick, className, style, imageWrapperClassName, firstButtonColor } = props;
 
     return (
         <div onClick={onClick} className={cx(className, styles.container, styles[`container-${bgStyle}`])} style={style}>
@@ -16,7 +16,7 @@ function Card(props) {
             </div>
             {(firstButton || secondButton) ? (
                 <div className={styles['buttons']}>
-                    {firstButton ? <div className={cx(styles['button'], styles['button-first'])} dangerouslySetInnerHTML={{ __html: props.firstButton }} /> : null}
+                    {firstButton ? <div className={cx(styles['button'], styles['button-first'], styles[`button-first-${firstButtonColor}`])} dangerouslySetInnerHTML={{ __html: props.firstButton }} /> : null}
                     {secondButton ? <div className={cx(styles['button'], styles['button-second'])} dangerouslySetInnerHTML={{ __html: props.secondButton }} /> : null}
                 </div>
             ) : null}
@@ -26,6 +26,7 @@ function Card(props) {
 
 Card.propTypes = {
     bgStyle: PropTypes.oneOf(['white', 'grey']),
+    firstButtonColor: PropTypes.oneOf(['red', 'yellow']),
     firstImage: PropTypes.string.isRequired,
     imageAlt: PropTypes.string.isRequired,
     secondImage: PropTypes.string,
@@ -39,7 +40,8 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
-    bgStyle: 'grey'
+    bgStyle: 'grey',
+    firstButtonColor: 'red'
 };
 
 export default memo(Card);

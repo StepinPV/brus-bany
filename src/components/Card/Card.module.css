@@ -58,9 +58,14 @@
     align-items: center;
 }
 
-.button-first {
+.button-first-red {
     color: #fff;
     background: #91001d;
+}
+
+.button-first-yellow {
+    background: #ffe100;
+    color: #000;
 }
 
 .button-second {
