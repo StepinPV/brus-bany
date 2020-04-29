@@ -4,10 +4,12 @@
     max-width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.group:not(:last-child) {
-    margin-bottom: 8px;
+.group {
+    margin: 0 32px 8px 0;
 }
 
 .items {
