@@ -4,4 +4,3 @@ Disallow: /api*
 Disallow: /thanks
 Disallow: /*?*
 Sitemap: https://brus-bany.ru/sitemap.xml
-Host: https://brus-bany.ru
