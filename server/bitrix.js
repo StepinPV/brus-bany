@@ -16,20 +16,6 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
         message += '\n';
     }
 
-    addTitle('Данные заявки');
-    addFields([{
-        name: 'Имя',
-        value: name
-    }, {
-        name: 'Номер телефона',
-        value: phone
-    }, {
-        name: 'Ссылка на страницу',
-        value: host
-    }]);
-
-    message += `---\n\n`;
-
     if (data) {
         data = JSON.parse(data);
         data.forEach(elem => {
@@ -45,17 +31,45 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
         });
     }
 
+    const utmData = [];
     if (utmParams) {
-        addTitle('UTM Параметры');
-        addFields(utmParams);
+        utmParams.forEach(({ name, value }) => {
+            switch(name) {
+                case 'utm_source':
+                    utmData.push({
+                        id: 221267,
+                        values: [{ value }]
+                    });
+                    break;
+                case 'utm_medium':
+                    utmData.push({
+                        id: 221269,
+                        values: [{ value }]
+                    });
+                    break;
+                case 'utm_content':
+                    utmData.push({
+                        id: 221277,
+                        values: [{ value }]
+                    });
+                    break;
+                case 'utm_campaign':
+                    utmData.push({
+                        id: 221279,
+                        values: [{ value }]
+                    });
+                    break;
+                case 'utm_term':
+                    utmData.push({
+                        id: 221281,
+                        values: [{ value }]
+                    });
+                    break;
+            }
+        });
     }
 
-    const custom_fields_data = {
-        id: 187315,
-        values: [{
-            value: message
-        }]
-    };
+
 
     const amoDataJson = {
         json: {
@@ -67,12 +81,29 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
                         leads: [
                             {
                                 name: "Заявка с сайта",
-                                custom_fields: [ custom_fields_data ]
+                                custom_fields: [{
+                                    id: 187315,
+                                    values: [{
+                                        value: message
+                                    }]
+                                }, {
+                                    id: 221103,
+                                    values: [{
+                                        value: host
+                                    }]
+                                }, ...utmData]
                             }
                         ],
                         contacts: [
                             {
-                                name: name
+                                name: name,
+                                custom_fields: [{
+                                    id: 186903,
+                                    values: [{
+                                        value: phone,
+                                        enum: "WORK"
+                                    }]
+                                }]
                             }
                         ]
                     },
@@ -89,17 +120,4 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
     request.post('https://' + 'brusbany' + '.amocrm.ru/api/v2/incoming_leads/form?login=' + 'admin@brus-bany.ru' + '&api_key=' + '1dce4c770e2e0bd53e31de4d319eebf32134b276' + '&', amoDataJson, function (error, response, body) {
         console.log('error', error);
     });
-
-    /*const amoDataJson = {
-        json: {
-            delete: [{
-                id: '187309',
-                origin: 'origin'
-            }]
-        }
-    }
-
-    request.post('https://' + 'brusbany' + '.amocrm.ru/api/v2/fields?login=' + 'admin@brus-bany.ru' + '&api_key=' + '1dce4c770e2e0bd53e31de4d319eebf32134b276' + '&', amoDataJson, function (error, response, body) {
-        console.log('error', error);
-    });*/
 };

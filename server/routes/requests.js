@@ -24,10 +24,11 @@ router.post('/', async function(req, res, next) {
         switch(status) {
             case 'success':
                 const utmParams = utm.get(req);
+                const host = req.headers.referer ? req.headers.referer.split('?')[0] : '';
 
                 // nodemailer.send(requestData);
-                watsup.send(requestData, req.headers.referer, utmParams);
-                bitrix.send(requestData, req.headers.referer, utmParams);
+                // watsup.send(requestData, host, utmParams);
+                bitrix.send(requestData, host, utmParams);
                 // sms.send(requestData);
                 send(res, req, status);
                 break;
