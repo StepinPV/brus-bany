@@ -8,5 +8,6 @@ router.use('/articles', require('./articles'));
 router.use('/photos', require('./photos'));
 router.use('/upload-image', require('./image-uploader'));
 router.use('/requests', require('./requests'));
+router.use('/pages', require('./pages'));
 
 module.exports = router;

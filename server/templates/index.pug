@@ -16,6 +16,8 @@ html(lang='ru')
         link(rel='stylesheet', href=assets.css.main, type='text/css')
         each chunk in assets.css.chunks
             link(rel='stylesheet', href=chunk.publicPath, type='text/css')
+        each component in assets.css.components
+            link(rel='stylesheet', href=component, type='text/css')
 
         | !{link}
 
@@ -23,14 +25,16 @@ html(lang='ru')
         div#root !{app}
         div#modal
 
-        if initialData
-            script(type='text/javascript')
-                | window.__initialData__ = !{initialData} || {};
+        script(type='text/javascript')
+            | window.__initialData__ = !{initialData};
+            | window.__pageData__ = !{pageData};
 
         if assets.js
             script(src=assets.js.runtimeMain)
             each vendor in assets.js.vendors
                 script(src=vendor)
+            each component in assets.js.components
+                script(src=component)
             each chunk in assets.js.chunks
                 script(src=chunk.publicPath)
             script(src=assets.js.main)

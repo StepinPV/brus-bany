@@ -19,18 +19,18 @@ router.get('*', async (req, res, next) => {
             res.render('index.pug', data);
         }
 
-        let fromCache = cache.get(req);
+        /*let fromCache = cache.get(req);
         if (fromCache) {
             fromCache = JSON.parse(fromCache);
             sendRes(fromCache.preloadList, fromCache.data);
             return;
-        }
+        }*/
 
         const axiosOptions = {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const { head, markup, initialData, modules, simplePage, context, timings } = await render(req, res, axiosOptions);
+        const { head, markup, initialData, modules, simplePage, context, pageData, componentIds } = await render(req, res, axiosOptions);
 
         if (context.status === 404) {
             res.status(404);
@@ -50,7 +50,7 @@ router.get('*', async (req, res, next) => {
                 'react-dom',
                 'redux',
                 'react-redux',
-                // 'react-helmet',
+                'react-helmet',
                 'react-router',
                 'react-router-dom',
                 'react-loadable'
@@ -75,19 +75,21 @@ router.get('*', async (req, res, next) => {
                 title: head.title.toString(),
                 meta: head.meta.toString(),
                 link: head.link.toString(),
-                initialData: simplePage ? null : serialize(initialData),
+                initialData: serialize(simplePage ? {} : initialData),
+                pageData: serialize(pageData || {}),
                 app: markup,
-                timings: JSON.stringify(timings || {}),
                 assets: {
                     js: simplePage ? null : {
                         runtimeMain: assetsManifest['runtime~main.js'],
                         main: assetsManifest['main.js'],
                         vendors: vendorList.map(vendor => assetsManifest[`${vendor}.js`]),
+                        components: componentIds.map(componentId => assetsManifest[`${componentId}.js`]),
                         chunks: getJSChunks(chunks)
                     },
                     css: {
                         main: assetsManifest['main.css'],
-                        chunks: getCSSChunks(chunks)
+                        chunks: getCSSChunks(chunks),
+                        components: componentIds.map(componentId => assetsManifest[`${componentId}.css`]),
                     }
                 }
             };
