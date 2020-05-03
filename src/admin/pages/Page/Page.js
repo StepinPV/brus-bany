@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import PageComponent from '../../../client/components/Page';
 import { getPage, setPage, savePage, reset, deletePage } from './actions';
@@ -49,8 +48,11 @@ class Page extends PureComponent {
 
     state = {
         errors: {},
+        operations: {},
         breadcrumbs: null,
-        componentInstances: {}
+        componentConstructors: {},
+        componentMetas: {},
+        addComponentMode: false
     };
 
     componentDidMount() {
@@ -60,45 +62,25 @@ class Page extends PureComponent {
         if (id === 'add') {
             actions.setPage({
                 config: {
-                    components: [{
-                        componentId: 'H1Block',
-                        props: {
-                            caption: 'Вакансии1'
-                        }
-                    }, {
-                        componentId: 'H1Block',
-                        props: {
-                            caption: 'Вакансии2'
-                        }
-                    }]
+                    components: []
                 }
             });
         } else {
             actions.getPage(id);
         }
+
+        this.loadComponents();
     }
 
     componentDidUpdate(prevProps) {
         const { page } = this.props;
-        const { operations } = this.state;
         const { page: prevPage } = prevProps;
 
         if (page && (!prevPage || page.config.components !== prevPage.config.components)) {
             page.config.components.forEach(({ componentId }) => {
-                this.loadComponent(componentId);
+                this.loadComponentInstance(componentId);
+                this.loadComponentMeta(componentId);
             });
-        }
-
-        if (page && !operations) {
-            const operations = [];
-
-            page.config.components.forEach(() => {
-                operations.push({
-                    propsFormVisible: false
-                });
-            });
-
-            this.setState({ operations });
         }
     }
 
@@ -108,29 +90,22 @@ class Page extends PureComponent {
     }
 
     render() {
-        const { isPageError } = this.props;
-        const { breadcrumbs } = this.state;
+        const { isPageError, page, match } = this.props;
+        const { errors, breadcrumbs } = this.state;
 
-        return (
-            <>
-                <Header />
-                <Breadcrumbs items={breadcrumbs} />
-                { isPageError ? <div className={styles.error}>{isPageError}</div> : this.renderData() }
-            </>
-        );
-    }
+        if (isPageError) {
+            return <div className={styles.error}>{isPageError}</div>;
+        }
 
-    renderData = () => {
-        const { page, match } = this.props;
-        const { errors } = this.state;
         const { name } = match.params;
 
         return page ? (
             <div className={styles.container}>
+                {this.renderPage()}
                 <div className={styles['form-container']}>
                     <Form format={format} value={page} onChange={this.handleChange} errors={errors} />
                 </div>
-                {this.renderPage()}
+                <Breadcrumbs items={breadcrumbs} />
                 <div className={styles.buttons}>
                     <Button
                         caption={name === 'add' ? 'Создать' : 'Сохранить'}
@@ -149,28 +124,84 @@ class Page extends PureComponent {
                 </div>
             </div>
         ) : null;
-    };
+    }
 
-    renderPage() {
+    renderPage = () => {
         const { page } = this.props;
+        const { addComponentMode } = this.state;
         const { components } = page.config;
 
         return (
             <PageComponent>
                 {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
+                {!addComponentMode ? this.renderAddComponent() : null}
+                {addComponentMode ? this.renderComponentSelect() : null}
             </PageComponent>
         );
     }
 
+    renderAddComponent = () => {
+        return (
+            <div className={styles['add-button']}>
+                <div className={styles['add-button-caption']} onClick={() => {
+                    this.setState({ addComponentMode: true })
+                }}>Добавить новый компонент<br/>+</div>
+            </div>
+        );
+    };
+
+    renderComponentSelect = () => {
+        const { componentMetas } = this.state;
+        const { page, actions } = this.props;
+
+        const { components } = page.config;
+
+        const addComponent = (componentId) => {
+            const newComponents = [...components];
+
+            newComponents.push({
+                componentId,
+                props: componentMetas[componentId].defaultProps || {}
+            });
+
+            actions.setPage({
+                ...page,
+                config: {
+                    ...page.config,
+                    components: newComponents
+                }
+            });
+
+            this.setState({ addComponentMode: false })
+        }
+
+        return (
+            <div className={styles['component-select']}>
+                <div className={styles['component-select-items']}>
+                    {Object.keys(componentMetas).map(componentKey => {
+                        return (
+                            <div className={styles['component-select-item']} onClick={() => { addComponent(componentKey) }}>{componentMetas[componentKey].name}</div>
+                        );
+                    })}
+                </div>
+                <div className={styles['add-button-caption']} onClick={() => {
+                    this.setState({ addComponentMode: false })
+                }}>Отменить</div>
+            </div>
+        );
+    };
+
     renderComponentByIndex = (index) => {
         const { actions, page } = this.props;
-        const { componentInstances } = this.state;
+        const { componentConstructors } = this.state;
+        const { componentMetas } = this.state;
 
         const { components } = page.config;
         const { componentId, props } = components[index];
 
-        if (componentInstances[componentId]) {
-            const { instance: Component, propsMeta } = componentInstances[componentId];
+        if (componentConstructors[componentId] && componentMetas[componentId]) {
+            const Component = componentConstructors[componentId];
+            const propsMeta = componentMetas[componentId].props;
             const { operations } = this.state;
 
             const onChange = (id, newProps) => {
@@ -186,27 +217,39 @@ class Page extends PureComponent {
                 });
             }
 
+            const deleteComponent = (e) => {
+                e.stopPropagation();
+
+                const newComponents = [...components];
+                newComponents.splice(index, 1);
+
+                actions.setPage({
+                    ...page,
+                    config: {
+                        ...page.config,
+                        components: newComponents
+                    }
+                });
+            }
+
             const togglePropsFormVisible = () => {
-                const newOperations = [...this.state.operations];
+                const newOperations = { ...this.state.operations };
                 newOperations[index] = {
                     ...newOperations[index],
-                    propsFormVisible: !newOperations[index].propsFormVisible
+                    propsFormVisible: newOperations[index] ? !newOperations[index].propsFormVisible : true
                 };
 
                 this.setState({ operations: newOperations });
             }
 
-            const moveUp = () => {
+            const moveUp = (e) => {
+                e.stopPropagation();
+
                 const newComponents = [...components];
                 const temp = newComponents[index - 1];
                 newComponents[index - 1] = newComponents[index];
                 newComponents[index] = temp;
 
-                const newOperations = [...this.state.operations];
-                const tempOperation = newOperations[index - 1];
-                newOperations[index - 1] = newOperations[index];
-                newOperations[index] = tempOperation;
-
                 actions.setPage({
                     ...page,
                     config: {
@@ -215,20 +258,17 @@ class Page extends PureComponent {
                     }
                 });
 
-                this.setState({ operations: newOperations });
+                this.setState({ operations: {} });
             };
 
-            const moveBottom = () => {
+            const moveBottom = (e) => {
+                e.stopPropagation();
+
                 const newComponents = [...components];
                 const temp = newComponents[index + 1];
                 newComponents[index + 1] = newComponents[index];
                 newComponents[index] = temp;
 
-                const newOperations = [...this.state.operations];
-                const tempOperation = newOperations[index + 1];
-                newOperations[index + 1] = newOperations[index];
-                newOperations[index] = tempOperation;
-
                 actions.setPage({
                     ...page,
                     config: {
@@ -237,22 +277,22 @@ class Page extends PureComponent {
                     }
                 });
 
-                this.setState({ operations: newOperations });
+                this.setState({ operations: {} });
             }
 
             return (
                 <Fragment>
                     <div className={styles.component}>
-                        <div className={styles['component-overlay']}>
+                        <div className={styles['component-overlay']} onClick={togglePropsFormVisible}>
                             <div className={styles['component-operations']}>
-                                <div className={styles['component-operation']} onClick={togglePropsFormVisible}>Данные</div>
                                 { index !== components.length - 1 ? <div className={styles['component-operation']} onClick={moveBottom}>▼</div> : null }
                                 { index !== 0 ? <div className={styles['component-operation']} onClick={moveUp}>▲</div> : null }
+                                <div className={styles['component-operation']} onClick={deleteComponent}>Удалить</div>
                             </div>
                         </div>
                         <Component {...props} />
                     </div>
-                    {operations[index].propsFormVisible ? (
+                    {operations[index] && operations[index].propsFormVisible ? (
                         <div className={styles['form-container']}>
                             <Form format={propsMeta} value={props} onChange={onChange} errors={{}}/>
                         </div>
@@ -264,21 +304,47 @@ class Page extends PureComponent {
         return null;
     };
 
-    loadComponent = async (componentId) => {
-        const { componentInstances } = this.state;
+    loadComponentInstance = async (componentId) => {
+        const { componentConstructors } = this.state;
 
-        if (!componentInstances[componentId]) {
-            this.setState({
-                componentInstances: {
-                    ...componentInstances,
-                    [componentId]: {
-                        instance: (await componentsPaths[componentId].load()).default,
-                        propsMeta: (await componentsPaths[componentId].loadMeta()).props
+        if (!componentConstructors[componentId]) {
+            const constructor = (await componentsPaths[componentId].load()).default;
+
+            this.setState(state => {
+                return {
+                    ...state,
+                    componentConstructors: {
+                        ...state.componentConstructors,
+                        [componentId]: constructor
                     }
                 }
-            })
+            });
         }
     }
+
+    loadComponentMeta = async (componentId) => {
+        const { componentMetas } = this.state;
+
+        if (!componentMetas[componentId]) {
+            const meta = await componentsPaths[componentId].loadMeta();
+
+            this.setState(state => {
+                return {
+                    ...state,
+                    componentMetas: {
+                        ...state.componentMetas,
+                        [componentId]: meta
+                    }
+                }
+            });
+        }
+    }
+
+    loadComponents = () => {
+        Object.keys(componentsPaths).forEach(componentId => {
+            this.loadComponentMeta(componentId);
+        });
+    };
 
     handleChange = (id, newPage) => {
         const { actions, page } = this.props;

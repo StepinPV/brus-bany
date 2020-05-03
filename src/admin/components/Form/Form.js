@@ -9,6 +9,7 @@ import ArrayEditor from '../ArrayEditor';
 import ImageUploader from '../ImageUploader';
 import AssociativeArrayEditor from '../AssociativeArrayEditor';
 import styles from './Form.module.css';
+import Select from "../../../components/Select";
 
 const Form = ({ value, onChange, format, errors }) => {
     return (
@@ -119,6 +120,20 @@ const Form = ({ value, onChange, format, errors }) => {
                                 />
                             </div>
 
+                        );
+                    case 'select':
+                        return (
+                            <div className={styles.item} key={item['_id']}>
+                                <Select
+                                    title={item.title}
+                                    items={item.items}
+                                    displayProperty='title'
+                                    keyProperty='id'
+                                    selectedKey={value[item['_id']]}
+                                    onChange={handleChange}
+                                    required={item.required}
+                                    error={errors[item['_id']]} />
+                            </div>
                         );
                     default: break;
                 }

@@ -83,13 +83,13 @@ router.get('*', async (req, res, next) => {
                         runtimeMain: assetsManifest['runtime~main.js'],
                         main: assetsManifest['main.js'],
                         vendors: vendorList.map(vendor => assetsManifest[`${vendor}.js`]),
-                        components: componentIds.map(componentId => assetsManifest[`${componentId}.js`]),
+                        components: componentIds ? componentIds.map(componentId => assetsManifest[`${componentId}.js`]) : [],
                         chunks: getJSChunks(chunks)
                     },
                     css: {
                         main: assetsManifest['main.css'],
                         chunks: getCSSChunks(chunks),
-                        components: componentIds.map(componentId => assetsManifest[`${componentId}.css`]),
+                        components: componentIds ? componentIds.map(componentId => assetsManifest[`${componentId}.css`]) : [],
                     }
                 }
             };
