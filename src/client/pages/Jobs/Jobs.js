@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import Page from '../../components/Page';
 import Caption from '../../components/Caption';
 import Text from '../../components/Text';
-import H1Block from '../../components/H1Block';
+import H1Block from '../../../components/H1Block';
 import styles from './Jobs.module.css';
 import FormBlock from "../../components/FormBlock";
 import Meta from '../../components/Meta';

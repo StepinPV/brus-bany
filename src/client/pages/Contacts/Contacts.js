@@ -3,7 +3,7 @@ import Page from '../../components/Page';
 import { Link } from '../../../components/Button';
 import SocialNetwork from '../../components/SocialNetwork';
 import DataSection from '../../components/DataSection';
-import H1Block from '../../components/H1Block';
+import H1Block from '../../../components/H1Block';
 import cx from 'classnames';
 import styles from './Contacts.module.css';
 import FormBlock from "../../components/FormBlock";

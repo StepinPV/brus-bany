@@ -16,20 +16,6 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
         message += '\n';
     }
 
-    addTitle('Данные заявки');
-    addFields([{
-        name: 'Имя',
-        value: name
-    }, {
-        name: 'Номер телефона',
-        value: phone
-    }, {
-        name: 'Ссылка на страницу',
-        value: host
-    }]);
-
-    message += `---\n\n`;
-
     if (data) {
         data = JSON.parse(data);
         data.forEach(elem => {
@@ -50,13 +36,6 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
         addFields(utmParams);
     }
 
-    const custom_fields_data = {
-        id: 187315,
-        values: [{
-            value: message
-        }]
-    };
-
     const amoDataJson = {
         json: {
             add: [
@@ -67,12 +46,28 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
                         leads: [
                             {
                                 name: "Заявка с сайта",
-                                custom_fields: [ custom_fields_data ]
+                                custom_fields: [{
+                                    id: 187315,
+                                    values: [{
+                                        value: message
+                                    }]
+                                }, {
+                                    id: 221103,
+                                    values: [{
+                                        value: host
+                                    }]
+                                }]
                             }
                         ],
                         contacts: [
                             {
-                                name: name
+                                name: name,
+                                custom_fields: [{
+                                    id: 186903,
+                                    values: [{
+                                        value: phone
+                                    }]
+                                }]
                             }
                         ]
                     },

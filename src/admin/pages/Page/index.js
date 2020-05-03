@@ -1,10 +1,10 @@
-import Layout from './Layout';
+import Page from './Page';
 import reducer, { initialState } from './reducer';
 
 export const info = {
-    id: 'admin-layout',
+    id: 'admin-page',
     reducer,
     initialState
 };
 
-export default Layout;
+export default Page;

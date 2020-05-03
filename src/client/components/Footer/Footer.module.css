@@ -1,6 +1,7 @@
 .container {
     background-color: #111111;
     padding-top: 45px;
+    width: 100%;
 }
 
 .wrapper {

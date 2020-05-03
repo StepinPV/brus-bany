@@ -294,11 +294,27 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
-        id: 'not-found',
+        id: 'admin/pages',
+        path: '/admin/pages',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Pages')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/pages/page',
+        path: '/admin/pages/:id',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Page')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'page-generator',
         path: '*',
         exact: true,
         component: Loadable({
-            loader: () => getLoader(import('../client/pages/NotFound')),
+            loader: () => getLoader(import('../PageGenerator')),
             loading: LoaderPage,
         }),
         simplePage: true

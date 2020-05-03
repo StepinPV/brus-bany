@@ -10,7 +10,7 @@ import Article from '../../components/Article';
 import PhotoCard from '../../../components/PhotoCard';
 import CustomProjectCard from '../../../components/CustomProjectCard';
 import DataSection from '../../components/DataSection';
-import H1Block from '../../components/H1Block';
+import H1Block from '../../../components/H1Block';
 import { getCategory, getProjects, resetData, getPhotos } from './actions';
 import filterProjects from './resources/filter';
 import sortProjects from './resources/sort';

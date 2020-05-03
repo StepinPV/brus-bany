@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import { getCategories, getPhotos, resetData } from './actions';
 import Page from '../../components/Page';
-import H1Block from '../../components/H1Block';
+import H1Block from '../../../components/H1Block';
 import styles from './Photos.module.css';
 import FormBlock from "../../components/FormBlock";
 import CardList from '../../../components/CardList';

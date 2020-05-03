@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import Page from '../../components/Page';
-import H1Block from '../../components/H1Block';
+import H1Block from '../../../components/H1Block';
 import styles from './Privacy.module.css';
 import Meta from '../../components/Meta';
 

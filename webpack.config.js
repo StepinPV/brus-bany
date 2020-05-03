@@ -60,10 +60,19 @@ const client = () => merge([
                 chunks: 'all',
                 cacheGroups: {
                     default: false,
-                    vendors: {
+                    defaultVendors: {
                         test: /[\\/]node_modules[\\/](axios|@babel|classnames|core-js|react|react-dom|redux|react-redux|react-helmet|react-router|react-router-dom|react-loadable)[\\/]/,
                         name(module) {
                             const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                            return `${packageName.replace('@', '').replace('/', '-')}`;
+                        },
+                        priority: 20
+                    },
+                    componentsVendors: {
+                        test: /[\\/]constructorComponents[\\/](.*?)[\\/]/,
+                        name(module) {
+                            console.log('module.context', module.context);
+                            const packageName = module.context.match(/[\\/]constructorComponents[\\/](.*?)([\\/]|$)/)[1];
                             return `${packageName.replace('@', '').replace('/', '-')}`;
                         },
                         priority: 20

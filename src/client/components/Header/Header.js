@@ -19,7 +19,7 @@ function Header(props) {
     }
 
     return (
-        <header className={opacity ? styles['header-absolute'] : null}>
+        <header className={cx(styles.header, opacity ? styles['header-absolute'] : null)}>
             <div className={cx(styles.container, {[styles['container-opacity']]: opacity}) }>
                 {renderLink(<Logo className={styles.logo}/>)}
                 <nav className={styles.items}>

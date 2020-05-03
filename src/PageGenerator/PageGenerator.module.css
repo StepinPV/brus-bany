@@ -1,0 +1,14 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.subCaption {
+    margin-bottom: 8px;
+}
+
+.data {
+    margin-bottom: 32px;
+}

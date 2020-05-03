@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
 function Meta({ meta }) {

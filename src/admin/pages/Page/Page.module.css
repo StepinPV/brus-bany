@@ -1,0 +1,67 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.component {
+    position: relative;
+    width: 100%;
+}
+
+.component-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    border: 1px dashed #000;
+    display: none;
+}
+
+.component:hover .component-overlay {
+    display: block;
+}
+
+.component-operations {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 8px;
+    display: flex;
+}
+
+.component-operation {
+    padding: 8px;
+    margin: 8px;
+    background: #91001d;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.buttons, .form-container {
+    max-width: 100%;
+    width: 1200px;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.form-container {
+    margin: 16px auto;
+}
+
+.button:not(:last-child) {
+    margin-right: 16px;
+}
+
+.button {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.error {
+    text-align: center;
+    margin-top: 64px;
+}

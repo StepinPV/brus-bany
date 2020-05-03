@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import { getPhoto, resetData } from './actions';
 import Page from '../../components/Page';
-import H1Block from '../../components/H1Block';
+import H1Block from '../../../components/H1Block';
 import styles from './Photo.module.css';
 import Text from '../../components/Text';
 import Caption from '../../components/Caption';

@@ -1,8 +1,8 @@
 import React, {memo} from 'react';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import NotFoundComponent from '../../components/NotFound';
-import Meta from '../../components/Meta';
+import Header from '../../client/components/Header';
+import Footer from '../../client/components/Footer';
+import NotFoundComponent from '../../client/components/NotFound';
+import Meta from '../../client/components/Meta';
 
 const META = {
     title: '404 | Брус бани',

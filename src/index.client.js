@@ -6,7 +6,7 @@ import Loadable from 'react-loadable';
 import configureStore from './store';
 import App from './components/App';
 import getRoutes from './routes';
-import * as serviceWorker from './serviceWorker';
+import componentsPaths from './constructorComponents/meta';
 import './index.css';
 
 if (document.readyState !== 'loading') {
@@ -21,6 +21,11 @@ async function run () {
     delete window.__initialData__;
     /* eslint-enable no-underscore-dangle*/
 
+    /* eslint-disable no-underscore-dangle */
+    const pageData = configureStore(window.__pageData__);
+    delete window.__pageData__;
+    /* eslint-enable no-underscore-dangle*/
+
     await Loadable.preloadReady();
 
     const routes = getRoutes(module => {
@@ -32,13 +37,8 @@ async function run () {
     ReactDOM.hydrate(
         <Provider store={store}>
             <BrowserRouter>
-                <App routes={routes} />
+                <App routes={routes} page={pageData} />
             </BrowserRouter>
         </Provider>,
         document.getElementById('root'));
 }
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-// serviceWorker.unregister();
