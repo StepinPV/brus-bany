@@ -8,8 +8,8 @@ function List(props) {
         styles.container,
         styles[`width-${props.width}`],
         styles[`size-${props.size}`],
-        styles[`padding-top-${props.paddingTop}`],
-        styles[`padding-bottom-${props.paddingBottom}`]);
+        props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,
+        props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null);
 
     function renderItems() {
         return (
@@ -35,8 +35,8 @@ function List(props) {
 
 List.propTypes = {
     size: PropTypes.oneOf(['s', 'm', 'l']),
-    paddingTop: PropTypes.oneOf(['s', 'm', 'l']),
-    paddingBottom: PropTypes.oneOf(['s', 'm', 'l']),
+    paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
+    paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     type: PropTypes.oneOf(['numeric', 'marker']),
     width: PropTypes.oneOf(['wide', 'narrow']),
     items: PropTypes.array

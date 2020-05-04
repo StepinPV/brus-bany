@@ -4,6 +4,9 @@ export const props = [{
     title: 'Нижний отступ',
     type: 'select',
     items: [{
+        id: 'none',
+        title: 'Без отступа'
+    }, {
         id: 's',
         title: 'Маленький'
     }, {
@@ -18,6 +21,9 @@ export const props = [{
     title: 'Верхний отступ',
     type: 'select',
     items: [{
+        id: 'none',
+        title: 'Без отступа'
+    }, {
         id: 's',
         title: 'Маленький'
     }, {

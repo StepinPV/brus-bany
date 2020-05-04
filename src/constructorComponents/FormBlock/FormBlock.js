@@ -12,8 +12,8 @@ function FormBlock(props) {
 
     const className = cx(
         styles.content,
-        styles[`padding-top-${props.paddingTop}`],
-        styles[`padding-bottom-${props.paddingBottom}`]);
+        props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,
+        props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null);
 
     return (
         <div className={className} id='requestForm'>
@@ -31,8 +31,8 @@ function FormBlock(props) {
 
 FormBlock.propTypes = {
     background: PropTypes.oneOf(['white', 'grey']),
-    paddingTop: PropTypes.oneOf(['s', 'm', 'l']),
-    paddingBottom: PropTypes.oneOf(['s', 'm', 'l'])
+    paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
+    paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l'])
 };
 
 FormBlock.defaultProps = {

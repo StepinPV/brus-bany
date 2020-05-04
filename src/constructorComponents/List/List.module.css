@@ -9,6 +9,7 @@
 
 .item {
     margin-left: 38px;
+    margin-right: 16px;
 }
 
 .width-wide { max-width: 100%; }

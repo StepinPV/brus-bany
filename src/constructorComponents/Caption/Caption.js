@@ -8,8 +8,8 @@ function Caption(props) {
         styles.text,
         styles[`color-${props.color}`],
         styles[`size-${props.size}`],
-        styles[`padding-top-${props.paddingTop}`],
-        styles[`padding-bottom-${props.paddingBottom}`],
+        props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,
+        props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null,
         styles[`width-${props.width}`],
         props.align ? styles[`align-${props.align}`] : null);
 
@@ -29,8 +29,8 @@ Caption.propTypes = {
     size: PropTypes.oneOf(['s', 'm', 'l']),
     tag: PropTypes.oneOf(['h1', 'h2', 'h3', 'div']),
     align: PropTypes.oneOf(['left', 'center', 'right']),
-    paddingTop: PropTypes.oneOf(['s', 'm', 'l']),
-    paddingBottom: PropTypes.oneOf(['s', 'm', 'l']),
+    paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
+    paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     isHTML: PropTypes.bool,
     width: PropTypes.oneOf(['wide', 'narrow']),
 };
