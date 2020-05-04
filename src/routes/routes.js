@@ -56,15 +56,6 @@ export default (initModule) => {
         }),
         simplePage: true
     }, {
-        id: 'site/requisites',
-        path: '/rekvizity',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Requisites')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
-    }, {
         id: 'site/payment',
         path: '/usloviya-oplaty',
         exact: true,
