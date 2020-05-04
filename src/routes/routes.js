@@ -65,15 +65,6 @@ export default (initModule) => {
         }),
         simplePage: true
     }, {
-        id: 'site/privacy',
-        path: '/politika-konfidencialnosti',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Privacy')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
-    }, {
         id: 'site/delivery',
         path: '/dostavka',
         exact: true,
