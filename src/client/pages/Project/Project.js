@@ -246,7 +246,7 @@ class Project extends PureComponent {
                 <div className={styles['info-addition']} itemProp="description">
                     <div>Общая площадь - {project.layoutId.area}м<sup>2</sup></div>
                     <div>Площадь сруба - {project.layoutId.frameArea}м<sup>2</sup></div>
-                    {project.layoutId.terrace && project.layoutId.terrace.area ? (<div>Площадь терассы - {project.layoutId.terrace.area}м<sup>2</sup></div>) : null}
+                    {project.layoutId.terrace && project.layoutId.terrace.area ? (<div>Площадь террасы - {project.layoutId.terrace.area}м<sup>2</sup></div>) : null}
                     {project.layoutId.porch && project.layoutId.porch.area ? (<div>Площадь крыльца - {project.layoutId.porch.area}м<sup>2</sup></div>) : null}
                     {project.layoutId.attic && project.layoutId.attic.area ? (<div>Площадь мансарды - {project.layoutId.attic.area}м<sup>2</sup></div>) : null}
                 </div>
