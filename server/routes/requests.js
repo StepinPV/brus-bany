@@ -27,7 +27,7 @@ router.post('/', async function(req, res, next) {
                 const host = req.headers.referer ? req.headers.referer.split('?')[0] : '';
 
                 // nodemailer.send(requestData);
-                watsup.send(requestData, host, utmParams);
+                // watsup.send(requestData, host, utmParams);
                 bitrix.send(requestData, host, utmParams);
                 // sms.send(requestData);
                 send(res, req, status);

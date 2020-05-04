@@ -31,10 +31,45 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
         });
     }
 
+    const utmData = [];
     if (utmParams) {
-        addTitle('UTM Параметры');
-        addFields(utmParams);
+        utmParams.forEach(({ name, value }) => {
+            switch(name) {
+                case 'utm_source':
+                    utmData.push({
+                        id: 221267,
+                        values: [{ value }]
+                    });
+                    break;
+                case 'utm_medium':
+                    utmData.push({
+                        id: 221269,
+                        values: [{ value }]
+                    });
+                    break;
+                case 'utm_content':
+                    utmData.push({
+                        id: 221277,
+                        values: [{ value }]
+                    });
+                    break;
+                case 'utm_campaign':
+                    utmData.push({
+                        id: 221279,
+                        values: [{ value }]
+                    });
+                    break;
+                case 'utm_term':
+                    utmData.push({
+                        id: 221281,
+                        values: [{ value }]
+                    });
+                    break;
+            }
+        });
     }
+
+
 
     const amoDataJson = {
         json: {
@@ -56,7 +91,7 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
                                     values: [{
                                         value: host
                                     }]
-                                }]
+                                }, ...utmData]
                             }
                         ],
                         contacts: [
@@ -65,7 +100,8 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
                                 custom_fields: [{
                                     id: 186903,
                                     values: [{
-                                        value: phone
+                                        value: phone,
+                                        enum: "WORK"
                                     }]
                                 }]
                             }
@@ -84,17 +120,4 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
     request.post('https://' + 'brusbany' + '.amocrm.ru/api/v2/incoming_leads/form?login=' + 'admin@brus-bany.ru' + '&api_key=' + '1dce4c770e2e0bd53e31de4d319eebf32134b276' + '&', amoDataJson, function (error, response, body) {
         console.log('error', error);
     });
-
-    /*const amoDataJson = {
-        json: {
-            delete: [{
-                id: '187309',
-                origin: 'origin'
-            }]
-        }
-    }
-
-    request.post('https://' + 'brusbany' + '.amocrm.ru/api/v2/fields?login=' + 'admin@brus-bany.ru' + '&api_key=' + '1dce4c770e2e0bd53e31de4d319eebf32134b276' + '&', amoDataJson, function (error, response, body) {
-        console.log('error', error);
-    });*/
 };
