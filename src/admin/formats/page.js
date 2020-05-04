@@ -16,6 +16,6 @@ export const config = [{
     }, {
         _id: 'description',
         title: 'SEO description',
-        type: 'string'
+        type: 'text'
     }]
 }];
