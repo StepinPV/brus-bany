@@ -329,14 +329,12 @@ class Page extends PureComponent {
         const { componentConstructors } = this.state;
 
         if (!componentConstructors[componentId]) {
-            const constructor = (await componentsPaths[componentId].load()).default;
-
-            this.setState(state => {
+            this.setState(async state => {
                 return {
                     ...state,
                     componentConstructors: {
                         ...state.componentConstructors,
-                        [componentId]: constructor
+                        [componentId]: (await componentsPaths[componentId].load()).default
                     }
                 }
             });
