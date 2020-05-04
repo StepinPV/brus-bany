@@ -17,11 +17,14 @@ export const props = [{
     title: 'Ширина',
     type: 'select',
     items: [{
-        id: 'wide',
-        title: 'Полная'
+        id: 'l',
+        title: 'На всю ширину'
     }, {
-        id: 'narrow',
-        title: 'Ограниченная'
+        id: 'm',
+        title: 'Среднаяя'
+    }, {
+        id: 's',
+        title: 'Маленькая'
     }]
 }];
 
@@ -33,5 +36,5 @@ export const defaultProps = {
     }, {
         title: 'Текущая страница'
     }],
-    width: 'narrow'
+    width: 'm'
 };

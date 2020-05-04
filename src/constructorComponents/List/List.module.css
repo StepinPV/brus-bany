@@ -12,8 +12,9 @@
     margin-right: 16px;
 }
 
-.width-wide { max-width: 100%; }
-.width-narrow { max-width: 1200px; }
+.width-l { max-width: 100%; }
+.width-m { max-width: 1200px; }
+.width-s { max-width: 728px; }
 
 .padding-top-s { padding-top: 16px; }
 .padding-top-m { padding-top: 32px; }

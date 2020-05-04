@@ -38,11 +38,14 @@ export const props = [{
     title: 'Ширина',
     type: 'select',
     items: [{
-        id: 'wide',
-        title: 'Полная'
+        id: 'l',
+        title: 'На всю ширину'
     }, {
-        id: 'narrow',
-        title: 'Ограниченная'
+        id: 'm',
+        title: 'Среднаяя'
+    }, {
+        id: 's',
+        title: 'Маленькая'
     }]
 }, {
     _id: 'paddingBottom',
@@ -86,7 +89,7 @@ export const defaultProps = {
     size: 'm',
     paddingBottom: 'm',
     paddingTop: 'm',
-    width: 'narrow',
+    width: 'm',
     items: [{
         text: 'Первый элемент списка'
     }, {

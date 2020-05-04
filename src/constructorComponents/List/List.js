@@ -38,7 +38,7 @@ List.propTypes = {
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     type: PropTypes.oneOf(['numeric', 'marker']),
-    width: PropTypes.oneOf(['wide', 'narrow']),
+    width: PropTypes.oneOf(['s', 'm', 'l']),
     items: PropTypes.array
 };
 
@@ -48,7 +48,7 @@ List.defaultProps = {
     type: 'marker',
     items: [],
     size: 'm',
-    width: 'narrow'
+    width: 'm'
 };
 
 export default memo(List);

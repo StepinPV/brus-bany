@@ -39,11 +39,11 @@ Breadcrumbs.propTypes = {
             link: PropTypes.string
         })
     ),
-    width: PropTypes.oneOf(['wide', 'narrow']),
+    width: PropTypes.oneOf(['s', 'm', 'l']),
 };
 
 Breadcrumbs.defaultProps = {
-    width: 'narrow'
+    width: 'm'
 };
 
 export default memo(Breadcrumbs);

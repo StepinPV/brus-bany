@@ -8,8 +8,9 @@
     padding-right: 16px;
 }
 
-.width-wide { max-width: 100%; }
-.width-narrow { max-width: 1200px; }
+.width-l { max-width: 100%; }
+.width-m { max-width: 1200px; }
+.width-s { max-width: 728px; }
 
 .color-black { color: #000; }
 .color-white { color: #fff; }

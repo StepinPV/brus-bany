@@ -32,7 +32,7 @@ Caption.propTypes = {
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     isHTML: PropTypes.bool,
-    width: PropTypes.oneOf(['wide', 'narrow']),
+    width: PropTypes.oneOf(['l', 'm', 's']),
 };
 
 Caption.defaultProps = {
@@ -42,7 +42,7 @@ Caption.defaultProps = {
     paddingTop: 'm',
     paddingBottom: 'm',
     isHTML: false,
-    width: 'narrow'
+    width: 'm'
 };
 
 export default memo(Caption);
