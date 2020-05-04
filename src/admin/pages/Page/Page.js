@@ -116,34 +116,33 @@ class Page extends PureComponent {
         const { name } = match.params;
 
         return (
-            <>
+            <div className={styles['settings-block']}>
                 <div className={styles.settings} onClick={() => { this.setState({ settingsMode: !settingsMode }) }}>Настройки</div>
-                <div className={styles['settings-block']}>
-                    <div className={styles['settings-block-content']}>
-                        <Breadcrumbs items={breadcrumbs} />
-                        <div className={styles['form-container']}>
-                            <Form format={mainFormat} value={page} onChange={this.handleChange} errors={errors} />
-                            <Form format={configFormat} value={page.config} onChange={this.handleChangeConfig} errors={{}} />
-                        </div>
-                    </div>
-                    <div className={styles.buttons}>
-                        <Button
-                            caption={name === 'add' ? 'Создать' : 'Сохранить'}
-                            type='yellow'
-                            onClick={this.handleSave}
-                            className={styles.button}
-                        />
-                        {name !== 'add' ? (
-                            <Button
-                                caption='Удалить'
-                                type='red'
-                                onClick={this.handleDelete}
-                                className={styles.button}
-                            />
-                        ) : null}
+                <div className={styles.close} onClick={() => { this.setState({ settingsMode: false }) }}>✕</div>
+                <div className={styles['settings-block-content']}>
+                    <Breadcrumbs items={breadcrumbs} />
+                    <div className={styles['form-container']}>
+                        <Form format={mainFormat} value={page} onChange={this.handleChange} errors={errors} />
+                        <Form format={configFormat} value={page.config} onChange={this.handleChangeConfig} errors={{}} />
                     </div>
                 </div>
-            </>
+                <div className={styles.buttons}>
+                    <Button
+                        caption={name === 'add' ? 'Создать' : 'Сохранить'}
+                        type='yellow'
+                        onClick={this.handleSave}
+                        className={styles.button}
+                    />
+                    {name !== 'add' ? (
+                        <Button
+                            caption='Удалить'
+                            type='red'
+                            onClick={this.handleDelete}
+                            className={styles.button}
+                        />
+                    ) : null}
+                </div>
+            </div>
         )
     };
 

@@ -5,14 +5,14 @@
 }
 
 .settings, .settings-block {
-    position: fixed;
+    position: absolute;
     z-index: 10;
     transition: left 0.5s cubic-bezier(0, .5, .5, 1);
 }
 
 .settings {
     top: 200px;
-    left: -33px;
+    right: -69px;
     padding: 8px;
     transform: rotate(90deg);
     background: #91001d;
@@ -23,9 +23,10 @@
 
 .settings-block {
     top: 0;
-    left: -600px;
+    left: max(-100%, -600px);
     bottom: 0;
     width: 600px;
+    max-width: 100%;
     background: #fff;
     box-sizing: border-box;
     border-right: 3px solid #91001d;
@@ -39,10 +40,6 @@
     padding: 8px;
 }
 
-.container-settings-mode .settings {
-    left: 566px;
-}
-
 .container-settings-mode .settings-block {
     left: 0;
 }
@@ -51,6 +48,14 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+}
+
+.close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 24px;
+    padding: 8px;
 }
 
 .container-settings-mode .page {
