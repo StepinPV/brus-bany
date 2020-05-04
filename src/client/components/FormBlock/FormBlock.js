@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import SocialNetwork from '../../components/SocialNetwork';
 import Section from '../Section';
 import Caption from '../Caption';
 import Text from '../Text';

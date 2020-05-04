@@ -1,8 +1,15 @@
 .text {
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+
     font-weight: bold;
     padding-left: 16px;
     padding-right: 16px;
 }
+
+.width-wide { max-width: 100%; }
+.width-narrow { max-width: 1200px; }
 
 .color-black { color: #000; }
 .color-white { color: #fff; }

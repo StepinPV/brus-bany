@@ -1,0 +1,39 @@
+.content {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1168px;
+    margin: 0 auto;
+    padding: 16px 0;
+}
+
+.first-column {
+    min-width: 200px;
+    max-width: 600px;
+}
+
+.second-column {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
+}
+
+.second-column-background-white { background: #fff; }
+.second-column-background-grey { background: #efefef; }
+
+.image {
+    width: 100%;
+    height: 100%;
+}
+
+@media screen and (max-width: 640px)  {
+    .content {
+        flex-direction: column;
+        margin: 16px 16px 0;
+    }
+
+    .second-column {
+        padding: 16px;
+    }
+}

@@ -1,18 +1,7 @@
 export const props = [{
     _id: 'children',
-    title: 'Заголовок',
-    type: 'string'
-}, {
-    _id: 'color',
-    title: 'Цвет',
-    type: 'select',
-    items: [{
-        id: 'black',
-        title: 'Черный'
-    }, {
-        id: 'white',
-        title: 'Белый'
-    }]
+    title: 'Текст',
+    type: 'text'
 }, {
     _id: 'size',
     title: 'Размер',
@@ -40,23 +29,6 @@ export const props = [{
     }, {
         id: 'right',
         title: 'По правому краю'
-    }]
-}, {
-    _id: 'tag',
-    title: 'Вид элемента',
-    type: 'select',
-    items: [{
-        id: 'div',
-        title: 'Обычный заголовок'
-    }, {
-        id: 'h1',
-        title: 'H1 заголовок'
-    }, {
-        id: 'h2',
-        title: 'H2 заголовок'
-    }, {
-        id: 'h3',
-        title: 'H3 заголовок'
     }]
 }, {
     _id: 'paddingBottom',
@@ -103,13 +75,11 @@ export const props = [{
     }]
 }];
 
-export const name = 'Заголовок';
+export const name = 'Текст';
 export const defaultProps = {
-    children: 'Заголовок',
-    color: 'black',
+    children: 'Текст',
     size: 'm',
     align: 'center',
-    tag: 'div',
     paddingBottom: 'm',
     paddingTop: 'm',
     isHTML: false,

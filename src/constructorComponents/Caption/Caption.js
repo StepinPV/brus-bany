@@ -10,6 +10,7 @@ function Caption(props) {
         styles[`size-${props.size}`],
         styles[`padding-top-${props.paddingTop}`],
         styles[`padding-bottom-${props.paddingBottom}`],
+        styles[`width-${props.width}`],
         props.align ? styles[`align-${props.align}`] : null);
 
     const dangerouslySetInnerHTML = props.isHTML ? { __html: props.children } : null;
@@ -30,7 +31,8 @@ Caption.propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
     paddingTop: PropTypes.oneOf(['s', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['s', 'm', 'l']),
-    isHTML: PropTypes.bool
+    isHTML: PropTypes.bool,
+    width: PropTypes.oneOf(['wide', 'narrow']),
 };
 
 Caption.defaultProps = {
@@ -39,7 +41,8 @@ Caption.defaultProps = {
     tag: 'div',
     paddingTop: 'm',
     paddingBottom: 'm',
-    isHTML: false
+    isHTML: false,
+    width: 'narrow'
 };
 
 export default memo(Caption);
