@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Page from '../client/components/Page';
-import Meta from "../client/components/Meta";
+import Page from '../../components/Page';
+import Meta from "../../components/Meta";
 
-class PageGenerator extends PureComponent {
+class CustomPage extends PureComponent {
     static propTypes = {
         seoMeta: PropTypes.object,
         componentConstructors: PropTypes.object,
@@ -35,4 +35,4 @@ class PageGenerator extends PureComponent {
     };
 }
 
-export default PageGenerator;
+export default CustomPage;

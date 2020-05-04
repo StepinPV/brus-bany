@@ -314,7 +314,7 @@ export default (initModule) => {
         path: '*',
         exact: true,
         component: Loadable({
-            loader: () => getLoader(import('../PageGenerator')),
+            loader: () => getLoader(import('../client/pages/CustomPage')),
             loading: LoaderPage,
         }),
         simplePage: true

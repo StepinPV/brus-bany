@@ -19,12 +19,12 @@ router.get('*', async (req, res, next) => {
             res.render('index.pug', data);
         }
 
-        /*let fromCache = cache.get(req);
+        let fromCache = cache.get(req);
         if (fromCache) {
             fromCache = JSON.parse(fromCache);
             sendRes(fromCache.preloadList, fromCache.data);
             return;
-        }*/
+        }
 
         const axiosOptions = {
             apiURL: `http://localhost:${config.port}`
