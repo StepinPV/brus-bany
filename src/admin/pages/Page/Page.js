@@ -8,9 +8,10 @@ import { getPage, setPage, savePage, reset, deletePage } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import componentsPaths from "../../../constructorComponents/meta";
 import Form from '../../components/Form';
-import format from '../../formats/page';
-import styles from './Page.module.css';
+import { main as mainFormat, config as configFormat } from '../../formats/page';
 import { Button } from "../../../components/Button";
+import styles from './Page.module.css';
+import cx from 'classnames';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -52,7 +53,8 @@ class Page extends PureComponent {
         breadcrumbs: null,
         componentConstructors: {},
         componentMetas: {},
-        addComponentMode: false
+        addComponentMode: false,
+        settingsMode: false
     };
 
     componentDidMount() {
@@ -90,41 +92,60 @@ class Page extends PureComponent {
     }
 
     render() {
-        const { isPageError, page, match } = this.props;
-        const { errors, breadcrumbs } = this.state;
+        const { isPageError, page } = this.props;
+        const { settingsMode } = this.state;
 
         if (isPageError) {
             return <div className={styles.error}>{isPageError}</div>;
         }
 
-        const { name } = match.params;
-
         return page ? (
-            <div className={styles.container}>
-                {this.renderPage()}
-                <div className={styles['form-container']}>
-                    <Form format={format} value={page} onChange={this.handleChange} errors={errors} />
-                </div>
-                <Breadcrumbs items={breadcrumbs} />
-                <div className={styles.buttons}>
-                    <Button
-                        caption={name === 'add' ? 'Создать' : 'Сохранить'}
-                        type='yellow'
-                        onClick={this.handleSave}
-                        className={styles.button}
-                    />
-                    {name !== 'add' ? (
-                        <Button
-                            caption='Удалить'
-                            type='red'
-                            onClick={this.handleDelete}
-                            className={styles.button}
-                        />
-                    ) : null}
+            <div className={cx(styles.container, {[styles['container-settings-mode']]: settingsMode})}>
+                {this.renderSettingsBlock()}
+                <div className={styles.page}>
+                    <div className={styles['page-overlay']} onClick={() => { this.setState({ settingsMode: false}) }} />
+                    {this.renderPage()}
                 </div>
             </div>
         ) : null;
     }
+
+    renderSettingsBlock = () => {
+        const { page, match } = this.props;
+        const { errors, breadcrumbs, settingsMode } = this.state;
+        const { name } = match.params;
+
+        return (
+            <>
+                <div className={styles.settings} onClick={() => { this.setState({ settingsMode: !settingsMode }) }}>Настройки</div>
+                <div className={styles['settings-block']}>
+                    <div className={styles['settings-block-content']}>
+                        <Breadcrumbs items={breadcrumbs} />
+                        <div className={styles['form-container']}>
+                            <Form format={mainFormat} value={page} onChange={this.handleChange} errors={errors} />
+                            <Form format={configFormat} value={page.config} onChange={this.handleChangeConfig} errors={{}} />
+                        </div>
+                    </div>
+                    <div className={styles.buttons}>
+                        <Button
+                            caption={name === 'add' ? 'Создать' : 'Сохранить'}
+                            type='yellow'
+                            onClick={this.handleSave}
+                            className={styles.button}
+                        />
+                        {name !== 'add' ? (
+                            <Button
+                                caption='Удалить'
+                                type='red'
+                                onClick={this.handleDelete}
+                                className={styles.button}
+                            />
+                        ) : null}
+                    </div>
+                </div>
+            </>
+        )
+    };
 
     renderPage = () => {
         const { page } = this.props;
@@ -346,15 +367,17 @@ class Page extends PureComponent {
         });
     };
 
-    handleChange = (id, newPage) => {
-        const { actions, page } = this.props;
+    handleChange = (id, page) => {
+        const { actions } = this.props;
         const { errors } = this.state;
 
         this.setState({ errors: { ...errors, [id]: null }});
-        actions.setPage({
-            ...newPage,
-            config: page.config
-        });
+        actions.setPage(page);
+    };
+
+    handleChangeConfig = (id, config) => {
+        const { actions, page } = this.props;
+        actions.setPage({ ...page, config });
     };
 
     handleSave = async () => {

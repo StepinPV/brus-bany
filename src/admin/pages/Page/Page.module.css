@@ -4,6 +4,69 @@
     flex-grow: 1;
 }
 
+.settings, .settings-block {
+    position: fixed;
+    z-index: 10;
+    transition: left 0.5s cubic-bezier(0, .5, .5, 1);
+}
+
+.settings {
+    top: 200px;
+    left: -33px;
+    padding: 8px;
+    transform: rotate(90deg);
+    background: #91001d;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+}
+
+.settings-block {
+    top: 0;
+    left: -600px;
+    bottom: 0;
+    width: 600px;
+    background: #fff;
+    box-sizing: border-box;
+    border-right: 3px solid #91001d;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-block-content {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 8px;
+}
+
+.container-settings-mode .settings {
+    left: 566px;
+}
+
+.container-settings-mode .settings-block {
+    left: 0;
+}
+
+.container-settings-mode .page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.container-settings-mode .page-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.4);
+}
+
 .component {
     position: relative;
     width: 100%;
@@ -107,11 +170,6 @@
 
 .button:not(:last-child) {
     margin-right: 16px;
-}
-
-.button {
-    margin-top: 16px;
-    margin-bottom: 16px;
 }
 
 .error {
