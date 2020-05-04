@@ -17,6 +17,7 @@ export default {
     },
     'Form': {
         load: () => import('./Form'),
-        loadMeta: () => import('./Form/meta')
+        loadMeta: () => import('./Form/meta'),
+        disabled: true
     }
 };

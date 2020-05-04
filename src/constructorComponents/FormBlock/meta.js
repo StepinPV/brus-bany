@@ -1,5 +1,33 @@
 // custom
 export const props = [{
+    _id: 'paddingBottom',
+    title: 'Нижний отступ',
+    type: 'select',
+    items: [{
+        id: 's',
+        title: 'Маленький'
+    }, {
+        id: 'm',
+        title: 'Средний'
+    }, {
+        id: 'l',
+        title: 'Большой'
+    }]
+}, {
+    _id: 'paddingTop',
+    title: 'Верхний отступ',
+    type: 'select',
+    items: [{
+        id: 's',
+        title: 'Маленький'
+    }, {
+        id: 'm',
+        title: 'Средний'
+    }, {
+        id: 'l',
+        title: 'Большой'
+    }]
+}, {
     _id: 'background',
     title: 'Цвет блока',
     type: 'select',
@@ -13,7 +41,9 @@ export const props = [{
 }];
 export const name = 'Блок с изображением и формой';
 export const defaultProps = {
-    background: 'grey'
+    background: 'grey',
+    paddingBottom: 'm',
+    paddingTop: 'm'
 };
 
 export const dependencies = ['Form', 'Caption', 'Text'];

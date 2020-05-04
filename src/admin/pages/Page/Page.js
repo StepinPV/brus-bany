@@ -199,7 +199,7 @@ class Page extends PureComponent {
             <div className={styles['component-select']}>
                 <div className={styles['component-select-items']}>
                     {Object.keys(componentMetas).map(componentKey => {
-                        return (
+                        return componentsPaths[componentKey].disabled ? null : (
                             <div className={styles['component-select-item']} onClick={() => { addComponent(componentKey) }}>{componentMetas[componentKey].name}</div>
                         );
                     })}

@@ -10,8 +10,13 @@ import cx from 'classnames';
 function FormBlock(props) {
     const { source, data, background } = props;
 
+    const className = cx(
+        styles.content,
+        styles[`padding-top-${props.paddingTop}`],
+        styles[`padding-bottom-${props.paddingBottom}`]);
+
     return (
-        <div className={styles.content} id='requestForm'>
+        <div className={className} id='requestForm'>
             <div className={styles['first-column']}>
                 <img src={img} alt="Фотография бани" className={styles.image} loading='lazy' />
             </div>
@@ -25,11 +30,15 @@ function FormBlock(props) {
 }
 
 FormBlock.propTypes = {
-    background: PropTypes.oneOf(['white', 'grey'])
+    background: PropTypes.oneOf(['white', 'grey']),
+    paddingTop: PropTypes.oneOf(['s', 'm', 'l']),
+    paddingBottom: PropTypes.oneOf(['s', 'm', 'l'])
 };
 
 FormBlock.defaultProps = {
-    background: 'grey'
+    background: 'grey',
+    paddingTop: 'm',
+    paddingBottom: 'm'
 };
 
 export default memo(FormBlock);

@@ -22,6 +22,14 @@
 .second-column-background-white { background: #fff; }
 .second-column-background-grey { background: #efefef; }
 
+.padding-top-s { padding-top: 16px; }
+.padding-top-m { padding-top: 32px; }
+.padding-top-l { padding-top: 48px; }
+
+.padding-bottom-s { padding-bottom: 16px; }
+.padding-bottom-m { padding-bottom: 32px; }
+.padding-bottom-l { padding-bottom: 48px; }
+
 .image {
     width: 100%;
     height: 100%;
