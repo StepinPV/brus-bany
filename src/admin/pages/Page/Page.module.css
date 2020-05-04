@@ -47,6 +47,12 @@
     left: 0;
 }
 
+.page {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
 .container-settings-mode .page {
     position: absolute;
     top: 0;
