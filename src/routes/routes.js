@@ -65,15 +65,6 @@ export default (initModule) => {
         }),
         simplePage: true
     }, {
-        id: 'site/jobs',
-        path: '/vakansii',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Jobs')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
-    }, {
         id: 'site/privacy',
         path: '/politika-konfidencialnosti',
         exact: true,
