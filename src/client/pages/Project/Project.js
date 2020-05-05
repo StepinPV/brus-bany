@@ -370,14 +370,25 @@ class Project extends PureComponent {
         const finalPrice = this.getFinalPrice();
 
         return (
-            <div className={styles['final-price-block']}>
-                <div className={styles['final-price-block-title']}>{`Итоговая стоимость: ${numberWithSpaces(finalPrice)} руб`}</div>
-                <Button
-                    onClick={() => { showForm({ source: match.url, title: 'Оформление заявки', data: formData }) }}
-                    caption='Заказать баню'
-                    size='s'
-                    type='yellow' />
-            </div>
+            <>
+                <div className={styles['final-price-block-static']}>
+                    <div className={styles['final-price-block-static-title']}>Итоговая стоимость с учетом всех данных:</div>
+                    <div className={styles['final-price-block-static-price']}>{`${numberWithSpaces(finalPrice)} рублей`}</div>
+                    <Button
+                        onClick={() => { showForm({ source: match.url, title: 'Оформление заявки', data: formData }) }}
+                        caption='Оформить заявку'
+                        size='m'
+                        type='yellow' />
+                </div>
+                <div className={styles['final-price-block']}>
+                    <div className={styles['final-price-block-title']}>{`Итоговая стоимость: ${numberWithSpaces(finalPrice)} руб`}</div>
+                    <Button
+                        onClick={() => { showForm({ source: match.url, title: 'Оформление заявки', data: formData }) }}
+                        caption='Заказать баню'
+                        size='s'
+                        type='yellow' />
+                </div>
+            </>
         )
     };
 

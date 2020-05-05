@@ -90,6 +90,29 @@
     padding: 16px;
 }
 
+.final-price-block-static {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 64px 16px;
+}
+
+.final-price-block-static-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000;
+    padding-bottom: 16px;
+}
+
+.final-price-block-static-price {
+    font-size: 28px;
+    font-weight: bold;
+    color: #000;
+    padding-bottom: 32px;
+}
+
 .main-container {
     margin-bottom: 58px;
 }
