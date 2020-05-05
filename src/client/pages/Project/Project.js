@@ -235,9 +235,19 @@ class Project extends PureComponent {
             }
         };
 
+        function calculate(deliveryLength) {
+            return Math.max(eval(deliveryData.delivery) * deliveryLength, 500);
+        }
+
         return deliveryData ? (
             <>
-                {deliveryData.delivery ? <DeliveryMap id='delivery' onChange={handleDelivery} tariff={eval(deliveryData.delivery)} /> : null}
+                {deliveryData.delivery ? (
+                    <DeliveryMap
+                        calculate={calculate}
+                        id='delivery'
+                        onChange={handleDelivery}
+                        tariff={eval(deliveryData.delivery)} />
+                ) : null}
                 {deliveryData.additions && deliveryData.additions.length ? (
                     <Additions
                         value={deliveryAdditionsValue}

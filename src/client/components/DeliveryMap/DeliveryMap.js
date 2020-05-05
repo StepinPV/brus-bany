@@ -11,7 +11,8 @@ class DeliveryMap extends PureComponent {
         tariff: PropTypes.number.isRequired,
         minimalCost: PropTypes.number.isRequired,
         onChange: PropTypes.func,
-        id: PropTypes.string
+        id: PropTypes.string,
+        calculate: PropTypes.func
     };
 
     static defaultProps = {
@@ -61,7 +62,7 @@ class DeliveryMap extends PureComponent {
                         const distance = activeRoute.properties.get("distance");
                         const length = Math.round(distance.value / 1000);
                         // Вычислим стоимость доставки
-                        const price = calculate(length);
+                        const price = (props.calculate || calculate)(length);
 
                         const point = routePanel.getRoute().getWayPoints().get(1);
                         const address = point ? point.model.getJson().properties.address : null;
