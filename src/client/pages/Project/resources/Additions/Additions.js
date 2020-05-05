@@ -9,9 +9,11 @@ import numberWithSpaces from '../../../../../utils/numberWithSpaces';
 class Additions extends PureComponent {
     static propTypes = {
         additions: PropTypes.array,
-        layout: PropTypes.object,
         onChange: PropTypes.func,
-        value: PropTypes.object
+        value: PropTypes.object,
+        getPrice: PropTypes.func,
+        caption: PropTypes.string,
+        description: PropTypes.string
     };
 
     state = {
@@ -19,32 +21,21 @@ class Additions extends PureComponent {
     };
 
     render() {
-        // eslint-disable-next-line no-unused-vars
-        const { additions, value: v, layout: params } = this.props;
+        const { additions, value: v, getPrice, caption, description } = this.props;
         const { expandedAdditions } = this.state;
 
-        const getPrice = price => {
-            // eslint-disable-next-line
-            try {
-                // eslint-disable-next-line
-                return Math.round(eval(price) / 100) * 100;
-            } catch(err) {
-                return 0;
-            }
-        };
-
         return (
-            <DataSection id='additions' bgStyle='white' caption='Выберите дополнения' captionTag='h2'>
+            <DataSection id='additions' bgStyle='white' caption={caption} description={description} isDescriptionHTML captionTag='h2'>
                 <div className={styles.container}>
                     <div className={styles.items}>
                         {additions.map(({ name, _id, value }) => (
                             <Fragment key={_id}>
-                                <div
+                                {additions.length > 1 ? <div
                                     className={cx(styles.item, styles.title, styles['item-header'])}
                                     onClick={() => { this.expandAdditionBlock(_id)}}>
                                     <Text>{name}</Text>
-                                </div>
-                                <div className={cx(styles['sub-items'], {[styles['sub-items-hidden']]: !expandedAdditions.includes(_id)})}>
+                                </div> : null}
+                                <div className={cx(styles['sub-items'], {[styles['sub-items-hidden']]: additions.length > 1 ? !expandedAdditions.includes(_id) : false})}>
                                     {
                                         value ? value.map(({ type, name, _id, price }) => (
                                             <div className={styles.item} key={_id}>
@@ -92,17 +83,8 @@ class Additions extends PureComponent {
     };
 
     getFinalPriceByValues = (values) => {
-        const { layout: params } = this.props;
+        const { getPrice } = this.props;
         let sumPrice = 0;
-
-        const getPrice = price => {
-            try {
-                // eslint-disable-next-line
-                return Math.round(eval(price) / 100) * 100;
-            } catch(err) {
-                return 0;
-            }
-        };
 
         Object.keys(values).forEach(_id => {
             const { value, type, price } = values[_id];

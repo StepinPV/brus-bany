@@ -29,6 +29,16 @@ const additionGroupScheme = new Schema({
     }
 });
 
+const deliveryDataScheme = new Schema({
+    delivery: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    additions: {
+        type: [additionGroupScheme]
+    }
+});
+
 const equipmentScheme = new Schema({
     name: {
         type: String,
@@ -152,10 +162,6 @@ const scheme = new Schema({
         type: String,
         required: REQUIRED_MSG
     },
-    delivery: {
-        type: String,
-        required: REQUIRED_MSG
-    },
     h1: {
         type: String,
         required: REQUIRED_MSG
@@ -178,6 +184,9 @@ const scheme = new Schema({
     },
     complectationBlocks: {
         type: complectationBlockScheme
+    },
+    deliveryData: {
+        type: deliveryDataScheme
     },
     article: Object,
     updated: Date

@@ -70,6 +70,7 @@ class Project extends PureComponent {
         projectId: null,
         breadcrumbs: breadcrumbsDefault,
         additionsValue: { values: {}, price: 0 },
+        deliveryAdditionsValue: { values: {}, price: 0 },
         projectBlocksValues: {},
         deliveryValue: null,
         formData: null
@@ -104,6 +105,7 @@ class Project extends PureComponent {
         if (
             prevState.additionsValue !== this.state.additionsValue ||
             prevState.deliveryValue !== this.state.deliveryValue ||
+            prevState.deliveryAdditionsValue !== this.state.deliveryAdditionsValue ||
             prevState.projectBlocksValues !== this.state.projectBlocksValues ||
             prevState.selectedComplectation !== this.state.selectedComplectation) {
             this.updateFormData();
@@ -143,7 +145,7 @@ class Project extends PureComponent {
 
     renderContent = () => {
         const { project, photos, match } = this.props;
-        const { additionsValue, formData, breadcrumbs } = this.state;
+        const { formData, breadcrumbs } = this.state;
 
         return project ? (
             <div className={styles.container} itemScope itemType="http://schema.org/Product">
@@ -157,9 +159,7 @@ class Project extends PureComponent {
                 {project.categoryId.equipment && project.categoryId.equipment.length ? <BaseEquipment equipment={project.categoryId.equipment} /> : null}
                 {this.renderComplectationBlock()}
                 {this.renderProjectBlocks()}
-                {project.categoryId.additions && project.categoryId.additions.length ? (
-                    <Additions value={additionsValue} additions={project.categoryId.additions} layout={project.layoutId} onChange={this.handleAdditions} />
-                ) : null}
+                {this.renderAdditions()}
                 {this.renderDelivery()}
                 {this.renderFinalPrice()}
                 {photos && photos.length ? (
@@ -180,11 +180,77 @@ class Project extends PureComponent {
         ) : null;
     };
 
+    renderAdditions = () => {
+        const { project } = this.props;
+        const { additionsValue } = this.state;
+
+        const handleAdditions = (additionsValue) => {
+            this.setState({ additionsValue });
+        };
+
+        const { layoutId: params } = project;
+        const getPrice = formula => {
+            // eslint-disable-next-line
+            try {
+                // eslint-disable-next-line
+                return Math.round(eval(formula) / 100) * 100;
+            } catch(err) {
+                return 0;
+            }
+        };
+
+        return project.categoryId.additions && project.categoryId.additions.length ? (
+            <Additions
+                caption='Выберите дополнения'
+                value={additionsValue}
+                additions={project.categoryId.additions}
+                getPrice={getPrice}
+                onChange={handleAdditions} />
+        ) : null;
+    }
+
     renderDelivery = () => {
         const { project } = this.props;
-        const { layoutId: params } = project;
+        const { deliveryAdditionsValue, deliveryValue } = this.state;
+        const { categoryId } = project;
+        const { deliveryData } = categoryId;
 
-        return <DeliveryMap id='delivery' onChange={this.handleDelivery} tariff={eval(project.categoryId.delivery)} />;
+        const handleDelivery = (deliveryValue) => {
+            this.setState({ deliveryValue });
+        };
+
+        const handleAdditions = (value) => {
+            this.setState({ deliveryAdditionsValue: value });
+        };
+
+        const { layoutId: params } = project;
+        const { length: deliveryLength } = deliveryValue || { length: 0 };
+        const getPrice = formula => {
+            // eslint-disable-next-line
+            try {
+                // eslint-disable-next-line
+                return Math.round(eval(formula) / 100) * 100;
+            } catch(err) {
+                return 0;
+            }
+        };
+
+        return deliveryData ? (
+            <>
+                {deliveryData.delivery ? <DeliveryMap id='delivery' onChange={handleDelivery} tariff={eval(deliveryData.delivery)} /> : null}
+                {deliveryData.additions && deliveryData.additions.length ? (
+                    <Additions
+                        value={deliveryAdditionsValue}
+                        additions={deliveryData.additions}
+                        getPrice={getPrice}
+                        onChange={handleAdditions}
+                        description={`
+                            Пункт доставки: ${deliveryValue ? `${deliveryValue.address}` : 'Не выбран'}<br/>
+                            Расстояние доставки: ${deliveryValue ? `${deliveryValue.length} км` : '0 км'}
+                        `} />
+                ) : null}
+            </>
+        ) : null;
     };
 
     renderGallery = () => {
@@ -372,17 +438,9 @@ class Project extends PureComponent {
         );
     };
 
-    handleAdditions = (additionsValue) => {
-        this.setState({ additionsValue });
-    };
-
-    handleDelivery = (deliveryValue) => {
-        this.setState({ deliveryValue });
-    };
-
     getFinalPrice = () => {
         const { project } = this.props;
-        const { additionsValue, deliveryValue, projectBlocksValues, selectedComplectation } = this.state;
+        const { additionsValue, deliveryValue, projectBlocksValues, selectedComplectation, deliveryAdditionsValue } = this.state;
 
         let projectBlocksPriceFixed = 0;
         const { layoutId: params } = project;
@@ -405,6 +463,7 @@ class Project extends PureComponent {
         finalPrice = Math.round(finalPrice / 100) * 100;
 
         if (additionsValue && additionsValue.price) finalPrice += additionsValue.price;
+        if (deliveryAdditionsValue && deliveryAdditionsValue.price) finalPrice += deliveryAdditionsValue.price;
         if (deliveryValue && deliveryValue.price) finalPrice += deliveryValue.price;
 
         return finalPrice;
@@ -412,7 +471,12 @@ class Project extends PureComponent {
 
     updateFormData = () => {
         const { project } = this.props;
-        const { additionsValue, deliveryValue, projectBlocksValues, selectedComplectation } = this.state;
+        const {
+            additionsValue,
+            deliveryValue,
+            projectBlocksValues,
+            selectedComplectation,
+            deliveryAdditionsValue } = this.state;
         const data = [];
 
 
@@ -484,12 +548,54 @@ class Project extends PureComponent {
         if (deliveryValue) {
             data.push({
                 type: 'fields',
-                title: 'Стоимость доставки',
+                title: 'Доставка',
                 fields: [{
-                    name: 'Стоимость доставки',
+                    id: 'address',
+                    name: 'Адрес',
+                    value: deliveryValue.address
+                }, {
+                    name: 'Расстояние',
+                    value: `${deliveryValue.length} км`
+                }, {
+                    name: 'Стоимость',
                     value: deliveryValue.price
                 }]
             });
+        }
+
+        if (deliveryAdditionsValue && deliveryAdditionsValue.price > 0) {
+            const additionsData = {
+                type: 'fields',
+                title: 'Выбраные дополнения к доставке',
+                fields: []
+            };
+
+            const { layoutId: params } = project;
+            const { length: deliveryLength } = deliveryValue || { length: 0 };
+
+            const getAdditionsPrice = price => {
+                // eslint-disable-next-line
+                try {
+                    // eslint-disable-next-line
+                    return Math.round(eval(price) / 100) * 100;
+                } catch(err) {
+                    return 0;
+                }
+            };
+
+            Object.keys(deliveryAdditionsValue.values).forEach(key => {
+                additionsData.fields.push({
+                    name: deliveryAdditionsValue.values[key].name + (deliveryAdditionsValue.values[key].type === 'count' ? ` (${deliveryAdditionsValue.values[key].value})` : ''),
+                    value: getAdditionsPrice(deliveryAdditionsValue.values[key].price)
+                })
+            });
+
+            additionsData.fields.push({
+                name: 'Общая стоимость дополнений',
+                value: deliveryAdditionsValue.price
+            });
+
+            data.push(additionsData);
         }
 
         data.push({

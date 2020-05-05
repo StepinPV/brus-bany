@@ -37,36 +37,38 @@ class DeliveryMap extends PureComponent {
                 return;
             }
 
-            this.routePanel = element;
+            const { routePanel } = element;
 
-            this.routePanel.routePanel.state.set({
+            routePanel.state.set({
                 fromEnabled: false,
                 from: 'Новгородская обл, г.Пестово'
             });
 
-            this.routePanel.routePanel.options.set({
+            routePanel.options.set({
                 types: { auto: true }
             });
 
-            this.routePanel.routePanel.getRouteAsync().then(route => {
+            routePanel.getRouteAsync().then(route => {
                 // Зададим максимально допустимое число маршрутов, возвращаемых мультимаршрутизатором
                 route.model.setParams({ results: 1 }, true);
 
                 // Повесим обработчик на событие построения маршрута
                 route.model.events.add('requestsuccess', () => {
-
                     const activeRoute = route.getActiveRoute();
 
                     if (activeRoute) {
                         // Получим протяженность маршрута
-                        const length = activeRoute.properties.get("distance");
+                        const distance = activeRoute.properties.get("distance");
+                        const length = Math.round(distance.value / 1000);
                         // Вычислим стоимость доставки
-                        const price = calculate(Math.round(length.value / 1000));
+                        const price = calculate(length);
 
-                        this.setState({ data: { length, price } });
+                        const point = routePanel.getRoute().getWayPoints().get(1);
+                        const address = point ? point.model.getJson().properties.address : null;
 
+                        this.setState({ data: { length, price, address } });
                         if (props.onChange) {
-                            props.onChange({ price });
+                            props.onChange({ length, price, address });
                         }
                     }
                 });
@@ -103,7 +105,7 @@ class DeliveryMap extends PureComponent {
     }
 
     render() {
-        const { id } = this.props;
+        const { id, tariff } = this.props;
         const { data, mapLoaded } = this.state;
 
         return (
@@ -113,11 +115,16 @@ class DeliveryMap extends PureComponent {
                 </div>
                 {data ? (
                     <div className={styles.coastContainer}>
-                        <div>{`Расстояние: ${data.length.text}`}</div>
+                        <div>{`Цена за 1 км: ${tariff} руб`}</div>
+                        <div>{`Расстояние: ${data.length} км`}</div>
                         <div>{`Стоимость доставки: ${numberWithSpaces(data.price)} руб`}</div>
                     </div>
                 ) : null}
-                {mapLoaded ? <Map setMapRef={this.setMapRef} setRoutePanelRef={this.setRoutePanelRef} /> : null}
+                {mapLoaded ? (
+                    <Map
+                        setMapRef={this.setMapRef}
+                        setRoutePanelRef={this.setRoutePanelRef} />
+                ) : null}
             </div>
         );
     }
