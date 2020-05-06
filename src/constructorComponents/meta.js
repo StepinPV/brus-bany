@@ -15,6 +15,10 @@ export default {
         load: () => import('./Breadcrumbs'),
         loadMeta: () => import('./Breadcrumbs/meta')
     },
+    'QuestionAnswer': {
+        load: () => import('./QuestionAnswer'),
+        loadMeta: () => import('./QuestionAnswer/meta')
+    },
     'FormBlock': {
         load: () => import('./FormBlock'),
         loadMeta: () => import('./FormBlock/meta')

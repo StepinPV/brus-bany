@@ -4,28 +4,15 @@
     flex-grow: 1;
 }
 
-.settings, .settings-block {
-    position: absolute;
+.float-panel, .float-button {
     z-index: 10;
     transition: left 0.5s cubic-bezier(0, .5, .5, 1);
 }
 
-.settings {
-    top: 200px;
-    right: -69px;
-    padding: 8px;
-    transform: rotate(90deg);
-    background: #91001d;
-    color: #fff;
-    border-radius: 10px 10px 0 0;
-    cursor: pointer;
-}
-
-.settings-block {
+.float-panel {
+    position: absolute;
     top: 0;
-    left: max(-100%, -600px);
     bottom: 0;
-    width: 600px;
     max-width: 100%;
     background: #fff;
     box-sizing: border-box;
@@ -34,14 +21,75 @@
     flex-direction: column;
 }
 
+.float-panel-caption {
+    background: #91001d;
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+}
+
+.float-panel-content {
+    flex-grow: 1;
+}
+
+.save-button, .delete-button, .float-button {
+    position: absolute;
+    padding: 8px;
+    transform: rotate(90deg);
+    background: #91001d;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.save-button:hover, .delete-button:hover, .float-button:hover,
+.float-mode .float-button{
+    opacity: 1;
+}
+
+.float-button {
+    right: -69px;
+}
+
+.save-button, .delete-button {
+    z-index: 5;
+}
+
+.save-button {
+    left: -32px;
+    top: 309px;
+}
+
+.delete-button {
+    left: -23px;
+    top: 408px;
+}
+
+.float-mode .page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.float-mode .page-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.4);
+}
+
 .settings-block-content {
     flex-grow: 1;
     overflow: auto;
     padding: 8px;
-}
-
-.container-settings-mode .settings-block {
-    left: 0;
 }
 
 .page {
@@ -51,31 +99,7 @@
 }
 
 .close {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 24px;
-    padding: 8px;
-}
-
-.container-settings-mode .page {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    overflow: hidden;
-}
-
-.container-settings-mode .page-overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 2;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.4);
+    margin: 16px;
 }
 
 .component {
@@ -95,8 +119,32 @@
     cursor: pointer;
 }
 
-.component:hover .component-overlay {
+.component-add {
+    padding: 4px 8px;
+    position: absolute;
+    font-size: 12px;
+    bottom: -15px;
+    left: calc(50% - 92px);
+    border-radius: 24px;
+    line-height: 22px;
+    text-align: center;
+    z-index: 10;
+    background: #fff;
+    border: 1px solid #000;
+    color: #000;
+    display: none;
+    cursor: pointer;
+}
+
+.component:hover .component-overlay,
+.component:hover .component-add {
     display: block;
+}
+
+.component-add:hover {
+    border-color: #91001d;
+    background: #91001d;
+    color: #fff;
 }
 
 .component-operations {
@@ -116,31 +164,17 @@
     cursor: pointer;
 }
 
-.component-select {
-    padding: 8px;
-}
-
-.component-select-items {
-    display: flex;
-    flex-wrap: wrap;
-}
-
 .component-select-item {
-    width: 140px;
-    height: 140px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid #b3b3b3;
     color: #b3b3b3;
-    margin: 8px;
     cursor: pointer;
     text-align: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #b3b3b3;
 }
 
 .component-select-item:hover {
-    border-color: #000;
-    color: #000;
+    color: #fff;
+    background: #b3b3b3;
 }
 
 .add-button {
@@ -164,23 +198,15 @@
     color: #000;
 }
 
-.buttons, .form-container {
+.form-container {
     max-width: 100%;
     width: 1200px;
     padding: 16px;
     box-sizing: border-box;
 }
 
-.buttons {
-    margin: 0 auto;
-}
-
 .form-container {
     margin: 16px auto;
-}
-
-.button:not(:last-child) {
-    margin-right: 16px;
 }
 
 .error {

@@ -15,7 +15,7 @@ function List(props) {
         return (
             <>
                 {props.items.map(({ text }) => {
-                    return <li className={styles.item}>{text}</li>
+                    return <li key={text} className={styles.item}>{text}</li>
                 })}
             </>
         );

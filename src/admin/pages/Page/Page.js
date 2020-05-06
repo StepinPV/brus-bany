@@ -21,6 +21,31 @@ const breadcrumbsDefault = [{
     link: '/admin/pages'
 }];
 
+const floatPanels = {
+    'settings': {
+        button: {
+            caption: 'Настройки',
+            style: {
+                top: '200px'
+            }
+        },
+        caption: 'Настройки страницы',
+        containerStyle: {
+            left: 'max(-100%, -600px)',
+            width: '600px'
+        },
+        renderName: 'renderSettingsBlock'
+    },
+    'select-component': {
+        caption: 'Добавление компонента',
+        containerStyle: {
+            left: 'max(-100%, -400px)',
+            width: '400px'
+        },
+        renderName: 'renderComponentSelect'
+    }
+};
+
 class Page extends PureComponent {
     static propTypes = {
         page: PropTypes.object,
@@ -53,8 +78,8 @@ class Page extends PureComponent {
         breadcrumbs: null,
         componentConstructors: {},
         componentMetas: {},
-        addComponentMode: false,
-        settingsMode: false
+        addComponentPosition: null,
+        floatMode: null
     };
 
     componentDidMount() {
@@ -92,55 +117,69 @@ class Page extends PureComponent {
     }
 
     render() {
-        const { isPageError, page } = this.props;
-        const { settingsMode } = this.state;
+        const { isPageError, page, match } = this.props;
+        const { floatMode } = this.state;
+        const { name } = match.params;
 
         if (isPageError) {
             return <div className={styles.error}>{isPageError}</div>;
         }
 
         return page ? (
-            <div className={cx(styles.container, {[styles['container-settings-mode']]: settingsMode})}>
-                {this.renderSettingsBlock()}
+            <div className={cx(styles.container, {[styles['float-mode']]: floatMode})}>
+                {Object.keys(floatPanels).map(key => this.renderFloatPanel(key))}
+                <div className={styles['save-button']} onClick={this.handleSave}>Сохранить</div>
+                {name !== 'add' ? (
+                    <div className={styles['delete-button']} onClick={this.handleDelete}>Удалить</div>
+                ) : null}
                 <div className={styles.page}>
-                    <div className={styles['page-overlay']} onClick={() => { this.setState({ settingsMode: false}) }} />
+                    <div className={styles['page-overlay']} onClick={() => { this.setState({ floatMode: null}) }} />
                     {this.renderPage()}
                 </div>
             </div>
         ) : null;
     }
 
-    renderSettingsBlock = () => {
-        const { page, match } = this.props;
-        const { errors, breadcrumbs, settingsMode } = this.state;
-        const { name } = match.params;
+    renderFloatPanel = (key) => {
+        const { floatMode } = this.state;
 
         return (
-            <div className={styles['settings-block']}>
-                <div className={styles.settings} onClick={() => { this.setState({ settingsMode: !settingsMode }) }}>Настройки</div>
-                <div className={styles.close} onClick={() => { this.setState({ settingsMode: false }) }}>✕</div>
-                <div className={styles['settings-block-content']}>
-                    <Breadcrumbs items={breadcrumbs} />
-                    <div className={styles['form-container']}>
-                        <Form format={mainFormat} value={page} onChange={this.handleChange} errors={errors} />
-                        <Form format={configFormat} value={page.config} onChange={this.handleChangeConfig} errors={{}} />
-                    </div>
+            <div
+                style={{
+                    ...floatPanels[key].containerStyle,
+                    ...(floatMode === key ? { left: '0' } : {})
+                }}
+                className={styles['float-panel']}>
+                {floatPanels[key].button ? (
+                    <div
+                        style={floatPanels[key].button.style}
+                        className={styles['float-button']}
+                        onClick={() => { this.setState({ floatMode: key }) }}>{floatPanels[key].button.caption}</div>
+                ) : null}
+                <div className={styles['float-panel-caption']}>{floatPanels[key].caption}</div>
+                <div className={styles['float-panel-content']}>
+                    {this[floatPanels[key].renderName]()}
                 </div>
-                <div className={styles.buttons}>
-                    <Button
-                        caption={name === 'add' ? 'Создать' : 'Сохранить'}
-                        type='yellow'
-                        onClick={this.handleSave}
-                        className={styles.button}
-                    />
-                    {name !== 'add' ? (
-                        <Button
-                            caption='Удалить'
-                            type='red'
-                            onClick={this.handleDelete}
-                            className={styles.button}
-                        />
-                    ) : null}
+                <Button
+                    caption='Закрыть'
+                    type='yellow'
+                    onClick={() => { this.setState({ floatMode: null }) }}
+                    className={styles.close}
+                />
+            </div>
+        )
+    };
+
+    renderSettingsBlock = () => {
+        const { page, match } = this.props;
+        const { errors, breadcrumbs } = this.state;
+
+        return (
+            <div className={styles['settings-block-content']}>
+                <Breadcrumbs items={breadcrumbs} />
+                <div className={styles['form-container']}>
+                    <Form format={mainFormat} value={page} onChange={this.handleChange} errors={errors} />
+                    <Form format={configFormat} value={page.config} onChange={this.handleChangeConfig} errors={{}} />
                 </div>
             </div>
         )
@@ -148,14 +187,13 @@ class Page extends PureComponent {
 
     renderPage = () => {
         const { page } = this.props;
-        const { addComponentMode } = this.state;
+        const { addComponentPosition } = this.state;
         const { components } = page.config;
 
         return (
             <PageComponent>
                 {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
-                {!addComponentMode ? this.renderAddComponent() : null}
-                {addComponentMode ? this.renderComponentSelect() : null}
+                {(!components || !components.length) ? this.renderAddComponent() : null}
             </PageComponent>
         );
     }
@@ -164,14 +202,14 @@ class Page extends PureComponent {
         return (
             <div className={styles['add-button']}>
                 <div className={styles['add-button-caption']} onClick={() => {
-                    this.setState({ addComponentMode: true })
+                    this.setState({ addComponentPosition: 0, floatMode: 'select-component' })
                 }}>Добавить новый компонент<br/>+</div>
             </div>
         );
     };
 
     renderComponentSelect = () => {
-        const { componentMetas } = this.state;
+        const { componentMetas, addComponentPosition } = this.state;
         const { page, actions } = this.props;
 
         const { components } = page.config;
@@ -179,7 +217,7 @@ class Page extends PureComponent {
         const addComponent = (componentId) => {
             const newComponents = [...components];
 
-            newComponents.push({
+            newComponents.splice(addComponentPosition, 0, {
                 componentId,
                 props: componentMetas[componentId].defaultProps || {}
             });
@@ -192,22 +230,22 @@ class Page extends PureComponent {
                 }
             });
 
-            this.setState({ addComponentMode: false })
+            this.setState({ floatMode: null })
         }
 
         return (
-            <div className={styles['component-select']}>
-                <div className={styles['component-select-items']}>
-                    {Object.keys(componentMetas).map(componentKey => {
-                        return componentsPaths[componentKey].disabled ? null : (
-                            <div className={styles['component-select-item']} onClick={() => { addComponent(componentKey) }}>{componentMetas[componentKey].name}</div>
-                        );
-                    })}
-                </div>
-                <div className={styles['add-button-caption']} onClick={() => {
-                    this.setState({ addComponentMode: false })
-                }}>Отменить</div>
-            </div>
+            <>
+                {Object.keys(componentMetas).map(componentKey => {
+                    return componentsPaths[componentKey].disabled ? null : (
+                        <div
+                            key={componentMetas[componentKey].name}
+                            className={styles['component-select-item']}
+                            onClick={() => { addComponent(componentKey) }}>
+                            {componentMetas[componentKey].name}
+                        </div>
+                    );
+                })}
+            </>
         );
     };
 
@@ -242,6 +280,21 @@ class Page extends PureComponent {
 
                 const newComponents = [...components];
                 newComponents.splice(index, 1);
+
+                actions.setPage({
+                    ...page,
+                    config: {
+                        ...page.config,
+                        components: newComponents
+                    }
+                });
+            }
+
+            const cloneComponent = (e) => {
+                e.stopPropagation();
+
+                const newComponents = [...components];
+                newComponents.splice(index + 1, 0, components[index]);
 
                 actions.setPage({
                     ...page,
@@ -307,10 +360,12 @@ class Page extends PureComponent {
                             <div className={styles['component-operations']}>
                                 { index !== components.length - 1 ? <div className={styles['component-operation']} onClick={moveBottom}>▼</div> : null }
                                 { index !== 0 ? <div className={styles['component-operation']} onClick={moveUp}>▲</div> : null }
+                                <div className={styles['component-operation']} onClick={cloneComponent}>Дублировать</div>
                                 <div className={styles['component-operation']} onClick={deleteComponent}>Удалить</div>
                             </div>
                         </div>
                         <Component {...props} />
+                        <div className={styles['component-add']} onClick={() => { this.setState({ addComponentPosition: index + 1, floatMode: 'select-component' }) }}>Добавить компонент</div>
                     </div>
                     {operations[index] && operations[index].propsFormVisible ? (
                         <div className={styles['form-container']}>
