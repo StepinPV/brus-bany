@@ -19,6 +19,10 @@ export default {
         load: () => import('./QuestionAnswer'),
         loadMeta: () => import('./QuestionAnswer/meta')
     },
+    'Banner': {
+        load: () => import('./Banner'),
+        loadMeta: () => import('./Banner/meta')
+    },
     'FormBlock': {
         load: () => import('./FormBlock'),
         loadMeta: () => import('./FormBlock/meta')

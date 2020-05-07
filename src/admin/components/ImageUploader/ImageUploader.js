@@ -27,8 +27,8 @@ class ImageUploader extends PureComponent {
 
         if (file) {
             const data = {
-                file,
-                ...(props || {})
+                ...(props || {}),
+                file
             };
 
             const res = await axios.put(`/api/upload-image`, data, {

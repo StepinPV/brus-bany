@@ -3,6 +3,17 @@ export const props = [{
     title: 'Текст',
     type: 'text'
 }, {
+    _id: 'color',
+    title: 'Цвет',
+    type: 'select',
+    items: [{
+        id: 'black',
+        title: 'Черный'
+    }, {
+        id: 'white',
+        title: 'Белый'
+    }]
+}, {
     _id: 'size',
     title: 'Размер',
     type: 'select',
@@ -87,6 +98,7 @@ export const props = [{
 export const name = 'Текст';
 export const defaultProps = {
     children: 'Текст',
+    color: 'black',
     size: 'm',
     align: 'center',
     paddingBottom: 'm',

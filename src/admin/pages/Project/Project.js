@@ -187,8 +187,8 @@ class Project extends PureComponent {
                             image={images ? images[key] : null}
                             props={props}
                             onChange={file => {
-                            this.handleImageChange(file, key);
-                        }} />
+                                this.handleImageChange(file, key);
+                            }} />
                     </div>
                 ))}
             </div>

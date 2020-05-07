@@ -26,6 +26,9 @@
     line-height: 20px;
 }
 
+.color-black { color: #000; }
+.color-white { color: #ffffff; }
+
 .align-left { text-align: left; }
 .align-center { text-align: center; }
 

@@ -5,14 +5,14 @@ const prepareImage = require('../prepareImage');
 const path = require('path');
 
 const router = express.Router();
-const FOLDER_PATH = './public/buffer';
 
 const MAX_FILE_SIZE = 1024 * 1024 * 2;
 
 const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        shell.mkdir('-p', FOLDER_PATH);
-        cb(null, FOLDER_PATH)
+        const folderPath = req.body.globalStore === 'true' ? './public/uploads/global' : './public/buffer';
+        shell.mkdir('-p', folderPath);
+        cb(null, folderPath)
     },
     filename: function (req, file, cb) {
         const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
@@ -44,10 +44,11 @@ const send = (res, { status, code, message, data }) => {
 router.put('/', upload.single('file'), async function(req, res, next) {
     try {
         if (req.imageName) {
-            prepareImage(path.join(__dirname, `../../public/buffer/${req.imageName}`),function () {
+            const folderPath = req.body.globalStore === 'true' ? '../../public/uploads/global/' : '../../public/buffer/';
+            prepareImage(path.join(__dirname, `${folderPath}${req.imageName}`),function () {
                 send(res, {
                     message: `Изображение загружено!`,
-                    data: `/buffer/${req.imageName}`,
+                    data: `${req.body.globalStore === 'true' ? '/uploads/global/' : '/buffer/'}${req.imageName}`,
                     status: 'success'
                 });
             }, function (err) {
@@ -55,7 +56,7 @@ router.put('/', upload.single('file'), async function(req, res, next) {
                 send(res, { status: 'error', message });
                 console.log(message);
             }, {
-                withLogo: !req.body.withoutLogo,
+                withLogo: !(req.body.withoutLogo === 'true'),
                 width: req.body.width
             });
         } else {

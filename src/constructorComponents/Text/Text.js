@@ -6,6 +6,7 @@ import styles from './Text.module.css';
 function Text(props) {
     const className = cx(
         styles.text,
+        styles[`color-${props.color}`],
         styles[`size-${props.size}`],
         props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,
         props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null,
@@ -21,6 +22,7 @@ function Text(props) {
 
 Text.propTypes = {
     size: PropTypes.oneOf(['s', 'm', 'l']),
+    color: PropTypes.oneOf(['black', 'white']),
     align: PropTypes.oneOf(['left', 'center', 'right']),
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
@@ -30,6 +32,7 @@ Text.propTypes = {
 
 Text.defaultProps = {
     size: 'm',
+    color: 'black',
     align: 'center',
     paddingTop: 'm',
     paddingBottom: 'm',
