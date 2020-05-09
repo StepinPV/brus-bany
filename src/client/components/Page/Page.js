@@ -7,7 +7,7 @@ import Breadcrumbs from '../../../components/Breadcrumbs';
 import styles from './Page.module.css';
 
 function Page(props) {
-    const { children, opacityHeader, breadcrumbs, notFound, hasLinkToMain } = props;
+    const { children, opacityHeader, breadcrumbs, notFound, hasLinkToMain, headerProps } = props;
 
     return (
         <>
@@ -15,6 +15,7 @@ function Page(props) {
                 opacity={!notFound && opacityHeader}
                 requestLink={notFound ? '/#requestForm' : undefined}
                 hasLinkToMain={hasLinkToMain}
+                {...headerProps}
             />
             {notFound ? (
                 <NotFound />
@@ -37,6 +38,7 @@ function Page(props) {
 }
 
 Page.propTypes = {
+    headerProps: PropTypes.object,
     children: PropTypes.node,
     opacityHeader: PropTypes.bool,
     hasLinkToMain: PropTypes.bool,
@@ -45,6 +47,7 @@ Page.propTypes = {
 };
 
 Page.defaultProps = {
+    headerProps: {},
     notFound: false,
     hasLinkToMain: true
 };

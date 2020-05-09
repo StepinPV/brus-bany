@@ -18,4 +18,13 @@ export const config = [{
         title: 'SEO description',
         type: 'text'
     }]
+}, {
+    _id: 'headerProps',
+    title: 'Настройки шапки',
+    type: 'object',
+    format: [{
+        _id: 'opacity',
+        title: 'Прозрачность',
+        type: 'boolean'
+    }]
 }];

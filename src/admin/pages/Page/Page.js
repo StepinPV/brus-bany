@@ -198,7 +198,7 @@ class Page extends PureComponent {
         const { components } = page.config;
 
         return (
-            <PageComponent>
+            <PageComponent headerProps={page.config.headerProps}>
                 {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
                 {(!components || !components.length) ? this.renderAddComponent() : null}
             </PageComponent>
