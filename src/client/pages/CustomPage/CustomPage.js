@@ -21,10 +21,10 @@ class CustomPage extends PureComponent {
     };
 
     render() {
-        const { components, seoMeta } = this.props;
+        const { components, seoMeta, headerProps } = this.props;
 
         return (
-            <Page headerProps={page.config.headerProps}>
+            <Page headerProps={headerProps}>
                 <Meta meta={seoMeta} />
                 {components ? components.map(component => this.renderComponent(component)) : null}
             </Page>
