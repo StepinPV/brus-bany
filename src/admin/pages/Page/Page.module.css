@@ -124,16 +124,16 @@
     position: absolute;
     font-size: 12px;
     bottom: -15px;
-    left: calc(50% - 92px);
+    left: calc(50% - 69px);
     border-radius: 24px;
     line-height: 22px;
     text-align: center;
     z-index: 10;
-    background: #fff;
-    border: 1px solid #000;
-    color: #000;
+    background: #91001d;
+    color: #fff;
     display: none;
     cursor: pointer;
+    opacity: 0.5;
 }
 
 .component:hover .component-overlay,
@@ -142,9 +142,7 @@
 }
 
 .component-add:hover {
-    border-color: #91001d;
-    background: #91001d;
-    color: #fff;
+    opacity: 1;
 }
 
 .component-operations {
@@ -162,6 +160,11 @@
     color: #fff;
     border-radius: 4px;
     cursor: pointer;
+    opacity: 0.5;
+}
+
+.component-operation:hover {
+    opacity: 1;
 }
 
 .component-select-item {

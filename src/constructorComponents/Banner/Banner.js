@@ -10,7 +10,7 @@ function Banner(props) {
         <>
             <div
                 className={styles.banner}
-                style={props.image ? { backgroundImage: `url(${props.image})`} : {}}/>
+                style={props.image ? { backgroundImage: `url(${props.__images__[props.image]})`} : {}}/>
             <div className={styles.layout} />
             <div className={styles.content}>
                 { props.captionProps ? <Caption className={styles.header} {...props.captionProps} /> : null }

@@ -11,15 +11,26 @@ import AssociativeArrayEditor from '../AssociativeArrayEditor';
 import styles from './Form.module.css';
 import Select from "../../../components/Select";
 
-const Form = ({ value, onChange, format, errors }) => {
+const Form = ({ value, onChange, format, errors, images }) => {
     return (
         <div className={styles.container}>
             {format.map(item => {
                 const handleChange = (val) => {
-                    onChange(item['_id'], {
-                        ...value,
-                        [item['_id']]: val
-                    })
+                    if (item.type === 'image' && item.props && item.props.globalStore) {
+                        const imageId = Math.floor(Math.random() * (9999 - 1000) + 1000);
+                        onChange(item['_id'], {
+                            ...value,
+                            [item['_id']]: imageId
+                        }, {
+                            ...images,
+                            [imageId]: val
+                        });
+                    } else {
+                        onChange(item['_id'], {
+                            ...value,
+                            [item['_id']]: val
+                        }, images)
+                    }
                 };
 
                 switch (item.type) {
@@ -75,6 +86,7 @@ const Form = ({ value, onChange, format, errors }) => {
                             title={item.title}
                             format={item.format}
                             onChange={handleChange}
+                            images={images}
                             errors={errors[item['_id']]}
                         />;
                     case 'array':
@@ -103,6 +115,7 @@ const Form = ({ value, onChange, format, errors }) => {
                             <div className={styles.item} key={item['_id']}>
                                 <ImageUploader
                                     image={value[item['_id']]}
+                                    images={images}
                                     props={item.props}
                                     title={item.title}
                                     onChange={handleChange}
@@ -148,7 +161,8 @@ Form.propTypes = {
     format: PropTypes.array,
     value: PropTypes.object,
     onChange: PropTypes.func,
-    errors: PropTypes.object
+    errors: PropTypes.object,
+    images: PropTypes.object
 };
 
 export default memo(Form);

@@ -9,16 +9,20 @@ class ImageUploader extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
         image: PropTypes.string,
+        images: PropTypes.object,
         title: PropTypes.string,
         props: PropTypes.object,
         showNotification: PropTypes.func
     };
 
     render() {
-        const { image, title } = this.props;
+        const { image, images, title, props } = this.props;
 
         return (
-            <ImageLoader title={title} image={image} onChange={this.handleChange} />
+            <ImageLoader
+                title={title}
+                image={props && props.globalStore ? images[image] : image}
+                onChange={this.handleChange} />
         );
     }
 

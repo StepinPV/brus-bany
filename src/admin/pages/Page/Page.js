@@ -178,8 +178,16 @@ class Page extends PureComponent {
             <div className={styles['settings-block-content']}>
                 <Breadcrumbs items={breadcrumbs} />
                 <div className={styles['form-container']}>
-                    <Form format={mainFormat} value={page} onChange={this.handleChange} errors={errors} />
-                    <Form format={configFormat} value={page.config} onChange={this.handleChangeConfig} errors={{}} />
+                    <Form
+                        format={mainFormat}
+                        value={page}
+                        onChange={this.handleChange}
+                        errors={errors} />
+                    <Form
+                        format={configFormat}
+                        value={page.config}
+                        onChange={this.handleChangeConfig}
+                        errors={{}} />
                 </div>
             </div>
         )
@@ -187,7 +195,6 @@ class Page extends PureComponent {
 
     renderPage = () => {
         const { page } = this.props;
-        const { addComponentPosition } = this.state;
         const { components } = page.config;
 
         return (
@@ -262,7 +269,7 @@ class Page extends PureComponent {
             const propsMeta = componentMetas[componentId].props;
             const { operations } = this.state;
 
-            const onChange = (id, newProps) => {
+            const onChange = (id, newProps, images) => {
                 const newComponents = [...components];
                 newComponents[index].props = newProps;
 
@@ -270,6 +277,7 @@ class Page extends PureComponent {
                     ...page,
                     config: {
                         ...page.config,
+                        __images__: images,
                         components: newComponents
                     }
                 });
@@ -364,12 +372,17 @@ class Page extends PureComponent {
                                 <div className={styles['component-operation']} onClick={deleteComponent}>Удалить</div>
                             </div>
                         </div>
-                        <Component {...props} />
+                        <Component {...props} __images__={page.config['__images__'] || {}} />
                         <div className={styles['component-add']} onClick={() => { this.setState({ addComponentPosition: index + 1, floatMode: 'select-component' }) }}>Добавить компонент</div>
                     </div>
                     {operations[index] && operations[index].propsFormVisible ? (
                         <div className={styles['form-container']}>
-                            <Form format={propsMeta} value={props} onChange={onChange} errors={{}}/>
+                            <Form
+                                format={propsMeta}
+                                value={props}
+                                onChange={onChange}
+                                errors={{}}
+                                images={page.config['__images__'] || {}} />
                         </div>
                     ) : null}
                 </Fragment>
