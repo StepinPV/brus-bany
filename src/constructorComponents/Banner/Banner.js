@@ -7,7 +7,7 @@ import styles from './Banner.module.css';
 
 function Banner(props) {
     return (
-        <>
+        <div className={styles.container}>
             <div
                 className={styles.banner}
                 style={props.image ? { backgroundImage: `url(${props.__images__[props.image]})`} : {}}/>
@@ -19,7 +19,7 @@ function Banner(props) {
                     <Link type='red' href={props.button.href} caption={props.button.caption} className={styles.button} />
                     ) : null}
             </div>
-        </>
+        </div>
     )
 }
 

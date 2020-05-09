@@ -6,12 +6,14 @@ import Meta from "../../components/Meta";
 class CustomPage extends PureComponent {
     static propTypes = {
         seoMeta: PropTypes.object,
+        __images__: PropTypes.object,
         componentConstructors: PropTypes.object,
         components: PropTypes.array
     };
 
     static defaultProps = {
         seoMeta: {},
+        __images__: {},
         components: [],
         componentConstructors: {}
     };
@@ -28,10 +30,10 @@ class CustomPage extends PureComponent {
     }
 
     renderComponent = ({ componentId, props }) => {
-        const { componentConstructors } = this.props;
+        const { componentConstructors, __images__ } = this.props;
         const Component = componentConstructors[componentId];
 
-        return <Component {...props} />;
+        return <Component {...props} __images__={__images__} />;
     };
 }
 
