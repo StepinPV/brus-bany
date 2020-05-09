@@ -6,12 +6,14 @@ import Meta from "../../components/Meta";
 class CustomPage extends PureComponent {
     static propTypes = {
         seoMeta: PropTypes.object,
+        headerProps: PropTypes.object,
         __images__: PropTypes.object,
         componentConstructors: PropTypes.object,
         components: PropTypes.array
     };
 
     static defaultProps = {
+        headerProps: {},
         seoMeta: {},
         __images__: {},
         components: [],
@@ -22,7 +24,7 @@ class CustomPage extends PureComponent {
         const { components, seoMeta } = this.props;
 
         return (
-            <Page>
+            <Page headerProps={page.config.headerProps}>
                 <Meta meta={seoMeta} />
                 {components ? components.map(component => this.renderComponent(component)) : null}
             </Page>
