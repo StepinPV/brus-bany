@@ -26,5 +26,9 @@ export const config = [{
         _id: 'opacity',
         title: 'Прозрачность',
         type: 'boolean'
+    }, {
+        _id: 'requestLink',
+        title: 'Ссылка на форму заявки',
+        type: 'string'
     }]
 }];

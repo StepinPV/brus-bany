@@ -89,15 +89,6 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
-        id: 'site/gosty-i-snipy',
-        path: '/gosty-i-snipy',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/GOST')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
-    }, {
         id: 'site/blog',
         path: '/blog',
         exact: true,
@@ -139,15 +130,6 @@ export default (initModule) => {
         exact: true,
         component: Loadable({
             loader: () => getLoader(import('../client/pages/Photo')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
-    }, {
-        id: 'site/thanks',
-        path: '/thanks',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Thanks')),
             loading: LoaderPage,
         }),
         simplePage: true
