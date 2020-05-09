@@ -18,11 +18,11 @@ function QuestionAnswer(props) {
                 return (
                     <div key={name} className={styles.group}>
                         <div className={styles['group-name']}>{name}</div>
-                        {items.map(({ question, answer }) => {
+                        {(items || []).map(({ question, answer }) => {
                             return (
                                 <div key={question} className={styles.item}>
                                     <Caption paddingTop='none' paddingBottom='s' size='s' align='left'>{question}</Caption>
-                                    <Text paddingBottom='none' paddingTop='none' align='left'>{answer}</Text>
+                                    <Text paddingBottom='none' paddingTop='none' align='left' isHTML>{answer}</Text>
                                 </div>
                             );
                         })}

@@ -6,7 +6,7 @@ export const props = [{
     format: [{
         _id: 'name',
         title: 'Имя группы',
-        type: 'text'
+        type: 'string'
     }, {
         _id: 'items',
         title: 'Вопросы и ответы',
