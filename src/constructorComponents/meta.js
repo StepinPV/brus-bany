@@ -7,6 +7,10 @@ export default {
         load: () => import('./Text'),
         loadMeta: () => import('./Text/meta')
     },
+    'Button': {
+        load: () => import('./Button'),
+        loadMeta: () => import('./Button/meta')
+    },
     'List': {
         load: () => import('./List'),
         loadMeta: () => import('./List/meta')

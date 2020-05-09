@@ -8,10 +8,10 @@ function Text(props) {
         styles.text,
         styles[`color-${props.color}`],
         styles[`size-${props.size}`],
-        props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,
-        props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null,
+        styles[`align-${props.align}`],
         styles[`width-${props.width}`],
-        props.align ? styles[`align-${props.align}`] : null);
+        props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,
+        props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null);
 
     return (
         <div className={className} dangerouslySetInnerHTML={props.isHTML ? { __html: props.children } : null}>

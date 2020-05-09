@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button } from '../../components/Button';
+import Button from '../Button';
 import Input from '../../components/Input';
 import styles from './Form.module.css';
 
@@ -31,7 +31,7 @@ function Form(props) {
                 <input type="hidden" name='data' value={JSON.stringify(data)} />
             ) : null}
 
-            <Button caption={buttonCaption} className={styles.button} />
+            <Button caption={buttonCaption} fullWidth />
             <div className={styles.disclaimer}>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika-konfidencialnosti' target='_blank'>Политика конфиденциальности.</a></div>
         </form>
     );

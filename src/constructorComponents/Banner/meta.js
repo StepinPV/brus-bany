@@ -1,5 +1,6 @@
 import { props as captionProps, defaultProps as captionDefaultProps } from '../Caption/meta';
 import { props as textProps, defaultProps as textDefaultProps } from '../Text/meta';
+import { props as buttonProps, defaultProps as buttonDefaultProps } from '../Button/meta';
 
 export const props = [{
     _id: 'captionProps',
@@ -12,18 +13,10 @@ export const props = [{
     type: 'object',
     format: [...textProps]
 }, {
-    _id: 'button',
+    _id: 'buttonProps',
     title: 'Кнопка',
     type: 'object',
-    format: [{
-        _id: 'caption',
-        title: 'Заголовок',
-        type: 'string'
-    }, {
-        _id: 'href',
-        title: 'Ссылка',
-        type: 'string'
-    }]
+    format: [...buttonProps]
 }, {
     _id: 'image',
     title: 'Обложка',
@@ -49,10 +42,7 @@ export const defaultProps = {
         paddingTop: 's',
         size: 'l'
     },
-    button: {
-        href: '/',
-        caption: 'Кнопка-ссылка'
-    }
+    buttonProps: buttonDefaultProps
 };
 
-export const dependencies = ['Caption', 'Text'];
+export const dependencies = ['Caption', 'Text', 'Button'];

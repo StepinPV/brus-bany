@@ -8,10 +8,10 @@ function Caption(props) {
         styles.text,
         styles[`color-${props.color}`],
         styles[`size-${props.size}`],
-        props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,
-        props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null,
         styles[`width-${props.width}`],
-        props.align ? styles[`align-${props.align}`] : null);
+        styles[`align-${props.align}`],
+        props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,
+        props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null);
 
     const dangerouslySetInnerHTML = props.isHTML ? { __html: props.children } : null;
     const children = !props.isHTML ? props.children : null;
@@ -42,7 +42,8 @@ Caption.defaultProps = {
     paddingTop: 'm',
     paddingBottom: 'm',
     isHTML: false,
-    width: 'm'
+    width: 'm',
+    align: 'center'
 };
 
 export default memo(Caption);

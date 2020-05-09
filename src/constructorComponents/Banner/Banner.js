@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Caption from '../Caption';
 import Text from '../Text';
-import { Link } from '../../components/Button';
+import Button from '../Button';
 import styles from './Banner.module.css';
 
 function Banner(props) {
@@ -13,11 +13,9 @@ function Banner(props) {
                 style={props.image ? { backgroundImage: `url(${props.__images__[props.image]})`} : {}}/>
             <div className={styles.layout} />
             <div className={styles.content}>
-                { props.captionProps ? <Caption className={styles.header} {...props.captionProps} /> : null }
-                { props.textProps ? <Text className={styles.description} {...props.textProps} /> : null }
-                {props.button ? (
-                    <Link type='red' href={props.button.href} caption={props.button.caption} className={styles.button} />
-                    ) : null}
+                { props.captionProps ? <Caption {...props.captionProps} /> : null }
+                { props.textProps ? <Text {...props.textProps} /> : null }
+                { props.buttonProps ? <Button {...props.buttonProps} /> : null }
             </div>
         </div>
     )
@@ -26,7 +24,7 @@ function Banner(props) {
 Banner.propTypes = {
     captionProps: PropTypes.object,
     textProps: PropTypes.object,
-    button: PropTypes.object,
+    buttonProps: PropTypes.object,
     image: PropTypes.string
 };
 

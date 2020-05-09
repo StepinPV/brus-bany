@@ -2,13 +2,8 @@
     padding: 16px;
 }
 
-.input, .button {
+.input {
     margin-bottom: 32px;
-}
-
-.button {
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .disclaimer {
