@@ -107,15 +107,6 @@ export default (initModule) => {
         }),
         simplePage: true
     }, {
-        id: 'site/questions',
-        path: '/voprosy-i-otvety',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Questions')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
-    }, {
         id: 'site/gosty-i-snipy',
         path: '/gosty-i-snipy',
         exact: true,
