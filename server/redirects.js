@@ -273,7 +273,8 @@ module.exports.FROM = [
     '/bani/karkasnie/6x4',
     '/bani/iz-brevna/6x4',
     '/photos/iz-brusa/chekhov_6x6_5e6e42aa4304fa6b84918b5a',
-    '/bani/iz-brusa/3x4/nedorogie'
+    '/bani/iz-brusa/3x4/nedorogie',
+    '/bani/individualnyy-proekt'
 ];
 
 module.exports.TO = [
@@ -326,7 +327,7 @@ module.exports.TO = [
     '/bani/gotovie',
     '/bani/iz-brusa',
     '/bani/karkasnie',
-    '/bani/individualnyy-proekt',
+    '/individualnyy-proekt',
     '/bani/gotovie/istra_2.3x3',
     '/bani/gotovie/ruza_2.3x4',
     '/bani/gotovie/kirva_2.3x4',
@@ -551,5 +552,6 @@ module.exports.TO = [
     '/bani/karkasnie/4x6',
     '/bani/iz-brevna/4x6',
     '/photos/iz-brusa/chekhov_6x6_5e5ffd986d7ec43bda9e2b78',
-    '/bani/iz-brusa/3x4'
+    '/bani/iz-brusa/3x4',
+    '/individualnyy-proekt'
 ];

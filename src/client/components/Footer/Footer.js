@@ -63,7 +63,7 @@ function Footer({ hasLinkToMain }) {
                     <a href='/bani/karkasnie' className={styles['items-item']}>Каркасные бани</a>
                     <a href='/bani/gotovie' className={styles['items-item']}>Готовые бани</a>
                     <a href='/bani/iz-brevna' className={styles['items-item']}>Бани из бревна</a>
-                    <a href='/bani/individualnyy-proekt' className={styles['items-item']}>Индивидуальный проект</a>
+                    <a href='/individualnyy-proekt' className={styles['items-item']}>Индивидуальный проект</a>
                 </nav>
                 <nav className={styles.column}>
                     <div className={styles['items-header']}>О КОМПАНИИ</div>

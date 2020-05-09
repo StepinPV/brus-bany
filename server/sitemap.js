@@ -41,7 +41,7 @@ exports.generate = async function () {
             'xsi:schemaLocation': 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'
         },
         'urlset': [
-            getURLObject({ url: '/bani/individualnyy-proekt', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
+            getURLObject({ url: '/individualnyy-proekt', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
             getURLObject({ url: '/rekvizity', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
             getURLObject({ url: '/usloviya-oplaty', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
             getURLObject({ url: '/vakansii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),

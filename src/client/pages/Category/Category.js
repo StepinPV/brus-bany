@@ -246,7 +246,7 @@ class Category extends PureComponent {
         })), {
             id: 'custom',
             element: (
-                <CustomProjectCard link='/bani/individualnyy-proekt' />
+                <CustomProjectCard link='/individualnyy-proekt' />
             )
         }]} />;
     };
