@@ -7,7 +7,7 @@ import styles from './Banner.module.css';
 
 function Banner(props) {
     return (
-        <div className={styles.container}>
+        <div className={styles.container} {...(props.id ? { id: props.id } : {})}>
             <div
                 className={styles.banner}
                 style={props.image ? { backgroundImage: `url(${props.__images__[props.image]})`} : {}}/>
@@ -25,7 +25,8 @@ Banner.propTypes = {
     captionProps: PropTypes.object,
     textProps: PropTypes.object,
     buttonProps: PropTypes.object,
-    image: PropTypes.string
+    image: PropTypes.string,
+    id: PropTypes.string
 };
 
 export default memo(Banner);

@@ -93,10 +93,6 @@ export const props = [{
         title: 'Большой'
     }]
 }, {
-    _id: 'isHTML',
-    title: 'HTML в качестве значения',
-    type: 'boolean'
-}, {
     _id: 'width',
     title: 'Ширина',
     type: 'select',
@@ -110,6 +106,14 @@ export const props = [{
         id: 's',
         title: 'Маленькая'
     }]
+}, {
+    _id: 'isHTML',
+    title: 'HTML в качестве значения',
+    type: 'boolean'
+}, {
+    _id: 'id',
+    title: 'Якорь',
+    type: 'string'
 }];
 
 export const name = 'Заголовок';

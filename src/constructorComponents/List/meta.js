@@ -81,6 +81,10 @@ export const props = [{
         id: 'l',
         title: 'Большой'
     }]
+}, {
+    _id: 'id',
+    title: 'Якорь',
+    type: 'string'
 }];
 
 export const name = 'Список';

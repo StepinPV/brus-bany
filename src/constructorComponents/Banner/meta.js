@@ -25,6 +25,10 @@ export const props = [{
         globalStore: true
     },
     type: 'image'
+}, {
+    _id: 'id',
+    title: 'Якорь',
+    type: 'string'
 }];
 
 export const name = 'Обложка с заголовком, текстом и кнопкой';

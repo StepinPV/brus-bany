@@ -32,7 +32,7 @@ function Button(props) {
     }
 
     return (
-        <div className={containerClassName}>
+        <div {...(props.id ? { id: props.id } : {})} className={containerClassName}>
             <a {...options} className={className}>{props.caption}</a>
         </div>
     );
@@ -50,7 +50,8 @@ Button.propTypes = {
     noOpener: PropTypes.bool,
     targetBlank: PropTypes.bool,
     caption: PropTypes.string,
-    href: PropTypes.string
+    href: PropTypes.string,
+    id: PropTypes.string
 };
 
 Button.defaultProps = {

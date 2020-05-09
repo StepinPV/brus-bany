@@ -106,6 +106,10 @@ export const props = [{
     _id: 'noOpener',
     title: 'Закрыть от индексации цель, на которую ведет ссылка',
     type: 'boolean'
+}, {
+    _id: 'id',
+    title: 'Якорь',
+    type: 'string'
 }];
 
 export const name = 'Кнопка';

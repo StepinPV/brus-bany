@@ -21,15 +21,18 @@ function List(props) {
         );
     }
 
+    const options = {
+        className,
+        children: renderItems()
+    }
+
+    if (props.id) {
+        options.id = props.id;
+    }
+
     switch(props.type) {
-        case 'numeric':
-            return (
-                <ol className={className}>{renderItems()}</ol>
-            );
-        case 'marker':
-            return (
-                <ul className={className}>{renderItems()}</ul>
-            );
+        case 'numeric': return <ol {...options} />;
+        case 'marker': return <ul {...options} />;
     }
 }
 
@@ -39,7 +42,8 @@ List.propTypes = {
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     type: PropTypes.oneOf(['numeric', 'marker']),
     width: PropTypes.oneOf(['s', 'm', 'l']),
-    items: PropTypes.array
+    items: PropTypes.array,
+    id: PropTypes.string
 };
 
 List.defaultProps = {

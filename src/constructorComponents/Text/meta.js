@@ -93,6 +93,10 @@ export const props = [{
         id: 's',
         title: 'Маленькая'
     }]
+}, {
+    _id: 'id',
+    title: 'Якорь',
+    type: 'string'
 }];
 
 export const name = 'Текст';

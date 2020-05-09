@@ -13,14 +13,21 @@ function Caption(props) {
         props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,
         props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null);
 
-    const dangerouslySetInnerHTML = props.isHTML ? { __html: props.children } : null;
-    const children = !props.isHTML ? props.children : null;
+    const options = {
+        className,
+        dangerouslySetInnerHTML: props.isHTML ? { __html: props.children } : null,
+        children: !props.isHTML ? props.children : null
+    }
+
+    if (props.id) {
+        options.id = props.id;
+    }
 
     switch (props.tag) {
-        case 'h1': return <h1 className={className} dangerouslySetInnerHTML={dangerouslySetInnerHTML}>{children}</h1>;
-        case 'h2': return <h2 className={className} dangerouslySetInnerHTML={dangerouslySetInnerHTML}>{children}</h2>;
-        case 'h3': return <h3 className={className} dangerouslySetInnerHTML={dangerouslySetInnerHTML}>{children}</h3>;
-        default: return <div className={className} dangerouslySetInnerHTML={dangerouslySetInnerHTML}>{children}</div>;
+        case 'h1': return <h1 {...options} />;
+        case 'h2': return <h2 {...options} />;
+        case 'h3': return <h3 {...options} />;
+        default: return <div {...options} />;
     }
 }
 
@@ -33,6 +40,7 @@ Caption.propTypes = {
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     isHTML: PropTypes.bool,
     width: PropTypes.oneOf(['l', 'm', 's']),
+    id: PropTypes.string
 };
 
 Caption.defaultProps = {

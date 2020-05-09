@@ -302,7 +302,7 @@ class Page extends PureComponent {
                 e.stopPropagation();
 
                 const newComponents = [...components];
-                newComponents.splice(index + 1, 0, components[index]);
+                newComponents.splice(index + 1, 0, JSON.parse(JSON.stringify(components[index])));
 
                 actions.setPage({
                     ...page,

@@ -14,7 +14,7 @@ function Text(props) {
         props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null);
 
     return (
-        <div className={className} dangerouslySetInnerHTML={props.isHTML ? { __html: props.children } : null}>
+        <div {...(props.id ? { id: props.id } : {})} className={className} dangerouslySetInnerHTML={props.isHTML ? { __html: props.children } : null}>
             {!props.isHTML ? props.children : null}
         </div>
     );
@@ -28,6 +28,7 @@ Text.propTypes = {
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     isHTML: PropTypes.bool,
     width: PropTypes.oneOf(['s', 'm', 'l']),
+    id: PropTypes.string
 };
 
 Text.defaultProps = {

@@ -13,7 +13,7 @@ function QuestionAnswer(props) {
         props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null);
 
     return (
-        <div className={className}>
+        <div {...(props.id ? { id: props.id } : {})} className={className}>
             {props.items.map(({ name, items }) => {
                 return (
                     <div key={name} className={styles.group}>
@@ -37,7 +37,8 @@ QuestionAnswer.propTypes = {
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     width: PropTypes.oneOf(['s', 'm', 'l']),
-    items: PropTypes.array
+    items: PropTypes.array,
+    id: PropTypes.string
 };
 
 QuestionAnswer.defaultProps = {
