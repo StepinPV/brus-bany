@@ -74,7 +74,9 @@ const client = () => merge([
                             const packageName = module.context.match(/[\\/]constructorComponents[\\/](.*?)([\\/]|$)/)[1];
                             return `${packageName.replace('@', '').replace('/', '-')}`;
                         },
-                        priority: 20
+                        priority: 0,
+                        // TODO
+                        enforce: true
                     }
                 },
                 maxInitialRequests: Infinity,
