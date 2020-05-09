@@ -31,15 +31,6 @@ export default (initModule) => {
         }),
         simplePage: true
     }, {
-        id: 'site/bani/custom-project',
-        path: '/bani/individualnyy-proekt',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/CustomProject')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
-    }, {
         id: 'site/bani/category/project',
         path: '/bani/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
         exact: true,
@@ -97,15 +88,6 @@ export default (initModule) => {
             loader: () => getLoader(import('../client/pages/Promo/resources/Quiz')),
             loading: LoaderPage,
         })
-    }, {
-        id: 'site/o-companii',
-        path: '/o-companii',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/AboutCompany')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
     }, {
         id: 'site/gosty-i-snipy',
         path: '/gosty-i-snipy',

@@ -8,7 +8,7 @@ export const props = [{
     format: [...captionProps]
 }, {
     _id: 'textProps',
-    title: 'Заголовок',
+    title: 'Текст',
     type: 'object',
     format: [...textProps]
 }, {
