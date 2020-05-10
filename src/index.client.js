@@ -28,14 +28,14 @@ async function run () {
 
     await Loadable.preloadReady();
 
-    // SPA
+    // TODO Вот тут не нужно добавлять все модули
     const routes = getRoutes(module => {
         if (module && module.id && module.reducer) {
             store.addReducer(module.id, module.reducer, module.initialState);
         }
     });
 
-    // const matchRoute = getRoutes().find(route => matchPath(window.location.pathname, route) || false);
+    const matchRoute = routes.find(route => matchPath(window.location.pathname, route) || false);
 
     let componentConstructors;
     if (pageData && pageData.url) {
@@ -47,7 +47,7 @@ async function run () {
         <Provider store={store}>
             <BrowserRouter>
                 <App
-                    routes={routes}
+                    routes={[matchRoute]}
                     page={pageData}
                     componentConstructors={componentConstructors} />
             </BrowserRouter>
