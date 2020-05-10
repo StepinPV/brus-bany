@@ -55,14 +55,6 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
-        id: 'site/contacts',
-        path: '/kontakty',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Contacts')),
-            loading: LoaderPage,
-        })
-    }, {
         id: 'site/promo',
         path: '/akcii',
         exact: true,
