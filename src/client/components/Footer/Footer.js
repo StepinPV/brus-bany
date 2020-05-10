@@ -69,7 +69,7 @@ function Footer({ hasLinkToMain }) {
                     <div className={styles['items-header']}>О КОМПАНИИ</div>
                     <a href='/o-companii' className={styles['items-item']}>О компании</a>
                     <a href='/rekvizity' className={styles['items-item']}>Реквизиты компании</a>
-                    <a href='/dostavka' className={styles['items-item']}>География доставки</a>
+                    <a href='/dostavka' className={styles['items-item']}>Условия доставки</a>
                     <a href='/usloviya-oplaty' className={styles['items-item']}>Условия оплаты</a>
                     <a href='/kontakty' className={styles['items-item']}>Контакты</a>
                     <a href='/vakansii' className={styles['items-item']}>Вакансии</a>

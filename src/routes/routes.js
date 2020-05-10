@@ -47,14 +47,6 @@ export default (initModule) => {
         }),
         simplePage: true
     }, {
-        id: 'site/delivery',
-        path: '/dostavka',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Delivery')),
-            loading: LoaderPage,
-        })
-    }, {
         id: 'site/blog',
         path: '/blog',
         exact: true,
