@@ -38,7 +38,7 @@ async function run () {
     const matchRoute = getRoutes().find(route => matchPath(window.location.pathname, route) || false);
 
     let componentConstructors;
-    if (pageData) {
+    if (pageData && pageData.url) {
         const { constructors } = await getComponents(pageData.config.components, false);
         componentConstructors = constructors;
     }
