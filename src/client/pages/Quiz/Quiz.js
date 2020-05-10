@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react';
-import Page from '../../../../components/Page';
-import Caption from '../../../../components/Caption';
+import Page from '../../components/Page';
+import Caption from '../../components/Caption';
 import styles from './Quiz.module.css';
-import FormBlock from "../../../../components/FormBlock";
-import Form from "../../../../components/Form";
-import Meta from '../../../../components/Meta';
+import FormBlock from "../../components/FormBlock";
+import Form from "../../components/Form";
+import Meta from '../../components/Meta';
 
 import img2_1 from './resources/2/1.jpg';
 import img2_2 from './resources/2/2.jpg';
