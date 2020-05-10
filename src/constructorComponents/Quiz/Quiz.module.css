@@ -1,23 +1,22 @@
-.container, .quiz {
-    max-width: 1200px;
-    margin: 0 auto;
-    box-sizing: border-box;
-}
-
-.container {
-    padding: 32px;
-}
-
-.caption {
-    margin-bottom: 32px;
-}
-
-.quiz {
+.content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 16px 32px;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding-left: 16px;
+    padding-right: 16px;
 }
+
+.padding-top-s { padding-top: 16px; }
+.padding-top-m { padding-top: 32px; }
+.padding-top-l { padding-top: 48px; }
+
+.padding-bottom-s { padding-bottom: 16px; }
+.padding-bottom-m { padding-bottom: 32px; }
+.padding-bottom-l { padding-bottom: 48px; }
 
 .number {
     color: #91001e;
@@ -75,4 +74,3 @@
 .image-item-title {
     text-align: center;
 }
-

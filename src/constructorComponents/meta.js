@@ -44,4 +44,8 @@ export default {
         load: () => import('./ImageLinkBlock'),
         loadMeta: () => import('./ImageLinkBlock/meta')
     },
+    'Quiz': {
+        load: () => import('./Quiz'),
+        loadMeta: () => import('./Quiz/meta')
+    },
 };
