@@ -31,7 +31,7 @@ function Form(props) {
                 <input type="hidden" name='data' value={JSON.stringify(data)} />
             ) : null}
 
-            <Button caption={buttonCaption} fullWidth />
+            <Button type='button' caption={buttonCaption} fullWidth />
             <div className={styles.disclaimer}>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika-konfidencialnosti' target='_blank'>Политика конфиденциальности.</a></div>
         </form>
     );

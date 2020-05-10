@@ -31,9 +31,16 @@ function Button(props) {
         options.rel = 'noopener noreferrer';
     }
 
+    const renderContent = () => {
+        switch(props.type) {
+            case 'a': return <a {...options} className={className}>{props.caption}</a>;
+            case 'button': return <button {...options} className={className}>{props.caption}</button>;
+        }
+    };
+
     return (
         <div {...(props.id ? { id: props.id } : {})} className={containerClassName}>
-            <a {...options} className={className}>{props.caption}</a>
+            {renderContent()}
         </div>
     );
 }
@@ -51,7 +58,8 @@ Button.propTypes = {
     targetBlank: PropTypes.bool,
     caption: PropTypes.string,
     href: PropTypes.string,
-    id: PropTypes.string
+    id: PropTypes.string,
+    type: PropTypes.oneOf(['a', 'button']).isRequired
 };
 
 Button.defaultProps = {
@@ -64,7 +72,8 @@ Button.defaultProps = {
     fullWidth: false,
     download: false,
     targetBlank: false,
-    noOpener: false
+    noOpener: false,
+    type: 'a'
 };
 
 export default memo(Button);
