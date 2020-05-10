@@ -18,13 +18,15 @@ function ImageLinkBlock(props) {
             <div className={styles.info}>
                 <Caption size='s' align='left' paddingTop='s' paddingBottom='s'>{props.caption}</Caption>
                 <Text align='left' paddingTop='s' paddingBottom='s' isHTML>{props.text}</Text>
-                <Button
-                    paddingTop='s'
-                    paddingBottom='s'
-                    align='left'
-                    href={props.buttonHref}
-                    caption={props.buttonCaption}
-                    fullWidth />
+                {props.buttonCaption ? (
+                    <Button
+                        paddingTop='s'
+                        paddingBottom='s'
+                        align='left'
+                        href={props.buttonHref}
+                        caption={props.buttonCaption}
+                        fullWidth />
+                ) : null}
             </div>
         </div>
     );
