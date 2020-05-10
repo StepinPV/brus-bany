@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, matchPath } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Loadable from 'react-loadable';
 import configureStore from './store';
 import App from './components/App';
 import getRoutes from './routes';
-import componentsPaths from './constructorComponents/meta';
+import getComponents from './constructorComponents/getComponents';
 import './index.css';
 
 if (document.readyState !== 'loading') {
@@ -22,23 +22,36 @@ async function run () {
     /* eslint-enable no-underscore-dangle*/
 
     /* eslint-disable no-underscore-dangle */
-    const pageData = configureStore(window.__pageData__);
+    const pageData = window.__pageData__;
     delete window.__pageData__;
     /* eslint-enable no-underscore-dangle*/
 
     await Loadable.preloadReady();
 
-    const routes = getRoutes(module => {
+    // SPA
+    /*const routes = getRoutes(module => {
         if (module && module.id && module.reducer) {
             store.addReducer(module.id, module.reducer, module.initialState);
         }
-    });
+    });*/
+
+    const matchRoute = getRoutes().find(route => matchPath(window.location.pathname, route) || false);
+
+    let componentConstructors;
+    if (pageData) {
+        const { constructors } = await getComponents(pageData.config.components, false);
+        componentConstructors = constructors;
+    }
 
     ReactDOM.hydrate(
         <Provider store={store}>
             <BrowserRouter>
-                <App routes={routes} page={pageData} />
+                <App
+                    routes={[matchRoute]}
+                    page={pageData}
+                    componentConstructors={componentConstructors} />
             </BrowserRouter>
         </Provider>,
-        document.getElementById('root'));
+        document.getElementById('root')
+    );
 }

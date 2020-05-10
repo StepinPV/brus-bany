@@ -35,5 +35,9 @@ export default {
         load: () => import('./Form'),
         loadMeta: () => import('./Form/meta'),
         disabled: true
-    }
+    },
+    'Contacts': {
+        load: () => import('./Contacts'),
+        loadMeta: () => import('./Contacts/meta')
+    },
 };

@@ -235,7 +235,6 @@ export default (initModule) => {
         component: Loadable({
             loader: () => getLoader(import('../client/pages/CustomPage')),
             loading: LoaderPage,
-        }),
-        simplePage: true
+        })
     }];
 };

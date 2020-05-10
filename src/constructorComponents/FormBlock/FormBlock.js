@@ -8,7 +8,7 @@ import img from './resources/img.jpg';
 import cx from 'classnames';
 
 function FormBlock(props) {
-    const { source, data, background } = props;
+    const { background } = props;
 
     const className = cx(
         styles.content,
@@ -23,7 +23,7 @@ function FormBlock(props) {
             <div className={cx(styles['second-column'], styles[`second-column-background-${background}`])}>
                 <Caption paddingBottom='s' paddingTop='s'>Закажите обратный звонок!</Caption>
                 <Text size='l' paddingTop='s'>Перезвоним вам в кратчайшие сроки, расскажем о банях все и поможем с выбором</Text>
-                <Form source={source} data={data} />
+                <Form />
             </div>
         </div>
     );

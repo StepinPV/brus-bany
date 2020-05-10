@@ -2,7 +2,7 @@
     display: flex;
 }
 
-.map,
+.map-container,
 .info {
     flex-grow: 1;
     flex-basis: 50%;
@@ -60,7 +60,7 @@
         flex-direction: column;
     }
 
-    .map {
+    .map-container {
         height: 300px;
     }
 }
@@ -86,4 +86,9 @@
     text-decoration: none;
     color: #000;
     font-size: 20px;
+}
+
+.map {
+    width: 100%;
+    height: 100%;
 }

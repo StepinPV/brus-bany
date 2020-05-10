@@ -21,32 +21,27 @@ const META = {
     description: '🏠 174510, Новгородская область, город Пестово, улица Курганная, дом 12 💨 Звоните 📳 8(800)201-07-29'
 };
 
-let Map;
-
 class Contacts extends PureComponent {
     state = {
-        mapLoaded: false
+        renderMap: false
     };
 
     componentDidMount() {
         setTimeout(() => {
-            import('./resources/OfficeMap').then(module => {
-                Map = module.default;
-                this.setState({ mapLoaded: true });
-            });
+            this.setState({ renderMap: true });
         }, 1000);
     }
 
     render() {
-        const { mapLoaded } = this.state;
+        const { renderMap } = this.state;
 
         return (
             <Page breadcrumbs={breadcrumbs}>
                 <Meta meta={META} />
                 <H1Block caption='Наши контакты' />
                 <div className={styles.content} itemScope itemType='http://schema.org/HomeAndConstructionBusiness'>
-                    <div className={styles.map}>
-                        {mapLoaded ? <Map /> : null }
+                    <div className={styles['map-container']}>
+                        {renderMap ? this.renderMap() : null }
                     </div>
                     <div className={styles.info}>
                         <meta itemProp="name" content="Брус бани" />
@@ -99,6 +94,14 @@ class Contacts extends PureComponent {
                 <FormBlock source='Страница контактов' />
             </Page>
         );
+    }
+
+    renderMap = () => {
+        return (
+            <div className={styles.map}>
+                <iframe title="Адресс офиса" src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=111422907145" width="100%" height="100%" frameBorder="0" />
+            </div>
+        )
     }
 }
 

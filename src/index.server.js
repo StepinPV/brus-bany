@@ -8,39 +8,7 @@ import configureStore from './store';
 import getRoutes from './routes';
 import App from './components/App';
 import axios from 'axios';
-
-import componentsPaths from './constructorComponents/meta';
-
-async function getComponents(componentsInfo) {
-    const constructors = {};
-    const ids = [];
-
-    const addId = (id) => {
-        if (!ids.includes(id)) {
-            ids.push(id);
-        }
-    };
-
-    const checkDeps = async (id) => {
-        const dependencies = (await componentsPaths[id].loadMeta()).dependencies;
-
-        if (dependencies) {
-            for (const depId of dependencies) {
-                addId(depId);
-                await checkDeps(depId);
-            }
-        }
-    };
-
-    for (const { componentId } of componentsInfo) {
-        addId(componentId);
-        await checkDeps(componentId);
-
-        constructors[componentId] = (await componentsPaths[componentId].load()).default;
-    }
-
-    return { constructors, ids };
-}
+import getComponents from './constructorComponents/getComponents';
 
 const render = async (req, res, axiosOptions = {}) => {
     axios.defaults.baseURL = axiosOptions.apiURL;
@@ -66,6 +34,7 @@ const render = async (req, res, axiosOptions = {}) => {
     let componentConstructors = null;
     let componentIds = null;
     let page = null;
+    let simplePage = matchRoute.simplePage;
 
     if (matchRoute && matchRoute.id === 'page-generator') {
         const pageRes = await axios.get(`/api/pages/${encodeURIComponent(req.path)}`, {
@@ -80,6 +49,7 @@ const render = async (req, res, axiosOptions = {}) => {
 
             componentConstructors = components.constructors;
             componentIds = components.ids;
+            simplePage = components.simple;
         }
     }
 
@@ -105,7 +75,7 @@ const render = async (req, res, axiosOptions = {}) => {
     const modules = [];
     const context = {};
 
-    const markup = ReactDOMServer[matchRoute.simplePage ? 'renderToStaticMarkup' : 'renderToString'](
+    const markup = ReactDOMServer[simplePage ? 'renderToStaticMarkup' : 'renderToString'](
         <Loadable.Capture report={moduleName => modules.push(moduleName)}>
             <Provider store={store}>
                 <StaticRouter location={req.url} context={context}>
@@ -114,7 +84,7 @@ const render = async (req, res, axiosOptions = {}) => {
                         page={page}
                         componentConstructors={componentConstructors}
                         routes={[matchRoute]}
-                        simplePage={matchRoute.simplePage} />
+                        simplePage={simplePage} />
                 </StaticRouter>
             </Provider>
         </Loadable.Capture>
@@ -124,7 +94,7 @@ const render = async (req, res, axiosOptions = {}) => {
         head: Helmet.renderStatic(),
         initialData: store.getState(),
         pageData: page,
-        simplePage: matchRoute.simplePage,
+        simplePage,
         markup,
         modules,
         componentIds,
