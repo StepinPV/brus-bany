@@ -40,4 +40,8 @@ export default {
         load: () => import('./Contacts'),
         loadMeta: () => import('./Contacts/meta')
     },
+    'ImageLinkBlock': {
+        load: () => import('./ImageLinkBlock'),
+        loadMeta: () => import('./ImageLinkBlock/meta')
+    },
 };
