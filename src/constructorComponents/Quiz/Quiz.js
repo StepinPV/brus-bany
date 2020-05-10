@@ -4,14 +4,14 @@ import Form from '../Form';
 import styles from './Quiz.module.css';
 import cx from 'classnames';
 
-import img2_1 from "../../client/pages/Quiz/resources/2/1.jpg";
-import img2_2 from "../../client/pages/Quiz/resources/2/2.jpg";
-import img2_3 from "../../client/pages/Quiz/resources/2/3.jpg";
-import img2_4 from "../../client/pages/Quiz/resources/2/4.jpg";
-import img5_1 from "../../client/pages/Quiz/resources/5/1.jpg";
-import img5_2 from "../../client/pages/Quiz/resources/5/2.jpg";
-import img5_3 from "../../client/pages/Quiz/resources/5/3.jpg";
-import img5_4 from "../../client/pages/Quiz/resources/5/4.jpg";
+import img2_1 from "./resources/2/1.jpg";
+import img2_2 from "./resources/2/2.jpg";
+import img2_3 from "./resources/2/3.jpg";
+import img2_4 from "./resources/2/4.jpg";
+import img5_1 from "./resources/5/1.jpg";
+import img5_2 from "./resources/5/2.jpg";
+import img5_3 from "./resources/5/3.jpg";
+import img5_4 from "./resources/5/4.jpg";
 
 const questions = [{
     type: 'select',

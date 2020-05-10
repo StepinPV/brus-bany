@@ -55,14 +55,6 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
-        id: 'site/promo/quiz',
-        path: '/akcii/quiz',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Quiz')),
-            loading: LoaderPage,
-        })
-    }, {
         id: 'site/blog',
         path: '/blog',
         exact: true,
