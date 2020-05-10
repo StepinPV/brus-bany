@@ -47,15 +47,6 @@ export default (initModule) => {
         }),
         simplePage: true
     }, {
-        id: 'site/payment',
-        path: '/usloviya-oplaty',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Payment')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
-    }, {
         id: 'site/delivery',
         path: '/dostavka',
         exact: true,
