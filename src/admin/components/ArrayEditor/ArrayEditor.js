@@ -36,9 +36,9 @@ const ArrayEditor = ({ title, value, onChange, format, error, itemTitleField, ex
                                     newValue[index - 1] = newValue[index];
                                     newValue[index] = temp;
 
-                                    const newError = [...error];
-
-                                    if (typeof error === 'object' && error !== null) {
+                                    let newError = error;
+                                    if (error && typeof error === 'object') {
+                                        newError = [...error];
                                         const temp = newError[index - 1];
                                         newError[index - 1] = newError[index];
                                         newError[index] = temp;
@@ -52,8 +52,9 @@ const ArrayEditor = ({ title, value, onChange, format, error, itemTitleField, ex
                                     newValue[index + 1] = newValue[index];
                                     newValue[index] = temp;
 
-                                    const newError = [...error];
-                                    if (typeof error === 'object' && error !== null) {
+                                    let newError = error;
+                                    if (error && typeof error === 'object') {
+                                        newError = [...error];
                                         const temp = newError[index + 1];
                                         newError[index + 1] = newError[index];
                                         newError[index] = temp;
