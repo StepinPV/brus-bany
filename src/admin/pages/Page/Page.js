@@ -24,9 +24,9 @@ const breadcrumbsDefault = [{
 const floatPanels = {
     'settings': {
         button: {
-            caption: 'Настройки',
+            caption: '☰',
             style: {
-                top: '200px'
+                top: '100px'
             }
         },
         caption: 'Настройки страницы',
@@ -128,10 +128,6 @@ class Page extends PureComponent {
         return page ? (
             <div className={cx(styles.container, {[styles['float-mode']]: floatMode})}>
                 {Object.keys(floatPanels).map(key => this.renderFloatPanel(key))}
-                <div className={styles['save-button']} onClick={this.handleSave}>Сохранить</div>
-                {name !== 'add' ? (
-                    <div className={styles['delete-button']} onClick={this.handleDelete}>Удалить</div>
-                ) : null}
                 <div className={styles.page}>
                     <div className={styles['page-overlay']} onClick={() => { this.setState({ floatMode: null}) }} />
                     {this.renderPage()}
@@ -173,21 +169,42 @@ class Page extends PureComponent {
     renderSettingsBlock = () => {
         const { page, match } = this.props;
         const { errors, breadcrumbs } = this.state;
+        const { name } = match.params;
 
         return (
-            <div className={styles['settings-block-content']}>
-                <Breadcrumbs items={breadcrumbs} />
-                <div className={styles['form-container']}>
-                    <Form
-                        format={mainFormat}
-                        value={page}
-                        onChange={this.handleChange}
-                        errors={errors} />
-                    <Form
-                        format={configFormat}
-                        value={page.config}
-                        onChange={this.handleChangeConfig}
-                        errors={{}} />
+            <div className={styles['settings-block']}>
+                <div className={styles['settings-block-content']}>
+                    <Breadcrumbs items={breadcrumbs} />
+                    <div className={styles['form-container']}>
+                        <Form
+                            format={mainFormat}
+                            value={page}
+                            onChange={this.handleChange}
+                            errors={errors} />
+                        <Form
+                            format={configFormat}
+                            value={page.config}
+                            onChange={this.handleChangeConfig}
+                            errors={{}} />
+                    </div>
+                </div>
+                <div className={styles['settings-block-buttons']}>
+                    <Button
+                        caption='Сохранить страницу'
+                        type='yellow'
+                        onClick={this.handleSave}
+                        size='s'
+                        className={styles['settings-block-button']}
+                    />
+                    {name !== 'add' ? (
+                        <Button
+                            caption='Удалить страницу'
+                            type='red'
+                            size='s'
+                            onClick={this.handleDelete}
+                            className={styles['settings-block-button']}
+                        />
+                    ) : null}
                 </div>
             </div>
         )
@@ -369,11 +386,11 @@ class Page extends PureComponent {
                                 { index !== components.length - 1 ? <div className={styles['component-operation']} onClick={moveBottom}>▼</div> : null }
                                 { index !== 0 ? <div className={styles['component-operation']} onClick={moveUp}>▲</div> : null }
                                 <div className={styles['component-operation']} onClick={cloneComponent}>Дублировать</div>
-                                <div className={styles['component-operation']} onClick={deleteComponent}>Удалить</div>
+                                <div className={styles['component-operation']} onClick={deleteComponent}>✗</div>
                             </div>
                         </div>
                         <Component {...props} __images__={page.config['__images__'] || {}} />
-                        <div className={styles['component-add']} onClick={() => { this.setState({ addComponentPosition: index + 1, floatMode: 'select-component' }) }}>Добавить компонент</div>
+                        <div className={styles['component-add']} onClick={() => { this.setState({ addComponentPosition: index + 1, floatMode: 'select-component' }) }}>+</div>
                     </div>
                     {operations[index] && operations[index].propsFormVisible ? (
                         <div className={styles['form-container']}>
@@ -455,9 +472,6 @@ class Page extends PureComponent {
         showNotification({ message, status });
 
         switch (status) {
-            case 'success':
-                history.push('/admin/pages');
-                break;
             case 'error':
                 if (data && data.errors) {
                     this.setState({ errors: data.errors });
