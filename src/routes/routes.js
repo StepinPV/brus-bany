@@ -22,15 +22,6 @@ export default (initModule) => {
         }),
         simplePage: true
     }, {
-        id: 'site/bani',
-        path: '/bani',
-        exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Categories')),
-            loading: LoaderPage,
-        }),
-        simplePage: true
-    }, {
         id: 'site/bani/category/project',
         path: '/bani/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
         exact: true,
