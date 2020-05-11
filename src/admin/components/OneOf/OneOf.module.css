@@ -3,16 +3,6 @@
     margin-bottom: 30px;
 }
 
-.header {
-    display: flex;
-    align-items: center;
-}
-
-.title {
-    color: #999;
-    font-size: 18px;
-}
-
 .select {
     margin-bottom: 30px;
 }
@@ -34,8 +24,4 @@
     color: #91001c;
     font-size: 12px;
     margin-top: 4px;
-}
-
-.input {
-    margin-bottom: 30px;
 }

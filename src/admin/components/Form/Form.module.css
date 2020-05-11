@@ -2,13 +2,3 @@
     display: flex;
     flex-direction: column;
 }
-
-.item {
-    margin-bottom: 30px;
-}
-
-.error {
-    color: #91001c;
-    font-size: 12px;
-    margin-top: 4px;
-}

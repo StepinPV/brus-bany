@@ -1,9 +1,9 @@
 import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
-import ObjectEditor from '../../components/ObjectEditor';
+import ObjectEditor from '../ObjectEditor';
 import styles from './ArrayEditor.module.css';
 
-const ArrayEditor = ({ title, value, onChange, format, errors, itemTitleField, expand }) => {
+const ArrayEditor = ({ title, value, onChange, format, error, itemTitleField, expand, images }) => {
     const [visible, setVisible] = useState(false);
 
     return (
@@ -19,29 +19,30 @@ const ArrayEditor = ({ title, value, onChange, format, errors, itemTitleField, e
                                 value={val}
                                 format={format}
                                 expand={expand}
-                                errors={typeof errors === 'object' && errors !== null ? errors[index] : null}
-                                onChange={v => {
+                                images={images}
+                                error={typeof error === 'object' && error !== null ? error[index] : null}
+                                onChange={(v, images) => {
                                     const newValue = [...value];
                                     if (v) {
                                         newValue[index] = v;
                                     } else {
                                         newValue.splice(index, 1);
                                     }
-                                    onChange(newValue.length ? newValue : null);
+                                    onChange(newValue.length ? newValue : null, images);
                                 }}
                                 onUp={index !== 0 ? () => {
                                     const newValue = [...value];
                                     const temp = newValue[index - 1];
                                     newValue[index - 1] = newValue[index];
                                     newValue[index] = temp;
-                                    onChange(newValue);
+                                    onChange(newValue, images);
                                 } : null}
                                 onBottom={index !== value.length - 1 ? () => {
                                     const newValue = [...value];
                                     const temp = newValue[index + 1];
                                     newValue[index + 1] = newValue[index];
                                     newValue[index] = temp;
-                                    onChange(newValue);
+                                    onChange(newValue, images);
                                 } : null} />
                         }) : null
                     }
@@ -49,14 +50,15 @@ const ArrayEditor = ({ title, value, onChange, format, errors, itemTitleField, e
                         key={`${title} [${value ? value.length + 1 : 1}]`}
                         title={`${title} [${value ? value.length + 1 : 1}]`}
                         format={format}
-                        onChange={v => {
+                        images={images}
+                        onChange={(v, images) => {
                             const newValue = [...(value || [])];
                             newValue[newValue.length] = v;
-                            onChange(newValue);
+                            onChange(newValue, images);
                         }} />
                 </div>
             ) : null}
-            {errors && typeof errors === 'string' ? <div className={styles.error}>{errors}</div> : null}
+            {error && typeof error === 'string' ? <div className={styles.error}>{error}</div> : null}
         </>
     );
 };
@@ -68,7 +70,8 @@ ArrayEditor.propTypes = {
     onChange: PropTypes.func,
     format: PropTypes.array,
     expand: PropTypes.bool,
-    errors: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
+    images: PropTypes.object,
+    error: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
 };
 
 export default memo(ArrayEditor);
