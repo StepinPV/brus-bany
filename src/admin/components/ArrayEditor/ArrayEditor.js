@@ -28,21 +28,38 @@ const ArrayEditor = ({ title, value, onChange, format, error, itemTitleField, ex
                                     } else {
                                         newValue.splice(index, 1);
                                     }
-                                    onChange(newValue.length ? newValue : null, images);
+                                    onChange(newValue.length ? newValue : null, error, images);
                                 }}
                                 onUp={index !== 0 ? () => {
                                     const newValue = [...value];
                                     const temp = newValue[index - 1];
                                     newValue[index - 1] = newValue[index];
                                     newValue[index] = temp;
-                                    onChange(newValue, images);
+
+                                    const newError = [...error];
+
+                                    if (typeof error === 'object' && error !== null) {
+                                        const temp = newError[index - 1];
+                                        newError[index - 1] = newError[index];
+                                        newError[index] = temp;
+                                    }
+
+                                    onChange(newValue, newError, images);
                                 } : null}
                                 onBottom={index !== value.length - 1 ? () => {
                                     const newValue = [...value];
                                     const temp = newValue[index + 1];
                                     newValue[index + 1] = newValue[index];
                                     newValue[index] = temp;
-                                    onChange(newValue, images);
+
+                                    const newError = [...error];
+                                    if (typeof error === 'object' && error !== null) {
+                                        const temp = newError[index + 1];
+                                        newError[index + 1] = newError[index];
+                                        newError[index] = temp;
+                                    }
+
+                                    onChange(newValue, newError, images);
                                 } : null} />
                         }) : null
                     }
@@ -54,7 +71,7 @@ const ArrayEditor = ({ title, value, onChange, format, error, itemTitleField, ex
                         onChange={(v, images) => {
                             const newValue = [...(value || [])];
                             newValue[newValue.length] = v;
-                            onChange(newValue, images);
+                            onChange(newValue, error, images);
                         }} />
                 </div>
             ) : null}

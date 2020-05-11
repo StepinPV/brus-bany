@@ -1,3 +1,28 @@
+const listFormat = [{
+    _id: 'caption',
+    title: 'Заголовок',
+    type: 'string'
+}, {
+    _id: 'text',
+    title: 'Текст',
+    type: 'text'
+}, {
+    _id: 'image',
+    title: 'Изображение',
+    type: 'image',
+    props: {
+        withoutLogo: true,
+    }
+}, {
+    _id: 'imageAlt',
+    title: 'Alt изображения',
+    type: 'string'
+}, {
+    _id: 'imageDescription',
+    title: 'Подпись к изображению',
+    type: 'string'
+}];
+
 export default [{
     _id: 'name',
     title: 'Название',
@@ -89,59 +114,13 @@ export default [{
                 typeTitle: 'Нумерованный список',
                 title: 'Элементы списка',
                 type: 'array',
-                format: [{
-                    _id: 'caption',
-                    title: 'Заголовок',
-                    type: 'string'
-                }, {
-                    _id: 'text',
-                    title: 'Текст',
-                    type: 'text'
-                }, {
-                    _id: 'image',
-                    title: 'Изображение',
-                    type: 'image',
-                    props: {
-                        withoutLogo: true,
-                    }
-                }, {
-                    _id: 'imageAlt',
-                    title: 'Alt изображения',
-                    type: 'string'
-                }, {
-                    _id: 'imageDescription',
-                    title: 'Подпись к изображению',
-                    type: 'string'
-                }]
+                format: listFormat
             }, {
                 id: 'marker-list',
                 typeTitle: 'Маркерованный список',
                 title: 'Элементы списка',
                 type: 'array',
-                format: [{
-                    _id: 'caption',
-                    title: 'Заголовок',
-                    type: 'string'
-                }, {
-                    _id: 'text',
-                    title: 'Текст',
-                    type: 'text'
-                }, {
-                    _id: 'image',
-                    title: 'Изображение',
-                    type: 'image',
-                    props: {
-                        withoutLogo: true,
-                    }
-                }, {
-                    _id: 'imageAlt',
-                    title: 'Alt изображения',
-                    type: 'string'
-                }, {
-                    _id: 'imageDescription',
-                    title: 'Подпись к изображению',
-                    type: 'string'
-                }]
+                format: listFormat
             }]
         }]
     }]

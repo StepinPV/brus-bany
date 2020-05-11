@@ -108,11 +108,10 @@ class Article extends PureComponent {
         ) : null;
     };
 
-    handleChange = (id, article) => {
+    handleChange = (article, newErrors) => {
         const { actions } = this.props;
-        const { errors } = this.state;
 
-        this.setState({ errors: { ...errors, [id]: null }});
+        this.setState({ errors: newErrors });
         actions.setArticle(article);
     };
 

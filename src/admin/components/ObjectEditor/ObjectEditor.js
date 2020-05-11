@@ -4,7 +4,7 @@ import Form from '../Form';
 import styles from './ObjectEditor.module.css';
 import cx from 'classnames';
 
-const renderHeader = ({ title, value, onChange, visible, setVisible, onBottom, onUp }) => {
+const renderHeader = ({ title, value, onChange, visible, setVisible, onBottom, onUp, images, error }) => {
     return (
         <div className={styles.header}>
             <span className={cx(styles.title, !value ? styles['disabled-title'] : null)} onClick={() => { setVisible(value && !visible) }}>{value ? (visible ? '▼ ' : '▶ ') : null}{title}</span>
@@ -15,7 +15,7 @@ const renderHeader = ({ title, value, onChange, visible, setVisible, onBottom, o
                     }
                 }
 
-                onChange(value ? null : {});
+                onChange(value ? null : {}, error, images);
                 setVisible(!value);
             }}>{value ? 'Удалить' : 'Создать'}</span>
             {onUp ? <span onClick={onUp} className={styles['move-button']}>▲</span> : null }
@@ -29,7 +29,7 @@ const ObjectEditor = ({ title, value, onChange, format, error, onUp, onBottom, e
 
     return (
         <div className={styles.container}>
-            {renderHeader({ title, value, onChange, visible, setVisible, onUp, onBottom })}
+            {renderHeader({ title, value, onChange, visible, setVisible, onUp, onBottom, images, error })}
             {typeof error === 'string' ? <div className={styles.error}>{error}</div> : null}
             {value && visible ? (
                 <div className={styles.items}>
@@ -37,7 +37,7 @@ const ObjectEditor = ({ title, value, onChange, format, error, onUp, onBottom, e
                         format={format}
                         value={value}
                         errors={typeof error === 'object' && error !== null ? error : {}}
-                        onChange={(id, val, images) => onChange(val, images)}
+                        onChange={onChange}
                         images={images}
                     />
                 </div>

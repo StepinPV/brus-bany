@@ -14,10 +14,13 @@ const Form = ({ value, onChange, format, errors, images }) => {
                         value={value[item['_id']]}
                         error={errors[item['_id']]}
                         images={images}
-                        onChange={(val, images) => {
-                            onChange(item['_id'], {
+                        onChange={(val, error, images) => {
+                            onChange({
                                 ...value,
                                 [item['_id']]: val
+                            }, {
+                                ...errors,
+                                [item['_id']]: error
                             }, images);
                         }}
                     />

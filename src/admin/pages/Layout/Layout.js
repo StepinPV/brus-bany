@@ -108,11 +108,10 @@ class Layout extends PureComponent {
         ) : null;
     };
 
-    handleChange = (id, layout) => {
+    handleChange = (layout, newErrors) => {
         const { actions } = this.props;
-        const { errors } = this.state;
 
-        this.setState({ errors: { ...errors, [id]: null }});
+        this.setState({ errors: newErrors });
         actions.setLayout(layout);
     };
 

@@ -117,7 +117,7 @@ class Category extends PureComponent {
         ) : null;
     };
 
-    handleChange = (id, value) => {
+    handleChange = (value) => {
         const { actions } = this.props;
         actions.setCategory(value);
     };

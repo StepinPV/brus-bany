@@ -169,12 +169,10 @@ class Photo extends PureComponent {
         this.handleChange('projectId', { ...report, projectId });
     };
 
-    handleChange = (id, report) => {
+    handleChange = (report, newErrors ) => {
         const { actions } = this.props;
-        const { errors } = this.state;
 
-        this.setState({ errors: { ...errors, [id]: null }});
-
+        this.setState({ errors: newErrors });
         actions.setReport(report);
     };
 

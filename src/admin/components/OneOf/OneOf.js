@@ -17,7 +17,7 @@ const renderSelect = ({ title, value, variants, onChange, images }) => {
             keyProperty='id'
             selectedKey={getSelectedVariant(variants, value).id}
             onChange={(id) => {
-                onChange({ typeId: id }, images)
+                onChange({ typeId: id }, null, images)
             }}
             required />
     );
@@ -30,11 +30,11 @@ const renderItem = ({ value, onChange, variants, images }) => {
         <FormItem
             item={variant}
             value={value ? value.value : undefined}
-            onChange={(val, images) => {
+            onChange={(val, error, images) => {
                 onChange({
                     ...value,
                     value: val
-                }, images);
+                }, error, images);
             }}
             images={images}
         />

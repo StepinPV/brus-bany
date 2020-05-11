@@ -26,7 +26,7 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         required={item.required}
                         min={item.min}
                         description={item.description}
-                        onChange={val => onChange(val, images)}
+                        onChange={val => onChange(val, null, images)}
                         error={error}
                     />
                 </div>
@@ -41,7 +41,7 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         required={item.required}
                         min={item.min}
                         description={item.description}
-                        onChange={val => onChange(val, images)}
+                        onChange={val => onChange(val, null, images)}
                         error={error}
                     />
                 </div>
@@ -54,7 +54,7 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         title={item.title}
                         required={item.required}
                         description={item.description}
-                        onChange={val => onChange(val, images)}
+                        onChange={val => onChange(val, null, images)}
                         error={error}
                     />
                 </div>
@@ -75,7 +75,7 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                 itemTitleField={item.itemTitleField}
                 format={item.format}
                 expand={item.expand}
-                onChange={val => onChange(val, images)}
+                onChange={onChange}
                 images={images}
                 error={error}
             />;
@@ -91,12 +91,12 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                             if (item.props && item.props.globalStore) {
                                 const imageId = Math.floor(Math.random() * (9999 - 1000) + 1000);
 
-                                onChange(imageId, {
+                                onChange(imageId, null, {
                                     ...images,
                                     [imageId]: val
                                 });
                             } else {
-                                onChange(val, images);
+                                onChange(val, null, images);
                             }
                         }}
                     />
@@ -109,7 +109,7 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                     <CheckBox
                         checked={value}
                         title={item.title}
-                        onChange={val => onChange(val, images)}
+                        onChange={val => onChange(val, null, images)}
                     />
                 </div>
 
@@ -123,7 +123,7 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         displayProperty='title'
                         keyProperty='id'
                         selectedKey={value}
-                        onChange={val => onChange(val, images)}
+                        onChange={val => onChange(val, null, images)}
                         required={item.required}
                         error={error} />
                 </div>
