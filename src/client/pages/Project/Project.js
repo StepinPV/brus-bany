@@ -10,6 +10,7 @@ import Additions from './resources/Additions';
 import DeliveryMap from '../../components/DeliveryMap';
 import ProjectBlock from './resources/ProjectBlock';
 import BaseEquipment from './resources/BaseEquipment';
+import NewBaseEquipment from './resources/NewBaseEquipment';
 import Gallery from './resources/Gallery';
 import { getProject, resetData, getPhotos } from './actions';
 import styles from './Project.module.css';
@@ -156,7 +157,7 @@ class Project extends PureComponent {
                 <div className={styles['breadcrumbs-container']}>
                     <Breadcrumbs items={breadcrumbs} />
                 </div>
-                {project.categoryId.equipment && project.categoryId.equipment.length ? <BaseEquipment equipment={project.categoryId.equipment} /> : null}
+                {this.renderEquipment()}
                 {this.renderComplectationBlock()}
                 {this.renderProjectBlocks()}
                 {this.renderAdditions()}
@@ -179,6 +180,20 @@ class Project extends PureComponent {
             </div>
         ) : null;
     };
+
+    renderEquipment = () => {
+        const { project: { categoryId } } = this.props;
+
+        if (categoryId.newEquipment && categoryId.newEquipment.length) {
+            return <NewBaseEquipment equipment={categoryId.newEquipment} />;
+        }
+
+        if (categoryId.equipment && categoryId.equipment.length) {
+            return <BaseEquipment equipment={categoryId.equipment} />;
+        }
+
+        return null;
+    }
 
     renderAdditions = () => {
         const { project } = this.props;

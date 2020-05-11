@@ -179,6 +179,7 @@ const scheme = new Schema({
     equipment: {
         type: [equipmentScheme]
     },
+    newEquipment: Array,
     projectBlocks: {
         type: [projectBlockScheme]
     },
