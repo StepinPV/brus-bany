@@ -21,7 +21,7 @@ class NewBaseEquipment extends PureComponent {
             <DataSection id='base' bgStyle='grey' caption='Базовая комплектация' captionTag='h2'>
                 <div className={styles.container}>
                     <div className={styles.header}>
-                        {equipment.map(({ name, value }, index) => (
+                        {equipment.map(({ name }, index) => (
                             <div
                                 className={cx(styles['header-item'], {[styles['header-item-selected']]: selected === index })}
                                 onClick={() => { this.setState({ selected: index }) }}>

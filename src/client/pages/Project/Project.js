@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import Loadable from 'react-loadable';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
@@ -30,6 +31,11 @@ const breadcrumbsDefault = [{
     title: 'Категории бань',
     link: '/bani'
 }];
+
+const CP = Loadable({
+    loader: () => import('./resources/CP'),
+    loading: () => null
+});
 
 class Project extends PureComponent {
     static propTypes = {
@@ -74,7 +80,8 @@ class Project extends PureComponent {
         deliveryAdditionsValue: { values: {}, price: 0 },
         projectBlocksValues: {},
         deliveryValue: null,
-        formData: null
+        formData: null,
+        CPMode: false
     };
 
     componentDidMount() {
@@ -92,6 +99,15 @@ class Project extends PureComponent {
         if (project) {
             this.updateFormData();
         }
+
+        document.addEventListener('keydown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if(e.keyCode === 80 && e.ctrlKey) {
+                this.setState({ CPMode: true });
+            }
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -121,11 +137,15 @@ class Project extends PureComponent {
     render() {
         const { isProjectError, match, project } = this.props;
         const { width, length } = match.params;
-        const { breadcrumbs } = this.state;
+        const { breadcrumbs, CPMode } = this.state;
         const notFound = Boolean(isProjectError) || project && (String(project.layoutId.width) !== width || String(project.layoutId.length) !== length);
 
         if (notFound) {
             return <Page breadcrumbs={breadcrumbs} notFound={notFound} />
+        }
+
+        if (CPMode) {
+            return this.renderCP();
         }
 
         return (
@@ -278,6 +298,127 @@ class Project extends PureComponent {
         ) : null;
     };
 
+    renderCP = () => {
+        const { project } = this.props;
+        const {
+            projectBlocksValues,
+            selectedComplectation,
+            additionsValue,
+            deliveryValue,
+            deliveryAdditionsValue
+        } = this.state;
+
+        const { categoryId } = project;
+
+        const projectBlocksData = [];
+
+        const complectations = categoryId.complectationBlocks;
+        if (complectations && complectations.items && complectations.items.length) {
+            const complectation = complectations.items.find(com => com.id === selectedComplectation);
+
+            projectBlocksData.push({
+                title: 'База',
+                value: `${complectations.itemTitle} ${complectation.name}`,
+                price: project.prices && project.prices[selectedComplectation] || 0
+            });
+        }
+
+        const { layoutId: params } = project;
+        if (project.categoryId.projectBlocks && project.categoryId.projectBlocks.length) {
+            project.categoryId.projectBlocks.forEach(block => {
+                if (projectBlocksValues[block._id]) {
+                    const selectedValue = block.items.find(item => item._id === projectBlocksValues[block._id]);
+                    projectBlocksData.push({
+                        title: block.itemTitle,
+                        value: selectedValue.name,
+                        price: eval(selectedValue.price)
+                    });
+                }
+            });
+        }
+
+        const additionsData = [];
+        if (additionsValue && additionsValue.price > 0) {
+            const { layoutId: params } = project;
+            const getAdditionsPrice = price => {
+                // eslint-disable-next-line
+                try {
+                    // eslint-disable-next-line
+                    return Math.round(eval(price) / 100) * 100;
+                } catch(err) {
+                    return 0;
+                }
+            };
+
+            Object.keys(additionsValue.values).forEach(key => {
+                additionsData.push({
+                    name: additionsValue.values[key].name + (additionsValue.values[key].type === 'count' ? ` (${additionsValue.values[key].value})` : ''),
+                    price: getAdditionsPrice(additionsValue.values[key].price)
+                })
+            });
+        }
+
+        const delivery = {
+            additions: []
+        };
+
+        if (deliveryValue) {
+            delivery.address = deliveryValue.address;
+            delivery.length = `${deliveryValue.length} км`;
+            delivery.price = deliveryValue.price;
+        }
+
+        if (deliveryAdditionsValue && deliveryAdditionsValue.price > 0) {
+            const { layoutId: params } = project;
+            const { length: deliveryLength } = deliveryValue || { length: 0 };
+
+            const getAdditionsPrice = price => {
+                // eslint-disable-next-line
+                try {
+                    // eslint-disable-next-line
+                    return Math.round(eval(price) / 100) * 100;
+                } catch(err) {
+                    return 0;
+                }
+            };
+
+            Object.keys(deliveryAdditionsValue.values).forEach(key => {
+                delivery.additions.push({
+                    name: deliveryAdditionsValue.values[key].name + (deliveryAdditionsValue.values[key].type === 'count' ? ` (${deliveryAdditionsValue.values[key].value})` : ''),
+                    price: getAdditionsPrice(deliveryAdditionsValue.values[key].price)
+                })
+            });
+        }
+
+        return (
+            <CP
+                onSuccess={() => { this.setState({ CPMode: false }) }}
+                projectBlocksData={projectBlocksData}
+                delivery={delivery}
+                additionsData={additionsData}
+                image={project.images['main']}
+                images={this.getImages()}
+                equipment={categoryId.newEquipment}
+                finalPrice={this.getFinalPrice()}
+                infoBlock={(
+                    <div className={styles['info']}>
+                        <h1 className={styles['info-title']} itemProp="name">
+                            {`${this.renderInfoTitle(project.categoryId.name2)} `}
+                            <span className={styles['info-title-layout']}>«{project.layoutId.name}»</span>
+                        </h1>
+                        <div className={styles['info-addition']}>
+                            <div>Общая площадь - {project.layoutId.area}м<sup>2</sup></div>
+                            <div>Площадь сруба - {project.layoutId.frameArea}м<sup>2</sup></div>
+                            {project.layoutId.terrace && project.layoutId.terrace.area ? (<div>Площадь террасы - {project.layoutId.terrace.area}м<sup>2</sup></div>) : null}
+                            {project.layoutId.porch && project.layoutId.porch.area ? (<div>Площадь крыльца - {project.layoutId.porch.area}м<sup>2</sup></div>) : null}
+                            {project.layoutId.attic && project.layoutId.attic.area ? (<div>Площадь мансарды - {project.layoutId.attic.area}м<sup>2</sup></div>) : null}
+                        </div>
+                    </div>
+                )}
+            />
+        );
+    }
+
     renderGallery = () => {
         const { project } = this.props;
 
@@ -285,6 +426,18 @@ class Project extends PureComponent {
         if (!project.images) {
             return null;
         }
+
+        const images = this.getImages();
+
+        return (
+            <div className={styles.gallery}>
+                <Gallery images={images} />
+            </div>
+        )
+    };
+
+    getImages = () => {
+        const { project } = this.props;
 
         const images = [];
         const title = this.renderInfoTitle(project.categoryId.name2);
@@ -316,12 +469,8 @@ class Project extends PureComponent {
             }
         });
 
-        return (
-            <div className={styles.gallery}>
-                <Gallery images={images} />
-            </div>
-        )
-    };
+        return images;
+    }
 
     renderInfo = () => {
         const { project, showForm, match } = this.props;
