@@ -317,7 +317,7 @@ class Project extends PureComponent {
 
             projectBlocksData.push({
                 title: 'База',
-                value: `${complectations.itemTitle} ${complectation.name}`,
+                value: `${complectations.itemTitle} ${complectation.name} ${complectation.title}`,
                 price: project.prices && project.prices[selectedComplectation] || 0
             });
         }
