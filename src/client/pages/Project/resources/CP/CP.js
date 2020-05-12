@@ -26,8 +26,8 @@ function CP({ images, infoBlock, equipment, projectBlocksData, additionsData, de
                     WinPrint.document.close();
                     WinPrint.focus();
                     WinPrint.print();
-                    WinPrint.close();
-                    onSuccess();
+                    // WinPrint.close();
+                    // onSuccess();
                 }
             };
         });
