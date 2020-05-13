@@ -29,9 +29,9 @@ function getPrice(formValue) {
 
 function renderManager(id) {
     switch(id) {
-        case '1': return 'C уважением, Мария: 8 (921) 204 6512';
-        case '2': return 'C уважением, Константин: 8 (901) 543 85 19';
-        case '3': return 'C уважением, Юлия: 8 (977) 384 88 52';
+        case '1': return 'C уважением, Мария: 8 (921) 204-65-12';
+        case '2': return 'C уважением, Константин: 8 (901) 543-85-19';
+        case '3': return 'C уважением, Юлия: 8 (977) 384-88-52';
     }
 }
 
@@ -186,8 +186,13 @@ function CP({ images, data, infoBlock, onSuccess }) {
     return (
         <div className={styles.container}>
             <div>
-                <Caption align='center'>Генерация КП</Caption>
-                <Button type='yellow' caption='Печать' size='m' className={styles['print-button']} onClick={print} />
+                <div style={{ marginBottom: '32px' }}>
+                    <Caption align='center'>Генерация КП</Caption>
+                </div>
+                <div style={{ margin: '0 48px' }}>
+                    <Button type='yellow' caption='Печать' size='m' className={styles['print-button']} onClick={print} />
+                    <Button type='red' caption='Закрыть' size='m' className={styles['print-button']} onClick={onSuccess} />
+                </div>
                 <div className={styles.form}>
                     <Form
                         format={format}

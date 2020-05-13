@@ -22,8 +22,7 @@
 }
 
 .print-button {
-    width: calc(100% - 128px);
-    margin: 64px 64px 0;
+    margin-right: 16px;
 }
 
 .preview-header {
@@ -100,6 +99,7 @@
 .preview-group-caption span {
     flex-grow: 1;
     text-align: right;
+    font-size: 12px;
 }
 
 .preview-price {
