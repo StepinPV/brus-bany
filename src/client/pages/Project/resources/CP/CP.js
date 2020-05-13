@@ -105,7 +105,7 @@ function CP({ images, infoBlock, equipment, projectBlocksData, additionsData, de
                         {delivery.additions && delivery.additions.length ? (
                             <div className={styles.group}>
                                 <div className={styles['group-caption']}>Дополнения</div>
-                                {additionsData.map(({ name, price }) => (
+                                {delivery.additions.map(({ name, price }) => (
                                     <div className={styles['group-items']}>
                                         <div className={styles['group-item']}>- {name}: {numberWithSpaces(price)} рублей</div>
                                     </div>
