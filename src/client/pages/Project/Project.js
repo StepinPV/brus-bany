@@ -299,6 +299,7 @@ class Project extends PureComponent {
 
     renderCP = () => {
         const { project } = this.props;
+        const { categoryId } = project;
         const {
             projectBlocksValues,
             selectedComplectation,
@@ -307,18 +308,49 @@ class Project extends PureComponent {
             deliveryAdditionsValue
         } = this.state;
 
-        const { categoryId } = project;
+        const data = [];
 
-        const projectBlocksData = [];
+        if (categoryId.newEquipment && categoryId.newEquipment.length) {
+            const equipmentData = {
+                caption: 'Базовая комплектация',
+                groups: []
+            };
+
+            categoryId.newEquipment.forEach(group => {
+                const groupData = {
+                    caption: group.name,
+                    items: []
+                };
+
+                if (group.value && group.value.length) {
+                    group.value.forEach(item => {
+                        groupData.items.push({
+                            caption: item.name
+                        })
+                    });
+                }
+
+                equipmentData.groups.push(groupData);
+            });
+
+            data.push(equipmentData);
+        }
+
+        const base = {
+            caption: 'Основа',
+            groups: []
+        };
 
         const complectations = categoryId.complectationBlocks;
         if (complectations && complectations.items && complectations.items.length) {
             const complectation = complectations.items.find(com => com.id === selectedComplectation);
 
-            projectBlocksData.push({
-                title: 'База',
-                value: `${complectations.itemTitle} ${complectation.name} ${complectation.title}`,
-                price: project.prices && project.prices[selectedComplectation] || 0
+            base.groups.push({
+                caption: complectations.itemTitle,
+                items: [{
+                    caption: `${complectation.name} ${complectation.title}`,
+                    price: project.prices && project.prices[selectedComplectation] || 0
+                }]
             });
         }
 
@@ -327,16 +359,22 @@ class Project extends PureComponent {
             project.categoryId.projectBlocks.forEach(block => {
                 if (projectBlocksValues[block._id]) {
                     const selectedValue = block.items.find(item => item._id === projectBlocksValues[block._id]);
-                    projectBlocksData.push({
-                        title: block.itemTitle,
-                        value: selectedValue.name,
-                        price: eval(selectedValue.price)
+
+                    base.groups.push({
+                        caption: block.itemTitle,
+                        items: [{
+                            caption: `${selectedValue.name} ${selectedValue.title}`,
+                            price: eval(selectedValue.price)
+                        }]
                     });
                 }
             });
         }
 
-        const additionsData = [];
+        data.push(base);
+
+        let additionalGroup;
+
         if (additionsValue && additionsValue.price > 0) {
             const { layoutId: params } = project;
             const getAdditionsPrice = price => {
@@ -350,22 +388,42 @@ class Project extends PureComponent {
             };
 
             Object.keys(additionsValue.values).forEach(key => {
-                additionsData.push({
-                    name: additionsValue.values[key].name + (additionsValue.values[key].type === 'count' ? ` (${additionsValue.values[key].value})` : ''),
+                additionalGroup = additionalGroup || {
+                    caption: '',
+                    items: []
+                };
+                additionalGroup.items.push({
+                    caption: additionsValue.values[key].name + (additionsValue.values[key].type === 'count' ? ` (${additionsValue.values[key].value})` : ''),
                     price: getAdditionsPrice(additionsValue.values[key].price)
-                })
+                });
             });
         }
 
-        const delivery = {
-            additions: []
-        };
+        if (additionalGroup) {
+            data.push({
+                caption: 'Дополнения',
+                groups: [additionalGroup]
+            });
+        }
+
+        let delivery;
 
         if (deliveryValue) {
-            delivery.address = deliveryValue.address;
-            delivery.length = `${deliveryValue.length} км`;
-            delivery.price = deliveryValue.price;
+            delivery = delivery || {
+                caption: 'Доставка',
+                groups: []
+            };
+            delivery.groups.push({
+                caption: '',
+                items: [{
+                    caption: `${deliveryValue.address} ${deliveryValue.length} км`,
+                    price: deliveryValue.price
+                }]
+
+            });
         }
+
+        let deliveryAdditionsGroup;
 
         if (deliveryAdditionsValue && deliveryAdditionsValue.price > 0) {
             const { layoutId: params } = project;
@@ -382,23 +440,38 @@ class Project extends PureComponent {
             };
 
             Object.keys(deliveryAdditionsValue.values).forEach(key => {
-                delivery.additions.push({
-                    name: deliveryAdditionsValue.values[key].name + (deliveryAdditionsValue.values[key].type === 'count' ? ` (${deliveryAdditionsValue.values[key].value})` : ''),
+                deliveryAdditionsGroup = deliveryAdditionsGroup || {
+                    caption: 'Дополнения',
+                    items: []
+                };
+                deliveryAdditionsGroup.items.push({
+                    caption: deliveryAdditionsValue.values[key].name + (deliveryAdditionsValue.values[key].type === 'count' ? ` (${deliveryAdditionsValue.values[key].value})` : ''),
                     price: getAdditionsPrice(deliveryAdditionsValue.values[key].price)
-                })
+                });
             });
+        }
+
+        if (deliveryAdditionsGroup) {
+            delivery = delivery || {
+                caption: 'Доставка',
+                groups: []
+            };
+            delivery.groups.push(deliveryAdditionsGroup);
+        }
+
+        if (delivery) {
+            data.push(delivery);
         }
 
         return (
             <CP
                 onSuccess={() => { this.setState({ CPMode: false }) }}
-                projectBlocksData={projectBlocksData}
-                delivery={delivery}
-                additionsData={additionsData}
-                image={project.images['main']}
-                images={this.getImages()}
-                equipment={categoryId.newEquipment}
-                finalPrice={this.getFinalPrice()}
+                data={data}
+                images={this.getImages().map(data => {
+                    return {
+                        image: data.src
+                    };
+                })}
                 infoBlock={(
                     <div className={styles['info']}>
                         <h1 className={styles['info-title']} itemProp="name">
