@@ -41,7 +41,7 @@ const format = [{
     type: 'select',
     items: [{
         id: '1',
-        title: 'Марина'
+        title: 'Мария'
     }, {
         id: '2',
         title: 'Константин'
