@@ -286,7 +286,7 @@ class Page extends PureComponent {
             const propsMeta = componentMetas[componentId].props;
             const { operations } = this.state;
 
-            const onChange = (id, newProps, images) => {
+            const onChange = (newProps, errors, images) => {
                 const newComponents = [...components];
                 newComponents[index].props = newProps;
 
@@ -451,15 +451,14 @@ class Page extends PureComponent {
         });
     };
 
-    handleChange = (id, page) => {
+    handleChange = (page, errors) => {
         const { actions } = this.props;
-        const { errors } = this.state;
 
-        this.setState({ errors: { ...errors, [id]: null }});
+        this.setState({ errors });
         actions.setPage(page);
     };
 
-    handleChangeConfig = (id, config) => {
+    handleChangeConfig = (config) => {
         const { actions, page } = this.props;
         actions.setPage({ ...page, config });
     };
