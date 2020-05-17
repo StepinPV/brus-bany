@@ -63,7 +63,7 @@ export const props = [{
         title: 'Большой'
     }]
 }];
-export const name = 'Блок с изображением и описанием и ссылкой';
+export const name = 'Блок с изображением, описанием и ссылкой';
 export const defaultProps = {
     paddingBottom: 'm',
     paddingTop: 'm',

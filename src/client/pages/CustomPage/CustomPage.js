@@ -8,6 +8,7 @@ class CustomPage extends PureComponent {
         seoMeta: PropTypes.object,
         headerProps: PropTypes.object,
         __images__: PropTypes.object,
+        customComponents: PropTypes.array,
         componentConstructors: PropTypes.object,
         components: PropTypes.array
     };
@@ -17,6 +18,7 @@ class CustomPage extends PureComponent {
         seoMeta: {},
         __images__: {},
         components: [],
+        customComponents: [],
         componentConstructors: {}
     };
 
@@ -26,16 +28,31 @@ class CustomPage extends PureComponent {
         return (
             <Page headerProps={headerProps}>
                 <Meta meta={seoMeta} />
-                {components ? components.map(component => this.renderComponent(component)) : null}
+                {components ? this.renderComponents(components) : null}
             </Page>
         );
     }
 
-    renderComponent = ({ componentId, props }) => {
-        const { componentConstructors, __images__ } = this.props;
-        const Component = componentConstructors[componentId];
+    renderComponents = (components) => {
+        return components.map(component => this.renderComponent(component));
+    };
 
-        return <Component {...props} __images__={__images__} />;
+    renderComponent = ({ componentId, props }) => {
+        const { componentConstructors, customComponents, __images__ } = this.props;
+
+        if (componentConstructors[componentId]) {
+            const Component = componentConstructors[componentId];
+
+            return <Component {...props} __images__={__images__} />;
+        }
+
+        const customComponent = customComponents.find(c => c['_id'] === componentId);
+
+        if (customComponent && customComponent.config && customComponent.config.components) {
+            return this.renderComponents(customComponent.config.components);
+        }
+
+        return null;
     };
 }
 

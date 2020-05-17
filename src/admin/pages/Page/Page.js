@@ -1,50 +1,29 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import PageComponent from '../../../client/components/Page';
-import { getPage, setPage, savePage, reset, deletePage } from './actions';
+import { getPage, setPage, savePage, reset, deletePage, getComponents } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
-import componentsPaths from "../../../constructorComponents/meta";
 import Form from '../../components/Form';
 import { main as mainFormat, config as configFormat } from '../../formats/page';
 import { Button } from "../../../components/Button";
+import FloatPanels from '../../components/FloatPanels';
+import ComponentRender from '../../components/pageEditor/Component';
+import withComponentInstances from '../../components/hocs/withComponentInstances';
+import withComponentMetas from '../../components/hocs/withComponentMetas';
 import styles from './Page.module.css';
-import cx from 'classnames';
 
-const breadcrumbsDefault = [{
+const breadcrumbs = [{
     title: 'Главная',
     link: '/admin'
 }, {
     title: 'Страницы',
     link: '/admin/pages'
+}, {
+    title: 'Редактирование'
 }];
-
-const floatPanels = {
-    'settings': {
-        button: {
-            caption: '☰',
-            style: {
-                top: '100px'
-            }
-        },
-        caption: 'Настройки страницы',
-        containerStyle: {
-            left: 'max(-100%, -600px)',
-            width: '600px'
-        },
-        renderName: 'renderSettingsBlock'
-    },
-    'select-component': {
-        caption: 'Добавление компонента',
-        containerStyle: {
-            left: 'max(-100%, -400px)',
-            width: '400px'
-        },
-        renderName: 'renderComponentSelect'
-    }
-};
 
 class Page extends PureComponent {
     static propTypes = {
@@ -55,31 +34,52 @@ class Page extends PureComponent {
         actions: PropTypes.object,
         match: PropTypes.object,
         showNotification: PropTypes.func,
-        history: PropTypes.object
+        history: PropTypes.object,
+
+        componentInstances: PropTypes.object,
+        componentMetas: PropTypes.object,
+
+        loadComponentInstances: PropTypes.func,
+        loadAllComponentMetas: PropTypes.func,
+        loadComponentMetas: PropTypes.func,
+
+        customComponents: PropTypes.array
     };
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (!prevState.breadcrumbs) {
-            const { match } = nextProps;
-            return {
-                breadcrumbs: [
-                    ...breadcrumbsDefault,
-                    { title: match.params.id === 'add' ? 'Создание страницы' : 'Редактирование страницы' }
-                ]
+    constructor(props) {
+        super(props);
+
+        this.floatPanels = {
+            'settings': {
+                button: {
+                    caption: '☰',
+                    style: {
+                        top: '100px'
+                    }
+                },
+                caption: 'Настройки страницы',
+                containerStyle: {
+                    left: 'max(-100%, -600px)',
+                    width: '600px'
+                },
+                content: this.renderSettingsBlock
+            },
+            'select-component': {
+                caption: 'Добавление компонента',
+                containerStyle: {
+                    left: 'max(-100%, -400px)',
+                    width: '400px'
+                },
+                content: this.renderComponentSelect
             }
         }
-
-        return null;
     }
 
     state = {
         errors: {},
         operations: {},
-        breadcrumbs: null,
-        componentConstructors: {},
-        componentMetas: {},
         addComponentPosition: null,
-        floatMode: null
+        openedPanelId: null
     };
 
     componentDidMount() {
@@ -94,20 +94,19 @@ class Page extends PureComponent {
             });
         } else {
             actions.getPage(id);
+            actions.getComponents();
         }
 
-        this.loadComponents();
+        this.props.loadAllComponentMetas();
     }
 
     componentDidUpdate(prevProps) {
-        const { page } = this.props;
+        const { page, customComponents } = this.props;
         const { page: prevPage } = prevProps;
 
-        if (page && (!prevPage || page.config.components !== prevPage.config.components)) {
-            page.config.components.forEach(({ componentId }) => {
-                this.loadComponentInstance(componentId);
-                this.loadComponentMeta(componentId);
-            });
+        if (page && customComponents && ((!prevPage || page.config.components !== prevPage.config.components) || customComponents !== prevProps.customComponents)) {
+            this.props.loadComponentInstances(page.config.components, customComponents);
+            this.props.loadComponentMetas(page.config.components, customComponents);
         }
     }
 
@@ -117,59 +116,27 @@ class Page extends PureComponent {
     }
 
     render() {
-        const { isPageError, page, match } = this.props;
-        const { floatMode } = this.state;
-        const { name } = match.params;
+        const { isPageError, page, customComponents } = this.props;
+        const { openedPanelId } = this.state;
 
         if (isPageError) {
             return <div className={styles.error}>{isPageError}</div>;
         }
 
-        return page ? (
-            <div className={cx(styles.container, {[styles['float-mode']]: floatMode})}>
-                {Object.keys(floatPanels).map(key => this.renderFloatPanel(key))}
-                <div className={styles.page}>
-                    <div className={styles['page-overlay']} onClick={() => { this.setState({ floatMode: null}) }} />
-                    {this.renderPage()}
-                </div>
-            </div>
+        return page && customComponents ? (
+            <FloatPanels
+                panels={this.floatPanels}
+                onChangeOpenedPanel={this.setOpenedPanel}
+                openedPanelId={openedPanelId}>
+                {this.renderPage()}
+            </FloatPanels>
         ) : null;
     }
 
-    renderFloatPanel = (key) => {
-        const { floatMode } = this.state;
-
-        return (
-            <div
-                style={{
-                    ...floatPanels[key].containerStyle,
-                    ...(floatMode === key ? { left: '0' } : {})
-                }}
-                className={styles['float-panel']}>
-                {floatPanels[key].button ? (
-                    <div
-                        style={floatPanels[key].button.style}
-                        className={styles['float-button']}
-                        onClick={() => { this.setState({ floatMode: key }) }}>{floatPanels[key].button.caption}</div>
-                ) : null}
-                <div className={styles['float-panel-caption']}>{floatPanels[key].caption}</div>
-                <div className={styles['float-panel-content']}>
-                    {this[floatPanels[key].renderName]()}
-                </div>
-                <Button
-                    caption='Закрыть'
-                    type='yellow'
-                    onClick={() => { this.setState({ floatMode: null }) }}
-                    className={styles.close}
-                />
-            </div>
-        )
-    };
-
     renderSettingsBlock = () => {
         const { page, match } = this.props;
-        const { errors, breadcrumbs } = this.state;
-        const { name } = match.params;
+        const { errors } = this.state;
+        const { id } = match.params;
 
         return (
             <div className={styles['settings-block']}>
@@ -196,7 +163,7 @@ class Page extends PureComponent {
                         size='s'
                         className={styles['settings-block-button']}
                     />
-                    {name !== 'add' ? (
+                    {id !== 'add' ? (
                         <Button
                             caption='Удалить страницу'
                             type='red'
@@ -225,42 +192,53 @@ class Page extends PureComponent {
     renderAddComponent = () => {
         return (
             <div className={styles['add-button']}>
-                <div className={styles['add-button-caption']} onClick={() => {
-                    this.setState({ addComponentPosition: 0, floatMode: 'select-component' })
-                }}>Добавить новый компонент<br/>+</div>
+                <div className={styles['add-button-caption']} onClick={this.enableAddComponentMode}>Добавить новый компонент<br/>+</div>
             </div>
         );
     };
 
-    renderComponentSelect = () => {
-        const { componentMetas, addComponentPosition } = this.state;
-        const { page, actions } = this.props;
+    enableAddComponentMode = (position) => {
+        this.setState({
+            addComponentPosition: position || 0,
+            openedPanelId: 'select-component'
+        });
+    }
 
-        const { components } = page.config;
+    setConfig = (newConfig) => {
+        const { actions, page } = this.props;
+
+        actions.setPage({
+            ...page,
+            config: {
+                ...page.config,
+                ...newConfig
+            }
+        });
+    };
+
+    renderComponentSelect = () => {
+        const { addComponentPosition } = this.state;
+        const { page, componentMetas, customComponents } = this.props;
 
         const addComponent = (componentId) => {
-            const newComponents = [...components];
+            const newComponents = [...page.config.components];
+
+            const componentMeta = componentMetas[componentId];
+            const component = this.props.components.find(component => component['_id'] === componentId);
 
             newComponents.splice(addComponentPosition, 0, {
                 componentId,
-                props: componentMetas[componentId].defaultProps || {}
+                props: componentMeta ? componentMeta.defaultProps : (component ? component.config.defaultProps : {})
             });
 
-            actions.setPage({
-                ...page,
-                config: {
-                    ...page.config,
-                    components: newComponents
-                }
-            });
-
-            this.setState({ floatMode: null })
+            this.setConfig({ components: newComponents });
+            this.setOpenedPanel(null);
         }
 
         return (
             <>
                 {Object.keys(componentMetas).map(componentKey => {
-                    return componentsPaths[componentKey].disabled ? null : (
+                    return componentMetas[componentKey].disabled ? null : (
                         <div
                             key={componentMetas[componentKey].name}
                             className={styles['component-select-item']}
@@ -269,186 +247,110 @@ class Page extends PureComponent {
                         </div>
                     );
                 })}
+                {customComponents.map(component => {
+                    return (
+                        <div
+                            key={component['_id']}
+                            className={styles['component-select-item']}
+                            onClick={() => { addComponent(component['_id']) }}>
+                            {component['_id']}
+                        </div>
+                    );
+                })}
             </>
         );
     };
 
     renderComponentByIndex = (index) => {
-        const { actions, page } = this.props;
-        const { componentConstructors } = this.state;
-        const { componentMetas } = this.state;
+        const { page, componentInstances, componentMetas, customComponents } = this.props;
+        const { operations } = this.state;
 
-        const { components } = page.config;
-        const { componentId, props } = components[index];
+        const { componentId } = page.config.components[index];
+        const componentMeta = componentMetas[componentId];
 
-        if (componentConstructors[componentId] && componentMetas[componentId]) {
-            const Component = componentConstructors[componentId];
-            const propsMeta = componentMetas[componentId].props;
-            const { operations } = this.state;
+        const onChange = (newProps, errors, images) => {
+            const newComponents = [...page.config.components];
+            newComponents[index].props = newProps;
 
-            const onChange = (newProps, errors, images) => {
-                const newComponents = [...components];
-                newComponents[index].props = newProps;
+            this.setConfig({
+                __images__: images,
+                components: newComponents
+            });
+        }
 
-                actions.setPage({
-                    ...page,
-                    config: {
-                        ...page.config,
-                        __images__: images,
-                        components: newComponents
-                    }
-                });
-            }
+        const deleteComponent = (e) => {
+            e.stopPropagation();
 
-            const deleteComponent = (e) => {
-                e.stopPropagation();
+            const newComponents = [...page.config.components];
+            newComponents.splice(index, 1);
 
-                const newComponents = [...components];
-                newComponents.splice(index, 1);
+            this.setConfig({ components: newComponents });
+        }
 
-                actions.setPage({
-                    ...page,
-                    config: {
-                        ...page.config,
-                        components: newComponents
-                    }
-                });
-            }
+        const cloneComponent = (e) => {
+            e.stopPropagation();
 
-            const cloneComponent = (e) => {
-                e.stopPropagation();
+            const newComponents = [...page.config.components];
+            newComponents.splice(index + 1, 0, JSON.parse(JSON.stringify(page.config.components[index])));
 
-                const newComponents = [...components];
-                newComponents.splice(index + 1, 0, JSON.parse(JSON.stringify(components[index])));
+            this.setConfig({ components: newComponents });
+        }
 
-                actions.setPage({
-                    ...page,
-                    config: {
-                        ...page.config,
-                        components: newComponents
-                    }
-                });
-            }
-
-            const togglePropsFormVisible = () => {
-                const newOperations = { ...this.state.operations };
-                newOperations[index] = {
-                    ...newOperations[index],
-                    propsFormVisible: newOperations[index] ? !newOperations[index].propsFormVisible : true
-                };
-
-                this.setState({ operations: newOperations });
-            }
-
-            const moveUp = (e) => {
-                e.stopPropagation();
-
-                const newComponents = [...components];
-                const temp = newComponents[index - 1];
-                newComponents[index - 1] = newComponents[index];
-                newComponents[index] = temp;
-
-                actions.setPage({
-                    ...page,
-                    config: {
-                        ...page.config,
-                        components: newComponents
-                    }
-                });
-
-                this.setState({ operations: {} });
+        const togglePropsFormVisible = () => {
+            const newOperations = { ...this.state.operations };
+            newOperations[index] = {
+                ...newOperations[index],
+                propsFormVisible: newOperations[index] ? !newOperations[index].propsFormVisible : true
             };
 
-            const moveBottom = (e) => {
-                e.stopPropagation();
-
-                const newComponents = [...components];
-                const temp = newComponents[index + 1];
-                newComponents[index + 1] = newComponents[index];
-                newComponents[index] = temp;
-
-                actions.setPage({
-                    ...page,
-                    config: {
-                        ...page.config,
-                        components: newComponents
-                    }
-                });
-
-                this.setState({ operations: {} });
-            }
-
-            return (
-                <Fragment>
-                    <div className={styles.component}>
-                        <div className={styles['component-overlay']} onClick={togglePropsFormVisible}>
-                            <div className={styles['component-operations']}>
-                                { index !== components.length - 1 ? <div className={styles['component-operation']} onClick={moveBottom}>▼</div> : null }
-                                { index !== 0 ? <div className={styles['component-operation']} onClick={moveUp}>▲</div> : null }
-                                <div className={styles['component-operation']} onClick={cloneComponent}>Дублировать</div>
-                                <div className={styles['component-operation']} onClick={deleteComponent}>✗</div>
-                            </div>
-                        </div>
-                        <Component {...props} __images__={page.config['__images__'] || {}} />
-                        <div className={styles['component-add']} onClick={() => { this.setState({ addComponentPosition: index + 1, floatMode: 'select-component' }) }}>+</div>
-                    </div>
-                    {operations[index] && operations[index].propsFormVisible ? (
-                        <div className={styles['form-container']}>
-                            <Form
-                                format={propsMeta}
-                                value={props}
-                                onChange={onChange}
-                                errors={{}}
-                                images={page.config['__images__'] || {}} />
-                        </div>
-                    ) : null}
-                </Fragment>
-            );
+            this.setState({ operations: newOperations });
         }
 
-        return null;
-    };
+        const moveUp = (e) => {
+            e.stopPropagation();
 
-    loadComponentInstance = async (componentId) => {
-        const { componentConstructors } = this.state;
+            const newComponents = [...page.config.components];
+            const temp = newComponents[index - 1];
+            newComponents[index - 1] = newComponents[index];
+            newComponents[index] = temp;
 
-        if (!componentConstructors[componentId]) {
-            const component = (await componentsPaths[componentId].load()).default;
+            this.setConfig({ components: newComponents });
+            this.setState({ operations: {} });
+        };
 
-            this.setState(state => {
-                return {
-                    ...state,
-                    componentConstructors: {
-                        ...state.componentConstructors,
-                        [componentId]: component
-                    }
-                }
-            });
+        const moveBottom = (e) => {
+            e.stopPropagation();
+
+            const newComponents = [...page.config.components];
+            const temp = newComponents[index + 1];
+            newComponents[index + 1] = newComponents[index];
+            newComponents[index] = temp;
+
+            this.setConfig({ components: newComponents });
+            this.setState({ operations: {} });
         }
-    }
 
-    loadComponentMeta = async (componentId) => {
-        const { componentMetas } = this.state;
-
-        if (!componentMetas[componentId]) {
-            const meta = await componentsPaths[componentId].loadMeta();
-
-            this.setState(state => {
-                return {
-                    ...state,
-                    componentMetas: {
-                        ...state.componentMetas,
-                        [componentId]: meta
-                    }
-                }
-            });
-        }
-    }
-
-    loadComponents = () => {
-        Object.keys(componentsPaths).forEach(componentId => {
-            this.loadComponentMeta(componentId);
-        });
+        return (
+            <ComponentRender
+                componentId={componentId}
+                propsFormat={componentMeta ? componentMeta.props : []}
+                componentProps={page.config.components[index].props}
+                onChangeProps={onChange}
+                editorMode={operations[index] && operations[index].propsFormVisible}
+                toggleEditorMode={togglePropsFormVisible}
+                customComponents={customComponents}
+                instances={componentInstances}
+                operations={{
+                    addComponent: () => {
+                        this.enableAddComponentMode(index + 1);
+                    },
+                    moveBottom: index !== page.config.components.length - 1 ? moveBottom : null,
+                    moveUp: index !== 0 ? moveUp : null,
+                    clone: cloneComponent,
+                    delete: deleteComponent
+                }}
+            />
+        );
     };
 
     handleChange = (page, errors) => {
@@ -464,7 +366,7 @@ class Page extends PureComponent {
     };
 
     handleSave = async () => {
-        const { showNotification, actions, history } = this.props;
+        const { showNotification, actions, history, match } = this.props;
 
         const { message, status, data } = await actions.savePage();
 
@@ -476,7 +378,10 @@ class Page extends PureComponent {
                     this.setState({ errors: data.errors });
                 }
                 break;
-            default:
+            case 'success':
+                if (match.params.id === 'add') {
+                    history.push('/admin/pages');
+                }
                 break;
         }
     };
@@ -494,6 +399,10 @@ class Page extends PureComponent {
             }
         }
     };
+
+    setOpenedPanel = (id) => {
+        this.setState({ openedPanelId: id })
+    }
 }
 
 /**
@@ -508,21 +417,17 @@ function mapDispatchToProps(dispatch) {
             setPage,
             savePage,
             reset,
-            deletePage
+            deletePage,
+            getComponents
         }, dispatch),
         dispatch
     };
 }
 
-/**
- * mapStateToProps
- * @param {*} state
- * @returns {Object}
- */
 function mapStateToProps(state) {
-    const { page, isPageFetch, isPageError } = state['admin-page'];
+    const { page, isPageFetch, isPageError, customComponents } = state['admin-page'];
 
-    return { page, isPageFetch, isPageError };
+    return { page, isPageFetch, isPageError, customComponents };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Page));
+export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withComponentInstances(withNotification(Page))));

@@ -32,6 +32,11 @@ const tiles = [{
     type: 'link',
     title: 'Страницы',
     link: '/admin/pages'
+}, {
+    key: '/admin/components',
+    type: 'link',
+    title: 'Компоненты',
+    link: '/admin/components'
 }];
 
 class Admin extends PureComponent {

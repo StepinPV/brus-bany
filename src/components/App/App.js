@@ -17,6 +17,7 @@ class App extends Component {
         simplePage: PropTypes.bool,
         page: PropTypes.object,
         componentConstructors: PropTypes.object,
+        customComponents: PropTypes.array,
         location: PropTypes.object
     };
 
@@ -51,7 +52,7 @@ class App extends Component {
     }
 
     renderRoute = (route) => {
-        const { preparedComponents, page, componentConstructors, location } = this.props;
+        const { preparedComponents, page, componentConstructors, location, customComponents } = this.props;
         const Component = preparedComponents ? preparedComponents[route.id] : route.component;
 
         const renderProps = {};
@@ -62,6 +63,7 @@ class App extends Component {
                     <Component
                         {...props}
                         {...page.config}
+                        customComponents={customComponents}
                         componentConstructors={componentConstructors} />
                 )
             } else {

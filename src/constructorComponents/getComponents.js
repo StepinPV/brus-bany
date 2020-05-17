@@ -1,6 +1,6 @@
 import metas from './meta';
 
-export default async function getComponents(componentsInfo, needIds= true) {
+export default async function getComponents(components, needIds= true, customComponents) {
     const constructors = {};
     const ids = [];
     let simple = true;
@@ -28,14 +28,26 @@ export default async function getComponents(componentsInfo, needIds= true) {
         }
     };
 
-    for (const { componentId } of componentsInfo) {
-        if (needIds) {
-            addId(componentId);
-            await checkDeps(componentId);
-        }
+    const addComponents = async (components) => {
+        for (const { componentId } of components) {
+            if (needIds && metas[componentId]) {
+                addId(componentId);
+                await checkDeps(componentId);
+            }
 
-        constructors[componentId] = (await metas[componentId].load()).default;
-    }
+            if (metas[componentId]) {
+                constructors[componentId] = (await metas[componentId].load()).default;
+            }
+
+            const customComponent = customComponents.find(c => c['_id'] === componentId);
+
+            if (customComponent && customComponent.config && customComponent.config.components) {
+                await addComponents(customComponent.config.components);
+            }
+        }
+    };
+
+    await addComponents(components);
 
     return { constructors, ids, simple };
 }

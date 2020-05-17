@@ -10,10 +10,13 @@ import App from './components/App';
 import axios from 'axios';
 import getComponents from './constructorComponents/getComponents';
 
+const routes = getRoutes();
+Loadable.preloadAll();
+
 const render = async (req, res, axiosOptions = {}) => {
     axios.defaults.baseURL = axiosOptions.apiURL;
 
-    const matchRoute = getRoutes().find(route => matchPath(req.path, route) || false);
+    const matchRoute = routes.find(route => matchPath(req.path, route) || false);
 
     if (!matchRoute) {
         throw new Error(`Не найден подходящий route для ${req.url}!`);
@@ -34,6 +37,7 @@ const render = async (req, res, axiosOptions = {}) => {
     let componentConstructors = null;
     let componentIds = null;
     let page = null;
+    let customComponents;
     let simplePage = matchRoute.simplePage;
 
     if (matchRoute && matchRoute.id === 'page-generator') {
@@ -43,9 +47,12 @@ const render = async (req, res, axiosOptions = {}) => {
             }
         });
 
-        if (pageRes.data && pageRes.data.status !== 'error' && pageRes.data.data) {
+        const customComponentsRes = await axios.get(`/api/components`);
+
+        if (pageRes.data && pageRes.data.status === 'success' && pageRes.data.data) {
             page = pageRes.data.data;
-            const components = await getComponents(page.config.components);
+            customComponents = customComponentsRes.data.data;
+            const components = await getComponents(page.config.components, true, customComponents);
 
             componentConstructors = components.constructors;
             componentIds = components.ids;
@@ -83,6 +90,7 @@ const render = async (req, res, axiosOptions = {}) => {
                         preparedComponents={{ [matchRoute.id]: loadableComponent }}
                         page={page}
                         componentConstructors={componentConstructors}
+                        customComponents={customComponents}
                         routes={[matchRoute]}
                         simplePage={simplePage} />
                 </StaticRouter>
@@ -94,6 +102,8 @@ const render = async (req, res, axiosOptions = {}) => {
         head: Helmet.renderStatic(),
         initialData: store.getState(),
         pageData: page,
+        // TODO Не нужно передавать все!
+        customComponents: customComponents,
         simplePage,
         markup,
         modules,

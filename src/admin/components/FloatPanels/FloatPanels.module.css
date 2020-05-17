@@ -1,0 +1,79 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.panel, .panel-button {
+    z-index: 10;
+    transition: left 0.5s cubic-bezier(0, .5, .5, 1);
+}
+
+.panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    max-width: 100%;
+    background: #fff;
+    box-sizing: border-box;
+    border-right: 3px solid #91001d;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-caption {
+    background: #91001d;
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+}
+
+.panel-content {
+    flex-grow: 1;
+}
+
+.panel-button {
+    position: absolute;
+    padding: 8px;
+    background: #91001d;
+    color: #fff;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    right: -30px;
+    opacity: 0.5;
+}
+
+.panel-button:hover,
+.float-mode .panel-button {
+    opacity: 1;
+}
+
+.float-mode .content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.float-mode .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.panel-close {
+    margin: 16px;
+}

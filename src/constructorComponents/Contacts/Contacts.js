@@ -49,7 +49,7 @@ function Contacts(props) {
                     <span style={{ fontWeight: 'bold' }}>Время работы: </span>
                     <time itemProp="openingHours" dateTime="Mo-Su 8:00−22:00">c 8:00 до 22:00 без выходных</time>
                 </div>
-                <Button align='left' href='#requestForm' type='red' caption='Обсудить проект бани' />
+                <Button align='left' href='#requestForm' color='red' caption='Обсудить проект бани' />
                 <div className={styles['social-networks']}>
                     <SocialNetwork type='vk' className={styles['social-network']} />
                     <SocialNetwork type='fb' className={styles['social-network']} />

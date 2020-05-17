@@ -187,6 +187,22 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
+        id: 'admin/components',
+        path: '/admin/components',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Components')),
+            loading: LoaderPage,
+        })
+    }, {
+        id: 'admin/components/component',
+        path: '/admin/components/:id',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/Component')),
+            loading: LoaderPage,
+        })
+    }, {
         id: 'page-generator',
         path: '*',
         exact: true,

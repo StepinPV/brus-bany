@@ -19,12 +19,17 @@ async function run () {
     /* eslint-disable no-underscore-dangle */
     const store = configureStore(window.__initialData__);
     delete window.__initialData__;
-    /* eslint-enable no-underscore-dangle*/
+    /* eslint-enable no-underscore-dangle */
 
     /* eslint-disable no-underscore-dangle */
     const pageData = window.__pageData__;
     delete window.__pageData__;
-    /* eslint-enable no-underscore-dangle*/
+    /* eslint-enable no-underscore-dangle */
+
+    /* eslint-disable no-underscore-dangle */
+    const customComponents = window.__customComponents__;
+    delete window.__customComponents__;
+    /* eslint-enable no-underscore-dangle */
 
     await Loadable.preloadReady();
 
@@ -39,7 +44,7 @@ async function run () {
 
     let componentConstructors;
     if (pageData && pageData.url) {
-        const { constructors } = await getComponents(pageData.config.components, false);
+        const { constructors } = await getComponents(pageData.config.components, false, customComponents);
         componentConstructors = constructors;
     }
 
@@ -49,6 +54,7 @@ async function run () {
                 <App
                     routes={[matchRoute]}
                     page={pageData}
+                    customComponents={customComponents}
                     componentConstructors={componentConstructors} />
             </BrowserRouter>
         </Provider>,

@@ -1,5 +1,6 @@
 import {
     GET, GET_SUCCESS, GET_ERROR,
+    GET_COMPONENTS, GET_COMPONENTS_SUCCESS, GET_COMPONENTS_ERROR,
     SET, RESET
 } from './constants';
 
@@ -8,7 +9,10 @@ export const initialState = {
     page: null,
     isPageFetch: false,
     isPageError: null,
-    error: null
+    error: null,
+    customComponents: null,
+    isCustomComponentsFetch: false,
+    isCustomComponentsError: null
 };
 
 /**
@@ -44,6 +48,27 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 page: action.payload
+            };
+
+        case GET_COMPONENTS:
+            return {
+                ...state,
+                customComponents: null,
+                isCustomComponentsFetch: true
+            };
+
+        case GET_COMPONENTS_SUCCESS:
+            return {
+                ...state,
+                isCustomComponentsFetch: false,
+                customComponents: action.payload
+            };
+
+        case GET_COMPONENTS_ERROR:
+            return {
+                ...state,
+                isCustomComponentsFetch: false,
+                isCustomComponentsError: action.payload.message
             };
 
         case RESET:

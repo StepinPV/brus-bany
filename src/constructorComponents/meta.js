@@ -33,8 +33,7 @@ export default {
     },
     'Form': {
         load: () => import('./Form'),
-        loadMeta: () => import('./Form/meta'),
-        disabled: true
+        loadMeta: () => import('./Form/meta')
     },
     'Contacts': {
         load: () => import('./Contacts'),
