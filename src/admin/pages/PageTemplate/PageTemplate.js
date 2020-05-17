@@ -6,10 +6,10 @@ import Breadcrumbs from '../../../components/Breadcrumbs';
 import { get, set, save, reset, deleteTemplate, getComponents } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import { Button } from "../../../components/Button";
+import PageRender from '../../../client/components/PageRender';
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
 import OperationsHelper from '../../components/pageEditor/operations';
-import withComponentInstances from '../../components/hocs/withComponentInstances';
 import withComponentMetas from '../../components/hocs/withComponentMetas';
 import styles from './PageTemplate.module.css';
 
@@ -34,12 +34,8 @@ class PageTemplate extends PureComponent {
         showNotification: PropTypes.func,
         history: PropTypes.object,
 
-        componentInstances: PropTypes.object,
         componentMetas: PropTypes.object,
-
-        loadComponentInstances: PropTypes.func,
         loadAllComponentMetas: PropTypes.func,
-        loadComponentMetas: PropTypes.func,
 
         customComponents: PropTypes.array
     };
@@ -98,16 +94,6 @@ class PageTemplate extends PureComponent {
         this.props.loadAllComponentMetas();
     }
 
-    componentDidUpdate(prevProps) {
-        const { data, customComponents } = this.props;
-        const { data: prevData } = prevProps;
-
-        if (data && customComponents && ((!prevData || data.config.components !== prevData.config.components) || customComponents !== prevProps.customComponents)) {
-            this.props.loadComponentInstances(data.config.components, customComponents);
-            this.props.loadComponentMetas(data.config.components, customComponents);
-        }
-    }
-
     componentWillUnmount() {
         const { actions } = this.props;
         actions.reset();
@@ -132,8 +118,7 @@ class PageTemplate extends PureComponent {
     }
 
     renderSettingsBlock = () => {
-        const { data, match } = this.props;
-        const { errors } = this.state;
+        const { match } = this.props;
         const { id } = match.params;
 
         return (
@@ -167,20 +152,122 @@ class PageTemplate extends PureComponent {
 
     renderPage = () => {
         const { data } = this.props;
-        const { components } = data.config;
+        const { components, header, footer } = data.config;
 
         return (
-            <>
-                {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
-                {(!components || !components.length) ? this.renderAddComponent() : null}
-            </>
+            <PageRender
+                header={header ? this.renderHeader() : this.renderAddHeader()}
+                footer={footer ? this.renderFooter() : this.renderAddFooter()}>
+                <>
+                    {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
+                    {(!components || !components.length) ? this.renderAddComponent() : null}
+                </>
+            </PageRender>
         );
     }
+
+    renderHeader = () => {
+        const { data } = this.props;
+        const { operations } = this.state;
+
+        const togglePropsFormVisible = () => {
+            const newOperations = { ...this.state.operations };
+            newOperations['header'] = {
+                ...newOperations['header'],
+                propsFormVisible: newOperations['header'] ? !newOperations['header'].propsFormVisible : true
+            };
+
+            this.setState({ operations: newOperations });
+        }
+
+        return (
+            <ComponentRender
+                componentId={data.config.header.componentId}
+                componentProps={data.config.header.props}
+                editorMode={operations['header'] && operations['header'].propsFormVisible}
+                toggleEditorMode={togglePropsFormVisible}
+                __images__={data.config['__images__']}
+                onChangeProps={(newProps, errors, images) => {
+                    this.setConfig({
+                        header: {
+                            ...data.config.header,
+                            props: newProps
+                        },
+                        __images__: images
+                    });
+                }}
+                operations={{
+                    delete: () => {
+                        this.setConfig({ header: null });
+                    }
+                }}
+            />
+        );
+    };
+
+    renderFooter = () => {
+        const { data } = this.props;
+        const { operations } = this.state;
+
+        const togglePropsFormVisible = () => {
+            const newOperations = { ...this.state.operations };
+            newOperations['footer'] = {
+                ...newOperations['footer'],
+                propsFormVisible: newOperations['footer'] ? !newOperations['footer'].propsFormVisible : true
+            };
+
+            this.setState({ operations: newOperations });
+        }
+
+        return (
+            <ComponentRender
+                componentId={data.config.footer.componentId}
+                componentProps={data.config.footer.props}
+                editorMode={operations['footer'] && operations['footer'].propsFormVisible}
+                toggleEditorMode={togglePropsFormVisible}
+                __images__={data.config['__images__']}
+                onChangeProps={(newProps, errors, images) => {
+                    this.setConfig({
+                        footer: {
+                            ...data.config.footer,
+                            props: newProps
+                        },
+                        __images__: images
+                    });
+                }}
+                operations={{
+                    delete: () => {
+                        this.setConfig({ footer: null });
+                    }
+                }}
+            />
+        );
+    };
 
     renderAddComponent = () => {
         return (
             <div className={styles['add-button']}>
-                <div className={styles['add-button-caption']} onClick={this.enableAddComponentMode}>Добавить новый компонент<br/>+</div>
+                <div className={styles['add-button-caption']} onClick={this.enableAddComponentMode}>Добавить новый компонент</div>
+            </div>
+        );
+    };
+
+    renderAddHeader = () => {
+        return (
+            <div className={styles['add-button']}>
+                <div className={styles['add-button-caption']} onClick={() => {
+                    this.enableAddComponentMode('header')
+                }}>Добавить шапку</div>
+            </div>
+        );
+    };
+
+    renderAddFooter = () => {
+        return (
+            <div className={styles['add-button']}>
+                <div className={styles['add-button-caption']} onClick={() => {
+                    this.enableAddComponentMode('footer')
+                }}>Добавить подвал</div>
             </div>
         );
     };
@@ -212,11 +299,24 @@ class PageTemplate extends PureComponent {
             const componentMeta = componentMetas[componentId];
             const component = customComponents.find(component => component['_id'] === componentId);
 
-            this.setConfig(OperationsHelper.add(data.config.components, addComponentPosition, {
+            this.setOpenedPanel(null);
+
+            const newComponentData = {
                 componentId,
                 props: componentMeta ? componentMeta.defaultProps : (component ? component.config.defaultProps : {})
-            }));
-            this.setOpenedPanel(null);
+            };
+
+            if (addComponentPosition === 'header') {
+                this.setConfig({ header: newComponentData });
+                return;
+            }
+
+            if (addComponentPosition === 'footer') {
+                this.setConfig({ footer: newComponentData });
+                return;
+            }
+
+            this.setConfig(OperationsHelper.add(data.config.components, addComponentPosition, newComponentData));
         }
 
         return (
@@ -246,11 +346,8 @@ class PageTemplate extends PureComponent {
     };
 
     renderComponentByIndex = (index) => {
-        const { data, componentInstances, componentMetas, customComponents } = this.props;
+        const { data } = this.props;
         const { operations } = this.state;
-
-        const { componentId } = data.config.components[index];
-        const componentMeta = componentMetas[componentId];
 
         const togglePropsFormVisible = () => {
             const newOperations = { ...this.state.operations };
@@ -262,15 +359,16 @@ class PageTemplate extends PureComponent {
             this.setState({ operations: newOperations });
         }
 
+        const { componentId } = data.config.components[index];
+
         return (
             <ComponentRender
+                key={`${componentId}-${index}`}
                 componentId={componentId}
-                propsFormat={componentMeta ? componentMeta.props : []}
                 componentProps={data.config.components[index].props}
                 editorMode={operations[index] && operations[index].propsFormVisible}
                 toggleEditorMode={togglePropsFormVisible}
-                customComponents={customComponents}
-                instances={componentInstances}
+                __images__={data.config['__images__']}
                 onChangeProps={(newProps, errors, images) => {
                     this.setConfig(OperationsHelper.setProps(data.config.components, index, newProps, errors, images));
                 }}
@@ -369,4 +467,4 @@ function mapStateToProps(state) {
     return { data, isDataFetch, isDataError, customComponents };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withComponentInstances(withNotification(PageTemplate))));
+export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withNotification(PageTemplate)));

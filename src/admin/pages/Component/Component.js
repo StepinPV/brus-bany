@@ -12,7 +12,6 @@ import styles from './Component.module.css';
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
 import OperationsHelper from '../../components/pageEditor/operations';
-import withComponentInstances from '../../components/hocs/withComponentInstances';
 import withComponentMetas from '../../components/hocs/withComponentMetas';
 import Header from '../../components/Header';
 
@@ -37,12 +36,8 @@ class Component extends PureComponent {
         showNotification: PropTypes.func,
         history: PropTypes.object,
 
-        componentInstances: PropTypes.object,
         componentMetas: PropTypes.object,
-
-        loadComponentInstances: PropTypes.func,
-        loadAllComponentMetas: PropTypes.func,
-        loadComponentMetas: PropTypes.func
+        loadAllComponentMetas: PropTypes.func
     };
 
     constructor(props) {
@@ -96,18 +91,6 @@ class Component extends PureComponent {
         }
 
         this.props.loadAllComponentMetas();
-    }
-
-    componentDidUpdate(prevProps) {
-        const { data } = this.props;
-        const { data: prevData } = prevProps;
-
-        if (data && (!prevData || data.config.components !== prevData.config.components)) {
-            data.config.components.forEach(({ componentId }) => {
-                this.props.loadComponentInstances(data.config.components);
-                this.props.loadComponentMetas(data.config.components);
-            });
-        }
     }
 
     componentWillUnmount() {
@@ -230,58 +213,53 @@ class Component extends PureComponent {
     };
 
     renderComponentByIndex = (index) => {
-        const { data, componentMetas, componentInstances } = this.props;
+        const { data } = this.props;
         const { operations } = this.state;
 
         const { componentId } = data.config.components[index];
 
-        const Component = componentInstances[componentId];
-        if (Component && componentMetas[componentId]) {
-            const togglePropsFormVisible = () => {
-                const newOperations = { ...this.state.operations };
-                newOperations[index] = {
-                    ...newOperations[index],
-                    propsFormVisible: newOperations[index] ? !newOperations[index].propsFormVisible : true
-                };
+        const togglePropsFormVisible = () => {
+            const newOperations = { ...this.state.operations };
+            newOperations[index] = {
+                ...newOperations[index],
+                propsFormVisible: newOperations[index] ? !newOperations[index].propsFormVisible : true
+            };
 
-                this.setState({ operations: newOperations });
-            }
-
-            return (
-                <ComponentRender
-                    componentId={componentId}
-                    propsFormat={componentMetas[componentId].props}
-                    componentProps={data.config.components[index].props}
-                    editorMode={operations[index] && operations[index].propsFormVisible}
-                    toggleEditorMode={togglePropsFormVisible}
-                    instances={componentInstances}
-                    onChangeProps={(newProps, errors, images) => {
-                        this.setConfig(OperationsHelper.setProps(data.config.components, index, newProps, errors, images));
-                    }}
-                    operations={{
-                        addComponent: () => {
-                            this.enableAddComponentMode(index + 1);
-                        },
-                        moveBottom: index !== data.config.components.length - 1 ? () => {
-                            this.setConfig(OperationsHelper.moveBottom(data.config.components, index));
-                            this.setState({ operations: {} });
-                        } : null,
-                        moveUp: index !== 0 ? () => {
-                            this.setConfig(OperationsHelper.moveUp(data.config.components, index));
-                            this.setState({ operations: {} });
-                        } : null,
-                        clone: () => {
-                            this.setConfig(OperationsHelper.clone(data.config.components, index));
-                        },
-                        delete: () => {
-                            this.setConfig(OperationsHelper.delete(data.config.components, index));
-                        }
-                    }}
-                />
-            );
+            this.setState({ operations: newOperations });
         }
 
-        return null;
+        return (
+            <ComponentRender
+                key={`${componentId}-${index}`}
+                componentId={componentId}
+                componentProps={data.config.components[index].props}
+                editorMode={operations[index] && operations[index].propsFormVisible}
+                toggleEditorMode={togglePropsFormVisible}
+                __images__={data.config['__images__']}
+                onChangeProps={(newProps, errors, images) => {
+                    this.setConfig(OperationsHelper.setProps(data.config.components, index, newProps, errors, images));
+                }}
+                operations={{
+                    addComponent: () => {
+                        this.enableAddComponentMode(index + 1);
+                    },
+                    moveBottom: index !== data.config.components.length - 1 ? () => {
+                        this.setConfig(OperationsHelper.moveBottom(data.config.components, index));
+                        this.setState({ operations: {} });
+                    } : null,
+                    moveUp: index !== 0 ? () => {
+                        this.setConfig(OperationsHelper.moveUp(data.config.components, index));
+                        this.setState({ operations: {} });
+                    } : null,
+                    clone: () => {
+                        this.setConfig(OperationsHelper.clone(data.config.components, index));
+                    },
+                    delete: () => {
+                        this.setConfig(OperationsHelper.delete(data.config.components, index));
+                    }
+                }}
+            />
+        );
     };
 
     setConfig = (newConfig) => {
@@ -354,4 +332,4 @@ function mapStateToProps(state) {
     return { data, isFetch, isError };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withComponentInstances(withNotification(Component))));
+export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withNotification(Component)));

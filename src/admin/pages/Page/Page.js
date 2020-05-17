@@ -12,7 +12,6 @@ import { Button } from "../../../components/Button";
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
 import OperationsHelper from '../../components/pageEditor/operations';
-import withComponentInstances from '../../components/hocs/withComponentInstances';
 import withComponentMetas from '../../components/hocs/withComponentMetas';
 import styles from './Page.module.css';
 
@@ -37,12 +36,9 @@ class Page extends PureComponent {
         showNotification: PropTypes.func,
         history: PropTypes.object,
 
-        componentInstances: PropTypes.object,
         componentMetas: PropTypes.object,
 
-        loadComponentInstances: PropTypes.func,
         loadAllComponentMetas: PropTypes.func,
-        loadComponentMetas: PropTypes.func,
 
         customComponents: PropTypes.array
     };
@@ -99,16 +95,6 @@ class Page extends PureComponent {
 
         actions.getComponents();
         this.props.loadAllComponentMetas();
-    }
-
-    componentDidUpdate(prevProps) {
-        const { page, customComponents } = this.props;
-        const { page: prevPage } = prevProps;
-
-        if (page && customComponents && ((!prevPage || page.config.components !== prevPage.config.components) || customComponents !== prevProps.customComponents)) {
-            this.props.loadComponentInstances(page.config.components, customComponents);
-            this.props.loadComponentMetas(page.config.components, customComponents);
-        }
     }
 
     componentWillUnmount() {
@@ -259,11 +245,10 @@ class Page extends PureComponent {
     };
 
     renderComponentByIndex = (index) => {
-        const { page, componentInstances, componentMetas, customComponents } = this.props;
+        const { page } = this.props;
         const { operations } = this.state;
 
         const { componentId } = page.config.components[index];
-        const componentMeta = componentMetas[componentId];
 
         const togglePropsFormVisible = () => {
             const newOperations = { ...this.state.operations };
@@ -277,13 +262,12 @@ class Page extends PureComponent {
 
         return (
             <ComponentRender
+                key={`${componentId}-${index}`}
                 componentId={componentId}
-                propsFormat={componentMeta ? componentMeta.props : []}
                 componentProps={page.config.components[index].props}
                 editorMode={operations[index] && operations[index].propsFormVisible}
                 toggleEditorMode={togglePropsFormVisible}
-                customComponents={customComponents}
-                instances={componentInstances}
+                __images__={page.config['__images__']}
                 onChangeProps={(newProps, errors, images) => {
                     this.setConfig(OperationsHelper.setProps(page.config.components, index, newProps, errors, images));
                 }}
@@ -387,4 +371,4 @@ function mapStateToProps(state) {
     return { page, isPageFetch, isPageError, customComponents };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withComponentInstances(withNotification(Page))));
+export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withNotification(Page)));

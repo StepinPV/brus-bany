@@ -1,13 +1,14 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Form from '../../Form';
+import withComponentConstructor from '../../hocs/withComponentConstructor';
+import withComponentMeta from '../../hocs/withComponentMeta';
 import styles from './Component.module.css';
 
 class Component extends PureComponent {
     static propTypes = {
         componentId: PropTypes.string,
 
-        propsFormat: PropTypes.array,
         componentProps: PropTypes.object,
         onChangeProps: PropTypes.func,
 
@@ -16,9 +17,30 @@ class Component extends PureComponent {
 
         operations: PropTypes.object,
 
-        customComponents: PropTypes.array,
-        instances: PropTypes.object
+        // withComponentConstructor
+        componentConstructor: PropTypes.object,
+        loadComponentConstructor: PropTypes.func,
+
+        // withComponentMeta
+        componentMeta: PropTypes.object,
+        loadComponentMeta: PropTypes.func
     };
+
+    componentDidMount() {
+        const { instance, loadComponentConstructor } = this.props;
+
+        if (!instance) {
+            loadComponentConstructor();
+        }
+    }
+
+    componentDidUpdate() {
+        const { editorMode, componentMeta, loadComponentMeta } = this.props;
+
+        if (editorMode && !componentMeta) {
+            loadComponentMeta();
+        }
+    }
 
     render = () => {
         const { toggleEditorMode, operations } = this.props;
@@ -38,12 +60,12 @@ class Component extends PureComponent {
     };
 
     renderEditorForm = () => {
-        const { editorMode, propsFormat, componentProps, onChangeProps } = this.props;
+        const { editorMode, componentMeta, componentProps, onChangeProps } = this.props;
 
-        return editorMode ? (
+        return editorMode && componentMeta ? (
             <div className={styles.form}>
                 <Form
-                    format={propsFormat}
+                    format={componentMeta.props}
                     value={componentProps}
                     onChange={onChangeProps}
                     errors={{}}
@@ -82,25 +104,11 @@ class Component extends PureComponent {
     }
 
     renderComponent = () => {
-        const { customComponents, instances, componentId, componentProps } = this.props;
+        const { componentConstructor, componentProps } = this.props;
+        const Component = componentConstructor;
 
-        const Component = instances[componentId];
-
-        if (Component) {
-            return <Component {...componentProps} __images__={this.props['__images__'] || {}} />;
-        }
-
-        const customComponent = customComponents.find(c => c['_id'] === componentId);
-
-        return customComponent ? (
-            <>
-                {customComponent.config.components.map(c => {
-                    const Component = instances[c.componentId];
-                    return Component ? <Component {...c.props} __images__={customComponent.config['__images__'] || {}} /> : null;
-                })}
-            </>
-        ) : null;
+        return Component ? <Component {...componentProps} __images__={this.props['__images__'] || {}} /> : null;
     };
 }
 
-export default Component;
+export default withComponentMeta(withComponentConstructor(Component));
