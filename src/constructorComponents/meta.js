@@ -27,6 +27,14 @@ export default {
         load: () => import('./Banner'),
         loadMeta: () => import('./Banner/meta')
     },
+    'Header': {
+        load: () => import('./Header'),
+        loadMeta: () => import('./Header/meta')
+    },
+    'Footer': {
+        load: () => import('./Footer'),
+        loadMeta: () => import('./Footer/meta')
+    },
     'FormBlock': {
         load: () => import('./FormBlock'),
         loadMeta: () => import('./FormBlock/meta')
