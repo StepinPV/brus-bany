@@ -211,6 +211,14 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
+        id: 'admin/components/page-templates/template',
+        path: '/admin/page-templates/:id',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/PageTemplate')),
+            loading: LoaderPage,
+        })
+    }, {
         id: 'page-generator',
         path: '*',
         exact: true,

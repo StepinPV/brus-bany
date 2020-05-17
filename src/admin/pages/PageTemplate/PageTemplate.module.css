@@ -1,0 +1,72 @@
+.settings-block {
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-block-content {
+    flex-grow: 1;
+    padding: 8px;
+}
+
+.settings-block-buttons {
+    display: flex;
+    margin: 16px 16px 0;
+}
+
+.settings-block-button {
+    flex-grow: 1;
+}
+
+.settings-block-button:not(:last-child) {
+    margin-right: 16px;
+    flex-grow: 1;
+}
+
+.component-select-item {
+    color: #b3b3b3;
+    cursor: pointer;
+    text-align: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #b3b3b3;
+}
+
+.component-select-item:hover {
+    color: #fff;
+    background: #b3b3b3;
+}
+
+.add-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.add-button-caption {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 8px;
+    cursor: pointer;
+    color: #b3b3b3;
+}
+
+.add-button-caption:hover {
+    color: #000;
+}
+
+.form-container {
+    max-width: 100%;
+    width: 1200px;
+    padding: 16px;
+    box-sizing: border-box;
+    margin: 16px auto;
+}
+
+.error {
+    text-align: center;
+    margin-top: 64px;
+}

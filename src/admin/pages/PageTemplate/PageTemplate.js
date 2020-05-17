@@ -3,34 +3,31 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import PageComponent from '../../../client/components/Page';
-import { getPage, setPage, savePage, reset, deletePage, getComponents } from './actions';
+import { get, set, save, reset, deleteTemplate, getComponents } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
-import Form from '../../components/Form';
-import { main as mainFormat, config as configFormat } from '../../formats/page';
 import { Button } from "../../../components/Button";
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
 import OperationsHelper from '../../components/pageEditor/operations';
 import withComponentInstances from '../../components/hocs/withComponentInstances';
 import withComponentMetas from '../../components/hocs/withComponentMetas';
-import styles from './Page.module.css';
+import styles from './PageTemplate.module.css';
 
 const breadcrumbs = [{
     title: 'Главная',
     link: '/admin'
 }, {
-    title: 'Страницы',
-    link: '/admin/pages'
+    title: 'Шаблоны страниц',
+    link: '/admin/page-templates'
 }, {
     title: 'Редактирование'
 }];
 
-class Page extends PureComponent {
+class PageTemplate extends PureComponent {
     static propTypes = {
-        page: PropTypes.object,
-        isPageError: PropTypes.string,
-        isPageFetch: PropTypes.bool,
+        data: PropTypes.object,
+        isDataError: PropTypes.string,
+        isDataFetch: PropTypes.bool,
 
         actions: PropTypes.object,
         match: PropTypes.object,
@@ -88,13 +85,13 @@ class Page extends PureComponent {
         const { id } = match.params;
 
         if (id === 'add') {
-            actions.setPage({
+            actions.set({
                 config: {
                     components: []
                 }
             });
         } else {
-            actions.getPage(id);
+            actions.get(id);
         }
 
         actions.getComponents();
@@ -102,12 +99,12 @@ class Page extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { page, customComponents } = this.props;
-        const { page: prevPage } = prevProps;
+        const { data, customComponents } = this.props;
+        const { data: prevData } = prevProps;
 
-        if (page && customComponents && ((!prevPage || page.config.components !== prevPage.config.components) || customComponents !== prevProps.customComponents)) {
-            this.props.loadComponentInstances(page.config.components, customComponents);
-            this.props.loadComponentMetas(page.config.components, customComponents);
+        if (data && customComponents && ((!prevData || data.config.components !== prevData.config.components) || customComponents !== prevProps.customComponents)) {
+            this.props.loadComponentInstances(data.config.components, customComponents);
+            this.props.loadComponentMetas(data.config.components, customComponents);
         }
     }
 
@@ -117,14 +114,14 @@ class Page extends PureComponent {
     }
 
     render() {
-        const { isPageError, page, customComponents } = this.props;
+        const { isDataError, data, customComponents } = this.props;
         const { openedPanelId } = this.state;
 
-        if (isPageError) {
-            return <div className={styles.error}>{isPageError}</div>;
+        if (isDataError) {
+            return <div className={styles.error}>{isDataError}</div>;
         }
 
-        return page && customComponents ? (
+        return data && customComponents ? (
             <FloatPanels
                 panels={this.floatPanels}
                 onChangeOpenedPanel={this.setOpenedPanel}
@@ -135,7 +132,7 @@ class Page extends PureComponent {
     }
 
     renderSettingsBlock = () => {
-        const { page, match } = this.props;
+        const { data, match } = this.props;
         const { errors } = this.state;
         const { id } = match.params;
 
@@ -144,21 +141,11 @@ class Page extends PureComponent {
                 <div className={styles['settings-block-content']}>
                     <Breadcrumbs items={breadcrumbs} />
                     <div className={styles['form-container']}>
-                        <Form
-                            format={mainFormat}
-                            value={page}
-                            onChange={this.handleChange}
-                            errors={errors} />
-                        <Form
-                            format={configFormat}
-                            value={page.config}
-                            onChange={this.handleChangeConfig}
-                            errors={{}} />
                     </div>
                 </div>
                 <div className={styles['settings-block-buttons']}>
                     <Button
-                        caption='Сохранить страницу'
+                        caption='Сохранить шаблон'
                         type='yellow'
                         onClick={this.handleSave}
                         size='s'
@@ -166,7 +153,7 @@ class Page extends PureComponent {
                     />
                     {id !== 'add' ? (
                         <Button
-                            caption='Удалить страницу'
+                            caption='Удалить шаблон'
                             type='red'
                             size='s'
                             onClick={this.handleDelete}
@@ -179,14 +166,14 @@ class Page extends PureComponent {
     };
 
     renderPage = () => {
-        const { page } = this.props;
-        const { components } = page.config;
+        const { data } = this.props;
+        const { components } = data.config;
 
         return (
-            <PageComponent headerProps={page.config.headerProps}>
+            <>
                 {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
                 {(!components || !components.length) ? this.renderAddComponent() : null}
-            </PageComponent>
+            </>
         );
     }
 
@@ -206,12 +193,12 @@ class Page extends PureComponent {
     }
 
     setConfig = (newConfig) => {
-        const { actions, page } = this.props;
+        const { actions, data } = this.props;
 
-        actions.setPage({
-            ...page,
+        actions.set({
+            ...data,
             config: {
-                ...page.config,
+                ...data.config,
                 ...newConfig
             }
         });
@@ -219,13 +206,13 @@ class Page extends PureComponent {
 
     renderComponentSelect = () => {
         const { addComponentPosition } = this.state;
-        const { page, componentMetas, customComponents } = this.props;
+        const { data, componentMetas, customComponents } = this.props;
 
         const addComponent = (componentId) => {
             const componentMeta = componentMetas[componentId];
             const component = customComponents.find(component => component['_id'] === componentId);
 
-            this.setConfig(OperationsHelper.add(page.config.components, addComponentPosition, {
+            this.setConfig(OperationsHelper.add(data.config.components, addComponentPosition, {
                 componentId,
                 props: componentMeta ? componentMeta.defaultProps : (component ? component.config.defaultProps : {})
             }));
@@ -259,10 +246,10 @@ class Page extends PureComponent {
     };
 
     renderComponentByIndex = (index) => {
-        const { page, componentInstances, componentMetas, customComponents } = this.props;
+        const { data, componentInstances, componentMetas, customComponents } = this.props;
         const { operations } = this.state;
 
-        const { componentId } = page.config.components[index];
+        const { componentId } = data.config.components[index];
         const componentMeta = componentMetas[componentId];
 
         const togglePropsFormVisible = () => {
@@ -279,53 +266,53 @@ class Page extends PureComponent {
             <ComponentRender
                 componentId={componentId}
                 propsFormat={componentMeta ? componentMeta.props : []}
-                componentProps={page.config.components[index].props}
+                componentProps={data.config.components[index].props}
                 editorMode={operations[index] && operations[index].propsFormVisible}
                 toggleEditorMode={togglePropsFormVisible}
                 customComponents={customComponents}
                 instances={componentInstances}
                 onChangeProps={(newProps, errors, images) => {
-                    this.setConfig(OperationsHelper.setProps(page.config.components, index, newProps, errors, images));
+                    this.setConfig(OperationsHelper.setProps(data.config.components, index, newProps, errors, images));
                 }}
                 operations={{
                     addComponent: () => {
                         this.enableAddComponentMode(index + 1);
                     },
-                    moveBottom: index !== page.config.components.length - 1 ? () => {
-                        this.setConfig(OperationsHelper.moveBottom(page.config.components, index));
+                    moveBottom: index !== data.config.components.length - 1 ? () => {
+                        this.setConfig(OperationsHelper.moveBottom(data.config.components, index));
                         this.setState({ operations: {} });
                     } : null,
                     moveUp: index !== 0 ? () => {
-                        this.setConfig(OperationsHelper.moveUp(page.config.components, index));
+                        this.setConfig(OperationsHelper.moveUp(data.config.components, index));
                         this.setState({ operations: {} });
                     } : null,
                     clone: () => {
-                        this.setConfig(OperationsHelper.clone(page.config.components, index));
+                        this.setConfig(OperationsHelper.clone(data.config.components, index));
                     },
                     delete: () => {
-                        this.setConfig(OperationsHelper.delete(page.config.components, index));
+                        this.setConfig(OperationsHelper.delete(data.config.components, index));
                     }
                 }}
             />
         );
     };
 
-    handleChange = (page, errors) => {
+    handleChange = (data, errors) => {
         const { actions } = this.props;
 
         this.setState({ errors });
-        actions.setPage(page);
+        actions.set(data);
     };
 
     handleChangeConfig = (config) => {
-        const { actions, page } = this.props;
-        actions.setPage({ ...page, config });
+        const { actions, data } = this.props;
+        actions.set({ ...data, config });
     };
 
     handleSave = async () => {
         const { showNotification, actions, history, match } = this.props;
 
-        const { message, status, data } = await actions.savePage();
+        const { message, status, data } = await actions.save();
 
         showNotification({ message, status });
 
@@ -337,7 +324,7 @@ class Page extends PureComponent {
                 break;
             case 'success':
                 if (match.params.id === 'add') {
-                    history.push('/admin/pages');
+                    history.push('/admin/page-templates');
                 }
                 break;
         }
@@ -346,13 +333,13 @@ class Page extends PureComponent {
     handleDelete = async () => {
         const { showNotification, actions, history } = this.props;
 
-        if (window.confirm('Вы действительно хотите удалить страницу?')) {
-            const { message, status } = await actions.deletePage();
+        if (window.confirm('Вы действительно хотите удалить шаблон?')) {
+            const { message, status } = await actions.deleteTemplate();
 
             showNotification({ message, status });
 
             if (status === 'success') {
-                history.push('/admin/pages');
+                history.push('/admin/page-templates');
             }
         }
     };
@@ -362,19 +349,14 @@ class Page extends PureComponent {
     }
 }
 
-/**
- * mapDispatchToProps
- * @param {*} dispatch
- * @returns {Object}
- */
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            getPage,
-            setPage,
-            savePage,
+            get,
+            set,
+            save,
             reset,
-            deletePage,
+            deleteTemplate,
             getComponents
         }, dispatch),
         dispatch
@@ -382,9 +364,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-    const { page, isPageFetch, isPageError, customComponents } = state['admin-page'];
+    const { data, isDataFetch, isDataError, customComponents } = state['admin-page-template'];
 
-    return { page, isPageFetch, isPageError, customComponents };
+    return { data, isDataFetch, isDataError, customComponents };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withComponentInstances(withNotification(Page))));
+export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withComponentInstances(withNotification(PageTemplate))));
