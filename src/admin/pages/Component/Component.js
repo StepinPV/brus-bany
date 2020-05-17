@@ -11,16 +11,19 @@ import { Button } from '../../../components/Button';
 import styles from './Component.module.css';
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
+import OperationsHelper from '../../components/pageEditor/operations';
 import withComponentInstances from '../../components/hocs/withComponentInstances';
 import withComponentMetas from '../../components/hocs/withComponentMetas';
 import Header from '../../components/Header';
 
-const breadcrumbsDefault = [{
+const breadcrumbs = [{
     title: 'Главная',
     link: '/admin'
 }, {
     title: 'Компоненты',
     link: '/admin/components'
+}, {
+    title: 'Редактирование'
 }];
 
 class Component extends PureComponent {
@@ -41,20 +44,6 @@ class Component extends PureComponent {
         loadAllComponentMetas: PropTypes.func,
         loadComponentMetas: PropTypes.func
     };
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (!prevState.breadcrumbs) {
-            const { match } = nextProps;
-            return {
-                breadcrumbs: [
-                    ...breadcrumbsDefault,
-                    { title: match.params.id === 'add' ? 'Создание компонента' : 'Редактирование компонента' }
-                ]
-            }
-        }
-
-        return null;
-    }
 
     constructor(props) {
         super(props);
@@ -88,7 +77,6 @@ class Component extends PureComponent {
     state = {
         errors: {},
         operations: {},
-        breadcrumbs: null,
         addComponentPosition: null,
         openedPanelId: null
     };
@@ -162,7 +150,6 @@ class Component extends PureComponent {
 
     renderSettingsBlock = () => {
         const { data, match } = this.props;
-        const { breadcrumbs } = this.state;
         const { id } = match.params;
 
         return (
@@ -218,17 +205,11 @@ class Component extends PureComponent {
         const { data, componentMetas } = this.props;
         const { addComponentPosition } = this.state;
 
-        const { components } = data.config;
-
         const addComponent = (componentId) => {
-            const newComponents = [...components];
-
-            newComponents.splice(addComponentPosition, 0, {
+            this.setConfig(OperationsHelper.add(data.config.components, addComponentPosition, {
                 componentId,
                 props: componentMetas[componentId].defaultProps || {}
-            });
-
-            this.setConfig({ components: newComponents });
+            }));
             this.setOpenedPanel(null);
         }
 
@@ -256,34 +237,6 @@ class Component extends PureComponent {
 
         const Component = componentInstances[componentId];
         if (Component && componentMetas[componentId]) {
-            const onChange = (newProps, errors, images) => {
-                const newComponents = [...data.config.components];
-                newComponents[index].props = newProps;
-
-                this.setConfig({
-                    __images__: images,
-                    components: newComponents
-                });
-            }
-
-            const deleteComponent = (e) => {
-                e.stopPropagation();
-
-                const newComponents = [...data.config.components];
-                newComponents.splice(index, 1);
-
-                this.setConfig({ components: newComponents });
-            }
-
-            const cloneComponent = (e) => {
-                e.stopPropagation();
-
-                const newComponents = [...data.config.components];
-                newComponents.splice(index + 1, 0, JSON.parse(JSON.stringify(data.config.components[index])));
-
-                this.setConfig({ components: newComponents });
-            }
-
             const togglePropsFormVisible = () => {
                 const newOperations = { ...this.state.operations };
                 newOperations[index] = {
@@ -294,47 +247,35 @@ class Component extends PureComponent {
                 this.setState({ operations: newOperations });
             }
 
-            const moveUp = (e) => {
-                e.stopPropagation();
-
-                const newComponents = [...data.config.components];
-                const temp = newComponents[index - 1];
-                newComponents[index - 1] = newComponents[index];
-                newComponents[index] = temp;
-
-                this.setConfig({ components: newComponents });
-                this.setState({ operations: {} });
-            };
-
-            const moveBottom = (e) => {
-                e.stopPropagation();
-
-                const newComponents = [...data.config.components];
-                const temp = newComponents[index + 1];
-                newComponents[index + 1] = newComponents[index];
-                newComponents[index] = temp;
-
-                this.setConfig({ components: newComponents });
-                this.setState({ operations: {} });
-            }
-
             return (
                 <ComponentRender
                     componentId={componentId}
                     propsFormat={componentMetas[componentId].props}
                     componentProps={data.config.components[index].props}
-                    onChangeProps={onChange}
                     editorMode={operations[index] && operations[index].propsFormVisible}
                     toggleEditorMode={togglePropsFormVisible}
                     instances={componentInstances}
+                    onChangeProps={(newProps, errors, images) => {
+                        this.setConfig(OperationsHelper.setProps(data.config.components, index, newProps, errors, images));
+                    }}
                     operations={{
                         addComponent: () => {
                             this.enableAddComponentMode(index + 1);
                         },
-                        moveBottom: index !== data.config.components.length - 1 ? moveBottom : null,
-                        moveUp: index !== 0 ? moveUp : null,
-                        clone: cloneComponent,
-                        delete: deleteComponent
+                        moveBottom: index !== data.config.components.length - 1 ? () => {
+                            this.setConfig(OperationsHelper.moveBottom(data.config.components, index));
+                            this.setState({ operations: {} });
+                        } : null,
+                        moveUp: index !== 0 ? () => {
+                            this.setConfig(OperationsHelper.moveUp(data.config.components, index));
+                            this.setState({ operations: {} });
+                        } : null,
+                        clone: () => {
+                            this.setConfig(OperationsHelper.clone(data.config.components, index));
+                        },
+                        delete: () => {
+                            this.setConfig(OperationsHelper.delete(data.config.components, index));
+                        }
                     }}
                 />
             );

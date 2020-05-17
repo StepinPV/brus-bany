@@ -72,7 +72,10 @@ class Component extends PureComponent {
         return (
             <div className={styles.operations}>
                 {meta.map(o => operations[o.id] ? (
-                    <div key={o.id} className={styles.operation} onClick={operations[o.id]}>{o.caption}</div>
+                    <div key={o.id} className={styles.operation} onClick={(e) => {
+                        e.stopPropagation();
+                        operations[o.id]();
+                    }}>{o.caption}</div>
                 ) : null)}
             </div>
         )

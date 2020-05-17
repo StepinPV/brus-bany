@@ -11,6 +11,7 @@ import { main as mainFormat, config as configFormat } from '../../formats/page';
 import { Button } from "../../../components/Button";
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
+import OperationsHelper from '../../components/pageEditor/operations';
 import withComponentInstances from '../../components/hocs/withComponentInstances';
 import withComponentMetas from '../../components/hocs/withComponentMetas';
 import styles from './Page.module.css';
@@ -221,17 +222,13 @@ class Page extends PureComponent {
         const { page, componentMetas, customComponents } = this.props;
 
         const addComponent = (componentId) => {
-            const newComponents = [...page.config.components];
-
             const componentMeta = componentMetas[componentId];
-            const component = this.props.components.find(component => component['_id'] === componentId);
+            const component = customComponents.find(component => component['_id'] === componentId);
 
-            newComponents.splice(addComponentPosition, 0, {
+            this.setConfig(OperationsHelper.add(page.config.components, addComponentPosition, {
                 componentId,
                 props: componentMeta ? componentMeta.defaultProps : (component ? component.config.defaultProps : {})
-            });
-
-            this.setConfig({ components: newComponents });
+            }));
             this.setOpenedPanel(null);
         }
 
@@ -268,34 +265,6 @@ class Page extends PureComponent {
         const { componentId } = page.config.components[index];
         const componentMeta = componentMetas[componentId];
 
-        const onChange = (newProps, errors, images) => {
-            const newComponents = [...page.config.components];
-            newComponents[index].props = newProps;
-
-            this.setConfig({
-                __images__: images,
-                components: newComponents
-            });
-        }
-
-        const deleteComponent = (e) => {
-            e.stopPropagation();
-
-            const newComponents = [...page.config.components];
-            newComponents.splice(index, 1);
-
-            this.setConfig({ components: newComponents });
-        }
-
-        const cloneComponent = (e) => {
-            e.stopPropagation();
-
-            const newComponents = [...page.config.components];
-            newComponents.splice(index + 1, 0, JSON.parse(JSON.stringify(page.config.components[index])));
-
-            this.setConfig({ components: newComponents });
-        }
-
         const togglePropsFormVisible = () => {
             const newOperations = { ...this.state.operations };
             newOperations[index] = {
@@ -306,48 +275,36 @@ class Page extends PureComponent {
             this.setState({ operations: newOperations });
         }
 
-        const moveUp = (e) => {
-            e.stopPropagation();
-
-            const newComponents = [...page.config.components];
-            const temp = newComponents[index - 1];
-            newComponents[index - 1] = newComponents[index];
-            newComponents[index] = temp;
-
-            this.setConfig({ components: newComponents });
-            this.setState({ operations: {} });
-        };
-
-        const moveBottom = (e) => {
-            e.stopPropagation();
-
-            const newComponents = [...page.config.components];
-            const temp = newComponents[index + 1];
-            newComponents[index + 1] = newComponents[index];
-            newComponents[index] = temp;
-
-            this.setConfig({ components: newComponents });
-            this.setState({ operations: {} });
-        }
-
         return (
             <ComponentRender
                 componentId={componentId}
                 propsFormat={componentMeta ? componentMeta.props : []}
                 componentProps={page.config.components[index].props}
-                onChangeProps={onChange}
                 editorMode={operations[index] && operations[index].propsFormVisible}
                 toggleEditorMode={togglePropsFormVisible}
                 customComponents={customComponents}
                 instances={componentInstances}
+                onChangeProps={(newProps, errors, images) => {
+                    this.setConfig(OperationsHelper.setProps(page.config.components, index, newProps, errors, images));
+                }}
                 operations={{
                     addComponent: () => {
                         this.enableAddComponentMode(index + 1);
                     },
-                    moveBottom: index !== page.config.components.length - 1 ? moveBottom : null,
-                    moveUp: index !== 0 ? moveUp : null,
-                    clone: cloneComponent,
-                    delete: deleteComponent
+                    moveBottom: index !== page.config.components.length - 1 ? () => {
+                        this.setConfig(OperationsHelper.moveBottom(page.config.components, index));
+                        this.setState({ operations: {} });
+                    } : null,
+                    moveUp: index !== 0 ? () => {
+                        this.setConfig(OperationsHelper.moveUp(page.config.components, index));
+                        this.setState({ operations: {} });
+                    } : null,
+                    clone: () => {
+                        this.setConfig(OperationsHelper.clone(page.config.components, index));
+                    },
+                    delete: () => {
+                        this.setConfig(OperationsHelper.delete(page.config.components, index));
+                    }
                 }}
             />
         );
