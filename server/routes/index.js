@@ -10,5 +10,6 @@ router.use('/upload-image', require('./image-uploader'));
 router.use('/requests', require('./requests'));
 router.use('/pages', require('./pages'));
 router.use('/components', require('./components'));
+router.use('/page-templates', require('./page-templates'));
 
 module.exports = router;

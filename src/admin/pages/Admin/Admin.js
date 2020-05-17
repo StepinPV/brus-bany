@@ -37,6 +37,11 @@ const tiles = [{
     type: 'link',
     title: 'Компоненты',
     link: '/admin/components'
+}, {
+    key: '/admin/page-templates',
+    type: 'link',
+    title: 'Шаблоны страниц',
+    link: '/admin/page-templates'
 }];
 
 class Admin extends PureComponent {

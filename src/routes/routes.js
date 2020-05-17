@@ -203,6 +203,14 @@ export default (initModule) => {
             loading: LoaderPage,
         })
     }, {
+        id: 'admin/page-templates',
+        path: '/admin/page-templates',
+        exact: true,
+        component: Loadable({
+            loader: () => getLoader(import('../admin/pages/PageTemplates')),
+            loading: LoaderPage,
+        })
+    }, {
         id: 'page-generator',
         path: '*',
         exact: true,
