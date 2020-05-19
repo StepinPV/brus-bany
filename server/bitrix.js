@@ -3,19 +3,11 @@ const request = require('request');
 module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
     let message = '';
 
-    const mainFields = {
-       address: ''
-    };
-
     function addTitle(title) {
         message += `${title}:\n\n`;
     }
 
     function addField(id, name, value) {
-        if (id && mainFields.hasOwnProperty(id)) {
-            mainFields[id] = value;
-        }
-
         message += `${name}: ${value}\n`;
     }
 
@@ -110,11 +102,6 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
                                     values: [{
                                         value: phone,
                                         enum: "WORK"
-                                    }]
-                                }, {
-                                    id: 208675,
-                                    values: [{
-                                        value: mainFields.address
                                     }]
                                 }]
                             }
