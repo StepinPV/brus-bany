@@ -325,7 +325,7 @@ class Project extends PureComponent {
 
         return (
             <CP
-                onSuccess={() => { this.historyPush({ CPMode: false }); }}
+                onClose={() => { this.historyPush({ CPMode: false }); }}
                 onChange={(data) => { this.historyPush({ CPData: data }); }}
                 CPData={this.state.CPData}
                 data={{
@@ -337,6 +337,7 @@ class Project extends PureComponent {
                         image: data.src
                     };
                 })}
+                finalPrice={this.getFinalPrice()}
                 project={this.props.project}
                 infoBlock={(
                     <div className={styles['info']}>

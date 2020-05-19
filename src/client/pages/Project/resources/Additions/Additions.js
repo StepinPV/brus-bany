@@ -27,7 +27,7 @@ const getAdditionById = (additions, _id) => {
     return addition;
 };
 
-function getPrice(project, data, formula) {
+export function getPrice(project, data, formula) {
     const { layoutId: params } = project;
     const { length: deliveryLength } = data.delivery || { length: 0 };
 
