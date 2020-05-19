@@ -2,36 +2,23 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styles from './DeliveryMap.module.css';
 import Caption from '../Caption/Caption';
-import numberWithSpaces from '../../../utils/numberWithSpaces';
 
 let Map;
 
 class DeliveryMap extends PureComponent {
     static propTypes = {
-        tariff: PropTypes.number.isRequired,
-        minimalCost: PropTypes.number.isRequired,
-        onChange: PropTypes.func,
         id: PropTypes.string,
-        calculate: PropTypes.func
-    };
-
-    static defaultProps = {
-        tariff: 55,
-        minimalCost: 500
+        onChange: PropTypes.func,
+        content: PropTypes.object,
+        defaultAddress: PropTypes.string
     };
 
     state = {
-        data: null,
-        mapLoaded: false
+        firstChanged: true
     };
 
     constructor(props) {
         super(props);
-
-        // Функция, вычисляющая стоимость доставки.
-        function calculate(routeLength) {
-            return Math.max(routeLength * props.tariff, props.minimalCost);
-        }
 
         this.setRoutePanelRef = element => {
             if (!element) {
@@ -42,7 +29,8 @@ class DeliveryMap extends PureComponent {
 
             routePanel.state.set({
                 fromEnabled: false,
-                from: 'Новгородская обл, г.Пестово'
+                from: 'Новгородская обл, г.Пестово',
+                to: props.defaultAddress
             });
 
             routePanel.options.set({
@@ -61,26 +49,22 @@ class DeliveryMap extends PureComponent {
                         // Получим протяженность маршрута
                         const distance = activeRoute.properties.get("distance");
                         const length = Math.round(distance.value / 1000);
-                        // Вычислим стоимость доставки
-                        const price = (props.calculate || calculate)(length);
 
                         const point = routePanel.getRoute().getWayPoints().get(1);
                         const address = point ? point.model.getJson().properties.address : null;
 
-                        this.setState({ data: { length, price, address } });
                         if (props.onChange) {
-                            props.onChange({ length, price, address });
+                            props.onChange({ length, address });
                         }
                     }
                 });
 
                 route.model.events.add('requestchange', () => {
-                    // window.delivery = 0;
-                    this.setState({ data: null });
-
-                    if (props.onChange) {
+                    if (props.onChange && !this.state.firstChanged) {
                         props.onChange(null);
                     }
+
+                    this.setState({ firstChanged: false });
                 });
 
             });
@@ -106,19 +90,17 @@ class DeliveryMap extends PureComponent {
     }
 
     render() {
-        const { id, tariff } = this.props;
-        const { data, mapLoaded } = this.state;
+        const { id, content } = this.props;
+        const { mapLoaded } = this.state;
 
         return (
             <div id={id} className={styles.container}>
                 <div className={styles.title}>
                     <Caption align='center' color='black' tag='h2'>Рассчитайте стоимость доставки</Caption>
                 </div>
-                {data ? (
+                {content ? (
                     <div className={styles.coastContainer}>
-                        <div>{`Цена за 1 км: ${tariff} руб`}</div>
-                        <div>{`Расстояние: ${data.length} км`}</div>
-                        <div>{`Стоимость доставки: ${numberWithSpaces(data.price)} руб`}</div>
+                        {content}
                     </div>
                 ) : null}
                 {mapLoaded ? (

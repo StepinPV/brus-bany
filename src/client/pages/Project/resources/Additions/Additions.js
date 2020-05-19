@@ -6,12 +6,63 @@ import cx from 'classnames';
 import styles from './Additions.module.css';
 import numberWithSpaces from '../../../../../utils/numberWithSpaces';
 
+const getAdditionById = (additions, _id) => {
+    let addition;
+
+    for (const { value } of additions) {
+        if (value && value.length) {
+            for (const item of value) {
+                if (item['_id'] === _id) {
+                    addition = item;
+                    break;
+                }
+            }
+
+            if (addition) {
+                break;
+            }
+        }
+    }
+
+    return addition;
+};
+
+function getPrice(project, data, formula) {
+    const { layoutId: params } = project;
+    const { length: deliveryLength } = data.delivery || { length: 0 };
+
+    // eslint-disable-next-line
+    try {
+        // eslint-disable-next-line
+        return Math.round(eval(formula) / 100) * 100;
+    } catch(err) {
+        return 0;
+    }
+}
+
+export const getFinalPriceByValues = (project, data, additions, values) => {
+    let sumPrice = 0;
+
+    Object.keys(values).forEach(_id => {
+        const addition = getAdditionById(additions, _id);
+        const value = values[_id];
+        if (addition.type === 'boolean') {
+            sumPrice += value ? getPrice(project, data, addition.price) : 0;
+        } else {
+            sumPrice += getPrice(project, data, addition.price) * parseInt(value);
+        }
+    });
+
+    return sumPrice;
+};
+
 class Additions extends PureComponent {
     static propTypes = {
-        additions: PropTypes.array,
         onChange: PropTypes.func,
+        data: PropTypes.object,
+        additions: PropTypes.array,
         value: PropTypes.object,
-        getPrice: PropTypes.func,
+        project: PropTypes.object,
         caption: PropTypes.string,
         description: PropTypes.string
     };
@@ -21,7 +72,7 @@ class Additions extends PureComponent {
     };
 
     render() {
-        const { additions, value: v, getPrice, caption, description } = this.props;
+        const { value: v, project, caption, description, data, additions } = this.props;
         const { expandedAdditions } = this.state;
 
         return (
@@ -43,23 +94,22 @@ class Additions extends PureComponent {
                                                     {type === 'boolean' ? (
                                                         <input
                                                             type='checkbox'
-                                                            checked={v.values[_id] ? v.values[_id].value : false}
-                                                            onChange={(e) => {this.changeValue(_id, name, price, type, e.target.checked)}} />
+                                                            checked={v && v[_id] ? v[_id] : false}
+                                                            onChange={(e) => {this.changeValue(_id, e.target.checked)}} />
                                                     ) : (
                                                         <input
-                                                            value={v.values[_id] ? v.values[_id].value : 0}
+                                                            value={v && v[_id] ? v[_id] : 0}
                                                             className={styles['item-input']}
                                                             type='number'
                                                             min='0'
-                                                            onChange={(e) => {this.changeValue(_id, name, price, type, e.target.value)}}/>
+                                                            onChange={(e) => {this.changeValue(_id, e.target.value)}}/>
                                                     )}
-
                                                 </div>
                                                 <div className={styles.title}>
                                                     <Text>{name}</Text>
                                                 </div>
                                                 <div className={styles.price}>
-                                                    <Text>{`${numberWithSpaces(getPrice(price))} р.`}</Text>
+                                                    <Text>{`${numberWithSpaces(getPrice(project, data, price))} р.`}</Text>
                                                 </div>
                                             </div>
                                         )) : null
@@ -68,7 +118,7 @@ class Additions extends PureComponent {
                             </Fragment>
                         ))}
                     </div>
-                    <div className={styles.sum}>{`Стоимость: ${numberWithSpaces(v.price)} руб`}</div>
+                    <div className={styles.sum}>{`Стоимость: ${v ? numberWithSpaces(getFinalPriceByValues(project, data, additions, v)) : '0'} руб`}</div>
                 </div>
             </DataSection>
         );
@@ -82,38 +132,19 @@ class Additions extends PureComponent {
         })
     };
 
-    getFinalPriceByValues = (values) => {
-        const { getPrice } = this.props;
-        let sumPrice = 0;
-
-        Object.keys(values).forEach(_id => {
-            const { value, type, price } = values[_id];
-            if (type === 'boolean') {
-                sumPrice += value ? getPrice(price) : 0;
-            } else {
-                sumPrice += getPrice(price) * parseInt(value);
-            }
-        });
-
-        return sumPrice;
-    };
-
-    changeValue = (_id, name, price, type, val) => {
+    changeValue = (_id, val) => {
         const { onChange, value } = this.props;
 
         const newValues = {
-            ...value.values,
-            [_id]: { name, value: val, type, price }
+            ...(value || {}),
+            [_id]: val
         };
 
         if (!val || val === '0') {
             delete newValues[_id];
         }
 
-        onChange({
-            values: newValues,
-            price: this.getFinalPriceByValues(newValues)
-        });
+        onChange(Object.keys(newValues).length ? newValues : undefined);
     };
 }
 

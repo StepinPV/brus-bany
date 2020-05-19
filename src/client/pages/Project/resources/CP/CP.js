@@ -29,7 +29,7 @@ function getPrice(formValue) {
 
 function renderManager(id) {
     switch(id) {
-        case '1': return 'C уважением, Мария: 8 (921) 204-65-12';
+        case '1': return 'C уважением, Марина: 8 (921) 204-65-12';
         case '2': return 'C уважением, Константин: 8 (901) 543-85-19';
         case '3': return 'C уважением, Юлия: 8 (977) 384-88-52';
     }
@@ -41,7 +41,7 @@ const format = [{
     type: 'select',
     items: [{
         id: '1',
-        title: 'Мария'
+        title: 'Марина'
     }, {
         id: '2',
         title: 'Константин'
@@ -58,7 +58,7 @@ const format = [{
         title: 'Изображение',
         type: 'image'
     }]
-}, {
+}/*, {
     _id: 'data',
     title: 'Блоки',
     itemTitleField: 'caption',
@@ -92,12 +92,15 @@ const format = [{
             }]
         }]
     }]
-}];
+}*/];
 
-function CP({ images, data, infoBlock, onSuccess }) {
+function CP({ CPData, images, data, project, infoBlock, onSuccess, onChange }) {
     let containerRef = null;
 
-    const [formValue, setFormValue] = useState({ images, manager: '1', data });
+    const formValue = {
+        images: CPData && CPData.images || images,
+        manager: CPData && CPData.manager || '1'
+    };
 
     function print() {
         let prtCSS = '';
@@ -146,7 +149,7 @@ function CP({ images, data, infoBlock, onSuccess }) {
                         <img src={image} />
                     ))}
                 </div>
-                {formValue.data ? formValue.data.map(dataElement => {
+                {/*{formValue.data ? formValue.data.map(dataElement => {
                     return (
                         <div className={styles['preview-block']}>
                             <div className={styles['preview-block-caption']}>{dataElement.caption}</div>
@@ -175,10 +178,10 @@ function CP({ images, data, infoBlock, onSuccess }) {
 
                         </div>
                     );
-                }) : null}
-                <div className={styles['preview-block']}>
+                }) : null}*/}
+                {/*<div className={styles['preview-block']}>
                     <div className={styles['preview-block-caption']}>Итоговая стоимость: <span className={styles['preview-price']}>{numberWithSpaces(getPrice(formValue))} рублей</span></div>
-                </div>
+                </div>*/}
             </div>
         );
     }
@@ -198,7 +201,7 @@ function CP({ images, data, infoBlock, onSuccess }) {
                         format={format}
                         value={formValue}
                         errors={{}}
-                        onChange={setFormValue}/>
+                        onChange={onChange} />
                 </div>
             </div>
             <div className={styles['content-preview']}>

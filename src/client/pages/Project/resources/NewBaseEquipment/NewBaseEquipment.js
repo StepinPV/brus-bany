@@ -23,6 +23,7 @@ class NewBaseEquipment extends PureComponent {
                     <div className={styles.header}>
                         {equipment.map(({ name }, index) => (
                             <div
+                                key={name}
                                 className={cx(styles['header-item'], {[styles['header-item-selected']]: selected === index })}
                                 onClick={() => { this.setState({ selected: index }) }}>
                                 {name}

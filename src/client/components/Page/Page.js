@@ -26,7 +26,7 @@ function Page(props) {
                 </div>
             )}
             <a
-                href='https://api.whatsapp.com/send?phone=79212046512'
+                href='https://api.whatsapp.com/send?phone=79210290107'
                 title='Перейти в WatsApp'
                 target='_blank'
                 rel="noopener noreferrer">

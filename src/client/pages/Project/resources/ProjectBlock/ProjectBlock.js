@@ -18,7 +18,7 @@ function ProjectBlock({ idField='id', selectedId, onChange, name, description, i
                             onClick={() => {
                                 if (item[idField] === selectedId) {
                                     if (!required) {
-                                        onChange(null);
+                                        onChange(undefined);
                                     }
                                 } else {
                                     onChange(item[idField]);

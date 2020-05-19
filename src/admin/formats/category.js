@@ -307,7 +307,7 @@ export default [{
     type: 'object',
     format: [{
         _id: 'delivery',
-        title: 'Формула стоимости доставки за 1 км',
+        title: 'Формула стоимости доставки',
         type: 'string'
     }, additions]
 }];
