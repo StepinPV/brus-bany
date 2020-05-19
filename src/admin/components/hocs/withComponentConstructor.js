@@ -32,9 +32,9 @@ export default function withComponentConstructor(Component) {
             }
 
             if (componentsPaths[id]) {
-                const constructor = (await componentsPaths[id].load()).default;
-                componentConstructors[id] = constructor;
-                return constructor;
+                const constr = (await componentsPaths[id].load()).default;
+                componentConstructors[id] = constr;
+                return constr;
             }
 
             if (!customComponents) {

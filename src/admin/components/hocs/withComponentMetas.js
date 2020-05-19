@@ -9,22 +9,22 @@ export default function withComponentInstances(Component) {
             return await componentsPaths[componentId].loadMeta();
         }
 
-        async function _loadMetas(metas, components, customComponents) {
+        async function _loadMetas(componentMetas, components, customComponents) {
             for (const { componentId } of components) {
-                if (metas[componentId]) {
+                if (componentMetas[componentId]) {
                     continue;
                 }
 
                 if (componentsPaths[componentId]) {
-                    metas[componentId] = await loadMeta(componentId);
+                    componentMetas[componentId] = await loadMeta(componentId);
                     continue;
                 }
 
                 const component = customComponents.find(c => c['_id'] === componentId);
-                metas = await _loadMetas(metas, component.config.components, customComponents);
+                componentMetas = await _loadMetas(componentMetas, component.config.components, customComponents);
             }
 
-            return metas;
+            return componentMetas;
         }
 
         async function loadMetas(components, customComponents) {
