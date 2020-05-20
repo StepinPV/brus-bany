@@ -43,7 +43,7 @@ function renderComplectation(project, data) {
 
     const defaultItemId = complectationBlocks.defaultItemId;
 
-    const item = complectationBlocks.items.find(item => item._id === complectation || defaultItemId)
+    const item = complectationBlocks.items.find(item => item.id === (complectation || defaultItemId))
 
     const price = project.prices && project.prices[item.id] ? project.prices[item.id] : 0;
 
