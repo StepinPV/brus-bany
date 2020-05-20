@@ -40,6 +40,11 @@ let filters = {
             title: 'SEO Title',
             type: 'string',
             required: true
+        }, {
+            _id: 'article',
+            title: 'Статья',
+            type: 'object',
+            format: article
         }]
     }]
 };

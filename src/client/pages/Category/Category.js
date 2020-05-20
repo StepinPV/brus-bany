@@ -301,13 +301,11 @@ class Category extends PureComponent {
         const { category } = this.props;
         const { filters } = this.state;
 
-        if (filters && filters.length) {
-            return null;
-        }
+        const article = filters && filters.length ? filters[filters.length - 1].article : category.article;
 
-        return category.article ? (
+        return article ? (
             <DataSection bgStyle='white'>
-                <Article article={category.article} captionTag='h2' />
+                <Article article={article} captionTag='h2' />
             </DataSection>
         ) : null;
     };
