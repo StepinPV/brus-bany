@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, matchPath } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import Loadable from 'react-loadable';
+import { loadableReady } from '@loadable/component';
 import configureStore from './store';
 import App from './components/App';
 import getRoutes from './routes';
@@ -31,7 +31,7 @@ async function run () {
     delete window.__customComponents__;
     /* eslint-enable no-underscore-dangle */
 
-    await Loadable.preloadReady();
+    await loadableReady();
 
     // TODO Вот тут не нужно добавлять все модули
     const routes = getRoutes(module => {

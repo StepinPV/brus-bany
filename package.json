@@ -10,6 +10,10 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
+    "@loadable/babel-plugin": "^5.12.0",
+    "@loadable/component": "^5.12.0",
+    "@loadable/server": "^5.12.0",
+    "@loadable/webpack-plugin": "^5.12.0",
     "autoprefixer": "^9.7.6",
     "axios": "^0.18.0",
     "babel-loader": "^8.1.0",
@@ -40,7 +44,6 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^5.2.1",
-    "react-loadable": "^5.5.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-yandex-maps": "^4.2.0",
@@ -56,8 +59,7 @@
     "webpack-cli": "^3.3.11",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-merge": "^4.2.2",
-    "webpack-node-externals": "^1.7.2",
-    "webpackbar": "^4.0.0"
+    "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
     "colors": "^1.4.0",

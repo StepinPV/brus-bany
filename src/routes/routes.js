@@ -1,230 +1,157 @@
-import Loadable from 'react-loadable';
-import LoaderPage from '../components/LoaderPage';
+import baseLoadable from '@loadable/component';
+// import LoaderPage from '../components/LoaderPage';
 
 export default (initModule) => {
-    const getLoader = async (importPromise) => {
-        const module = await importPromise;
+    const loadable = (func) => {
+        const requireSync = func.requireSync.bind(func);
+        func.requireSync = (props) => {
+            const module = requireSync(props);
 
-        if (initModule && typeof initModule === 'function') {
-            initModule(module.info);
-        }
+            if (initModule) {
+                initModule(module.info);
+            }
 
-        return module;
+            return module;
+        };
+
+        return baseLoadable(func);
     };
 
     return [{
         id: 'site/main',
         path: '/',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Main')),
-            loading: LoaderPage,
-        }),
+        component: loadable(() => import('../client/pages/Main')),
         simplePage: true
     }, {
         id: 'site/bani/category/project',
         path: '/bani/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Project')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../client/pages/Project'))
     }, {
         id: 'site/bani/category',
         path: '/bani/:name',
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Category')),
-            loading: LoaderPage,
-        }),
+        component: loadable(() => import('../client/pages/Category')),
         simplePage: true
     }, {
         id: 'site/blog',
         path: '/blog',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Articles')),
-            loading: LoaderPage,
-        }),
+        component: loadable(() => import('../client/pages/Articles')),
         simplePage: true
     }, {
         id: 'site/blog/article',
         path: '/blog/:name',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Article')),
-            loading: LoaderPage,
-        }),
+        component: loadable(() => import('../client/pages/Article')),
         simplePage: true
     }, {
         id: 'site/photos',
         path: '/photos',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Photos')),
-            loading: LoaderPage,
-        }),
+        component: loadable(() => import('../client/pages/Photos')),
         simplePage: true
     }, {
         id: 'site/photos/category',
         path: '/photos/:name',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Photos')),
-            loading: LoaderPage,
-        }),
+        component: loadable(() => import('../client/pages/Photos')),
         simplePage: true
     }, {
         id: 'site/photos/category/project',
         path: '/photos/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)_:photoId',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/Photo')),
-            loading: LoaderPage,
-        }),
+        component: loadable(() => import('../client/pages/Photo')),
         simplePage: true
     }, {
         id: 'admin',
         path: '/admin',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Admin')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Admin'))
     }, {
         id: 'admin/layouts',
         path: '/admin/layouts',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Layouts')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Layouts'))
     }, {
         id: 'admin/layouts/layout',
         path: '/admin/layouts/:name',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Layout')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Layout'))
     }, {
         id: 'admin/categories',
         path: '/admin/categories',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Categories')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Categories'))
     }, {
         id: 'admin/categories/category',
         path: '/admin/categories/:name',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Category')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Category'))
     }, {
         id: 'admin/projects',
         path: '/admin/projects',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Projects')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Projects'))
     }, {
         id: 'admin/projects/category/project',
         path: '/admin/projects/:categoryId/:layoutId',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Project')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Project'))
     }, {
         id: 'admin/articles',
         path: '/admin/articles',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Articles')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Articles'))
     }, {
         id: 'admin/articles/article',
         path: '/admin/articles/:name',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Article')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Article'))
     }, {
         id: 'admin/photos',
         path: '/admin/photos',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Photos')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Photos'))
     }, {
         id: 'admin/photos',
         path: '/admin/photos/:categoryId/:id',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Photo')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Photo'))
     }, {
         id: 'admin/pages',
         path: '/admin/pages',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Pages')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Pages'))
     }, {
         id: 'admin/pages/page',
         path: '/admin/pages/:id',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Page')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Page'))
     }, {
         id: 'admin/components',
         path: '/admin/components',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Components')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Components'))
     }, {
         id: 'admin/components/component',
         path: '/admin/components/:id',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/Component')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/Component'))
     }, {
         id: 'admin/page-templates',
         path: '/admin/page-templates',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/PageTemplates')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/PageTemplates'))
     }, {
         id: 'admin/components/page-templates/template',
         path: '/admin/page-templates/:id',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../admin/pages/PageTemplate')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../admin/pages/PageTemplate'))
     }, {
         id: 'page-generator',
         path: '*',
         exact: true,
-        component: Loadable({
-            loader: () => getLoader(import('../client/pages/CustomPage')),
-            loading: LoaderPage,
-        })
+        component: loadable(() => import('../client/pages/CustomPage'))
     }];
 };

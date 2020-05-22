@@ -27,7 +27,7 @@ module.exports = (targets, plugins = []) => ({
                         '@babel/proposal-object-rest-spread',
                         '@babel/syntax-dynamic-import',
                         ['module:fast-async', { spec: true }],
-                        'react-loadable/babel'
+                        '@loadable/babel-plugin'
                     ],
                     compact: true
                 }

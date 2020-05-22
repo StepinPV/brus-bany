@@ -2,10 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const nodeExternals = require('webpack-node-externals');
-const { ReactLoadablePlugin } = require('react-loadable/webpack');
+const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -61,7 +60,7 @@ const client = () => merge([
                 cacheGroups: {
                     default: false,
                     vendors: {
-                        test: /[\\/]node_modules[\\/](axios|@babel|classnames|core-js|react|react-dom|redux|react-redux|react-helmet|react-router|react-router-dom|react-loadable)[\\/]/,
+                        test: /[\\/]node_modules[\\/](axios|@babel|classnames|core-js|react|react-dom|redux|react-redux|react-helmet|react-router|react-router-dom)[\\/]/,
                         name(module) {
                             const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
                             return `${packageName.replace('@', '').replace('/', '-')}`;
@@ -93,9 +92,7 @@ const client = () => merge([
             }),
             new webpack.HashedModuleIdsPlugin(),
             new CleanWebpackPlugin(),
-            new ReactLoadablePlugin({
-                filename: './dist/react-loadable.json'
-            }),
+            new LoadablePlugin(),
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
                 'process.env.ssr': false
@@ -104,7 +101,6 @@ const client = () => merge([
                 filename: '[name].[chunkhash:10].css',
                 chunkFilename: '[id].[chunkhash:10].css'
             }),
-            new WebpackBar(),
             ...[...(ANALIZE_MODE ? [new (require('webpack-bundle-analyzer')['BundleAnalyzerPlugin'])] : [])]
         ]
     },
@@ -139,6 +135,7 @@ const server = () => merge([
                 maxChunks: 1
             }),
             new CleanWebpackPlugin(),
+            new LoadablePlugin(),
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
                 'process.env.ssr': true
@@ -146,8 +143,7 @@ const server = () => merge([
             new MiniCssExtractPlugin({
                 filename: 'server.css',
                 ignoreOrder: true
-            }),
-            new WebpackBar()
+            })
         ]
     },
     commonConfig(),

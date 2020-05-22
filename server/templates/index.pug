@@ -13,9 +13,9 @@ html(lang='ru')
         link(rel='apple-touch-icon', href='/apple-touch-icon.png')
         link(rel='manifest', href='/manifest.json')
 
-        link(rel='stylesheet', href=assets.css.main, type='text/css')
-        each chunk in assets.css.chunks
-            link(rel='stylesheet', href=chunk.publicPath, type='text/css')
+        | !{assets.styleTags}
+        | !{assets.linkTags}
+
         each component in assets.css.components
             link(rel='stylesheet', href=component, type='text/css')
 
@@ -30,15 +30,13 @@ html(lang='ru')
             | window.__pageData__ = !{pageData};
             | window.__customComponents__ = !{customComponents};
 
+        | !{assets.scriptTags}
+
         if assets.js
-            script(src=assets.js.runtimeMain)
             each vendor in assets.js.vendors
                 script(src=vendor)
             each component in assets.js.components
                 script(src=component)
-            each chunk in assets.js.chunks
-                script(src=chunk.publicPath)
-            script(src=assets.js.main)
 
         if needCounters
             script(type='text/javascript')

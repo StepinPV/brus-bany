@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import Loadable from 'react-loadable';
+import loadable from '@loadable/component';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Header from '../../components/Header';
@@ -42,10 +42,7 @@ const breadcrumbsDefault = [{
     link: '/bani'
 }];
 
-const CP = Loadable({
-    loader: () => import('./resources/CP'),
-    loading: () => null
-});
+const CP = loadable(() => import('./resources/CP'));
 
 class Project extends PureComponent {
     static propTypes = {

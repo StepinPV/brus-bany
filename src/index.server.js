@@ -3,7 +3,8 @@ import ReactDOMServer from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
-import Loadable from 'react-loadable';
+import path from 'path';
+import { ChunkExtractor } from '@loadable/server';
 import configureStore from './store';
 import getRoutes from './routes';
 import App from './components/App';
@@ -11,7 +12,6 @@ import axios from 'axios';
 import getComponents from './constructorComponents/getComponents';
 
 const routes = getRoutes();
-Loadable.preloadAll();
 
 const render = async (req, res, axiosOptions = {}) => {
     axios.defaults.baseURL = axiosOptions.apiURL;
@@ -29,10 +29,6 @@ const render = async (req, res, axiosOptions = {}) => {
     const store = configureStore({});
 
     const loadableComponent = matchRoute.component;
-
-    if (!loadableComponent.preload) {
-        throw new Error('preload() не существует!');
-    }
 
     let componentConstructors = null;
     let componentIds = null;
@@ -60,7 +56,11 @@ const render = async (req, res, axiosOptions = {}) => {
         }
     }
 
-    const component = await loadableComponent.preload();
+    const extractor = new ChunkExtractor({
+        statsFile: path.resolve('public/mstatic/build/loadable-stats.json')
+    });
+
+    const component = await loadableComponent.load(extractor);
 
     if (component.info && component.info.id && component.info.reducer) {
         store.addReducer(component.info.id, component.info.reducer, component.info.initialState);
@@ -79,24 +79,23 @@ const render = async (req, res, axiosOptions = {}) => {
         }));
     }
 
-    const modules = [];
     const context = {};
 
-    const markup = ReactDOMServer[simplePage ? 'renderToStaticMarkup' : 'renderToString'](
-        <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-            <Provider store={store}>
-                <StaticRouter location={req.url} context={context}>
-                    <App
-                        preparedComponents={{ [matchRoute.id]: loadableComponent }}
-                        page={page}
-                        componentConstructors={componentConstructors}
-                        customComponents={customComponents}
-                        routes={[matchRoute]}
-                        simplePage={simplePage} />
-                </StaticRouter>
-            </Provider>
-        </Loadable.Capture>
+    const jsx = extractor.collectChunks(
+        <Provider store={store}>
+            <StaticRouter location={req.url} context={context}>
+                <App
+                    preparedComponents={{ [matchRoute.id]: loadableComponent }}
+                    page={page}
+                    componentConstructors={componentConstructors}
+                    customComponents={customComponents}
+                    routes={[matchRoute]}
+                    simplePage={simplePage} />
+            </StaticRouter>
+        </Provider>
     );
+
+    const markup = ReactDOMServer[simplePage ? 'renderToStaticMarkup' : 'renderToString'](jsx);
 
     return {
         head: Helmet.renderStatic(),
@@ -106,9 +105,9 @@ const render = async (req, res, axiosOptions = {}) => {
         customComponents: customComponents,
         simplePage,
         markup,
-        modules,
         componentIds,
-        context
+        context,
+        extractor
     };
 };
 
