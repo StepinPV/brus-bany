@@ -724,7 +724,7 @@ const format = [{
     type: 'select',
     items: [{
         id: 'dogovor',
-        title: 'Договор'
+        title: 'Договор по готовой бани'
     }, {
         id: 'cp',
         title: 'КП'
