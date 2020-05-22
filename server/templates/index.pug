@@ -15,10 +15,6 @@ html(lang='ru')
 
         | !{assets.styleTags}
         | !{assets.linkTags}
-
-        each component in assets.css.components
-            link(rel='stylesheet', href=component, type='text/css')
-
         | !{link}
 
     body(onbeforeunload='')
@@ -32,11 +28,9 @@ html(lang='ru')
 
         | !{assets.scriptTags}
 
-        if assets.js
-            each vendor in assets.js.vendors
+        if vendors
+            each vendor in vendors
                 script(src=vendor)
-            each component in assets.js.components
-                script(src=component)
 
         if needCounters
             script(type='text/javascript')

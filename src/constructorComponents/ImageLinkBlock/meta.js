@@ -71,5 +71,3 @@ export const defaultProps = {
     text: 'Текст',
     buttonCaption: 'Заголовок'
 };
-
-export const dependencies = ['Caption', 'Text', 'Button'];

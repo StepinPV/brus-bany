@@ -77,7 +77,6 @@ export const props = [{
 }];
 
 export const name = 'Вопрос-Ответ';
-export const dependencies = ['Caption', 'Text'];
 export const defaultProps = {
     paddingBottom: 'm',
     paddingTop: 'm',

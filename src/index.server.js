@@ -9,7 +9,6 @@ import configureStore from './store';
 import getRoutes from './routes';
 import App from './components/App';
 import axios from 'axios';
-import getComponents from './constructorComponents/getComponents';
 
 const routes = getRoutes();
 
@@ -30,11 +29,8 @@ const render = async (req, res, axiosOptions = {}) => {
 
     const loadableComponent = matchRoute.component;
 
-    let componentConstructors = null;
-    let componentIds = null;
     let page = null;
     let customComponents;
-    let simplePage = matchRoute.simplePage;
 
     if (matchRoute && matchRoute.id === 'page-generator') {
         const pageRes = await axios.get(`/api/pages/${encodeURIComponent(req.path)}`, {
@@ -48,11 +44,6 @@ const render = async (req, res, axiosOptions = {}) => {
         if (pageRes.data && pageRes.data.status === 'success' && pageRes.data.data) {
             page = pageRes.data.data;
             customComponents = customComponentsRes.data.data;
-            const components = await getComponents(page.config.components, true, customComponents);
-
-            componentConstructors = components.constructors;
-            componentIds = components.ids;
-            simplePage = components.simple;
         }
     }
 
@@ -79,7 +70,9 @@ const render = async (req, res, axiosOptions = {}) => {
         }));
     }
 
-    const context = {};
+    const context = {
+        simplePage: matchRoute.simplePage
+    };
 
     const jsx = extractor.collectChunks(
         <Provider store={store}>
@@ -87,25 +80,21 @@ const render = async (req, res, axiosOptions = {}) => {
                 <App
                     preparedComponents={{ [matchRoute.id]: loadableComponent }}
                     page={page}
-                    componentConstructors={componentConstructors}
                     customComponents={customComponents}
-                    routes={[matchRoute]}
-                    simplePage={simplePage} />
+                    routes={[matchRoute]} />
             </StaticRouter>
         </Provider>
     );
 
-    const markup = ReactDOMServer[simplePage ? 'renderToStaticMarkup' : 'renderToString'](jsx);
+    const markup = ReactDOMServer.renderToString(jsx);
 
     return {
         head: Helmet.renderStatic(),
         initialData: store.getState(),
         pageData: page,
         // TODO Не нужно передавать все!
-        customComponents: customComponents,
-        simplePage,
+        customComponents,
         markup,
-        componentIds,
         context,
         extractor
     };

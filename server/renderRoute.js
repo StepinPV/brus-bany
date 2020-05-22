@@ -28,7 +28,7 @@ router.get('*', async (req, res, next) => {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const { head, markup, initialData, extractor, simplePage, context, pageData, customComponents, componentIds } = await render(req, res, axiosOptions);
+        const { head, markup, initialData, extractor, context, pageData, customComponents } = await render(req, res, axiosOptions);
 
         if (context.status === 404) {
             res.status(404);
@@ -60,7 +60,7 @@ router.get('*', async (req, res, next) => {
                 `<${assetsManifest['main.css']}>; rel=preload; as=style`
             ];
 
-            if (!simplePage) {
+            if (!context.simplePage) {
                 preloadList = [
                     `<${assetsManifest['runtime~main.js']}>; rel=preload; as=script`,
                     `<${assetsManifest['main.js']}>; rel=preload; as=script`,
@@ -75,21 +75,15 @@ router.get('*', async (req, res, next) => {
                 title: head.title.toString(),
                 meta: head.meta.toString(),
                 link: head.link.toString(),
-                initialData: serialize(simplePage ? {} : initialData),
+                initialData: serialize(context.simplePage ? {} : initialData),
                 pageData: serialize(pageData || {}),
                 customComponents: serialize(customComponents || []),
                 app: markup,
                 assets: {
                     styleTags,
-                    linkTags: simplePage ? linkTags.split('\n').filter(str => !str.includes('as="script"')).join('\n') : linkTags,
-                    scriptTags: simplePage ? null : scriptTags,
-                    js: simplePage ? null : {
-                        vendors: vendorList.map(vendor => assetsManifest[`${vendor}.js`]),
-                        components: componentIds ? componentIds.map(componentId => assetsManifest[`${componentId}.js`]) : []
-                    },
-                    css: {
-                        components: componentIds ? componentIds.map(componentId => assetsManifest[`${componentId}.css`]) : [],
-                    }
+                    linkTags: context.simplePage ? linkTags.split('\n').filter(str => !str.includes('as="script"')).join('\n') : linkTags,
+                    scriptTags: context.simplePage ? null : scriptTags,
+                    vendors: context.simplePage ? vendorList.map(vendor => assetsManifest[`${vendor}.js`]) : null
                 }
             };
 

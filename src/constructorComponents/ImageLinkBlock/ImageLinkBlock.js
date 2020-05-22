@@ -1,8 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from "prop-types";
-import Caption from '../Caption';
-import Text from '../Text';
-import Button from '../Button';
+import { Caption, Text, Button } from '../meta';
 import styles from './ImageLinkBlock.module.css';
 import cx from 'classnames';
 

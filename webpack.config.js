@@ -5,6 +5,7 @@ const nodeExternals = require('webpack-node-externals');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const WebpackBar = require('webpackbar');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -66,7 +67,7 @@ const client = () => merge([
                             return `${packageName.replace('@', '').replace('/', '-')}`;
                         },
                         priority: 20
-                    },
+                    }/*,
                     components: {
                         test: /[\\/]constructorComponents[\\/](.*?)[\\/]/,
                         name(module) {
@@ -76,7 +77,7 @@ const client = () => merge([
                         priority: 0,
                         // TODO
                         enforce: true
-                    }
+                    }*/
                 },
                 maxInitialRequests: Infinity,
                 minSize: 0
@@ -101,6 +102,7 @@ const client = () => merge([
                 filename: '[name].[chunkhash:10].css',
                 chunkFilename: '[id].[chunkhash:10].css'
             }),
+            new WebpackBar(),
             ...[...(ANALIZE_MODE ? [new (require('webpack-bundle-analyzer')['BundleAnalyzerPlugin'])] : [])]
         ]
     },
@@ -143,7 +145,8 @@ const server = () => merge([
             new MiniCssExtractPlugin({
                 filename: 'server.css',
                 ignoreOrder: true
-            })
+            }),
+            new WebpackBar()
         ]
     },
     commonConfig(),

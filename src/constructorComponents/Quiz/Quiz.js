@@ -1,6 +1,6 @@
 import React, { PureComponent }from 'react';
 import PropTypes from "prop-types";
-import Form from '../Form';
+import { Form } from '../meta';
 import styles from './Quiz.module.css';
 import cx from 'classnames';
 
@@ -76,6 +76,10 @@ class Quiz extends PureComponent {
     };
 
     render() {
+        if (this.props.staticContext && this.props.staticContext.simplePage) {
+            this.props.staticContext.simplePage = false;
+        }
+
         const { questionIndex } = this.state;
 
         const className = cx(

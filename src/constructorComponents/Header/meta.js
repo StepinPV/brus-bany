@@ -40,7 +40,6 @@ export const props = [{
 }];
 
 export const name = 'Шапка';
-export const dependencies = ['Button'];
 export const defaultProps = {
     items: [{
         caption: 'Ссылка 1',

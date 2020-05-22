@@ -2,12 +2,14 @@ import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Contacts.module.css';
 import cx from 'classnames';
-import Button from '../Button';
-import Text from '../Text';
-import Caption from '../Caption';
+import { Button, Text, Caption } from '../meta';
 import SocialNetwork from '../../client/components/SocialNetwork';
 
 function Contacts(props) {
+    if (props.staticContext && props.staticContext.simplePage) {
+        props.staticContext.simplePage = false;
+    }
+
     const className = cx(
         styles.content,
         props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,

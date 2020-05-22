@@ -1,5 +1,4 @@
 import baseLoadable from '@loadable/component';
-// import LoaderPage from '../components/LoaderPage';
 
 export default (initModule) => {
     const loadable = (func) => {
@@ -152,6 +151,7 @@ export default (initModule) => {
         id: 'page-generator',
         path: '*',
         exact: true,
-        component: loadable(() => import('../client/pages/CustomPage'))
+        component: loadable(() => import('../client/pages/CustomPage')),
+        simplePage: true
     }];
 };

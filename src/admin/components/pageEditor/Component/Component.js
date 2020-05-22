@@ -1,8 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Form from '../../Form';
-import withComponentConstructor from '../../hocs/withComponentConstructor';
+import * as Components from '@constructor-components/meta';
 import withComponentMeta from '../../hocs/withComponentMeta';
+import withCustomComponents from '../../hocs/withCustomComponents';
 import styles from './Component.module.css';
 
 class Component extends PureComponent {
@@ -17,9 +18,9 @@ class Component extends PureComponent {
 
         operations: PropTypes.object,
 
-        // withComponentConstructor
-        componentConstructor: PropTypes.object,
-        loadComponentConstructor: PropTypes.func,
+        // withCustomComponents
+        customComponents: PropTypes.array,
+        loadCustomComponents: PropTypes.func,
 
         // withComponentMeta
         componentMeta: PropTypes.object,
@@ -27,10 +28,10 @@ class Component extends PureComponent {
     };
 
     componentDidMount() {
-        const { instance, loadComponentConstructor } = this.props;
+        const { customComponents, loadCustomComponents } = this.props;
 
-        if (!instance) {
-            loadComponentConstructor();
+        if (!customComponents) {
+            loadCustomComponents();
         }
     }
 
@@ -43,7 +44,7 @@ class Component extends PureComponent {
     }
 
     render = () => {
-        const { toggleEditorMode, operations } = this.props;
+        const { toggleEditorMode, operations, componentId, componentProps } = this.props;
 
         return (
             <Fragment>
@@ -51,7 +52,7 @@ class Component extends PureComponent {
                     <div className={styles.overlay} onClick={toggleEditorMode}>
                         {this.renderOperations()}
                     </div>
-                    {this.renderComponent()}
+                    {this.renderComponent(componentId, componentProps, this.props['__images__'])}
                     { operations['addComponent'] ? <div className={styles.add} onClick={operations['addComponent']}>+</div> : null }
                 </div>
                 {this.renderEditorForm()}
@@ -103,12 +104,25 @@ class Component extends PureComponent {
         )
     }
 
-    renderComponent = () => {
-        const { componentConstructor, componentProps } = this.props;
-        const Component = componentConstructor;
+    renderComponent = (componentId, props, __images__) => {
+        const { customComponents } = this.props;
 
-        return Component ? <Component {...componentProps} __images__={this.props['__images__'] || {}} /> : null;
+        if (Components[componentId]) {
+            const Component = Components[componentId];
+
+            return <Component {...props} __images__={__images__ || {}} />;
+        }
+
+        if (customComponents) {
+            const customComponent = customComponents.find(c => c['_id'] === componentId);
+
+            if (customComponent && customComponent.config && customComponent.config.components) {
+                return customComponent.config.components.map(component => this.renderComponent(component.componentId, component.props, customComponent.config['__images__']));
+            }
+        }
+
+        return null;
     };
 }
 
-export default withComponentMeta(withComponentConstructor(Component));
+export default withComponentMeta(withCustomComponents(Component));

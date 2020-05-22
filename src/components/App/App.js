@@ -14,17 +14,15 @@ class App extends Component {
     static propTypes = {
         routes: PropTypes.array,
         preparedComponents: PropTypes.object,
-        simplePage: PropTypes.bool,
         page: PropTypes.object,
-        componentConstructors: PropTypes.object,
         customComponents: PropTypes.array,
         location: PropTypes.object
     };
 
     render() {
-        const { routes, simplePage } = this.props;
+        const { routes } = this.props;
 
-        return simplePage ? this.renderRoute(routes[0]) : (
+        return (
             <NotificationsProvider>
                 <FormProvider>
                     <>
@@ -52,7 +50,7 @@ class App extends Component {
     }
 
     renderRoute = (route) => {
-        const { preparedComponents, page, componentConstructors, location, customComponents } = this.props;
+        const { preparedComponents, page, location, customComponents } = this.props;
         const Component = preparedComponents ? preparedComponents[route.id] : route.component;
 
         const renderProps = {};
@@ -63,8 +61,7 @@ class App extends Component {
                     <Component
                         {...props}
                         {...page.config}
-                        customComponents={customComponents}
-                        componentConstructors={componentConstructors} />
+                        customComponents={customComponents} />
                 )
             } else {
                 renderProps.component = NotFound;

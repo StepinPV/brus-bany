@@ -6,7 +6,6 @@ import { loadableReady } from '@loadable/component';
 import configureStore from './store';
 import App from './components/App';
 import getRoutes from './routes';
-import getComponents from './constructorComponents/getComponents';
 import './index.css';
 
 if (document.readyState !== 'loading') {
@@ -42,20 +41,13 @@ async function run () {
 
     const matchRoute = routes.find(route => matchPath(window.location.pathname, route) || false);
 
-    let componentConstructors;
-    if (pageData && pageData.url) {
-        const { constructors } = await getComponents(pageData.config.components, false, customComponents);
-        componentConstructors = constructors;
-    }
-
     ReactDOM.hydrate(
         <Provider store={store}>
             <BrowserRouter>
                 <App
                     routes={[matchRoute]}
                     page={pageData}
-                    customComponents={customComponents}
-                    componentConstructors={componentConstructors} />
+                    customComponents={customComponents} />
             </BrowserRouter>
         </Provider>,
         document.getElementById('root')

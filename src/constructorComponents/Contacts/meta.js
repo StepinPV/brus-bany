@@ -39,6 +39,3 @@ export const defaultProps = {
     paddingBottom: 'm',
     paddingTop: 'm'
 };
-
-export const dependencies = ['Button', 'Text', 'Caption'];
-export const notSimple = true;

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Page from '../../components/Page';
 import Meta from "../../components/Meta";
+import * as Components from '@constructor-components/meta';
 
 class CustomPage extends PureComponent {
     static propTypes = {
@@ -9,8 +10,8 @@ class CustomPage extends PureComponent {
         headerProps: PropTypes.object,
         __images__: PropTypes.object,
         customComponents: PropTypes.array,
-        componentConstructors: PropTypes.object,
-        components: PropTypes.array
+        components: PropTypes.array,
+        staticContext: PropTypes.object
     };
 
     static defaultProps = {
@@ -18,8 +19,7 @@ class CustomPage extends PureComponent {
         seoMeta: {},
         __images__: {},
         components: [],
-        customComponents: [],
-        componentConstructors: {}
+        customComponents: []
     };
 
     render() {
@@ -38,12 +38,12 @@ class CustomPage extends PureComponent {
     };
 
     renderComponent = ({ componentId, props }) => {
-        const { componentConstructors, customComponents, __images__ } = this.props;
+        const { customComponents, __images__, staticContext } = this.props;
 
-        if (componentConstructors[componentId]) {
-            const Component = componentConstructors[componentId];
+        if (Components[componentId]) {
+            const Component = Components[componentId];
 
-            return <Component {...props} __images__={__images__} />;
+            return <Component {...props} __images__={__images__} staticContext={staticContext} />;
         }
 
         const customComponent = customComponents.find(c => c['_id'] === componentId);

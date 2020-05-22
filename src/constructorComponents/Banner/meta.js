@@ -48,5 +48,3 @@ export const defaultProps = {
     },
     buttonProps: buttonDefaultProps
 };
-
-export const dependencies = ['Caption', 'Text', 'Button'];

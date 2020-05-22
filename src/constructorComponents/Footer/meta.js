@@ -24,7 +24,6 @@ export const props = [{
 }];
 
 export const name = 'Подвал';
-export const dependencies = [];
 export const defaultProps = {
     columns: [{
         caption: 'Столбец 1',

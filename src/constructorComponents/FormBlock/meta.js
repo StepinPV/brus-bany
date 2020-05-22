@@ -51,5 +51,3 @@ export const defaultProps = {
     paddingBottom: 'm',
     paddingTop: 'm'
 };
-
-export const dependencies = ['Form', 'Caption', 'Text'];
