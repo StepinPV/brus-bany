@@ -337,6 +337,7 @@ class Project extends PureComponent {
                         image: data.src
                     };
                 })}
+                schemeImage={project.images['layout']}
                 finalPrice={this.getFinalPrice()}
                 project={this.props.project}
                 infoBlock={(
