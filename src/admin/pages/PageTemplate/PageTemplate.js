@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -8,8 +8,10 @@ import withNotification from '../../../plugins/Notifications/withNotification';
 import { Button } from "../../../components/Button";
 import PageRender from '../../../client/components/PageRender';
 import FloatPanels from '../../components/FloatPanels';
+import ComponentEditor from '../../components/pageEditor/ComponentEditor';
+import Operations from '../../components/pageEditor/Operations';
 import ComponentRender from '../../components/pageEditor/Component';
-import OperationsHelper from '../../components/pageEditor/operations';
+import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import styles from './PageTemplate.module.css';
 
@@ -78,7 +80,9 @@ class PageTemplate extends PureComponent {
         if (id === 'add') {
             actions.set({
                 config: {
-                    components: []
+                    components: [{
+                        componentId: '__content__{main}'
+                    }]
                 }
             });
         } else {
@@ -152,7 +156,6 @@ class PageTemplate extends PureComponent {
                 footer={footer ? this.renderFooter() : this.renderAddFooter()}>
                 <>
                     {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
-                    {(!components || !components.length) ? this.renderAddComponent() : null}
                 </>
             </PageRender>
         );
@@ -173,27 +176,34 @@ class PageTemplate extends PureComponent {
         }
 
         return (
-            <ComponentRender
-                componentId={data.config.header.componentId}
-                componentProps={data.config.header.props}
-                editorMode={operations['header'] && operations['header'].propsFormVisible}
-                toggleEditorMode={togglePropsFormVisible}
-                __images__={data.config['__images__']}
-                onChangeProps={(newProps, errors, images) => {
-                    this.setConfig({
-                        header: {
-                            ...data.config.header,
-                            props: newProps
-                        },
-                        __images__: images
-                    });
-                }}
-                operations={{
-                    delete: () => {
-                        this.setConfig({ header: null });
-                    }
-                }}
-            />
+            <Fragment>
+                <Operations
+                    onClick={togglePropsFormVisible}
+                    operations={{
+                        delete: () => {
+                            this.setConfig({ header: null });
+                        }
+                    }}>
+                    <ComponentRender
+                        componentId={data.config.header.componentId}
+                        componentProps={data.config.header.props}
+                        __images__={data.config['__images__']} />
+                </Operations>
+                {operations['header'] && operations['header'].propsFormVisible ? (
+                    <ComponentEditor
+                        componentId={data.config.header.componentId}
+                        componentProps={data.config.header.props}
+                        onChangeProps={(newProps, errors, images) => {
+                            this.setConfig({
+                                header: {
+                                    ...data.config.header,
+                                    props: newProps
+                                },
+                                __images__: images
+                            });
+                        }} />
+                ) : null}
+            </Fragment>
         );
     };
 
@@ -212,35 +222,34 @@ class PageTemplate extends PureComponent {
         }
 
         return (
-            <ComponentRender
-                componentId={data.config.footer.componentId}
-                componentProps={data.config.footer.props}
-                editorMode={operations['footer'] && operations['footer'].propsFormVisible}
-                toggleEditorMode={togglePropsFormVisible}
-                __images__={data.config['__images__']}
-                onChangeProps={(newProps, errors, images) => {
-                    this.setConfig({
-                        footer: {
-                            ...data.config.footer,
-                            props: newProps
-                        },
-                        __images__: images
-                    });
-                }}
-                operations={{
-                    delete: () => {
-                        this.setConfig({ footer: null });
-                    }
-                }}
-            />
-        );
-    };
-
-    renderAddComponent = () => {
-        return (
-            <div className={styles['add-button']}>
-                <div className={styles['add-button-caption']} onClick={this.enableAddComponentMode}>Добавить новый компонент</div>
-            </div>
+            <Fragment>
+                <Operations
+                    operations={{
+                        delete: () => {
+                            this.setConfig({ footer: null });
+                        }
+                    }}
+                    onClick={togglePropsFormVisible}>
+                    <ComponentRender
+                        componentId={data.config.footer.componentId}
+                        componentProps={data.config.footer.props}
+                        __images__={data.config['__images__']} />
+                </Operations>
+                {operations['footer'] && operations['footer'].propsFormVisible ? (
+                    <ComponentEditor
+                        componentId={data.config.footer.componentId}
+                        componentProps={data.config.footer.props}
+                        onChangeProps={(newProps, errors, images) => {
+                            this.setConfig({
+                                footer: {
+                                    ...data.config.footer,
+                                    props: newProps
+                                },
+                                __images__: images
+                            });
+                        }} />
+                ) : null}
+            </Fragment>
         );
     };
 
@@ -326,37 +335,67 @@ class PageTemplate extends PureComponent {
 
         const { componentId } = data.config.components[index];
 
+        if (componentId.includes('__content__')) {
+            return (
+                <div className={styles['content-block']}>
+                    <Operations
+                        className={styles['content-block-operations']}
+                        operations={{
+                            addComponentTop: () => {
+                                this.enableAddComponentMode(index);
+                            },
+                            addComponentBottom: () => {
+                                this.enableAddComponentMode(index + 1);
+                            }
+                        }}>
+                        <div className={styles['content-block-content']}>
+                            Контентная область
+                        </div>
+                    </Operations>
+                </div>
+            );
+        }
+
         return (
-            <ComponentRender
-                key={`${componentId}-${index}`}
-                componentId={componentId}
-                componentProps={data.config.components[index].props}
-                editorMode={operations[index] && operations[index].propsFormVisible}
-                toggleEditorMode={togglePropsFormVisible}
-                __images__={data.config['__images__']}
-                onChangeProps={(newProps, errors, images) => {
-                    this.setConfig(OperationsHelper.setProps(data.config.components, index, newProps, errors, images));
-                }}
-                operations={{
-                    addComponent: () => {
-                        this.enableAddComponentMode(index + 1);
-                    },
-                    moveBottom: index !== data.config.components.length - 1 ? () => {
-                        this.setConfig(OperationsHelper.moveBottom(data.config.components, index));
-                        this.setState({ operations: {} });
-                    } : null,
-                    moveUp: index !== 0 ? () => {
-                        this.setConfig(OperationsHelper.moveUp(data.config.components, index));
-                        this.setState({ operations: {} });
-                    } : null,
-                    clone: () => {
-                        this.setConfig(OperationsHelper.clone(data.config.components, index));
-                    },
-                    delete: () => {
-                        this.setConfig(OperationsHelper.delete(data.config.components, index));
-                    }
-                }}
-            />
+            <Fragment key={`${componentId}-${index}`}>
+                <Operations
+                    operations={{
+                        addComponentTop: () => {
+                            this.enableAddComponentMode(index);
+                        },
+                        addComponentBottom: () => {
+                            this.enableAddComponentMode(index + 1);
+                        },
+                        moveBottom: index !== data.config.components.length - 1 ? () => {
+                            this.setConfig(OperationsHelper.moveBottom(data.config.components, index));
+                            this.setState({ operations: {} });
+                        } : null,
+                        moveUp: index !== 0 ? () => {
+                            this.setConfig(OperationsHelper.moveUp(data.config.components, index));
+                            this.setState({ operations: {} });
+                        } : null,
+                        clone: () => {
+                            this.setConfig(OperationsHelper.clone(data.config.components, index));
+                        },
+                        delete: () => {
+                            this.setConfig(OperationsHelper.delete(data.config.components, index));
+                        }
+                    }}
+                    onClick={togglePropsFormVisible}>
+                    <ComponentRender
+                        componentId={componentId}
+                        componentProps={data.config.components[index].props}
+                        __images__={data.config['__images__']} />
+                </Operations>
+                {operations[index] && operations[index].propsFormVisible ? (
+                    <ComponentEditor
+                        componentId={componentId}
+                        componentProps={data.config.components[index].props}
+                        onChangeProps={(newProps, errors, images) => {
+                            this.setConfig(OperationsHelper.setProps(data.config.components, index, newProps, errors, images));
+                        }} />
+                ) : null}
+            </Fragment>
         );
     };
 

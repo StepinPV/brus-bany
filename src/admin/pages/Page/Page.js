@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -11,7 +11,9 @@ import { main as mainFormat, config as configFormat } from '../../formats/page';
 import { Button } from "../../../components/Button";
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
-import OperationsHelper from '../../components/pageEditor/operations';
+import Operations from '../../components/pageEditor/Operations';
+import ComponentEditor from '../../components/pageEditor/ComponentEditor';
+import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import styles from './Page.module.css';
 
@@ -226,36 +228,45 @@ class Page extends PureComponent {
         }
 
         return (
-            <ComponentRender
-                key={`${componentId}-${index}`}
-                componentId={componentId}
-                componentProps={page.config.components[index].props}
-                editorMode={operations[index] && operations[index].propsFormVisible}
-                toggleEditorMode={togglePropsFormVisible}
-                __images__={page.config['__images__']}
-                onChangeProps={(newProps, errors, images) => {
-                    this.setConfig(OperationsHelper.setProps(page.config.components, index, newProps, errors, images));
-                }}
-                operations={{
-                    addComponent: () => {
-                        this.enableAddComponentMode(index + 1);
-                    },
-                    moveBottom: index !== page.config.components.length - 1 ? () => {
-                        this.setConfig(OperationsHelper.moveBottom(page.config.components, index));
-                        this.setState({ operations: {} });
-                    } : null,
-                    moveUp: index !== 0 ? () => {
-                        this.setConfig(OperationsHelper.moveUp(page.config.components, index));
-                        this.setState({ operations: {} });
-                    } : null,
-                    clone: () => {
-                        this.setConfig(OperationsHelper.clone(page.config.components, index));
-                    },
-                    delete: () => {
-                        this.setConfig(OperationsHelper.delete(page.config.components, index));
-                    }
-                }}
-            />
+            <Fragment key={`${componentId}-${index}`}>
+                <Operations
+                    operations={{
+                        addComponentTop: () => {
+                            this.enableAddComponentMode(index);
+                        },
+                        addComponentBottom: () => {
+                            this.enableAddComponentMode(index + 1);
+                        },
+                        moveBottom: index !== page.config.components.length - 1 ? () => {
+                            this.setConfig(OperationsHelper.moveBottom(page.config.components, index));
+                            this.setState({ operations: {} });
+                        } : null,
+                        moveUp: index !== 0 ? () => {
+                            this.setConfig(OperationsHelper.moveUp(page.config.components, index));
+                            this.setState({ operations: {} });
+                        } : null,
+                        clone: () => {
+                            this.setConfig(OperationsHelper.clone(page.config.components, index));
+                        },
+                        delete: () => {
+                            this.setConfig(OperationsHelper.delete(page.config.components, index));
+                        }
+                    }}
+                    onClick={togglePropsFormVisible}>
+                    <ComponentRender
+                        componentId={componentId}
+                        componentProps={page.config.components[index].props}
+                        __images__={page.config['__images__']} />
+                </Operations>
+                { operations[index] && operations[index].propsFormVisible ? (
+                    <ComponentEditor
+                        componentId={componentId}
+                        componentProps={page.config.components[index].props}
+                        onChangeProps={(newProps, errors, images) => {
+                            this.setConfig(OperationsHelper.setProps(page.config.components, index, newProps, errors, images));
+                        }} />
+                ) : null}
+            </Fragment>
         );
     };
 

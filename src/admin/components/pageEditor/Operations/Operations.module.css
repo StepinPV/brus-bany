@@ -1,0 +1,77 @@
+.component {
+    position: relative;
+    width: 100%;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    border: 1px dashed #000;
+    display: none;
+    cursor: pointer;
+}
+
+.add {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: calc(50% - 12px);
+    z-index: 10;
+    background: #fff;
+    display: none;
+    text-align: center;
+    line-height: 21px;
+    font-size: 20px;
+    cursor: pointer;
+    border: 1px solid #000;
+    border-radius: 24px;
+}
+
+.add-bottom {
+    bottom: -13px;
+}
+
+.add-top {
+    top: -13px;
+}
+
+.add:hover {
+    color: #91001d;
+}
+
+.component:hover .overlay,
+.component:hover .add {
+    display: block;
+}
+
+.operations {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0 16px;
+    display: flex;
+    border: 1px solid #000;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    background: #fff;
+}
+
+.operation {
+    padding: 2px 8px;
+    color: #000;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.operation:not(:last-child) {
+    border-right: 1px solid #000;
+}
+
+.operation:hover {
+    color: #91001d;
+}
+

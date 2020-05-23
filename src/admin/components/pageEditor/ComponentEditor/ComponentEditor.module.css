@@ -19,7 +19,6 @@
     width: 24px;
     height: 24px;
     position: absolute;
-    bottom: -13px;
     left: calc(50% - 12px);
     z-index: 10;
     background: #fff;
@@ -30,6 +29,14 @@
     cursor: pointer;
     border: 1px solid #000;
     border-radius: 24px;
+}
+
+.add-bottom {
+    bottom: -13px;
+}
+
+.add-top {
+    top: -13px;
 }
 
 .add:hover {
