@@ -1,23 +1,17 @@
 export const props = [{
-    _id: 'items',
-    title: 'Элементы списка',
-    type: 'array',
-    itemTitleField: 'text',
-    format: [{
-        _id: 'text',
-        title: 'Текст',
-        type: 'text'
-    }]
+    _id: 'children',
+    title: 'Текст',
+    type: 'text'
 }, {
-    _id: 'type',
-    title: 'Тип списка',
+    _id: 'color',
+    title: 'Цвет',
     type: 'select',
     items: [{
-        id: 'numeric',
-        title: 'Нумерованный'
+        id: 'black',
+        title: 'Черный'
     }, {
-        id: 'marker',
-        title: 'Маркерованный'
+        id: 'white',
+        title: 'Белый'
     }]
 }, {
     _id: 'size',
@@ -34,18 +28,18 @@ export const props = [{
         title: 'Большой'
     }]
 }, {
-    _id: 'width',
-    title: 'Ширина',
+    _id: 'align',
+    title: 'Выравнивание',
     type: 'select',
     items: [{
-        id: 'l',
-        title: 'На всю ширину'
+        id: 'left',
+        title: 'По левому краю'
     }, {
-        id: 'm',
-        title: 'Среднаяя'
+        id: 'center',
+        title: 'По центру'
     }, {
-        id: 's',
-        title: 'Маленькая'
+        id: 'right',
+        title: 'По правому краю'
     }]
 }, {
     _id: 'paddingBottom',
@@ -82,21 +76,38 @@ export const props = [{
         title: 'Большой'
     }]
 }, {
+    _id: 'isHTML',
+    title: 'HTML в качестве значения',
+    type: 'boolean'
+}, {
+    _id: 'width',
+    title: 'Ширина',
+    type: 'select',
+    items: [{
+        id: 'l',
+        title: 'На всю ширину'
+    }, {
+        id: 'm',
+        title: 'Среднаяя'
+    }, {
+        id: 's',
+        title: 'Маленькая'
+    }]
+}, {
     _id: 'id',
     title: 'Якорь',
     type: 'string'
 }];
 
-export const name = 'Список';
+export const name = 'Текст';
+export const key = 'Text';
 export const defaultProps = {
-    type: 'marker',
+    children: 'Текст',
+    color: 'black',
     size: 'm',
+    align: 'center',
     paddingBottom: 'm',
     paddingTop: 'm',
-    width: 'm',
-    items: [{
-        text: 'Первый элемент списка'
-    }, {
-        text: 'Второй элемент списка'
-    }]
+    isHTML: false,
+    width: 'm'
 };

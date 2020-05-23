@@ -40,6 +40,7 @@ export const props = [{
 }];
 
 export const name = 'Шапка';
+export const key = 'Header';
 export const defaultProps = {
     items: [{
         caption: 'Ссылка 1',

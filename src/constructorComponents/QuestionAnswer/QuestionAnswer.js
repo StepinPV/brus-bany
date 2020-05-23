@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from "prop-types";
-import { Caption, Text } from '../meta';
+import { Caption, Text } from '../index';
 import cx from 'classnames';
 import styles from './QuestionAnswer.module.css';
 

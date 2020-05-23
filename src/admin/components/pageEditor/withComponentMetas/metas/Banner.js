@@ -1,6 +1,6 @@
-import { props as captionProps, defaultProps as captionDefaultProps } from '../Caption/meta';
-import { props as textProps, defaultProps as textDefaultProps } from '../Text/meta';
-import { props as buttonProps, defaultProps as buttonDefaultProps } from '../Button/meta';
+import { props as captionProps, defaultProps as captionDefaultProps } from './Caption';
+import { props as textProps, defaultProps as textDefaultProps } from './Text';
+import { props as buttonProps, defaultProps as buttonDefaultProps } from './Button';
 
 export const props = [{
     _id: 'captionProps',
@@ -32,6 +32,7 @@ export const props = [{
 }];
 
 export const name = 'Обложка с заголовком, текстом и кнопкой';
+export const key = 'Banner';
 
 export const defaultProps = {
     captionProps: {

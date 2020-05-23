@@ -20,7 +20,7 @@ async function getCustomComponents() {
     return customComponents;
 }
 
-export default function withCustomComponents(Component) {
+export default function index(Component) {
     function CustomComponents(props) {
         const [components, setComponents] = useState(customComponents);
 
@@ -40,5 +40,5 @@ export default function withCustomComponents(Component) {
 
     memoComponent.initialAction = Component.initialAction;
 
-    return CustomComponents;
+    return memoComponent;
 }

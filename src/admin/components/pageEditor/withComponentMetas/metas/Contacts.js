@@ -34,7 +34,8 @@ export const props = [{
         title: 'Большой'
     }]
 }];
-export const name = 'Квиз';
+export const name = 'Блок контактов';
+export const key = 'Contacts';
 export const defaultProps = {
     paddingBottom: 'm',
     paddingTop: 'm'

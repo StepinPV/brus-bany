@@ -1,26 +1,37 @@
 export const props = [{
     _id: 'items',
-    title: 'Данные',
+    title: 'Элементы списка',
     type: 'array',
-    itemTitleField: 'name',
+    itemTitleField: 'text',
     format: [{
-        _id: 'name',
-        title: 'Имя группы',
-        type: 'string'
+        _id: 'text',
+        title: 'Текст',
+        type: 'text'
+    }]
+}, {
+    _id: 'type',
+    title: 'Тип списка',
+    type: 'select',
+    items: [{
+        id: 'numeric',
+        title: 'Нумерованный'
     }, {
-        _id: 'items',
-        title: 'Вопросы и ответы',
-        type: 'array',
-        itemTitleField: 'question',
-        format: [{
-            _id: 'question',
-            title: 'Вопрос',
-            type: 'text'
-        }, {
-            _id: 'answer',
-            title: 'Ответ',
-            type: 'text'
-        }]
+        id: 'marker',
+        title: 'Маркерованный'
+    }]
+}, {
+    _id: 'size',
+    title: 'Размер',
+    type: 'select',
+    items: [{
+        id: 's',
+        title: 'Маленький'
+    }, {
+        id: 'm',
+        title: 'Средний'
+    }, {
+        id: 'l',
+        title: 'Большой'
     }]
 }, {
     _id: 'width',
@@ -76,28 +87,17 @@ export const props = [{
     type: 'string'
 }];
 
-export const name = 'Вопрос-Ответ';
+export const name = 'Список';
+export const key = 'List';
 export const defaultProps = {
+    type: 'marker',
+    size: 'm',
     paddingBottom: 'm',
     paddingTop: 'm',
-    width: 's',
+    width: 'm',
     items: [{
-        name: 'Группа 1',
-        items: [{
-            question: 'Вопрос 1',
-            answer: 'Ответ 1'
-        }, {
-            question: 'Вопрос 2',
-            answer: 'Ответ 2'
-        }]
+        text: 'Первый элемент списка'
     }, {
-        name: 'Группа 2',
-        items: [{
-            question: 'Вопрос 1',
-            answer: 'Ответ 1'
-        }, {
-            question: 'Вопрос 2',
-            answer: 'Ответ 2'
-        }]
+        text: 'Второй элемент списка'
     }]
 };

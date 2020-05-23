@@ -33,9 +33,22 @@ export const props = [{
         id: 'l',
         title: 'Большой'
     }]
+}, {
+    _id: 'background',
+    title: 'Цвет блока',
+    type: 'select',
+    items: [{
+        id: 'white',
+        title: 'Белый'
+    }, {
+        id: 'grey',
+        title: 'Серый'
+    }]
 }];
-export const name = 'Блок контактов';
+export const name = 'Блок с изображением и формой';
+export const key = 'FormBlock';
 export const defaultProps = {
+    background: 'grey',
     paddingBottom: 'm',
     paddingTop: 'm'
 };

@@ -1,6 +1,5 @@
 import {
     GET, GET_SUCCESS, GET_ERROR,
-    GET_COMPONENTS, GET_COMPONENTS_SUCCESS, GET_COMPONENTS_ERROR,
     SET, RESET
 } from './constants';
 import Api from './api';
@@ -58,25 +57,6 @@ export function deletePage() {
 
 export function setPage(layout) {
     return { type: SET, payload: layout };
-}
-
-export function getComponents() {
-    return async (dispatch) => {
-        dispatch({ type: GET_COMPONENTS });
-
-        try {
-            const res = await Api.getComponents();
-
-            if (res.data && res.data.status === 'error') {
-                dispatch({ type: GET_COMPONENTS_ERROR, payload: { message: res.data.message } });
-                return;
-            }
-
-            dispatch({ type: GET_COMPONENTS_SUCCESS, payload: res.data.data });
-        } catch(err) {
-            dispatch({ type: GET_ERROR, payload: { message: 'Неизвестная ошибка!' }});
-        }
-    };
 }
 
 export function reset() {

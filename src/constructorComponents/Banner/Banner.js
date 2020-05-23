@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { Caption, Text, Button } from '../meta';
+import { Caption, Text, Button } from '../index';
 import styles from './Banner.module.css';
 
 function Banner(props) {

@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from "prop-types";
-import { Caption, Text, Form } from '../meta';
+import { Caption, Text, Form } from '../index';
 import styles from './FormBlock.module.css';
 import img from './resources/img.jpg';
 import cx from 'classnames';

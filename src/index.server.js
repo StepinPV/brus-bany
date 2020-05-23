@@ -32,7 +32,7 @@ const render = async (req, res, axiosOptions = {}) => {
     let page = null;
     let customComponents;
 
-    if (matchRoute && matchRoute.id === 'page-generator') {
+    if (matchRoute.id === 'page-generator') {
         const pageRes = await axios.get(`/api/pages/${encodeURIComponent(req.path)}`, {
             params: {
                 byUrl: true

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Page from '../../components/Page';
 import Meta from "../../components/Meta";
-import * as Components from '@constructor-components/meta';
+import * as components from '@constructor-components';
 
 class CustomPage extends PureComponent {
     static propTypes = {
@@ -40,8 +40,8 @@ class CustomPage extends PureComponent {
     renderComponent = ({ componentId, props }) => {
         const { customComponents, __images__, staticContext } = this.props;
 
-        if (Components[componentId]) {
-            const Component = Components[componentId];
+        if (components[componentId]) {
+            const Component = components[componentId];
 
             return <Component {...props} __images__={__images__} staticContext={staticContext} />;
         }

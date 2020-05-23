@@ -24,6 +24,7 @@ export const props = [{
 }];
 
 export const name = 'Подвал';
+export const key = 'Footer';
 export const defaultProps = {
     columns: [{
         caption: 'Столбец 1',

@@ -64,6 +64,7 @@ export const props = [{
     }]
 }];
 export const name = 'Блок с изображением, описанием и ссылкой';
+export const key = 'ImageLinkBlock';
 export const defaultProps = {
     paddingBottom: 'm',
     paddingTop: 'm',

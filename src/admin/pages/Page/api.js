@@ -5,5 +5,4 @@ export default class Api {
     static save = (id, page) => axios.put(`/api/pages/${id}`, { page });
     static create = (page) => axios.post(`/api/pages`, { page });
     static delete = (id) => axios.delete(`/api/pages/${id}`);
-    static getComponents = () => axios.get('/api/components');
 }

@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Contacts.module.css';
 import cx from 'classnames';
-import { Button, Text, Caption } from '../meta';
+import { Button, Text, Caption } from '../index';
 import SocialNetwork from '../../client/components/SocialNetwork';
 
 function Contacts(props) {

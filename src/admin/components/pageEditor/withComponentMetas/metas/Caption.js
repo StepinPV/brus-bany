@@ -1,32 +1,31 @@
 export const props = [{
-    _id: 'caption',
-    title: 'Текст',
+    _id: 'children',
+    title: 'Заголовок',
     type: 'string'
 }, {
-    _id: 'href',
-    title: 'Ссылка',
-    type: 'string'
+    _id: 'color',
+    title: 'Цвет',
+    type: 'select',
+    items: [{
+        id: 'black',
+        title: 'Черный'
+    }, {
+        id: 'white',
+        title: 'Белый'
+    }]
 }, {
     _id: 'size',
     title: 'Размер',
     type: 'select',
     items: [{
         id: 's',
-        title: 'Маленькая'
+        title: 'Маленький'
     }, {
         id: 'm',
-        title: 'Средняя'
-    }]
-}, {
-    _id: 'color',
-    title: 'Цвет',
-    type: 'select',
-    items: [{
-        id: 'red',
-        title: 'Красный'
+        title: 'Средний'
     }, {
-        id: 'yellow',
-        title: 'Желтый'
+        id: 'l',
+        title: 'Большой'
     }]
 }, {
     _id: 'align',
@@ -41,6 +40,23 @@ export const props = [{
     }, {
         id: 'right',
         title: 'По правому краю'
+    }]
+}, {
+    _id: 'tag',
+    title: 'Вид элемента',
+    type: 'select',
+    items: [{
+        id: 'div',
+        title: 'Обычный заголовок'
+    }, {
+        id: 'h1',
+        title: 'H1 заголовок'
+    }, {
+        id: 'h2',
+        title: 'H2 заголовок'
+    }, {
+        id: 'h3',
+        title: 'H3 заголовок'
     }]
 }, {
     _id: 'paddingBottom',
@@ -77,8 +93,8 @@ export const props = [{
         title: 'Большой'
     }]
 }, {
-    _id: 'containerWidth',
-    title: 'Ширина блока',
+    _id: 'width',
+    title: 'Ширина',
     type: 'select',
     items: [{
         id: 'l',
@@ -91,20 +107,8 @@ export const props = [{
         title: 'Маленькая'
     }]
 }, {
-    _id: 'fullWidth',
-    title: 'Растянуть кнопку',
-    type: 'boolean'
-}, {
-    _id: 'download',
-    title: 'Кнопка для скачивания файла',
-    type: 'boolean'
-}, {
-    _id: 'targetBlank',
-    title: 'Открыть в новой вкладке',
-    type: 'boolean'
-}, {
-    _id: 'noOpener',
-    title: 'Закрыть от индексации цель, на которую ведет ссылка',
+    _id: 'isHTML',
+    title: 'HTML в качестве значения',
     type: 'boolean'
 }, {
     _id: 'id',
@@ -112,18 +116,16 @@ export const props = [{
     type: 'string'
 }];
 
-export const name = 'Кнопка';
+export const name = 'Заголовок';
+export const key = 'Caption';
 export const defaultProps = {
-    caption: 'Кнопка',
+    children: 'Заголовок',
+    color: 'black',
     size: 'm',
     align: 'center',
-    color: 'red',
-    href: '/',
+    tag: 'div',
     paddingBottom: 'm',
     paddingTop: 'm',
-    containerWidth: 'm',
-    fullWidth: false,
-    download: false,
-    targetBlank: false,
-    noOpener: false
+    isHTML: false,
+    width: 'm'
 };

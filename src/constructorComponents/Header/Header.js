@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '../meta';
+import { Button } from '../index';
 import styles from './Header.module.css';
 import cx from 'classnames';
 

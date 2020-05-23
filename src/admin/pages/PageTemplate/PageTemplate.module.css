@@ -24,19 +24,6 @@
     flex-grow: 1;
 }
 
-.component-select-item {
-    color: #b3b3b3;
-    cursor: pointer;
-    text-align: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #b3b3b3;
-}
-
-.component-select-item:hover {
-    color: #fff;
-    background: #b3b3b3;
-}
-
 .add-button {
     display: flex;
     flex-direction: column;

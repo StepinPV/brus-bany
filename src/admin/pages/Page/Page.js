@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import PageComponent from '../../../client/components/Page';
-import { getPage, setPage, savePage, reset, deletePage, getComponents } from './actions';
+import { getPage, setPage, savePage, reset, deletePage } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import Form from '../../components/Form';
 import { main as mainFormat, config as configFormat } from '../../formats/page';
@@ -12,7 +12,7 @@ import { Button } from "../../../components/Button";
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
 import OperationsHelper from '../../components/pageEditor/operations';
-import withComponentMetas from '../../components/hocs/withComponentMetas';
+import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import styles from './Page.module.css';
 
 const breadcrumbs = [{
@@ -34,13 +34,7 @@ class Page extends PureComponent {
         actions: PropTypes.object,
         match: PropTypes.object,
         showNotification: PropTypes.func,
-        history: PropTypes.object,
-
-        componentMetas: PropTypes.object,
-
-        loadAllComponentMetas: PropTypes.func,
-
-        customComponents: PropTypes.array
+        history: PropTypes.object
     };
 
     constructor(props) {
@@ -92,9 +86,6 @@ class Page extends PureComponent {
         } else {
             actions.getPage(id);
         }
-
-        actions.getComponents();
-        this.props.loadAllComponentMetas();
     }
 
     componentWillUnmount() {
@@ -103,14 +94,14 @@ class Page extends PureComponent {
     }
 
     render() {
-        const { isPageError, page, customComponents } = this.props;
+        const { isPageError, page } = this.props;
         const { openedPanelId } = this.state;
 
         if (isPageError) {
             return <div className={styles.error}>{isPageError}</div>;
         }
 
-        return page && customComponents ? (
+        return page ? (
             <FloatPanels
                 panels={this.floatPanels}
                 onChangeOpenedPanel={this.setOpenedPanel}
@@ -205,43 +196,17 @@ class Page extends PureComponent {
 
     renderComponentSelect = () => {
         const { addComponentPosition } = this.state;
-        const { page, componentMetas, customComponents } = this.props;
+        const { page } = this.props;
 
-        const addComponent = (componentId) => {
-            const componentMeta = componentMetas[componentId];
-            const component = customComponents.find(component => component['_id'] === componentId);
-
+        const addComponent = (componentId, props) => {
             this.setConfig(OperationsHelper.add(page.config.components, addComponentPosition, {
                 componentId,
-                props: componentMeta ? componentMeta.defaultProps : (component ? component.config.defaultProps : {})
+                props
             }));
             this.setOpenedPanel(null);
         }
 
-        return (
-            <>
-                {Object.keys(componentMetas).map(componentKey => {
-                    return componentMetas[componentKey].disabled ? null : (
-                        <div
-                            key={componentMetas[componentKey].name}
-                            className={styles['component-select-item']}
-                            onClick={() => { addComponent(componentKey) }}>
-                            {componentMetas[componentKey].name}
-                        </div>
-                    );
-                })}
-                {customComponents.map(component => {
-                    return (
-                        <div
-                            key={component['_id']}
-                            className={styles['component-select-item']}
-                            onClick={() => { addComponent(component['_id']) }}>
-                            {component['_id']}
-                        </div>
-                    );
-                })}
-            </>
-        );
+        return <ComponentSelect onSelect={addComponent} hasCustomComponents />;
     };
 
     renderComponentByIndex = (index) => {
@@ -358,17 +323,16 @@ function mapDispatchToProps(dispatch) {
             setPage,
             savePage,
             reset,
-            deletePage,
-            getComponents
+            deletePage
         }, dispatch),
         dispatch
     };
 }
 
 function mapStateToProps(state) {
-    const { page, isPageFetch, isPageError, customComponents } = state['admin-page'];
+    const { page, isPageFetch, isPageError } = state['admin-page'];
 
-    return { page, isPageFetch, isPageError, customComponents };
+    return { page, isPageFetch, isPageError };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withNotification(Page)));
+export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Page));

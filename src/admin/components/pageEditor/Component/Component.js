@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Form from '../../Form';
-import * as Components from '@constructor-components/meta';
-import withComponentMeta from '../../hocs/withComponentMeta';
-import withCustomComponents from '../../hocs/withCustomComponents';
+import * as components from '@constructor-components';
+import withComponentMetas from '../withComponentMetas';
+import withCustomComponents from '../withCustomComponents';
 import styles from './Component.module.css';
 
 class Component extends PureComponent {
@@ -23,8 +23,7 @@ class Component extends PureComponent {
         loadCustomComponents: PropTypes.func,
 
         // withComponentMeta
-        componentMeta: PropTypes.object,
-        loadComponentMeta: PropTypes.func
+        componentMetas: PropTypes.object
     };
 
     componentDidMount() {
@@ -32,14 +31,6 @@ class Component extends PureComponent {
 
         if (!customComponents) {
             loadCustomComponents();
-        }
-    }
-
-    componentDidUpdate() {
-        const { editorMode, componentMeta, loadComponentMeta } = this.props;
-
-        if (editorMode && !componentMeta) {
-            loadComponentMeta();
         }
     }
 
@@ -61,12 +52,12 @@ class Component extends PureComponent {
     };
 
     renderEditorForm = () => {
-        const { editorMode, componentMeta, componentProps, onChangeProps } = this.props;
+        const { componentId, editorMode, componentMetas, componentProps, onChangeProps } = this.props;
 
-        return editorMode && componentMeta ? (
+        return editorMode && componentMetas[componentId] ? (
             <div className={styles.form}>
                 <Form
-                    format={componentMeta.props}
+                    format={componentMetas[componentId].props}
                     value={componentProps}
                     onChange={onChangeProps}
                     errors={{}}
@@ -107,8 +98,8 @@ class Component extends PureComponent {
     renderComponent = (componentId, props, __images__) => {
         const { customComponents } = this.props;
 
-        if (Components[componentId]) {
-            const Component = Components[componentId];
+        if (components[componentId]) {
+            const Component = components[componentId];
 
             return <Component {...props} __images__={__images__ || {}} />;
         }
@@ -125,4 +116,4 @@ class Component extends PureComponent {
     };
 }
 
-export default withComponentMeta(withCustomComponents(Component));
+export default withComponentMetas(withCustomComponents(Component));

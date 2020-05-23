@@ -12,7 +12,7 @@ import styles from './Component.module.css';
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
 import OperationsHelper from '../../components/pageEditor/operations';
-import withComponentMetas from '../../components/hocs/withComponentMetas';
+import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import Header from '../../components/Header';
 
 const breadcrumbs = [{
@@ -34,10 +34,7 @@ class Component extends PureComponent {
         actions: PropTypes.object,
         match: PropTypes.object,
         showNotification: PropTypes.func,
-        history: PropTypes.object,
-
-        componentMetas: PropTypes.object,
-        loadAllComponentMetas: PropTypes.func
+        history: PropTypes.object
     };
 
     constructor(props) {
@@ -89,8 +86,6 @@ class Component extends PureComponent {
         } else {
             actions.get(id);
         }
-
-        this.props.loadAllComponentMetas();
     }
 
     componentWillUnmount() {
@@ -185,31 +180,18 @@ class Component extends PureComponent {
     }
 
     renderComponentSelect = () => {
-        const { data, componentMetas } = this.props;
+        const { data } = this.props;
         const { addComponentPosition } = this.state;
 
-        const addComponent = (componentId) => {
+        const addComponent = (componentId, props) => {
             this.setConfig(OperationsHelper.add(data.config.components, addComponentPosition, {
                 componentId,
-                props: componentMetas[componentId].defaultProps || {}
+                props
             }));
             this.setOpenedPanel(null);
         }
 
-        return (
-            <>
-                {Object.keys(componentMetas).map(componentKey => {
-                    return componentMetas[componentKey].disabled ? null : (
-                        <div
-                            key={componentMetas[componentKey].name}
-                            className={styles['component-select-item']}
-                            onClick={() => { addComponent(componentKey) }}>
-                            {componentMetas[componentKey].name}
-                        </div>
-                    );
-                })}
-            </>
-        );
+        return <ComponentSelect onSelect={addComponent} />;
     };
 
     renderComponentByIndex = (index) => {
@@ -332,4 +314,4 @@ function mapStateToProps(state) {
     return { data, isFetch, isError };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withComponentMetas(withNotification(Component)));
+export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Component));

@@ -1,31 +1,32 @@
 export const props = [{
-    _id: 'children',
-    title: 'Заголовок',
+    _id: 'caption',
+    title: 'Текст',
     type: 'string'
 }, {
-    _id: 'color',
-    title: 'Цвет',
-    type: 'select',
-    items: [{
-        id: 'black',
-        title: 'Черный'
-    }, {
-        id: 'white',
-        title: 'Белый'
-    }]
+    _id: 'href',
+    title: 'Ссылка',
+    type: 'string'
 }, {
     _id: 'size',
     title: 'Размер',
     type: 'select',
     items: [{
         id: 's',
-        title: 'Маленький'
+        title: 'Маленькая'
     }, {
         id: 'm',
-        title: 'Средний'
+        title: 'Средняя'
+    }]
+}, {
+    _id: 'color',
+    title: 'Цвет',
+    type: 'select',
+    items: [{
+        id: 'red',
+        title: 'Красный'
     }, {
-        id: 'l',
-        title: 'Большой'
+        id: 'yellow',
+        title: 'Желтый'
     }]
 }, {
     _id: 'align',
@@ -40,23 +41,6 @@ export const props = [{
     }, {
         id: 'right',
         title: 'По правому краю'
-    }]
-}, {
-    _id: 'tag',
-    title: 'Вид элемента',
-    type: 'select',
-    items: [{
-        id: 'div',
-        title: 'Обычный заголовок'
-    }, {
-        id: 'h1',
-        title: 'H1 заголовок'
-    }, {
-        id: 'h2',
-        title: 'H2 заголовок'
-    }, {
-        id: 'h3',
-        title: 'H3 заголовок'
     }]
 }, {
     _id: 'paddingBottom',
@@ -93,8 +77,8 @@ export const props = [{
         title: 'Большой'
     }]
 }, {
-    _id: 'width',
-    title: 'Ширина',
+    _id: 'containerWidth',
+    title: 'Ширина блока',
     type: 'select',
     items: [{
         id: 'l',
@@ -107,8 +91,20 @@ export const props = [{
         title: 'Маленькая'
     }]
 }, {
-    _id: 'isHTML',
-    title: 'HTML в качестве значения',
+    _id: 'fullWidth',
+    title: 'Растянуть кнопку',
+    type: 'boolean'
+}, {
+    _id: 'download',
+    title: 'Кнопка для скачивания файла',
+    type: 'boolean'
+}, {
+    _id: 'targetBlank',
+    title: 'Открыть в новой вкладке',
+    type: 'boolean'
+}, {
+    _id: 'noOpener',
+    title: 'Закрыть от индексации цель, на которую ведет ссылка',
     type: 'boolean'
 }, {
     _id: 'id',
@@ -116,15 +112,19 @@ export const props = [{
     type: 'string'
 }];
 
-export const name = 'Заголовок';
+export const name = 'Кнопка';
+export const key = 'Button';
 export const defaultProps = {
-    children: 'Заголовок',
-    color: 'black',
+    caption: 'Кнопка',
     size: 'm',
     align: 'center',
-    tag: 'div',
+    color: 'red',
+    href: '/',
     paddingBottom: 'm',
     paddingTop: 'm',
-    isHTML: false,
-    width: 'm'
+    containerWidth: 'm',
+    fullWidth: false,
+    download: false,
+    targetBlank: false,
+    noOpener: false
 };

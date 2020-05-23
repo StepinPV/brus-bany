@@ -29,6 +29,7 @@ export const props = [{
 }];
 
 export const name = 'Хлебные крошки';
+export const key = 'Breadcrumbs';
 export const defaultProps = {
     items: [{
         title: 'Главная',
