@@ -329,12 +329,14 @@ class Project extends PureComponent {
                     complectation: project.categoryId.complectationBlocks.defaultItemId,
                     ...this.state.data
                 }}
-                images={this.getImages().map(data => {
-                    return {
-                        image: data.src
-                    };
-                })}
-                schemeImage={project.images['layout']}
+                images={{
+                    scheme: project.images['layout'],
+                    other: Object.keys(project.images).filter(key => key !== 'layout').map(key => {
+                        return {
+                            image: project.images[key]
+                        };
+                    })
+                }}
                 finalPrice={this.getFinalPrice()}
                 project={this.props.project}
                 infoBlock={(

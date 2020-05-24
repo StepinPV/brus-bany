@@ -186,6 +186,24 @@ function getCustomAdditionsPrice(formValue) {
     return price;
 }
 
+function renderPassport(passport) {
+    return ` паспорт номер ${passport && passport.number || '________________ '} 
+         место выдачи ${passport && passport.where || '________________________________________________________________ '} 
+         дата выдачи ${passport && passport.when || '_________________________ '} 
+         дата рождения ${passport && passport.whenBirth || '__________________________ '} 
+         место рождения ${passport && passport.whereBirth || '____________________________________________________ '} `;
+}
+
+function renderMiniName(fullName) {
+    const names = fullName.split(' ');
+
+    if (names.length === 3) {
+        return `${names[0]} ${names[1][0]}. ${names[2][0]}.`
+    }
+
+    return '';
+}
+
 const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
     const { categoryId } = project;
     return (
@@ -200,11 +218,11 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
                 </div>
             </div>
             <div className={styles['preview-block']} style={{ display: 'flex' }}>
-                <img src={formValue.images[0].image} style={{ width: '50%' }}/>
+                <img src={formValue.images.scheme} style={{ width: '50%' }}/>
                 {infoBlock}
             </div>
             <div className={cx(styles['preview-block'], styles['preview-images'])}>
-                {formValue.images.map(({ image }) => (
+                {formValue.images.other.map(({ image }) => (
                     <img src={image} />
                 ))}
             </div>
@@ -221,12 +239,12 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
         </div>
     )
 }
-const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
+const renderDogovor = (project, formValue, data, finalPrice) => {
     const { categoryId } = project;
     return (
         <div>
             <br/><br/>
-            <h3 style={{ textAlign: 'center' }}>ДОГОВОР КУПЛИ - ПРОДАЖИ БАНИ №{formValue.documentNumber}</h3>
+            <h3 style={{ textAlign: 'center' }}>ДОГОВОР КУПЛИ - ПРОДАЖИ БАНИ № {formValue.documentNumber}</h3>
             <br/>
             <div style={{ display: 'flex', justifyContent: 'space-around'}}>
                 <span>г. Пестово.</span>
@@ -236,10 +254,11 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
             <div style={{ textAlign: 'justify' }}>
                 Общество с ограниченной ответственностью «Русская Баня» в лице генерального директора
                 Старикова Евгений Борисовича, действующего на основании Устава, именуемый в дальнейшем
-                “Продавец”, и Гражданин РФ ___________________________________________________ , именуемый в
-                дальнейшем "Покупатель", паспорт _____________ выдан _________________________ г., контактный
-                телефон _____________ с другой стороны, далее именуемые Стороны, заключили настоящий договор (далее
-                – «Договор») о нижеследующем:
+                “Продавец”, и Гражданин РФ {formValue.client.name || '_____________________________________________________________ '},
+                именуемый в дальнейшем "Покупатель",
+                {renderPassport(formValue.client.passport)}
+                контактный телефон {formValue.client.phone || '_____________________ '} с
+                другой стороны, далее именуемые Стороны, заключили настоящий договор (далее – «Договор») о нижеследующем:
             </div>
             <br/><br/>
             <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
@@ -251,12 +270,10 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 неотъемлемой частью настоящего Договора, а Покупатель – принять ее в установленном порядке
                 и оплатить.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 1.2 Одновременно с передачей Бани Продавец передает Покупателю относящиеся к Бане
                 документы: Оригинал данного Договора, накладную.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 1.3 Продавец обязуется доставить и установить, в сроки, указанные в договоре, изготовленную
                 Баню по адресу: {data.delivery ? data.delivery.address : ''}.
@@ -268,23 +285,18 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 2.1 Цена настоящего договора составляет {numberWithSpaces(finalPrice + getCustomAdditionsPrice(formValue))} рублей
                 без НДС на основании п. 2 ст. 346.11 НК РФ.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 2.2 Доставка осуществляется продавцом, выгрузка входит в стоимость продукции.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 2.3 Цена Договора остается неизменной в течение всего срока действия данного Договора.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 2.4 Срок поставки Бани {renderDate(new Date(formValue.projectDate))}, по согласованию с заказчиком.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 2.5 Авансирование Продавцу подлежащей поставке Бане не предусматривается.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 2.6 Оплата поставляемой Бани, в рамках настоящего договора, осуществляется Покупателем путем
                 передачи наличных денежных средств, представителю Продавца (водителю) по факту поставки Бани
@@ -297,25 +309,21 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 3.1 Качество и комплектность поставляемой Бани определяется в соответствии со спецификацией
                 (Приложение № 1 к настоящему Договору) к поставляемой бане.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.2 В случае передачи поставляемой Бани с нарушением требования о комплектности и качеству
                 Покупатель вправе требовать соразмерного уменьшения покупной цены либо доукомплектования в
                 течение 10 рабочих дней с момента направления претензии письменно на электронный адрес
                 info@brus-bany.ru.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.3 На изделие дается гарантия сроком на 24 месяца: а именно, на протекание кровли, на целостность
                 конструкции, на установку печи с дымоходными трубами типа сендвич труба, двухконтурными.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.4 Гарантийные обязательства вступают в силу с момента полной оплаты договорной стоимости и
                 подписании договора обеими сторонами, при условии соблюдения «Заказчиком» правил эксплуатации
                 строения.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.5 Гарантийные обязательства не распространяются на одноконтурные трубы серии эконом, на
                 случай неравномерного оседания фундаментов при строительстве на торфяниках и заболоченной
@@ -323,34 +331,28 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 проветривания после окончания строительства, на протекание и внешний вид кровли, выполненной из
                 рубероида, шифера, аналогов ондулина.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.6 Древесина материал гигроскопичный, для минимизации процесса образования трещин, щелей в
                 брусе, нужно покрыть защитным антисептиком 2-3 раза и выдержать условия сушки.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.7 Гарантийные обязательства не распространяются на ущерб, нанесенный третьими лицами, либо
                 Заказчиком, вследствие неправильной эксплуатации строения.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.8 Гарантийные обязательства утрачивают силу, если Заказчик, в течение действия гарантийного
                 срока изменяет конструкцию изделия.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.9 Подгонка столярных изделий (окна, двери) осуществляется один раз при сдаче объекта.
                 В дальнейшей эксплуатации «Подрядчик» не выезжает к «Заказчику» на данную операцию,
                 так как древесина является материалом гигроскопичным. Рекомендуем столярные изделия покрыть защитным
                 составом незамедлительно.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.10 Гарантийные обязательства не распространяются на строительные материалы, приобретаемые
                 заказчиком самостоятельно.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.11 Гарантийные обязательства имеют силу при наличии у заказчика экземпляра данного договора.
             </div>
@@ -361,16 +363,13 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 4.1 Продавец обязуется изготовить и доставить Покупателю баню, по указанному в приложение 1
                 адресу. Доставка производится автотранспортом Продавца.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 4.2 Покупатель заранее осуществляет подготовку участка для установки бани, (Уборка мусора, снега,
                 выравнивание участка, обеспечение подъездных путей к участку).
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 4.3 Установку бани на блоки производится водителем крана.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 4.4 Покупатель гарантирует возможность подъезда транспортного средства (автотранспорт общего
                 назначения, не повышенной проходимости) Продавца непосредственно к месту разгрузки
@@ -378,17 +377,14 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 разгрузки или произвести необходимые маневры, то Баня, разгружаются в наиболее близком и
                 удобном месте по согласованию с Покупателем.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 4.5 При необходимости Покупатель организовывает и оплачивает трактор (вездеход) для буксировки
                 автотранспорта «Продавца» для выгрузки бани на место, и обратно до твердого покрытия дороги.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 4.6 При условии платного въезда автотранспорта на территорию садоводства, Покупатель
                 дополнительно оплачивает расходы по въезду машин подрядчика.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 4.7 В случаях, когда невозможен подъезд автотехники Продавца к месту разгрузки изделия, состояние
                 дорог, не позволяющее проехать и произвести машине необходимые маневры (определяет
@@ -404,7 +400,6 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 Покупателем в присутствии представителя Продавца и оформляется двусторонним актом приема-
                 передачи Бани (все акты согласуются подписями по почте или передаются с водителями).
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 5.2 Покупатель вправе предъявить претензии по качеству, количеству и комплектности Бани в
                 течение всего гарантийного срока. Устранение неисправностей, замена, допоставка оборудования
@@ -419,23 +414,19 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 Договором, виновная сторона обязана возместить другой стороне убытки в полном объеме в течение
                 десяти календарных дней с момента получения претензии.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 6.2 За просрочку поставки или недопоставку Бани по вине Продавца, Продавец уплачивает
                 Покупателю неустойку в размере 0,01% стоимости бани за каждый день просрочки или недопоставки.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 6.3 За нарушение договорных обязательств Покупателем по оплате или приемке, Покупатель
                 выплачивает Продавцу пени в размере 0,01% суммы платежа за каждый день просрочки.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 6.4 Если поставленная Баня не соответствует по качеству, техническим условиям или условиям
                 настоящего Договора, Стороны руководствуются положениями действующего законодательства и
                 условиями настоящего Договора.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 6.5 Неустойки, предусмотренные настоящим Договором, начисляются в случае предъявления
                 письменного требования об их уплате. Их выплата не освобождает стороны от исполнения
@@ -449,18 +440,15 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 заканчивает свое действие после надлежащего выполнения Сторонами всех своих обязательств,
                 вытекающих из Договора.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 7.2 Все изменения и дополнения к настоящему Договору выполняются в письменном виде и
                 оформляются дополнительным соглашением, подписанным Сторонами.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 7.3 Любая договоренность между Сторонами, влекущая за собой новые обстоятельства, не
                 предусмотренные настоящим договором, считается действительной, если она подтверждена
                 Сторонами в письменной форме в виде дополнительного соглашения или протокола.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 7.4 Расторжение Договора возможно с соблюдением действующего законодательства.
             </div>
@@ -473,7 +461,6 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 дополнительным соглашением Сторон или протоколом, становящимися с момента их подписания
                 неотъемлемой частью настоящего Договора.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 8.2 Если, по мнению одной из Сторон, не имеется возможность разрешения возникшего между
                 сторонами спора в порядке настоящего Договора, то спор передается на разрешение Гражданского
@@ -487,16 +474,13 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 уведомлением о вручении по его адресу. Уведомление считается переданным на момент получения
                 Отправителем уведомления о вручении письма Получателю.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 9.2 При выполнении настоящего Договора Стороны руководствуются законодательными и
                 нормативными актами Российской Федерации.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 9.3 Все указанные в Договоре приложения являются его неотъемлемой частью.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 9.4 Настоящий Договор составлен на русском языке в двух экземплярах, имеющих равную
                 юридическую силу, по одному для каждой из Сторон.
@@ -507,7 +491,6 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
             <div style={{ textAlign: 'justify' }}>
                 10.1 Приложение № 1 – Спецификация бани.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 10.2 Приложение № 2 – Акт приёма передачи
             </div>
@@ -515,23 +498,40 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
             <h3 style={{ textAlign: 'center' }}>11. ЮРИДИЧЕСКИЕ АДРЕСА И РЕКВИЗИТЫ СТОРОН</h3>
             <br/>
             <table>
-                <tr>
-                    <td style={{ width: '50%'}}><b>Продавец:</b> ООО «Русская Баня»</td>
-                    <td style={{ width: '50%'}}><b>Покупатель:</b></td>
-                </tr>
-                <tr>
-                    <td>
-                        ИНН 5313015082, ОГРН 1185321002910, Р/С
-                        40702810001090000294, К/С 30101810900000000746, В
-                        ПАО УКБ «НОВОБАНК» г. Великий Новгород.
-                        174510, Новгородская область, г. Пестово, ул.
-                        Курганная 12 Тел. 8921 706-63-62, e-mail: info@brus-bany.ru
-                        <br /><br />
-                        _____________ Стариков Е.Б
-                    </td>
-                    <td>
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <td style={{ width: '50%'}}>
+                            <div><b>Продавец:</b></div>
+                            <br />
+                        </td>
+                        <td style={{ width: '50%'}}>
+                            <div><b>Покупатель:</b></div>
+                            <br />
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            ООО «Русская Баня» ИНН 5313015082, ОГРН 1185321002910, Р/С
+                            40702810001090000294, К/С 30101810900000000746, В
+                            ПАО УКБ «НОВОБАНК» г. Великий Новгород.
+                            174510, Новгородская область, г. Пестово, ул.
+                            Курганная 12 Тел. 8921 706-63-62, e-mail: info@brus-bany.ru
+                            <br /><br />
+                        </td>
+                        <td>
+                            Гражданин РФ {formValue.client.name || '_____________________________________________________________ '},
+                            {renderPassport(formValue.client.passport)}
+                            контактный телефон {formValue.client.phone || '_____________________ '}
+                            <br /><br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>_____________ Стариков Е.Б</td>
+                        <td>_____________ {formValue.client.name ? renderMiniName(formValue.client.name) : ''}</td>
+                    </tr>
+                </tbody>
             </table>
             <br/><br/>
             <b>Протокол согласования цены:</b>
@@ -548,7 +548,7 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
             {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
-                Приложение №1 к договору Купли-Продажи Бани №{formValue.documentNumber} от {renderDate(new Date(formValue.date))}
+                Приложение №1 к договору Купли-Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/><br/>
             <b>Спецификация бани:</b>
@@ -556,11 +556,11 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
             {categoryId.newEquipment && categoryId.newEquipment.length ? categoryId.newEquipment.map(({ name, value }) => (
                 <>
                     <b>{name}:</b>
-                    <br/><br/>
+                    <br/>
                     {value ? value.map(({ name }) => (
                         <div style={{ textAlign: 'justify' }}>{name}</div>
                     )) : null}
-                    <br/><br/>
+                    <br/>
                 </>
             )) : null}
             <div style={{ textAlign: 'justify' }}>
@@ -569,10 +569,10 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
             </div>
             <br/><br/>
             <div>Планировка бани:</div>
-            <img src={schemeImage} style={{ width: '100%' }} />
+            <img src={formValue.images['scheme']} style={{ width: '100%' }} />
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
-                Приложение №2 к Договору Купли – Продажи Бани №{formValue.documentNumber} от {renderDate(new Date(formValue.date))}
+                Приложение №2 к Договору Купли – Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
             <div style={{ textAlign: 'center' }}>АКТ приема - передачи</div>
@@ -583,11 +583,10 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
             </div>
             <br/><br/>
             <div style={{ textAlign: 'justify' }}>
-                Мы нижеподписавшиеся, в лице Покупателя
-                _________________________________________, с одной стороны, и в лице генерального
+                Мы нижеподписавшиеся, в лице Покупателя {formValue.client.name2 || '_____________________________________________________________ '}, с одной стороны, и в лице генерального
                 директора, ООО «Русская Баня» Старикова Евгений Борисовича или его представителя
                 _______________________________________________________, с другой стороны,
-                удостоверяем, что работы согласно договору №{formValue.documentNumber} и приложений №1 и №2 к данному
+                удостоверяем, что работы согласно договору № {formValue.documentNumber} и приложений №1 и №2 к данному
                 договору выполнены: произведен общий визуальный осмотр бани, проверена установка
                 комплектующих и столярных изделий.
             </div>
@@ -612,11 +611,11 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
             <div>Подпись продавца: _______________ Стариков Е.Б</div>
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
-                Приложение №3 к Договору Купли – Продажи Бани №{formValue.documentNumber} от {renderDate(new Date(formValue.date))}
+                Приложение №3 к Договору Купли – Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
-            <b style={{ textAlign: 'center' }}>Правила эксплуатации бани</b>
-            <br/><br/>
+            <div><b style={{ textAlign: 'center' }}>Правила эксплуатации бани</b></div>
+            <br/>
             <div style={{ textAlign: 'justify' }}>
                 1. Вследствие использования в строительстве стенового материала атмосферной сушки, внутри
                 построенного сооружения наблюдается повышенная влажность воздуха. Во избежание порчи
@@ -625,90 +624,45 @@ const renderDogovor = (project, formValue, data, finalPrice, schemeImage) => {
                 естественную вентиляцию, для этого необходимо держать все двери и окна в открытом
                 состоянии.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 2. Перед использованием бани по назначению, необходимо протопить печь, не менее двух раз,
                 (будите внимательны, без воды в баке печь топить нельзя), для обеспечения выветривания
                 составов, которыми обработана печь. После этого необходимо проветрить баню.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3. После каждого использования бани необходимо обеспечивать сквозное проветривание:
                 открывать окна, двери и отдушину для проветривания на 4-5 часов минимум.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 4. Для топки печи используйте сухие дрова или древесные топливные брикеты.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 5. При нахождении в парной необходимо соблюдать меры предосторожности, связанные с
                 нагретыми поверхностями печи, дымохода и бака для нагрева воды.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 6. Не оставляйте детей без присмотра и не разрешайте им топить печь.
             </div>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 7. Прочищайте и проверяйте на прогорание дымоход не реже 1-го раза в 3 месяца.
             </div>
             <br/><br/>
-            <b style={{ textAlign: 'center' }}>Запрещено</b>
-            <br/><br/>
-            <div>
-                1. Растапливать печь легковоспламеняющимися жидкостями (бензин, керосин и т. п.)
-            </div>
+            <div><b style={{ textAlign: 'center' }}>Запрещено</b></div>
             <br/>
-            <div>
-                2. Находиться в бане в состоянии алкогольного опьянения
-            </div>
+            <div>1. Растапливать печь легковоспламеняющимися жидкостями (бензин, керосин и т. п.)</div>
+            <div>2. Находиться в бане в состоянии алкогольного опьянения</div>
+            <div>3. Оставлять без надзора горящую печь, а также поручать надзор малолетним детям</div>
+            <div>4. Разогревать трубы дымохода печи до красного цвета</div>
+            <div>5. Высыпать вблизи строений непогашенные угли или золу</div>
+            <div>6. Применять не разрешенные к использованию виды топлива</div>
+            <div>7. Применять дрова, длина которых превышает размер топки</div>
+            <div>8. Топить печь с открытой дверцей</div>
+            <div>9. Оставлять воду в баке после использования</div>
+            <div>10. Сушить дрова, одежду и другие сгораемые предметы на печи или около нее</div>
+            <div>11. Хранить в помещении дрова в количестве, превышающем потребность для разового использования бани</div>
+            <div>12. Вносить изменения в конструкцию бани и её оборудование</div>
+            <div>13. Топить банную печь без воды</div>
             <br/>
-            <div>
-                3. Оставлять без надзора горящую печь, а также поручать надзор малолетним детям
-            </div>
-            <br/>
-            <div>
-                4. Разогревать трубы дымохода печи до красного цвета
-            </div>
-            <br/>
-            <div>
-                5. Высыпать вблизи строений непогашенные угли или золу
-            </div>
-            <br/>
-            <div>
-                6. Применять не разрешенные к использованию виды топлива
-            </div>
-            <br/>
-            <div>
-                7. Применять дрова, длина которых превышает размер топки
-            </div>
-            <br/>
-            <div>
-                8. Топить печь с открытой дверцей
-            </div>
-            <br/>
-            <div>
-                9. Оставлять воду в баке после использования
-            </div>
-            <br/>
-            <div>
-                10. Сушить дрова, одежду и другие сгораемые предметы на печи или около нее
-            </div>
-            <br/>
-            <div>
-                11. Хранить в помещении дрова в количестве, превышающем потребность для разового
-                использования бани
-            </div>
-            <br/>
-            <div>
-                12. Вносить изменения в конструкцию бани и её оборудование
-            </div>
-            <br/>
-            <div>
-                13. Топить банную печь без воды
-            </div>
-            <br/><br/>
             <div style={{ textAlign: 'justify' }}>
                 Изготовитель предоставляет гарантию только при соблюдении условий эксплуатаций и правил ухода.
                 Если вы нарушаете правила эксплуатации, мы не можем гарантировать сохранение эксплуатационных
@@ -746,11 +700,20 @@ const format = [{
 }, {
     _id: 'images',
     title: 'Изображения',
-    type: 'array',
+    type: 'object',
     format: [{
-        _id: 'image',
-        title: 'Изображение',
+        _id: 'scheme',
+        title: 'Планировка',
         type: 'image'
+    }, {
+        _id: 'other',
+        title: 'Остальные изображения',
+        type: 'array',
+        format: [{
+            _id: 'image',
+            title: 'Главное изображение',
+            type: 'image'
+        }]
     }]
 }, {
     _id: 'additionalData',
@@ -778,9 +741,51 @@ const format = [{
     _id: 'documentNumber',
     title: 'Номер договора',
     type: 'integer number'
+}, {
+    _id: 'client',
+    title: 'Информация о клиенте',
+    type: 'object',
+    format: [{
+        _id: 'name',
+        title: 'Имя клиента (Иванов Иван Ивановоч)',
+        type: 'string',
+    }, {
+        _id: 'name2',
+        title: 'Имя клиента (Иванова Ивана Ивановича)',
+        type: 'string',
+    }, {
+        _id: 'phone',
+        title: 'Номер телефона',
+        type: 'string',
+    }, {
+        _id: 'passport',
+        title: 'Паспорт',
+        type: 'object',
+        format: [{
+            _id: 'number',
+            title: 'Номер',
+            type: 'string'
+        }, {
+            _id: 'where',
+            title: 'Где выдан',
+            type: 'text'
+        }, {
+            _id: 'when',
+            title: 'Когда выдан',
+            type: 'string'
+        }, {
+            _id: 'whenBirth',
+            title: 'Дата рождения',
+            type: 'string'
+        }, {
+            _id: 'whereBirth',
+            title: 'Место рождения',
+            type: 'string'
+        }]
+    }]
 }];
 
-function CP({ CPData, images, data, project, infoBlock, finalPrice, onClose, onChange, showNotification, schemeImage }) {
+function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, showNotification, images }) {
     let containerRef = null;
 
     const formValue = {
@@ -791,6 +796,7 @@ function CP({ CPData, images, data, project, infoBlock, finalPrice, onClose, onC
         projectDate: CPData && CPData.projectDate || Date.now(),
         documentNumber: CPData && CPData.documentNumber || 0,
         mode: CPData && CPData.mode || 'cp',
+        client: CPData && CPData.client || {},
     };
 
     function print() {
@@ -824,7 +830,7 @@ function CP({ CPData, images, data, project, infoBlock, finalPrice, onClose, onC
             <div ref={ref => { containerRef = ref; }}>
                 {formValue.mode ==='cp' ?
                     renderCP(project, formValue, data, infoBlock, finalPrice) :
-                    renderDogovor(project, formValue, data, finalPrice, schemeImage)}
+                    renderDogovor(project, formValue, data, finalPrice)}
             </div>
         );
     }
