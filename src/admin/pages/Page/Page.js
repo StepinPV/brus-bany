@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import PageComponent from '../../../client/components/Page';
-import { getPage, setPage, savePage, reset, deletePage } from './actions';
+import PageRender from '../../../client/components/PageRender';
+import { getPage, setPage, savePage, reset, deletePage, getTemplates } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import Form from '../../components/Form';
 import { main as mainFormat, config as configFormat } from '../../formats/page';
 import { Button } from "../../../components/Button";
+import Select from '../../../components/Select';
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
 import Operations from '../../components/pageEditor/Operations';
@@ -36,7 +37,8 @@ class Page extends PureComponent {
         actions: PropTypes.object,
         match: PropTypes.object,
         showNotification: PropTypes.func,
-        history: PropTypes.object
+        history: PropTypes.object,
+        templates: PropTypes.array
     };
 
     constructor(props) {
@@ -88,6 +90,25 @@ class Page extends PureComponent {
         } else {
             actions.getPage(id);
         }
+
+        actions.getTemplates();
+    }
+
+    componentDidUpdate() {
+        const { page } = this.props;
+
+        if (page && Array.isArray(page.config.components)) {
+            this.setConfig({
+                ...page.config,
+                components: {
+                    ['__content__(main)']: page.config.components
+                }
+            });
+
+            setTimeout(() => {
+                this.handleSave();
+            }, 2000);
+        }
     }
 
     componentWillUnmount() {
@@ -108,13 +129,17 @@ class Page extends PureComponent {
                 panels={this.floatPanels}
                 onChangeOpenedPanel={this.setOpenedPanel}
                 openedPanelId={openedPanelId}>
-                {this.renderPage()}
+                <PageRender
+                    header={this.renderSpecialComponent('header', 'Добавить шапку')}
+                    footer={this.renderSpecialComponent('footer', 'Добавить подвал')}>
+                    {this.renderPageContent()}
+                </PageRender>
             </FloatPanels>
         ) : null;
     }
 
     renderSettingsBlock = () => {
-        const { page, match } = this.props;
+        const { page, match, templates } = this.props;
         const { errors } = this.state;
         const { id } = match.params;
 
@@ -123,6 +148,26 @@ class Page extends PureComponent {
                 <div className={styles['settings-block-content']}>
                     <Breadcrumbs items={breadcrumbs} />
                     <div className={styles['form-container']}>
+                        {templates ? (
+                            <div className={styles['form-container-select']}>
+                                <Select
+                                    title='Шаблон страницы'
+                                    items={templates}
+                                    hasEmpty
+                                    keyProperty='_id'
+                                    displayProperty='_id'
+                                    selectedKey={page.config.template}
+                                    onChange={key => {
+                                        if (confirm('Смена шаблона приведет к сбросу страницы')) {
+                                            this.setConfig({
+                                                template: key,
+                                                components: {}
+                                            });
+                                        }
+                                    }}
+                                />
+                            </div>
+                        ) : null}
                         <Form
                             format={mainFormat}
                             value={page}
@@ -157,29 +202,135 @@ class Page extends PureComponent {
         )
     };
 
-    renderPage = () => {
-        const { page } = this.props;
-        const { components } = page.config;
+    renderPageContent = () => {
+        const { page, templates } = this.props;
+
+        let templateComponents = [{
+            componentId: '__content__(main)'
+        }];
+        let __images__ = page.config['__images__'];
+
+        if (!templates) {
+            return;
+        }
+
+        if (page.config.template) {
+            const templateData = templates.find((item => item['_id'] === page.config.template));
+
+            templateComponents = templateData.config.components;
+            __images__ = templateData.config['__images__'];
+        }
 
         return (
-            <PageComponent headerProps={page.config.headerProps}>
-                {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
-                {(!components || !components.length) ? this.renderAddComponent() : null}
-            </PageComponent>
-        );
-    }
+            <>
+                {templateComponents.map(tComponent => {
+                    if (tComponent.componentId.includes('__content__')) {
+                        const components = (page.config.components || {})[tComponent.componentId];
 
-    renderAddComponent = () => {
+                        return (
+                            <>
+                                {components ? components.map((component, index) => this.renderComponentByIndex(tComponent.componentId, index)) : null}
+                                {(!components || !components.length) ? this.renderAddComponent('Добавить новый компонент', `${tComponent.componentId}:0`) : null}
+                            </>
+                        );
+                    }
+
+                    return (
+                        <ComponentRender
+                            componentId={tComponent.componentId}
+                            componentProps={tComponent.props}
+                            __images__={__images__} />
+                    );
+                })}
+            </>
+        )
+    };
+
+    renderSpecialComponent = (id, addTitle) => {
+        const { page, templates } = this.props;
+        const { operations } = this.state;
+
+        let component = page.config[id];
+        let __images__ = page.config['__images__'];
+        let isTemplateComponent = false;
+
+        if (!templates) {
+            return;
+        }
+
+        if (page.config.template) {
+            const templateData = templates.find((item => item['_id'] === page.config.template));
+
+            if (templateData.config[id]) {
+                component = templateData.config[id];
+                __images__ = templateData.config['__images__'];
+                isTemplateComponent = true;
+            }
+        }
+
+        const togglePropsFormVisible = () => {
+            const newOperations = { ...this.state.operations };
+            newOperations[id] = {
+                ...newOperations[id],
+                propsFormVisible: newOperations[id] ? !newOperations[id].propsFormVisible : true
+            };
+
+            this.setState({ operations: newOperations });
+        }
+
+        const renderComponent = () => {
+            return (
+                <ComponentRender
+                    componentId={component.componentId}
+                    componentProps={component.props}
+                    __images__={__images__} />
+            );
+        }
+
+        return component ? (
+            <Fragment>
+                {isTemplateComponent ? renderComponent() : (
+                    <Operations
+                        onClick={togglePropsFormVisible}
+                        operations={{
+                            delete: () => {
+                                this.setConfig({ [id]: null });
+                            }
+                        }}>
+                        {renderComponent()}
+                    </Operations>
+                )}
+                {operations[id] && operations[id].propsFormVisible ? (
+                    <ComponentEditor
+                        componentId={component.componentId}
+                        componentProps={component.props}
+                        onChangeProps={(newProps, errors, images) => {
+                            this.setConfig({
+                                [id]: {
+                                    ...page.config[id],
+                                    props: newProps
+                                },
+                                __images__: images
+                            });
+                        }} />
+                ) : null}
+            </Fragment>
+        ) : this.renderAddComponent(addTitle, id);
+    };
+
+    renderAddComponent = (title, position) => {
         return (
             <div className={styles['add-button']}>
-                <div className={styles['add-button-caption']} onClick={this.enableAddComponentMode}>Добавить новый компонент<br/>+</div>
+                <div className={styles['add-button-caption']} onClick={() => {
+                    this.enableAddComponentMode(position)
+                }}>{title}</div>
             </div>
         );
     };
 
     enableAddComponentMode = (position) => {
         this.setState({
-            addComponentPosition: position || 0,
+            addComponentPosition: position,
             openedPanelId: 'select-component'
         });
     }
@@ -201,69 +352,116 @@ class Page extends PureComponent {
         const { page } = this.props;
 
         const addComponent = (componentId, props) => {
-            this.setConfig(OperationsHelper.add(page.config.components, addComponentPosition, {
-                componentId,
-                props
-            }));
             this.setOpenedPanel(null);
+
+            const newComponentData = { componentId, props };
+
+            if (addComponentPosition === 'header') {
+                this.setConfig({ header: newComponentData });
+                return;
+            }
+
+            if (addComponentPosition === 'footer') {
+                this.setConfig({ footer: newComponentData });
+                return;
+            }
+
+            const [blockId, position] = addComponentPosition.split(':');
+
+            const components = page.config.components || {};
+
+            return this.setConfig({
+                components: {
+                    ...components,
+                    [blockId]: OperationsHelper.add(components[blockId] || [], position, newComponentData)
+                }
+            });
         }
 
         return <ComponentSelect onSelect={addComponent} hasCustomComponents />;
     };
 
-    renderComponentByIndex = (index) => {
+    renderComponentByIndex = (blockId, index) => {
         const { page } = this.props;
         const { operations } = this.state;
 
-        const { componentId } = page.config.components[index];
+        const components = page.config.components[blockId];
+        const component = components[index];
 
         const togglePropsFormVisible = () => {
             const newOperations = { ...this.state.operations };
-            newOperations[index] = {
-                ...newOperations[index],
-                propsFormVisible: newOperations[index] ? !newOperations[index].propsFormVisible : true
+            newOperations[`${blockId}:${index}`] = {
+                ...newOperations[`${blockId}:${index}`],
+                propsFormVisible: newOperations[`${blockId}:${index}`] ? !newOperations[`${blockId}:${index}`].propsFormVisible : true
             };
 
             this.setState({ operations: newOperations });
         }
 
         return (
-            <Fragment key={`${componentId}-${index}`}>
+            <Fragment key={`${component.componentId}-${index}`}>
                 <Operations
                     operations={{
                         addComponentTop: () => {
-                            this.enableAddComponentMode(index);
+                            this.enableAddComponentMode(`${blockId}:${index}`);
                         },
                         addComponentBottom: () => {
-                            this.enableAddComponentMode(index + 1);
+                            this.enableAddComponentMode(`${blockId}:${index + 1}`);
                         },
-                        moveBottom: index !== page.config.components.length - 1 ? () => {
-                            this.setConfig(OperationsHelper.moveBottom(page.config.components, index));
+                        moveBottom: index !== components.length - 1 ? () => {
+                            this.setConfig({
+                                components: {
+                                    ...page.config.components,
+                                    [blockId]: OperationsHelper.moveBottom(components, index)
+                                }
+                            });
                             this.setState({ operations: {} });
                         } : null,
                         moveUp: index !== 0 ? () => {
-                            this.setConfig(OperationsHelper.moveUp(page.config.components, index));
+                            this.setConfig({
+                                components: {
+                                    ...page.config.components,
+                                    [blockId]: OperationsHelper.moveUp(components, index)
+                                }
+                            });
                             this.setState({ operations: {} });
                         } : null,
                         clone: () => {
-                            this.setConfig(OperationsHelper.clone(page.config.components, index));
+                            this.setConfig({
+                                components: {
+                                    ...page.config.components,
+                                    [blockId]: OperationsHelper.clone(components, index)
+                                }
+                            });
                         },
                         delete: () => {
-                            this.setConfig(OperationsHelper.delete(page.config.components, index));
+                            this.setConfig({
+                                components: {
+                                    ...page.config.components,
+                                    [blockId]: OperationsHelper.delete(components, index)
+                                }
+                            });
                         }
                     }}
                     onClick={togglePropsFormVisible}>
                     <ComponentRender
-                        componentId={componentId}
-                        componentProps={page.config.components[index].props}
+                        componentId={component.componentId}
+                        componentProps={component.props}
                         __images__={page.config['__images__']} />
                 </Operations>
-                { operations[index] && operations[index].propsFormVisible ? (
+                { operations[`${blockId}:${index}`] && operations[`${blockId}:${index}`].propsFormVisible ? (
                     <ComponentEditor
-                        componentId={componentId}
-                        componentProps={page.config.components[index].props}
+                        componentId={component.componentId}
+                        componentProps={component.props}
                         onChangeProps={(newProps, errors, images) => {
-                            this.setConfig(OperationsHelper.setProps(page.config.components, index, newProps, errors, images));
+                            const newData = OperationsHelper.setProps(components, index, newProps, errors, images);
+                            this.setConfig({
+                                __images__: newData.__images__,
+                                components: {
+                                    ...page.config.components,
+                                    [blockId]: newData.components
+                                }
+                            });
                         }} />
                 ) : null}
             </Fragment>
@@ -322,11 +520,6 @@ class Page extends PureComponent {
     }
 }
 
-/**
- * mapDispatchToProps
- * @param {*} dispatch
- * @returns {Object}
- */
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
@@ -334,16 +527,17 @@ function mapDispatchToProps(dispatch) {
             setPage,
             savePage,
             reset,
-            deletePage
+            deletePage,
+            getTemplates
         }, dispatch),
         dispatch
     };
 }
 
 function mapStateToProps(state) {
-    const { page, isPageFetch, isPageError } = state['admin-page'];
+    const { page, isPageFetch, isPageError, templates } = state['admin-page'];
 
-    return { page, isPageFetch, isPageError };
+    return { page, isPageFetch, isPageError, templates };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Page));

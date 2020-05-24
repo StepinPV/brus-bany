@@ -80,9 +80,7 @@ class PageTemplate extends PureComponent {
         if (id === 'add') {
             actions.set({
                 config: {
-                    components: [{
-                        componentId: '__content__{main}'
-                    }]
+                    components: []
                 }
             });
         } else {
@@ -152,24 +150,25 @@ class PageTemplate extends PureComponent {
 
         return (
             <PageRender
-                header={header ? this.renderHeader() : this.renderAddHeader()}
-                footer={footer ? this.renderFooter() : this.renderAddFooter()}>
+                header={header ? this.renderSpecialComponent('header') : this.renderAddComponent('Добавить шапку', 'header')}
+                footer={footer ? this.renderSpecialComponent('footer') : this.renderAddComponent('Добавить подвал', 'footer')}>
                 <>
                     {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
+                    {(!components || !components.length) ? this.renderAddComponent('Добавить новый компонент', 0) : null}
                 </>
             </PageRender>
         );
     }
 
-    renderHeader = () => {
+    renderSpecialComponent = (id) => {
         const { data } = this.props;
         const { operations } = this.state;
 
         const togglePropsFormVisible = () => {
             const newOperations = { ...this.state.operations };
-            newOperations['header'] = {
-                ...newOperations['header'],
-                propsFormVisible: newOperations['header'] ? !newOperations['header'].propsFormVisible : true
+            newOperations[id] = {
+                ...newOperations[id],
+                propsFormVisible: newOperations[id] ? !newOperations[id].propsFormVisible : true
             };
 
             this.setState({ operations: newOperations });
@@ -181,22 +180,22 @@ class PageTemplate extends PureComponent {
                     onClick={togglePropsFormVisible}
                     operations={{
                         delete: () => {
-                            this.setConfig({ header: null });
+                            this.setConfig({ [id]: null });
                         }
                     }}>
                     <ComponentRender
-                        componentId={data.config.header.componentId}
-                        componentProps={data.config.header.props}
+                        componentId={data.config[id].componentId}
+                        componentProps={data.config[id].props}
                         __images__={data.config['__images__']} />
                 </Operations>
-                {operations['header'] && operations['header'].propsFormVisible ? (
+                {operations[id] && operations[id].propsFormVisible ? (
                     <ComponentEditor
-                        componentId={data.config.header.componentId}
-                        componentProps={data.config.header.props}
+                        componentId={data.config[id].componentId}
+                        componentProps={data.config[id].props}
                         onChangeProps={(newProps, errors, images) => {
                             this.setConfig({
-                                header: {
-                                    ...data.config.header,
+                                [id]: {
+                                    ...data.config[id],
                                     props: newProps
                                 },
                                 __images__: images
@@ -207,68 +206,12 @@ class PageTemplate extends PureComponent {
         );
     };
 
-    renderFooter = () => {
-        const { data } = this.props;
-        const { operations } = this.state;
-
-        const togglePropsFormVisible = () => {
-            const newOperations = { ...this.state.operations };
-            newOperations['footer'] = {
-                ...newOperations['footer'],
-                propsFormVisible: newOperations['footer'] ? !newOperations['footer'].propsFormVisible : true
-            };
-
-            this.setState({ operations: newOperations });
-        }
-
-        return (
-            <Fragment>
-                <Operations
-                    operations={{
-                        delete: () => {
-                            this.setConfig({ footer: null });
-                        }
-                    }}
-                    onClick={togglePropsFormVisible}>
-                    <ComponentRender
-                        componentId={data.config.footer.componentId}
-                        componentProps={data.config.footer.props}
-                        __images__={data.config['__images__']} />
-                </Operations>
-                {operations['footer'] && operations['footer'].propsFormVisible ? (
-                    <ComponentEditor
-                        componentId={data.config.footer.componentId}
-                        componentProps={data.config.footer.props}
-                        onChangeProps={(newProps, errors, images) => {
-                            this.setConfig({
-                                footer: {
-                                    ...data.config.footer,
-                                    props: newProps
-                                },
-                                __images__: images
-                            });
-                        }} />
-                ) : null}
-            </Fragment>
-        );
-    };
-
-    renderAddHeader = () => {
+    renderAddComponent = (title, position) => {
         return (
             <div className={styles['add-button']}>
                 <div className={styles['add-button-caption']} onClick={() => {
-                    this.enableAddComponentMode('header')
-                }}>Добавить шапку</div>
-            </div>
-        );
-    };
-
-    renderAddFooter = () => {
-        return (
-            <div className={styles['add-button']}>
-                <div className={styles['add-button-caption']} onClick={() => {
-                    this.enableAddComponentMode('footer')
-                }}>Добавить подвал</div>
+                    this.enableAddComponentMode(position)
+                }}>{title}</div>
             </div>
         );
     };
@@ -311,11 +254,20 @@ class PageTemplate extends PureComponent {
                 return;
             }
 
-            this.setConfig(OperationsHelper.add(data.config.components, addComponentPosition, newComponentData));
+            this.setConfig({
+                components: OperationsHelper.add(data.config.components, addComponentPosition, newComponentData)
+            });
         }
 
         return (
-            <ComponentSelect onSelect={addComponent} hasCustomComponents />
+            <ComponentSelect
+                onSelect={addComponent}
+                hasCustomComponents
+                additions={addComponentPosition !== 'header' && addComponentPosition !== 'footer' ? [{
+                    key: `__content__(${Math.floor(Math.random() * (9999 - 1000) + 1000)})`,
+                    name: 'Контентная область'
+                }] : null}
+            />
         );
     };
 
@@ -367,18 +319,18 @@ class PageTemplate extends PureComponent {
                             this.enableAddComponentMode(index + 1);
                         },
                         moveBottom: index !== data.config.components.length - 1 ? () => {
-                            this.setConfig(OperationsHelper.moveBottom(data.config.components, index));
+                            this.setConfig({ components: OperationsHelper.moveBottom(data.config.components, index) });
                             this.setState({ operations: {} });
                         } : null,
                         moveUp: index !== 0 ? () => {
-                            this.setConfig(OperationsHelper.moveUp(data.config.components, index));
+                            this.setConfig({ components: OperationsHelper.moveUp(data.config.components, index) });
                             this.setState({ operations: {} });
                         } : null,
                         clone: () => {
-                            this.setConfig(OperationsHelper.clone(data.config.components, index));
+                            this.setConfig({ components: OperationsHelper.clone(data.config.components, index) });
                         },
                         delete: () => {
-                            this.setConfig(OperationsHelper.delete(data.config.components, index));
+                            this.setConfig({ components: OperationsHelper.delete(data.config.components, index) });
                         }
                     }}
                     onClick={togglePropsFormVisible}>

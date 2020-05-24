@@ -1,5 +1,6 @@
 import {
     GET, GET_SUCCESS, GET_ERROR,
+    GET_TEMPLATES, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_ERROR,
     SET, RESET
 } from './constants';
 import Api from './api';
@@ -20,6 +21,26 @@ export function getPage(name) {
         } catch(err) {
             // TODO
             dispatch({ type: GET_ERROR, payload: { message: 'Неизвестная ошибка!' }});
+        }
+    };
+}
+
+export function getTemplates() {
+    return async (dispatch) => {
+        dispatch({ type: GET_TEMPLATES });
+
+        try {
+            const res = await Api.getTemplates();
+
+            if (res.data && res.data.status === 'error') {
+                dispatch({ type: GET_TEMPLATES_ERROR, payload: { message: res.data.message } });
+                return;
+            }
+
+            dispatch({ type: GET_TEMPLATES_SUCCESS, payload: res.data.data });
+        } catch(err) {
+            // TODO
+            dispatch({ type: GET_TEMPLATES_ERROR, payload: { message: 'Неизвестная ошибка!' }});
         }
     };
 }

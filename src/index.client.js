@@ -30,6 +30,11 @@ async function run () {
     delete window.__customComponents__;
     /* eslint-enable no-underscore-dangle */
 
+    /* eslint-disable no-underscore-dangle */
+    const pageTemplates = window.__pageTemplates__;
+    delete window.__pageTemplates__;
+    /* eslint-enable no-underscore-dangle */
+
     await loadableReady();
 
     // TODO Вот тут не нужно добавлять все модули
@@ -47,7 +52,8 @@ async function run () {
                 <App
                     routes={[matchRoute]}
                     page={pageData}
-                    customComponents={customComponents} />
+                    customComponents={customComponents}
+                    pageTemplates={pageTemplates} />
             </BrowserRouter>
         </Provider>,
         document.getElementById('root')

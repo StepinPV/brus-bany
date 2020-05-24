@@ -27,10 +27,10 @@ export function get(name) {
 export function save() {
     return async (dispatch, getStore) => {
         const store = getStore();
-        const { page, id } = store['admin-page-template'];
+        const { data, id } = store['admin-page-template'];
 
         try {
-            const res = id ? await Api.save(id, page) : await Api.create(page);
+            const res = id ? await Api.save(id, data) : await Api.create(data);
             return res.data;
         } catch(err) {
             // TODO

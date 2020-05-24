@@ -6,11 +6,12 @@ import styles from './ComponentSelect.module.css';
 class ComponentSelect extends PureComponent {
     static propTypes = {
         componentMetas: PropTypes.object,
-        onSelect: PropTypes.func
+        onSelect: PropTypes.func,
+        additions: PropTypes.array
     };
 
     render = () => {
-        const { componentMetas, onSelect } = this.props;
+        const { componentMetas, onSelect, additions } = this.props;
 
         return (
             <>
@@ -25,6 +26,16 @@ class ComponentSelect extends PureComponent {
                         </div>
                     );
                 })}
+                {additions ? additions.map(addition => {
+                    return (
+                        <div
+                            key={addition.key}
+                            className={styles['component-select-item']}
+                            onClick={() => { onSelect(addition.key) }}>
+                            {addition.name}
+                        </div>
+                    );
+                }) : null}
             </>
         );
     };

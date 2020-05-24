@@ -32,7 +32,7 @@ router.post('/', async function(req, res, next) {
     try {
         const { status, data, message } = await PageTemplates.create(req.body.data);
 
-        cache.clear(['components']);
+        cache.clear(['page-templates']);
 
         switch(status) {
             case 'success':

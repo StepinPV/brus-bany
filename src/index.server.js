@@ -31,6 +31,7 @@ const render = async (req, res, axiosOptions = {}) => {
 
     let page = null;
     let customComponents;
+    let pageTemplates;
 
     if (matchRoute.id === 'page-generator') {
         const pageRes = await axios.get(`/api/pages/${encodeURIComponent(req.path)}`, {
@@ -40,10 +41,12 @@ const render = async (req, res, axiosOptions = {}) => {
         });
 
         const customComponentsRes = await axios.get(`/api/components`);
+        const pageTemplatesRes = await axios.get(`/api/page-templates`);
 
         if (pageRes.data && pageRes.data.status === 'success' && pageRes.data.data) {
             page = pageRes.data.data;
             customComponents = customComponentsRes.data.data;
+            pageTemplates = pageTemplatesRes.data.data;
         }
     }
 
@@ -81,6 +84,7 @@ const render = async (req, res, axiosOptions = {}) => {
                     preparedComponents={{ [matchRoute.id]: loadableComponent }}
                     page={page}
                     customComponents={customComponents}
+                    pageTemplates={pageTemplates}
                     routes={[matchRoute]} />
             </StaticRouter>
         </Provider>
@@ -94,6 +98,8 @@ const render = async (req, res, axiosOptions = {}) => {
         pageData: page,
         // TODO Не нужно передавать все!
         customComponents,
+        // TODO Не нужно передавать все!
+        pageTemplates,
         markup,
         context,
         extractor

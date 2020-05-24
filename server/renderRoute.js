@@ -28,7 +28,7 @@ router.get('*', async (req, res, next) => {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const { head, markup, initialData, extractor, context, pageData, customComponents } = await render(req, res, axiosOptions);
+        const { head, markup, initialData, extractor, context, pageData, customComponents, pageTemplates } = await render(req, res, axiosOptions);
 
         if (context.status === 404) {
             res.status(404);
@@ -78,6 +78,7 @@ router.get('*', async (req, res, next) => {
                 initialData: serialize(context.simplePage ? {} : initialData),
                 pageData: serialize(pageData || {}),
                 customComponents: serialize(customComponents || []),
+                pageTemplates: serialize(pageTemplates || []),
                 app: markup,
                 assets: {
                     styleTags,

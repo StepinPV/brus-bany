@@ -186,10 +186,12 @@ class Component extends PureComponent {
         const { addComponentPosition } = this.state;
 
         const addComponent = (componentId, props) => {
-            this.setConfig(OperationsHelper.add(data.config.components, addComponentPosition, {
-                componentId,
-                props
-            }));
+            this.setConfig({
+                components: OperationsHelper.add(data.config.components, addComponentPosition, {
+                    componentId,
+                    props
+                })
+            });
             this.setOpenedPanel(null);
         }
 
@@ -223,18 +225,18 @@ class Component extends PureComponent {
                             this.enableAddComponentMode(index + 1);
                         },
                         moveBottom: index !== data.config.components.length - 1 ? () => {
-                            this.setConfig(OperationsHelper.moveBottom(data.config.components, index));
+                            this.setConfig({ components: OperationsHelper.moveBottom(data.config.components, index) });
                             this.setState({ operations: {} });
                         } : null,
                         moveUp: index !== 0 ? () => {
-                            this.setConfig(OperationsHelper.moveUp(data.config.components, index));
+                            this.setConfig({ components: OperationsHelper.moveUp(data.config.components, index) });
                             this.setState({ operations: {} });
                         } : null,
                         clone: () => {
-                            this.setConfig(OperationsHelper.clone(data.config.components, index));
+                            this.setConfig({ components: OperationsHelper.clone(data.config.components, index) });
                         },
                         delete: () => {
-                            this.setConfig(OperationsHelper.delete(data.config.components, index));
+                            this.setConfig({ components: OperationsHelper.delete(data.config.components, index) });
                         }
                     }}
                     onClick={togglePropsFormVisible}>

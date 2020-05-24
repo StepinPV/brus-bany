@@ -24,6 +24,10 @@
     flex-grow: 1;
 }
 
+.form-container-select {
+    margin-bottom: 32px;
+}
+
 .add-button {
     display: flex;
     flex-direction: column;

@@ -1,44 +1,87 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Page from '../../components/Page';
+import PageRender from '../../components/PageRender';
 import Meta from "../../components/Meta";
 import * as components from '@constructor-components';
 
 class CustomPage extends PureComponent {
     static propTypes = {
-        seoMeta: PropTypes.object,
-        headerProps: PropTypes.object,
-        __images__: PropTypes.object,
         customComponents: PropTypes.array,
-        components: PropTypes.array,
-        staticContext: PropTypes.object
+        pageTemplates: PropTypes.array,
+        staticContext: PropTypes.object,
+        page: PropTypes.object
     };
 
     static defaultProps = {
-        headerProps: {},
-        seoMeta: {},
-        __images__: {},
-        components: [],
-        customComponents: []
+        customComponents: [],
+        pageTemplates: [],
     };
 
     render() {
-        const { components, seoMeta, headerProps } = this.props;
+        const { page } = this.props;
 
         return (
-            <Page headerProps={headerProps}>
-                <Meta meta={seoMeta} />
-                {components ? this.renderComponents(components) : null}
-            </Page>
+            <PageRender
+                header={this.renderSpecialComponent('header')}
+                footer={this.renderSpecialComponent('footer')}>
+                <>
+                    {page.config.seoMeta ? <Meta meta={page.config.seoMeta} /> : null}
+                    {this.renderPageContent()}
+                </>
+            </PageRender>
         );
     }
 
-    renderComponents = (components) => {
-        return components.map(component => this.renderComponent(component));
+    renderSpecialComponent = (id) => {
+        const { page, pageTemplates } = this.props;
+
+        let component = page.config[id];
+        let __images__ = page.config['__images__'];
+
+        if (page.config.template) {
+            const templateData = pageTemplates.find((item => item['_id'] === page.config.template));
+
+            if (templateData.config[id]) {
+                component = templateData.config[id];
+                __images__ = templateData.config['__images__'];
+            }
+        }
+
+        return component ? this.renderComponent(component, __images__) : null;
     };
 
-    renderComponent = ({ componentId, props }) => {
-        const { customComponents, __images__, staticContext } = this.props;
+    renderPageContent = () => {
+        const { page, pageTemplates } = this.props;
+
+        let templateComponents = [{
+            componentId: '__content__(main)'
+        }];
+        let __templateImages__ = {};
+
+        if (page.config.template) {
+            const templateData = pageTemplates.find((item => item['_id'] === page.config.template));
+
+            templateComponents = templateData.config.components;
+            __templateImages__ = templateData.config['__images__'];
+        }
+
+        return (
+            <>
+                {templateComponents.map(tComponent => {
+                    if (tComponent.componentId.includes('__content__')) {
+                        const components = (page.config.components || {})[tComponent.componentId];
+
+                        return components ? components.map(component => this.renderComponent(component, page.config['__images__'])) : null;
+                    }
+
+                    return this.renderComponent(tComponent, __templateImages__);
+                })}
+            </>
+        )
+    };
+
+    renderComponent = ({ componentId, props }, __images__) => {
+        const { customComponents, staticContext } = this.props;
 
         if (components[componentId]) {
             const Component = components[componentId];
@@ -49,7 +92,7 @@ class CustomPage extends PureComponent {
         const customComponent = customComponents.find(c => c['_id'] === componentId);
 
         if (customComponent && customComponent.config && customComponent.config.components) {
-            return this.renderComponents(customComponent.config.components);
+            return customComponent.config.components.map(component => this.renderComponent(component, __images__));
         }
 
         return null;
