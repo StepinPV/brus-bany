@@ -188,10 +188,11 @@ function getCustomAdditionsPrice(formValue) {
 
 function renderPassport(passport) {
     return ` паспорт номер ${passport && passport.number || '________________ '} 
-         место выдачи ${passport && passport.where || '________________________________________________________________ '} 
+         выдан ${passport && passport.where || '________________________________________________________________ '} 
          дата выдачи ${passport && passport.when || '_________________________ '} 
          дата рождения ${passport && passport.whenBirth || '__________________________ '} 
-         место рождения ${passport && passport.whereBirth || '____________________________________________________ '} `;
+         место рождения ${passport && passport.whereBirth || '____________________________________________________ '}
+         зарегестрирован в ${passport && passport.registration || '____________________________________________________ '} `;
 }
 
 function renderMiniName(fullName) {
@@ -780,6 +781,10 @@ const format = [{
         }, {
             _id: 'whereBirth',
             title: 'Место рождения',
+            type: 'string'
+        }, {
+            _id: 'registration',
+            title: 'Зарегестрирован',
             type: 'string'
         }]
     }]
