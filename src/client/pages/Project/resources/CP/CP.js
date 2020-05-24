@@ -192,7 +192,7 @@ function renderPassport(passport) {
          дата выдачи ${passport && passport.when || '_________________________ '} 
          дата рождения ${passport && passport.whenBirth || '__________________________ '} 
          место рождения ${passport && passport.whereBirth || '____________________________________________________ '}
-         зарегестрирован в ${passport && passport.registration || '____________________________________________________ '} `;
+         зарегестрирован по адресу ${passport && passport.registration || '____________________________________________________ '} `;
 }
 
 function renderMiniName(fullName) {
@@ -679,7 +679,7 @@ const format = [{
     type: 'select',
     items: [{
         id: 'dogovor',
-        title: 'Договор по готовой бани'
+        title: 'Договор по готовой бане'
     }, {
         id: 'cp',
         title: 'КП'
@@ -741,7 +741,7 @@ const format = [{
 }, {
     _id: 'documentNumber',
     title: 'Номер договора',
-    type: 'integer number'
+    type: 'string'
 }, {
     _id: 'client',
     title: 'Информация о клиенте',
@@ -768,11 +768,11 @@ const format = [{
             type: 'string'
         }, {
             _id: 'where',
-            title: 'Где выдан',
+            title: 'Кем выдан',
             type: 'text'
         }, {
             _id: 'when',
-            title: 'Когда выдан',
+            title: 'Дата выдачи',
             type: 'string'
         }, {
             _id: 'whenBirth',
@@ -781,10 +781,10 @@ const format = [{
         }, {
             _id: 'whereBirth',
             title: 'Место рождения',
-            type: 'string'
+            type: 'text'
         }, {
             _id: 'registration',
-            title: 'Зарегестрирован в',
+            title: 'Зарегестрирован по адресу',
             type: 'text'
         }]
     }]
