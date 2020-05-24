@@ -784,8 +784,8 @@ const format = [{
             type: 'string'
         }, {
             _id: 'registration',
-            title: 'Зарегестрирован',
-            type: 'string'
+            title: 'Зарегестрирован в',
+            type: 'text'
         }]
     }]
 }];
