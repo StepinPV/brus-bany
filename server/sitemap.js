@@ -6,6 +6,7 @@ const Articles = require('./controllers/Articles');
 const Categories = require('./controllers/Categories');
 const Photos = require('./controllers/Photos');
 const Projects = require('./controllers/Projects');
+const Pages = require('./controllers/Pages');
 
 const ATTRIBUTES_KEY = 'attr';
 const DOMAIN = 'https://brus-bany.ru';
@@ -40,21 +41,7 @@ exports.generate = async function () {
             'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:schemaLocation': 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'
         },
-        'urlset': [
-            getURLObject({ url: '/individualnyy-proekt', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/rekvizity', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/usloviya-oplaty', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/vakansii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/politika-konfidencialnosti', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/dostavka', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/kontakty', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/akcii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/akcii/quiz', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/akcii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/o-companii', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/voprosy-i-otvety', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' }),
-            getURLObject({ url: '/bani', date: '2020-04-06', dateIsString: true, changefreq: 'daily', priority: '0.9' }),
-            getURLObject({ url: '/gosty-i-snipy', date: '2020-03-20', dateIsString: true, changefreq: 'monthly', priority: '0.6' })]
+        'urlset': []
     };
 
     // articles
@@ -136,6 +123,18 @@ exports.generate = async function () {
             date: getLastDate([category.get('updated'), layout.get('updated'), project.get('updated')]),
             changefreq: 'weekly',
             priority: '0.8'
+        }));
+    });
+
+    // pages
+    const { data: pages } = await Pages.getAll();
+
+    pages.forEach(page => {
+        data.urlset.push(getURLObject({
+            url: page.get('url'),
+            date: page.get('updated'),
+            changefreq: 'monthly',
+            priority: '0.6'
         }));
     });
 

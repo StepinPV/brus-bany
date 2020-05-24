@@ -94,23 +94,6 @@ class Page extends PureComponent {
         actions.getTemplates();
     }
 
-    componentDidUpdate() {
-        const { page } = this.props;
-
-        if (page && Array.isArray(page.config.components)) {
-            this.setConfig({
-                ...page.config,
-                components: {
-                    ['__content__(main)']: page.config.components
-                }
-            });
-
-            setTimeout(() => {
-                this.handleSave();
-            }, 2000);
-        }
-    }
-
     componentWillUnmount() {
         const { actions } = this.props;
         actions.reset();

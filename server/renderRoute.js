@@ -76,9 +76,9 @@ router.get('*', async (req, res, next) => {
                 meta: head.meta.toString(),
                 link: head.link.toString(),
                 initialData: serialize(context.simplePage ? {} : initialData),
-                pageData: serialize(pageData || {}),
-                customComponents: serialize(customComponents || []),
-                pageTemplates: serialize(pageTemplates || []),
+                pageData: serialize(context.simplePage ? {} : (pageData || {})),
+                customComponents: serialize(context.simplePage ? {} : (customComponents || [])),
+                pageTemplates: serialize(context.simplePage ? {} : (pageTemplates || [])),
                 app: markup,
                 assets: {
                     styleTags,
