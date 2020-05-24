@@ -847,9 +847,9 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
                     <Caption align='center'>Генерация КП</Caption>
                 </div>
                 <div style={{ margin: '0 48px' }}>
-                    <Button type='yellow' caption='Печать' size='m' className={styles['print-button']} onClick={print} />
-                    <Button type='red' caption='К проекту' size='m' className={styles['print-button']} onClick={onClose} />
-                    <Button type='red' caption='Скопировать ссылку' size='m' className={styles['print-button']} onClick={() => {
+                    <Button type='yellow' caption='Печать' size='s' className={styles['print-button']} onClick={print} />
+                    <Button type='red' caption='К проекту' size='s' className={styles['print-button']} onClick={onClose} />
+                    <Button type='red' caption='Скопировать ссылку' size='s' className={styles['print-button']} onClick={() => {
                         navigator.clipboard.writeText(document.location.href)
                             .then(() => {
                                 showNotification({ message: 'Ссылка скопирована', status: 'success' });
