@@ -799,7 +799,7 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
         additionalData: CPData && CPData.additionalData || [],
         date: CPData && CPData.date || Date.now(),
         projectDate: CPData && CPData.projectDate || Date.now(),
-        documentNumber: CPData && CPData.documentNumber || 0,
+        documentNumber: CPData && CPData.documentNumber || '',
         mode: CPData && CPData.mode || 'cp',
         client: CPData && CPData.client || {},
     };
