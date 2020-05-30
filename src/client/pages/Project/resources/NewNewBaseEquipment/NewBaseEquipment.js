@@ -5,6 +5,7 @@ import cx from 'classnames';
 import stringHash from "../../../../../utils/stringHash";
 import filterObject from '../../../../../utils/filterObject';
 import styles from './NewBaseEquipment.module.css';
+import numberWithSpaces from '../../../../../utils/numberWithSpaces';
 
 const getElementValue = (value, groupName, itemName) => {
     if (!value) return false;
@@ -120,7 +121,7 @@ class NewBaseEquipment extends PureComponent {
                         }}>
                         <div className={styles['select-item-checker']} />
                         <div className={styles['item-text']}>{item.name}</div>
-                        { item.price ? <div className={styles['item-price']}>+ {getPrice(project, data, item.price)} рублей</div> : null}
+                        { item.price ? <div className={styles['item-price']}>+ {numberWithSpaces(getPrice(project, data, item.price))} рублей</div> : null}
                     </div>
                 )) : null;
 
