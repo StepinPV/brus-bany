@@ -40,8 +40,7 @@
 }
 
 .item-text {
-    font-weight: bold;
-    color: #394e3f;
+    color: #000;
     font-size: 16px;
     flex-grow: 1;
 }
@@ -51,6 +50,7 @@
     font-style: italic;
     margin-left: 16px;
     color: #3b824f;
+    flex-shrink: 0;
 }
 
 .select-item,
@@ -80,7 +80,7 @@
 .select-item-checker {
     width: 16px;
     height: 16px;
-    margin-right: 16px;
+    margin-right: 8px;
     border: 2px solid #7da78a;
     border-radius: 16px;
     flex-shrink: 0;
