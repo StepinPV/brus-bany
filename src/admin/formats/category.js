@@ -134,6 +134,11 @@ const baseEquipment = {
             title: 'Тип',
             type: 'oneOf',
             variants: [{
+                id: 'base',
+                typeTitle: 'Стандартный элемент',
+                title: 'Наименование',
+                type: 'text'
+            }, {
                 id: 'select',
                 typeTitle: 'Элемент с возможностью выбора',
                 title: 'Элементы',
@@ -147,25 +152,10 @@ const baseEquipment = {
                     _id: 'price',
                     title: 'Формула цены',
                     type: 'text'
-                }]
-            }, {
-                id: 'base',
-                typeTitle: 'Стандартный элемент',
-                title: 'Наименование',
-                type: 'text'
-            }, {
-                id: 'addition',
-                typeTitle: 'Элемент дополнение',
-                title: 'Наименование',
-                type: 'object',
-                format: [{
-                    _id: 'name',
-                    title: 'Наименование',
-                    type: 'string'
                 }, {
-                    _id: 'price',
-                    title: 'Формула цены',
-                    type: 'text'
+                    _id: 'default',
+                    title: 'Выбрано по умолчанию',
+                    type: 'boolean'
                 }]
             }]
         }]

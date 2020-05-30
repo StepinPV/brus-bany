@@ -26,7 +26,7 @@ export function getPrice(project, data, formula) {
     // eslint-disable-next-line
     try {
         // eslint-disable-next-line
-        return Math.round(eval(formula) / 100) * 100;
+        return Math.round(eval(formula) / 100) * 100 || 0;
     } catch(err) {
         return 0;
     }
@@ -42,21 +42,14 @@ export const getFinalPrice = (project, data, equipment, values) => {
                     case 'select': {
                         const val = getElementValue(values, groupName, itemName);
 
-                        if (val && value && value.value) {
-                            const item = value.value.find(item => val === stringHash(item.name));
+                        if (value && value.value) {
+                            const item = value.value.find(item => val ? val === stringHash(item.name) : item.default);
 
                             if (item) {
                                 sumPrice += getPrice(project, data, item.price);
                             }
                         }
                         break;
-                    }
-                    case 'addition': {
-                        const val = getElementValue(values, groupName, itemName);
-
-                        if (val && value && value.value) {
-                            sumPrice += getPrice(project, data, value.value.price);
-                        }
                     }
                 }
             });
@@ -115,41 +108,23 @@ class NewBaseEquipment extends PureComponent {
         switch(typeId) {
             case 'select':
                 const val = getElementValue(this.props.value, groupName, itemName);
-                return value ? value.map(({ name, price }, index) => (
+                return value ? value.map((item, index) => (
                     <div
-                        key={name}
-                        className={cx(styles['select-item'], val ? (val === stringHash(name) ? styles['select-item-checked'] : '') : (index === 0 ? styles['select-item-checked'] : ''))}
+                        key={item.name}
+                        className={cx(styles['select-item'], val ? (val === stringHash(item.name) ? styles['select-item-checked'] : '') : (item.default ? styles['select-item-checked'] : ''))}
                         onClick={() => {
-                            this.setElementValue(groupName, itemName, index === 0 ? undefined : name);
+                            this.setElementValue(groupName, itemName, val === stringHash(item.name) || item.default ? undefined : item.name);
                         }}>
                         <div className={styles['select-item-checker']} />
                         <div>
-                            <span className={styles['item-text']}>{name}</span>
-                            { index !== 0 ? <span className={styles['item-price']}>+ {getPrice(project, data, price)} рублей</span> : null}
+                            <span className={styles['item-text']}>{item.name}</span>
+                            { item.price ? <span className={styles['item-price']}>+ {getPrice(project, data, item.price)} рублей</span> : null}
                         </div>
                     </div>
                 )) : null;
 
             case 'base':
                 return value ? <div className={cx(styles['item-text'], styles['base-item'])}>{value}</div> : null;
-
-            case 'addition': {
-                const checked = getElementValue(this.props.value, groupName, itemName);
-                return value ? (
-                    <div
-                        className={cx(styles['addition-item'], checked ? styles['addition-item-checked'] : '')}
-                        onClick={() => {
-                            this.setElementValue(groupName, itemName, checked ? undefined : true);
-                        }}>
-                        <div className={styles['addition-item-checker']} />
-                        <div>
-                            <span className={styles['item-text']}>{value.name}</span>
-                            { value.price ? <span className={styles['item-price']}>+ {getPrice(project, data, value.price)} рублей</span> : null }
-                        </div>
-                    </div>
-                ) : null;
-            }
-
         }
     };
 
