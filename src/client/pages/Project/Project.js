@@ -12,6 +12,7 @@ import DeliveryMap from '../../components/DeliveryMap';
 import ProjectBlock from './resources/ProjectBlock';
 import BaseEquipment from './resources/BaseEquipment';
 import NewBaseEquipment from './resources/NewBaseEquipment';
+import NewNewBaseEquipment, { getEquipmentFinalPrice } from './resources/NewNewBaseEquipment';
 import Gallery from './resources/Gallery';
 import { getProject, resetData, getPhotos } from './actions';
 import styles from './Project.module.css';
@@ -21,6 +22,7 @@ import { Button } from "../../../components/Button";
 import withForm from '../../plugins/Form/withForm';
 import FormBlock from '../../components/FormBlock';
 import numberWithSpaces from '../../../utils/numberWithSpaces';
+import filterObject from '../../../utils/filterObject';
 import Meta from '../../components/Meta';
 import Page from "../../components/Page";
 
@@ -64,6 +66,7 @@ class Project extends PureComponent {
             let query;
             let data = {};
             let CPData = null;
+            let test = false;
 
             try {
                 query = nextProps.location.search ? parseQuery(nextProps.location.search) : null;
@@ -77,12 +80,17 @@ class Project extends PureComponent {
                 CPData = query && query.CPData ? JSON.parse(query.CPData) : null;
             } catch(err) {}
 
+            try {
+                test = query && query.test ? true : false;
+            } catch(err) {}
+
             newState = {
                 ...newState,
                 search: nextProps.location.search,
                 data,
                 CPMode: query ? (query.CPMode || false) : null,
-                CPData
+                CPData,
+                test
             }
         }
 
@@ -220,7 +228,26 @@ class Project extends PureComponent {
     };
 
     renderEquipment = () => {
-        const { project: { categoryId } } = this.props;
+        const { project: { categoryId }, project } = this.props;
+        const { data, test } = this.state;
+
+        const handleEquipment = (equipment) => {
+            this.setData({
+                ...this.state.data,
+                equipment
+            });
+        };
+
+        if (test && categoryId.baseEquipment && categoryId.baseEquipment.length) {
+            return (
+                <NewNewBaseEquipment
+                    value={data.equipment}
+                    project={project}
+                    data={data}
+                    equipment={categoryId.baseEquipment}
+                    onChange={handleEquipment} />
+            );
+        }
 
         if (categoryId.newEquipment && categoryId.newEquipment.length) {
             return <NewBaseEquipment equipment={categoryId.newEquipment} />;
@@ -574,7 +601,7 @@ class Project extends PureComponent {
 
     getFinalPrice = () => {
         const { project } = this.props;
-        const { data: { additions, delivery, blocks={}, complectation, deliveryAdditions } } = this.state;
+        const { data: { equipment, additions, delivery, blocks={}, complectation, deliveryAdditions } } = this.state;
 
         let projectBlocksPriceFixed = 0;
         const { layoutId: params } = project;
@@ -596,6 +623,10 @@ class Project extends PureComponent {
         let finalPrice = (project.prices ? project.prices[complectation || project.categoryId.complectationBlocks.defaultItemId] || 0 : 0) + projectBlocksPriceFixed;
         finalPrice = Math.round(finalPrice / 100) * 100;
 
+        if (equipment) {
+            finalPrice += getEquipmentFinalPrice(project, this.state.data, project.categoryId.baseEquipment, equipment);
+        }
+
         if (additions) {
             finalPrice += getAdditionsPrice(project, this.state.data, project.categoryId.additions, additions);
         }
@@ -614,27 +645,17 @@ class Project extends PureComponent {
         return project.prices && project.categoryId.complectationBlocks && project.prices[project.categoryId.complectationBlocks.defaultItemId] || 0;
     };
 
-    filterData = (data) => {
-        return Object.keys(data || {}).reduce((calc, key) => {
-            if (data[key]) {
-                calc = calc || {}
-                calc[key] = data[key];
-            }
-
-            return calc;
-        }, null);
-    };
-
     historyPush = ({ data=this.state.data, CPMode=this.state.CPMode, CPData=this.state.CPData }) => {
         const { history, location } = this.props;
 
-        const filteredData = this.filterData(data);
-        const filteredCPData = this.filterData(CPData);
+        const filteredData = filterObject(data);
+        const filteredCPData = filterObject(CPData);
 
-        const params = this.filterData({
+        const params = filterObject({
             data: filteredData ? JSON.stringify(filteredData) : null,
             CPMode: CPMode || null,
             CPData: filteredCPData ? JSON.stringify(filteredCPData) : null,
+            test: this.state.test
         });
 
         const query = Object.keys(params || {}).reduce((str, key) => {

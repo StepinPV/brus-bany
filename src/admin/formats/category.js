@@ -109,7 +109,68 @@ const equipment = {
         required: true
     }]
 };
-
+const baseEquipment = {
+    _id: 'baseEquipment',
+    title: 'Комплектация',
+    itemTitleField: 'name',
+    type: 'array',
+    format: [{
+        _id: 'name',
+        title: 'Имя группы',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'value',
+        title: 'Элементы',
+        type: 'array',
+        itemTitleField: 'name',
+        required: true,
+        format: [{
+            _id: 'name',
+            title: 'Наименование',
+            type: 'string'
+        }, {
+            _id: 'value',
+            title: 'Тип',
+            type: 'oneOf',
+            variants: [{
+                id: 'select',
+                typeTitle: 'Элемент с возможностью выбора',
+                title: 'Элементы',
+                itemTitleField: 'name',
+                type: 'array',
+                format: [{
+                    _id: 'name',
+                    title: 'Наименование',
+                    type: 'string'
+                }, {
+                    _id: 'price',
+                    title: 'Формула цены',
+                    type: 'text'
+                }]
+            }, {
+                id: 'base',
+                typeTitle: 'Стандартный элемент',
+                title: 'Наименование',
+                type: 'text'
+            }, {
+                id: 'addition',
+                typeTitle: 'Элемент дополнение',
+                title: 'Наименование',
+                type: 'object',
+                format: [{
+                    _id: 'name',
+                    title: 'Наименование',
+                    type: 'string'
+                }, {
+                    _id: 'price',
+                    title: 'Формула цены',
+                    type: 'text'
+                }]
+            }]
+        }]
+    }]
+};
 const newEquipment = {
     _id: 'newEquipment',
     title: 'Новая комплектация',
@@ -134,7 +195,6 @@ const newEquipment = {
         }]
     }]
 };
-
 const complectationBlocks = {
     _id: 'complectationBlocks',
     title: 'Описание комплектаций',
@@ -197,7 +257,6 @@ const complectationBlocks = {
         }]
     }]
 };
-
 const projectBlocks = {
     _id: 'projectBlocks',
     title: 'Дополнительные блоки',
@@ -306,7 +365,7 @@ export default [{
     title: 'Статья',
     type: 'object',
     format: article
-}, equipment, newEquipment, complectationBlocks, projectBlocks, additions, {
+}, baseEquipment, equipment, newEquipment, complectationBlocks, projectBlocks, additions, {
     _id: 'deliveryData',
     title: 'Информация о доставке',
     type: 'object',

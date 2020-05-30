@@ -33,6 +33,7 @@ const renderItem = ({ value, onChange, variants, images }) => {
             onChange={(val, error, images) => {
                 onChange({
                     ...value,
+                    typeId: variant.id,
                     value: val
                 }, error, images);
             }}
