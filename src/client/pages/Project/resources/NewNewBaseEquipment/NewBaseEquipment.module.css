@@ -43,16 +43,17 @@
     font-weight: bold;
     color: #394e3f;
     font-size: 16px;
+    flex-grow: 1;
 }
 
 .item-price {
     font-size: 14px;
     font-style: italic;
     margin-left: 16px;
+    color: #3b824f;
 }
 
 .select-item,
-.addition-item,
 .base-item {
     display: flex;
     align-items: center;
@@ -67,18 +68,15 @@
     border-radius: 0 0 6px 6px;
 }
 
-.addition-item:hover,
 .select-item:hover {
     background: #d0d0d0;
     cursor: pointer;
 }
 
-.addition-item-checked .addition-item-checker,
 .select-item-checked .select-item-checker {
     background: #7da78a;
 }
 
-.addition-item-checker,
 .select-item-checker {
     width: 16px;
     height: 16px;

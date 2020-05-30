@@ -19,8 +19,11 @@ const getElementValue = (value, groupName, itemName) => {
 }
 
 export function getPrice(project, data, formula) {
+    // eslint-disable-next-line no-unused-vars
     const { layoutId: params } = project;
+    // eslint-disable-next-line no-unused-vars
     const { length: deliveryLength } = data.delivery || { length: 0 };
+    // eslint-disable-next-line no-unused-vars
     const complectation = data.complectation;
 
     // eslint-disable-next-line
@@ -108,7 +111,7 @@ class NewBaseEquipment extends PureComponent {
         switch(typeId) {
             case 'select':
                 const val = getElementValue(this.props.value, groupName, itemName);
-                return value ? value.map((item, index) => (
+                return value ? value.map(item => (
                     <div
                         key={item.name}
                         className={cx(styles['select-item'], val ? (val === stringHash(item.name) ? styles['select-item-checked'] : '') : (item.default ? styles['select-item-checked'] : ''))}
@@ -116,10 +119,8 @@ class NewBaseEquipment extends PureComponent {
                             this.setElementValue(groupName, itemName, val === stringHash(item.name) || item.default ? undefined : item.name);
                         }}>
                         <div className={styles['select-item-checker']} />
-                        <div>
-                            <span className={styles['item-text']}>{item.name}</span>
-                            { item.price ? <span className={styles['item-price']}>+ {getPrice(project, data, item.price)} рублей</span> : null}
-                        </div>
+                        <div className={styles['item-text']}>{item.name}</div>
+                        { item.price ? <div className={styles['item-price']}>+ {getPrice(project, data, item.price)} рублей</div> : null}
                     </div>
                 )) : null;
 
