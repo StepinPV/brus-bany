@@ -276,8 +276,8 @@ module.exports.FROM = [
     '/bani/iz-brusa/3x4/nedorogie',
     '/bani/individualnyy-proekt',
     '/bani/karkasnie/s-kryltsom',
-    '/bani/karkasnie/2.5х5',
-    '/bani/karkasnie/2.5х6'
+    '/bani/karkasnie/2.5%D1%855',
+    '/bani/karkasnie/2.5%D1%856'
 ];
 
 module.exports.TO = [
