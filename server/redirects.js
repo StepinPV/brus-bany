@@ -275,7 +275,9 @@ module.exports.FROM = [
     '/photos/iz-brusa/chekhov_6x6_5e6e42aa4304fa6b84918b5a',
     '/bani/iz-brusa/3x4/nedorogie',
     '/bani/individualnyy-proekt',
-    '/bani/karkasnie/s-kryltsom'
+    '/bani/karkasnie/s-kryltsom',
+    '/bani/karkasnie/2.5х5',
+    '/bani/karkasnie/2.5х6'
 ];
 
 module.exports.TO = [
@@ -555,5 +557,7 @@ module.exports.TO = [
     '/photos/iz-brusa/chekhov_6x6_5e5ffd986d7ec43bda9e2b78',
     '/bani/iz-brusa/3x4',
     '/individualnyy-proekt',
-    '/bani/karkasnie'
+    '/bani/karkasnie',
+    '/bani/karkasnie/2.5x5',
+    '/bani/karkasnie/2.5x6'
 ];
