@@ -55,10 +55,10 @@ function Footer(props) {
                 </div>
                 {columns.map(({ caption, items }) => {
                     return (
-                        <nav className={styles.column}>
+                        <nav key={caption} className={styles.column}>
                             <div className={styles['items-header']}>{caption.toUpperCase()}</div>
                             {items ? items.map(({ link, caption }) => (
-                                <a href={link} className={styles['items-item']}>{caption}</a>
+                                <a key={caption} href={link} className={styles['items-item']}>{caption}</a>
                             )) : null}
                         </nav>
                     );

@@ -28,7 +28,7 @@ const categories = [{
     className: styles.brevn,
     name: 'Бани из бревна',
     text: 'Экологочная баня, неповторимая красота которой сохранится навечно',
-    caption: 'Подробнее',
+    caption: 'Посмотреть бани',
     link: '/bani/iz-brevna'
 }];
 

@@ -18,7 +18,7 @@ function Header(props) {
                 </a>
                 <nav className={styles.items}>
                     {items.map(item => (
-                        <a href={item.link} className={styles.item}>{item.caption}</a>
+                        <a key={item.caption} href={item.link} className={styles.item}>{item.caption}</a>
                     ))}
                 </nav>
                 <div className={styles.info}>
