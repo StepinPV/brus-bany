@@ -169,7 +169,7 @@ const baseEquipment = {
                 }, {
                     _id: 'default',
                     title: 'Значение',
-                    type: 'integer number'
+                    type: 'string'
                 }, {
                     _id: 'price',
                     title: 'Формула цены',

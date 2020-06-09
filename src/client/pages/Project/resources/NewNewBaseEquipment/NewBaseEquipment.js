@@ -38,7 +38,7 @@ export function getPrice(project, data = {}, formula) {
 
 export function getText(project, data = {}, formula) {
     // eslint-disable-next-line no-unused-vars
-    const { layoutId: params } = project;
+    const { layoutId: layout } = project;
     // eslint-disable-next-line no-unused-vars
     const { length: deliveryLength } = data.delivery || { length: 0 };
     // eslint-disable-next-line no-unused-vars
@@ -77,7 +77,7 @@ export const getFinalPrice = (project, data, equipment, values) => {
 
                     case 'number': {
                         if (val && value && value.value) {
-                            sumPrice += (parseInt(val) - parseInt(value.value.default)) * getPrice(project, data, value.value.price);
+                            sumPrice += (parseInt(val) - parseInt(getText(project, data, value.value.default))) * getPrice(project, data, value.value.price);
                         }
                         break;
                     }
@@ -170,20 +170,20 @@ class NewBaseEquipment extends PureComponent {
                                     }
                                     onClick={val ? () => {
                                         const newValue = parseInt(val) - 1;
-                                        this.setElementValue(groupName, itemName, newValue === parseInt(value.default) ? null : newValue.toString());
+                                        this.setElementValue(groupName, itemName, newValue === parseInt(getText(project, data, value.default)) ? null : newValue.toString());
                                     } : null}>-
                                 </div>
-                                <div className={styles['number-item-block-value']}>{val || value.default} шт</div>
+                                <div className={styles['number-item-block-value']}>{val || getText(project, data, value.default)} шт</div>
                                 <div
                                     className={
                                         cx(styles['number-item-block-button'], styles[`number-item-block-button-active`])
                                     }
                                     onClick={() => {
-                                        this.setElementValue(groupName, itemName, (parseInt(val || value.default) + 1).toString());
+                                        this.setElementValue(groupName, itemName, (parseInt(val || getText(project, data, value.default)) + 1).toString());
                                     }}>+
                                 </div>
                             </div>
-                            { val && value.price ? <div className={styles['item-price']}>+ {numberWithSpaces((val - parseInt(value.default)) * getPrice(project, data, value.price))} рублей</div> : null}
+                            { val && value.price ? <div className={styles['item-price']}>+ {numberWithSpaces((val - parseInt(getText(project, data, value.default))) * getPrice(project, data, value.price))} рублей</div> : null}
                         </div>
                     </div>
                 ) : null;
