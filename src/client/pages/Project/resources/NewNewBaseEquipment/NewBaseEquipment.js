@@ -19,7 +19,7 @@ const getElementValue = (value, groupName, itemName) => {
     return itemValue;
 }
 
-export function getPrice(project, data, formula) {
+export function getPrice(project, data = {}, formula) {
     // eslint-disable-next-line no-unused-vars
     const { layoutId: params } = project;
     // eslint-disable-next-line no-unused-vars
@@ -36,22 +36,48 @@ export function getPrice(project, data, formula) {
     }
 }
 
+export function getText(project, data = {}, formula) {
+    // eslint-disable-next-line no-unused-vars
+    const { layoutId: params } = project;
+    // eslint-disable-next-line no-unused-vars
+    const { length: deliveryLength } = data.delivery || { length: 0 };
+    // eslint-disable-next-line no-unused-vars
+    const complectation = data.complectation;
+    // eslint-disable-next-line no-unused-vars
+    const equipment = data.equipment;
+
+    // eslint-disable-next-line
+    try {
+        // eslint-disable-next-line
+        return eval("eval(`'" + formula + "'`)");
+    } catch(err) {
+        return '';
+    }
+}
+
 export const getFinalPrice = (project, data, equipment, values) => {
     let sumPrice = 0;
 
     equipment.forEach(({ name: groupName, value }) => {
         if (value && value.length) {
             value.forEach(({ name: itemName, value }) => {
+                const val = getElementValue(values, groupName, itemName);
+
                 switch(value.typeId) {
                     case 'select': {
-                        const val = getElementValue(values, groupName, itemName);
-
                         if (value && value.value) {
                             const item = value.value.find(item => val ? val === stringHash(item.name) : item.default);
 
                             if (item) {
                                 sumPrice += getPrice(project, data, item.price);
                             }
+                        }
+                        break;
+                    }
+
+                    case 'number': {
+                        if (val && value && value.value) {
+                            sumPrice += (parseInt(val) - parseInt(value.value.default)) * getPrice(project, data, value.value.price);
                         }
                         break;
                     }
@@ -110,34 +136,70 @@ class NewBaseEquipment extends PureComponent {
         const { project, data } = this.props;
 
         switch(typeId) {
-            case 'select':
+            case 'select': {
                 const val = getElementValue(this.props.value, groupName, itemName);
                 return value ? value.map(item => (
                     <div
                         key={item.name}
                         className={cx(styles['select-item'], val ? (val === stringHash(item.name) ? styles['select-item-checked'] : '') : (item.default ? styles['select-item-checked'] : ''))}
                         onClick={() => {
-                            this.setElementValue(groupName, itemName, val === stringHash(item.name) || item.default ? undefined : item.name);
+                            this.setElementValue(groupName, itemName, val === stringHash(item.name) || item.default ? undefined : item.name, {
+                                hashValue: true
+                            });
                         }}>
                         <div className={styles['select-item-checker']} />
-                        <div className={styles['item-text']}>{item.name}</div>
+                        <div className={styles['item-text']}>{getText(project, data, item.name)}</div>
                         { item.price ? <div className={styles['item-price']}>+ {numberWithSpaces(getPrice(project, data, item.price))} рублей</div> : null}
                     </div>
                 )) : null;
+            }
 
             case 'base':
-                return value ? <div className={cx(styles['item-text'], styles['base-item'])}>{value}</div> : null;
+                return value ? <div className={cx(styles['item-text'], styles['base-item'])}>{getText(project, data, value)}</div> : null;
+
+            case 'number': {
+                const val = parseInt(getElementValue(this.props.value, groupName, itemName));
+                return value ? (
+                    <div className={styles['number-item']}>
+                        <div className={cx(styles['item-text'], styles['base-item'])}>{getText(project, data, value.name)}</div>
+                        <div className={styles['number-item-block']}>
+                            <div className={styles['number-item-block-content']}>
+                                <div
+                                    className={
+                                        cx(styles['number-item-block-button'], styles[`number-item-block-button-${val ? 'active' : 'inactive'}`])
+                                    }
+                                    onClick={val ? () => {
+                                        const newValue = parseInt(val) - 1;
+                                        this.setElementValue(groupName, itemName, newValue === parseInt(value.default) ? null : newValue.toString());
+                                    } : null}>-
+                                </div>
+                                <div className={styles['number-item-block-value']}>{val || value.default} шт</div>
+                                <div
+                                    className={
+                                        cx(styles['number-item-block-button'], styles[`number-item-block-button-active`])
+                                    }
+                                    onClick={() => {
+                                        this.setElementValue(groupName, itemName, (parseInt(val || value.default) + 1).toString());
+                                    }}>+
+                                </div>
+                            </div>
+                            { val && value.price ? <div className={styles['item-price']}>+ {numberWithSpaces((val - parseInt(value.default)) * getPrice(project, data, value.price))} рублей</div> : null}
+                        </div>
+                    </div>
+                ) : null;
+            }
         }
     };
 
-    setElementValue = (groupName, itemName, val) => {
+    setElementValue = (groupName, itemName, val, opts) => {
         const { value, onChange } = this.props;
+        const _val = val ? (opts && opts.hashValue ? stringHash(val === true ? '1' : val) : val) : undefined;
 
         onChange(filterObject({
             ...(value || {}),
             [stringHash(groupName)]: filterObject({
                 ...(value && value[stringHash(groupName)] || {}),
-                [stringHash(itemName)]: val ? stringHash(val === true ? '1' : val) : undefined
+                [stringHash(itemName)]: _val
             })
         }));
     }

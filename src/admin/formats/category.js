@@ -157,6 +157,24 @@ const baseEquipment = {
                     title: 'Выбрано по умолчанию',
                     type: 'boolean'
                 }]
+            }, {
+                id: 'number',
+                typeTitle: 'Элемент счетчик',
+                title: 'Данные',
+                type: 'object',
+                format: [{
+                    _id: 'name',
+                    title: 'Наименование',
+                    type: 'string'
+                }, {
+                    _id: 'default',
+                    title: 'Значение',
+                    type: 'integer number'
+                }, {
+                    _id: 'price',
+                    title: 'Формула цены',
+                    type: 'text'
+                }]
             }]
         }]
     }]
