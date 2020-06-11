@@ -120,6 +120,11 @@ const baseEquipment = {
         type: 'string',
         required: true
     }, {
+        _id: 'condition',
+        title: 'Условие показа',
+        type: 'text',
+        required: true
+    }, {
         _id: 'value',
         title: 'Элементы',
         type: 'array',
@@ -129,6 +134,11 @@ const baseEquipment = {
             _id: 'name',
             title: 'Наименование',
             type: 'string'
+        }, {
+            _id: 'condition',
+            title: 'Условие показа',
+            type: 'text',
+            required: true
         }, {
             _id: 'value',
             title: 'Тип',

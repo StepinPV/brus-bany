@@ -102,14 +102,14 @@ class NewBaseEquipment extends PureComponent {
     };
 
     render() {
-        const { equipment } = this.props;
+        const { equipment, project, data } = this.props;
         const { selected } = this.state;
 
         return (
             <DataSection id='base' bgStyle='grey' caption='Базовая комплектация' captionTag='h2'>
                 <div className={styles.container}>
                     <div className={styles.header}>
-                        {equipment.map(({ name }, index) => (
+                        {equipment.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).map(({ name }, index) => (
                             <div
                                 key={name}
                                 className={cx(styles['header-item'], {[styles['header-item-selected']]: selected === index })}
@@ -118,10 +118,10 @@ class NewBaseEquipment extends PureComponent {
                             </div>
                         ))}
                     </div>
-                    {equipment.map(({ name: groupName, value }, index) => (
+                    {equipment.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).map(({ name: groupName, value }, index) => (
                         <div key={groupName} className={cx(styles.items, {[styles['items-hidden']]: selected !== index })}>
                             {
-                                value ? value.map(({ name: itemName, value }) => (
+                                value ? value.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).map(({ name: itemName, value }) => (
                                     <div className={styles.item} key={itemName}>{this.renderItem(groupName, itemName, value)}</div>
                                 )) : null
                             }
