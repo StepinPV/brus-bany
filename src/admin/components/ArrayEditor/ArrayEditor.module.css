@@ -14,3 +14,14 @@
 .items {
     margin-left: 16px;
 }
+
+.copyButton {
+    padding: 2px 4px;
+    margin-right: 4px;
+    margin-bottom: 8px;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    background: #6c6c6c;
+    display: inline-block;
+}

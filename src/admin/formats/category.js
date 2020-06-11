@@ -113,6 +113,7 @@ const baseEquipment = {
     _id: 'baseEquipment',
     title: 'Комплектация',
     itemTitleField: 'name',
+    copy: true,
     type: 'array',
     format: [{
         _id: 'name',

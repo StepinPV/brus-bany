@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ObjectEditor from '../ObjectEditor';
 import styles from './ArrayEditor.module.css';
 
-const ArrayEditor = ({ title, value, onChange, format, error, itemTitleField, expand, images }) => {
+const ArrayEditor = ({ title, value, copy, onChange, format, error, itemTitleField, expand, images }) => {
     const [visible, setVisible] = useState(false);
 
     return (
@@ -11,12 +11,21 @@ const ArrayEditor = ({ title, value, onChange, format, error, itemTitleField, ex
             <div className={styles.title} onClick={() => { setVisible(!visible) }}>{visible ? '▼' : '▶'} {title} {`(${value ? value.length : 0})`}</div>
             {visible ? (
                 <div className={styles.items}>
+                    {copy ? <div className={styles.copyButton} onClick={() => {
+                        localStorage.setItem('Buffer', JSON.stringify(value));
+                    }}>Копировать</div> : null}
+                    {copy ? <div className={styles.copyButton} onClick={() => {
+                        const value = JSON.parse(localStorage.getItem('Buffer'));
+                        onChange(value);
+                    }}>Вставить</div> : null}
+
                     {
                         value ? value.map((val, index) => {
                             return <ObjectEditor
                                 key={index + 1}
                                 title={itemTitleField ? val[itemTitleField] : index + 1}
                                 value={val}
+                                copy={copy}
                                 format={format}
                                 expand={expand}
                                 images={images}
@@ -68,6 +77,7 @@ const ArrayEditor = ({ title, value, onChange, format, error, itemTitleField, ex
                         key={`${title} [${value ? value.length + 1 : 1}]`}
                         title={`${title} [${value ? value.length + 1 : 1}]`}
                         format={format}
+                        copy={copy}
                         images={images}
                         onChange={(v, images) => {
                             const newValue = [...(value || [])];
