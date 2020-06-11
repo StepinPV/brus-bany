@@ -58,9 +58,9 @@ export function getText(project, data = {}, formula) {
 export const getFinalPrice = (project, data, equipment, values) => {
     let sumPrice = 0;
 
-    equipment.forEach(({ name: groupName, value }) => {
+    equipment.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).forEach(({ name: groupName, value }) => {
         if (value && value.length) {
-            value.forEach(({ name: itemName, value }) => {
+            value.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).forEach(({ name: itemName, value }) => {
                 const val = getElementValue(values, groupName, itemName);
 
                 switch(value.typeId) {
