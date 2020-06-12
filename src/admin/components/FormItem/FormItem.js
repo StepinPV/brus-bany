@@ -75,6 +75,7 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                 itemTitleField={item.itemTitleField}
                 format={item.format}
                 expand={item.expand}
+                copy={item.copy}
                 onChange={onChange}
                 images={images}
                 error={error}
