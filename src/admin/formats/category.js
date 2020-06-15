@@ -167,6 +167,11 @@ const baseEquipment = {
                     _id: 'default',
                     title: 'Выбрано по умолчанию',
                     type: 'boolean'
+                }, {
+                    _id: 'condition',
+                    title: 'Условие показа',
+                    type: 'text',
+                    required: true
                 }]
             }, {
                 id: 'number',

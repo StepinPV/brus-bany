@@ -66,7 +66,7 @@ export const getFinalPrice = (project, data, equipment, values) => {
                 switch(value.typeId) {
                     case 'select': {
                         if (value && value.value) {
-                            const item = value.value.find(item => val ? val === stringHash(item.name) : item.default);
+                            const item = value.value.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
 
                             if (item) {
                                 sumPrice += getPrice(project, data, item.price);
@@ -137,8 +137,14 @@ class NewBaseEquipment extends PureComponent {
 
         switch(typeId) {
             case 'select': {
-                const val = getElementValue(this.props.value, groupName, itemName);
-                return value ? value.map(item => (
+                let val = getElementValue(this.props.value, groupName, itemName);
+                const filteredValues = value ? value.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }) : [];
+
+                if (!filteredValues.some(item => val === stringHash(item.name))) {
+                    val = null;
+                }
+
+                return filteredValues.map(item => (
                     <div
                         key={item.name}
                         className={cx(styles['select-item'], val ? (val === stringHash(item.name) ? styles['select-item-checked'] : '') : (item.default ? styles['select-item-checked'] : ''))}
@@ -151,7 +157,7 @@ class NewBaseEquipment extends PureComponent {
                         <div className={styles['item-text']}>{getText(project, data, item.name)}</div>
                         { item.price ? <div className={styles['item-price']}>+ {numberWithSpaces(getPrice(project, data, item.price))} рублей</div> : null}
                     </div>
-                )) : null;
+                ));
             }
 
             case 'base':
