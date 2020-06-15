@@ -45,6 +45,35 @@ export default [{
     type: 'integer number',
     required: true
 }, {
+    _id: 'roof',
+    title: 'Форма крыши',
+    type: 'select',
+    items: [{
+        id: 'a',
+        title: 'Двухскатная'
+    }, {
+        id: 'b',
+        title: 'Ломаная'
+    }, {
+        id: 'c',
+        title: 'Пальмовая'
+    }]
+}, {
+    _id: 'roofHeight',
+    title: 'Высота ската крыши (м)',
+    type: 'float number',
+    required: true
+}, {
+    _id: 'skateHeight',
+    title: 'Высота конька (м)',
+    type: 'integer number',
+    required: true
+}, {
+    _id: 'pedimentArea',
+    title: 'Площадь фронтона (м)',
+    type: 'float number',
+    required: true
+}, {
     _id: 'floor',
     title: 'Этажы',
     type: 'array',

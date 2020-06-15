@@ -125,6 +125,22 @@ const scheme = new Schema({
         type: Number,
         required: REQUIRED_MSG
     },
+    roof: {
+        type: String,
+        required: REQUIRED_MSG
+    },
+    roofHeight: {
+        type: Number,
+        required: REQUIRED_MSG
+    },
+    skateHeight: {
+        type: Number,
+        required: REQUIRED_MSG
+    },
+    pedimentArea: {
+        type: Number,
+        required: REQUIRED_MSG
+    },
     floor: {
         type: [floorScheme],
         validate: [floors => floors && floors.length > 0, 'Должен быть хотя бы 1 этаж!']
