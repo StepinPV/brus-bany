@@ -66,7 +66,7 @@ export default [{
 }, {
     _id: 'skateHeight',
     title: 'Высота конька (м)',
-    type: 'integer number',
+    type: 'float number',
     required: true
 }, {
     _id: 'pedimentArea',
