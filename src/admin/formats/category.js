@@ -357,5 +357,5 @@ export default [{
         _id: 'delivery',
         title: 'Формула стоимости доставки',
         type: 'string'
-    }, additions]
+    }]
 }];
