@@ -481,7 +481,7 @@ class Project extends PureComponent {
         return (
             <>
                 <div className={styles['final-price-block-static']}>
-                    <div className={styles['final-price-block-static-title']}>Итоговая стоимость с учетом всех данных:</div>
+                    <div className={styles['final-price-block-static-title']}>Итоговая стоимость:</div>
                     <div className={styles['final-price-block-static-price']}>{`${numberWithSpaces(finalPrice)} рублей`}</div>
                     <Button
                         onClick={() => { showForm({ source: match.url, title: 'Оформление заявки' }) }}

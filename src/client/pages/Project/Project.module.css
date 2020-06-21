@@ -96,14 +96,14 @@
 }
 
 .final-price-block-static-title {
-    font-size: 22px;
+    font-size: 32px;
     font-weight: bold;
     color: #000;
     padding-bottom: 16px;
 }
 
 .final-price-block-static-price {
-    font-size: 28px;
+    font-size: 22px;
     font-weight: bold;
     color: #000;
     padding-bottom: 32px;
