@@ -458,7 +458,7 @@ class Project extends PureComponent {
                 <div className={styles['info-build-time']}>Срок строительства - {project.buildTime} дней</div>
                 <div className={styles['info-links']}>
                     <div className={styles['info-links-header']}>Из чего складывается итоговая цена?</div>
-                    <a href='#base' className={styles['info-links-item']}>1. Базовая комплектация</a>
+                    <a href='#base' className={styles['info-links-item']}>1. Комплектация</a>
                     <a href='#additions' className={styles['info-links-item']}>2. Дополнения к бане</a>
                     <a href='#delivery' className={styles['info-links-item']}>3. Стоимость доставки</a>
                 </div>
