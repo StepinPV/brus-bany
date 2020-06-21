@@ -10,9 +10,7 @@ import Breadcrumbs from '../../../components/Breadcrumbs';
 import Additions, { getAdditionsPrice } from './resources/Additions';
 import DeliveryMap from '../../components/DeliveryMap';
 import ProjectBlock from './resources/ProjectBlock';
-import BaseEquipment from './resources/BaseEquipment';
-import NewBaseEquipment from './resources/NewBaseEquipment';
-import NewNewBaseEquipment, { getEquipmentFinalPrice } from './resources/NewNewBaseEquipment';
+import Equipment, { getEquipmentFinalPrice } from './resources/Equipment';
 import Gallery from './resources/Gallery';
 import { getProject, resetData, getPhotos } from './actions';
 import styles from './Project.module.css';
@@ -203,8 +201,8 @@ class Project extends PureComponent {
                 <div className={styles['breadcrumbs-container']}>
                     <Breadcrumbs items={breadcrumbs} />
                 </div>
-                {this.renderEquipment()}
                 {this.renderComplectationBlock()}
+                {this.renderEquipment()}
                 {this.renderProjectBlocks()}
                 {this.renderAdditions()}
                 {this.renderDelivery()}
@@ -229,7 +227,7 @@ class Project extends PureComponent {
 
     renderEquipment = () => {
         const { project: { categoryId }, project } = this.props;
-        const { data, test } = this.state;
+        const { data } = this.state;
 
         const handleEquipment = (equipment) => {
             this.setData({
@@ -238,23 +236,15 @@ class Project extends PureComponent {
             });
         };
 
-        if (test && categoryId.baseEquipment && categoryId.baseEquipment.length) {
+        if (categoryId.baseEquipment && categoryId.baseEquipment.length) {
             return (
-                <NewNewBaseEquipment
+                <Equipment
                     value={data.equipment}
                     project={project}
                     data={data}
                     equipment={categoryId.baseEquipment}
                     onChange={handleEquipment} />
             );
-        }
-
-        if (categoryId.newEquipment && categoryId.newEquipment.length) {
-            return <NewBaseEquipment equipment={categoryId.newEquipment} />;
-        }
-
-        if (categoryId.equipment && categoryId.equipment.length) {
-            return <BaseEquipment equipment={categoryId.equipment} />;
         }
 
         return null;

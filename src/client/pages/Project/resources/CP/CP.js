@@ -5,10 +5,12 @@ import Caption from '../../../../components/Caption';
 import { Button } from '../../../../../components/Button';
 import Form from '../../../../../admin/components/Form';
 import { getItemPrice as getAdditionPrice } from '../Additions';
+import { getEquipmentItemPrice, getEquipmentText, getEquipmentElementValue } from '../Equipment';
 import withNotification from '@plugins/Notifications/withNotification';
 import renderDate from '@utils/RenderDate';
 import styles from './CP.module.css';
 import cx from "classnames";
+import stringHash from "../../../../../utils/stringHash";
 
 function renderManager(id) {
     switch(id) {
@@ -18,18 +20,48 @@ function renderManager(id) {
     }
 }
 
-function renderBaseEquipment(equipment) {
+function renderBaseEquipment(project, data, equipment, onlyPrice) {
+    const renderItem = (groupName, itemName, { typeId, value }) => {
+        let val = getEquipmentElementValue(data.equipment, groupName, itemName);
+
+        switch(typeId) {
+            case 'select': {
+                if (value) {
+                    const item = value.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
+
+                    if (item) {
+                        const price = getEquipmentItemPrice(project, data, item.price);
+                        if (onlyPrice && !price) return;
+                        return <div className={styles['preview-group-item']}>{getEquipmentText(project, data, item.name)} {price ? <span className={styles['preview-price']}>{` ${numberWithSpaces(getEquipmentItemPrice(project, data, item.price))} рублей`}</span> : null}</div>;
+                    }
+                }
+                return;
+            }
+
+            case 'base':
+                return value && !onlyPrice ? <div className={styles['preview-group-item']}>{getEquipmentText(project, data, value)}</div> : null;
+
+            case 'number': {
+                if (value) {
+                    const price = val ? (parseInt(val) - parseInt(getEquipmentText(project, data, value.default))) * getEquipmentItemPrice(project, data, value.price) : 0;
+                    if (onlyPrice && !price) return;
+                    return <div className={styles['preview-group-item']}>{getEquipmentText(project, data, value.name)} {val ? val : getEquipmentText(project, data, value.default)} шт {price ? <span className={styles['preview-price']}>{` ${numberWithSpaces(price)} рублей`}</span> : null}</div>;
+                }
+            }
+        }
+    };
+
     return (
         <div className={styles['preview-block']}>
-            <div className={styles['preview-block-caption']}>Базовая комплектация</div>
+            <div className={styles['preview-block-caption']}>Комплектация</div>
             <div className={styles['preview-block-content']}>
-                {equipment ? equipment.map(({ name, value }) => (
+                {equipment ? equipment.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).map(({ name: groupName, value }) => (
                     <div className={styles['preview-group']}>
-                        <div className={styles['preview-group-caption']}>{name}</div>
+                        { onlyPrice ? null : <div className={styles['preview-group-caption']}>{groupName}</div> }
                         <div className={styles['preview-group-items']}>
-                            {value ? value.map(({ name }) => (
-                                <div className={styles['preview-group-item']}>{name}</div>
-                            )) : null}
+                            {value ? value.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).map(({ name: itemName, value }) => {
+                                return renderItem(groupName, itemName, value);
+                            }) : null}
                         </div>
                     </div>
                 )) : null}
@@ -37,6 +69,50 @@ function renderBaseEquipment(equipment) {
         </div>
     );
 }
+
+function renderBaseEquipmentForDogovor(project, data, equipment) {
+    const renderItem = (groupName, itemName, { typeId, value }) => {
+        let val = getEquipmentElementValue(data.equipment, groupName, itemName);
+
+        switch(typeId) {
+            case 'select': {
+                if (value) {
+                    const item = value.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
+
+                    if (item) {
+                        return <div style={{ textAlign: 'justify' }}>{getEquipmentText(project, data, item.name)}</div>;
+                    }
+                }
+                return;
+            }
+
+            case 'base':
+                return value ? <div style={{ textAlign: 'justify' }}>{getEquipmentText(project, data, value)}</div> : null;
+
+            case 'number': {
+                return value ? <div style={{ textAlign: 'justify' }}>{getEquipmentText(project, data, value.name)} {val ? val : getEquipmentText(project, data, value.default)} шт</div> : null;
+            }
+        }
+    };
+
+    return (
+        <>
+            <b>Спецификация бани:</b>
+            <br/><br/>
+            {equipment.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).map(({ name: groupName, value }) => (
+                <>
+                    <b>{groupName}:</b>
+                    <br/>
+                    {value ? value.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).map(({ name: itemName, value }) => {
+                        return renderItem(groupName, itemName, value);
+                    }) : null}
+                    <br/>
+                </>
+            ))}
+        </>
+    );
+}
+
 function renderComplectation(project, data) {
     const { complectation } = data;
     const { complectationBlocks } = project.categoryId;
@@ -227,8 +303,8 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
                     <img src={image} />
                 ))}
             </div>
-            {categoryId.newEquipment && categoryId.newEquipment.length ? renderBaseEquipment(categoryId.newEquipment) : null}
             {renderComplectation(project, data)}
+            {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipment(project, data, categoryId.baseEquipment) : null}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
                 return renderProjectBlock(projectBlock, project, data)
             }) : null}
@@ -539,6 +615,7 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
             <br/><br/>
             {renderComplectation(project, data)}
             <br/>
+            {data.equipment && project.categoryId.baseEquipment ? <>{renderBaseEquipment(project, data, project.categoryId.baseEquipment, true)}<br/></> : null}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
                 return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}<br/></> : null
             }) : null}
@@ -552,18 +629,7 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
                 Приложение №1 к договору Купли-Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/><br/>
-            <b>Спецификация бани:</b>
-            <br/><br/>
-            {categoryId.newEquipment && categoryId.newEquipment.length ? categoryId.newEquipment.map(({ name, value }) => (
-                <>
-                    <b>{name}:</b>
-                    <br/>
-                    {value ? value.map(({ name }) => (
-                        <div style={{ textAlign: 'justify' }}>{name}</div>
-                    )) : null}
-                    <br/>
-                </>
-            )) : null}
+            {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipmentForDogovor(project, data, categoryId.baseEquipment) : null}
             <div style={{ textAlign: 'justify' }}>
                 Допускается стыковка: брус по всему периметру стен бани, вагонка по каждой стене и потолку в отдельно взятом
                 помещении, половой доски в каждой комнате.

@@ -56,11 +56,11 @@ export default [{
         title: 'Ломаная'
     }, {
         id: 'c',
-        title: 'Пальмовая'
+        title: 'Вальмовая'
     }]
 }, {
     _id: 'roofHeight',
-    title: 'Высота ската крыши (м)',
+    title: 'Длина ската крыши (м)',
     type: 'float number',
     required: true
 }, {

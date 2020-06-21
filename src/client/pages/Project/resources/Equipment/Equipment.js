@@ -4,10 +4,10 @@ import DataSection from '../../../../components/DataSection';
 import cx from 'classnames';
 import stringHash from "../../../../../utils/stringHash";
 import filterObject from '../../../../../utils/filterObject';
-import styles from './NewBaseEquipment.module.css';
+import styles from './Equipment.module.css';
 import numberWithSpaces from '../../../../../utils/numberWithSpaces';
 
-const getElementValue = (value, groupName, itemName) => {
+export const getElementValue = (value, groupName, itemName) => {
     if (!value) return false;
 
     const groupValue = value[stringHash(groupName)];
@@ -89,7 +89,7 @@ export const getFinalPrice = (project, data, equipment, values) => {
     return sumPrice;
 };
 
-class NewBaseEquipment extends PureComponent {
+class Equipment extends PureComponent {
     static propTypes = {
         equipment: PropTypes.array,
         value: PropTypes.object,
@@ -211,4 +211,4 @@ class NewBaseEquipment extends PureComponent {
     }
 }
 
-export default NewBaseEquipment;
+export default Equipment;
