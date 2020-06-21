@@ -106,7 +106,7 @@ class Equipment extends PureComponent {
         const { selected } = this.state;
 
         return (
-            <DataSection id='base' bgStyle='grey' caption='Базовая комплектация' captionTag='h2'>
+            <DataSection id='base' bgStyle='grey' caption='Комплектация' captionTag='h2'>
                 <div className={styles.container}>
                     <div className={styles.header}>
                         {equipment.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).map(({ name }, index) => (
