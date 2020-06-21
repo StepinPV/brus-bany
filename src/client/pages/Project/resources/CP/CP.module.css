@@ -70,7 +70,7 @@
 .cp .preview-block-content {
     border-left: 3px solid #91001d;
     padding: 16px;
-    background: #ececec;
+    background: #efefef;
 }
 
 .cp .preview-group:not(:last-child) {
