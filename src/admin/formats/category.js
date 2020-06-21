@@ -92,23 +92,6 @@ const additions = {
     }]
 };
 
-const equipment = {
-    _id: 'equipment',
-    title: 'Базовая комплектация',
-    itemTitleField: 'name',
-    type: 'array',
-    format: [{
-        _id: 'name',
-        title: 'Имя',
-        type: 'string',
-        required: true
-    }, {
-        _id: 'text',
-        title: 'Текст',
-        type: 'string',
-        required: true
-    }]
-};
 const baseEquipment = {
     _id: 'baseEquipment',
     title: 'Комплектация',
@@ -195,30 +178,7 @@ const baseEquipment = {
         }]
     }]
 };
-const newEquipment = {
-    _id: 'newEquipment',
-    title: 'Новая комплектация',
-    itemTitleField: 'name',
-    type: 'array',
-    format: [{
-        _id: 'name',
-        title: 'Имя группы',
-        type: 'string',
-        required: true
-    }, {
-        _id: 'value',
-        title: 'Элементы',
-        type: 'array',
-        itemTitleField: 'name',
-        required: true,
-        format: [{
-            _id: 'name',
-            title: 'Наименование',
-            type: 'string',
-            required: true
-        }]
-    }]
-};
+
 const complectationBlocks = {
     _id: 'complectationBlocks',
     title: 'Описание комплектаций',
@@ -389,7 +349,7 @@ export default [{
     title: 'Статья',
     type: 'object',
     format: article
-}, baseEquipment, equipment, newEquipment, complectationBlocks, projectBlocks, additions, {
+}, baseEquipment, complectationBlocks, projectBlocks, additions, {
     _id: 'deliveryData',
     title: 'Информация о доставке',
     type: 'object',

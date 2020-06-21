@@ -39,17 +39,6 @@ const deliveryDataScheme = new Schema({
     }
 });
 
-const equipmentScheme = new Schema({
-    name: {
-        type: String,
-        required: REQUIRED_MSG
-    },
-    text: {
-        type: String,
-        required: REQUIRED_MSG
-    }
-});
-
 const complectationBlockScheme = new Schema({
     name: {
         type: String,
@@ -176,10 +165,6 @@ const scheme = new Schema({
     filters: {
         type: Array
     },
-    equipment: {
-        type: [equipmentScheme]
-    },
-    newEquipment: Array,
     projectBlocks: {
         type: [projectBlockScheme]
     },
