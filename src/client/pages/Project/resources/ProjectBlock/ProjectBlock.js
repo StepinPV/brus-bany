@@ -7,14 +7,14 @@ import cx from "classnames";
 
 function ProjectBlock({ idField='id', selectedId, onChange, name, description, items, itemTitle, itemButtonTitle, required, getSecondButtonTitle }) {
     return (
-        <DataSection bgStyle='grey' caption={name} captionTag='h2' description={description} isDescriptionHTML>
+        <DataSection bgStyle='white' caption={name} captionTag='h2' description={description} isDescriptionHTML>
             <div className={styles.items}>
                 {items.map(item => {
                     return (
                         <Card
                             key={item[idField]}
                             imageAlt={`${itemTitle} ${item.name.toLowerCase()}`}
-                            className={cx({[styles.selected]: selectedId === item[idField]})}
+                            className={cx(selectedId === item[idField] ? styles['selected'] : styles['not-selected'])}
                             onClick={() => {
                                 if (item[idField] === selectedId) {
                                     if (!required) {

@@ -7,10 +7,6 @@
     margin: 0 32px;
 }
 
-.breadcrumbs-container {
-    background: #efefef;
-}
-
 .gallery {
     flex-basis: 928px;
     max-width: 100%;
@@ -97,7 +93,6 @@
     align-items: center;
     justify-content: center;
     padding: 64px 16px;
-    background: #efefef;
 }
 
 .final-price-block-static-title {
@@ -120,7 +115,6 @@
 
 .delivery {
     padding: 48px 0;
-    background: #efefef;
 }
 
 @media screen and (max-width: 640px) {

@@ -198,9 +198,7 @@ class Project extends PureComponent {
                     {this.renderGallery()}
                     {this.renderInfo()}
                 </div>
-                <div className={styles['breadcrumbs-container']}>
-                    <Breadcrumbs items={breadcrumbs} />
-                </div>
+                <Breadcrumbs items={breadcrumbs} />
                 {this.renderComplectationBlock()}
                 {this.renderEquipment()}
                 {this.renderProjectBlocks()}
@@ -208,7 +206,7 @@ class Project extends PureComponent {
                 {this.renderAdditions()}
                 {this.renderFinalPrice()}
                 {photos && photos.length ? (
-                    <DataSection bgStyle='grey' caption='Фотоотчеты построенной бани' captionTag='h2'>
+                    <DataSection bgStyle='white' caption='Фотоотчеты построенной бани' captionTag='h2'>
                         <CardList items={photos.map(photo => ({
                             id: photo._id,
                             element: (

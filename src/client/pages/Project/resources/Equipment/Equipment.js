@@ -106,7 +106,7 @@ class Equipment extends PureComponent {
         const { selected } = this.state;
 
         return (
-            <DataSection id='base' bgStyle='grey' caption='Комплектация' captionTag='h2'>
+            <DataSection id='base' bgStyle='white' caption='Комплектация' captionTag='h2'>
                 <div className={styles.container}>
                     <div className={styles.header}>
                         {equipment.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).map(({ name }, index) => (
@@ -166,7 +166,7 @@ class Equipment extends PureComponent {
             case 'number': {
                 const val = parseInt(getElementValue(this.props.value, groupName, itemName));
                 return value ? (
-                    <div className={styles['number-item']}>
+                    <div>
                         <div className={cx(styles['item-text'], styles['base-item'])}>{getText(project, data, value.name)}</div>
                         <div className={styles['number-item-block']}>
                             <div className={styles['number-item-block-content']}>
@@ -179,7 +179,7 @@ class Equipment extends PureComponent {
                                         this.setElementValue(groupName, itemName, newValue === parseInt(getText(project, data, value.default)) ? null : newValue.toString());
                                     } : null}>-
                                 </div>
-                                <div className={styles['number-item-block-value']}>{val || getText(project, data, value.default)} шт</div>
+                                <div className={styles['f-block-value']}>{val || getText(project, data, value.default)} шт</div>
                                 <div
                                     className={
                                         cx(styles['number-item-block-button'], styles[`number-item-block-button-active`])
