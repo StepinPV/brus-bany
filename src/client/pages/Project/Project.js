@@ -204,8 +204,8 @@ class Project extends PureComponent {
                 {this.renderComplectationBlock()}
                 {this.renderEquipment()}
                 {this.renderProjectBlocks()}
-                {this.renderAdditions()}
                 {this.renderDelivery()}
+                {this.renderAdditions()}
                 {this.renderFinalPrice()}
                 {photos && photos.length ? (
                     <DataSection bgStyle='grey' caption='Фотоотчеты построенной бани' captionTag='h2'>
@@ -274,7 +274,7 @@ class Project extends PureComponent {
 
     renderDelivery = () => {
         const { project } = this.props;
-        const { data: { deliveryAdditions, delivery } } = this.state;
+        const { data: { delivery } } = this.state;
         const { categoryId } = project;
         const { deliveryData } = categoryId;
 
@@ -297,38 +297,21 @@ class Project extends PureComponent {
             });
         };
 
-        const handleAdditions = (value) => {
-            this.setData({
-                ...this.state.data,
-                deliveryAdditions: value
-            });
-        };
-
         return deliveryData ? (
             <>
                 {deliveryData.delivery ? (
-                    <DeliveryMap
-                        id='delivery'
-                        defaultAddress={delivery ? delivery.address : ''}
-                        onChange={handleDelivery}
-                        content={delivery ? (
-                            <>
-                                <div>{`Расстояние: ${delivery.length} км`}</div>
-                                <div>{`Стоимость доставки: ${numberWithSpaces(delivery.price)} руб`}</div>
-                            </>
-                        ) : null} />
-                ) : null}
-                {deliveryData.additions && deliveryData.additions.length ? (
-                    <Additions
-                        project={project}
-                        value={deliveryAdditions}
-                        additions={deliveryData.additions}
-                        data={this.state.data}
-                        onChange={handleAdditions}
-                        description={`
-                            Пункт доставки: ${delivery ? `${delivery.address}` : 'Не выбран'}<br/>
-                            Расстояние доставки: ${delivery ? `${delivery.length} км` : '0 км'}
-                        `} />
+                    <div className={styles.delivery}>
+                        <DeliveryMap
+                            id='delivery'
+                            defaultAddress={delivery ? delivery.address : ''}
+                            onChange={handleDelivery}
+                            content={delivery ? (
+                                <>
+                                    <div>{`Расстояние: ${delivery.length} км`}</div>
+                                    <div>{`Стоимость доставки: ${numberWithSpaces(delivery.price)} руб`}</div>
+                                </>
+                            ) : null} />
+                    </div>
                 ) : null}
             </>
         ) : null;
@@ -591,7 +574,7 @@ class Project extends PureComponent {
 
     getFinalPrice = () => {
         const { project } = this.props;
-        const { data: { equipment, additions, delivery, blocks={}, complectation, deliveryAdditions } } = this.state;
+        const { data: { equipment, additions, delivery, blocks={}, complectation } } = this.state;
 
         let projectBlocksPriceFixed = 0;
         const { layoutId: params } = project;
@@ -619,10 +602,6 @@ class Project extends PureComponent {
 
         if (additions) {
             finalPrice += getAdditionsPrice(project, this.state.data, project.categoryId.additions, additions);
-        }
-
-        if (deliveryAdditions) {
-            finalPrice += getAdditionsPrice(project, this.state.data, project.categoryId.deliveryData.additions, deliveryAdditions);
         }
 
         if (delivery && delivery.price) finalPrice += delivery.price;

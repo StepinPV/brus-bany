@@ -76,7 +76,7 @@ class Additions extends PureComponent {
         const { expandedAdditions } = this.state;
 
         return (
-            <DataSection id='additions' bgStyle='white' caption={caption} description={description} isDescriptionHTML captionTag='h2'>
+            <DataSection id='additions' bgStyle='grey' caption={caption} description={description} isDescriptionHTML captionTag='h2'>
                 <div className={styles.container}>
                     <div className={styles.items}>
                         {additions.map(({ name, _id, value }) => (

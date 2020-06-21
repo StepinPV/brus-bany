@@ -203,36 +203,6 @@ function renderDelivery(data) {
         </div>
     );
 }
-function renderDeliveryAdditions(project, data, additions) {
-    return (
-        <div className={styles['preview-block']}>
-            <div className={styles['preview-block-caption']}>Дополнения к доставке</div>
-            <div className={styles['preview-block-content']}>
-                {additions ? additions.map(({ name, _id, value }) => {
-                    const items = [];
-
-                    if (value) {
-                        value.forEach(({ type, name, _id, price }) => {
-                            if (data.deliveryAdditions[_id]) {
-                                let itemPrice = getAdditionPrice(project, data, price);
-
-                                if (type !== 'boolean') {
-                                    itemPrice *= data.deliveryAdditions[_id];
-                                }
-
-                                items.push(
-                                    <div className={styles['preview-group-caption']}>{name} <span className={styles['preview-price']}>{` ${numberWithSpaces(itemPrice)} рублей`}</span></div>
-                                );
-                            }
-                        });
-                    }
-
-                    return items.length ? items : null;
-                }) : null}
-            </div>
-        </div>
-    );
-}
 function renderCustomAdditions(additions) {
     return (
         <div className={styles['preview-block']}>
@@ -310,7 +280,6 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
             }) : null}
             {data.additions && project.categoryId.additions ? renderAdditions(project, data, project.categoryId.additions) : null}
             {data.delivery && project.categoryId.deliveryData.delivery ? renderDelivery(data) : null}
-            {data.deliveryAdditions && project.categoryId.deliveryData.additions ? renderDeliveryAdditions(project, data, project.categoryId.deliveryData.additions) : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? renderCustomAdditions(formValue.additionalData) : null}
             {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
         </div>
@@ -621,7 +590,6 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
             }) : null}
             {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}<br/></> : null}
             {data.delivery && project.categoryId.deliveryData.delivery ? <>{renderDelivery(data)}<br/></> : null}
-            {data.deliveryAdditions && project.categoryId.deliveryData.additions ? <>{renderDeliveryAdditions(project, data, project.categoryId.deliveryData.additions)}<br/></> : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? <>{renderCustomAdditions(formValue.additionalData)}<br/></> : null}
             {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
             <br/><br/>
