@@ -53,7 +53,7 @@ function renderBaseEquipment(project, data, equipment, onlyPrice) {
 
     return (
         <div className={styles['preview-block']}>
-            <div className={styles['preview-block-caption']}>Комплектация</div>
+            <b className={styles['preview-block-caption']}>Комплектация</b>
             <div className={styles['preview-block-content']}>
                 {equipment ? equipment.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).map(({ name: groupName, value }) => (
                     <div className={styles['preview-group']}>
@@ -97,8 +97,6 @@ function renderBaseEquipmentForDogovor(project, data, equipment) {
 
     return (
         <>
-            <b>Спецификация бани:</b>
-            <br/><br/>
             {equipment.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).map(({ name: groupName, value }) => (
                 <>
                     <b>{groupName}:</b>
@@ -113,7 +111,7 @@ function renderBaseEquipmentForDogovor(project, data, equipment) {
     );
 }
 
-function renderComplectation(project, data) {
+function renderComplectation(project, data, withPrice) {
     const { complectation } = data;
     const { complectationBlocks } = project.categoryId;
 
@@ -125,14 +123,14 @@ function renderComplectation(project, data) {
 
     return (
         <div className={styles['preview-block']}>
-            <div className={styles['preview-block-caption']}>База</div>
+            <b className={styles['preview-block-caption']}>База</b>
             <div className={styles['preview-block-content']}>
-                <div className={styles['preview-group-caption']}>{complectationBlocks.itemTitle} {item.name} {item.title.toLowerCase()}<span className={styles['preview-price']}>{` ${numberWithSpaces(price)} рублей`}</span></div>
+                <div className={styles['preview-group-caption']}>{complectationBlocks.itemTitle} {item.name} {item.title.toLowerCase()} { withPrice ? <span className={styles['preview-price']}>{` ${numberWithSpaces(price)} рублей`}</span> : null}</div>
             </div>
         </div>
     );
 }
-function renderProjectBlock(projectBlock, project, data) {
+function renderProjectBlock(projectBlock, project, data, withPrice) {
     const { blocks={} } = data;
     const selectedId = blocks[projectBlock._id];
 
@@ -147,17 +145,17 @@ function renderProjectBlock(projectBlock, project, data) {
 
     return (
         <div className={styles['preview-block']}>
-            <div className={styles['preview-block-caption']}>{projectBlock.itemTitle}</div>
+            <b className={styles['preview-block-caption']}>{projectBlock.itemTitle}</b>
             <div className={styles['preview-block-content']}>
-                <div className={styles['preview-group-caption']}>{item.name}<span className={styles['preview-price']}>{` ${numberWithSpaces(price)} рублей`}</span></div>
+                <div className={styles['preview-group-caption']}>{item.name}{ withPrice ? <span className={styles['preview-price']}>{` ${numberWithSpaces(price)} рублей`}</span> : null}</div>
             </div>
         </div>
     );
 }
-function renderAdditions(project, data, additions) {
+function renderAdditions(project, data, additions, withPrice) {
     return (
         <div className={styles['preview-block']}>
-            <div className={styles['preview-block-caption']}>Дополнения</div>
+            <b className={styles['preview-block-caption']}>Дополнения</b>
             <div className={styles['preview-block-content']}>
                 {additions ? additions.map(({ name, _id, value }) => {
                     const items = [];
@@ -172,7 +170,7 @@ function renderAdditions(project, data, additions) {
                                 }
 
                                 items.push(
-                                    <div className={styles['preview-group-item']}>{name} <span className={styles['preview-price']}>{` ${numberWithSpaces(itemPrice)} рублей`}</span></div>
+                                    <div className={styles['preview-group-item']}>{name} { withPrice ? <span className={styles['preview-price']}>{` ${numberWithSpaces(itemPrice)} рублей`}</span> : null}</div>
                                 );
                             }
                         });
@@ -196,7 +194,7 @@ function renderDelivery(data) {
 
     return (
         <div className={styles['preview-block']}>
-            <div className={styles['preview-block-caption']}>Адрес доставки</div>
+            <b className={styles['preview-block-caption']}>Адрес доставки</b>
             <div className={styles['preview-block-content']}>
                 <div className={styles['preview-group-caption']}>{delivery.address}<span className={styles['preview-price']}>{` ${numberWithSpaces(delivery.price)} рублей`}</span></div>
             </div>
@@ -217,7 +215,7 @@ function renderCustomAdditions(additions) {
 function renderFinalPrice(finalPrice) {
     return (
         <div className={styles['preview-block']}>
-            <div className={styles['preview-block-caption']}>Итоговая стоимость: <span className={styles['preview-price']}>{numberWithSpaces(finalPrice)} рублей</span></div>
+            <b className={styles['preview-block-caption']}>Итоговая стоимость: <span className={styles['preview-price']}>{numberWithSpaces(finalPrice)} рублей</span></b>
         </div>
     );
 }
@@ -288,7 +286,7 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
 const renderDogovor = (project, formValue, data, finalPrice) => {
     const { categoryId } = project;
     return (
-        <div>
+        <div className={styles.dogovor}>
             <br/><br/>
             <h3 style={{ textAlign: 'center' }}>ДОГОВОР КУПЛИ - ПРОДАЖИ БАНИ № {formValue.documentNumber}</h3>
             <br/>
@@ -332,7 +330,7 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
                 без НДС на основании п. 2 ст. 346.11 НК РФ.
             </div>
             <div style={{ textAlign: 'justify' }}>
-                2.2 Доставка осуществляется продавцом, выгрузка входит в стоимость продукции.
+                2.2 Доставка осуществляется продавцом, выгрузка {data.additions && data.additions['5eefcee55ec46c7ee0c91aab'] ? 'входит' : 'не входит'} в стоимость продукции.
             </div>
             <div style={{ textAlign: 'justify' }}>
                 2.3 Цена Договора остается неизменной в течение всего срока действия данного Договора.
@@ -540,6 +538,9 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
             <div style={{ textAlign: 'justify' }}>
                 10.2 Приложение № 2 – Акт приёма передачи
             </div>
+            <div style={{ textAlign: 'justify' }}>
+                10.3 Приложение №3 – Правила эксплуатации
+            </div>
             <br/><br/>
             <h3 style={{ textAlign: 'center' }}>11. ЮРИДИЧЕСКИЕ АДРЕСА И РЕКВИЗИТЫ СТОРОН</h3>
             <br/>
@@ -582,13 +583,13 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
             <br/><br/>
             <b>Протокол согласования цены:</b>
             <br/><br/>
-            {renderComplectation(project, data)}
+            {renderComplectation(project, data, true)}
             <br/>
             {data.equipment && project.categoryId.baseEquipment ? <>{renderBaseEquipment(project, data, project.categoryId.baseEquipment, true)}<br/></> : null}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
-                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}<br/></> : null
+                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data, true)}<br/></> : null
             }) : null}
-            {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}<br/></> : null}
+            {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions, true)}<br/></> : null}
             {data.delivery && project.categoryId.deliveryData.delivery ? <>{renderDelivery(data)}<br/></> : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? <>{renderCustomAdditions(formValue.additionalData)}<br/></> : null}
             {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
@@ -597,7 +598,15 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
                 Приложение №1 к договору Купли-Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/><br/>
+            <b>Спецификация бани:</b>
+            <br/><br/>
+            {renderComplectation(project, data)}
+            <br/>
             {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipmentForDogovor(project, data, categoryId.baseEquipment) : null}
+            {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
+                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}<br/></> : null
+            }) : null}
+            {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}<br/></> : null}
             <div style={{ textAlign: 'justify' }}>
                 Допускается стыковка: брус по всему периметру стен бани, вагонка по каждой стене и потолку в отдельно взятом
                 помещении, половой доски в каждой комнате.

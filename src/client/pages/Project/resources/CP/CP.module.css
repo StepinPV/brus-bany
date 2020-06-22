@@ -62,9 +62,9 @@
 
 .cp .preview-block-caption {
     font-size: 22px;
-    font-weight: bold;
     color: #91001d;
     padding: 16px 16px 16px 0;
+    display: block;
 }
 
 .cp .preview-block-content {
@@ -108,3 +108,9 @@
     font-style: italic;
     font-weight: bold;
 }
+
+.dogovor div,
+.dogovor h3 {
+    font-size: 15px;
+}
+
