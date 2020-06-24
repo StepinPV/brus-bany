@@ -271,12 +271,12 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
                     <img src={image} />
                 ))}
             </div>
-            {renderComplectation(project, data)}
+            {renderComplectation(project, data, true)}
             {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipment(project, data, categoryId.baseEquipment) : null}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
-                return renderProjectBlock(projectBlock, project, data)
+                return renderProjectBlock(projectBlock, project, data, true)
             }) : null}
-            {data.additions && project.categoryId.additions ? renderAdditions(project, data, project.categoryId.additions) : null}
+            {data.additions && project.categoryId.additions ? renderAdditions(project, data, project.categoryId.additions, true) : null}
             {data.delivery && project.categoryId.deliveryData.delivery ? renderDelivery(data) : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? renderCustomAdditions(formValue.additionalData) : null}
             {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
