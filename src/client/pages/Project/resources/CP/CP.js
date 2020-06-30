@@ -16,7 +16,7 @@ function renderManager(id) {
     switch(id) {
         case '1': return 'C уважением, Марина: 8 (921) 204-65-12';
         case '2': return 'C уважением, Константин: 8 (901) 543-85-19';
-        case '3': return 'C уважением, Юлия: 8 (977) 384-88-52';
+        case '3': return 'C уважением, Вера: 8 (996) 927-81-28';
     }
 }
 
@@ -291,8 +291,8 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
             <h3 style={{ textAlign: 'center' }}>ДОГОВОР КУПЛИ - ПРОДАЖИ БАНИ № {formValue.documentNumber}</h3>
             <br/>
             <div style={{ display: 'flex', justifyContent: 'space-around'}}>
-                <span>г. Пестово.</span>
-                <span>{renderDate(new Date(formValue.date))}</span>
+                <span>г.Пестово, Новгородская область</span>
+                <span>{renderDate(new Date(formValue.date))} года</span>
             </div>
             <br/>
             <div style={{ textAlign: 'justify' }}>
@@ -575,7 +575,7 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
                         </td>
                     </tr>
                     <tr>
-                        <td>_____________ Стариков Е.Б</td>
+                        <td>_____________ Стариков Е.Б.</td>
                         <td>_____________ {formValue.client.name ? renderMiniName(formValue.client.name) : ''}</td>
                     </tr>
                 </tbody>
@@ -652,7 +652,7 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
                 Подпись представителя Покупателя: _______________
             </div>
             <br/><br/>
-            <div>Подпись продавца: _______________ Стариков Е.Б</div>
+            <div>Подпись продавца: _______________ Стариков Е.Б.</div>
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
                 Приложение №3 к Договору Купли – Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
@@ -739,7 +739,7 @@ const format = [{
         title: 'Константин'
     }, {
         id: '3',
-        title: 'Юлия'
+        title: 'Вера'
     }]
 }, {
     _id: 'images',
