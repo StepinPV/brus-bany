@@ -231,12 +231,14 @@ function getCustomAdditionsPrice(formValue) {
 }
 
 function renderPassport(passport) {
-    return ` паспорт номер ${passport && passport.number || '________________ '} 
-         выдан ${passport && passport.where || '________________________________________________________________ '} 
-         дата выдачи ${passport && passport.when || '_________________________ '} 
-         дата рождения ${passport && passport.whenBirth || '__________________________ '} 
-         место рождения ${passport && passport.whereBirth || '____________________________________________________ '}
-         зарегестрирован по адресу ${passport && passport.registration || '____________________________________________________ '} `;
+    return (
+        <span dangerouslySetInnerHTML={{ __html: ` паспорт номер ${passport && passport.number || '<span style="word-break: break-all">________________ </span>'}
+            выдан ${passport && passport.where || '<span style="word-break: break-all">________________________________________________________________ </span>'}
+            дата выдачи ${passport && passport.when || '<span style="word-break: break-all">_________________________ </span>'}
+            дата рождения ${passport && passport.whenBirth || '<span style="word-break: break-all">__________________________ </span>'}
+            место рождения ${passport && passport.whereBirth || '<span style="word-break: break-all">____________________________________________________ </span>'}
+            зарегестрирован по адресу ${passport && passport.registration || '<span style="word-break: break-all">____________________________________________________ </span>'}`}} />
+    );
 }
 
 function renderMiniName(fullName) {
@@ -297,11 +299,11 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
             <br/>
             <div style={{ textAlign: 'justify' }}>
                 Общество с ограниченной ответственностью «Русская Баня» в лице генерального директора
-                Старикова Евгений Борисовича, действующего на основании Устава, именуемый в дальнейшем
-                “Продавец”, и Гражданин РФ {formValue.client.name || '_____________________________________________________________ '},
+                Старикова Евгения Борисовича, действующего на основании Устава, именуемый в дальнейшем
+                “Продавец”, и Гражданин РФ {formValue.client.name || <span style={{ wordBreak: 'break-all' }}>_____________________________________________________________ </span> },
                 именуемый в дальнейшем "Покупатель",
                 {renderPassport(formValue.client.passport)}
-                контактный телефон {formValue.client.phone || '_____________________ '} с
+                контактный телефон {formValue.client.phone || <span style={{ wordBreak: 'break-all' }}>_____________________ </span> } с
                 другой стороны, далее именуемые Стороны, заключили настоящий договор (далее – «Договор») о нижеследующем:
             </div>
             <br/><br/>
@@ -568,9 +570,9 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
                             <br /><br />
                         </td>
                         <td>
-                            Гражданин РФ {formValue.client.name || '_____________________________________________________________ '},
+                            Гражданин РФ {formValue.client.name || <span style={{ wordBreak: 'break-all' }}>_____________________________________________________________ </span>},
                             {renderPassport(formValue.client.passport)}
-                            контактный телефон {formValue.client.phone || '_____________________ '}
+                            контактный телефон {formValue.client.phone || <span style={{ wordBreak: 'break-all' }}>_____________________ </span>}
                             <br /><br />
                         </td>
                     </tr>
@@ -627,9 +629,9 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
             </div>
             <br/><br/>
             <div style={{ textAlign: 'justify' }}>
-                Мы нижеподписавшиеся, в лице Покупателя {formValue.client.name2 || '_____________________________________________________________ '}, с одной стороны, и в лице генерального
-                директора, ООО «Русская Баня» Старикова Евгений Борисовича или его представителя
-                _______________________________________________________, с другой стороны,
+                Мы нижеподписавшиеся, в лице Покупателя {formValue.client.name2 || <span style={{ wordBreak: 'break-all' }}>__________________________________________________________ </span>}, с одной стороны, и в лице генерального
+                директора, ООО «Русская Баня» Старикова Евгения Борисовича или его представителя
+                <span style={{ wordBreak: 'break-all' }}>_______________________________________________________</span>, с другой стороны,
                 удостоверяем, что работы согласно договору № {formValue.documentNumber} и приложений №1 и №2 к данному
                 договору выполнены: произведен общий визуальный осмотр бани, проверена установка
                 комплектующих и столярных изделий.
