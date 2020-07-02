@@ -293,7 +293,7 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
             <h3 style={{ textAlign: 'center' }}>ДОГОВОР КУПЛИ - ПРОДАЖИ БАНИ № {formValue.documentNumber}</h3>
             <br/>
             <div style={{ display: 'flex', justifyContent: 'space-around'}}>
-                <span>г.Пестово, Новгородская область</span>
+                <span>г. Пестово, Новгородская область</span>
                 <span>{renderDate(new Date(formValue.date))} года</span>
             </div>
             <br/>
