@@ -109,6 +109,11 @@
     font-weight: bold;
 }
 
+.tz h3,
+.tz div {
+    font-size: 15px;
+}
+
 .dogovor div,
 .dogovor h3 {
     font-size: 15px;

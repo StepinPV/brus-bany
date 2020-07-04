@@ -196,7 +196,7 @@ function renderDelivery(data) {
         <div className={styles['preview-block']}>
             <b className={styles['preview-block-caption']}>Адрес доставки</b>
             <div className={styles['preview-block-content']}>
-                <div className={styles['preview-group-caption']}>{delivery.address}<span className={styles['preview-price']}>{` ${numberWithSpaces(delivery.price)} рублей`}</span></div>
+                <div className={styles['preview-group-caption']}>{delivery.address} ({delivery.length} км)<span className={styles['preview-price']}>{` ${numberWithSpaces(delivery.price)} рублей`}</span></div>
             </div>
         </div>
     );
@@ -285,7 +285,43 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
         </div>
     )
 }
-const renderDogovor = (project, formValue, data, finalPrice) => {
+const renderTZ = (project, formValue, data, infoBlock, finalPrice, projectName) => {
+    const { categoryId } = project;
+    return (
+        <div className={styles.tz}>
+            <div style={{ fontSize: '24px', fontWeight: 'bold', textAlign: 'center', marginTop: '32px' }}>ТЗ Договор №{formValue.documentNumber}, {projectName}</div>
+            <br/>
+            <div>{formValue.client.name}, {formValue.client.phone}, {renderDate(new Date(formValue.projectDate))}, {data.delivery ? `${data.delivery.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : ''}</div>
+            <br/>
+            <b>Протокол согласования цены:</b>
+            <br/><br/>
+            {renderComplectation(project, data, true)}
+            <br/>
+            {data.equipment && project.categoryId.baseEquipment ? <>{renderBaseEquipment(project, data, project.categoryId.baseEquipment, true)}<br/></> : null}
+            {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
+                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data, true)}<br/></> : null
+            }) : null}
+            {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions, true)}<br/></> : null}
+            {data.delivery && project.categoryId.deliveryData.delivery ? <>{renderDelivery(data)}<br/></> : null}
+            {formValue && formValue.additionalData && formValue.additionalData.length ? <>{renderCustomAdditions(formValue.additionalData)}<br/></> : null}
+            {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
+            <br/>
+            <br/>
+            <b>Спецификация бани:</b>
+            <br/>
+            <br/>
+            {renderComplectation(project, data)}
+            <br/>
+            {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipmentForDogovor(project, data, categoryId.baseEquipment) : null}
+            {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
+                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}<br/></> : null
+            }) : null}
+            {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}<br/></> : null}
+            <img src={formValue.images['scheme']} style={{ width: '100%' }} />
+        </div>
+    )
+}
+const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
         <div className={styles.dogovor}>
@@ -322,7 +358,7 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
             </div>
             <div style={{ textAlign: 'justify' }}>
                 1.3 Продавец обязуется доставить и установить, в сроки, указанные в договоре, изготовленную
-                Баню по адресу: {data.delivery ? data.delivery.address : ''}.
+                Баню по адресу: {data.delivery ? `${data.delivery.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : ''}.
             </div>
             <br/><br/>
             <h3 style={{ textAlign: 'center' }}>2. ЦЕНА ДОГОВОРА, СРОКИ, ПОРЯДОК ОПЛАТЫ ТОВАРА</h3>
@@ -601,7 +637,10 @@ const renderDogovor = (project, formValue, data, finalPrice) => {
             </div>
             <br/><br/><br/>
             <b>Спецификация бани:</b>
-            <br/><br/>
+            <br/>
+            <br/>
+            <div>{projectName}</div>
+            <br/>
             {renderComplectation(project, data)}
             <br/>
             {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipmentForDogovor(project, data, categoryId.baseEquipment) : null}
@@ -728,6 +767,9 @@ const format = [{
     }, {
         id: 'cp',
         title: 'КП'
+    }, {
+        id: 'tz',
+        title: 'ТЗ'
     }]
 }, {
     _id: 'manager',
@@ -788,6 +830,10 @@ const format = [{
     title: 'Номер договора',
     type: 'string'
 }, {
+    _id: 'addressAddition',
+    title: 'Уточнение адреса',
+    type: 'string'
+}, {
     _id: 'client',
     title: 'Информация о клиенте',
     type: 'object',
@@ -835,7 +881,7 @@ const format = [{
     }]
 }];
 
-function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, showNotification, images }) {
+function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, showNotification, images, projectName }) {
     let containerRef = null;
 
     const formValue = {
@@ -845,6 +891,7 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
         date: CPData && CPData.date || Date.now(),
         projectDate: CPData && CPData.projectDate || Date.now(),
         documentNumber: CPData && CPData.documentNumber || '',
+        addressAddition: CPData && CPData.addressAddition || '',
         mode: CPData && CPData.mode || 'cp',
         client: CPData && CPData.client || {},
     };
@@ -878,9 +925,9 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
     const renderPreview = () => {
         return (
             <div ref={ref => { containerRef = ref; }}>
-                {formValue.mode ==='cp' ?
-                    renderCP(project, formValue, data, infoBlock, finalPrice) :
-                    renderDogovor(project, formValue, data, finalPrice)}
+                {formValue.mode ==='cp' ? renderCP(project, formValue, data, infoBlock, finalPrice) : null}
+                {formValue.mode ==='dogovor' ? renderDogovor(project, formValue, data, finalPrice, projectName) : null}
+                {formValue.mode ==='tz' ? renderTZ(project, formValue, data, infoBlock, finalPrice, projectName) : null}
             </div>
         );
     }

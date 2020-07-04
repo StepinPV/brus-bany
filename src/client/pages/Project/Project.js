@@ -335,6 +335,7 @@ class Project extends PureComponent {
                         };
                     })
                 }}
+                projectName={this.renderInfoTitle(project.categoryId.name2)}
                 finalPrice={this.getFinalPrice()}
                 project={this.props.project}
                 infoBlock={(
