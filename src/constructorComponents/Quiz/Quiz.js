@@ -11,7 +11,7 @@ import img2_4 from "./resources/2/4.jpg";
 import img5_1 from "./resources/5/1.jpg";
 import img5_2 from "./resources/5/2.jpg";
 import img5_3 from "./resources/5/3.jpg";
-import img5_4 from "./resources/5/4.jpg";
+import img5_4 from "./resources/5/4.jpeg";
 
 const questions = [{
     type: 'select',
@@ -55,7 +55,7 @@ const questions = [{
         title: 'Комплект парильщика'
     }, {
         img: img5_4,
-        title: 'Камни банные малиновый кварцит 60кг'
+        title: 'Габбро-диабаз 40кг'
     }]
 }];
 

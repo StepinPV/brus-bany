@@ -342,7 +342,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
                 контактный телефон {formValue.client.phone || <span style={{ wordBreak: 'break-all' }}>_____________________ </span> } с
                 другой стороны, далее именуемые Стороны, заключили настоящий договор (далее – «Договор») о нижеследующем:
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
             <br/>
             <div style={{ textAlign: 'justify' }}>
@@ -360,7 +360,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
                 1.3 Продавец обязуется доставить и установить, в сроки, указанные в договоре, изготовленную
                 Баню по адресу: {data.delivery ? `${data.delivery.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : ''}.
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>2. ЦЕНА ДОГОВОРА, СРОКИ, ПОРЯДОК ОПЛАТЫ ТОВАРА</h3>
             <br/>
             <div style={{ textAlign: 'justify' }}>
@@ -384,7 +384,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
                 передачи наличных денежных средств, представителю Продавца (водителю) по факту поставки Бани
                 по приходно-кассовому ордеру с подписанием акта приема-передачи Бани.
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>3. КАЧЕСТВО, КОМПЛЕКТНОСТЬ и ГАРАНТИЯ</h3>
             <br/>
             <div style={{ textAlign: 'justify' }}>
@@ -438,7 +438,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
             <div style={{ textAlign: 'justify' }}>
                 3.11 Гарантийные обязательства имеют силу при наличии у заказчика экземпляра данного договора.
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>4. ПОРЯДОК ИЗГОТОВЛЕНИЯ И ПОСТАВКИ</h3>
             <br/>
             <div style={{ textAlign: 'justify' }}>
@@ -474,7 +474,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
                 разгрузки бани, готовая баня возвращается назад с оплатой Покупателем транспортных расходов в
                 соответствии с п. 2.2, по двойному тарифу.
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>5. ПРИЕМКА ТОВАРА</h3>
             <br/>
             <div style={{ textAlign: 'justify' }}>
@@ -514,7 +514,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
                 письменного требования об их уплате. Их выплата не освобождает стороны от исполнения
                 обязательств по Договору.
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>7. СРОК ДЕЙСТВИЯ ДОГОВОРА. ИЗМЕНЕНИЕ И РАСТОРЖЕНИЕ ДОГОВОРА</h3>
             <br/>
             <div style={{ textAlign: 'justify' }}>
@@ -534,7 +534,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
             <div style={{ textAlign: 'justify' }}>
                 7.4 Расторжение Договора возможно с соблюдением действующего законодательства.
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>8. РАЗРЕШЕНИЕ СПОРОВ МЕЖДУ СТОРОНАМИ</h3>
             <br/>
             <div style={{ textAlign: 'justify' }}>
@@ -548,7 +548,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
                 сторонами спора в порядке настоящего Договора, то спор передается на разрешение Гражданского
                 суда по месту нахождения истца в порядке, установленном законодательством РФ.
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>9. ОСОБЫЕ УСЛОВИЯ</h3>
             <br/>
             <div style={{ textAlign: 'justify' }}>
@@ -567,7 +567,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
                 9.4 Настоящий Договор составлен на русском языке в двух экземплярах, имеющих равную
                 юридическую силу, по одному для каждой из Сторон.
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>10. ПРИЛОЖЕНИЯ К ДОГОВОРУ</h3>
             <br/>
             <div style={{ textAlign: 'justify' }}>
@@ -579,7 +579,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
             <div style={{ textAlign: 'justify' }}>
                 10.3 Приложение №3 – Правила эксплуатации
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>11. ЮРИДИЧЕСКИЕ АДРЕСА И РЕКВИЗИТЫ СТОРОН</h3>
             <br/>
             <table>
@@ -635,7 +635,7 @@ const renderDogovor = (project, formValue, data, finalPrice, projectName) => {
             <div style={{ textAlign: 'end' }}>
                 Приложение №1 к договору Купли-Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
-            <br/><br/><br/>
+            <br/><br/>
             <b>Спецификация бани:</b>
             <br/>
             <br/>
