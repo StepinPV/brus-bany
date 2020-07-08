@@ -95,45 +95,6 @@ class Page extends PureComponent {
         actions.getTemplates();
     }
 
-    componentDidUpdate() {
-        const { page } = this.props;
-
-        if (page && page.config && page.config.components && page.config.components && !page.config.componentsData) {
-            const newComponents = {
-                '__content__(main)': []
-            };
-            const newComponentsData = {};
-            let newHeader = page.config.header;
-            let newFooter = page.config.footer;
-
-            page.config.components['__content__(main)'].forEach(component => {
-                const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
-
-                newComponents['__content__(main)'].push(id);
-                newComponentsData[id] = component;
-            });
-
-            if (page.config.header) {
-                const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
-                newHeader = id;
-                newComponentsData[id] = page.config.header;
-            }
-
-            if (page.config.footer) {
-                const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
-                newFooter = id;
-                newComponentsData[id] = page.config.footer;
-            }
-
-            this.setConfig({
-                components: newComponents,
-                componentsData: newComponentsData,
-                header: newHeader,
-                footer: newFooter
-            });
-        }
-    }
-
     componentWillUnmount() {
         const { actions } = this.props;
         actions.reset();

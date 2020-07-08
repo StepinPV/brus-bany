@@ -91,27 +91,6 @@ class Component extends PureComponent {
         }
     }
 
-    componentDidUpdate() {
-        const { data } = this.props;
-
-        if (data && data.config && data.config.components && data.config.components.length && !data.config.componentsData) {
-            const newComponents = [];
-            const newComponentsData = {};
-
-            data.config.components.forEach(component => {
-                const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
-
-                newComponents.push(id);
-                newComponentsData[id] = component;
-            });
-
-            this.setConfig({
-                components: newComponents,
-                componentsData: newComponentsData
-            });
-        }
-    }
-
     componentWillUnmount() {
         const { actions } = this.props;
         actions.reset();
