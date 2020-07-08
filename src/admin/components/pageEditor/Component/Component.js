@@ -40,7 +40,22 @@ class Component extends PureComponent {
             const customComponent = customComponents.find(c => c['_id'] === componentId);
 
             if (customComponent && customComponent.config && customComponent.config.components) {
-                return customComponent.config.components.map(component => this.renderComponent(component.componentId, component.props, customComponent.config['__images__']));
+                return customComponent.config.components.map(componentId => {
+                    const componentData = customComponent.config.componentsData[componentId];
+
+                    const finalProps = { ...componentData.props };
+
+                    if (props) {
+                        Object.keys(props).forEach(propKey => {
+                            const [_componentId, paramId] = propKey.split(':');
+                            if (_componentId === componentId.toString() && componentData.props['__editable-options__'] && componentData.props['__editable-options__'][paramId]) {
+                                finalProps[paramId] = props[propKey];
+                            }
+                        });
+                    }
+
+                    return this.renderComponent(componentData.componentId, finalProps, customComponent.config['__images__']);
+                });
             }
         }
 

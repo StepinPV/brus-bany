@@ -62,7 +62,7 @@ class App extends Component {
                     <Component
                         {...props}
                         page={page}
-                        pageTemplates={pageTemplates}
+                        templates={pageTemplates}
                         customComponents={customComponents} />
                 )
             } else {

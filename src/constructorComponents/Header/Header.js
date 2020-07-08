@@ -11,7 +11,7 @@ function Header(props) {
     const { opacity, items, phone, email, button } = props;
 
     return (
-        <header className={cx(styles.header, opacity ? styles['header-absolute'] : null)}>
+        <header className={styles.header}>
             <div className={cx(styles.container, {[styles['container-opacity']]: opacity}) }>
                 <a href='/' className={styles['logo-wrapper']} title='Перейти на главную'>
                     <Logo className={styles.logo}/>

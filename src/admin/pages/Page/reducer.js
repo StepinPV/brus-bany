@@ -28,6 +28,14 @@ export default function(state = initialState, action) {
                 ...state,
                 isPageFetch: false,
                 id: action.payload['_id'],
+                /*page: {
+                    ...action.payload,
+                    config: {
+                        componentsData: {},
+                        components: {},
+                        ...action.payload.config
+                    }
+                },*/
                 page: action.payload
             };
 

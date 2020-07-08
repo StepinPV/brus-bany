@@ -174,29 +174,58 @@ class PageTemplate extends PureComponent {
             this.setState({ operations: newOperations });
         }
 
+        const componentData = data.config.componentsData[data.config[id]];
+
         return (
             <Fragment>
                 <Operations
                     onClick={togglePropsFormVisible}
                     operations={{
+                        operations: togglePropsFormVisible,
                         delete: () => {
-                            this.setConfig({ [id]: null });
+                            const newComponentsData = {
+                                ...data.config.componentsData
+                            }
+
+                            delete newComponentsData[data.config[id]];
+
+                            this.setConfig({
+                                componentsData: newComponentsData,
+                                [id]: null
+                            });
                         }
                     }}>
                     <ComponentRender
-                        componentId={data.config[id].componentId}
-                        componentProps={data.config[id].props}
+                        componentId={componentData.componentId}
+                        componentProps={componentData.props}
                         __images__={data.config['__images__']} />
                 </Operations>
                 {operations[id] && operations[id].propsFormVisible ? (
                     <ComponentEditor
-                        componentId={data.config[id].componentId}
-                        componentProps={data.config[id].props}
+                        componentId={componentData.componentId}
+                        componentProps={componentData.props}
+                        modifyProps={props => {
+                            return [...props, {
+                                _id: `__editable-options__`,
+                                title: `Редактируемые опции`,
+                                type: 'object',
+                                format: props.map(prop => {
+                                    return {
+                                        _id: prop['_id'],
+                                        title: prop['title'],
+                                        type: 'boolean'
+                                    }
+                                })
+                            }];
+                        }}
                         onChangeProps={(newProps, errors, images) => {
                             this.setConfig({
-                                [id]: {
-                                    ...data.config[id],
-                                    props: newProps
+                                componentsData: {
+                                    ...data.config.componentsData,
+                                    [data.config[id]]: {
+                                        ...data.config.componentsData[data.config[id]],
+                                        props: newProps
+                                    }
                                 },
                                 __images__: images
                             });
@@ -242,20 +271,26 @@ class PageTemplate extends PureComponent {
         const addComponent = (componentId, props) => {
             this.setOpenedPanel(null);
 
+            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
             const newComponentData = { componentId, props };
+            const newComponentsData = {
+                ...data.config.componentsData,
+                [id]: newComponentData
+            };
 
             if (addComponentPosition === 'header') {
-                this.setConfig({ header: newComponentData });
+                this.setConfig({ header: id, componentsData: newComponentsData });
                 return;
             }
 
             if (addComponentPosition === 'footer') {
-                this.setConfig({ footer: newComponentData });
+                this.setConfig({ footer: id, componentsData: newComponentsData });
                 return;
             }
 
             this.setConfig({
-                components: OperationsHelper.add(data.config.components, addComponentPosition, newComponentData)
+                componentsData: newComponentsData,
+                components: OperationsHelper.add(data.config.components, addComponentPosition, id)
             });
         }
 
@@ -285,11 +320,11 @@ class PageTemplate extends PureComponent {
             this.setState({ operations: newOperations });
         }
 
-        const { componentId } = data.config.components[index];
+        const componentData = data.config.componentsData[data.config.components[index]];
 
-        if (componentId.includes('__content__')) {
+        if (componentData.componentId.includes('__content__')) {
             return (
-                <div className={styles['content-block']}>
+                <div key={componentData.componentId} className={styles['content-block']}>
                     <Operations
                         className={styles['content-block-operations']}
                         operations={{
@@ -309,7 +344,7 @@ class PageTemplate extends PureComponent {
         }
 
         return (
-            <Fragment key={`${componentId}-${index}`}>
+            <Fragment key={data.config.components[index]}>
                 <Operations
                     operations={{
                         addComponentTop: () => {
@@ -327,24 +362,64 @@ class PageTemplate extends PureComponent {
                             this.setState({ operations: {} });
                         } : null,
                         clone: () => {
-                            this.setConfig({ components: OperationsHelper.clone(data.config.components, index) });
+                            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+                            this.setConfig({
+                                componentsData: {
+                                    ...data.config.componentsData,
+                                    [id]: { ...componentData }
+                                },
+                                components: OperationsHelper.clone(data.config.components, index)
+                            });
                         },
                         delete: () => {
-                            this.setConfig({ components: OperationsHelper.delete(data.config.components, index) });
-                        }
+                            const newComponentsData = {
+                                ...data.config.componentsData
+                            }
+
+                            delete newComponentsData[data.config.components[index]];
+
+                            this.setConfig({
+                                componentsData: newComponentsData,
+                                components: OperationsHelper.delete(data.config.components, index)
+                            });
+                        },
+                        options: togglePropsFormVisible
                     }}
                     onClick={togglePropsFormVisible}>
                     <ComponentRender
-                        componentId={componentId}
-                        componentProps={data.config.components[index].props}
+                        componentId={componentData.componentId}
+                        componentProps={componentData.props}
                         __images__={data.config['__images__']} />
                 </Operations>
                 {operations[index] && operations[index].propsFormVisible ? (
                     <ComponentEditor
-                        componentId={componentId}
-                        componentProps={data.config.components[index].props}
+                        componentId={componentData.componentId}
+                        componentProps={componentData.props}
+                        modifyProps={props => {
+                            return [...props, {
+                                _id: `__editable-options__`,
+                                title: `Редактируемые опции`,
+                                type: 'object',
+                                format: props.map(prop => {
+                                    return {
+                                        _id: prop['_id'],
+                                        title: prop['title'],
+                                        type: 'boolean'
+                                    }
+                                })
+                            }];
+                        }}
                         onChangeProps={(newProps, errors, images) => {
-                            this.setConfig(OperationsHelper.setProps(data.config.components, index, newProps, errors, images));
+                            this.setConfig({
+                                componentsData: {
+                                    ...data.config.componentsData,
+                                    [data.config.components[index]]: {
+                                        ...data.config.componentsData[data.config.components[index]],
+                                        props: newProps
+                                    }
+                                },
+                                __images__: images
+                            });
                         }} />
                 ) : null}
             </Fragment>

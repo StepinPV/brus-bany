@@ -10,6 +10,10 @@ class Operations extends PureComponent {
         className: PropTypes.string
     };
 
+    static defaultProps = {
+        operations: {}
+    };
+
     render = () => {
         const { onClick, operations, children, className } = this.props;
 
@@ -36,7 +40,13 @@ class Operations extends PureComponent {
             caption: '▲'
         }, {
             id: 'clone',
-            caption: 'Дублировать'
+            caption: '❐'
+        }, {
+            id: 'options',
+            caption: '✐'
+        }, {
+            id: 'copy',
+            caption: 'коп.'
         }, {
             id: 'delete',
             caption: '✗'

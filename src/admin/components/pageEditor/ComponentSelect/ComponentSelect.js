@@ -13,8 +13,21 @@ class ComponentSelect extends PureComponent {
     render = () => {
         const { componentMetas, onSelect, additions } = this.props;
 
+        let savedComponent = localStorage.getItem('PAGE_EDITOR_COMPONENT_BUFFER');
+        if (savedComponent) {
+            savedComponent = JSON.parse(savedComponent);
+        }
+
         return (
             <>
+                {savedComponent ? (
+                    <div
+                        key='BUFFER'
+                        className={styles['component-select-item']}
+                        onClick={() => { onSelect(savedComponent.componentId, savedComponent.props) }}>
+                        Вставить из буфера
+                    </div>
+                ) : null}
                 {Object.keys(componentMetas).map(key => {
                     const meta = componentMetas[key];
                     return meta.disabled ? null : (

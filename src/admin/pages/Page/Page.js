@@ -84,7 +84,8 @@ class Page extends PureComponent {
         if (id === 'add') {
             actions.setPage({
                 config: {
-                    components: []
+                    components: [],
+                    componentsData: {}
                 }
             });
         } else {
@@ -92,6 +93,45 @@ class Page extends PureComponent {
         }
 
         actions.getTemplates();
+    }
+
+    componentDidUpdate() {
+        const { page } = this.props;
+
+        if (page && page.config && page.config.components && page.config.components && !page.config.componentsData) {
+            const newComponents = {
+                '__content__(main)': []
+            };
+            const newComponentsData = {};
+            let newHeader = page.config.header;
+            let newFooter = page.config.footer;
+
+            page.config.components['__content__(main)'].forEach(component => {
+                const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+
+                newComponents['__content__(main)'].push(id);
+                newComponentsData[id] = component;
+            });
+
+            if (page.config.header) {
+                const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+                newHeader = id;
+                newComponentsData[id] = page.config.header;
+            }
+
+            if (page.config.footer) {
+                const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+                newFooter = id;
+                newComponentsData[id] = page.config.footer;
+            }
+
+            this.setConfig({
+                components: newComponents,
+                componentsData: newComponentsData,
+                header: newHeader,
+                footer: newFooter
+            });
+        }
     }
 
     componentWillUnmount() {
@@ -107,7 +147,8 @@ class Page extends PureComponent {
             return <div className={styles.error}>{isPageError}</div>;
         }
 
-        return page ? (
+        // TODO
+        return page && page.config && page.config.componentsData ? (
             <FloatPanels
                 panels={this.floatPanels}
                 onChangeOpenedPanel={this.setOpenedPanel}
@@ -144,7 +185,10 @@ class Page extends PureComponent {
                                         if (confirm('Смена шаблона приведет к сбросу страницы')) {
                                             this.setConfig({
                                                 template: key,
-                                                components: {}
+                                                components: {},
+                                                componentsData: {},
+                                                footer: null,
+                                                header: null
                                             });
                                         }
                                     }}
@@ -187,10 +231,14 @@ class Page extends PureComponent {
 
     renderPageContent = () => {
         const { page, templates } = this.props;
+        const { operations } = this.state;
 
-        let templateComponents = [{
-            componentId: '__content__(main)'
-        }];
+        let templateComponents = [0];
+        let templateComponentsData = {
+            0: {
+                componentId: '__content__(main)'
+            }
+        };
         let __images__ = page.config['__images__'];
 
         if (!templates) {
@@ -201,28 +249,81 @@ class Page extends PureComponent {
             const templateData = templates.find((item => item['_id'] === page.config.template));
 
             templateComponents = templateData.config.components;
+            templateComponentsData = templateData.config.componentsData;
             __images__ = templateData.config['__images__'];
         }
 
         return (
             <>
-                {templateComponents.map(tComponent => {
+                {templateComponents.map(tComponentId => {
+                    const tComponent = templateComponentsData[tComponentId];
+
                     if (tComponent.componentId.includes('__content__')) {
                         const components = (page.config.components || {})[tComponent.componentId];
 
                         return (
-                            <>
-                                {components ? components.map((component, index) => this.renderComponentByIndex(tComponent.componentId, index)) : null}
+                            <Fragment key={tComponentId}>
+                                {components ? components.map((componentId, index) => this.renderComponentByIndex(tComponent.componentId, index)) : null}
                                 {(!components || !components.length) ? this.renderAddComponent('Добавить новый компонент', `${tComponent.componentId}:0`) : null}
-                            </>
+                            </Fragment>
                         );
                     }
 
+                    const tComponentProps = {
+                        ...tComponent.props
+                    };
+
+                    if (tComponentProps['__editable-options__'] && page.config.componentsData[tComponentId]) {
+                        Object.keys(tComponentProps['__editable-options__']).forEach(key => {
+                            if (tComponentProps['__editable-options__'][key]) {
+                                if (page.config.componentsData[tComponentId].props[key] !== undefined) {
+                                    tComponentProps[key] = page.config.componentsData[tComponentId].props[key];
+                                }
+                            }
+                        });
+                    }
+
+                    const togglePropsFormVisible = () => {
+                        const newOperations = { ...this.state.operations };
+                        newOperations[tComponent.componentId] = {
+                            ...newOperations[tComponent.componentId],
+                            propsFormVisible: newOperations[tComponent.componentId] ? !newOperations[tComponent.componentId].propsFormVisible : true
+                        };
+
+                        this.setState({ operations: newOperations });
+                    }
+
                     return (
-                        <ComponentRender
-                            componentId={tComponent.componentId}
-                            componentProps={tComponent.props}
-                            __images__={__images__} />
+                        <Fragment key={tComponentId}>
+                            <Operations
+                                onClick={togglePropsFormVisible}
+                                operations={{
+                                    options: togglePropsFormVisible
+                                }}>
+                                <ComponentRender
+                                    componentId={tComponent.componentId}
+                                    componentProps={tComponentProps}
+                                    __images__={__images__} />
+                            </Operations>
+                            { operations[tComponent.componentId] && operations[tComponent.componentId].propsFormVisible ? (
+                                <ComponentEditor
+                                    componentId={tComponent.componentId}
+                                    componentProps={tComponentProps}
+                                    onlyEditableOptions
+                                    onChangeProps={(newProps, errors, images) => {
+                                        this.setConfig({
+                                            __images__: images,
+                                            componentsData: {
+                                                ...page.config.componentsData,
+                                                [tComponentId]: {
+                                                    ...page.config.componentsData[tComponentId],
+                                                    props: newProps
+                                                }
+                                            }
+                                        });
+                                    }} />
+                            ) : null}
+                        </Fragment>
                     );
                 })}
             </>
@@ -230,10 +331,10 @@ class Page extends PureComponent {
     };
 
     renderSpecialComponent = (id, addTitle) => {
-        const { page, templates } = this.props;
+        const { page, templates, showNotification } = this.props;
         const { operations } = this.state;
 
-        let component = page.config[id];
+        let component = page.config.componentsData[page.config[id]];
         let __images__ = page.config['__images__'];
         let isTemplateComponent = false;
 
@@ -245,7 +346,7 @@ class Page extends PureComponent {
             const templateData = templates.find((item => item['_id'] === page.config.template));
 
             if (templateData.config[id]) {
-                component = templateData.config[id];
+                component = templateData.config.componentsData[templateData.config[id]];
                 __images__ = templateData.config['__images__'];
                 isTemplateComponent = true;
             }
@@ -261,44 +362,72 @@ class Page extends PureComponent {
             this.setState({ operations: newOperations });
         }
 
-        const renderComponent = () => {
-            return (
-                <ComponentRender
-                    componentId={component.componentId}
-                    componentProps={component.props}
-                    __images__={__images__} />
-            );
-        }
+        if (component) {
+            const componentProps = {
+                ...component.props
+            };
 
-        return component ? (
-            <Fragment>
-                {isTemplateComponent ? renderComponent() : (
+            if (componentProps['__editable-options__'] && page.config.componentsData[page.config[id]]) {
+                Object.keys(componentProps['__editable-options__']).forEach(key => {
+                    if (componentProps['__editable-options__'][key]){
+                        if (page.config.componentsData[page.config[id]].props[key] !== undefined) {
+                            componentProps[key] = page.config.componentsData[page.config[id]].props[key];
+                        }
+                    }
+                });
+            }
+
+            return (
+                <Fragment>
                     <Operations
                         onClick={togglePropsFormVisible}
-                        operations={{
+                        operations={isTemplateComponent ? {} : {
+                            options: togglePropsFormVisible,
+                            copy: () => {
+                                localStorage.setItem('PAGE_EDITOR_COMPONENT_BUFFER', JSON.stringify(component));
+                                showNotification({ message: 'Компонент скопирован', status: 'success' });
+                            },
                             delete: () => {
-                                this.setConfig({ [id]: null });
+                                const newComponentsData = {
+                                    ...page.config.componentsData
+                                }
+
+                                delete newComponentsData[page.config[id]];
+
+                                this.setConfig({
+                                    componentsData: newComponentsData,
+                                    [id]: null
+                                });
                             }
                         }}>
-                        {renderComponent()}
+                        <ComponentRender
+                            componentId={component.componentId}
+                            componentProps={componentProps}
+                            __images__={__images__} />
                     </Operations>
-                )}
-                {operations[id] && operations[id].propsFormVisible ? (
-                    <ComponentEditor
-                        componentId={component.componentId}
-                        componentProps={component.props}
-                        onChangeProps={(newProps, errors, images) => {
-                            this.setConfig({
-                                [id]: {
-                                    ...page.config[id],
-                                    props: newProps
-                                },
-                                __images__: images
-                            });
-                        }} />
-                ) : null}
-            </Fragment>
-        ) : this.renderAddComponent(addTitle, id);
+                    {operations[id] && operations[id].propsFormVisible ? (
+                        <ComponentEditor
+                            componentId={component.componentId}
+                            componentProps={componentProps}
+                            onlyEditableOptions={isTemplateComponent}
+                            onChangeProps={(newProps, errors, images) => {
+                                this.setConfig({
+                                    componentsData: {
+                                        ...page.config.componentsData,
+                                        [page.config[id]]: {
+                                            ...page.config.componentsData[page.config[id]],
+                                            props: newProps
+                                        }
+                                    },
+                                    __images__: images
+                                });
+                            }} />
+                    ) : null}
+                </Fragment>
+            )
+        }
+
+        return this.renderAddComponent(addTitle, id);
     };
 
     renderAddComponent = (title, position) => {
@@ -337,15 +466,20 @@ class Page extends PureComponent {
         const addComponent = (componentId, props) => {
             this.setOpenedPanel(null);
 
+            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
             const newComponentData = { componentId, props };
+            const newComponentsData = {
+                ...page.config.componentsData,
+                [id]: newComponentData
+            };
 
             if (addComponentPosition === 'header') {
-                this.setConfig({ header: newComponentData });
+                this.setConfig({ header: id, componentsData: newComponentsData });
                 return;
             }
 
             if (addComponentPosition === 'footer') {
-                this.setConfig({ footer: newComponentData });
+                this.setConfig({ footer: id, componentsData: newComponentsData });
                 return;
             }
 
@@ -354,9 +488,10 @@ class Page extends PureComponent {
             const components = page.config.components || {};
 
             return this.setConfig({
+                componentsData: newComponentsData,
                 components: {
                     ...components,
-                    [blockId]: OperationsHelper.add(components[blockId] || [], position, newComponentData)
+                    [blockId]: OperationsHelper.add(components[blockId] || [], position, id)
                 }
             });
         }
@@ -365,11 +500,11 @@ class Page extends PureComponent {
     };
 
     renderComponentByIndex = (blockId, index) => {
-        const { page } = this.props;
+        const { page, showNotification } = this.props;
         const { operations } = this.state;
 
         const components = page.config.components[blockId];
-        const component = components[index];
+        const component = page.config.componentsData[components[index]];
 
         const togglePropsFormVisible = () => {
             const newOperations = { ...this.state.operations };
@@ -382,7 +517,7 @@ class Page extends PureComponent {
         }
 
         return (
-            <Fragment key={`${component.componentId}-${index}`}>
+            <Fragment key={page.config.components[blockId][index]}>
                 <Operations
                     operations={{
                         addComponentTop: () => {
@@ -410,18 +545,35 @@ class Page extends PureComponent {
                             this.setState({ operations: {} });
                         } : null,
                         clone: () => {
+                            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
                             this.setConfig({
+                                componentsData: {
+                                    ...page.config.componentsData,
+                                    [id]: OperationsHelper.clone(components, index)
+                                },
                                 components: {
                                     ...page.config.components,
-                                    [blockId]: OperationsHelper.clone(components, index)
+                                    [blockId]: [...page.config.components[blockId], id]
                                 }
                             });
                         },
+                        copy: () => {
+                            localStorage.setItem('PAGE_EDITOR_COMPONENT_BUFFER', JSON.stringify(page.config.componentsData[components[index]]));
+                            showNotification({ message: 'Компонент скопирован', status: 'success' });
+                        },
+                        options: togglePropsFormVisible,
                         delete: () => {
+                            const newComponentsData = {
+                                ...page.config.componentsData
+                            }
+
+                            delete newComponentsData[page.config.components[blockId][index]];
+
                             this.setConfig({
+                                componentsData: newComponentsData,
                                 components: {
                                     ...page.config.components,
-                                    [blockId]: OperationsHelper.delete(components, index)
+                                    [blockId]: OperationsHelper.delete(page.config.components[blockId], index)
                                 }
                             });
                         }
@@ -437,13 +589,15 @@ class Page extends PureComponent {
                         componentId={component.componentId}
                         componentProps={component.props}
                         onChangeProps={(newProps, errors, images) => {
-                            const newData = OperationsHelper.setProps(components, index, newProps, errors, images);
                             this.setConfig({
-                                __images__: newData.__images__,
-                                components: {
-                                    ...page.config.components,
-                                    [blockId]: newData.components
-                                }
+                                componentsData: {
+                                    ...page.config.componentsData,
+                                    [components[index]]: {
+                                        ...page.config.componentsData[components[index]],
+                                        props: newProps
+                                    }
+                                },
+                                __images__: images
                             });
                         }} />
                 ) : null}
