@@ -204,6 +204,7 @@ class PageTemplate extends PureComponent {
                     <ComponentEditor
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
+                        __images__={data.config['__images__']}
                         modifyProps={props => {
                             return [...props, {
                                 _id: `__editable-options__`,
@@ -395,6 +396,7 @@ class PageTemplate extends PureComponent {
                     <ComponentEditor
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
+                        __images__={data.config['__images__']}
                         modifyProps={props => {
                             return [...props, {
                                 _id: `__editable-options__`,

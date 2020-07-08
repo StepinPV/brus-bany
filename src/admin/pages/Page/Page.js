@@ -270,6 +270,7 @@ class Page extends PureComponent {
                                 <ComponentEditor
                                     componentId={tComponent.componentId}
                                     componentProps={tComponentProps}
+                                    __images__={__images__}
                                     onlyEditableOptions
                                     onChangeProps={(newProps, errors, images) => {
                                         this.setConfig({
@@ -371,6 +372,7 @@ class Page extends PureComponent {
                             componentId={component.componentId}
                             componentProps={componentProps}
                             onlyEditableOptions={isTemplateComponent}
+                            __images__={__images__}
                             onChangeProps={(newProps, errors, images) => {
                                 this.setConfig({
                                     componentsData: {
@@ -549,6 +551,7 @@ class Page extends PureComponent {
                     <ComponentEditor
                         componentId={component.componentId}
                         componentProps={component.props}
+                        __images__={page.config['__images__']}
                         onChangeProps={(newProps, errors, images) => {
                             this.setConfig({
                                 componentsData: {
