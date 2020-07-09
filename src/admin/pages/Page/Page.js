@@ -294,7 +294,8 @@ class Page extends PureComponent {
         const { page, templates, showNotification } = this.props;
         const { operations } = this.state;
 
-        let component = page.config.componentsData[page.config[id]];
+        let configId = page.config[id];
+        let component = page.config.componentsData[configId];
         let isTemplateComponent = false;
 
         if (!templates) {
@@ -305,7 +306,8 @@ class Page extends PureComponent {
             const templateData = templates.find((item => item['_id'] === page.config.template));
 
             if (templateData.config[id]) {
-                component = templateData.config.componentsData[templateData.config[id]];
+                configId = templateData.config[id];
+                component = templateData.config.componentsData[configId];
                 isTemplateComponent = true;
             }
         }
@@ -325,11 +327,11 @@ class Page extends PureComponent {
                 ...component.props
             };
 
-            if (componentProps['__editable-options__'] && page.config.componentsData[page.config[id]]) {
+            if (componentProps['__editable-options__'] && page.config.componentsData[configId]) {
                 Object.keys(componentProps['__editable-options__']).forEach(key => {
                     if (componentProps['__editable-options__'][key]){
-                        if (page.config.componentsData[page.config[id]].props[key] !== undefined) {
-                            componentProps[key] = page.config.componentsData[page.config[id]].props[key];
+                        if (page.config.componentsData[configId].props[key] !== undefined) {
+                            componentProps[key] = page.config.componentsData[configId].props[key];
                         }
                     }
                 });
@@ -373,8 +375,8 @@ class Page extends PureComponent {
                                 this.setConfig({
                                     componentsData: {
                                         ...page.config.componentsData,
-                                        [page.config[id]]: {
-                                            ...page.config.componentsData[page.config[id]],
+                                        [configId]: {
+                                            ...page.config.componentsData[configId],
                                             props: newProps,
                                             images
                                         }

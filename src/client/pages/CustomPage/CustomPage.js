@@ -35,13 +35,15 @@ class CustomPage extends PureComponent {
     renderSpecialComponent = (id) => {
         const { page, templates } = this.props;
 
-        let component = page.config.componentsData[page.config[id]];
+        let configId = page.config[id];
+        let component = page.config.componentsData[configId];
 
         if (page.config.template) {
             const templateData = templates.find((item => item['_id'] === page.config.template));
 
             if (templateData.config[id]) {
-                component = templateData.config.componentsData[templateData.config[id]];
+                configId = templateData.config[id];
+                component = templateData.config.componentsData[configId];
             }
         }
 
@@ -53,11 +55,11 @@ class CustomPage extends PureComponent {
             ...component.props
         };
 
-        if (componentProps['__editable-options__'] && page.config.componentsData[page.config[id]]) {
+        if (componentProps['__editable-options__'] && page.config.componentsData[configId]) {
             Object.keys(componentProps['__editable-options__']).forEach(key => {
                 if (componentProps['__editable-options__'][key]){
-                    if (page.config.componentsData[page.config[id]].props[key] !== undefined) {
-                        componentProps[key] = page.config.componentsData[page.config[id]].props[key];
+                    if (page.config.componentsData[configId].props[key] !== undefined) {
+                        componentProps[key] = page.config.componentsData[configId].props[key];
                     }
                 }
             });
