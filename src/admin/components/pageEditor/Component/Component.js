@@ -7,6 +7,7 @@ class Component extends PureComponent {
     static propTypes = {
         componentId: PropTypes.string,
         componentProps: PropTypes.object,
+        componentImages: PropTypes.object,
 
         // withCustomComponents
         customComponents: PropTypes.array,
@@ -22,18 +23,18 @@ class Component extends PureComponent {
     }
 
     render = () => {
-        const { componentId, componentProps } = this.props;
+        const { componentId, componentProps, componentImages } = this.props;
 
-        return this.renderComponent(componentId, componentProps, this.props['__images__']);
+        return this.renderComponent(componentId, componentProps, componentImages);
     };
 
-    renderComponent = (componentId, props, __images__) => {
+    renderComponent = (componentId, props, images) => {
         const { customComponents } = this.props;
 
         if (components[componentId]) {
             const Component = components[componentId];
 
-            return <Component {...props} __images__={__images__ || {}} />;
+            return <Component {...props} __images__={images || {}} />;
         }
 
         if (customComponents) {
@@ -54,7 +55,10 @@ class Component extends PureComponent {
                         });
                     }
 
-                    return this.renderComponent(componentData.componentId, finalProps, customComponent.config['__images__']);
+                    return this.renderComponent(componentData.componentId, finalProps, {
+                        ...componentData.images,
+                        ...images
+                    });
                 });
             }
         }

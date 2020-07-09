@@ -237,7 +237,7 @@ function renderPassport(passport) {
             дата выдачи ${passport && passport.when || '<span style="word-break: break-all">_________________________ </span>'}
             дата рождения ${passport && passport.whenBirth || '<span style="word-break: break-all">__________________________ </span>'}
             место рождения ${passport && passport.whereBirth || '<span style="word-break: break-all">____________________________________________________ </span>'}
-            зарегестрирован по адресу ${passport && passport.registration || '<span style="word-break: break-all">____________________________________________________ </span>'}`}} />
+            зарегистрирован по адресу ${passport && passport.registration || '<span style="word-break: break-all">____________________________________________________ </span>'}`}} />
     );
 }
 

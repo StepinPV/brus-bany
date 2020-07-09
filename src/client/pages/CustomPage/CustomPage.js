@@ -36,15 +36,17 @@ class CustomPage extends PureComponent {
         const { page, templates } = this.props;
 
         let component = page.config.componentsData[page.config[id]];
-        let __images__ = page.config['__images__'];
 
         if (page.config.template) {
             const templateData = templates.find((item => item['_id'] === page.config.template));
 
             if (templateData.config[id]) {
                 component = templateData.config.componentsData[templateData.config[id]];
-                __images__ = templateData.config['__images__'];
             }
+        }
+
+        if (!component) {
+            return null;
         }
 
         const componentProps = {
@@ -63,8 +65,9 @@ class CustomPage extends PureComponent {
 
         return this.renderComponent({
             componentId: component.componentId,
-            props: componentProps
-        }, __images__);
+            props: componentProps,
+            images: component.images
+        });
     };
 
     renderPageContent = () => {
@@ -76,14 +79,12 @@ class CustomPage extends PureComponent {
                 componentId: '__content__(main)'
             }
         };
-        let __images__ = page.config['__images__'];
 
         if (page.config.template) {
             const templateData = templates.find((item => item['_id'] === page.config.template));
 
             templateComponents = templateData.config.components;
             templateComponentsData = templateData.config.componentsData;
-            __images__ = templateData.config['__images__'];
         }
 
         return (
@@ -117,8 +118,9 @@ class CustomPage extends PureComponent {
 
                     return this.renderComponent({
                         componentId: tComponent.componentId,
-                        props: tComponentProps
-                    }, __images__);
+                        props: tComponentProps,
+                        images: tComponent.images
+                    });
                 })}
             </>
         )
@@ -132,17 +134,18 @@ class CustomPage extends PureComponent {
 
         return this.renderComponent({
             componentId: component.componentId,
-            props: component.props
-        }, page.config['__images__']);
+            props: component.props,
+            images: component.images,
+        });
     };
 
-    renderComponent = ({ componentId, props }, __images__) => {
+    renderComponent = ({ componentId, props, images }) => {
         const { customComponents, staticContext } = this.props;
 
         if (components[componentId]) {
             const Component = components[componentId];
 
-            return <Component {...props} __images__={__images__} staticContext={staticContext} />;
+            return <Component {...props} __images__={images} staticContext={staticContext} />;
         }
 
         const customComponent = customComponents.find(c => c['_id'] === componentId);
@@ -162,8 +165,12 @@ class CustomPage extends PureComponent {
 
                 return this.renderComponent({
                     componentId: componentData.componentId,
-                    props: finalProps
-                }, __images__);
+                    props: finalProps,
+                    images: {
+                        ...componentData.images,
+                        ...images
+                    }
+                });
             });
         }
 

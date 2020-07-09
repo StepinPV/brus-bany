@@ -1,11 +1,4 @@
 export default {
-    setProps: (components, index, newProps, errors, images) => {
-        const newComponents = [...components];
-        newComponents[index].props = newProps;
-
-        return { __images__: images, components: newComponents };
-    },
-
     add: (components, index, component) => {
         const newComponents = [...components];
 

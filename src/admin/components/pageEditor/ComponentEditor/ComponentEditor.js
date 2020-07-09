@@ -8,6 +8,8 @@ class ComponentEditor extends PureComponent {
     static propTypes = {
         componentId: PropTypes.string,
         componentProps: PropTypes.object,
+        componentImages: PropTypes.object,
+
         onChangeProps: PropTypes.func,
         modifyProps: PropTypes.func,
         onlyEditableOptions: PropTypes.bool,
@@ -21,7 +23,7 @@ class ComponentEditor extends PureComponent {
     };
 
     render = () => {
-        const { componentId, componentMetas, componentProps, onChangeProps, modifyProps, onlyEditableOptions } = this.props;
+        const { componentId, componentMetas, componentProps, componentImages, onChangeProps, modifyProps, onlyEditableOptions } = this.props;
 
         if (!componentMetas[componentId]) {
             return null;
@@ -53,7 +55,7 @@ class ComponentEditor extends PureComponent {
                         onChangeProps(prepareProps, newErrors, newImages);
                     }}
                     errors={{}}
-                    images={this.props['__images__'] || {}} />
+                    images={componentImages || {}} />
             </div>
         );
     };

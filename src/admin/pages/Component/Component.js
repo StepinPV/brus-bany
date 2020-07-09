@@ -267,13 +267,13 @@ class Component extends PureComponent {
                     <ComponentRender
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
-                        __images__={data.config['__images__']} />
+                        componentImages={componentData.images} />
                 </Operations>
                 {operations[index] && operations[index].propsFormVisible ? (
                     <ComponentEditor
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
-                        __images__={data.config['__images__']}
+                        componentImages={componentData.images}
                         modifyProps={props => {
                             return [...props, {
                                 _id: `__editable-options__`,
@@ -294,10 +294,10 @@ class Component extends PureComponent {
                                     ...data.config.componentsData,
                                     [data.config.components[index]]: {
                                         ...data.config.componentsData[data.config.components[index]],
-                                        props: newProps
+                                        props: newProps,
+                                        images
                                     }
-                                },
-                                __images__: images
+                                }
                             });
                         }} />
                 ) : null}

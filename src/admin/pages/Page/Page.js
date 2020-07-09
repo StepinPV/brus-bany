@@ -200,7 +200,6 @@ class Page extends PureComponent {
                 componentId: '__content__(main)'
             }
         };
-        let __images__ = page.config['__images__'];
 
         if (!templates) {
             return;
@@ -211,7 +210,6 @@ class Page extends PureComponent {
 
             templateComponents = templateData.config.components;
             templateComponentsData = templateData.config.componentsData;
-            __images__ = templateData.config['__images__'];
         }
 
         return (
@@ -264,22 +262,22 @@ class Page extends PureComponent {
                                 <ComponentRender
                                     componentId={tComponent.componentId}
                                     componentProps={tComponentProps}
-                                    __images__={__images__} />
+                                    componentImages={tComponent.images} />
                             </Operations>
                             { operations[tComponent.componentId] && operations[tComponent.componentId].propsFormVisible ? (
                                 <ComponentEditor
                                     componentId={tComponent.componentId}
                                     componentProps={tComponentProps}
-                                    __images__={__images__}
+                                    componentImages={tComponent.images}
                                     onlyEditableOptions
                                     onChangeProps={(newProps, errors, images) => {
                                         this.setConfig({
-                                            __images__: images,
                                             componentsData: {
                                                 ...page.config.componentsData,
                                                 [tComponentId]: {
                                                     ...page.config.componentsData[tComponentId],
-                                                    props: newProps
+                                                    props: newProps,
+                                                    images
                                                 }
                                             }
                                         });
@@ -297,7 +295,6 @@ class Page extends PureComponent {
         const { operations } = this.state;
 
         let component = page.config.componentsData[page.config[id]];
-        let __images__ = page.config['__images__'];
         let isTemplateComponent = false;
 
         if (!templates) {
@@ -309,7 +306,6 @@ class Page extends PureComponent {
 
             if (templateData.config[id]) {
                 component = templateData.config.componentsData[templateData.config[id]];
-                __images__ = templateData.config['__images__'];
                 isTemplateComponent = true;
             }
         }
@@ -365,24 +361,24 @@ class Page extends PureComponent {
                         <ComponentRender
                             componentId={component.componentId}
                             componentProps={componentProps}
-                            __images__={__images__} />
+                            componentImages={component.images} />
                     </Operations>
                     {operations[id] && operations[id].propsFormVisible ? (
                         <ComponentEditor
                             componentId={component.componentId}
                             componentProps={componentProps}
                             onlyEditableOptions={isTemplateComponent}
-                            __images__={__images__}
+                            componentImages={component.images}
                             onChangeProps={(newProps, errors, images) => {
                                 this.setConfig({
                                     componentsData: {
                                         ...page.config.componentsData,
                                         [page.config[id]]: {
                                             ...page.config.componentsData[page.config[id]],
-                                            props: newProps
+                                            props: newProps,
+                                            images
                                         }
-                                    },
-                                    __images__: images
+                                    }
                                 });
                             }} />
                     ) : null}
@@ -545,23 +541,23 @@ class Page extends PureComponent {
                     <ComponentRender
                         componentId={component.componentId}
                         componentProps={component.props}
-                        __images__={page.config['__images__']} />
+                        componentImages={component.images} />
                 </Operations>
                 { operations[`${blockId}:${index}`] && operations[`${blockId}:${index}`].propsFormVisible ? (
                     <ComponentEditor
                         componentId={component.componentId}
                         componentProps={component.props}
-                        __images__={page.config['__images__']}
+                        componentImages={component.images}
                         onChangeProps={(newProps, errors, images) => {
                             this.setConfig({
                                 componentsData: {
                                     ...page.config.componentsData,
                                     [components[index]]: {
                                         ...page.config.componentsData[components[index]],
-                                        props: newProps
+                                        props: newProps,
+                                        images
                                     }
-                                },
-                                __images__: images
+                                }
                             });
                         }} />
                 ) : null}
