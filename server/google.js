@@ -17,6 +17,7 @@ exports.generate = async function () {
         const category = project.get('categoryId');
 
         const name = category.get('name2');
+        const price = project.prices && category.complectationBlocks && project.prices[category.complectationBlocks.defaultItemId] ? project.prices[category.complectationBlocks.defaultItemId] : 0;
 
         offers.push({
             item: {
@@ -26,7 +27,7 @@ exports.generate = async function () {
                 'g:link': `${DOMAIN}/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
                 'g:image_link': `${DOMAIN}${project.get('images').main}`,
                 'g:availability': 'in stock',
-                'g:price': `${project.get('price')} RUB`,
+                'g:price': `${price} RUB`,
                 'g:condition': 'new',
                 'g:google_product_category': `114`,
                 'g:identifier_exists': `false`,
