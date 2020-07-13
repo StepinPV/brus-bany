@@ -170,7 +170,7 @@ function renderAdditions(project, data, additions, withPrice) {
                                 }
 
                                 items.push(
-                                    <div className={styles['preview-group-item']}>{name} { withPrice ? <span className={styles['preview-price']}>{` ${numberWithSpaces(itemPrice)} рублей`}</span> : null}</div>
+                                    <div className={styles['preview-group-item']}>{name}{type !== 'boolean' && data.additions[_id] > 1 ? ` (${data.additions[_id]} шт) ` : ' '}{ withPrice ? <span className={styles['preview-price']}>{` ${numberWithSpaces(itemPrice)} рублей`}</span> : null}</div>
                                 );
                             }
                         });
