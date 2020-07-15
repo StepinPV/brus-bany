@@ -106,7 +106,7 @@ class Photos extends PureComponent {
         return categories && photos ? (
             <>
                 <H1Block
-                    caption={`Фотоотчеты построенных ${title}`}
+                    caption={`Фотоотчеты ${title}`}
                     description={`За все время работы мы построили огромное количество ${title}. В данном разделе вы можете просмотреть фотографии, видеообзоры, отзывы и описание данных проектов.`} />
                 {this.renderCategories()}
                 {this.renderPhotos()}
