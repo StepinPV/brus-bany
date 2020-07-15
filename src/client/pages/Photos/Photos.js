@@ -16,7 +16,7 @@ const breadcrumbsDefault = [{
     title: 'Главная',
     link: '/'
 }, {
-    title: 'Фотоотчеты построенных бань',
+    title: 'Фотоотчеты',
     link: '/photos'
 }];
 

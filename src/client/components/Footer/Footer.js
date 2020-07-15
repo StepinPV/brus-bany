@@ -77,7 +77,7 @@ function Footer({ hasLinkToMain }) {
                 </nav>
                 <nav className={styles.column}>
                     <div className={styles['items-header']}>ДОПОЛНИТЕЛЬНО</div>
-                    <a href='/photos' className={styles['items-item']}>Фотоотчеты построенных бань</a>
+                    <a href='/photos' className={styles['items-item']}>Фотоотчеты</a>
                     <a href='/blog' className={styles['items-item']}>Блог</a>
                     <a href='/akcii' className={styles['items-item']}>Скидки и акции</a>
                     <a href='/voprosy-i-otvety' className={styles['items-item']}>Вопросы и ответы</a>

@@ -65,7 +65,7 @@ class Main extends PureComponent {
                 {photos.length ? (
                     <DataSection
                         bgStyle='grey'
-                        caption='Фотоотчеты построенных бань'
+                        caption='Фотоотчеты'
                         description='За все время работы мы построили огромное количество объектов различной сложности. В данном разделе вы можете просмотреть фотографии, видеообзоры, отзывы и описание данных проектов.'
                         captionTag='h2'>
                         <CardList items={photos.map(photo => ({

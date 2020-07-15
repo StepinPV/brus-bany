@@ -206,7 +206,7 @@ class Project extends PureComponent {
                 {this.renderAdditions()}
                 {this.renderFinalPrice()}
                 {photos && photos.length ? (
-                    <DataSection bgStyle='white' caption='Фотоотчеты построенной бани' captionTag='h2'>
+                    <DataSection bgStyle='white' caption='Фотоотчеты'>
                         <CardList items={photos.map(photo => ({
                             id: photo._id,
                             element: (

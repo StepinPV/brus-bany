@@ -324,8 +324,7 @@ class Category extends PureComponent {
             return (
                 <DataSection
                     bgStyle='grey'
-                    caption={filteredPhotos.length ? `Фотоотчеты<br/>${this.getH1()}` : `Фотоотчеты построенных ${category.name3}`}
-                    isCaptionHTML
+                    caption='Фотоотчеты'
                     captionTag='h2'>
                     <CardList items={(filteredPhotos.length ? filteredPhotos : photos).slice(0, 6).map(photo => ({
                         id: photo._id,
