@@ -312,23 +312,38 @@ class Category extends PureComponent {
 
     renderPhotos = () => {
         const { photos, category } = this.props;
+        const { filters } = this.state;
 
-        return photos && photos.length ? (
-            <DataSection bgStyle='grey' caption={`Фотоотчеты построенных ${category.name3}`} captionTag='h2'>
-                <CardList items={photos.map(photo => ({
-                    id: photo._id,
-                    element: (
-                        <PhotoCard
-                            photo={photo}
-                            category={category}
-                            layout={photo.projectId.layoutId} />
-                    )
-                }))} />
-                <div className={styles['photos-button-container']}>
-                    <Link href={`/photos/${category.translateName}`} caption='Смотреть все' />
-                </div>
-            </DataSection>
-        ) : null;
+        if (photos && photos.length) {
+            const filteredPhotos = photos.filter(photo => {
+                const project = photo.projectId;
+                // eslint-disable-next-line
+                return filters.every(filter => eval(filter.condition));
+            });
+
+            return (
+                <DataSection
+                    bgStyle='grey'
+                    caption={filteredPhotos.length ? `Фотоотчеты<br/>${this.getH1()}` : `Фотоотчеты построенных ${category.name3}`}
+                    isCaptionHTML
+                    captionTag='h2'>
+                    <CardList items={(filteredPhotos.length ? filteredPhotos : photos).slice(0, 6).map(photo => ({
+                        id: photo._id,
+                        element: (
+                            <PhotoCard
+                                photo={photo}
+                                category={category}
+                                layout={photo.projectId.layoutId} />
+                        )
+                    }))} />
+                    <div className={styles['photos-button-container']}>
+                        <Link href={`/photos/${category.translateName}`} caption='Смотреть все' />
+                    </div>
+                </DataSection>
+            );
+        }
+
+        return null;
     };
 
     getTitle = () => {

@@ -8,7 +8,7 @@ function Filters({ filters, pathname }) {
             {
                 filters.map(({ name, filters }) => filters && filters.length ? (
                     <div className={styles.group}>
-                        <div className={styles.name}>{name}:</div>
+                        {name ? <div className={styles.name}>{name}:</div> : null}
                         <div className={styles.items}>
                             {
                                 filters.map(({ id, name }) => (

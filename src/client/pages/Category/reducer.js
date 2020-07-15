@@ -74,7 +74,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isPhotosFetch: false,
-                photos: action.payload ? sortByDate(action.payload).slice(0, 6) : []
+                photos: action.payload ? sortByDate(action.payload) : []
             };
 
         case GET_PHOTOS_ERROR:
