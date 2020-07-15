@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import Card from '../../../../../components/Card';
+import Card from '../../../../../components/CardMini';
 import DataSection from '../../../../components/DataSection';
 import styles from './ProjectBlock.module.css';
 
