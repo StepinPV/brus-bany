@@ -126,7 +126,7 @@
 
 @media screen and (min-width: 641px) {
     .item {
-        width: calc(50% - 16px);
+        width: calc(50% - 8px);
     }
 }
 
