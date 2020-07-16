@@ -199,6 +199,14 @@ class Project extends PureComponent {
                     {this.renderInfo()}
                 </div>
                 <Breadcrumbs items={breadcrumbs} />
+                <div className={styles['page-info']}>
+                    <div className={styles['page-info-icon']}>!</div>
+                    <div className={styles['page-info-text-container']}>
+                        <div className={styles['page-info-text']}>
+                            Далее вы можете подробно рассчитать итоговую стоимость бани, выбрав комплектацию, дополнения и адрес доставки
+                        </div>
+                    </div>
+                </div>
                 {this.renderComplectationBlock()}
                 {this.renderEquipment()}
                 {this.renderProjectBlocks()}
@@ -438,11 +446,11 @@ class Project extends PureComponent {
                     <Button onClick={() => { showForm({ source: match.url }) }} className={styles['info-button']} caption='Обсудить проект со специалистом' size='s' type='yellow' />
                 </div>
                 <div className={styles['info-build-time']}>Срок строительства - {project.buildTime} дней</div>
-                <div className={styles['info-links']}>
-                    <div className={styles['info-links-header']}>Из чего складывается итоговая цена?</div>
-                    <a href='#base' className={styles['info-links-item']}>1. Комплектация</a>
-                    <a href='#additions' className={styles['info-links-item']}>2. Дополнения к бане</a>
-                    <a href='#delivery' className={styles['info-links-item']}>3. Стоимость доставки</a>
+                <div className={styles['info-block-promo']}>
+                    ★ Мы гарантируем <span style={{ fontWeight: 'bold', color: '#5e9300' }}>лучшую цену</span>. Пришлите предложение от конкурентов и мы сделаем вам <span style={{ fontWeight: 'bold', color: '#d7b32a' }}>предложение лучше</span>
+                </div>
+                <div className={styles['info-block-promo']}>
+                    ★ Работаем <span style={{ fontWeight: 'bold', color: '#359bd0' }}>без предоплаты</span>
                 </div>
             </div>
         )
