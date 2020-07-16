@@ -203,7 +203,7 @@ class Project extends PureComponent {
                     <div className={styles['page-info-icon']}>!</div>
                     <div className={styles['page-info-text-container']}>
                         <div className={styles['page-info-text']}>
-                            Далее вы можете подробно рассчитать итоговую стоимость бани, выбрав комплектацию, дополнения и адрес доставки
+                            Далее вы можете автоматически рассчитать итоговую стоимость бани, выбрав комплектацию, дополнения и адрес доставки
                         </div>
                     </div>
                 </div>
