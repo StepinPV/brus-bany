@@ -491,12 +491,21 @@ class Project extends PureComponent {
                         type='yellow' />
                 </div>
                 <div className={styles['final-price-block']}>
-                    <div className={styles['final-price-block-title']}>{`Итоговая стоимость: ${numberWithSpaces(finalPrice)} руб`}</div>
-                    <Button
-                        onClick={() => { showForm({ source: match.url, title: 'Оформление заявки' }) }}
-                        caption='Заказать баню'
-                        size='s'
-                        type='yellow' />
+                    <div className={styles['final-price-block-content']}>
+                        <div className={styles['final-price-block-title']}><span className={styles['final-price-block-title-desktop']}>Итоговая стоимость: </span><span className={styles['final-price-block-title-mobile']}>Итого: </span>{numberWithSpaces(finalPrice)} руб</div>
+                        <Button
+                            onClick={() => { showForm({ source: match.url, title: 'Оформление заявки' }) }}
+                            caption='Оформить заявку'
+                            size='s'
+                            type='yellow' />
+                    </div>
+                    <a
+                        href='https://api.whatsapp.com/send?phone=79210290107'
+                        title='Перейти в WatsApp'
+                        target='_blank'
+                        rel="noopener noreferrer">
+                        <i className={styles['whats-app']} />
+                    </a>
                 </div>
             </>
         )

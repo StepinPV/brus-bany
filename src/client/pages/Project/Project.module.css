@@ -68,15 +68,21 @@
 
 .final-price-block {
     background: #101010;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 10;
+    display: flex;
+    align-items: center;
+}
+
+.final-price-block-content {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
 }
 
 .final-price-block-title {
@@ -117,6 +123,17 @@
     padding: 48px 0;
 }
 
+@media screen and (min-width: 641px) {
+    .final-price-block-title-mobile {
+        display: none;
+    }
+
+    .whats-app {
+        width: 48px;
+        height: 48px;
+    }
+}
+
 @media screen and (max-width: 640px) {
     .top-block {
         flex-wrap: wrap;
@@ -130,4 +147,27 @@
     .info {
         margin: 0 8px;
     }
+
+    .final-price-block-title {
+        font-size: 14px;
+    }
+
+    .final-price-block-title-desktop {
+        display: none;
+    }
+
+    .whats-app {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.whats-app {
+    background-image: url('./resources/whatsapp.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: block;
+    cursor: pointer;
+    margin-right: 12px;
 }
