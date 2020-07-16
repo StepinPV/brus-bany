@@ -188,6 +188,12 @@
     color: #425a49;
 }
 
+@media screen and (max-width: 640px) {
+    .page-info-text {
+        text-align: left;
+    }
+}
+
 .page-info-text-container {
     flex-grow: 1;
     display: flex;

@@ -203,7 +203,7 @@ class Project extends PureComponent {
                     <div className={styles['page-info-icon']}>!</div>
                     <div className={styles['page-info-text-container']}>
                         <div className={styles['page-info-text']}>
-                            Далее вы можете автоматически рассчитать итоговую стоимость бани, выбрав комплектацию, дополнения и адрес доставки
+                            Далее вы можете самостоятельно рассчитать итоговую стоимость бани, выбрав комплектацию, дополнения и адрес доставки
                         </div>
                     </div>
                 </div>
@@ -447,10 +447,13 @@ class Project extends PureComponent {
                 </div>
                 <div className={styles['info-build-time']}>Срок строительства - {project.buildTime} дней</div>
                 <div className={styles['info-block-promo']}>
-                    ★ Мы гарантируем <span style={{ fontWeight: 'bold', color: '#5e9300' }}>лучшую цену</span>. Пришлите предложение от конкурентов и мы сделаем вам <span style={{ fontWeight: 'bold', color: '#d7b32a' }}>предложение лучше</span>
+                    ★ Гарантируем <span style={{ fontWeight: 'bold', color: '#5e9300' }}>лучшую цену</span>, так как являемся прямым производителем
                 </div>
                 <div className={styles['info-block-promo']}>
                     ★ Работаем <span style={{ fontWeight: 'bold', color: '#359bd0' }}>без предоплаты</span>
+                </div>
+                <div className={styles['info-block-promo']}>
+                    ★ Имеем <span style={{ fontWeight: 'bold', color: '#d7b32a' }}>более 10 лет</span> опыта
                 </div>
             </div>
         )
