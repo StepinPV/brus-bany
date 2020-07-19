@@ -321,7 +321,7 @@ const renderTZ = (project, formValue, data, infoBlock, finalPrice, projectName) 
         </div>
     )
 }
-const renderDogovorHeader = (project, formValue, data, finalPrice, projectName) => {
+const renderDogovorHeader = (project, formValue) => {
     return (
         <>
             <br/><br/>
@@ -464,7 +464,7 @@ const pravila = () => {
             <div><b style={{ textAlign: 'center' }}>Запрещено</b></div>
             <br/>
             <div>1. Растапливать печь легковоспламеняющимися жидкостями (бензин, керосин и т. п.)</div>
-            <div>2. Находиться в бане в состоянии алкогольного опьянения</div>
+            <div>2. Находиться в изделии в состоянии алкогольного опьянения</div>
             <div>3. Оставлять без надзора горящую печь, а также поручать надзор малолетним детям</div>
             <div>4. Разогревать трубы дымохода печи до красного цвета</div>
             <div>5. Высыпать вблизи строений непогашенные угли или золу</div>
@@ -473,14 +473,14 @@ const pravila = () => {
             <div>8. Топить печь с открытой дверцей</div>
             <div>9. Оставлять воду в баке после использования</div>
             <div>10. Сушить дрова, одежду и другие сгораемые предметы на печи или около нее</div>
-            <div>11. Хранить в помещении дрова в количестве, превышающем потребность для разового использования бани</div>
-            <div>12. Вносить изменения в конструкцию бани и её оборудование</div>
+            <div>11. Хранить в помещении дрова в количестве, превышающем потребность для разового использования изделия</div>
+            <div>12. Вносить изменения в конструкцию изделия и её оборудование</div>
             <div>13. Топить банную печь без воды</div>
             <br/>
             <div style={{ textAlign: 'justify' }}>
                 Изготовитель предоставляет гарантию только при соблюдении условий эксплуатаций и правил ухода.
                 Если вы нарушаете правила эксплуатации, мы не можем гарантировать сохранение эксплуатационных
-                свойств бани из бруса, и не принимаем претензии по качеству.
+                свойств изделия, и не принимаем претензии по качеству.
             </div>
         </>
     )
@@ -735,7 +735,7 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
                 помещении, половой доски в каждой комнате.
             </div>
             <br/><br/>
-            <div>Планировка бани:</div>
+            <div>Планировка:</div>
             <img src={formValue.images['scheme']} style={{ width: '100%' }} />
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
@@ -1320,7 +1320,7 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
                 Приложение №1 к договору Купли-Продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
-            {renderSpecification(projectName, project, categoryId, data)}
+            {renderSpecification(projectName.replace('Каркасная баня', 'Каркасное изделие').replace('Баня', 'Изделие'), project, categoryId, data)}
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
                 Приложение №2 к договору Купли-Продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
