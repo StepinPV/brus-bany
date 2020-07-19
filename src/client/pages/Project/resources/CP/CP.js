@@ -274,10 +274,10 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
                 ))}
             </div>
             {renderComplectation(project, data, true)}
-            {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipment(project, data, categoryId.baseEquipment) : null}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
                 return renderProjectBlock(projectBlock, project, data, true)
             }) : null}
+            {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipment(project, data, categoryId.baseEquipment) : null}
             {data.additions && project.categoryId.additions ? renderAdditions(project, data, project.categoryId.additions, true) : null}
             {data.delivery && project.categoryId.deliveryData.delivery ? renderDelivery(data) : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? renderCustomAdditions(formValue.additionalData) : null}
@@ -297,10 +297,10 @@ const renderTZ = (project, formValue, data, infoBlock, finalPrice, projectName) 
             <br/><br/>
             {renderComplectation(project, data, true)}
             <br/>
-            {data.equipment && project.categoryId.baseEquipment ? <>{renderBaseEquipment(project, data, project.categoryId.baseEquipment, true)}<br/></> : null}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
                 return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data, true)}<br/></> : null
             }) : null}
+            {data.equipment && project.categoryId.baseEquipment ? <>{renderBaseEquipment(project, data, project.categoryId.baseEquipment, true)}<br/></> : null}
             {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions, true)}<br/></> : null}
             {data.delivery && project.categoryId.deliveryData.delivery ? <>{renderDelivery(data)}<br/></> : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? <>{renderCustomAdditions(formValue.additionalData)}<br/></> : null}
@@ -312,10 +312,10 @@ const renderTZ = (project, formValue, data, infoBlock, finalPrice, projectName) 
             <br/>
             {renderComplectation(project, data)}
             <br/>
-            {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipmentForDogovor(project, data, categoryId.baseEquipment) : null}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
                 return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}<br/></> : null
             }) : null}
+            {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipmentForDogovor(project, data, categoryId.baseEquipment) : null}
             {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}<br/></> : null}
             <img src={formValue.images['scheme']} style={{ width: '100%' }} />
         </div>
@@ -395,10 +395,10 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
             <br/><br/>
             {renderComplectation(project, data, true)}
             <br/>
-            {data.equipment && project.categoryId.baseEquipment ? <>{renderBaseEquipment(project, data, project.categoryId.baseEquipment, true)}<br/></> : null}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
                 return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data, true)}<br/></> : null
             }) : null}
+            {data.equipment && project.categoryId.baseEquipment ? <>{renderBaseEquipment(project, data, project.categoryId.baseEquipment, true)}<br/></> : null}
             {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions, true)}<br/></> : null}
             {data.delivery && project.categoryId.deliveryData.delivery ? <>{renderDelivery(data)}<br/></> : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? <>{renderCustomAdditions(formValue.additionalData)}<br/></> : null}
@@ -416,10 +416,11 @@ const renderSpecification = (projectName, project, categoryId, data) => {
             <br/>
             {renderComplectation(project, data)}
             <br/>
-            {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipmentForDogovor(project, data, categoryId.baseEquipment) : null}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
                 return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}<br/></> : null
             }) : null}
+            {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipmentForDogovor(project, data, categoryId.baseEquipment) : null}
+
             {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}<br/></> : null}
         </>
     )
@@ -427,7 +428,7 @@ const renderSpecification = (projectName, project, categoryId, data) => {
 const pravila = () => {
     return (
         <>
-            <div><b style={{ textAlign: 'center' }}>Правила эксплуатации бани</b></div>
+            <div><b style={{ textAlign: 'center' }}>Правила эксплуатации</b></div>
             <br/>
             <div style={{ textAlign: 'justify' }}>
                 1. Вследствие использования в строительстве стенового материала атмосферной сушки, внутри
@@ -440,7 +441,7 @@ const pravila = () => {
             <div style={{ textAlign: 'justify' }}>
                 2. Перед использованием бани по назначению, необходимо протопить печь, не менее двух раз,
                 (будите внимательны, без воды в баке печь топить нельзя), для обеспечения выветривания
-                составов, которыми обработана печь. После этого необходимо проветрить баню.
+                составов, которыми обработана печь. После этого необходимо проветрить сооружение.
             </div>
             <div style={{ textAlign: 'justify' }}>
                 3. После каждого использования бани необходимо обеспечивать сквозное проветривание:
@@ -495,7 +496,7 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             <br/>
             <div style={{ textAlign: 'justify' }}>
                 1.1 В соответствии с условиями настоящего Договора Продавец обязуется изготовить из
-                собственных материалов, доставить и установить Покупателю мобильную баню (далее именуемая
+                собственных материалов, доставить и установить Покупателю мобильное сооружение (далее именуемая
                 «Баня») в комплектации и стоимости согласно спецификации приложения №1, которое является
                 неотъемлемой частью настоящего Договора, а Покупатель – принять ее в установленном порядке
                 и оплатить.
@@ -619,7 +620,7 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
                 4.7 В случаях, когда невозможен подъезд автотехники Продавца к месту разгрузки изделия, состояние
                 дорог, не позволяющее проехать и произвести машине необходимые маневры (определяет
                 представитель Продавца), ограничения, наложенные ГИБДД, не позволяющие проехать к месту
-                разгрузки бани, готовая баня возвращается назад с оплатой Покупателем транспортных расходов в
+                разгрузки бани, готовое сооружение возвращается назад с оплатой Покупателем транспортных расходов в
                 соответствии с п. 2.2, по двойному тарифу.
             </div>
             <br/>

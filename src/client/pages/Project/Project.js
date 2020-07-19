@@ -208,8 +208,8 @@ class Project extends PureComponent {
                     </div>
                 </div>
                 {this.renderComplectationBlock()}
-                {this.renderEquipment()}
                 {this.renderProjectBlocks()}
+                {this.renderEquipment()}
                 {this.renderDelivery()}
                 {this.renderAdditions()}
                 {this.renderFinalPrice()}
