@@ -486,7 +486,7 @@ const pravila = () => {
     )
 }
 
-/*const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
+const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
         <div className={styles.dogovor}>
@@ -784,7 +784,7 @@ const pravila = () => {
             {pravila()}
         </div>
     )
-}*/
+}
 const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
