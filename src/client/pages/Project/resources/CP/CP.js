@@ -307,7 +307,7 @@ const renderTZ = (project, formValue, data, infoBlock, finalPrice, projectName) 
             {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
             <br/>
             <br/>
-            <b>Спецификация бани:</b>
+            <b>Спецификация:</b>
             <br/>
             <br/>
             {renderComplectation(project, data)}
@@ -409,7 +409,7 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
 const renderSpecification = (projectName, project, categoryId, data) => {
     return (
         <>
-            <b>Спецификация бани:</b>
+            <b>Спецификация:</b>
             <br/>
             <br/>
             <div>{projectName}</div>
@@ -486,14 +486,13 @@ const pravila = () => {
     )
 }
 
-const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
+/*const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
         <div className={styles.dogovor}>
             {renderDogovorHeader(project, formValue, data, finalPrice, projectName)}
             <br/>
             <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 1.1 В соответствии с условиями настоящего Договора Продавец обязуется изготовить из
                 собственных материалов, доставить и установить Покупателю мобильное сооружение (далее именуемая
@@ -511,7 +510,6 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>2. ЦЕНА ДОГОВОРА, СРОКИ, ПОРЯДОК ОПЛАТЫ ТОВАРА</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 2.1 Цена настоящего договора составляет {numberWithSpaces(finalPrice + getCustomAdditionsPrice(formValue))} рублей
                 без НДС на основании п. 2 ст. 346.11 НК РФ.
@@ -535,7 +533,6 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>3. КАЧЕСТВО, КОМПЛЕКТНОСТЬ и ГАРАНТИЯ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.1 Качество и комплектность поставляемой Бани определяется в соответствии со спецификацией
                 (Приложение № 1 к настоящему Договору) к поставляемой бане.
@@ -589,7 +586,6 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>4. ПОРЯДОК ИЗГОТОВЛЕНИЯ И ПОСТАВКИ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 4.1 Продавец обязуется изготовить и доставить Покупателю баню, по указанному в приложение 1
                 адресу. Доставка производится автотранспортом Продавца.
@@ -625,7 +621,6 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>5. ПРИЕМКА ТОВАРА</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 5.1 Приемка Бани по внешнему виду, качеству, количеству и комплектности производится
                 Покупателем в присутствии представителя Продавца и оформляется двусторонним актом приема-
@@ -639,7 +634,6 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/><br/>
             <h3 style={{ textAlign: 'center' }}>6. ИМУЩЕСТВЕННАЯ ОТВЕТСТВЕННОСТЬ СТОРОН</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 6.1 При неисполнении или ненадлежащем исполнении обязательств, установленных настоящим
                 Договором, виновная сторона обязана возместить другой стороне убытки в полном объеме в течение
@@ -665,7 +659,6 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>7. СРОК ДЕЙСТВИЯ ДОГОВОРА. ИЗМЕНЕНИЕ И РАСТОРЖЕНИЕ ДОГОВОРА</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 7.1 Настоящий Договор вступает в силу с момента его подписания и согласования Сторонами и
                 заканчивает свое действие после надлежащего выполнения Сторонами всех своих обязательств,
@@ -685,7 +678,6 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>8. РАЗРЕШЕНИЕ СПОРОВ МЕЖДУ СТОРОНАМИ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 8.1 Спорные вопросы, возникающие в ходе исполнения настоящего договора, разрешаются
                 Сторонами путем переговоров, а возникшие договоренности в обязательном порядке фиксируются
@@ -699,7 +691,6 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>9. ОСОБЫЕ УСЛОВИЯ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 9.1 Любое уведомление сторон по данному Договору отправляется в виде заказного письма с
                 уведомлением о вручении по его адресу. Уведомление считается переданным на момент получения
@@ -718,7 +709,6 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>10. ПРИЛОЖЕНИЯ К ДОГОВОРУ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 10.1 Приложение № 1 – Спецификация бани.
             </div>
@@ -736,7 +726,7 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             {renderProtocol(project, formValue, finalPrice, categoryId, data)}
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
-                Приложение №1 к договору Купли-Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
+                Приложение №1 к договору Купли-Продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
             {renderSpecification(projectName, project, categoryId, data)}
@@ -794,7 +784,7 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             {pravila()}
         </div>
     )
-}
+}*/
 const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
@@ -802,7 +792,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             {renderDogovorHeader(project, formValue, data, finalPrice, projectName)}
             <br/>
             <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 1.1 Подрядчик обязуется по заданию Заказчика в сроки и в порядке, предусмотренном Договором,
                 выполнить работы по изготовлению, доставке и сборке, на указанном Заказчиком земельном участке,
@@ -812,7 +801,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>2. СРОКИ И ПОРЯДОК ПРОИЗВОДСТВА РАБОТ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 2.1 Подрядчик обязуется:
             </div>
@@ -833,7 +821,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>3. СТОИМОСТЬ РАБОТ И ПОРЯДОК РАСЧЕТОВ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 3.1 Стоимость Изделия по Договору в соответствии со спецификацией составляет {numberWithSpaces(finalPrice + getCustomAdditionsPrice(formValue))} рублей,
                 НДС не облагается на основании п. 2 ст. 346.11 НК РФ.
@@ -859,7 +846,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>4. ТРАНСПОРТНЫЕ УСЛУГИ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 4.1 Заказчик заранее осуществляет подготовку участка для строительства изделия,
                 (Уборка мусора, снега, выравнивание участка, обеспечение подъездных путей к участку)
@@ -896,7 +882,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>5. ТРЕБОВАНИЯ, ПРЕДЪЯВЛЯЕМЫЕ К КАЧЕСТВУ РАБОТ И МАТЕРИАЛА</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 5.1 Качество работ, выполняемых Подрядчиком, должно одновременно соответствовать:
                 <br/>а) требованиям, установленным Договором и приложениям к нему;
@@ -926,7 +911,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>6. ПРАВА И ОБЯЗАННОСТИ СТОРОН</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 6.1 Права и обязанности Подрядчика.
             </div>
@@ -1014,7 +998,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>7. ПОРЯДОК ПРИЕМКИ РАБОТ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 7.1 Приемка результата Работ по внешнему виду, качеству и комплектности производится
                 на земельном участке Заказчика в присутствии представителя Подрядчика и
@@ -1050,7 +1033,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>8. ОТВЕТСТВЕННОСТЬ СТОРОН</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 8.1 За неисполнение или ненадлежащее исполнение настоящего Договора
                 Стороны несут ответственность в соответствии с действующим законодательством Российской Федерации.
@@ -1081,7 +1063,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>9. УСЛОВИЯ ПРОВЕДЕНИЯ РАБОТ НА ЗЕМЕЛЬНОМ УЧАСТКЕ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 9.1 Заказчик за свой счет обеспечивает бригаду Подрядчика временным жильём, электричеством,
                 водой и полевым туалетом. В случае отсутствия у «Заказчика» места для проживания рабочих,
@@ -1113,7 +1094,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>10. ГАРАНТИЙНЫЕ ОБЯЗАТЕЛЬСТВА</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 10.1 На Изделие, дается гарантия сроком на 12 месяцев: а именно, на протекание кровли,
                 на целостность конструкции.
@@ -1160,7 +1140,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>11. ФОРС-МАЖОР</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 11.1 Стороны освобождаются от ответственности за полное или частичное неисполнение
                 своих обязательств по настоящему Договору, если их неисполнение явилось следствием
@@ -1181,7 +1160,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>12. СРОК ДЕЙСТВИЯ ДОГОВОРА, ПОРЯДОК ЕГО ИЗМЕНЕНИЯ И РАСТОРЖЕНИЯ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 12.1 Договор вступает в силу с даты его подписания Сторонами и действует
                 до полного исполнения Сторонами взятых на себя обязательств.
@@ -1229,7 +1207,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>13. ОСОБЫЕ УСЛОВИЯ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 13.1 Все разногласия в рамках настоящего Договора Стороны осуществляют путем переговоров
                 и в претензионном порядке. Срок ответа на претензию – 10 календарных дней с
@@ -1274,7 +1251,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>14. ДОПОЛНИТЕЛЬНЫЕ УСЛОВИЯ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
                 14.1 Подрядчиком не выполняются электрические, сантехнические, малярные и
                 другие работы, непредусмотренные настоящим Договором.
@@ -1321,9 +1297,8 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/>
             <h3 style={{ textAlign: 'center' }}>15. ПРИЛОЖЕНИЯ К ДОГОВОРУ</h3>
-            <br/>
             <div style={{ textAlign: 'justify' }}>
-                15.1 Приложение №1 – Спецификация бани
+                15.1 Приложение №1 – Спецификация изделия
             </div>
             <div style={{ textAlign: 'justify' }}>
                 15.2 Приложение №2 – Планировочное решение
@@ -1342,20 +1317,20 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             {renderProtocol(project, formValue, finalPrice, categoryId, data)}
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
-                Приложение №1 к договору Купли-Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
+                Приложение №1 к договору Купли-Продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
             {renderSpecification(projectName, project, categoryId, data)}
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
-                Приложение №2 к договору Купли-Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
+                Приложение №2 к договору Купли-Продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
             <div>Схема:</div>
             <img src={formValue.images['scheme']} style={{ width: '100%' }} />
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
-                Приложение №3 к договору Купли-Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
+                Приложение №3 к договору Купли-Продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
             <div style={{ textAlign: 'center' }}>АКТ приема - передачи</div>
@@ -1371,7 +1346,7 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
                 <span style={{ wordBreak: 'break-all' }}>_______________________________________________________</span>, с другой стороны,
                 удостоверяем, что работы согласно договору № {formValue.documentNumber} и приложений №1 и №2 к данному
                 договору выполнены: произведен общий визуальный осмотр построенного объекта, проверена установка
-                окон и дверей, а также скрытых работ – утепление полов, потолков, утепление стен бани и углов.
+                окон и дверей, а также скрытых работ – утепление полов, потолков, утепление стен и углов.
                 Работы выполнены в срок.
             </div>
             <br/><br/>
@@ -1393,7 +1368,7 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             </div>
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
-                Приложение №4 к договору Купли-Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
+                Приложение №4 к договору Купли-Продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
             {pravila()}
