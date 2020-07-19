@@ -325,7 +325,7 @@ const renderDogovorHeader = (project, formValue) => {
     return (
         <>
             <br/><br/>
-            <h3 style={{ textAlign: 'center' }}>ДОГОВОР КУПЛИ - ПРОДАЖИ БАНИ № {formValue.documentNumber}</h3>
+            <h3 style={{ textAlign: 'center' }}>ДОГОВОР КУПЛИ - ПРОДАЖИ № {formValue.documentNumber}</h3>
             <br/>
             <div style={{ display: 'flex', justifyContent: 'space-around'}}>
                 <span>г. Пестово, Новгородская область</span>
