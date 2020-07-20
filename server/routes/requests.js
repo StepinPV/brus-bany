@@ -1,8 +1,8 @@
 const express = require('express');
-const Requests = require('../controllers/Requests');
-const nodemailer = require('../nodemailer');
-const watsup = require('../watsup');
-const sms = require('../sms');
+// const Requests = require('../controllers/Requests');
+// const nodemailer = require('../nodemailer');
+// const watsup = require('../watsup');
+// const sms = require('../sms');
 const bitrix = require('../bitrix');
 const utm = require('../utm');
 
@@ -19,7 +19,15 @@ router.post('/', async function(req, res, next) {
             created: new Date()
         };
 
-        const { status } = await Requests.create(requestData);
+        const utmParams = utm.get(req);
+
+        // nodemailer.send(requestData);
+        // watsup.send(requestData, host, utmParams);
+        bitrix.send(requestData, req.headers.referer, utmParams);
+        // sms.send(requestData);
+        send(res, req, 'success');
+
+        /*const { status } = await Requests.create(requestData);
 
         switch(status) {
             case 'success':
@@ -36,7 +44,7 @@ router.post('/', async function(req, res, next) {
                 break;
             default:
                 break;
-        }
+        }*/
     } catch(err) {
         next(err);
     }
