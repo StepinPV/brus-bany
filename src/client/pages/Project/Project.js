@@ -138,7 +138,7 @@ class Project extends PureComponent {
             if(e.keyCode === 80 && e.shiftKey) {
                 e.preventDefault();
                 e.stopPropagation();
-                this.historyPush({ CPMode: true });
+                this.historyPush({ CPMode: !this.state.CPMode });
             }
         });
     }

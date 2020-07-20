@@ -14,6 +14,8 @@ const config = require('./config');
 const renderRoute = require('./renderRoute');
 const redirects = require('./redirects');
 
+const Links = require('./controllers/Links');
+
 // const nodemailer = require('./nodemailer');
 // const sms = require('./sms');
 
@@ -66,11 +68,19 @@ app.use('/admin', auth, function(req, res, next) {
 
 app.use('/api', routes);
 
-app.get('*', (req, res, next) => {
+app.get('*', async (req, res, next) => {
     const index = redirects.FROM.indexOf(req.originalUrl);
 
     if (index !== -1) {
         res.redirect(301, redirects.TO[index]);
+    } else if(/^\/link_/.test(req.url)) {
+        const { status, data } = await Links.get(req.url);
+
+        if (status === 'success') {
+            res.redirect(301, data.get('to'));
+        } else {
+            next();
+        }
     } else {
         next();
     }

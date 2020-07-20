@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import numberWithSpaces from '@utils/numberWithSpaces';
 import Logo from '@components/Logo';
 import Caption from '../../../../components/Caption';
@@ -11,6 +11,7 @@ import renderDate from '@utils/RenderDate';
 import styles from './CP.module.css';
 import cx from "classnames";
 import stringHash from "../../../../../utils/stringHash";
+import axios from 'axios';
 
 function renderManager(id) {
     switch(id) {
@@ -1516,7 +1517,49 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
         addressAddition: CPData && CPData.addressAddition || '',
         mode: CPData && CPData.mode || 'cp',
         client: CPData && CPData.client || {},
+        viewMode: CPData && CPData.viewMode || false
     };
+
+    useEffect(() => {
+        let viewMode = formValue.viewMode
+        const keydownHandler = async (e) => {
+            if(e.keyCode === 67 && e.shiftKey) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const from = `/link_${Math.floor(Math.random() * (999999 - 1000) + 1000)}`;
+
+                await axios.post(`/api/links`, {
+                    data: {
+                        to: document.location.pathname + document.location.search,
+                        from
+                    }
+                });
+
+                navigator.clipboard.writeText(`${document.location.origin}${from}`)
+                    .then(() => {
+                        showNotification({ message: 'Ссылка скопирована', status: 'success' });
+                    })
+                    .catch(err => {
+                        showNotification({ message: 'Ошибка генерации ссылки', status: 'error' });
+                    });
+            }
+
+            if(e.keyCode === 86 && e.shiftKey) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                viewMode = !viewMode;
+                onChange({ ...formValue, viewMode });
+            }
+        };
+
+        document.addEventListener('keydown', keydownHandler);
+
+        return () => {
+            document.removeEventListener('keydown', keydownHandler);
+        }
+    }, []);
 
     function print() {
         let prtCSS = '';
@@ -1556,33 +1599,26 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
     }
 
     return (
-        <div className={styles.container}>
-            <div>
-                <div style={{ marginBottom: '32px' }}>
-                    <Caption align='center'>Генерация КП</Caption>
+        <div style={formValue.viewMode ? { width: '100%', padding: '0', margin: '0 auto', maxWidth: '900px' } : null} className={styles.container}>
+            {formValue.viewMode ? null : (
+                <div>
+                    <div style={{ marginBottom: '32px' }}>
+                        <Caption align='center'>Генерация КП</Caption>
+                    </div>
+                    <div style={{ margin: '0 48px' }}>
+                        <Button type='yellow' caption='Печать' size='s' className={styles['print-button']} onClick={print} />
+                        <Button type='red' caption='К проекту' size='s' className={styles['print-button']} onClick={onClose} />
+                    </div>
+                    <div className={styles.form}>
+                        <Form
+                            format={format}
+                            value={formValue}
+                            errors={{}}
+                            onChange={onChange} />
+                    </div>
                 </div>
-                <div style={{ margin: '0 48px' }}>
-                    <Button type='yellow' caption='Печать' size='s' className={styles['print-button']} onClick={print} />
-                    <Button type='red' caption='К проекту' size='s' className={styles['print-button']} onClick={onClose} />
-                    <Button type='red' caption='Скопировать ссылку' size='s' className={styles['print-button']} onClick={() => {
-                        navigator.clipboard.writeText(document.location.href)
-                            .then(() => {
-                                showNotification({ message: 'Ссылка скопирована', status: 'success' });
-                            })
-                            .catch(err => {
-                                showNotification({ message: 'Скопируйте ссылку вручную', status: 'error' });
-                            });
-                    }} />
-                </div>
-                <div className={styles.form}>
-                    <Form
-                        format={format}
-                        value={formValue}
-                        errors={{}}
-                        onChange={onChange} />
-                </div>
-            </div>
-            <div className={styles['content-preview']}>
+            )}
+            <div style={formValue.viewMode ? { position: 'inherit' } : null} className={styles['content-preview']}>
                 {renderPreview()}
             </div>
         </div>
