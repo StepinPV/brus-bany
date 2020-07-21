@@ -1,5 +1,5 @@
 const express = require('express');
-// const telegramBot = require('../telegram-bot');
+const telegramBot = require('../telegram-bot');
 
 const router = express.Router();
 
@@ -25,8 +25,8 @@ router.post('/', async function(req, res, next) {
 
                     message += '---+---+---+---';
 
-                    // telegramBot.send(27702291, message);
-                    // telegramBot.send(179886316, message);
+                    telegramBot.send(27702291, message);
+                    telegramBot.send(179886316, message);
                 }
             }
         }
