@@ -1,5 +1,6 @@
 const express = require('express');
 const telegramBot = require('../telegram-bot');
+const Links = require('../controllers/Links');
 
 const router = express.Router();
 
@@ -8,6 +9,8 @@ router.post('/', async function(req, res, next) {
         if (req.body.data) {
             switch(req.body.data.event) {
                 case 'document_view': {
+                    const { status: linkStatus, data: link } = await Links.get({ to: req.body.data.pathname });
+
                     let message = '---+---+---+---\n\n';
                     message += `Событие просмотра документа: ${req.body.data.documentName}\n`;
                     message += `Проект: ${req.body.data.projectName}\n`;
@@ -17,11 +20,15 @@ router.post('/', async function(req, res, next) {
                     }
 
                     if (req.body.data.client) {
-                        message += `Имя клиента: ${req.body.data.client.name}\n`;
-                        message += `Телефон клиента: ${req.body.data.client.phone}\n\n`;
+                        if (req.body.data.client.name) {
+                            message += `Имя клиента: ${req.body.data.client.name}\n`;
+                        }
+                        if (req.body.data.client.phone) {
+                            message += `Телефон клиента: ${req.body.data.client.phone}\n\n`;
+                        }
                     }
 
-                    message += `Ссылка на документ: ${req.body.data.link}\n`;
+                    message += `Ссылка на документ: ${req.body.data.host}${linkStatus === 'success' && link ? (link.get('from')) : req.body.data.pathname}\n`;
 
                     message += '---+---+---+---';
 

@@ -75,7 +75,7 @@ app.get('*', async (req, res, next) => {
     if (index !== -1) {
         res.redirect(301, redirects.TO[index]);
     } else if(/^\/link_/.test(req.url)) {
-        const { status, data } = await Links.get(req.url);
+        const { status, data } = await Links.get({ from: req.url });
 
         if (status === 'success') {
             res.redirect(301, data.get('to'));

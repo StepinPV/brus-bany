@@ -27,23 +27,4 @@ router.post('/', async function(req, res, next) {
     }
 });
 
-router.get('/:id', async function(req, res, next) {
-    try {
-        const { status, data, message } = await Links.get(req.body.data);
-
-        switch(status) {
-            case 'success':
-                send(res, { data, status });
-                break;
-            case 'error':
-                send(res, { message, status, data });
-                break;
-            default:
-                break;
-        }
-    } catch(err) {
-        next(err);
-    }
-});
-
 module.exports = router;

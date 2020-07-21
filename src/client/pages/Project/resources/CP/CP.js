@@ -265,9 +265,11 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
                     <div style={{ textAlign: 'right', margin: '4px 0' }}>{renderManager(formValue.manager)}</div>
                 </div>
             </div>
-            <div className={styles['preview-block']} style={{ display: 'flex' }}>
-                <img src={formValue.images.scheme} style={{ width: '50%' }}/>
-                {infoBlock}
+            <div className={styles['preview-block']} style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <img src={formValue.images.scheme} style={{ width: '100%', maxWidth: '400px' }} />
+                <div style={{ maxWidth: '400px' }}>
+                    {infoBlock}
+                </div>
             </div>
             <div className={cx(styles['preview-block'], styles['preview-images'])}>
                 {formValue.images.other.map(({ image }) => (
@@ -1529,14 +1531,12 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
                 data: {
                     event: 'document_view',
                     manager: managerName.title,
-                    client: formValue.client ? {
-                        name: formValue.client.name,
-                        phone: formValue.client.phone
-                    } : null,
+                    client: formValue.client,
                     documentNumber: formValue.documentNumber,
                     documentName: documentType.title,
                     projectName,
-                    link: document.location.href
+                    host: document.location.origin,
+                    pathname: document.location.pathname + document.location.search
                 }
             });
         }

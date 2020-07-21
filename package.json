@@ -47,7 +47,7 @@
     "react-helmet": "^5.2.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "react-yandex-maps": "^4.2.0",
+    "react-yandex-maps": "^4.2.0",  
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "request": "^2.88.2",

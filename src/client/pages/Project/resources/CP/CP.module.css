@@ -43,6 +43,7 @@
     height: 50px;
     max-width: 100%;
     object-fit: contain;
+    margin-right: 32px;
 }
 
 .cp .preview-images {
@@ -107,6 +108,12 @@
 .cp .preview-price {
     font-style: italic;
     font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+    .preview-block {
+        font-size: 12px !important;
+    }
 }
 
 .tz h3,

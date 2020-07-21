@@ -2,8 +2,8 @@ const Links = require('../models/Links');
 const Status = require('./Status');
 
 class Categories {
-    static async get(from) {
-        const link = await Links.findOne({ 'from': from });
+    static async get(params) {
+        const link = await Links.findOne(params);
 
         if (!link) {
             return Status.error('Ссылка не найдена!');
