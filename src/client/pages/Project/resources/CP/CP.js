@@ -266,7 +266,7 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
                     <div style={{ textAlign: 'right', margin: '4px 0' }}>{renderManager(formValue.manager)}</div>
                 </div>
             </div>
-            <div className={styles['preview-block']} style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div className={styles['preview-block']} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start' }}>
                 <img src={formValue.images.other[0].image} style={{ width: '100%', maxWidth: '300px', marginBottom: '16px' }} />
                 <div style={{ maxWidth: '400px' }}>
                     {infoBlock}
