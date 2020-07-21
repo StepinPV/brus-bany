@@ -11,8 +11,7 @@ router.post('/', async function(req, res, next) {
                 case 'document_view': {
                     const { status: linkStatus, data: link } = await Links.get({ to: req.body.data.pathname });
 
-                    let message = '---+---+---+---\n\n';
-                    message += `Событие просмотра документа: ${req.body.data.documentName}\n`;
+                    let message = `Событие просмотра документа: ${req.body.data.documentName}\n`;
                     message += `Проект: ${req.body.data.projectName}\n`;
                     message += `Менеджер: ${req.body.data.manager}\n\n`;
                     if (req.body.data.documentNumber) {
@@ -32,12 +31,10 @@ router.post('/', async function(req, res, next) {
 
                     message += '---+---+---+---';
 
-                    telegramBot.send(27702291, message);
-                    telegramBot.send(179886316, message);
+                    telegramBot.send('Павел', message);
+                    telegramBot.send('Игорь', message);
 
-                    telegramBot.send({
-                        'Павел': 27702291
-                    }[req.body.data.manager], message);
+                    telegramBot.send(req.body.data.manager, message);
                 }
             }
         }

@@ -5,29 +5,50 @@ let bot;
 
 const CHATS = {
     27702291: 'Павел',
-    179886316: 'Игорь'
+    179886316: 'Игорь',
+    1258968095: 'Константин',
+    1252816969: 'Вера'
 };
+
+const CHATS = [{
+    id: 27702291,
+    name: 'Павел'
+}, {
+    id: 179886316,
+    name: 'Игорь'
+}, {
+    id: 1258968095,
+    name: 'Константин'
+}, {
+    id: 1252816969,
+    name: 'Вера'
+}, {
+    id: 925807162,
+    name: 'Марина'
+}]
 
 module.exports.init = () => {
     bot = new TelegramBot('1377613799:AAFMa15az8V0bILnrolTtjGDbabbnBCV4_Q', { polling: true });
 
     bot.onText(/\/start/, (msg) => {
         const chatId = msg.chat.id;
+        const user = CHATS.find(item => item.id === chatId);
 
-        if (CHATS[chatId]) {
-            bot.sendMessage(chatId, `Добро пожаловать, ${CHATS[chatId]}! Мы с тобой уже знакомы.`);
+        if (user) {
+            bot.sendMessage(chatId, `Добро пожаловать, ${user.name}! Мы с тобой уже знакомы.`);
             return;
         }
 
-        bot.sendMessage(chatId, `Добро пожаловать! Твой уникальный ID ${msg.chat.id}. Перешли его Паше.`);
+        bot.sendMessage(chatId, `Добро пожаловать! Твой уникальный ID ${chatId}. Перешли его Паше.`);
     });
 
     logger.success('Telegram bot запущен!');
 };
 
-module.exports.send = (chatId, message) => {
+module.exports.send = (userName, message) => {
     if (bot) {
-        bot.sendMessage(chatId, message);
+        const user = CHATS.find(item => item.name === userName);
+        bot.sendMessage(user.id, message);
     }
 };
 
