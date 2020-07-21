@@ -104,7 +104,7 @@ db.init(config.db_url, config.db_name, () => {
 
 // nodemailer.init('smtp.yandex.ru', 465, 'brus-bany.ru', 'Brus@123');
 // sms.init('5327A0B1-137D-19A9-B7B9-3FE8D2F1CD21');
-telegramBot.init();
+// telegramBot.init();
 
 function generateFeeds() {
     sitemap.generate();
