@@ -28,7 +28,7 @@ router.post('/', async function(req, res, next) {
                         }
                     }
 
-                    message += `Ссылка на документ: ${req.body.data.host}${linkStatus === 'success' && link ? (link.get('from')) : req.body.data.pathname}\n`;
+                    message += `Ссылка на документ: ${req.body.data.host}${linkStatus === 'success' && link ? (link.get('from')) : req.body.data.pathname}\n\n`;
 
                     message += '---+---+---+---';
 

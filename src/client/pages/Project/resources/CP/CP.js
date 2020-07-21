@@ -266,7 +266,7 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
                 </div>
             </div>
             <div className={styles['preview-block']} style={{ display: 'flex', flexWrap: 'wrap' }}>
-                <img src={formValue.images.scheme} style={{ width: '100%', maxWidth: '400px' }} />
+                <img src={formValue.images.other[0].image} style={{ width: '100%', maxWidth: '400px', marginBottom: '16px' }} />
                 <div style={{ maxWidth: '400px' }}>
                     {infoBlock}
                 </div>
@@ -276,6 +276,7 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
                     <img src={image} />
                 ))}
             </div>
+            <img src={formValue.images.scheme} style={{ width: '100%' }} />
             {renderComplectation(project, data, true)}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
                 return renderProjectBlock(projectBlock, project, data, true)
