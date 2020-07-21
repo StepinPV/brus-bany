@@ -135,7 +135,7 @@ class Project extends PureComponent {
         }
 
         document.addEventListener('keydown', (e) => {
-            if(e.keyCode === 80 && e.shiftKey) {
+            if(e.keyCode === 49 && e.shiftKey) {
                 e.preventDefault();
                 e.stopPropagation();
                 this.historyPush({ CPMode: !this.state.CPMode });

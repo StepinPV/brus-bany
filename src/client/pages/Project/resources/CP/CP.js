@@ -1520,10 +1520,35 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
         viewMode: CPData && CPData.viewMode || false
     };
 
+    const sendViewEvent = async () => {
+        if (formValue.viewMode) {
+            const documentType = format.find(i => i._id === 'mode').items.find(i => i.id === formValue.mode);
+            const managerName = format.find(i => i._id === 'manager').items.find(i => i.id === formValue.manager);
+
+            await axios.post(`/api/events`, {
+                data: {
+                    event: 'document_view',
+                    manager: managerName.title,
+                    client: formValue.client ? {
+                        name: formValue.client.name,
+                        phone: formValue.client.phone
+                    } : null,
+                    documentNumber: formValue.documentNumber,
+                    documentName: documentType.title,
+                    projectName,
+                    link: document.location.href
+                }
+            });
+        }
+    };
+
     useEffect(() => {
-        let viewMode = formValue.viewMode
+        sendViewEvent();
+    }, []);
+
+    useEffect(() => {
         const keydownHandler = async (e) => {
-            if(e.keyCode === 67 && e.shiftKey) {
+            if(e.keyCode === 51 && e.shiftKey) {
                 e.preventDefault();
                 e.stopPropagation();
 
@@ -1545,12 +1570,11 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
                     });
             }
 
-            if(e.keyCode === 86 && e.shiftKey) {
+            if(e.keyCode === 50 && e.shiftKey) {
                 e.preventDefault();
                 e.stopPropagation();
 
-                viewMode = !viewMode;
-                onChange({ ...formValue, viewMode });
+                onChange({ ...formValue, viewMode: !formValue.viewMode });
             }
         };
 
@@ -1559,7 +1583,7 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
         return () => {
             document.removeEventListener('keydown', keydownHandler);
         }
-    }, []);
+    }, [CPData]);
 
     function print() {
         let prtCSS = '';
