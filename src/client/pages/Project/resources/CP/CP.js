@@ -1505,7 +1505,7 @@ const format = [{
 
 function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, showNotification, images, projectName }) {
     let containerRef = null;
-
+    // test
     const formValue = {
         images: CPData && CPData.images || images,
         manager: CPData && CPData.manager || '1',
