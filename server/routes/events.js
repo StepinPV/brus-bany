@@ -34,6 +34,10 @@ router.post('/', async function(req, res, next) {
 
                     telegramBot.send(27702291, message);
                     telegramBot.send(179886316, message);
+
+                    telegramBot.send({
+                        'Павел': 27702291
+                    }[req.body.data.manager], message);
                 }
             }
         }

@@ -18,6 +18,7 @@ function renderManager(id) {
         case '1': return 'C уважением, Марина: 8 (921) 204-65-12';
         case '2': return 'C уважением, Константин: 8 (901) 543-85-19';
         case '3': return 'C уважением, Вера: 8 (996) 927-81-28';
+        case '4': return 'C уважением, Павел: 8 (999) 863-93-69';
     }
 }
 
@@ -266,7 +267,7 @@ const renderCP = (project, formValue, data, infoBlock, finalPrice) => {
                 </div>
             </div>
             <div className={styles['preview-block']} style={{ display: 'flex', flexWrap: 'wrap' }}>
-                <img src={formValue.images.other[0].image} style={{ width: '100%', maxWidth: '400px', marginBottom: '16px' }} />
+                <img src={formValue.images.other[0].image} style={{ width: '100%', maxWidth: '300px', marginBottom: '16px' }} />
                 <div style={{ maxWidth: '400px' }}>
                     {infoBlock}
                 </div>
@@ -1410,6 +1411,9 @@ const format = [{
     }, {
         id: '3',
         title: 'Вера'
+    }, {
+        id: '4',
+        title: 'Павел'
     }]
 }, {
     _id: 'images',
