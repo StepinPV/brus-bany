@@ -16,7 +16,7 @@ const redirects = require('./redirects');
 
 const Links = require('./controllers/Links');
 
-const telegramBot = require('./telegram-bot');
+// const telegramBot = require('./telegram-bot');
 // const nodemailer = require('./nodemailer');
 // const sms = require('./sms');
 
