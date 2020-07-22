@@ -1316,7 +1316,7 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
                 Приложение №2 к договору Купли-Продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
-            <h3 style={{ textAlign: 'center' }}>СПЕЦИФИКАЦИЯ</h3>
+            <h3 style={{ textAlign: 'center' }}>СХЕМА</h3>
             <img src={formValue.images['scheme']} style={{ width: '100%' }} />
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
