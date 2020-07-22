@@ -16,7 +16,7 @@ import axios from 'axios';
 function renderManager(id) {
     switch(id) {
         case '1': return 'C уважением, Марина: 8 (921) 204-65-12';
-        case '2': return 'C уважением, Константин: 8 (901) 543-85-19';
+        case '2': return 'C уважением, Константинъ: 8 (901) 543-85-19';
         case '3': return 'C уважением, Вера: 8 (996) 927-81-28';
     }
 }
@@ -101,11 +101,9 @@ function renderBaseEquipmentForDogovor(project, data, equipment) {
             {equipment.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).map(({ name: groupName, value }) => (
                 <>
                     <b>{groupName}:</b>
-                    <br/>
                     {value ? value.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).map(({ name: itemName, value }) => {
                         return renderItem(groupName, itemName, value);
                     }) : null}
-                    <br/>
                 </>
             ))}
         </>
@@ -297,27 +295,16 @@ const renderTZ = (project, formValue, data, infoBlock, finalPrice, projectName) 
             <br/>
             <div>{formValue.client.name}, {formValue.client.phone}, {renderDate(new Date(formValue.projectDate))}, {data.delivery ? `${data.delivery.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : ''}</div>
             <br/>
-            <b>Протокол согласования цены:</b>
-            <br/><br/>
-            {renderComplectation(project, data, true)}
-            <br/>
-            {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
-                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data, true)}<br/></> : null
-            }) : null}
-            {data.equipment && project.categoryId.baseEquipment ? <>{renderBaseEquipment(project, data, project.categoryId.baseEquipment, true)}<br/></> : null}
-            {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions, true)}<br/></> : null}
-            {data.delivery && project.categoryId.deliveryData.delivery ? <>{renderDelivery(data)}<br/></> : null}
-            {formValue && formValue.additionalData && formValue.additionalData.length ? <>{renderCustomAdditions(formValue.additionalData)}<br/></> : null}
-            {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
+            {renderProtocol(project, formValue, finalPrice, categoryId, data)}
             <br/>
             <br/>
-            <b>Спецификация:</b>
-            <br/>
+            <div style={{ textAlign: 'center'}}>
+                <h3>Спецификация</h3>
+            </div>
             <br/>
             {renderComplectation(project, data)}
-            <br/>
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
-                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}<br/></> : null
+                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}</> : null
             }) : null}
             {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipmentForDogovor(project, data, categoryId.baseEquipment) : null}
             {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}<br/></> : null}
@@ -395,17 +382,16 @@ const renderRequizits = (formValue) => {
 const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
     return (
         <>
-            <b>Протокол согласования цены:</b>
-            <br/><br/>
-            {renderComplectation(project, data, true)}
+            <h3 style={{ textAlign: 'center' }}>ПРОТОКОЛ СОГЛАСОВАНИЯ ЦЕНЫ</h3>
             <br/>
+            {renderComplectation(project, data, true)}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
-                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data, true)}<br/></> : null
+                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data, true)}</> : null
             }) : null}
-            {data.equipment && project.categoryId.baseEquipment ? <>{renderBaseEquipment(project, data, project.categoryId.baseEquipment, true)}<br/></> : null}
-            {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions, true)}<br/></> : null}
-            {data.delivery && project.categoryId.deliveryData.delivery ? <>{renderDelivery(data)}<br/></> : null}
-            {formValue && formValue.additionalData && formValue.additionalData.length ? <>{renderCustomAdditions(formValue.additionalData)}<br/></> : null}
+            {data.equipment && project.categoryId.baseEquipment ? <>{renderBaseEquipment(project, data, project.categoryId.baseEquipment, true)}</> : null}
+            {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions, true)}</> : null}
+            {data.delivery && project.categoryId.deliveryData.delivery ? <>{renderDelivery(data)}</> : null}
+            {formValue && formValue.additionalData && formValue.additionalData.length ? <>{renderCustomAdditions(formValue.additionalData)}</> : null}
             {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
         </>
     )
@@ -413,19 +399,15 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
 const renderSpecification = (projectName, project, categoryId, data) => {
     return (
         <>
-            <b>Спецификация:</b>
-            <br/>
+            <h3 style={{ textAlign: 'center' }}>СПЕЦИФИКАЦИЯ</h3>
             <br/>
             <div>{projectName}</div>
-            <br/>
             {renderComplectation(project, data)}
-            <br/>
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
-                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}<br/></> : null
+                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}</> : null
             }) : null}
             {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipmentForDogovor(project, data, categoryId.baseEquipment) : null}
-
-            {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}<br/></> : null}
+            {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}</> : null}
         </>
     )
 }
@@ -494,6 +476,8 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
         <div className={styles.dogovor}>
+            <br/>
+            <br/>
             {renderDogovorHeader(project, formValue, data, finalPrice, projectName)}
             <br/>
             <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
@@ -636,7 +620,7 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
                 осуществляется Продавцом за свой счет в течение десяти календарных дней с момента обнаружения
                 таковых.
             </div>
-            <br/><br/>
+            <br/>
             <h3 style={{ textAlign: 'center' }}>6. ИМУЩЕСТВЕННАЯ ОТВЕТСТВЕННОСТЬ СТОРОН</h3>
             <div style={{ textAlign: 'justify' }}>
                 6.1 При неисполнении или ненадлежащем исполнении обязательств, установленных настоящим
@@ -746,7 +730,7 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
                 Приложение №2 к Договору Купли – Продажи Бани № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
-            <div style={{ textAlign: 'center' }}>АКТ приема - передачи</div>
+            <h3 style={{ textAlign: 'center' }}>АКТ ПРИЕМА - ПЕРЕДАЧИ</h3>
             <br/>
             <div style={{ display: 'flex', justifyContent: 'space-around'}}>
                 <span>___________________</span>
@@ -793,6 +777,8 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
         <div className={styles.dogovor}>
+            <br/>
+            <br/>
             {renderDogovorHeader(project, formValue, data, finalPrice, projectName)}
             <br/>
             <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
@@ -1330,14 +1316,14 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
                 Приложение №2 к договору Купли-Продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
-            <div>Схема:</div>
+            <h3 style={{ textAlign: 'center' }}>СПЕЦИФИКАЦИЯ</h3>
             <img src={formValue.images['scheme']} style={{ width: '100%' }} />
             <br/><br/>
             <div style={{ textAlign: 'end' }}>
                 Приложение №3 к договору Купли-Продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
             </div>
             <br/><br/>
-            <div style={{ textAlign: 'center' }}>АКТ приема - передачи</div>
+            <h3 style={{ textAlign: 'center' }}>АКТ ПРИЕМА - ПЕРЕДАЧИ</h3>
             <br/>
             <div style={{ display: 'flex', justifyContent: 'space-around'}}>
                 <span>___________________</span>
@@ -1406,7 +1392,7 @@ const format = [{
         title: 'Марина'
     }, {
         id: '2',
-        title: 'Константин'
+        title: 'Константинъ'
     }, {
         id: '3',
         title: 'Вера'
