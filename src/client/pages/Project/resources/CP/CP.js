@@ -1,5 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import numberWithSpaces from '@utils/numberWithSpaces';
+import rubles from '@utils/rubles';
+import wordByNumber from '@utils/wordByNumber';
 import Logo from '@components/Logo';
 import Caption from '../../../../components/Caption';
 import { Button } from '../../../../../components/Button';
@@ -12,6 +14,10 @@ import styles from './CP.module.css';
 import cx from "classnames";
 import stringHash from "../../../../../utils/stringHash";
 import axios from 'axios';
+
+function renderPriceWithWords(value) {
+    return `${numberWithSpaces(value)} ( ${rubles(value)}) ${wordByNumber(value, 'рубль', 'рубля', 'рублей')}`;
+}
 
 function renderManager(id) {
     switch(id) {
@@ -497,8 +503,8 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
             <br/>
             <h3 style={{ textAlign: 'center' }}>2. ЦЕНА ДОГОВОРА, СРОКИ, ПОРЯДОК ОПЛАТЫ ТОВАРА</h3>
             <div style={{ textAlign: 'justify' }}>
-                2.1 Цена настоящего договора составляет {numberWithSpaces(finalPrice + getCustomAdditionsPrice(formValue))} рублей
-                без НДС на основании п. 2 ст. 346.11 НК РФ.
+                2.1 Цена настоящего договора составляет {renderPriceWithWords(finalPrice + getCustomAdditionsPrice(formValue))} без
+                НДС на основании п. 2 ст. 346.11 НК РФ.
             </div>
             <div style={{ textAlign: 'justify' }}>
                 2.2 Доставка осуществляется продавцом, выгрузка {data.additions && data.additions['5eefcee55ec46c7ee0c91aab'] ? 'входит' : 'не входит'} в стоимость продукции.
@@ -810,19 +816,19 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
             <br/>
             <h3 style={{ textAlign: 'center' }}>3. СТОИМОСТЬ РАБОТ И ПОРЯДОК РАСЧЕТОВ</h3>
             <div style={{ textAlign: 'justify' }}>
-                3.1 Стоимость Изделия по Договору в соответствии со спецификацией составляет {numberWithSpaces(finalPrice + getCustomAdditionsPrice(formValue))} рублей,
+                3.1 Стоимость Изделия по Договору в соответствии со спецификацией составляет {renderPriceWithWords(finalPrice + getCustomAdditionsPrice(formValue))},
                 НДС не облагается на основании п. 2 ст. 346.11 НК РФ.
             </div>
             <div style={{ textAlign: 'justify' }}>
                 3.2 Расчеты между Сторонами производятся в два этапа:
             </div>
             <div style={{ textAlign: 'justify' }}>
-                3.3 Предоплата в размере 70% от стоимости изделия {numberWithSpaces(Math.round((finalPrice + getCustomAdditionsPrice(formValue)) * 0.7))} рублей
-                без НДС на основании п. 2 ст. 346.11 НК РФ оплачивается Покупателем в день доставки и разгрузки составных частей и комплектующих Изделия по адресу, указанному в п. 2.5 Договора.
+                3.3 Предоплата в размере 70% от стоимости изделия {renderPriceWithWords(Math.round((finalPrice + getCustomAdditionsPrice(formValue)) * 0.7))} без
+                НДС на основании п. 2 ст. 346.11 НК РФ оплачивается Покупателем в день доставки и разгрузки составных частей и комплектующих Изделия по адресу, указанному в п. 2.5 Договора.
             </div>
             <div style={{ textAlign: 'justify' }}>
-                3.4 Окончательная оплата в размере 30% от стоимости изделия {numberWithSpaces(Math.round((finalPrice + getCustomAdditionsPrice(formValue)) * 0.3))} рублей
-                без НДС на основании п.2 ст. 346.11 НК РФ в день подписания Акта-сдачи приемки изделия.
+                3.4 Окончательная оплата в размере 30% от стоимости изделия {renderPriceWithWords(Math.round((finalPrice + getCustomAdditionsPrice(formValue)) * 0.3))} без
+                НДС на основании п.2 ст. 346.11 НК РФ в день подписания Акта-сдачи приемки изделия.
             </div>
             <div style={{ textAlign: 'justify' }}>
                 3.5 В случае просрочки окончательной оплаты Работ по Договору на срок более 2 банковских дней,
@@ -950,7 +956,7 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
                 работ «Заказчиком», «Подрядчик» вправе пролонгировать в одностороннем порядке срок Договора
                 и потребовать возмещение ущерба в результате вынужденного простоя.
                 В случае простоя бригады ( изменения планировки Изделия, замена кровли, или материалов)
-                по вине «Заказчика» более 24 (десяти четырёх) часов «Заказчик» обязуется выплатить
+                по вине «Заказчика» более 24 (двадцати четырёх) часов «Заказчик» обязуется выплатить
                 компенсацию бригаде «Подрядчика» из расчета 1500 (одна тысяча пятьсот) рублей за сутки
                 простоя на каждого члена бригады.
             </div>
