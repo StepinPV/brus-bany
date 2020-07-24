@@ -321,7 +321,6 @@ const renderTZ = (project, formValue, data, infoBlock, finalPrice, projectName) 
 const renderDogovorHeader = (project, formValue) => {
     return (
         <>
-            <br/><br/>
             <h3 style={{ textAlign: 'center' }}>ДОГОВОР КУПЛИ - ПРОДАЖИ № {formValue.documentNumber}</h3>
             <br/>
             <div style={{ display: 'flex', justifyContent: 'space-around'}}>
@@ -480,6 +479,7 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
         <div className={styles.dogovor}>
+            <br/>
             <br/>
             {renderDogovorHeader(project, formValue, data, finalPrice, projectName)}
             <br/>
@@ -780,6 +780,7 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
         <div className={styles.dogovor}>
+            <br/>
             <br/>
             {renderDogovorHeader(project, formValue, data, finalPrice, projectName)}
             <br/>
