@@ -481,7 +481,6 @@ const renderDogovor1 = (project, formValue, data, finalPrice, projectName) => {
     return (
         <div className={styles.dogovor}>
             <br/>
-            <br/>
             {renderDogovorHeader(project, formValue, data, finalPrice, projectName)}
             <br/>
             <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
@@ -781,7 +780,6 @@ const renderDogovor2 = (project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
         <div className={styles.dogovor}>
-            <br/>
             <br/>
             {renderDogovorHeader(project, formValue, data, finalPrice, projectName)}
             <br/>
