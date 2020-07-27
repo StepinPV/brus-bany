@@ -15,7 +15,7 @@ router.post('/', async function(req, res, next) {
                     message += `Проект: ${req.body.data.projectName}\n`;
                     message += `Менеджер: ${req.body.data.manager}\n\n`;
                     if (req.body.data.documentNumber) {
-                        message += `Номер договора: ${req.body.data.client.documentNumber}\n`;
+                        message += `Номер договора: ${req.body.data.documentNumber}\n`;
                     }
 
                     if (req.body.data.client) {

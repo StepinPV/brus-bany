@@ -1,0 +1,11 @@
+.container {
+    margin-left: 48px;
+}
+
+.container div,
+.container td,
+.container b,
+.container h3 {
+    font-size: 13px;
+}
+
