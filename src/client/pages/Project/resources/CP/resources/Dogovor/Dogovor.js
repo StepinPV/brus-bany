@@ -1259,8 +1259,12 @@ const renderTZ = (project, formValue, data, finalPrice, projectName) => {
 
 function Dogovor({ type, formValue, data, project, finalPrice, projectName }) {
     switch(type) {
-        case 'dogovor1': return renderDogovor1(project, formValue, data, finalPrice, projectName);
-        case 'dogovor2': return renderDogovor2(project, formValue, data, finalPrice, projectName);
+        case 'dogovor':
+            if (project.categoryId['_id'] === '5e020c9f9d9c6faea68e88c7') {
+                return renderDogovor1(project, formValue, data, finalPrice, projectName);
+            } else {
+                return renderDogovor2(project, formValue, data, finalPrice, projectName);
+            }
         case 'tz': return renderTZ(project, formValue, data, finalPrice, projectName);
         default: return null;
     }

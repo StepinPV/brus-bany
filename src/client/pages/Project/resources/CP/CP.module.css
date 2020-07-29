@@ -16,103 +16,11 @@
 
 .form {
     width: 100%;
-    padding: 32px;
+    padding: 32px 48px 48px;
     box-sizing: border-box;
-    margin: 16px;
 }
 
 .print-button {
-    margin: 0 16px 16px 0;
-}
-
-.cp .preview-header {
-    font-size: 16px;
-    max-width: 100%;
-    margin: 16px 0;
-    padding: 16px;
-    color: #fff;
-    text-align: center;
-    background: #91001d;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.cp .preview-logo {
-    width: 200px;
-    height: 50px;
-    max-width: 100%;
-    object-fit: contain;
-    margin-right: 32px;
-}
-
-.cp .preview-images {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.cp .preview-images img {
-    margin-right: 16px;
-    margin-bottom: 16px;
-    height: 100px;
-}
-
-.cp .preview-block {
-    margin-top: 16px;
-}
-
-.cp .preview-block-caption {
-    font-size: 22px;
-    color: #91001d;
-    padding: 16px 16px 16px 0;
-    display: block;
-}
-
-.cp .preview-block-content {
-    border-left: 3px solid #91001d;
-    padding: 16px;
-    background: #efefef;
-}
-
-.cp .preview-group:not(:last-child) {
-    margin-bottom: 16px;
-}
-
-.cp .preview-group-caption {
-    font-size: 18px;
-}
-
-.cp .preview-group-items {
-    margin: 8px 0;
-}
-
-.cp .preview-group-item {
-    font-size: 16px;
-    margin-left: 16px;
-}
-
-.cp .preview-group-item,
-.cp .preview-group-caption {
-    display: flex;
-}
-
-.cp .preview-group-item span,
-.cp .preview-group-caption span {
-    flex-grow: 1;
-    text-align: right;
-    font-size: 12px;
-    flex-shrink: 0;
-    margin-left: 16px;
-}
-
-.cp .preview-price {
-    font-style: italic;
-    font-weight: bold;
-}
-
-@media only screen and (max-width: 600px) {
-    .preview-block {
-        font-size: 12px !important;
-    }
+    margin: 0 16px 0 0;
 }
 
