@@ -9,3 +9,14 @@
     font-size: 13px;
 }
 
+.page {
+    display: flex;
+    flex-direction: column;
+}
+
+.running-title {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 16px;
+}

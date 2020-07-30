@@ -15,28 +15,14 @@ const format = [{
     title: 'Режим',
     type: 'select',
     items: [{
-        id: 'dogovor',
-        title: 'Договор'
-    }, {
         id: 'cp',
         title: 'КП'
     }, {
+        id: 'dogovor',
+        title: 'Договор'
+    }, {
         id: 'tz',
         title: 'ТЗ'
-    }]
-}, {
-    _id: 'manager',
-    title: 'Менеджер',
-    type: 'select',
-    items: [{
-        id: '1',
-        title: 'Марина'
-    }, {
-        id: '2',
-        title: 'Константинъ'
-    }, {
-        id: '3',
-        title: 'Вера'
     }]
 }, {
     _id: 'images',
@@ -139,7 +125,7 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
 
     const formValue = {
         images: CPData && CPData.images || images,
-        manager: CPData && CPData.manager || '1',
+        manager: CPData && CPData.manager,
         additionalData: CPData && CPData.additionalData || [],
         date: CPData && CPData.date || Date.now(),
         projectDate: CPData && CPData.projectDate || Date.now(),
@@ -154,23 +140,39 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
         formValue.mode = 'dogovor';
     }
 
+    if (!formValue.manager && localStorage) {
+        let managerId = localStorage.getItem('MANAGER_ID');
+
+        (function selectManager() {
+            if (!['1', '2', '3'].includes(managerId)) {
+                managerId = prompt('Введите номер менеджера:\n1. Марина \n2. Константинъ \n3. Вера');
+                selectManager();
+            } else {
+                localStorage.setItem('MANAGER_ID', managerId);
+                onChange({ ...formValue, manager: managerId })
+            }
+        })();
+    }
+
     const sendViewEvent = async () => {
         if (formValue.viewMode) {
             const documentType = format.find(i => i._id === 'mode').items.find(i => i.id === formValue.mode);
-            const managerName = format.find(i => i._id === 'manager').items.find(i => i.id === formValue.manager);
+            const manager = format.find(i => i._id === 'manager').items.find(i => i.id === formValue.manager);
 
-            await axios.post(`/api/events`, {
-                data: {
-                    event: 'document_view',
-                    manager: managerName.title,
-                    client: formValue.client,
-                    documentNumber: formValue.documentNumber,
-                    documentName: documentType.title,
-                    projectName,
-                    host: document.location.origin,
-                    pathname: document.location.pathname + document.location.search
-                }
-            });
+            if (manager) {
+                await axios.post(`/api/events`, {
+                    data: {
+                        event: 'document_view',
+                        manager: manager.title,
+                        client: formValue.client,
+                        documentNumber: formValue.documentNumber,
+                        documentName: documentType.title,
+                        projectName,
+                        host: document.location.origin,
+                        pathname: document.location.pathname + document.location.search
+                    }
+                });
+            }
         }
     };
 
@@ -261,7 +263,7 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
     return (
         <div style={formValue.viewMode ? { width: '100%', padding: '0', margin: '0 auto', maxWidth: '900px' } : null} className={styles.container}>
             {formValue.viewMode ? null : (
-                <div>
+                <>
                     <div style={{ marginBottom: '32px' }}>
                         <Caption align='center'>Генерация документов</Caption>
                     </div>
@@ -276,7 +278,7 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
                             errors={{}}
                             onChange={onChange} />
                     </div>
-                </div>
+                </>
             )}
             <div style={formValue.viewMode ? { position: 'inherit' } : null} className={styles['content-preview']}>
                 {renderPreview()}
