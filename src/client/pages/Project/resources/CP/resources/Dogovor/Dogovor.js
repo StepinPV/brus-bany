@@ -11,7 +11,7 @@ import styles from './Dogovor.module.css';
 const PAGE_HEIGHT = 1048;
 
 function getFinalPrice(finalPrice, data, categoryId, project) {
-    if (data.blocks && data.blocks['5e1735a1c2db2613e7e3efc4'] && data.blocks['5e1735a1c2db2613e7e3efc4'] === '5e1735a1c2db2613e7e3efc6' || data.blocks['5e1735a1c2db2613e7e3efc4'] === '5e80fbecf68b012247c5f037') {
+    if (data.blocks && data.blocks['5e1735a1c2db2613e7e3efc4'] && (data.blocks['5e1735a1c2db2613e7e3efc4'] === '5e1735a1c2db2613e7e3efc6' || data.blocks['5e1735a1c2db2613e7e3efc4'] === '5e80fbecf68b012247c5f037')) {
         const block = categoryId.projectBlocks.find(projectBlock => projectBlock._id === '5e1735a1c2db2613e7e3efc4');
 
         const item = block.items.find(item => item._id === data.blocks['5e1735a1c2db2613e7e3efc4'])
