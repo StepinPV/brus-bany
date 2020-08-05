@@ -46,7 +46,7 @@ function renderBaseEquipment(project, data, equipment, onlyPrice) {
                     if (item) {
                         const price = getEquipmentItemPrice(project, data, item.price);
                         if (onlyPrice && !price) return;
-                        return <div>{getEquipmentText(project, data, item.name)} {price ? ` ${numberWithSpaces(getEquipmentItemPrice(project, data, item.price))} рублей` : null}</div>;
+                        return <div>{getEquipmentText(project, data, item.name)} {price && onlyPrice ? ` ${numberWithSpaces(getEquipmentItemPrice(project, data, item.price))} рублей` : null}</div>;
                     }
                 }
                 return;
