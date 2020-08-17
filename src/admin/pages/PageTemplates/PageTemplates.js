@@ -38,7 +38,7 @@ class PageTemplates extends PureComponent {
                 return {
                     key: item['_id'],
                     type: 'link',
-                    title: item['_id'],
+                    title: item.name,
                     link: `/admin/page-templates/${item['_id']}`
                 }
             });

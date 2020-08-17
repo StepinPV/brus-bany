@@ -9,7 +9,6 @@ import withNotification from '../../../plugins/Notifications/withNotification';
 import Form from '../../components/Form';
 import { main as mainFormat, config as configFormat } from '../../formats/page';
 import { Button } from "../../../components/Button";
-import Select from '../../../components/Select';
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
 import Operations from '../../components/pageEditor/Operations';

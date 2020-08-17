@@ -38,7 +38,7 @@ class Components extends PureComponent {
                 return {
                     key: item['_id'],
                     type: 'link',
-                    title: item['_id'],
+                    title: item.name,
                     link: `/admin/components/${item['_id']}`
                 }
             });

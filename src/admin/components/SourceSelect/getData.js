@@ -13,7 +13,7 @@ export default async function(source) {
             return (await axios.get('/api/page-templates')).data.data.map(item => {
                 return {
                     id: item['_id'],
-                    title: item['_id']
+                    title: item.name
                 }
             });
         default: return null;

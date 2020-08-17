@@ -13,7 +13,10 @@ import Operations from '../../components/pageEditor/Operations';
 import ComponentRender from '../../components/pageEditor/Component';
 import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
+import Form from '../../components/Form';
+import format from '../../formats/page-template';
 import styles from './PageTemplate.module.css';
+import {config as configFormat, main as mainFormat} from "../../formats/page";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -112,7 +115,8 @@ class PageTemplate extends PureComponent {
     }
 
     renderSettingsBlock = () => {
-        const { match } = this.props;
+        const { match, data } = this.props;
+        const { errors } = this.state;
         const { id } = match.params;
 
         return (
@@ -120,6 +124,11 @@ class PageTemplate extends PureComponent {
                 <div className={styles['settings-block-content']}>
                     <Breadcrumbs items={breadcrumbs} />
                     <div className={styles['form-container']}>
+                        <Form
+                            format={format}
+                            value={data}
+                            onChange={this.handleChange}
+                            errors={errors} />
                     </div>
                 </div>
                 <div className={styles['settings-block-buttons']}>

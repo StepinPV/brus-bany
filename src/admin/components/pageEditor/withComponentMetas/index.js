@@ -44,6 +44,7 @@ export default function withComponentInstances(Component) {
 
                             calc[component['_id']] = {
                                 key: component['_id'],
+                                name: component.name,
                                 defaultProps,
                                 props
                             }

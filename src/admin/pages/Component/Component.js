@@ -6,7 +6,7 @@ import Breadcrumbs from '../../../components/Breadcrumbs';
 import { get, set, save, reset, deleteData } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import Form from '../../components/Form';
-import configFormat from '../../formats/component';
+import mainFormat from '../../formats/component';
 import { Button } from '../../../components/Button';
 import styles from './Component.module.css';
 import FloatPanels from '../../components/FloatPanels';
@@ -140,9 +140,9 @@ class Component extends PureComponent {
                     <Breadcrumbs items={breadcrumbs} />
                     <div className={styles['form-container']}>
                         <Form
-                            format={configFormat}
-                            value={data.config}
-                            onChange={this.setConfig}
+                            format={mainFormat}
+                            value={data}
+                            onChange={this.handleChange}
                             errors={{}} />
                     </div>
                 </div>
@@ -315,6 +315,13 @@ class Component extends PureComponent {
                 ...newConfig
             }
         });
+    };
+
+    handleChange = (data, errors) => {
+        const { actions } = this.props;
+
+        this.setState({ errors });
+        actions.set(data);
     };
 
     handleSave = async () => {
