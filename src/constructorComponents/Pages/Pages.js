@@ -8,20 +8,26 @@ const prepareProps = (componentData, fields, values) => {
     const newProps = { ...componentData.props };
     const newImages = { ...componentData.images };
 
-    fields.forEach(field => {
-        Object.keys(newProps).forEach(key => {
-            if (typeof newProps[key] === 'string' && newProps[key].includes(`{{${field.slug}}}`)) {
-                newProps[key] = newProps[key].replace(new RegExp(`{{${field.slug}}}`, 'g'), values[field.item.id]);
-            }
+    if (fields) {
+        fields.forEach(field => {
+            Object.keys(newProps).forEach(key => {
+                if (typeof newProps[key] === 'string' && newProps[key].includes(`{{${field.slug}}}`)) {
+                    newProps[key] = newProps[key].replace(new RegExp(`{{${field.slug}}}`, 'g'), values[field.item.id] || '');
+                }
 
-            if (newImages[newProps[key]] && newImages[newProps[key]].includes(`{{${field.slug}}}`)) {
-                newImages[newProps[key]] = newImages[newProps[key]].replace(new RegExp(`{{${field.slug}}}`, 'g'), values['__images__'][values[field.item.id]]);
-            }
+                if (newImages[newProps[key]] && newImages[newProps[key]].includes(`{{${field.slug}}}`)) {
+                    newImages[newProps[key]] = newImages[newProps[key]].replace(new RegExp(`{{${field.slug}}}`, 'g'), values['__images__'][values[field.item.id]] || '');
+                }
+            });
         });
-    });
+    }
 
     return { props: newProps, images: newImages };
 };
+
+function renderNotFound() {
+    return <div className={styles['not-found']}>Источник списка не выбран</div>;
+}
 
 function Pages(props) {
     const className = cx(
@@ -31,16 +37,29 @@ function Pages(props) {
     );
 
     if (!props.folder) {
-        return <div>Источник не выбран</div>;
+        return renderNotFound();
     }
 
     const folder = props['__pageFolders__'].find(folder => folder['_id'] === props.folder);
 
     if (!folder) {
-        return <div>Источник не выбран</div>;
+        return renderNotFound();
     }
 
-    const pages = props['__pages__'].filter(page => page.config.folder === props.folder);
+    const allFolders = [props.folder];
+
+    const addChildFolders = (folderId) => {
+        props['__pageFolders__'].forEach(folder => {
+            if (folder.folder === folderId) {
+                allFolders.push(folder['_id']);
+                addChildFolders(folder['_id']);
+            }
+        });
+    };
+
+    addChildFolders(folder['_id']);
+
+    const pages = props['__pages__'].filter(page => allFolders.includes(page.config.folder));
 
     if (props.staticContext) {
         props.staticContext.data = props.staticContext.data || {};

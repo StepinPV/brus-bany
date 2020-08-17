@@ -4,6 +4,11 @@ export default [{
     type: 'string',
     required: true
 }, {
+    _id: 'folder',
+    title: 'Папка',
+    type: 'source-select',
+    source: 'page-folders'
+}, {
     _id: 'page-fields',
     title: 'Поля страниц',
     itemTitleField: 'slug',
