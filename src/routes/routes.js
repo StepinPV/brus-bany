@@ -124,9 +124,19 @@ export default (initModule) => {
         component: loadable(() => import('../admin/pages/Pages'))
     }, {
         id: 'admin/pages/page',
-        path: '/admin/pages/:id',
+        path: '/admin/pages/page-:id',
         exact: true,
         component: loadable(() => import('../admin/pages/Page'))
+    }, {
+        id: 'admin/pages/folder',
+        path: '/admin/pages/folder-:id',
+        exact: true,
+        component: loadable(() => import('../admin/pages/Folder'))
+    }, {
+        id: 'admin/pages/pages',
+        path: '/admin/pages/:folderId',
+        exact: true,
+        component: loadable(() => import('../admin/pages/Pages'))
     }, {
         id: 'admin/components',
         path: '/admin/components',

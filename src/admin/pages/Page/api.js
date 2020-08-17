@@ -6,4 +6,5 @@ export default class Api {
     static create = (page) => axios.post(`/api/pages`, { page });
     static delete = (id) => axios.delete(`/api/pages/${id}`);
     static getTemplates = () => axios.get('/api/page-templates');
+    static getFolders = () => axios.get('/api/page-folders');
 }

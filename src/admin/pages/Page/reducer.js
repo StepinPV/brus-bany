@@ -1,18 +1,25 @@
 import {
     GET, GET_SUCCESS, GET_ERROR,
     GET_TEMPLATES, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_ERROR,
+    GET_FOLDERS, GET_FOLDERS_SUCCESS, GET_FOLDERS_ERROR,
     SET, RESET
 } from './constants';
 
 export const initialState = {
     id: null,
+    error: null,
+
     page: null,
     isPageFetch: false,
     isPageError: null,
-    error: null,
+
     templates: null,
     isTemplateFetch: false,
     isTemplateError: null,
+
+    folders: null,
+    isFoldersFetch: false,
+    isFoldersError: null,
 };
 
 export default function(state = initialState, action) {
@@ -76,6 +83,26 @@ export default function(state = initialState, action) {
                 ...state,
                 isTemplateFetch: false,
                 isTemplateError: action.payload.message
+            };
+
+        case GET_FOLDERS:
+            return {
+                ...state,
+                isFoldersFetch: true
+            };
+
+        case GET_FOLDERS_SUCCESS:
+            return {
+                ...state,
+                isFoldersFetch: false,
+                folders: action.payload
+            };
+
+        case GET_FOLDERS_ERROR:
+            return {
+                ...state,
+                isFoldersFetch: false,
+                isFoldersError: action.payload.message
             };
 
         default:

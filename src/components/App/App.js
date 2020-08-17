@@ -17,6 +17,8 @@ class App extends Component {
         page: PropTypes.object,
         customComponents: PropTypes.array,
         pageTemplates: PropTypes.array,
+        pages: PropTypes.array,
+        pageFolders: PropTypes.array,
         location: PropTypes.object
     };
 
@@ -51,7 +53,7 @@ class App extends Component {
     }
 
     renderRoute = (route) => {
-        const { preparedComponents, page, location, customComponents, pageTemplates } = this.props;
+        const { preparedComponents, page, location, customComponents, pageTemplates, pages, pageFolders } = this.props;
         const Component = preparedComponents ? preparedComponents[route.id] : route.component;
 
         const renderProps = {};
@@ -63,6 +65,8 @@ class App extends Component {
                         {...props}
                         page={page}
                         templates={pageTemplates}
+                        pages={pages}
+                        pageFolders={pageFolders}
                         customComponents={customComponents} />
                 )
             } else {

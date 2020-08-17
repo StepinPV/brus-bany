@@ -1,5 +1,5 @@
 const express = require('express');
-const Pages = require('../controllers/Pages');
+const PageFolders = require('../controllers/PageFolders');
 const cache = require('../cache');
 
 const router = express.Router();
@@ -11,7 +11,7 @@ const send = (res, { status, message, data }) => {
 
 router.get('/', async function(req, res, next) {
     try {
-        const { status, data, message } = cache.get(req) || cache.add(req, await Pages.getAll(), 'pages');
+        const { status, data, message } = cache.get(req) || cache.add(req, await PageFolders.getAll(), 'page-folders');
 
         switch(status) {
             case 'success':
@@ -30,13 +30,13 @@ router.get('/', async function(req, res, next) {
 
 router.post('/', async function(req, res, next) {
     try {
-        const { status, data, message } = await Pages.create(req.body.page);
+        const { status, data, message } = await PageFolders.create(req.body.data);
 
-        cache.clear(['pages']);
+        cache.clear(['page-folders']);
 
         switch(status) {
             case 'success':
-                send(res, { data, status, message: `Страница успешно создана!` });
+                send(res, { data, status, message: `Папка успешно создана!` });
                 break;
             case 'error':
                 send(res, { message, status, data });
@@ -51,8 +51,7 @@ router.post('/', async function(req, res, next) {
 
 router.get('/:id', async function(req, res, next) {
     try {
-        const searchByUrl = req.query && req.query.byUrl;
-        const { status, data, message } = cache.get(req) || cache.add(req, searchByUrl ? await Pages.getByUrl(decodeURIComponent(req.params.id)) : await Pages.get(req.params.id), `pages`);
+        const { status, data, message } = cache.get(req) || cache.add(req, await PageFolders.get(req.params.id), `page-folders`);
 
         switch(status) {
             case 'success':
@@ -71,13 +70,13 @@ router.get('/:id', async function(req, res, next) {
 
 router.put('/:id', async function(req, res, next) {
     try {
-        const { status, data, message } = await Pages.update(req.params.id, req.body.page);
+        const { status, data, message } = await PageFolders.update(req.params.id, req.body.data);
 
-        cache.clear(['pages']);
+        cache.clear(['page-folders']);
 
         switch(status) {
             case 'success':
-                send(res, { data, status, message: `Страница успешно обновлена!` });
+                send(res, { data, status, message: `Папка успешно обновлена!` });
                 break;
             case 'error':
                 send(res, { message, status, data });
@@ -92,11 +91,13 @@ router.put('/:id', async function(req, res, next) {
 
 router.delete('/:id', async function(req, res, next) {
     try {
-        const { status, data, message } = await Pages.delete(req.params.id);
+        const { status, data, message } = await PageFolders.delete(req.params.id);
+
+        cache.clear(['page-folders']);
 
         switch(status) {
             case 'success':
-                send(res, { data, status, message: `Страница успешно удалена!` });
+                send(res, { data, status, message: `Папка успешно удалена!` });
                 break;
             case 'error':
                 send(res, { message, status, data });

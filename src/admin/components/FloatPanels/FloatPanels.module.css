@@ -17,8 +17,6 @@
     background: #fff;
     box-sizing: border-box;
     border-right: 3px solid #91001d;
-    display: flex;
-    flex-direction: column;
     z-index: 11;
 }
 
@@ -31,6 +29,13 @@
 
 .panel-content {
     flex-grow: 1;
+}
+
+.panel-wrapper {
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .panel-button {

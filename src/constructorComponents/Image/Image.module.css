@@ -1,0 +1,18 @@
+.padding-top-s { padding-top: 16px; }
+.padding-top-m { padding-top: 32px; }
+.padding-top-l { padding-top: 48px; }
+
+.padding-bottom-s { padding-bottom: 16px; }
+.padding-bottom-m { padding-bottom: 32px; }
+.padding-bottom-l { padding-bottom: 48px; }
+
+.image {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.object-fit-contain { object-fit: contain; }
+.object-fit-fill { object-fit: fill; width: 100%; }
+.object-fit-cover { object-fit: cover; width: 100%; }
+

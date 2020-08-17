@@ -76,10 +76,6 @@ export const props = [{
         title: 'Большой'
     }]
 }, {
-    _id: 'isHTML',
-    title: 'HTML в качестве значения',
-    type: 'boolean'
-}, {
     _id: 'width',
     title: 'Ширина',
     type: 'select',

@@ -15,8 +15,7 @@ function Caption(props) {
 
     const options = {
         className,
-        dangerouslySetInnerHTML: props.isHTML ? { __html: props.children } : null,
-        children: !props.isHTML ? props.children : null
+        dangerouslySetInnerHTML: { __html: props.children }
     }
 
     if (props.id) {
@@ -38,7 +37,6 @@ Caption.propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
-    isHTML: PropTypes.bool,
     width: PropTypes.oneOf(['l', 'm', 's']),
     id: PropTypes.string
 };
@@ -49,7 +47,6 @@ Caption.defaultProps = {
     tag: 'div',
     paddingTop: 'm',
     paddingBottom: 'm',
-    isHTML: false,
     width: 'm',
     align: 'center'
 };

@@ -5,6 +5,7 @@ import Date from '../../../components/Date';
 import CheckBox from '../../../components/CheckBox';
 import TextArea from '../../../components/TextArea';
 import ImageUploader from '../ImageUploader';
+import SourceSelect from '../SourceSelect';
 import Select from "../../../components/Select";
 import styles from './FormItem.module.css';
 
@@ -130,6 +131,20 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         displayProperty='title'
                         keyProperty='id'
                         selectedKey={value}
+                        onChange={val => onChange(val, null, images)}
+                        required={item.required}
+                        error={error} />
+                </div>
+            );
+        case 'source-select':
+            return (
+                <div className={styles.item}>
+                    <SourceSelect
+                        title={item.title}
+                        source={item.source}
+                        displayProperty={item.displayProperty}
+                        selectedKey={value}
+                        hasEmpty={item.hasEmpty}
                         onChange={val => onChange(val, null, images)}
                         required={item.required}
                         error={error} />

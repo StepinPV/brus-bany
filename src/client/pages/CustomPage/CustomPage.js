@@ -8,6 +8,8 @@ class CustomPage extends PureComponent {
     static propTypes = {
         customComponents: PropTypes.array,
         templates: PropTypes.array,
+        pages: PropTypes.array,
+        pageFolders: PropTypes.array,
         staticContext: PropTypes.object,
         page: PropTypes.object
     };
@@ -15,6 +17,24 @@ class CustomPage extends PureComponent {
     static defaultProps = {
         customComponents: [],
         templates: [],
+        pages: [],
+        pageFolders: []
+    };
+
+    constructor(props) {
+        super(props);
+
+        if (props.staticContext) {
+            props.staticContext.data = props.staticContext.data || {};
+            props.staticContext.data.page = props.page;
+
+            if (props.page.config.template) {
+                props.staticContext.data.pageTemplates = props.staticContext.data.pageTemplates || [];
+
+                const template = props.staticContext.data.pageTemplates.find((t => t['_id'] === props.page.config.template));
+                props.staticContext.data.pageTemplates.push(template);
+            }
+        }
     };
 
     render() {
@@ -39,7 +59,7 @@ class CustomPage extends PureComponent {
         let component = page.config.componentsData[configId];
 
         if (page.config.template) {
-            const templateData = templates.find((item => item['_id'] === page.config.template));
+            const templateData = templates.find((t => t['_id'] === page.config.template));
 
             if (templateData.config[id]) {
                 configId = templateData.config[id];
@@ -83,7 +103,7 @@ class CustomPage extends PureComponent {
         };
 
         if (page.config.template) {
-            const templateData = templates.find((item => item['_id'] === page.config.template));
+            const templateData = templates.find((t => t['_id'] === page.config.template));
 
             templateComponents = templateData.config.components;
             templateComponentsData = templateData.config.componentsData;
@@ -142,15 +162,31 @@ class CustomPage extends PureComponent {
     };
 
     renderComponent = ({ componentId, props, images }) => {
-        const { customComponents, staticContext } = this.props;
+        const { customComponents, staticContext, pages, pageFolders } = this.props;
 
         if (components[componentId]) {
             const Component = components[componentId];
 
-            return <Component {...props} __images__={images} staticContext={staticContext} />;
+            return (
+                <Component
+                    {...props}
+                    __images__={images}
+                    __pages__={pages}
+                    __pageFolders__={pageFolders}
+                    staticContext={staticContext} />
+            );
         }
 
         const customComponent = customComponents.find(c => c['_id'] === componentId);
+
+        if (staticContext) {
+            staticContext.data = staticContext.data || {};
+            staticContext.data.customComponents = staticContext.data.customComponents || [];
+
+            if (!staticContext.data.customComponents.find(c => c['_id'] === componentId)) {
+                staticContext.data.customComponents.push(customComponent);
+            }
+        }
 
         if (customComponent && customComponent.config && customComponent.config.components) {
             return customComponent.config.components.map(cId => {

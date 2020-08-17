@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import PageRender from '../../../client/components/PageRender';
-import { getPage, setPage, savePage, reset, deletePage, getTemplates } from './actions';
+import { getPage, setPage, savePage, reset, deletePage, getTemplates, getFolders } from './actions';
 import withNotification from '../../../plugins/Notifications/withNotification';
 import Form from '../../components/Form';
 import { main as mainFormat, config as configFormat } from '../../formats/page';
@@ -38,7 +38,8 @@ class Page extends PureComponent {
         match: PropTypes.object,
         showNotification: PropTypes.func,
         history: PropTypes.object,
-        templates: PropTypes.array
+        templates: PropTypes.array,
+        folders: PropTypes.array
     };
 
     constructor(props) {
@@ -93,6 +94,7 @@ class Page extends PureComponent {
         }
 
         actions.getTemplates();
+        actions.getFolders();
     }
 
     componentWillUnmount() {
@@ -124,38 +126,68 @@ class Page extends PureComponent {
     }
 
     renderSettingsBlock = () => {
-        const { page, match, templates } = this.props;
+        const { page, match, templates, folders } = this.props;
         const { errors } = this.state;
         const { id } = match.params;
+
+        const renderFolderFields = (id) => {
+            const folder = folders.find(f => f['_id'] === id);
+
+            if (folder) {
+                if (folder['page-fields']) {
+                    const format = folder['page-fields'].map(({ item }) => {
+                        const f = {
+                            _id: item.id,
+                            title: item.value,
+                            type: item.typeId
+                        };
+
+                        if (item.typeId === 'image') {
+                            f.props = {
+                                withoutLogo: true,
+                                globalStore: true
+                            }
+                        }
+
+                        return f;
+                    });
+
+                    return (
+                        <>
+                            <div className={styles['settings-block-page-fields-title']}>Поля для папки: {folder.name}</div>
+                            <Form
+                                format={format}
+                                value={(page.config['folder-fields'] || {})[id] || {}}
+                                onChange={(value, error, images) => {
+                                    this.handleChangeConfig({
+                                        ...page.config,
+                                        'folder-fields': {
+                                            ...(page.config['folder-fields'] || {}),
+                                            [id]: {
+                                                ...value,
+                                                ['__images__']: images
+                                            }
+                                        }
+                                    })
+                                }}
+                                images={((page.config['folder-fields'] || {})[id] || {})['__images__'] || {}}
+                                errors={{}} />
+                            {folder.folder ? renderFolderFields(folder.folder) : null}
+                        </>
+                    );
+                } else if (folder.folder) {
+                    return renderFolderFields(folder.folder);
+                }
+            }
+
+            return null;
+        };
 
         return (
             <div className={styles['settings-block']}>
                 <div className={styles['settings-block-content']}>
                     <Breadcrumbs items={breadcrumbs} />
                     <div className={styles['form-container']}>
-                        {templates ? (
-                            <div className={styles['form-container-select']}>
-                                <Select
-                                    title='Шаблон страницы'
-                                    items={templates}
-                                    hasEmpty
-                                    keyProperty='_id'
-                                    displayProperty='_id'
-                                    selectedKey={page.config.template}
-                                    onChange={key => {
-                                        if (confirm('Смена шаблона приведет к сбросу страницы')) {
-                                            this.setConfig({
-                                                template: key,
-                                                components: {},
-                                                componentsData: {},
-                                                footer: null,
-                                                header: null
-                                            });
-                                        }
-                                    }}
-                                />
-                            </div>
-                        ) : null}
                         <Form
                             format={mainFormat}
                             value={page}
@@ -164,8 +196,24 @@ class Page extends PureComponent {
                         <Form
                             format={configFormat}
                             value={page.config}
-                            onChange={this.handleChangeConfig}
+                            onChange={(config) => {
+                                if (page.config.template !== config.template) {
+                                    if (confirm('Смена шаблона приведет к сбросу страницы')) {
+                                        this.handleChangeConfig({
+                                            ...config,
+                                            components: {},
+                                            componentsData: {},
+                                            footer: null,
+                                            header: null
+                                        });
+                                    }
+                                    return;
+                                }
+
+                                this.handleChangeConfig(config);
+                            }}
                             errors={{}} />
+                        {folders && page.config.folder ? renderFolderFields(page.config.folder) : null}
                     </div>
                 </div>
                 <div className={styles['settings-block-buttons']}>
@@ -627,16 +675,17 @@ function mapDispatchToProps(dispatch) {
             savePage,
             reset,
             deletePage,
-            getTemplates
+            getTemplates,
+            getFolders
         }, dispatch),
         dispatch
     };
 }
 
 function mapStateToProps(state) {
-    const { page, isPageFetch, isPageError, templates } = state['admin-page'];
+    const { page, isPageFetch, isPageError, templates, folders } = state['admin-page'];
 
-    return { page, isPageFetch, isPageError, templates };
+    return { page, isPageFetch, isPageError, templates, folders };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Page));

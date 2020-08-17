@@ -18,4 +18,15 @@ export const config = [{
         title: 'SEO description',
         type: 'text'
     }]
+}, {
+    _id: 'template',
+    title: 'Шаблон страницы',
+    type: 'source-select',
+    source: 'page-templates',
+    hasEmpty: true
+}, {
+    _id: 'folder',
+    title: 'Папка',
+    type: 'source-select',
+    source: 'page-folders'
 }];

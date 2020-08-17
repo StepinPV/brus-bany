@@ -11,8 +11,10 @@ import * as List from './List';
 import * as QuestionAnswer from './QuestionAnswer';
 import * as Quiz from './Quiz';
 import * as Text from './Text';
+import * as Image from './Image';
+import * as Pages from './Pages';
 
 export default {
-    Caption, Text, Button, List, Breadcrumbs, Banner, QuestionAnswer, ImageLinkBlock,
-    Header, Footer, Contacts, FormBlock, Quiz
+    Caption, Text, Button, List, Breadcrumbs, Banner, QuestionAnswer, ImageLinkBlock, Image,
+    Header, Footer, Contacts, FormBlock, Quiz, Pages
 }

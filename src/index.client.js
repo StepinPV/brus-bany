@@ -21,18 +21,8 @@ async function run () {
     /* eslint-enable no-underscore-dangle */
 
     /* eslint-disable no-underscore-dangle */
-    const pageData = window.__pageData__;
-    delete window.__pageData__;
-    /* eslint-enable no-underscore-dangle */
-
-    /* eslint-disable no-underscore-dangle */
-    const customComponents = window.__customComponents__;
-    delete window.__customComponents__;
-    /* eslint-enable no-underscore-dangle */
-
-    /* eslint-disable no-underscore-dangle */
-    const pageTemplates = window.__pageTemplates__;
-    delete window.__pageTemplates__;
+    const data = window.__data__;
+    delete window.__data__;
     /* eslint-enable no-underscore-dangle */
 
     await loadableReady();
@@ -51,9 +41,11 @@ async function run () {
             <BrowserRouter>
                 <App
                     routes={[matchRoute]}
-                    page={pageData}
-                    customComponents={customComponents}
-                    pageTemplates={pageTemplates} />
+                    page={data.page}
+                    customComponents={data.customComponents}
+                    pageTemplates={data.pageTemplates}
+                    pageFolders={data.pageFolders}
+                    pages={data.pages} />
             </BrowserRouter>
         </Provider>,
         document.getElementById('root')

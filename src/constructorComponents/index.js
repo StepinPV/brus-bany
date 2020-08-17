@@ -14,3 +14,6 @@ export const Form = loadable(() => import('./Form'));
 export const Contacts = loadable(() => import('./Contacts'));
 export const ImageLinkBlock = loadable(() => import('./ImageLinkBlock'));
 export const Quiz = loadable(() => import('./Quiz'));
+export const Image = loadable(() => import('./Image'));
+export const Pages = loadable(() => import('./Pages'));
+

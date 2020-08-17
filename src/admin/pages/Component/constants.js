@@ -1,6 +1,6 @@
-export const GET = 'admin/pages/GET';
-export const GET_SUCCESS = 'admin/pages/GET_SUCCESS';
-export const GET_ERROR = 'admin/pages/GET_ERROR';
+export const GET = 'admin/component/GET';
+export const GET_SUCCESS = 'admin/component/GET_SUCCESS';
+export const GET_ERROR = 'admin/component/GET_ERROR';
 
-export const SET = 'admin/pages/SET';
-export const RESET = 'admin/pages/RESET';
+export const SET = 'admin/component/SET';
+export const RESET = 'admin/component/RESET';

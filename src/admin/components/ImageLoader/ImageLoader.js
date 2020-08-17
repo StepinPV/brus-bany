@@ -1,21 +1,26 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import Input from '../../../components/Input';
+
 import cx from 'classnames';
 import styles from './ImageLoader.module.css';
 
 class ImageLoader extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func,
+        onChangeURL: PropTypes.func,
         image: PropTypes.string,
         title: PropTypes.string
     };
 
     render() {
-        const { image, title } = this.props;
+        const { image, title, onChangeURL } = this.props;
 
         return (
             <div>
                 <div className={styles.label}>{title}</div>
+                <div className={styles.label2}>Введите URL или выберете вручную</div>
+                <Input value={image || ''} title='URL' className={styles.input} onChange={onChangeURL} />
                 {
                     image ? (
                         <div className={cx(styles.item, styles.imageWrapper)}>

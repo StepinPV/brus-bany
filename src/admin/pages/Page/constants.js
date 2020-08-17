@@ -6,5 +6,9 @@ export const GET_TEMPLATES = 'admin/pages/GET_TEMPLATES';
 export const GET_TEMPLATES_SUCCESS = 'admin/pages/GET_TEMPLATES_SUCCESS';
 export const GET_TEMPLATES_ERROR = 'admin/pages/GET_TEMPLATES_ERROR';
 
+export const GET_FOLDERS = 'admin/pages/GET_FOLDERS';
+export const GET_FOLDERS_SUCCESS = 'admin/pages/GET_FOLDERS_SUCCESS';
+export const GET_FOLDERS_ERROR = 'admin/pages/GET_FOLDERS_ERROR';
+
 export const SET = 'admin/pages/SET';
 export const RESET = 'admin/pages/RESET';

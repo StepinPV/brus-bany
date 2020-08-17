@@ -28,7 +28,13 @@ router.get('*', async (req, res, next) => {
             apiURL: `http://localhost:${config.port}`
         };
 
-        const { head, markup, initialData, extractor, context, pageData, customComponents, pageTemplates } = await render(req, res, axiosOptions);
+        const {
+            head,
+            markup,
+            initialData,
+            extractor,
+            context
+        } = await render(req, res, axiosOptions);
 
         if (context.status === 404) {
             res.status(404);
@@ -41,20 +47,6 @@ router.get('*', async (req, res, next) => {
             const scriptTags = extractor.getScriptTags();
             const linkTags = extractor.getLinkTags();
             const styleTags = extractor.getStyleTags();
-
-            const vendorList = [
-                'axios',
-                'babel',
-                'classnames',
-                'core-js',
-                'react',
-                'react-dom',
-                'redux',
-                'react-redux',
-                'react-helmet',
-                'react-router',
-                'react-router-dom'
-            ];
 
             let preloadList = [
                 `<${assetsManifest['main.css']}>; rel=preload; as=style`
@@ -76,15 +68,12 @@ router.get('*', async (req, res, next) => {
                 meta: head.meta.toString(),
                 link: head.link.toString(),
                 initialData: serialize(context.simplePage ? {} : initialData),
-                pageData: serialize(context.simplePage ? {} : (pageData || {})),
-                customComponents: serialize(context.simplePage ? {} : (customComponents || [])),
-                pageTemplates: serialize(context.simplePage ? {} : (pageTemplates || [])),
+                data: serialize(context.simplePage ? {} : (context.data || {})),
                 app: markup,
                 assets: {
                     styleTags,
-                    linkTags: context.simplePage ? linkTags.split('\n').filter(str => !str.includes('as="script"')).join('\n') : linkTags,
-                    scriptTags: context.simplePage ? null : scriptTags,
-                    vendors: context.simplePage ? vendorList.map(vendor => assetsManifest[`${vendor}.js`]) : null
+                    linkTags: context.simplePage ? null : linkTags.split('\n').filter(str => str.includes('as="script"')).join('\n'),
+                    scriptTags: context.simplePage ? null : scriptTags
                 }
             };
 

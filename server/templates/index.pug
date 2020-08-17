@@ -23,15 +23,9 @@ html(lang='ru')
 
         script(type='text/javascript')
             | window.__initialData__ = !{initialData};
-            | window.__pageData__ = !{pageData};
-            | window.__customComponents__ = !{customComponents};
-            | window.__pageTemplates__ = !{pageTemplates};
+            | window.__data__ = !{data};
 
         | !{assets.scriptTags}
-
-        if vendors
-            each vendor in vendors
-                script(src=vendor)
 
         if needCounters
             script(type='text/javascript')

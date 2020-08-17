@@ -24,10 +24,6 @@
     flex-grow: 1;
 }
 
-.form-container-select {
-    margin-bottom: 32px;
-}
-
 .add-button {
     display: flex;
     flex-direction: column;
@@ -62,8 +58,7 @@
     margin-top: 64px;
 }
 
-.settings-block-page-fields-title {
-    margin-bottom: 20px;
-    font-size: 13px;
-    font-weight: bold;
+.pageView {
+    width: 400px;
+    margin: 0 auto;
 }

@@ -1,9 +1,17 @@
-import { GET_PAGES, GET_PAGES_SUCCESS, GET_PAGES_ERROR, RESET_DATA } from './constants';
+import {
+    GET_PAGES, GET_PAGES_SUCCESS, GET_PAGES_ERROR,
+    GET_FOLDERS, GET_FOLDERS_SUCCESS, GET_FOLDERS_ERROR,
+    RESET_DATA
+} from './constants';
 
 export const initialState = {
     pages: null,
     isPagesFetch: false,
-    isPagesError: null
+    isPagesError: null,
+
+    folders: null,
+    isFoldersFetch: false,
+    isFoldersError: null
 };
 
 /**
@@ -32,6 +40,26 @@ export default function(state = initialState, action) {
                 ...state,
                 isPagesFetch: false,
                 isPagesError: true
+            };
+
+        case GET_FOLDERS:
+            return {
+                ...state,
+                isFoldersFetch: true
+            };
+
+        case GET_FOLDERS_SUCCESS:
+            return {
+                ...state,
+                isFoldersFetch: false,
+                folders: action.payload
+            };
+
+        case GET_FOLDERS_ERROR:
+            return {
+                ...state,
+                isFoldersFetch: false,
+                isFoldersError: true
             };
 
         case RESET_DATA:

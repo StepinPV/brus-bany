@@ -107,10 +107,6 @@ export const props = [{
         title: 'Маленькая'
     }]
 }, {
-    _id: 'isHTML',
-    title: 'HTML в качестве значения',
-    type: 'boolean'
-}, {
     _id: 'id',
     title: 'Якорь',
     type: 'string'

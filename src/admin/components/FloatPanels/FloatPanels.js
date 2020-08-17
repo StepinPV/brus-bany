@@ -43,16 +43,18 @@ class FloatPanels extends PureComponent {
                         className={styles['panel-button']}
                         onClick={() => { onChangeOpenedPanel(key) }}>{panel.button.caption}</div>
                 ) : null}
-                <div className={styles['panel-caption']}>{panel.caption}</div>
-                <div className={styles['panel-content']}>
-                    {panel.content()}
+                <div className={styles['panel-wrapper']}>
+                    <div className={styles['panel-caption']}>{panel.caption}</div>
+                    <div className={styles['panel-content']}>
+                        {panel.content()}
+                    </div>
+                    <Button
+                        caption='Закрыть'
+                        type='yellow'
+                        onClick={this.closePanel}
+                        className={styles['panel-close']}
+                    />
                 </div>
-                <Button
-                    caption='Закрыть'
-                    type='yellow'
-                    onClick={this.closePanel}
-                    className={styles['panel-close']}
-                />
             </div>
         )
     };

@@ -1,6 +1,7 @@
 const Status = require('./Status');
 const Page = require('../models/Page');
 const prepareErrors = require('./prepareErrors');
+const cache = require('../cache');
 
 class Pages {
     static async get(id) {
@@ -62,6 +63,8 @@ class Pages {
         }
 
         await Page.deleteOne({ '_id': id });
+
+        cache.clear(['pages']);
 
         return Status.success();
     };

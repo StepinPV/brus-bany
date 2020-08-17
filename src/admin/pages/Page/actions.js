@@ -1,6 +1,7 @@
 import {
     GET, GET_SUCCESS, GET_ERROR,
     GET_TEMPLATES, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_ERROR,
+    GET_FOLDERS, GET_FOLDERS_SUCCESS, GET_FOLDERS_ERROR,
     SET, RESET
 } from './constants';
 import Api from './api';
@@ -41,6 +42,26 @@ export function getTemplates() {
         } catch(err) {
             // TODO
             dispatch({ type: GET_TEMPLATES_ERROR, payload: { message: 'Неизвестная ошибка!' }});
+        }
+    };
+}
+
+export function getFolders() {
+    return async (dispatch) => {
+        dispatch({ type: GET_FOLDERS });
+
+        try {
+            const res = await Api.getFolders();
+
+            if (res.data && res.data.status === 'error') {
+                dispatch({ type: GET_FOLDERS_ERROR, payload: { message: res.data.message } });
+                return;
+            }
+
+            dispatch({ type: GET_FOLDERS_SUCCESS, payload: res.data.data });
+        } catch(err) {
+            // TODO
+            dispatch({ type: GET_FOLDERS_ERROR, payload: { message: 'Неизвестная ошибка!' }});
         }
     };
 }

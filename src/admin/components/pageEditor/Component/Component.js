@@ -2,6 +2,22 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import * as components from '@constructor-components';
 import withCustomComponents from '../withCustomComponents';
+import axios from 'axios';
+
+let data;
+
+async function getData() {
+    if (data) {
+        return data;
+    }
+
+    data = await Promise.all([
+        axios.get(`/api/pages`),
+        axios.get('/api/page-folders')
+    ]);
+
+    return data;
+}
 
 class Component extends PureComponent {
     static propTypes = {
@@ -14,18 +30,28 @@ class Component extends PureComponent {
         loadCustomComponents: PropTypes.func
     };
 
-    componentDidMount() {
+    state = {
+        data: data
+    }
+
+    async componentDidMount() {
         const { customComponents, loadCustomComponents } = this.props;
 
         if (!customComponents) {
             loadCustomComponents();
+        }
+
+        if (!this.state.data) {
+            this.setState({
+                data: await getData()
+            })
         }
     }
 
     render = () => {
         const { componentId, componentProps, componentImages } = this.props;
 
-        return this.renderComponent(componentId, componentProps, componentImages);
+        return this.state.data ? this.renderComponent(componentId, componentProps, componentImages) : null;
     };
 
     renderComponent = (componentId, props, images) => {
@@ -34,7 +60,14 @@ class Component extends PureComponent {
         if (components[componentId]) {
             const Component = components[componentId];
 
-            return <Component {...props} __images__={images || {}} />;
+            return (
+                <Component
+                    {...props}
+                    __pages__={this.state.data[0].data.data}
+                    __pageFolders__={this.state.data[1].data.data}
+                    __images__={images || {}}
+                />
+            );
         }
 
         if (customComponents) {
