@@ -15,11 +15,16 @@ function Caption(props) {
 
     const options = {
         className,
+        style: {},
         dangerouslySetInnerHTML: { __html: props.children }
     }
 
     if (props.id) {
         options.id = props.id;
+    }
+
+    if (props.background) {
+        options.style.background = props.background;
     }
 
     switch (props.tag) {
@@ -38,7 +43,8 @@ Caption.propTypes = {
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     width: PropTypes.oneOf(['l', 'm', 's']),
-    id: PropTypes.string
+    id: PropTypes.string,
+    background: PropTypes.string
 };
 
 Caption.defaultProps = {

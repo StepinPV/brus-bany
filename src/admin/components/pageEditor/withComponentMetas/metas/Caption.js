@@ -14,6 +14,10 @@ export const props = [{
         title: 'Белый'
     }]
 }, {
+    _id: 'background',
+    title: 'Фон',
+    type: 'string'
+}, {
     _id: 'size',
     title: 'Размер',
     type: 'select',

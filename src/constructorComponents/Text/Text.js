@@ -13,8 +13,18 @@ function Text(props) {
         props.paddingTop !== 'none' ? styles[`padding-top-${props.paddingTop}`] : null,
         props.paddingBottom !== 'none' ? styles[`padding-bottom-${props.paddingBottom}`] : null);
 
+    const style = {};
+
+    if (props.background) {
+        style.background = props.background;
+    }
+
     return (
-        <div {...(props.id ? { id: props.id } : {})} className={className} dangerouslySetInnerHTML={{ __html: props.children }} />
+        <div
+            {...(props.id ? { id: props.id } : {})}
+            className={className}
+            style={style}
+            dangerouslySetInnerHTML={{ __html: props.children }} />
     );
 }
 
@@ -25,7 +35,8 @@ Text.propTypes = {
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     width: PropTypes.oneOf(['s', 'm', 'l']),
-    id: PropTypes.string
+    id: PropTypes.string,
+    background: PropTypes.string
 };
 
 Text.defaultProps = {
