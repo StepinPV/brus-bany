@@ -15,7 +15,7 @@ const SourceSelect = ({ title, source, selectedKey, onChange, error, hasEmpty, i
     }, []);
 
     return (
-        <Selectc
+        <Select
             title={title}
             items={items || []}
             displayProperty='title'
