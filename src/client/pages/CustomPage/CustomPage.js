@@ -35,6 +35,9 @@ class CustomPage extends PureComponent {
                 props.staticContext.data.pageTemplates.push(template);
             }
         }
+
+        props.page.config.componentsData = props.page.config.componentsData || {};
+        props.page.config.components = props.page.config.components || {};
     };
 
     render() {
@@ -56,7 +59,8 @@ class CustomPage extends PureComponent {
         const { page, templates } = this.props;
 
         let configId = page.config[id];
-        let component = page.config.componentsData[configId];
+
+        let component = configId ? page.config.componentsData[configId] : null;
 
         if (page.config.template) {
             const templateData = templates.find((t => t['_id'] === page.config.template));
@@ -115,7 +119,7 @@ class CustomPage extends PureComponent {
                     const tComponent = templateComponentsData[tComponentId];
 
                     if (tComponent.componentId.includes('__content__')) {
-                        const components = (page.config.components || {})[tComponent.componentId];
+                        const components = page.config.components[tComponent.componentId];
 
                         return (
                             <Fragment key={tComponentId}>
