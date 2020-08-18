@@ -266,7 +266,7 @@ class Folder extends PureComponent {
                                     ...data.pageViewConfig.componentsData,
                                     [id]: { ...componentData }
                                 },
-                                components: OperationsHelper.clone(data.pageViewConfig.components, index)
+                                components: [...(data.pageViewConfig.components.splice(index, 0, id) && data.pageViewConfig.components)]
                             });
                         },
                         options: togglePropsFormVisible,

@@ -378,7 +378,7 @@ class PageTemplate extends PureComponent {
                                     ...data.config.componentsData,
                                     [id]: { ...componentData }
                                 },
-                                components: OperationsHelper.clone(data.config.components, index)
+                                components: [...(data.config.components.splice(index, 0, id) && data.config.components)]
                             });
                         },
                         delete: () => {

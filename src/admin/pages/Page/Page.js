@@ -557,11 +557,11 @@ class Page extends PureComponent {
                             this.setConfig({
                                 componentsData: {
                                     ...page.config.componentsData,
-                                    [id]: OperationsHelper.clone(components, index)
+                                    [id]: JSON.parse(JSON.stringify(page.config.componentsData[components[index]]))
                                 },
                                 components: {
                                     ...page.config.components,
-                                    [blockId]: [...page.config.components[blockId], id]
+                                    [blockId]: [...(page.config.components[blockId].splice(index, 0, id) && page.config.components[blockId])]
                                 }
                             });
                         },

@@ -123,7 +123,10 @@ class CustomPage extends PureComponent {
 
                         return (
                             <Fragment key={tComponentId}>
-                                {components ? components.map((componentId, index) => this.renderComponentByIndex(tComponent.componentId, index)) : null}
+                                {components ? components.map((componentId, index) => {
+                                    const res = this.renderComponentByIndex(tComponent.componentId, index);
+                                    return res;
+                                }) : null}
                             </Fragment>
                         );
                     }

@@ -34,28 +34,34 @@ class Operations extends PureComponent {
 
         const meta = [{
             id: 'moveBottom',
+            title: 'Переместить вниз',
             caption: '▼'
         }, {
             id: 'moveUp',
+            title: 'Переместить вверх',
             caption: '▲'
         }, {
             id: 'clone',
+            title: 'Дублировать',
             caption: '❐'
         }, {
             id: 'options',
+            title: 'Редактировать',
             caption: '✐'
         }, {
             id: 'copy',
+            title: 'Копировать',
             caption: 'коп.'
         }, {
             id: 'delete',
+            title: 'Удалить',
             caption: '✗'
         }];
 
         return (
             <div className={styles.operations}>
                 {meta.map(o => operations[o.id] ? (
-                    <div key={o.id} className={styles.operation} onClick={(e) => {
+                    <div key={o.id} title={o.title} className={styles.operation} onClick={(e) => {
                         e.stopPropagation();
                         operations[o.id]();
                     }}>{o.caption}</div>
