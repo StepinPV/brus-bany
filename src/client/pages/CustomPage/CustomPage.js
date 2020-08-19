@@ -31,7 +31,7 @@ class CustomPage extends PureComponent {
             if (props.page.config.template) {
                 props.staticContext.data.pageTemplates = props.staticContext.data.pageTemplates || [];
 
-                const template = props.staticContext.data.pageTemplates.find((t => t['_id'] === props.page.config.template));
+                const template = props.templates.find((t => t['_id'] === props.page.config.template));
                 props.staticContext.data.pageTemplates.push(template);
             }
         }

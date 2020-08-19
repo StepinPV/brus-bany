@@ -67,17 +67,7 @@ const client = () => merge([
                             return `${packageName.replace('@', '').replace('/', '-')}`;
                         },
                         priority: 20
-                    }/*,
-                    components: {
-                        test: /[\\/]constructorComponents[\\/](.*?)[\\/]/,
-                        name(module) {
-                            const packageName = module.context.match(/[\\/]constructorComponents[\\/](.*?)([\\/]|$)/)[1];
-                            return `${packageName.replace('@', '').replace('/', '-')}`;
-                        },
-                        priority: 0,
-                        // TODO
-                        enforce: true
-                    }*/
+                    }
                 },
                 maxInitialRequests: Infinity,
                 minSize: 0
