@@ -19,15 +19,12 @@ export const props = [{
     }]
 }, {
     _id: 'color',
-    title: 'Цвет',
-    type: 'select',
-    items: [{
-        id: 'red',
-        title: 'Красный'
-    }, {
-        id: 'yellow',
-        title: 'Желтый'
-    }]
+    title: 'Цвет текста',
+    type: 'color-select'
+}, {
+    _id: 'background',
+    title: 'Цвет фона',
+    type: 'color-select'
 }, {
     _id: 'align',
     title: 'Выравнивание',
@@ -118,7 +115,8 @@ export const defaultProps = {
     caption: 'Кнопка',
     size: 'm',
     align: 'center',
-    color: 'red',
+    color: 'black',
+    background: 'red',
     href: '/',
     paddingBottom: 'm',
     paddingTop: 'm',

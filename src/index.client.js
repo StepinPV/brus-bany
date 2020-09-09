@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, matchPath } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { loadableReady } from '@loadable/component';
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/core';
 import configureStore from './store';
 import App from './components/App';
 import getRoutes from './routes';
@@ -36,18 +38,21 @@ async function run () {
 
     const matchRoute = routes.find(route => matchPath(window.location.pathname, route) || false);
 
+    const cache = createCache();
     ReactDOM.hydrate(
-        <Provider store={store}>
-            <BrowserRouter>
-                <App
-                    routes={[matchRoute]}
-                    page={data.page}
-                    customComponents={data.customComponents}
-                    pageTemplates={data.pageTemplates}
-                    pageFolders={data.pageFolders}
-                    pages={data.pages} />
-            </BrowserRouter>
-        </Provider>,
+        <CacheProvider value={cache}>
+            <Provider store={store}>
+                <BrowserRouter>
+                    <App
+                        routes={[matchRoute]}
+                        page={data.page}
+                        customComponents={data.customComponents}
+                        pageTemplates={data.pageTemplates}
+                        pageFolders={data.pageFolders}
+                        pages={data.pages} />
+                </BrowserRouter>
+            </Provider>
+        </CacheProvider>,
         document.getElementById('root')
     );
 }

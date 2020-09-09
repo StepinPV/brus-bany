@@ -16,4 +16,6 @@ export const ImageLinkBlock = loadable(() => import('./ImageLinkBlock'));
 export const Quiz = loadable(() => import('./Quiz'));
 export const Image = loadable(() => import('./Image'));
 export const Pages = loadable(() => import('./Pages'));
+export const SocialNetworks = loadable(() => import('./SocialNetworks/SocialNetworks'));
+export const Input = loadable(() => import('./Input'));
 

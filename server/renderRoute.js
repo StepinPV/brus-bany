@@ -33,7 +33,9 @@ router.get('*', async (req, res, next) => {
             markup,
             initialData,
             extractor,
-            context
+            context,
+            css,
+            cssIds
         } = await render(req, res, axiosOptions);
 
         if (context.status === 404) {
@@ -70,6 +72,8 @@ router.get('*', async (req, res, next) => {
                 initialData: serialize(context.simplePage ? {} : initialData),
                 data: serialize(context.simplePage ? {} : (context.data || {})),
                 app: markup,
+                css,
+                cssIds,
                 assets: {
                     styleTags,
                     linkTags: context.simplePage ? null : linkTags.split('\n').filter(str => str.includes('as="script"')).join('\n'),

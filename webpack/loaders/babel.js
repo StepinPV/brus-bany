@@ -10,6 +10,7 @@ module.exports = (targets, plugins = []) => ({
                 options: {
                     presets: [
                         '@babel/react',
+                        '@emotion/babel-preset-css-prop',
                         [
                             '@babel/env', {
                                 targets,
@@ -21,6 +22,7 @@ module.exports = (targets, plugins = []) => ({
                         ]
                     ],
                     plugins: [
+                        'emotion',
                         ...plugins,
                         ['@babel/plugin-proposal-decorators', { legacy: true }],
                         '@babel/proposal-class-properties',

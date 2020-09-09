@@ -6,6 +6,7 @@ import CheckBox from '../../../components/CheckBox';
 import TextArea from '../../../components/TextArea';
 import ImageUploader from '../ImageUploader';
 import SourceSelect from '../SourceSelect';
+import ColorSelect from '../ColorSelect';
 import Select from "../../../components/Select";
 import styles from './FormItem.module.css';
 
@@ -147,6 +148,16 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         hasEmpty={item.hasEmpty}
                         onChange={val => onChange(val, null, images)}
                         required={item.required}
+                        error={error} />
+                </div>
+            );
+        case 'color-select':
+            return (
+                <div className={styles.item}>
+                    <ColorSelect
+                        title={item.title}
+                        value={value}
+                        onChange={val => onChange(val, null, images)}
                         error={error} />
                 </div>
             );

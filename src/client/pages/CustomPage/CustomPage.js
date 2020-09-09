@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import PageRender from '../../components/PageRender';
 import Meta from "../../components/Meta";
 import * as components from '@constructor-components';
+import { ThemeProvider } from 'emotion-theming';
+import { getTheme } from '../../../constructorComponents/theme';
 
 class CustomPage extends PureComponent {
     static propTypes = {
@@ -44,14 +46,16 @@ class CustomPage extends PureComponent {
         const { page } = this.props;
 
         return (
-            <PageRender
-                header={this.renderSpecialComponent('header')}
-                footer={this.renderSpecialComponent('footer')}>
-                <>
-                    {page.config.seoMeta ? <Meta meta={page.config.seoMeta} /> : null}
-                    {this.renderPageContent()}
-                </>
-            </PageRender>
+            <ThemeProvider theme={getTheme()}>
+                <PageRender
+                    header={this.renderSpecialComponent('header')}
+                    footer={this.renderSpecialComponent('footer')}>
+                    <>
+                        {page.config.seoMeta ? <Meta meta={page.config.seoMeta} /> : null}
+                        {this.renderPageContent()}
+                    </>
+                </PageRender>
+            </ThemeProvider>
         );
     }
 
@@ -177,7 +181,7 @@ class CustomPage extends PureComponent {
             return (
                 <Component
                     {...props}
-                    __images__={images}
+                    __images__={images || {}}
                     __pages__={pages}
                     __pageFolders__={pageFolders}
                     staticContext={staticContext} />

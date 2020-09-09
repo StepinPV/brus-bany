@@ -5,18 +5,11 @@ export const props = [{
 }, {
     _id: 'color',
     title: 'Цвет',
-    type: 'select',
-    items: [{
-        id: 'black',
-        title: 'Черный'
-    }, {
-        id: 'white',
-        title: 'Белый'
-    }]
+    type: 'color-select'
 }, {
     _id: 'background',
     title: 'Фон',
-    type: 'string'
+    type: 'color-select'
 }, {
     _id: 'size',
     title: 'Размер',
@@ -120,7 +113,6 @@ export const name = 'Заголовок';
 export const key = 'Caption';
 export const defaultProps = {
     children: 'Заголовок',
-    color: 'black',
     size: 'm',
     align: 'center',
     tag: 'div',

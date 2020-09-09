@@ -15,6 +15,8 @@ import Operations from '../../components/pageEditor/Operations';
 import ComponentEditor from '../../components/pageEditor/ComponentEditor';
 import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
+import { ThemeProvider } from 'emotion-theming';
+import { getTheme } from '../../../constructorComponents/theme';
 import styles from './Page.module.css';
 
 const breadcrumbs = [{
@@ -111,16 +113,18 @@ class Page extends PureComponent {
 
         // TODO
         return page && page.config && page.config.componentsData ? (
-            <FloatPanels
-                panels={this.floatPanels}
-                onChangeOpenedPanel={this.setOpenedPanel}
-                openedPanelId={openedPanelId}>
-                <PageRender
-                    header={this.renderSpecialComponent('header', 'Добавить шапку')}
-                    footer={this.renderSpecialComponent('footer', 'Добавить подвал')}>
-                    {this.renderPageContent()}
-                </PageRender>
-            </FloatPanels>
+            <ThemeProvider theme={getTheme()}>
+                <FloatPanels
+                    panels={this.floatPanels}
+                    onChangeOpenedPanel={this.setOpenedPanel}
+                    openedPanelId={openedPanelId}>
+                    <PageRender
+                        header={this.renderSpecialComponent('header', 'Добавить шапку')}
+                        footer={this.renderSpecialComponent('footer', 'Добавить подвал')}>
+                        {this.renderPageContent()}
+                    </PageRender>
+                </FloatPanels>
+            </ThemeProvider>
         ) : null;
     }
 

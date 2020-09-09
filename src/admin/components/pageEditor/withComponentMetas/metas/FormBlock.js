@@ -36,19 +36,20 @@ export const props = [{
 }, {
     _id: 'background',
     title: 'Цвет блока',
-    type: 'select',
-    items: [{
-        id: 'white',
-        title: 'Белый'
-    }, {
-        id: 'grey',
-        title: 'Серый'
-    }]
+    type: 'color-select'
+}, {
+    _id: 'image',
+    title: 'Изображение',
+    type: 'image',
+    props: {
+        withoutLogo: true,
+        width: 580,
+        globalStore: true
+    }
 }];
 export const name = 'Блок с изображением и формой';
 export const key = 'FormBlock';
 export const defaultProps = {
-    background: 'grey',
     paddingBottom: 'm',
     paddingTop: 'm'
 };

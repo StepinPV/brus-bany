@@ -1,10 +1,13 @@
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
 import path from 'path';
 import { ChunkExtractor } from '@loadable/server';
+import createEmotionServer from 'create-emotion-server'
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/core';
 import configureStore from './store';
 import getRoutes from './routes';
 import App from './components/App';
@@ -83,29 +86,36 @@ const render = async (req, res, axiosOptions = {}) => {
         simplePage: matchRoute.simplePage
     };
 
+    const cache = createCache();
+    const { extractCritical } = createEmotionServer(cache);
+
     const jsx = extractor.collectChunks(
-        <Provider store={store}>
-            <StaticRouter location={req.url} context={context}>
-                <App
-                    preparedComponents={{ [matchRoute.id]: loadableComponent }}
-                    page={page}
-                    customComponents={customComponents}
-                    pageTemplates={pageTemplates}
-                    pages={pages}
-                    pageFolders={pageFolders}
-                    routes={[matchRoute]} />
-            </StaticRouter>
-        </Provider>
+        <CacheProvider value={cache}>
+            <Provider store={store}>
+                <StaticRouter location={req.url} context={context}>
+                    <App
+                        preparedComponents={{ [matchRoute.id]: loadableComponent }}
+                        page={page}
+                        customComponents={customComponents}
+                        pageTemplates={pageTemplates}
+                        pages={pages}
+                        pageFolders={pageFolders}
+                        routes={[matchRoute]} />
+                </StaticRouter>
+            </Provider>
+        </CacheProvider>
     );
 
-    const markup = ReactDOMServer.renderToString(jsx);
+    let { html: markup, css, ids: cssIds } = extractCritical(renderToString(jsx));
 
     return {
         head: Helmet.renderStatic(),
         initialData: store.getState(),
         markup,
         context,
-        extractor
+        extractor,
+        css,
+        cssIds
     };
 };
 

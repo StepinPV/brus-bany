@@ -17,6 +17,9 @@ html(lang='ru')
         | !{assets.linkTags}
         | !{link}
 
+        style(data-emotion-css=cssIds.join(' '))
+            | !{css}
+
     body(onbeforeunload='')
         div#root !{app}
         div#modal

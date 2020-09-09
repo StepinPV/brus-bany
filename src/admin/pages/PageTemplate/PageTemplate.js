@@ -16,7 +16,8 @@ import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import Form from '../../components/Form';
 import format from '../../formats/page-template';
 import styles from './PageTemplate.module.css';
-import {config as configFormat, main as mainFormat} from "../../formats/page";
+import { getTheme } from '../../../constructorComponents/theme';
+import { ThemeProvider } from 'emotion-theming';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -105,12 +106,14 @@ class PageTemplate extends PureComponent {
         }
 
         return data ? (
-            <FloatPanels
-                panels={this.floatPanels}
-                onChangeOpenedPanel={this.setOpenedPanel}
-                openedPanelId={openedPanelId}>
-                {this.renderPage()}
-            </FloatPanels>
+            <ThemeProvider theme={getTheme()}>
+                <FloatPanels
+                    panels={this.floatPanels}
+                    onChangeOpenedPanel={this.setOpenedPanel}
+                    openedPanelId={openedPanelId}>
+                    {this.renderPage()}
+                </FloatPanels>
+            </ThemeProvider>
         ) : null;
     }
 

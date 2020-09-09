@@ -30,7 +30,7 @@ const ArrayEditor = ({ title, value, copy, onChange, format, error, itemTitleFie
                                 expand={expand}
                                 images={images}
                                 error={typeof error === 'object' && error !== null ? error[index] : null}
-                                onChange={(v, images) => {
+                                onChange={(v, error, images) => {
                                     const newValue = [...value];
                                     if (v) {
                                         newValue[index] = v;
@@ -79,7 +79,7 @@ const ArrayEditor = ({ title, value, copy, onChange, format, error, itemTitleFie
                         format={format}
                         copy={copy}
                         images={images}
-                        onChange={(v, images) => {
+                        onChange={(v, error, images) => {
                             const newValue = [...(value || [])];
                             newValue[newValue.length] = v;
                             onChange(newValue, error, images);
