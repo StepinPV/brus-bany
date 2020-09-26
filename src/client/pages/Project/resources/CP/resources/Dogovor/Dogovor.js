@@ -118,7 +118,7 @@ function renderProjectBlock(projectBlock, project, data, withPrice, hideFund) {
     return hideFund && selectedId === '5e1735a1c2db2613e7e3efc6' || selectedId === '5e80fbecf68b012247c5f037' ? null : (
         <>
             <b>{projectBlock.itemTitle}</b>
-            <div>{item.name}{ withPrice ? ` ${numberWithSpaces(price)} рублей` : null}</div>
+            <div>{item.name}{ item.title}{ withPrice ? ` ${numberWithSpaces(price)} рублей` : null}</div>
         </>
     );
 }

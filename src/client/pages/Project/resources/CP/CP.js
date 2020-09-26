@@ -157,13 +157,17 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
     const sendViewEvent = async () => {
         if (formValue.viewMode) {
             const documentType = format.find(i => i._id === 'mode').items.find(i => i.id === formValue.mode);
-            const manager = format.find(i => i._id === 'manager').items.find(i => i.id === formValue.manager);
+            const manager = {
+                1: 'Марина',
+                2: 'Константинъ',
+                3: 'Вера',
+            }[formValue.manager];
 
             if (manager) {
                 await axios.post(`/api/events`, {
                     data: {
                         event: 'document_view',
-                        manager: manager.title,
+                        manager,
                         client: formValue.client,
                         documentNumber: formValue.documentNumber,
                         documentName: documentType.title,
