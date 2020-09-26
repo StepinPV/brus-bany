@@ -101,7 +101,7 @@ function renderProjectBlock(projectBlock, project, data, withPrice) {
         <div className={styles['block']}>
             <b className={styles['block-caption']}>{projectBlock.itemTitle}</b>
             <div className={styles['block-content']}>
-                <div className={styles['group-caption']}>{item.name}{ withPrice ? <span className={styles['price']}>{` ${numberWithSpaces(price)} рублей`}</span> : null}</div>
+                <div className={styles['group-caption']}>{item.name} {item.title} { withPrice ? <span className={styles['price']}>{` ${numberWithSpaces(price)} рублей`}</span> : null}</div>
             </div>
         </div>
     );
