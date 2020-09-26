@@ -17,7 +17,7 @@ const ColorSelect = ({ title, value, onChange }) => {
     }
 
     return (
-        <div>
+        <>
             <div className={styles.title}>{title}</div>
             <div className={styles.items}>
                 {theme.colors.map(color => (
@@ -51,7 +51,7 @@ const ColorSelect = ({ title, value, onChange }) => {
                     <div className={styles['item-title']}>Произвольный</div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
