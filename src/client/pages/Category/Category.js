@@ -206,9 +206,9 @@ class Category extends PureComponent {
                 />
                 {this.renderFilters()}
                 {this.renderProjects()}
-                {this.renderAdditionalProjects()}
-                {this.renderNotFoundProject()}
                 {this.renderPhotos()}
+                {this.renderNotFoundProject()}
+                {this.renderAdditionalProjects()}
                 <FormBlock source={name} />
                 {this.renderArticle()}
             </>
