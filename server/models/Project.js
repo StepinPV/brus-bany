@@ -22,6 +22,9 @@ const scheme = new Schema({
         type: Number,
         required: REQUIRED_MSG
     },
+    isPopular: {
+        type: Boolean
+    },
     images: {
         type: Object,
         default: {}

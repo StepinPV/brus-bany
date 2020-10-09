@@ -1,10 +1,11 @@
-import React, {PureComponent} from 'react';
+import React, {Fragment, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import Select from '../../../components/Select';
+import CheckBox from '../../../components/CheckBox';
 import {
     getProject,
     setProject,
@@ -153,7 +154,7 @@ class Project extends PureComponent {
                         <>
                             {this.renderImages()}
                             {this.renderComplectationBlock()}
-                            {this.renderBuildTime()}
+                            {this.renderParams()}
                             <Button
                                 caption={addMode ? 'Создать' : 'Сохранить'}
                                 type='yellow'
@@ -226,20 +227,29 @@ class Project extends PureComponent {
         ) : null;
     };
 
-    renderBuildTime = () => {
-        const { project: { buildTime } } = this.props;
+    renderParams = () => {
+        const { project: { buildTime, isPopular } } = this.props;
 
         return this.renderBlock('Параметры', (
-            <div className={styles.input}>
-                <Input
-                    value={buildTime}
-                    title='Срок строительства (количество дней)'
-                    type='integer number'
-                    required
-                    min={0}
-                    onChange={this.handleBuildTimeChange}
-                />
-            </div>
+            <>
+                <div className={styles.input}>
+                    <Input
+                        value={buildTime}
+                        title='Срок строительства (количество дней)'
+                        type='integer number'
+                        required
+                        min={0}
+                        onChange={this.handleBuildTimeChange}
+                    />
+                </div>
+                <div className={styles.input}>
+                    <CheckBox
+                        checked={isPopular}
+                        title='Популярный продукт'
+                        onChange={this.handlePopularChange}
+                    />
+                </div>
+            </>
         ))
     };
 
@@ -256,6 +266,12 @@ class Project extends PureComponent {
         const { actions, project } = this.props;
 
         actions.setProject({ ...project, buildTime });
+    };
+
+    handlePopularChange = (isPopular) => {
+        const { actions, project } = this.props;
+
+        actions.setProject({ ...project, isPopular });
     };
 
     renderLayout = () => {
