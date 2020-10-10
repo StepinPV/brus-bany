@@ -126,7 +126,7 @@ class Article extends PureComponent {
         switch (status) {
             case 'success':
                 if (name === 'add') {
-                    history.push('/admin/articles');
+                    window.location = '/admin/articles';
                 }
                 break;
             case 'error':
@@ -148,7 +148,7 @@ class Article extends PureComponent {
             showNotification({ message, status });
 
             if (status === 'success') {
-                history.push('/admin/articles');
+                window.location = '/admin/articles';
             }
         }
     };

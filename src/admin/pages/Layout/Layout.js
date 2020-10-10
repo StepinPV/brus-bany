@@ -124,7 +124,7 @@ class Layout extends PureComponent {
 
         switch (status) {
             case 'success':
-                history.push('/admin/layouts');
+                window.location = '/admin/layouts';
                 break;
             case 'error':
                 if (data && data.errors) {
@@ -145,7 +145,7 @@ class Layout extends PureComponent {
             showNotification({ message, status });
 
             if (status === 'success') {
-                history.push('/admin/layouts');
+                window.location = '/admin/layouts';
             }
         }
     };

@@ -6,6 +6,10 @@ const sortProjects = (projects) => {
         const bW = b.layoutId.width;
         const bL = b.layoutId.length;
 
+        if (a.isPopular) {
+            return -1;
+        }
+
         if (aW > bW) return 1;
         if (aW === bW) {
             if (aL > bL) return 1;

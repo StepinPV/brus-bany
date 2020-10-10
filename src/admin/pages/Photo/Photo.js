@@ -201,7 +201,7 @@ class Photo extends PureComponent {
         switch(status){
             case 'success':
                 if (addMode) {
-                    history.push(`/admin/photos`);
+                    window.location = `/admin/photos`;
                 }
                 break;
             case 'error':
@@ -223,7 +223,7 @@ class Photo extends PureComponent {
             showNotification({ message, status });
 
             if (status === 'success') {
-                history.push(`/admin/photos`);
+                window.location = `/admin/photos`;
             }
         }
     };

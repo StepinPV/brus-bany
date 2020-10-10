@@ -320,7 +320,7 @@ class Project extends PureComponent {
         showNotification({ message, status });
 
         if (status === 'success') {
-            history.push(`/admin/projects`);
+            window.location = `/admin/projects`;
         }
     };
 
@@ -333,7 +333,7 @@ class Project extends PureComponent {
             showNotification({ message, status });
 
             if (status === 'success') {
-                history.push(`/admin/projects`);
+                window.location = `/admin/projects`;
             }
         }
     };
