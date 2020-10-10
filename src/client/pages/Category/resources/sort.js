@@ -6,7 +6,7 @@ const sortProjects = (projects) => {
         const bW = b.layoutId.width;
         const bL = b.layoutId.length;
 
-        if (a.isPopular) {
+        if (a.isPopular && !b.isPopular) {
             return -1;
         }
 
