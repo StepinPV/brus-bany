@@ -127,6 +127,10 @@ const projectBlockScheme = new Schema({
 });
 
 const scheme = new Schema({
+    rootTranslateName: {
+        type: String,
+        required: REQUIRED_MSG
+    },
     translateName: {
         type: String,
         required: REQUIRED_MSG

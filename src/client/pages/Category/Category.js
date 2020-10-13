@@ -23,9 +23,6 @@ import wordByNumber from '../../../utils/wordByNumber';
 const breadcrumbsDefault = [{
     title: 'Главная',
     link: '/'
-}, {
-    title: 'Категории бань',
-    link: '/bani'
 }];
 
 class Category extends PureComponent {
@@ -50,6 +47,10 @@ class Category extends PureComponent {
                 ...(state || {}),
                 breadcrumbs: [
                     ...breadcrumbsDefault,
+                    {
+                        title: `Категории ${nextProps.category.rootTranslateName === 'bani' ? 'бань' : 'домов'}`,
+                        link: nextProps.category.rootTranslateName === 'bani' ? '/bani' : '/doma'
+                    },
                     { title: nextProps.category.name }
                 ],
                 categoryId: nextProps.category._id
@@ -96,6 +97,10 @@ class Category extends PureComponent {
                 let url = `/bani/${nextProps.category.translateName}`;
                 const breadcrumbs = [
                     ...breadcrumbsDefault,
+                    {
+                        title: `Категории ${nextProps.category.rootTranslateName === 'bani' ? 'бань' : 'домов'}`,
+                        link: nextProps.category.rootTranslateName === 'bani' ? '/bani' : '/doma'
+                    },
                     { title: nextProps.category.name, link: filterIds && filterIds.length ? url : null }
                 ];
 

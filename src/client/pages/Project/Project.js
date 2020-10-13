@@ -37,9 +37,6 @@ function parseQuery(uri) {
 const breadcrumbsDefault = [{
     title: 'Главная',
     link: '/'
-}, {
-    title: 'Категории бань',
-    link: '/bani'
 }];
 
 const CP = loadable(() => import('./resources/CP'));
@@ -97,7 +94,11 @@ class Project extends PureComponent {
                 ...newState,
                 breadcrumbs: [
                     ...breadcrumbsDefault,
-                    { title: nextProps.project.categoryId.name, link: `/bani/${nextProps.project.categoryId.translateName}`},
+                    {
+                        title: `Категории ${nextProps.project.categoryId.rootTranslateName === 'bani' ? 'бань' : 'домов'}`,
+                        link: nextProps.project.categoryId.rootTranslateName === 'bani' ? '/bani' : '/doma'
+                    },
+                    { title: nextProps.project.categoryId.name, link: `/${nextProps.project.categoryId.rootTranslateName}/${nextProps.project.categoryId.translateName}`},
                     { title: nextProps.project.layoutId.name }
                 ],
                 projectId: nextProps.project._id

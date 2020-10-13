@@ -33,6 +33,16 @@ export default (initModule) => {
         component: loadable(() => import('../client/pages/Category')),
         simplePage: true
     }, {
+        id: 'site/doma/category/project',
+        path: '/doma/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
+        exact: true,
+        component: loadable(() => import('../client/pages/Project'))
+    }, {
+        id: 'site/doma/category',
+        path: '/doma/:name',
+        component: loadable(() => import('../client/pages/Category')),
+        simplePage: true
+    }, {
         id: 'site/blog',
         path: '/blog',
         exact: true,

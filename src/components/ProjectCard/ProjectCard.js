@@ -30,10 +30,10 @@ function ProjectCard({ category, project, link }) {
     const { complectationBlocks } = category;
 
     return (
-        <a href={link || `/bani/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
+        <a href={link || `/${category.rootTranslateName}/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
             <Card
                 firstImage={images ? images['card'] : null}
-                imageAlt={`Баня ${layoutId.name} ${layoutId.width}x${layoutId.length}`}
+                imageAlt={`${category.rootTranslateName === 'bani' ? 'Баня' : 'Дом'} ${layoutId.name} ${layoutId.width}x${layoutId.length}`}
                 firstButton='Подробнее'
                 secondButton={`от ${prices && complectationBlocks && prices[complectationBlocks.defaultItemId] ? numberWithSpaces(prices[complectationBlocks.defaultItemId]) : 0} руб`}
                 bgStyle='grey'
