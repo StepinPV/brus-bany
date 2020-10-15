@@ -30,7 +30,7 @@ function ProjectCard({ category, project, link }) {
     const { complectationBlocks } = category;
 
     return (
-        <a href={link || `/${category.rootTranslateName}/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
+        <a href={link || `${category.rootTranslateName === 'bani' ? '/bani' : ''}/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
             <Card
                 firstImage={images ? images['card'] : null}
                 imageAlt={`${category.rootTranslateName === 'bani' ? 'Баня' : 'Дом'} ${layoutId.name} ${layoutId.width}x${layoutId.length}`}

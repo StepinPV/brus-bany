@@ -20,7 +20,7 @@ function FormBlock(props) {
             </div>
             <div className={cx(styles['second-column'], styles[`second-column-background-${background}`])}>
                 <Caption paddingBottom='s' paddingTop='s'>Закажите обратный звонок!</Caption>
-                <Text size='l' paddingTop='s'>Перезвоним вам в кратчайшие сроки, расскажем о банях все и поможем с выбором</Text>
+                <Text size='l' paddingTop='s'>Перезвоним вам в кратчайшие сроки, расскажем о домах и банях все и поможем с выбором</Text>
                 <Form />
             </div>
         </div>

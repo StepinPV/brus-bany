@@ -346,6 +346,11 @@ export default [{
     type: 'string',
     required: true
 }, {
+    _id: 'payButton',
+    title: 'Введите текст для кнопки купить',
+    type: 'string',
+    required: true
+},{
     _id: 'h1',
     title: 'H1 заголовок',
     type: 'string',

@@ -3,7 +3,7 @@ Disallow: /admin*
 Disallow: /test*
 Disallow: /api*
 Disallow: /thanks
-Disallow: /doma/brus*
-Disallow: /photos/brus
+Disallow: /doma-iz-brusa*
+Disallow: /photos/doma-iz-brusa
 Disallow: /*?*
 Sitemap: https://brus-bany.ru/sitemap.xml

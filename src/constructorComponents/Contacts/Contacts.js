@@ -44,7 +44,7 @@ function Contacts(props) {
                     <a href="mailto:info@brus-bany.ru" className={styles['info-email']} itemProp="email">info@brus-bany.ru</a>
                 </div>
                 <Text align='left'>
-                    Построим баню любой сложности с нуля или привезем готовую!
+                    Построим баню или дом любой сложности с нуля или привезем готовый объект!
                     Если вы не нашли на сайте проект интересующей вас бани, напишите или позвоните нам, мы с удовольствием вам поможем
                 </Text>
                 <div className={styles['info-time']}>

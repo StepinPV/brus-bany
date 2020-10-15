@@ -34,7 +34,20 @@ async function run () {
         }
     });
 
-    const matchRoute = routes.find(route => matchPath(window.location.pathname, route) || false);
+    const matchRoute = routes.find(route => {
+        const match = matchPath(window.location.pathname, route);
+
+        if (!match) return false;
+
+        if (route.params) {
+            match.params = {
+                ...match.params,
+                ...route.params
+            }
+        }
+
+        return match;
+    });
 
     ReactDOM.hydrate(
         <Provider store={store}>

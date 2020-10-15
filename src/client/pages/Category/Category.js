@@ -43,16 +43,20 @@ class Category extends PureComponent {
         let state = null;
 
         if (nextProps.category && prevState.categoryId !== nextProps.category._id) {
+            const breadcrumbs = [...breadcrumbsDefault];
+
+            if (nextProps.category.rootTranslateName === 'bani') {
+                breadcrumbs.push({
+                    title: `Категории бань`,
+                    link: '/bani'
+                });
+            }
+
+            breadcrumbs.push({ title: nextProps.category.name });
+
             state = {
                 ...(state || {}),
-                breadcrumbs: [
-                    ...breadcrumbsDefault,
-                    {
-                        title: `Категории ${nextProps.category.rootTranslateName === 'bani' ? 'бань' : 'домов'}`,
-                        link: nextProps.category.rootTranslateName === 'bani' ? '/bani' : '/doma'
-                    },
-                    { title: nextProps.category.name }
-                ],
+                breadcrumbs,
                 categoryId: nextProps.category._id
             }
         }
@@ -95,14 +99,16 @@ class Category extends PureComponent {
                 const filters = getFilters();
 
                 let url = `/bani/${nextProps.category.translateName}`;
-                const breadcrumbs = [
-                    ...breadcrumbsDefault,
-                    {
-                        title: `Категории ${nextProps.category.rootTranslateName === 'bani' ? 'бань' : 'домов'}`,
-                        link: nextProps.category.rootTranslateName === 'bani' ? '/bani' : '/doma'
-                    },
-                    { title: nextProps.category.name, link: filterIds && filterIds.length ? url : null }
-                ];
+                const breadcrumbs = [...breadcrumbsDefault];
+
+                if (nextProps.category.rootTranslateName === 'bani') {
+                    breadcrumbs.push({
+                        title: `Категории бань`,
+                        link: '/bani'
+                    });
+                }
+
+                breadcrumbs.push({ title: nextProps.category.name, link: filterIds && filterIds.length ? url : null });
 
                 filters.forEach((filter, i) => {
                     breadcrumbs.push({
@@ -207,7 +213,7 @@ class Category extends PureComponent {
             <>
                 <H1Block
                     caption={this.getH1()}
-                    description={(<>{filteredProjects.length} {wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} бань на любой вкус.<br/>Без затяжного строительства и каждому по карману</>)}
+                    description={(<>{filteredProjects.length} {wordByNumber(filteredProjects.length, 'проект', 'проекта', 'проектов')} на любой вкус.<br/>Без затяжного строительства и каждому по карману</>)}
                 />
                 {this.renderFilters()}
                 {this.renderProjects()}
@@ -251,7 +257,9 @@ class Category extends PureComponent {
         })), {
             id: 'custom',
             element: (
-                <CustomProjectCard link='/individualnyy-proekt' />
+                <CustomProjectCard
+                    link='/individualnyy-proekt'
+                    text={`Построим ${category.name4} любой сложности отталкиваясь от ваших предпочтений и пожеланий`} />
             )
         }]} />;
     };
@@ -290,13 +298,14 @@ class Category extends PureComponent {
     };
 
     renderNotFoundProject = () => {
+        const { category } = this.props;
         return (
             <DataSection
                 bgStyle='red'
-                caption='Не нашли интересующий проект бани?'
-                description='Построим баню с учетом ваших замечаний и предложений'>
+                caption='Не нашли интересующий проект?'
+                description={`Построим ${category.name4} с учетом ваших замечаний и предложений`}>
                 <div className={styles['button-container']}>
-                    <Link caption='Обсудить проект бани' type='yellow' href='#requestForm'/>
+                    <Link caption='Обсудить индивидуальный проект' type='yellow' href='#requestForm'/>
                 </div>
             </DataSection>
         )

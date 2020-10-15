@@ -4,7 +4,7 @@ import styles from './CustomProjectCard.module.css';
 import Card from '../Card';
 import img from './img.jpg';
 
-function CustomProjectCard({ link }) {
+function CustomProjectCard({ link, text }) {
     return (
         <a href={link} className={styles.wrapper}>
             <Card
@@ -20,7 +20,7 @@ function CustomProjectCard({ link }) {
                             Не нашли подходящий проект?
                         </div>
                         <div className={styles.text}>
-                            Построим баню любой сложности отталкиваясь от ваших предпочтений и пожеланий
+                            {text}
                         </div>
                     </div>
                 )}
