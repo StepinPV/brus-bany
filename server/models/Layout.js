@@ -45,6 +45,7 @@ const floorScheme = new Schema({
             area
         }
     },
+    balconies: Array,
     'toilet-bathroom': {
         type: {
             area
@@ -155,17 +156,8 @@ const scheme = new Schema({
             area
         }
     },
-    attic: {
-        type: {
-            area,
-            wallLength,
-            wallHeight,
-            ceilingArea,
-            partitionLength: {
-                type: Number
-            }
-        }
-    },
+    terraces: Array,
+    attic: Object,
     updated: Date
 }, {
     versionKey: false,
