@@ -119,16 +119,6 @@ export default [{
         title: 'Теплая площадь',
         type: 'float number',
         required: true
-    }, {
-        _id: 'balcony',
-        title: 'Балкон',
-        type: 'object',
-        format: [{
-            _id: 'area',
-            title: 'Площадь',
-            type: 'float number',
-            required: true
-        }]
     }, balconies, {
         _id: 'toilet-bathroom',
         title: 'Туалеты-ванные',

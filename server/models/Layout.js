@@ -40,11 +40,6 @@ const floorScheme = new Schema({
         type: Number,
         required: REQUIRED_MSG
     },
-    balcony: {
-        type: {
-            area
-        }
-    },
     balconies: Array,
     'toilet-bathroom': {
         type: {
