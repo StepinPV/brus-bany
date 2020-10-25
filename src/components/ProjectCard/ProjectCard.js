@@ -26,26 +26,29 @@ function renderInfoTitle(project){
 }
 
 function ProjectCard({ category, project, link }) {
-    const { images, prices, layoutId } = project;
+    const { images, prices, layoutId, isPopular } = project;
     const { complectationBlocks } = category;
 
     return (
-        <a href={link || `/bani/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
+        <a href={link || `${category.rootTranslateName === 'bani' ? '/bani' : ''}/${category.translateName}/${layoutId['translateName']}_${layoutId.width}x${layoutId.length}`} key={layoutId['translateName']} className={styles.container}>
             <Card
                 firstImage={images ? images['card'] : null}
-                imageAlt={`Баня ${layoutId.name} ${layoutId.width}x${layoutId.length}`}
+                imageAlt={`${category.rootTranslateName === 'bani' ? 'Баня' : 'Дом'} ${layoutId.name} ${layoutId.width}x${layoutId.length}`}
                 firstButton='Подробнее'
                 secondButton={`от ${prices && complectationBlocks && prices[complectationBlocks.defaultItemId] ? numberWithSpaces(prices[complectationBlocks.defaultItemId]) : 0} руб`}
                 bgStyle='grey'
                 content={(
-                    <div className={styles['info']}>
-                        <div className={styles['info-title']}>
-                            {category.name2} {`${layoutId.width}x${layoutId.length}`}
-                            {renderInfoTitle(project)}
-                            <span className={styles['info-title-name']} dangerouslySetInnerHTML={{ __html: ` «${project.layoutId.name.replace(/ /g, '&nbsp')}»` }} />
+                    <>
+                        {isPopular ? <div className={styles.popular}>☆ Хит продаж</div> : null}
+                        <div className={styles['info']}>
+                            <div className={styles['info-title']}>
+                                {category.name2} {`${layoutId.width}x${layoutId.length}`}
+                                {renderInfoTitle(project)}
+                                <span className={styles['info-title-name']} dangerouslySetInnerHTML={{ __html: ` «${project.layoutId.name.replace(/ /g, '&nbsp')}»` }} />
+                            </div>
+                            <div className={styles['info-area']}>{`Площадь: ${layoutId.area}м`}<sup>2</sup></div>
                         </div>
-                        <div className={styles['info-area']}>{`Площадь: ${layoutId.area}м`}<sup>2</sup></div>
-                    </div>
+                    </>
                 )}
             />
         </a>

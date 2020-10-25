@@ -130,7 +130,7 @@ class Category extends PureComponent {
 
         switch (status) {
             case 'success':
-                history.push('/admin/categories');
+                window.location = '/admin/categories';
                 break;
             case 'error':
                 if (data && data.errors) {
@@ -151,7 +151,7 @@ class Category extends PureComponent {
             showNotification({ message, status });
 
             if (status === 'success') {
-                history.push('/admin/categories');
+                window.location = '/admin/categories';
             }
         }
     };

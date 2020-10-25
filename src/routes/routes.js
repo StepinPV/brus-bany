@@ -33,6 +33,22 @@ export default (initModule) => {
         component: loadable(() => import('../client/pages/Category')),
         simplePage: true
     }, {
+        id: 'site/doma-iz-brusa/project',
+        path: '/doma-iz-brusa/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
+        exact: true,
+        component: loadable(() => import('../client/pages/Project')),
+        params: {
+            categoryName: 'doma-iz-brusa'
+        }
+    }, {
+        id: 'site/doma-iz-brusa',
+        path: '/doma-iz-brusa',
+        component: loadable(() => import('../client/pages/Category')),
+        simplePage: true,
+        params: {
+            name: 'doma-iz-brusa'
+        }
+    }, {
         id: 'site/blog',
         path: '/blog',
         exact: true,

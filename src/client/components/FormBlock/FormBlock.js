@@ -16,7 +16,7 @@ export default memo(({ source, data }) => {
                 <div className={styles['second-column']}>
                     <Caption>Закажите обратный звонок!</Caption>
                     <br/>
-                    <Text size='l'>Перезвоним вам в кратчайшие сроки, расскажем о банях все и поможем с выбором</Text>
+                    <Text size='l'>Перезвоним вам в кратчайшие сроки, расскажем о домах и банях все и поможем с выбором</Text>
                     <br/><br/>
                     <Form source={source} data={data} />
                 </div>

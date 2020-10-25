@@ -307,7 +307,8 @@ module.exports.FROM = [
     '/bani/iz-brusa/vologda_7x8',
     '/photos/iz-brusa/vologda_7x8_5e622382d85f5171c573a779',
     '/karkasnie-bani/kupit-banu-5x8m-viborg',
-    '/photos/karkasnie/vsevolozhsk_6x6_5e677a344304fa6b84912e29'
+    '/photos/karkasnie/vsevolozhsk_6x6_5e677a344304fa6b84912e29',
+    '/bani/iz-brusa/6x6/dvukhetazhnyye'
 ];
 
 module.exports.TO = [
@@ -619,5 +620,6 @@ module.exports.TO = [
     '/bani/iz-brusa/7x8',
     '/bani/iz-brusa/7x8',
     '/bani/karkasnie/5x7',
-    '/bani/karkasnie/vsevolozhsk_6x6'
+    '/bani/karkasnie/vsevolozhsk_6x6',
+    '/bani/iz-brusa/6x6'
 ];

@@ -37,9 +37,6 @@ function parseQuery(uri) {
 const breadcrumbsDefault = [{
     title: 'Главная',
     link: '/'
-}, {
-    title: 'Категории бань',
-    link: '/bani'
 }];
 
 const CP = loadable(() => import('./resources/CP'));
@@ -93,13 +90,21 @@ class Project extends PureComponent {
         }
 
         if (nextProps.project && prevState.projectId !== nextProps.project._id) {
+            const breadcrumbs = [...breadcrumbsDefault];
+
+            if (nextProps.project.categoryId.rootTranslateName === 'bani') {
+                breadcrumbs.push({
+                    title: `Категории бань`,
+                    link: '/bani'
+                });
+            }
+
+            breadcrumbs.push({ title: nextProps.project.categoryId.name, link: `${nextProps.project.categoryId.rootTranslateName === 'bany' ? '/bani' : ''}/${nextProps.project.categoryId.translateName}`});
+            breadcrumbs.push({ title: nextProps.project.layoutId.name });
+
             newState = {
                 ...newState,
-                breadcrumbs: [
-                    ...breadcrumbsDefault,
-                    { title: nextProps.project.categoryId.name, link: `/bani/${nextProps.project.categoryId.translateName}`},
-                    { title: nextProps.project.layoutId.name }
-                ],
+                breadcrumbs,
                 projectId: nextProps.project._id
             }
         }
@@ -178,7 +183,7 @@ class Project extends PureComponent {
                     title: `Проект ${this.renderInfoTitle(project.categoryId['name5']).toLowerCase()} - ${project.layoutId.name} от ${numberWithSpaces(this.getDefaultPrice())} рублей`,
                     description: `🏠 ${this.renderInfoTitle(project.categoryId['name2'])} «${project.layoutId.name}» 💨 Возможна перепланировка и изменение комплектации 💨 Оставьте заявку на сайте 💨 Звоните 📳 8(800)201-07-29`,
                     type: 'product',
-                    image: project.images['main'],
+                    image: project.images ? project.images['main'] : undefined,
                     imageAlt: `Проект ${this.renderInfoTitle(project.categoryId['name5']).toLowerCase()} - ${project.layoutId.name}`
                 }} />
                 <Header />
@@ -203,7 +208,7 @@ class Project extends PureComponent {
                     <div className={styles['page-info-icon']}>!</div>
                     <div className={styles['page-info-text-container']}>
                         <div className={styles['page-info-text']}>
-                            Далее вы можете самостоятельно рассчитать итоговую стоимость бани, выбрав комплектацию, дополнения и адрес доставки
+                            Далее вы можете самостоятельно рассчитать итоговую стоимость проекта, выбрав комплектацию, дополнения и адрес доставки
                         </div>
                     </div>
                 </div>
@@ -442,7 +447,7 @@ class Project extends PureComponent {
                     {`${numberWithSpaces(price)} руб`}
                 </div>
                 <div className={styles['info-buttons']}>
-                    <Button onClick={() => { showForm({ source: match.url, title: 'Оформление заявки' }) }} className={styles['info-button']} caption='Заказать баню' size='s' />
+                    <Button onClick={() => { showForm({ source: match.url, title: 'Оформление заявки' }) }} className={styles['info-button']} caption={project.categoryId.payButton} size='s' />
                     <Button onClick={() => { showForm({ source: match.url }) }} className={styles['info-button']} caption='Обсудить проект со специалистом' size='s' type='yellow' />
                 </div>
                 <div className={styles['info-build-time']}>Срок строительства - {project.buildTime} дней</div>

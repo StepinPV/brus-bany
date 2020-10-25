@@ -1,3 +1,15 @@
+const balconies = {
+    _id: 'balconies',
+    title: 'Балконы',
+    type: 'array',
+    format: [{
+        _id: 'area',
+        title: 'Площадь',
+        type: 'float number',
+        required: true
+    }]
+};
+
 export default [{
     _id: 'name',
     title: 'Имя',
@@ -107,17 +119,7 @@ export default [{
         title: 'Теплая площадь',
         type: 'float number',
         required: true
-    }, {
-        _id: 'balcony',
-        title: 'Балкон',
-        type: 'object',
-        format: [{
-            _id: 'area',
-            title: 'Площадь',
-            type: 'float number',
-            required: true
-        }]
-    }, {
+    }, balconies, {
         _id: 'toilet-bathroom',
         title: 'Туалеты-ванные',
         type: 'array',
@@ -199,16 +201,6 @@ export default [{
         required: true
     }]
 }, {
-    _id: 'terrace',
-    title: 'Терраса',
-    type: 'object',
-    format: [{
-        _id: 'area',
-        title: 'Площадь',
-        type: 'float number',
-        required: true
-    }]
-}, {
     _id: 'attic',
     title: 'Мансарда',
     type: 'object',
@@ -236,5 +228,25 @@ export default [{
         _id: 'partitionLength',
         title: 'Длина перегородок',
         type: 'float number'
+    }, balconies]
+}, {
+    _id: 'terrace',
+    title: 'Терраса (для бань)',
+    type: 'object',
+    format: [{
+        _id: 'area',
+        title: 'Площадь',
+        type: 'float number',
+        required: true
+    }]
+}, {
+    _id: 'terraces',
+    title: 'Террасы (для домов)',
+    type: 'array',
+    format: [{
+        _id: 'area',
+        title: 'Площадь',
+        type: 'float number',
+        required: true
     }]
 }];

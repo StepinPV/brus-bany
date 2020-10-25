@@ -343,7 +343,7 @@ class Component extends PureComponent {
                 break;
             case 'success':
                 if (match.params.id === 'add') {
-                    history.push('/admin/components');
+                    window.location = '/admin/components';
                 }
         }
     };
@@ -357,7 +357,7 @@ class Component extends PureComponent {
             showNotification({ message, status });
 
             if (status === 'success') {
-                history.push('/admin/components');
+                window.location = '/admin/components';
             }
         }
     };

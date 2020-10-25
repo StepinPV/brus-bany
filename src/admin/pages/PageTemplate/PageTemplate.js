@@ -467,7 +467,7 @@ class PageTemplate extends PureComponent {
                 break;
             case 'success':
                 if (match.params.id === 'add') {
-                    history.push('/admin/page-templates');
+                    window.location = '/admin/page-templates';
                 }
                 break;
         }
@@ -482,7 +482,7 @@ class PageTemplate extends PureComponent {
             showNotification({ message, status });
 
             if (status === 'success') {
-                history.push('/admin/page-templates');
+                window.location = '/admin/page-templates';
             }
         }
     };

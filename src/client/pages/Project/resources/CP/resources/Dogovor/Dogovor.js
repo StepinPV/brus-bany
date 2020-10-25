@@ -1330,7 +1330,7 @@ const renderTZ = (project, formValue, data, finalPrice, projectName) => {
             <br/>
             <div>{formValue.client.name}, {formValue.client.phone}, {renderDate(new Date(formValue.projectDate))}, {data.delivery ? `${data.delivery.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : ''}</div>
             <br/>
-            {renderProtocol(project, formValue, getFinalPrice(finalPrice, data, categoryId, project), categoryId, data)}
+            {renderProtocol(project, formValue, finalPrice, categoryId, data)}
             <br/>
             <br/>
             {renderSpecification(projectName, project, categoryId, data)}

@@ -305,6 +305,17 @@ const projectBlocks = {
 };
 
 export default [{
+    _id: 'rootTranslateName',
+    title: 'Тип',
+    type: 'select',
+    items: [{
+        id: 'bani',
+        title: 'Бани'
+    }, {
+        id: 'doma',
+        title: 'Дома'
+    }]
+}, {
     _id: 'translateName',
     title: 'Введите имя на английском',
     type: 'string',
@@ -335,6 +346,11 @@ export default [{
     type: 'string',
     required: true
 }, {
+    _id: 'payButton',
+    title: 'Введите текст для кнопки купить',
+    type: 'string',
+    required: true
+},{
     _id: 'h1',
     title: 'H1 заголовок',
     type: 'string',

@@ -338,7 +338,7 @@ class Folder extends PureComponent {
                 break;
             case 'success':
                 if (match.params.id === 'add') {
-                    history.push('/admin/pages');
+                    window.location = '/admin/pages';
                 }
         }
     };
@@ -352,7 +352,7 @@ class Folder extends PureComponent {
             showNotification({ message, status });
 
             if (status === 'success') {
-                history.push('/admin/pages');
+                window.location = '/admin/pages';
             }
         }
     };
