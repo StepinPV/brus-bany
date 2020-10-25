@@ -118,7 +118,7 @@ function Contacts(props) {
                     <Email href="mailto:info@brus-bany.ru" itemProp="email">info@brus-bany.ru</Email>
                 </PhoneEmailContainer>
                 <Text align='left'>
-                    Построим баню любой сложности с нуля или привезем готовую!
+                    Построим баню или дом любой сложности с нуля или привезем готовый объект!
                     Если вы не нашли на сайте проект интересующей вас бани, напишите или позвоните нам, мы с удовольствием вам поможем
                 </Text>
                 <Time>
