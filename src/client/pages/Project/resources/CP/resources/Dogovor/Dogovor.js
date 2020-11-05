@@ -1238,6 +1238,8 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     <br/><br/><br/><br/><br/><br/>
                     <br/><br/><br/><br/><br/><br/>
                     <br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/>
                 </div>
                 {renderRunningTitles(formValue)}
             </div>
