@@ -253,7 +253,7 @@ const renderRequizits = (formValue) => {
 }
 const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
     return (
-        <>
+        <div>
             <h3 style={{ textAlign: 'center' }}>ПРОТОКОЛ СОГЛАСОВАНИЯ ЦЕНЫ</h3>
             <br/>
             {renderComplectation(project, data, true)}
@@ -302,7 +302,7 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
                     );
                 }
             }) : null}
-        </>
+        </div>
     )
 }
 const renderSpecification = (projectName, project, categoryId, data) => {
@@ -1235,6 +1235,9 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     {renderRequizits(formValue)}
                     <br/><br/>
                     {renderProtocol(project, formValue, finalPrice, categoryId, data)}
+                    <br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/>
                 </div>
                 {renderRunningTitles(formValue)}
             </div>
