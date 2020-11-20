@@ -137,7 +137,12 @@ class Category extends PureComponent {
     }
 
     static initialAction({ dispatch, match }) {
-        const { name } = match.params;
+        let { name } = match.params;
+
+        if (!name) {
+            name = match.url.split('/')[1];
+        }
+
         return [dispatch(getCategory(name)), dispatch(getProjects(name)), dispatch(getPhotos(name))];
     }
 

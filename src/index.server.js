@@ -69,17 +69,8 @@ const render = async (req, res, axiosOptions = {}) => {
     const wrappedComponent = component.default && component.default.WrappedComponent;
 
     if (wrappedComponent && wrappedComponent.initialAction) {
-        const match = matchPath(req.path, matchRoute);
-
-        if (matchRoute.params) {
-            match.params = {
-                ...match.params,
-                ...matchRoute.params
-            }
-        }
-
         await Promise.all(wrappedComponent.initialAction({
-            match,
+            match: matchPath(req.path, matchRoute),
             dispatch: store.dispatch,
             location: {
                 pathname: req.path,
