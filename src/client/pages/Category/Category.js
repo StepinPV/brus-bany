@@ -139,6 +139,10 @@ class Category extends PureComponent {
     static initialAction({ dispatch, match }) {
         let { name } = match.params;
 
+        if (name === 'doma-iz-brusa') {
+            name = null;
+        }
+
         if (!name) {
             name = match.url.split('/')[1];
         }

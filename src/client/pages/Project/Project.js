@@ -115,6 +115,9 @@ class Project extends PureComponent {
     static initialAction({ dispatch, match }) {
         let { categoryName, layoutName } = match.params;
 
+        if (categoryName === 'doma-iz-brusa') {
+            categoryName = null;
+        }
         if (!categoryName) {
             categoryName = match.url.split('/')[1];
         }
@@ -137,6 +140,9 @@ class Project extends PureComponent {
         let { categoryName, layoutName } = match.params;
 
         if (!project) {
+            if (categoryName === 'doma-iz-brusa') {
+                categoryName = null;
+            }
             if (!categoryName) {
                 categoryName = match.url.split('/')[1];
             }
@@ -164,6 +170,9 @@ class Project extends PureComponent {
             let { categoryName, layoutName } = match.params;
 
             if (categoryName !== prevProps.match.params.categoryName || layoutName !== prevProps.match.params.layoutName) {
+                if (categoryName === 'doma-iz-brusa') {
+                    categoryName = null;
+                }
                 if (!categoryName) {
                     categoryName = match.url.split('/')[1];
                 }

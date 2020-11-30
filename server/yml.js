@@ -67,7 +67,7 @@ exports.generate = async function () {
             offers += `
                 <offer id="${convertIdToNumber(project.get('_id'))}">
                     <name>${name}</name>
-                    <url>${DOMAIN}/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}</url>
+                    <url>${DOMAIN}${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}</url>
                     <price>${price}</price>
                     <currencyId>RUR</currencyId>
                     <categoryId>${convertIdToNumber(category.get('_id'))}</categoryId>
