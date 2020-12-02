@@ -74,7 +74,7 @@
     "build:production": "NODE_ENV=production webpack",
     "build:production:analize": "NODE_ENV=production ANALIZE_MODE=true webpack",
     "server": "DEBUG=express:router nodemon server/server.js",
-    "server:production": "nohup NODE_ENV=production node server/server.js &",
+    "server:production": "NODE_ENV=production node server/server.js",
     "mongo": "mongod --dbpath /Users/pvstepin/dev/mongodb",
     "mongo:production": "nohup mongod --dbpath /var/lib/mongodb &",
     "create-backup": "sh backup_scripts/create.sh",
