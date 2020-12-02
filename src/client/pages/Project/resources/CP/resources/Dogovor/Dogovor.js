@@ -1369,10 +1369,10 @@ function Dogovor({ type, formValue, data, project, finalPrice, projectName }) {
 
     switch(type) {
         case 'dogovor':
-            if (project.categoryId['_id'] === '5e020c9f9d9c6faea68e88c7') {
-                return renderDogovor1(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
-            } else {
+            if (project.categoryId['_id'] !== '5e020c9f9d9c6faea68e88c7' || data.additions && data.additions['5eefcee55ec46c7ee0c91aaa']) {
                 return renderDogovor2(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
+            } else {
+                return renderDogovor1(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
             }
         case 'tz': return renderTZ(project, formValue, data, finalPrice, projectName);
         default: return null;
