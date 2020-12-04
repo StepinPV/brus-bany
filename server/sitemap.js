@@ -60,7 +60,7 @@ exports.generate = async function () {
     // categories
     const {data: categories} = await Categories.getAll();
     categories.forEach(category => {
-        data.urlset.push(getURLObject({ url: `/bani/${category.get('translateName')}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' }));
+        data.urlset.push(getURLObject({ url: `${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' }));
 
         let addFilterPages = (filterGroups, href) => {
             if (filterGroups && filterGroups.length) {
@@ -75,7 +75,7 @@ exports.generate = async function () {
             }
         };
 
-        addFilterPages(category.get('filters'), `/bani/${category.get('translateName')}`);
+        addFilterPages(category.get('filters'), `${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}`);
     });
 
     // photos
@@ -119,7 +119,7 @@ exports.generate = async function () {
         const category = project.get('categoryId');
 
         data.urlset.push(getURLObject({
-            url: `/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
+            url: `${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
             date: getLastDate([category.get('updated'), layout.get('updated'), project.get('updated')]),
             changefreq: 'weekly',
             priority: '0.8'

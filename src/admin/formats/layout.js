@@ -248,5 +248,10 @@ export default [{
         title: 'Площадь',
         type: 'float number',
         required: true
+    }, {
+        _id: 'ceilingArea',
+        title: 'Площадь потолка',
+        type: 'float number',
+        required: true
     }]
 }];

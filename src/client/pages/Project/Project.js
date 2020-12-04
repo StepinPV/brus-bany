@@ -113,7 +113,15 @@ class Project extends PureComponent {
     }
 
     static initialAction({ dispatch, match }) {
-        const { categoryName, layoutName } = match.params;
+        let { categoryName, layoutName } = match.params;
+
+        if (categoryName === 'doma-iz-brusa') {
+            categoryName = null;
+        }
+        if (!categoryName) {
+            categoryName = match.url.split('/')[1];
+        }
+
         return [
             dispatch(getProject(categoryName, layoutName)),
             dispatch(getPhotos(categoryName, layoutName))
@@ -129,9 +137,16 @@ class Project extends PureComponent {
 
     componentDidMount() {
         const { match, actions, project, photos } = this.props;
-        const { categoryName, layoutName } = match.params;
+        let { categoryName, layoutName } = match.params;
 
         if (!project) {
+            if (categoryName === 'doma-iz-brusa') {
+                categoryName = null;
+            }
+            if (!categoryName) {
+                categoryName = match.url.split('/')[1];
+            }
+
             actions.getProject(categoryName, layoutName);
         }
 
@@ -152,9 +167,19 @@ class Project extends PureComponent {
         const { match, actions } = this.props;
 
         if (prevProps.match !== match) {
-            const { categoryName, layoutName } = match.params;
-            actions.getProject(categoryName, layoutName);
-            actions.getPhotos(categoryName, layoutName);
+            let { categoryName, layoutName } = match.params;
+
+            if (categoryName !== prevProps.match.params.categoryName || layoutName !== prevProps.match.params.layoutName) {
+                if (categoryName === 'doma-iz-brusa') {
+                    categoryName = null;
+                }
+                if (!categoryName) {
+                    categoryName = match.url.split('/')[1];
+                }
+
+                actions.getProject(categoryName, layoutName);
+                actions.getPhotos(categoryName, layoutName);
+            }
         }
     }
 

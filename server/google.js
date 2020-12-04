@@ -24,7 +24,7 @@ exports.generate = async function () {
                 'g:id': project.get('_id').toString(),
                 'g:title': `${name[0].toUpperCase() + name.slice(1)} ${layout.get('name')} ${layout.get('width')}x${layout.get('length')}`,
                 'g:description': `Построим баню за ${project.get('buildTime')} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`,
-                'g:link': `${DOMAIN}/bani/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
+                'g:link': `${DOMAIN}${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
                 'g:image_link': `${DOMAIN}${project.get('images').main}`,
                 'g:availability': 'in stock',
                 'g:price': `${price} RUB`,

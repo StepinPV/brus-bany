@@ -253,7 +253,7 @@ const renderRequizits = (formValue) => {
 }
 const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
     return (
-        <>
+        <div>
             <h3 style={{ textAlign: 'center' }}>ПРОТОКОЛ СОГЛАСОВАНИЯ ЦЕНЫ</h3>
             <br/>
             {renderComplectation(project, data, true)}
@@ -302,7 +302,7 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
                     );
                 }
             }) : null}
-        </>
+        </div>
     )
 }
 const renderSpecification = (projectName, project, categoryId, data) => {
@@ -749,11 +749,11 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                         3.2 Расчеты между Сторонами производятся в два этапа:
                     </div>
                     <div style={{ textAlign: 'justify' }}>
-                        3.3 Предоплата в размере 70% от стоимости изделия {renderPriceWithWords(Math.round((getFinalPrice(finalPrice, data, categoryId, project) + getCustomAdditionsPrice(formValue)) * 0.7))} без
+                        3.3 Предоплата в размере 70% от стоимости изделия {renderPriceWithWords(Math.round((getFinalPrice(finalPrice, data, categoryId, project) + getCustomAdditionsPrice(formValue)) * 0.7 / 100) * 100)} без
                         НДС на основании п. 2 ст. 346.11 НК РФ оплачивается Покупателем в день доставки и разгрузки составных частей и комплектующих Изделия по адресу, указанному в п. 2.5 Договора.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
-                        3.4 Окончательная оплата в размере 30% от стоимости изделия {renderPriceWithWords(Math.round((getFinalPrice(finalPrice, data, categoryId, project) + getCustomAdditionsPrice(formValue)) * 0.3))} без
+                        3.4 Окончательная оплата в размере 30% от стоимости изделия {renderPriceWithWords(Math.round((getFinalPrice(finalPrice, data, categoryId, project) + getCustomAdditionsPrice(formValue)) * 0.3 / 100) * 100)} без
                         НДС на основании п.2 ст. 346.11 НК РФ в день подписания Акта-сдачи приемки изделия.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
@@ -1235,6 +1235,11 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     {renderRequizits(formValue)}
                     <br/><br/>
                     {renderProtocol(project, formValue, finalPrice, categoryId, data)}
+                    <br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/>
                 </div>
                 {renderRunningTitles(formValue)}
             </div>
@@ -1364,10 +1369,10 @@ function Dogovor({ type, formValue, data, project, finalPrice, projectName }) {
 
     switch(type) {
         case 'dogovor':
-            if (project.categoryId['_id'] === '5e020c9f9d9c6faea68e88c7') {
-                return renderDogovor1(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
-            } else {
+            if (project.categoryId['_id'] !== '5e020c9f9d9c6faea68e88c7' || data.additions && data.additions['5eefcee55ec46c7ee0c91aaa']) {
                 return renderDogovor2(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
+            } else {
+                return renderDogovor1(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
             }
         case 'tz': return renderTZ(project, formValue, data, finalPrice, projectName);
         default: return null;

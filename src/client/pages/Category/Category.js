@@ -137,7 +137,16 @@ class Category extends PureComponent {
     }
 
     static initialAction({ dispatch, match }) {
-        const { name } = match.params;
+        let { name } = match.params;
+
+        if (name === 'doma-iz-brusa') {
+            name = null;
+        }
+
+        if (!name) {
+            name = match.url.split('/')[1];
+        }
+
         return [dispatch(getCategory(name)), dispatch(getProjects(name)), dispatch(getPhotos(name))];
     }
 
@@ -303,7 +312,7 @@ class Category extends PureComponent {
             <DataSection
                 bgStyle='red'
                 caption='Не нашли интересующий проект?'
-                description={`Построим ${category.name4} с учетом ваших замечаний и предложений`}>
+                description={`Построим ${category.name4.toLowerCase()} с учетом ваших замечаний и предложений`}>
                 <div className={styles['button-container']}>
                     <Link caption='Обсудить индивидуальный проект' type='yellow' href='#requestForm'/>
                 </div>
