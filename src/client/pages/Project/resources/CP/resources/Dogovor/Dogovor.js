@@ -186,7 +186,7 @@ function renderMiniName(fullName) {
 
     return '';
 }
-const renderDogovorHeader = (caption, project, formValue) => {
+const renderDogovorHeader = (caption, project, formValue, name1, name2) => {
     return (
         <>
             <h3 style={{ textAlign: 'center' }}>{caption} № {formValue.documentNumber}</h3>
@@ -199,8 +199,8 @@ const renderDogovorHeader = (caption, project, formValue) => {
             <div style={{ textAlign: 'justify' }}>
                 Общество с ограниченной ответственностью «Русская Баня» в лице генерального директора
                 Старикова Евгения Борисовича, действующего на основании Устава, именуемый в дальнейшем
-                “Продавец”, и Гражданин РФ {formValue.client.name || <span style={{ wordBreak: 'break-all' }}>_____________________________________________________________ </span> },
-                именуемый в дальнейшем "Покупатель",
+                “{name1}”, и Гражданин РФ {formValue.client.name || <span style={{ wordBreak: 'break-all' }}>_____________________________________________________________ </span> },
+                именуемый в дальнейшем "{name2}",
                 {renderPassport(formValue.client.passport)}
                 контактный телефон {formValue.client.phone || <span style={{ wordBreak: 'break-all' }}>_____________________ </span> } с
                 другой стороны, далее именуемые Стороны, заключили настоящий договор (далее – «Договор») о нижеследующем:
@@ -387,7 +387,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, project, formValue, data, 
                 <div style={{ flexGrow: 1 }}>
                     <br/>
                     <br/>
-                    {renderDogovorHeader(data.additions && data.additions['5eefcee55ec46c7ee0c91aaa'] ? 'ДОГОВОР НА ВЫПОЛНЕНИЕ ПОДРЯДНЫХ РАБОТ' : 'ДОГОВОР КУПЛИ - ПРОДАЖИ', project, formValue, data, finalPrice, projectName)}
+                    {renderDogovorHeader(data.additions && data.additions['5eefcee55ec46c7ee0c91aaa'] ? 'ДОГОВОР НА ВЫПОЛНЕНИЕ ПОДРЯДНЫХ РАБОТ' : 'ДОГОВОР КУПЛИ - ПРОДАЖИ', project, formValue, 'Продавец', 'Покупатель')}
                     <br/>
                     <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
                     <div style={{ textAlign: 'justify' }}>
@@ -709,7 +709,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                 <div style={{ flexGrow: 1 }}>
                     <br/>
                     <br/>
-                    {renderDogovorHeader('ДОГОВОР НА ВЫПОЛНЕНИЕ ПОДРЯДНЫХ РАБОТ', project, formValue, data, finalPrice, projectName)}
+                    {renderDogovorHeader('ДОГОВОР НА ВЫПОЛНЕНИЕ ПОДРЯДНЫХ РАБОТ', project, formValue, 'Подрядчик', 'Заказчик')}
                     <br/>
                     <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
                     <div style={{ textAlign: 'justify' }}>
