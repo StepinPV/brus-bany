@@ -152,6 +152,7 @@ const scheme = new Schema({
         }
     },
     terraces: Array,
+    porches: Array,
     attic: Object,
     updated: Date
 }, {

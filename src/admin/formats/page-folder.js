@@ -19,6 +19,26 @@ export default [{
         type: 'string',
         required: true
     }, {
+        _id: 'item-2',
+        title: 'Тип',
+        type: 'select',
+        items: [{
+            id: 'string',
+            title: 'Строка'
+        }, {
+            id: 'text',
+            title: 'Текст'
+        }, {
+            id: 'date',
+            title: 'Дата'
+        }, {
+            id: 'image',
+            title: 'Изображение'
+        }, {
+            id: 'integer number',
+            title: 'Число'
+        }]
+    }, {
         _id: 'item',
         title: 'Тип',
         type: 'oneOf',
