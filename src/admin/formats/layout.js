@@ -230,16 +230,6 @@ export default [{
         type: 'float number'
     }, balconies]
 }, {
-    _id: 'terrace',
-    title: 'Терраса (для бань)',
-    type: 'object',
-    format: [{
-        _id: 'area',
-        title: 'Площадь',
-        type: 'float number',
-        required: true
-    }]
-}, {
     _id: 'porch',
     title: 'Крыльцо',
     type: 'object',
@@ -261,6 +251,16 @@ export default [{
     }, {
         _id: 'ceilingArea',
         title: 'Площадь потолка',
+        type: 'float number',
+        required: true
+    }]
+}, {
+    _id: 'terrace',
+    title: 'Терраса (для бань)',
+    type: 'object',
+    format: [{
+        _id: 'area',
+        title: 'Площадь',
         type: 'float number',
         required: true
     }]
