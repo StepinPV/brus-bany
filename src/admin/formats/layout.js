@@ -189,6 +189,16 @@ export default [{
             type: 'float number',
             required: true
         }]
+    }, {
+        _id: 'vestibule',
+        type: 'array',
+        title: 'Тамбур',
+        format: [{
+            _id: 'area',
+            title: 'Площадь',
+            type: 'float number',
+            required: true
+        }]
     }]
 }, {
     _id: 'attic',
@@ -246,6 +256,11 @@ export default [{
     format: [{
         _id: 'area',
         title: 'Площадь',
+        type: 'float number',
+        required: true
+    }, {
+        _id: 'ceilingArea',
+        title: 'Площадь потолка',
         type: 'float number',
         required: true
     }]
