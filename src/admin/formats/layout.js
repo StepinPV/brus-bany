@@ -279,19 +279,4 @@ export default [{
         type: 'float number',
         required: true
     }]
-}, {
-    _id: 'terraces',
-    title: 'Террасы (для домов)',
-    type: 'array',
-    format: [{
-        _id: 'area',
-        title: 'Площадь',
-        type: 'float number',
-        required: true
-    }, {
-        _id: 'ceilingArea',
-        title: 'Площадь потолка',
-        type: 'float number',
-        required: true
-    }]
 }];
