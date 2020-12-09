@@ -632,6 +632,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, project, formValue, data, 
                     </div>
                     <br/><br/>
                     {renderSpecification(projectName, project, categoryId, data)}
+                    <br/>
                     <div style={{ textAlign: 'justify' }}>
                         Допускается стыковка: брус по всему периметру стен бани, вагонка по каждой стене и потолку в отдельно взятом
                         помещении, половой доски в каждой комнате.
@@ -1324,7 +1325,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
     );
 };
 
-const renderTZ = (project, formValue, data, finalPrice, projectName) => {
+const renderTZ = (project, formValue, data, finalPrice, projectName, hasAddBlock) => {
     const { categoryId } = project;
     return (
         <div className={styles.container}>
@@ -1339,6 +1340,15 @@ const renderTZ = (project, formValue, data, finalPrice, projectName) => {
             <br/>
             <br/>
             {renderSpecification(projectName, project, categoryId, data)}
+            {hasAddBlock ? (
+                <>
+                    <br/>
+                    <div style={{ textAlign: 'justify' }}>
+                        Допускается стыковка: брус по всему периметру стен бани, вагонка по каждой стене и потолку в отдельно взятом
+                        помещении, половой доски в каждой комнате.
+                    </div>
+                </>
+            ) : null}
             <img src={formValue.images['scheme']} style={{ width: '100%' }} />
         </div>
     )
@@ -1367,14 +1377,16 @@ function Dogovor({ type, formValue, data, project, finalPrice, projectName }) {
         }
     }, [containerRef]);
 
+    const type1 = project.categoryId['_id'] !== '5e020c9f9d9c6faea68e88c7' || data.additions && data.additions['5eefcee55ec46c7ee0c91aaa'];
+
     switch(type) {
         case 'dogovor':
-            if (project.categoryId['_id'] !== '5e020c9f9d9c6faea68e88c7' || data.additions && data.additions['5eefcee55ec46c7ee0c91aaa']) {
+            if (type1) {
                 return renderDogovor2(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
             } else {
                 return renderDogovor1(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
             }
-        case 'tz': return renderTZ(project, formValue, data, finalPrice, projectName);
+        case 'tz': return renderTZ(project, formValue, data, finalPrice, projectName, !type1);
         default: return null;
     }
 }
