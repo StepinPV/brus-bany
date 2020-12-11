@@ -48,6 +48,14 @@ const floorScheme = new Schema({
     pantry: Array,
     steamRoom: Array,
     washingRoom: Array,
+    hall: Array,
+    livingRoom: Array,
+    kitchen: Array,
+    'kitchen-livingRoom': Array,
+    bedroom: Array,
+    wardrobe: Array,
+    utilityRoom: Array,
+    boilerRoom: Array,
     vestibule: Array
 });
 
