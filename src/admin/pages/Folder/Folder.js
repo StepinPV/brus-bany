@@ -16,6 +16,8 @@ import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import Header from '../../components/Header';
 import formData from '../../formats/page-folder';
+import { ThemeProvider } from 'emotion-theming';
+import { getTheme } from '../../../constructorComponents/theme';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -106,15 +108,17 @@ class Folder extends PureComponent {
 
         // TODO
         return data ? (
-            <FloatPanels
-                panels={this.floatPanels}
-                onChangeOpenedPanel={this.setOpenedPanel}
-                openedPanelId={openedPanelId}>
-                <>
-                    <Header />
-                    {this.renderData()}
-                </>
-            </FloatPanels>
+            <ThemeProvider theme={getTheme()}>
+                <FloatPanels
+                    panels={this.floatPanels}
+                    onChangeOpenedPanel={this.setOpenedPanel}
+                    openedPanelId={openedPanelId}>
+                    <>
+                        <Header />
+                        {this.renderData()}
+                    </>
+                </FloatPanels>
+            </ThemeProvider>
         ) : null;
     }
 

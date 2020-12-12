@@ -7,7 +7,7 @@ import ColorPic from '../ColorPic';
 import styles from './TextEditor.module.css';
 import cx from 'classnames';
 
-let exportOptions = {
+const exportOptions = {
     inlineStyles: {
         BOLD: { element: 'b' }
     },
@@ -27,8 +27,16 @@ let exportOptions = {
     defaultBlockTag: 'div'
 };
 
+const importOptions = {
+    customInlineFn: (element, { Style }) => {
+        if (element.style.color) {
+            return Style('color-' + element.style.color);
+        }
+    }
+};
+
 const CKEditorBase = ({ value, title, onChange, props }) => {
-    const [editorState, setEditorState] = useState(EditorState.createWithContent(stateFromHTML(value)));
+    const [editorState, setEditorState] = useState(EditorState.createWithContent(stateFromHTML(value, importOptions)));
 
     useEffect(() => {
         onChange(stateToHTML(editorState.getCurrentContent(), exportOptions));
