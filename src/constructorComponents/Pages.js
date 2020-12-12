@@ -55,11 +55,11 @@ const prepareProps = (componentData, fields, values) => {
         fields.forEach(field => {
             Object.keys(newProps).forEach(key => {
                 if (typeof newProps[key] === 'string' && newProps[key].includes(`{{${field.slug}}}`)) {
-                    newProps[key] = newProps[key].replace(new RegExp(`{{${field.slug}}}`, 'g'), values[field.item.id] || '');
+                    newProps[key] = newProps[key].replace(new RegExp(`{{${field.slug}}}`, 'g'), values[field.id] || '');
                 }
 
                 if (newImages[newProps[key]] && newImages[newProps[key]].includes(`{{${field.slug}}}`)) {
-                    newImages[newProps[key]] = newImages[newProps[key]].replace(new RegExp(`{{${field.slug}}}`, 'g'), values['__images__'][values[field.item.id]] || '');
+                    newImages[newProps[key]] = newImages[newProps[key]].replace(new RegExp(`{{${field.slug}}}`, 'g'), values['__images__'][values[field.id]] || '');
                 }
             });
         });
@@ -125,7 +125,7 @@ function Pages(props) {
                                     const componentData = folder.pageViewConfig.componentsData[id];
                                     const Component = components[componentData.componentId];
 
-                                    const newData = prepareProps(componentData, folder['page-fields'], page.config['folder-fields'][props.folder], );
+                                    const newData = prepareProps(componentData, folder['page-fields'], page.config['folder-fields'][props.folder]);
 
                                     return (
                                         <Component

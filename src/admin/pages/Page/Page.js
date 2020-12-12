@@ -129,7 +129,7 @@ class Page extends PureComponent {
     }
 
     renderSettingsBlock = () => {
-        const { page, match, templates, folders } = this.props;
+        const { page, match, folders } = this.props;
         const { errors } = this.state;
         const { id } = match.params;
 
@@ -138,17 +138,25 @@ class Page extends PureComponent {
 
             if (folder) {
                 if (folder['page-fields']) {
-                    const format = folder['page-fields'].map(({ item }) => {
+                    const format = folder['page-fields'].map(item => {
                         const f = {
                             _id: item.id,
-                            title: item.value,
-                            type: item.typeId
+                            title: item.name,
+                            type: item.type
                         };
 
-                        if (item.typeId === 'image') {
-                            f.props = {
-                                withoutLogo: true,
-                                globalStore: true
+                        switch(item.type) {
+                            case 'image': {
+                                f.props = {
+                                    withoutLogo: true,
+                                    globalStore: true
+                                }
+                            }
+
+                            case 'text': {
+                                f.props = {
+                                    withoutEditor: true
+                                }
                             }
                         }
 

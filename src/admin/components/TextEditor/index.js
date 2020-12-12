@@ -3,7 +3,7 @@ import loadable from '@loadable/component';
 
 const TextEditor = loadable(() => import('./TextEditor'));
 
-export default memo(({ value, title, onChange, required }) => {
+export default memo(({ value, title, onChange, props={} }) => {
     const [componentDidMount, setComponentDidMount] = useState(false);
 
     useEffect(() => {
@@ -14,6 +14,7 @@ export default memo(({ value, title, onChange, required }) => {
         <TextEditor
             value={value}
             title={title}
+            props={props}
             onChange={onChange}
         />
     ) : null;

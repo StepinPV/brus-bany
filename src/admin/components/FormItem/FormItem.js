@@ -55,6 +55,7 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         value={value}
                         title={item.title}
                         required={item.required}
+                        props={item.props}
                         description={item.description}
                         onChange={val => onChange(val, null, images)}
                         error={error}

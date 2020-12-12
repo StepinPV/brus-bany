@@ -145,15 +145,9 @@ class Folder extends PureComponent {
                             onChange={newData => {
                                 if (newData['page-fields']) {
                                     newData['page-fields'] = newData['page-fields'].map((item) => {
-                                        if (!item.item || item.item.id) {
-                                            return item;
-                                        }
-
-                                        return {
-                                            item: {
-                                                ...item.item,
-                                                id: Math.floor(Math.random() * (9999 - 1000) + 1000)
-                                            }
+                                        return item.id ? item : {
+                                            ...item,
+                                            id: Math.floor(Math.random() * (9999 - 1000) + 1000)
                                         }
                                     });
                                 }

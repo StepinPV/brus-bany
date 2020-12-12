@@ -5,6 +5,7 @@ import { stateToHTML } from 'draft-js-export-html';
 import { stateFromHTML } from 'draft-js-import-html';
 import ColorPic from '../ColorPic';
 import styles from './TextEditor.module.css';
+import cx from 'classnames';
 
 let exportOptions = {
     inlineStyles: {
@@ -26,7 +27,7 @@ let exportOptions = {
     defaultBlockTag: 'div'
 };
 
-const CKEditorBase = ({ value, title, onChange }) => {
+const CKEditorBase = ({ value, title, onChange, props }) => {
     const [editorState, setEditorState] = useState(EditorState.createWithContent(stateFromHTML(value)));
 
     useEffect(() => {
@@ -38,10 +39,11 @@ const CKEditorBase = ({ value, title, onChange }) => {
             <div className={styles.label}>{title}</div>
             <Editor
                 editorClassName={styles.editor}
+                toolbarClassName={cx({ [styles['toolbar-hidden']]: props.withoutEditor })}
                 editorState={editorState}
                 onEditorStateChange={setEditorState}
                 toolbar={{
-                    options: ['inline', 'fontSize', 'colorPicker', 'list', 'link'],
+                    options: props.withoutEditor ? [] : ['inline', 'fontSize', 'colorPicker', 'list', 'link'],
                     colorPicker: { component: ColorPic },
                     inline: {
                         inDropdown: true

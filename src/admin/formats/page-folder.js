@@ -11,7 +11,7 @@ export default [{
 }, {
     _id: 'page-fields',
     title: 'Поля страниц',
-    itemTitleField: 'slug',
+    itemTitleField: 'name',
     type: 'array',
     format: [{
         _id: 'slug',
@@ -19,34 +19,29 @@ export default [{
         type: 'string',
         required: true
     }, {
-        _id: 'item',
+        _id: 'name',
+        title: 'Имя поля',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'type',
         title: 'Тип',
-        type: 'oneOf',
-        variants: [{
+        type: 'select',
+        items: [{
             id: 'string',
-            typeTitle: 'Строка',
-            title: 'Имя поля',
-            type: 'string'
+            title: 'Строка'
         }, {
             id: 'text',
-            typeTitle: 'Текст',
-            title: 'Имя поля',
-            type: 'string'
+            title: 'Текст'
         }, {
             id: 'date',
-            typeTitle: 'Дата',
-            title: 'Имя поля',
-            type: 'string'
+            title: 'Дата'
         }, {
             id: 'image',
-            typeTitle: 'Изображение',
-            title: 'Имя поля',
-            type: 'string'
+            title: 'Изображение'
         }, {
             id: 'integer number',
-            typeTitle: 'Число',
-            title: 'Имя поля',
-            type: 'string'
+            title: 'Число'
         }]
     }]
 }];
