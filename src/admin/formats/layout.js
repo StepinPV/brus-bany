@@ -101,16 +101,6 @@ const rooms = [{
         required: true
     }]
 }, {
-    _id: 'bedroom',
-    type: 'array',
-    title: 'Спальни',
-    format: [{
-        _id: 'area',
-        title: 'Площадь',
-        type: 'float number',
-        required: true
-    }]
-}, {
     _id: 'wardrobe',
     type: 'array',
     title: 'Гардеробы',

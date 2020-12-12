@@ -205,21 +205,36 @@ class Project extends PureComponent {
             actions.setProject({ ...project, prices: newPrices });
         };
 
+        const handleChangeCubage = (id, value) => {
+            const newCubages = { ...(project.cubages || {}) };
+            newCubages[id] = value;
+            actions.setProject({ ...project, cubages: newCubages });
+        };
+
         return project.categoryId.complectationBlocks ? (
             this.renderBlock('Комплектации', (
                 <>
                     {project.categoryId.complectationBlocks.items.map(item => {
                         return (
-                            <Input
-                                className={styles.input}
-                                key={item.id}
-                                value={project.prices ? project.prices[item.id] : ''}
-                                title={`${item.title} ${item.name} ${item.id === project.categoryId.complectationBlocks.defaultItemId ? ' (По умолчанию)' : ''}`}
-                                type='integer number'
-                                required
-                                min={0}
-                                onChange={value => { handleChangePrice(item.id, value) } }
-                            />
+                            <div className={styles.inputContainer} key={item.id}>
+                                <Input
+                                    className={styles.input}
+                                    value={project.prices ? project.prices[item.id] : ''}
+                                    title={`${item.title} ${item.name} ${item.id === project.categoryId.complectationBlocks.defaultItemId ? ' (По умолчанию)' : ''}`}
+                                    type='integer number'
+                                    required
+                                    min={0}
+                                    onChange={value => { handleChangePrice(item.id, value) } }
+                                />
+                                <Input
+                                    className={styles.input}
+                                    value={project.cubages ? project.cubages[item.id] : ''}
+                                    title='Кубатура'
+                                    type='integer number'
+                                    min={0}
+                                    onChange={value => { handleChangeCubage(item.id, value) } }
+                                />
+                            </div>
                         )
                     })}
                 </>

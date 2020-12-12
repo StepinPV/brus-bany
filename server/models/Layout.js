@@ -52,7 +52,6 @@ const floorScheme = new Schema({
     livingRoom: Array,
     kitchen: Array,
     'kitchen-livingRoom': Array,
-    bedroom: Array,
     wardrobe: Array,
     utilityRoom: Array,
     boilerRoom: Array,
