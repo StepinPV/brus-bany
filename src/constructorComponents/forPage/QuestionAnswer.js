@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from "prop-types";
-import { Caption, Text } from './index';
+import { Caption, Text } from '../index';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 

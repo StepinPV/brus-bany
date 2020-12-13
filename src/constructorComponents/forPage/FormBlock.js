@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import PropTypes from "prop-types";
-import { Caption, Text, Form } from './index';
+import { Caption, Text, Form } from '../index';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { getColor } from './helpers';
+import { getColor } from '../helpers';
 
 const Container = styled.div`
     display: flex;

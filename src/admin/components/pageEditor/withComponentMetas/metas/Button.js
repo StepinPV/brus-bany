@@ -120,6 +120,8 @@ export const defaultProps = {
     href: '/',
     paddingBottom: 'm',
     paddingTop: 'm',
+    paddingLeft: 's',
+    paddingRight: 's',
     containerWidth: 'm',
     fullWidth: false,
     download: false,

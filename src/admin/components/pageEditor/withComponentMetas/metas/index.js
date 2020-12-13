@@ -13,8 +13,9 @@ import * as Quiz from './Quiz';
 import * as Text from './Text';
 import * as Image from './Image';
 import * as Pages from './Pages';
+import * as ButtonsForCard from './ButtonsForCard';
 
 export default {
     Caption, Text, Button, List, Breadcrumbs, Banner, QuestionAnswer, ImageLinkBlock, Image,
-    Header, Footer, Contacts, FormBlock, Quiz, Pages
+    Header, Footer, Contacts, FormBlock, Quiz, Pages, ButtonsForCard
 }

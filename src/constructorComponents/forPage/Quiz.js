@@ -1,6 +1,6 @@
 import React, { PureComponent }from 'react';
 import PropTypes from "prop-types";
-import { Form } from './index';
+import { Form } from '../index';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 

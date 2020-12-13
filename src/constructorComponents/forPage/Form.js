@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button, Input } from './index';
+import { Button, Input } from '../index';
 import styled from '@emotion/styled';
 
 const Container = styled.form`

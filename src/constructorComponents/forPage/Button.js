@@ -2,22 +2,20 @@ import React, { memo } from 'react';
 import PropTypes from "prop-types";
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { getColor } from './helpers';
+import { getColor } from '../helpers';
 
 const Container = styled.div`
     width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
-
-    padding-left: 16px;
-    padding-right: 16px;
-
     display: flex;
     
     ${props => css`
         max-width: ${props.styles.width ? { s: '728px', m: '1200px', l: '100%' }[props.styles.width] : ''};
         padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingTop] : ''};
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingBottom] : ''};
+        padding-left: ${props.styles.paddingLeft && props.styles.paddingLeft !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingLeft] : ''};
+        padding-right: ${props.styles.paddingRight && props.styles.paddingRight !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingRight] : ''};
         justify-content: ${{ left: 'flex-start', center: 'center', right: 'flex-end' }[props.styles.align]};
     `}
 `;
@@ -68,7 +66,9 @@ function Button(props) {
                 width: props.containerWidth,
                 align: props.align,
                 paddingTop: props.paddingTop,
-                paddingBottom: props.paddingBottom
+                paddingBottom: props.paddingBottom,
+                paddingLeft: props.paddingLeft,
+                paddingRight: props.paddingRight
             }}>
             <Content
                 as={props.type}
@@ -90,6 +90,8 @@ Button.propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
+    paddingLeft: PropTypes.oneOf(['none', 's', 'm', 'l']),
+    paddingRight: PropTypes.oneOf(['none', 's', 'm', 'l']),
     containerWidth: PropTypes.oneOf(['s', 'm', 'l']),
     fullWidth: PropTypes.bool,
     download: PropTypes.bool,
@@ -106,6 +108,8 @@ Button.defaultProps = {
     align: 'center',
     paddingTop: 'm',
     paddingBottom: 'm',
+    paddingLeft: 's',
+    paddingRight: 's',
     containerWidth: 'm',
     fullWidth: false,
     download: false,
