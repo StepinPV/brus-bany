@@ -16,3 +16,9 @@ export function getColor(props, field='color') {
 
     return color || '';
 }
+
+export function applyFields(fields, text) {
+    return fields ? Object.keys(fields).reduce((text, fieldId) => {
+        return text.replaceAll(`{{${fieldId}}}`, fields[fieldId] || '');
+    }, text) : text;
+}

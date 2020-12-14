@@ -32,3 +32,8 @@ CRON: https://losst.ru/nastrojka-cron
 * * * * * /root/brus-bany/check-server.sh >> /root/brus-bany/cron.log 2>&1
 
 https://jpuri.github.io/react-draft-wysiwyg/#/docs?_k=jjqinp
+
+1. string -> text 
+2. contentEditable = true
+3. Поля для шаблонов страниц
+4. Продумать иерархию компонентов

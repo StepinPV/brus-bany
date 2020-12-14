@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from "prop-types";
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { getColor } from '../helpers';
+import { getColor, applyFields } from '../helpers';
 
 const Container = styled.div`
     width: 100%;
@@ -43,7 +43,7 @@ function Text(props) {
                 size: props.size
             }}
             {...(props.id ? { id: props.id } : {})}
-            dangerouslySetInnerHTML={{ __html: props.children }}
+            dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.children) }}
         />
     );
 }

@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from "prop-types";
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { getColor } from '../helpers';
+import { getColor, applyFields } from '../helpers';
 
 const Container = styled.div`
     width: 100%;
@@ -79,7 +79,7 @@ function Button(props) {
                     background: props.background,
                     size: props.size
                 }}>
-                {props.caption}
+                {applyFields(props.__fieldsValue__, props.caption)}
             </Content>
         </Container>
     );

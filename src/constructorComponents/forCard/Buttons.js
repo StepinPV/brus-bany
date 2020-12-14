@@ -26,7 +26,8 @@ function Buttons(props) {
                         paddingLeft='none'
                         paddingRight='s'
                         caption={props.firstButton}
-                        type='button' />
+                        type='button'
+                        __fieldsValue__={props.__fieldsValue__} />
                 </ButtonContainer>
             ) : null}
             {props.secondButton ? (
@@ -40,7 +41,8 @@ function Buttons(props) {
                         paddingLeft='none'
                         paddingRight='none'
                         caption={props.secondButton}
-                        type='button' />
+                        type='button'
+                        __fieldsValue__={props.__fieldsValue__} />
                 </ButtonContainer>
             ) : null}
         </Container>
