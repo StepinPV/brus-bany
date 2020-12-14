@@ -18,6 +18,7 @@ import Header from '../../components/Header';
 import formData from '../../formats/page-folder';
 import { ThemeProvider } from 'emotion-theming';
 import { getTheme } from '../../../constructorComponents/theme';
+import FieldsProvider from '@plugins/Fields/Provider';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -127,10 +128,12 @@ class Folder extends PureComponent {
         const { components } = data.pageViewConfig || {};
 
         return (
-            <div className={styles.pageView}>
-                {components ? components.map((componentId, index) => this.renderComponentByIndex(index)) : null}
-                {(!components || !components.length) ? this.renderAddComponent() : null}
-            </div>
+            <FieldsProvider fields={data['page-fields'].reduce((acc, field) => ({ ...acc, [field.id]: field.name }), {})}>
+                <div className={styles.pageView}>
+                    {components ? components.map((componentId, index) => this.renderComponentByIndex(index)) : null}
+                    {(!components || !components.length) ? this.renderAddComponent() : null}
+                </div>
+            </FieldsProvider>
         );
     }
 

@@ -6,6 +6,10 @@ import { stateFromHTML } from 'draft-js-import-html';
 import ColorPic from '../ColorPic';
 import styles from './TextEditor.module.css';
 import cx from 'classnames';
+import withFields from '@plugins/Fields/withFields';
+import loadable from '@loadable/component';
+
+const FieldsOption = loadable(() => import('../FieldsOption'));
 
 const exportOptions = {
     inlineStyles: {
@@ -35,12 +39,12 @@ const importOptions = {
     }
 };
 
-const CKEditorBase = ({ value, title, onChange, props }) => {
+const CKEditorBase = ({ value, title, onChange, fields, props }) => {
     const [editorState, setEditorState] = useState(EditorState.createWithContent(stateFromHTML(value, importOptions)));
 
     useEffect(() => {
         onChange(stateToHTML(editorState.getCurrentContent(), exportOptions));
-    }, [editorState])
+    }, [editorState]);
 
     return (
         <>
@@ -59,9 +63,10 @@ const CKEditorBase = ({ value, title, onChange, props }) => {
                     list: {
                         inDropdown: true
                     }
-                }} />
+                }}
+                toolbarCustomButtons={fields ? [<FieldsOption fields={fields} />] : null} />
         </>
     );
 };
 
-export default memo(CKEditorBase);
+export default memo(withFields(CKEditorBase));

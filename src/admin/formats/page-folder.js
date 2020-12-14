@@ -14,11 +14,6 @@ export default [{
     itemTitleField: 'name',
     type: 'array',
     format: [{
-        _id: 'slug',
-        title: 'Идентификатор',
-        type: 'string',
-        required: true
-    }, {
         _id: 'name',
         title: 'Имя поля',
         type: 'string',
