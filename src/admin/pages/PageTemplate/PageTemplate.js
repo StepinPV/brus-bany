@@ -18,6 +18,7 @@ import format from '../../formats/page-template';
 import styles from './PageTemplate.module.css';
 import { getTheme } from '../../../constructorComponents/theme';
 import { ThemeProvider } from 'emotion-theming';
+import FieldsProvider from '@plugins/Fields/Provider';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -130,7 +131,18 @@ class PageTemplate extends PureComponent {
                         <Form
                             format={format}
                             value={data}
-                            onChange={this.handleChange}
+                            onChange={(newData, errors) => {
+                                if (newData['page-fields']) {
+                                    newData['page-fields'] = newData['page-fields'].map((item) => {
+                                        return item.id ? item : {
+                                            ...item,
+                                            id: Math.floor(Math.random() * (9999 - 1000) + 1000)
+                                        }
+                                    });
+                                }
+
+                                this.handleChange(newData, errors);
+                            }}
                             errors={errors} />
                     </div>
                 </div>
@@ -161,14 +173,16 @@ class PageTemplate extends PureComponent {
         const { components, header, footer } = data.config;
 
         return (
-            <PageRender
-                header={header ? this.renderSpecialComponent('header') : this.renderAddComponent('Добавить шапку', 'header')}
-                footer={footer ? this.renderSpecialComponent('footer') : this.renderAddComponent('Добавить подвал', 'footer')}>
-                <>
-                    {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
-                    {(!components || !components.length) ? this.renderAddComponent('Добавить новый компонент', 0) : null}
-                </>
-            </PageRender>
+            <FieldsProvider fields={data['page-fields'].reduce((acc, field) => ({ ...acc, [field.id]: field.name }), {})}>
+                <PageRender
+                    header={header ? this.renderSpecialComponent('header') : this.renderAddComponent('Добавить шапку', 'header')}
+                    footer={footer ? this.renderSpecialComponent('footer') : this.renderAddComponent('Добавить подвал', 'footer')}>
+                    <>
+                        {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
+                        {(!components || !components.length) ? this.renderAddComponent('Добавить новый компонент', 0) : null}
+                    </>
+                </PageRender>
+            </FieldsProvider>
         );
     }
 

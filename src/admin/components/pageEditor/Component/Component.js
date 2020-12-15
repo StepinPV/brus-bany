@@ -24,6 +24,7 @@ class Component extends PureComponent {
         componentId: PropTypes.string,
         componentProps: PropTypes.object,
         componentImages: PropTypes.object,
+        componentFieldValues: PropTypes.object,
 
         // withCustomComponents
         customComponents: PropTypes.array,
@@ -49,12 +50,12 @@ class Component extends PureComponent {
     }
 
     render = () => {
-        const { componentId, componentProps, componentImages } = this.props;
+        const { componentId, componentProps, componentImages, componentFieldValues } = this.props;
 
-        return this.state.data ? this.renderComponent(componentId, componentProps, componentImages) : null;
+        return this.state.data ? this.renderComponent(componentId, componentProps, componentImages, componentFieldValues) : null;
     };
 
-    renderComponent = (componentId, props, images) => {
+    renderComponent = (componentId, props, images, fieldValues) => {
         const { customComponents } = this.props;
 
         if (components[componentId]) {
@@ -66,6 +67,7 @@ class Component extends PureComponent {
                     __pages__={this.state.data[0].data.data}
                     __pageFolders__={this.state.data[1].data.data}
                     __images__={images || {}}
+                    __fieldsValue__={fieldValues}
                 />
             );
         }

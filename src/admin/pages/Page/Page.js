@@ -129,39 +129,75 @@ class Page extends PureComponent {
     }
 
     renderSettingsBlock = () => {
-        const { page, match, folders } = this.props;
+        const { page, match, folders, templates } = this.props;
         const { errors } = this.state;
         const { id } = match.params;
+
+        const prepareFields = fields => {
+            return fields.map(item => {
+                const f = {
+                    _id: item.id,
+                    title: item.name,
+                    type: item.type
+                };
+
+                switch(item.type) {
+                    case 'image': {
+                        f.props = {
+                            withoutLogo: true,
+                            globalStore: true
+                        }
+                        break;
+                    }
+
+                    case 'text': {
+                        f.props = {
+                            withoutEditor: true
+                        }
+                        break;
+                    }
+                }
+
+                return f;
+            });
+        }
+
+        const renderTemplateFields = (id) => {
+            const template = templates.find((item => item['_id'] === id));
+
+            if (template && template['page-fields']) {
+                const format = prepareFields(template['page-fields']);
+
+                return (
+                    <>
+                        <div className={styles['settings-block-page-fields-title']}>Поля шаблона: {template.name}</div>
+                        <Form
+                            format={format}
+                            value={page.config['template-fields'] || {}}
+                            onChange={(value, error, images) => {
+                                this.handleChangeConfig({
+                                    ...page.config,
+                                    'template-fields': {
+                                        ...value,
+                                        ['__images__']: images
+                                    }
+                                })
+                            }}
+                            images={(page.config['template-fields'] || {})['__images__'] || {}}
+                            errors={{}} />
+                    </>
+                );
+            }
+
+            return null;
+        };
 
         const renderFolderFields = (id) => {
             const folder = folders.find(f => f['_id'] === id);
 
             if (folder) {
                 if (folder['page-fields']) {
-                    const format = folder['page-fields'].map(item => {
-                        const f = {
-                            _id: item.id,
-                            title: item.name,
-                            type: item.type
-                        };
-
-                        switch(item.type) {
-                            case 'image': {
-                                f.props = {
-                                    withoutLogo: true,
-                                    globalStore: true
-                                }
-                            }
-
-                            case 'text': {
-                                f.props = {
-                                    withoutEditor: true
-                                }
-                            }
-                        }
-
-                        return f;
-                    });
+                    const format = prepareFields(folder['page-fields']);
 
                     return (
                         <>
@@ -225,6 +261,7 @@ class Page extends PureComponent {
                             }}
                             errors={{}} />
                         {folders && page.config.folder ? renderFolderFields(page.config.folder) : null}
+                        {templates && page.config.template ? renderTemplateFields(page.config.template) : null}
                     </div>
                 </div>
                 <div className={styles['settings-block-buttons']}>
@@ -321,7 +358,8 @@ class Page extends PureComponent {
                                 <ComponentRender
                                     componentId={tComponent.componentId}
                                     componentProps={tComponentProps}
-                                    componentImages={tComponent.images} />
+                                    componentImages={tComponent.images}
+                                    componentFieldValues={page.config['template-fields']} />
                             </Operations>
                             { operations[tComponent.componentId] && operations[tComponent.componentId].propsFormVisible ? (
                                 <ComponentEditor
@@ -422,7 +460,8 @@ class Page extends PureComponent {
                         <ComponentRender
                             componentId={component.componentId}
                             componentProps={componentProps}
-                            componentImages={component.images} />
+                            componentImages={component.images}
+                            componentFieldValues={page.config['template-fields']} />
                     </Operations>
                     {operations[id] && operations[id].propsFormVisible ? (
                         <ComponentEditor
@@ -602,7 +641,8 @@ class Page extends PureComponent {
                     <ComponentRender
                         componentId={component.componentId}
                         componentProps={component.props}
-                        componentImages={component.images} />
+                        componentImages={component.images}
+                        componentFieldValues={page.config['template-fields']} />
                 </Operations>
                 { operations[`${blockId}:${index}`] && operations[`${blockId}:${index}`].propsFormVisible ? (
                     <ComponentEditor

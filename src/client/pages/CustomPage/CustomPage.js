@@ -173,7 +173,7 @@ class CustomPage extends PureComponent {
     };
 
     renderComponent = ({ componentId, props, images }) => {
-        const { customComponents, staticContext, pages, pageFolders } = this.props;
+        const { customComponents, staticContext, pages, pageFolders, page } = this.props;
 
         if (components[componentId]) {
             const Component = components[componentId];
@@ -184,6 +184,7 @@ class CustomPage extends PureComponent {
                     __images__={images || {}}
                     __pages__={pages}
                     __pageFolders__={pageFolders}
+                    __fieldsValue__={page.config['template-fields']}
                     staticContext={staticContext} />
             );
         }

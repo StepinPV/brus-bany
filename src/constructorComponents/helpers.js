@@ -17,8 +17,14 @@ export function getColor(props, field='color') {
     return color || '';
 }
 
+// TODO Удалить после перехода на node 15
+function replaceAll(find, replace, str) {
+    find = find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
 export function applyFields(fields, text) {
     return fields ? Object.keys(fields).reduce((text, fieldId) => {
-        return text.replaceAll(`{{${fieldId}}}`, fields[fieldId] || '');
+        return replaceAll(`{{${fieldId}}}`, fields[fieldId] || '', text);
     }, text) : text;
 }
