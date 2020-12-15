@@ -1,11 +1,17 @@
 export const props = [{
     _id: 'firstButton',
     title: 'Текст первой кнопки',
-    type: 'string'
+    type: 'text',
+    props: {
+        withoutEditor: true
+    }
 }, {
     _id: 'secondButton',
     title: 'Текст второй кнопки',
-    type: 'string'
+    type: 'text',
+    props: {
+        withoutEditor: true
+    }
 }];
 
 export const name = 'Кнопки для карточки';

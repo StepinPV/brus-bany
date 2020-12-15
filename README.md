@@ -33,7 +33,6 @@ CRON: https://losst.ru/nastrojka-cron
 
 https://jpuri.github.io/react-draft-wysiwyg/#/docs?_k=jjqinp
 
-1. string -> text 
 2. contentEditable = true
 3. Поля для шаблонов страниц
 4. Продумать иерархию компонентов

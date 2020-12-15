@@ -71,6 +71,7 @@ function Button(props) {
                 paddingRight: props.paddingRight
             }}>
             <Content
+                dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.caption) }}
                 as={props.type}
                 {...options}
                 styles={{
@@ -79,7 +80,6 @@ function Button(props) {
                     background: props.background,
                     size: props.size
                 }}>
-                {applyFields(props.__fieldsValue__, props.caption)}
             </Content>
         </Container>
     );

@@ -6,7 +6,10 @@ export const props = [{
     format: [{
         _id: 'title',
         title: 'Заголовок',
-        type: 'string'
+        type: 'text',
+        props: {
+            withoutEditor: true
+        }
     }, {
         _id: 'link',
         title: 'Ссылка',

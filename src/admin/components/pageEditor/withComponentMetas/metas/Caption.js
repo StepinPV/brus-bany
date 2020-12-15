@@ -1,7 +1,10 @@
 export const props = [{
     _id: 'children',
     title: 'Заголовок',
-    type: 'string'
+    type: 'text',
+    props: {
+        withoutEditor: true
+    }
 }, {
     _id: 'color',
     title: 'Цвет',
@@ -106,7 +109,10 @@ export const props = [{
 }, {
     _id: 'id',
     title: 'Якорь',
-    type: 'string'
+    type: 'text',
+    props: {
+        withoutEditor: true
+    }
 }];
 
 export const name = 'Заголовок';

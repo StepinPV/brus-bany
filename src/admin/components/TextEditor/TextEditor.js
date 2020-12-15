@@ -51,7 +51,7 @@ const CKEditorBase = ({ value, title, onChange, fields, props }) => {
             <div className={styles.label}>{title}</div>
             <Editor
                 editorClassName={styles.editor}
-                toolbarClassName={cx({ [styles['toolbar-hidden']]: props.withoutEditor })}
+                toolbarClassName={cx({ [styles['toolbar-hidden']]: props.withoutEditor && !fields })}
                 editorState={editorState}
                 onEditorStateChange={setEditorState}
                 toolbar={{
