@@ -172,18 +172,22 @@ class PageTemplate extends PureComponent {
         const { data } = this.props;
         const { components, header, footer } = data.config;
 
-        return (
-            <FieldsProvider fields={data['page-fields'].reduce((acc, field) => ({ ...acc, [field.id]: field.name }), {})}>
-                <PageRender
-                    header={header ? this.renderSpecialComponent('header') : this.renderAddComponent('Добавить шапку', 'header')}
-                    footer={footer ? this.renderSpecialComponent('footer') : this.renderAddComponent('Добавить подвал', 'footer')}>
-                    <>
-                        {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
-                        {(!components || !components.length) ? this.renderAddComponent('Добавить новый компонент', 0) : null}
-                    </>
-                </PageRender>
-            </FieldsProvider>
+        const render = () => (
+            <PageRender
+                header={header ? this.renderSpecialComponent('header') : this.renderAddComponent('Добавить шапку', 'header')}
+                footer={footer ? this.renderSpecialComponent('footer') : this.renderAddComponent('Добавить подвал', 'footer')}>
+                <>
+                    {components ? components.map((component, index) => this.renderComponentByIndex(index)) : null}
+                    {(!components || !components.length) ? this.renderAddComponent('Добавить новый компонент', 0) : null}
+                </>
+            </PageRender>
         );
+
+        return data['page-fields'] ? (
+            <FieldsProvider fields={data['page-fields'].reduce((acc, field) => ({ ...acc, [field.id]: field.name }), {})}>
+                {render()}
+            </FieldsProvider>
+        ) : render();
     }
 
     renderSpecialComponent = (id) => {

@@ -127,14 +127,18 @@ class Folder extends PureComponent {
         const { data } = this.props;
         const { components } = data.pageViewConfig || {};
 
-        return (
-            <FieldsProvider fields={data['page-fields'].reduce((acc, field) => ({ ...acc, [field.id]: field.name }), {})}>
-                <div className={styles.pageView}>
-                    {components ? components.map((componentId, index) => this.renderComponentByIndex(index)) : null}
-                    {(!components || !components.length) ? this.renderAddComponent() : null}
-                </div>
-            </FieldsProvider>
+        const render = () => (
+            <div className={styles.pageView}>
+                {components ? components.map((componentId, index) => this.renderComponentByIndex(index)) : null}
+                {(!components || !components.length) ? this.renderAddComponent() : null}
+            </div>
         );
+
+        return data['page-fields'] ? (
+            <FieldsProvider fields={data['page-fields'].reduce((acc, field) => ({ ...acc, [field.id]: field.name }), {})}>
+                {render()}
+            </FieldsProvider>
+        ) : render();
     }
 
     renderSettingsBlock = () => {

@@ -10,6 +10,10 @@ const HeaderElement = styled.header`
     position: relative;
 `;
 
+const FixedHeader = styled.header`
+    height: 80px;
+`;
+
 const Container = styled.div`
     height: 80px;
     background: #91001d;
@@ -22,13 +26,20 @@ const Container = styled.div`
         padding: 0 24px;
     }
     ${props => css`
-        ${props.styles.opacity ? `
-            background: rgba(145, 0, 29, 0);
-            position: absolute;
+        ${props.styles.opacity || props.styles.fixed ? `
             z-index: 2;
             left: 0;
             right: 0;
             top: 0;
+        ` : null}
+        
+        ${props.styles.opacity && !props.styles.fixed ? `
+            background: rgba(145, 0, 29, 0);
+            position: absolute;
+        ` : null}
+        
+        ${props.styles.fixed ? `
+            position: fixed;
         ` : null}
     `}
 `;
@@ -102,11 +113,14 @@ const Email = styled.a`
 `;
 
 function Header(props) {
-    const { opacity, items, phone, email, button } = props;
+    const { opacity, items, phone, email, button, fixed } = props;
 
     return (
         <HeaderElement>
-            <Container styles={{ opacity }}>
+            { fixed ? (
+                <FixedHeader />
+            ) : null}
+            <Container styles={{ opacity, fixed }}>
                 <LogoWrapper href='/' title='Перейти на главную'>
                     <Logo style={{ backgroundImage: `url('${logo}')` }} />
                 </LogoWrapper>
@@ -151,7 +165,8 @@ Header.defaultProps = {
     phone: '',
     email: '',
     button: null,
-    opacity: false
+    opacity: false,
+    fixed: false
 };
 
 export default memo(Header);

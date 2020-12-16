@@ -35,7 +35,11 @@ export const props = [{
     }]
 }, {
     _id: 'opacity',
-    title: 'Прозрачность',
+    title: 'Прозрачная',
+    type: 'boolean'
+}, {
+    _id: 'fixed',
+    title: 'Фиксированная',
     type: 'boolean'
 }];
 
@@ -58,5 +62,6 @@ export const defaultProps = {
         caption: 'Ссылка',
         link: '/'
     },
-    opacity: false
+    opacity: false,
+    fixed: false
 };
