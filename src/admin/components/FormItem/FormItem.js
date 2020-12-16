@@ -26,6 +26,7 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         title={item.title}
                         type={item.type}
                         required={item.required}
+                        disabled={item.disabled}
                         min={item.min}
                         description={item.description}
                         onChange={val => onChange(val, null, images)}

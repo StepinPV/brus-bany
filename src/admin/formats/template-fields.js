@@ -9,6 +9,11 @@ export default {
         type: 'string',
         required: true
     }, {
+        _id: 'id',
+        title: 'Идентификатор',
+        disabled: true,
+        type: 'string'
+    }, {
         _id: 'type',
         title: 'Тип',
         type: 'select',

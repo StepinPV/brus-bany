@@ -33,7 +33,7 @@
 }
 
 /* active state */
-.input:focus ~ .label, .input:valid ~ .label {
+.input:focus ~ .label, .input:valid ~ .label, .input:disabled ~ .label {
     top: -15px;
     font-size: 14px;
     color: #5264AE;

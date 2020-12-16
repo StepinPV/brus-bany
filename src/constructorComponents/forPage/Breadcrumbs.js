@@ -2,6 +2,7 @@ import React, { memo, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import { applyFields } from '../helpers';
 
 const Container = styled.div`
     width: 100%;
@@ -73,11 +74,11 @@ const Breadcrumbs = (props) => {
                             <span itemProp="itemListElement" itemScope itemType="http://schema.org/ListItem">
                             <LinkItem href={link} desktopElement={!mobileItem} itemProp="item">
                                 {mobileItem ? <Arrow mobileElement>←</Arrow> : null}
-                                <span itemProp="name">{title}</span>
+                                <span itemProp="name">{applyFields(props.__fieldsValue__, title)}</span>
                             </LinkItem>
                             <meta itemProp="position" content={index + 1} />
                         </span>
-                        ) : <Item desktopElement>{title}</Item> }
+                        ) : <Item desktopElement>{applyFields(props.__fieldsValue__, title)}</Item> }
                     </Fragment>
                 );
             })}

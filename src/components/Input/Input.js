@@ -17,6 +17,7 @@ class Input extends PureComponent {
         value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         onChange: PropTypes.func,
         required: PropTypes.bool,
+        disabled: PropTypes.bool,
         type: PropTypes.string,
         min: PropTypes.number,
         error: PropTypes.string,
@@ -26,11 +27,11 @@ class Input extends PureComponent {
     };
 
     render() {
-        const { title, value, required, type, min, error, inputClassName, className, name } = this.props;
+        const { title, value, required, type, min, error, inputClassName, className, name, disabled } = this.props;
 
         return (
             <div className={cx(styles.container, {[styles.required]: required}, className)}>
-                <input id={name} name={name} type="text" required className={cx(styles.input, inputClassName)} value={value} onChange={this.handleChange} min={min} {...getTypeAttrs(type)} />
+                <input disabled={disabled} id={name} name={name} type="text" required className={cx(styles.input, inputClassName)} value={value} onChange={this.handleChange} min={min} {...getTypeAttrs(type)} />
                 <span className={styles.bar} />
                 <label htmlFor={name} className={styles.label}>{title}</label>
                 {error ? <div className={styles.error}>{error}</div> : null}

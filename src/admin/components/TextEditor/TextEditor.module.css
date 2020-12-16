@@ -9,10 +9,6 @@
     margin-bottom: 6px;
 }
 
-.toolbar-hidden {
-    display: none !important;
-}
-
 :global .rdw-option-wrapper {
     border: 1px solid #F1F1F1;
     padding: 5px;

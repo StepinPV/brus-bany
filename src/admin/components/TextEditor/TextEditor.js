@@ -5,7 +5,6 @@ import { stateToHTML } from 'draft-js-export-html';
 import { stateFromHTML } from 'draft-js-import-html';
 import ColorPic from '../ColorPic';
 import styles from './TextEditor.module.css';
-import cx from 'classnames';
 import withFields from '@plugins/Fields/withFields';
 import loadable from '@loadable/component';
 
@@ -51,9 +50,9 @@ const CKEditorBase = ({ value, title, onChange, fields, props }) => {
             <div className={styles.label}>{title}</div>
             <Editor
                 editorClassName={styles.editor}
-                toolbarClassName={cx({ [styles['toolbar-hidden']]: props.withoutEditor && !fields })}
                 editorState={editorState}
                 onEditorStateChange={setEditorState}
+                toolbarHidden={props.withoutEditor && !fields}
                 toolbar={{
                     options: props.withoutEditor ? [] : ['inline', 'fontSize', 'colorPicker', 'list', 'link'],
                     colorPicker: { component: ColorPic },

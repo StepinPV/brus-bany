@@ -14,7 +14,7 @@ class Provider extends PureComponent {
         return (
             <Context.Consumer>
                 {prevFields => (
-                    <Context.Provider value={{ ...fields, ...prevFields }}>{children}</Context.Provider>
+                    <Context.Provider value={fields || prevFields ? { ...(fields || {}), ...(prevFields || {}) } : null}>{children}</Context.Provider>
                 )}
             </Context.Consumer>
         );

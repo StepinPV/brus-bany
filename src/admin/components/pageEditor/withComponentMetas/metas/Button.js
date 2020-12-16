@@ -109,10 +109,7 @@ export const props = [{
 }, {
     _id: 'id',
     title: 'Якорь',
-    type: 'text',
-    props: {
-        withoutEditor: true
-    }
+    type: 'string'
 }];
 
 export const name = 'Кнопка';
