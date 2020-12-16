@@ -54,7 +54,7 @@ const CKEditorBase = ({ value, title, onChange, fields, props }) => {
                 onEditorStateChange={setEditorState}
                 toolbarHidden={props.withoutEditor && !fields}
                 toolbar={{
-                    options: props.withoutEditor ? [] : ['inline', 'fontSize', 'colorPicker', 'list', 'link'],
+                    options: props.withoutEditor ? [] : ['inline', 'colorPicker', 'list', 'link'],
                     colorPicker: { component: ColorPic },
                     inline: {
                         inDropdown: true

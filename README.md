@@ -36,3 +36,4 @@ https://jpuri.github.io/react-draft-wysiwyg/#/docs?_k=jjqinp
 2. contentEditable = true
 4. Продумать иерархию компонентов
 5. Настраиваемый текст, отступы и тд
+6. Шапка фиксированная и нет
