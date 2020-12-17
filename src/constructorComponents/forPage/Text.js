@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from "prop-types";
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { getColor, applyFields } from '../helpers';
+import { applyFields } from '../helpers';
 
 const Container = styled.div`
     width: 100%;
@@ -11,8 +11,8 @@ const Container = styled.div`
     padding-left: 16px;
     padding-right: 16px;
     ${props => css`
-        background: ${getColor(props, 'background')};
-        color: ${getColor(props)};
+        background: ${props.styles.background ? props.theme.colors[props.styles.background[0] !== '{' ? props.styles.background : JSON.parse(props.styles.background).value].v : ''};
+        color: ${props.styles.color ? props.theme.colors[props.styles.color[0] !== '{' ? props.styles.color : JSON.parse(props.styles.color).value].v : ''};
         max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
         padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};

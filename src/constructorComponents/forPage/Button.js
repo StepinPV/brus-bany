@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from "prop-types";
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { getColor, applyFields } from '../helpers';
+import { applyFields } from '../helpers';
 
 const Container = styled.div`
     width: 100%;
@@ -29,8 +29,8 @@ const Content = styled.a`
     
     ${props => css`
         width: ${props.styles.fullWidth ? '100%' : ''};
-        color: ${getColor(props)};
-        background-color: ${getColor(props, 'background')};
+        color: ${props.styles.color ? props.theme.colors[props.styles.color[0] !== '{' ? props.styles.color : JSON.parse(props.styles.color).value].v : ''};
+        background-color: ${props.styles.background ? props.theme.colors[props.styles.background[0] !== '{' ? props.styles.background : JSON.parse(props.styles.background).value].v : ''};
         line-height: ${{ m: '', s: '18px' }[props.styles.size]};
         
         @media (min-width: 641px) {

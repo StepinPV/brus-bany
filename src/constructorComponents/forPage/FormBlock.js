@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Caption, Text, Form } from '../index';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { getColor } from '../helpers';
 
 const Container = styled.div`
     display: flex;
@@ -32,7 +31,7 @@ const SecondColumn = styled.div`
     justify-content: center;
     padding: 16px;
     ${props => css`
-        background: ${getColor(props, 'background')};
+        background: ${props.styles.background ? props.theme.colors[props.styles.background[0] !== '{' ? props.styles.background : JSON.parse(props.styles.background).value].v : ''};
     `}
     @media (max-width: 640px) {
         padding: 16px;

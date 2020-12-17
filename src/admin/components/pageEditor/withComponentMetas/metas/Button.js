@@ -85,7 +85,7 @@ export const props = [{
         title: 'На всю ширину'
     }, {
         id: 'm',
-        title: 'Среднаяя'
+        title: 'Средняя'
     }, {
         id: 's',
         title: 'Маленькая'
