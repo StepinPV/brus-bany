@@ -16,7 +16,7 @@ import ComponentRender from '../../components/pageEditor/Component';
 import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import Header from '../../components/Header';
-import { getTheme } from '../../../constructorComponents/theme';
+import theme from '../../../constructorComponents/theme';
 import { ThemeProvider } from 'emotion-theming';
 
 const breadcrumbs = [{
@@ -108,7 +108,7 @@ class Component extends PureComponent {
 
         // TODO
         return data && data.config.componentsData ? (
-            <ThemeProvider theme={getTheme()}>
+            <ThemeProvider theme={theme}>
                 <FloatPanels
                     panels={this.floatPanels}
                     onChangeOpenedPanel={this.setOpenedPanel}

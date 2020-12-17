@@ -1,4 +1,4 @@
-const theme = {
+export default {
     colors: {
         'white': { n: 'Белый', v: '#fff' },
         'black': { n: 'Черный', v: '#000' },
@@ -113,11 +113,3 @@ const theme = {
         }
     }
 };
-
-export default {
-    colors: colors
-};
-
-export function getTheme() {
-    return theme;
-}

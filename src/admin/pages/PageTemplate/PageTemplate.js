@@ -16,7 +16,7 @@ import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import Form from '../../components/Form';
 import format from '../../formats/page-template';
 import styles from './PageTemplate.module.css';
-import { getTheme } from '../../../constructorComponents/theme';
+import theme from '../../../constructorComponents/theme';
 import { ThemeProvider } from 'emotion-theming';
 import FieldsProvider from '@plugins/Fields/Provider';
 
@@ -107,7 +107,7 @@ class PageTemplate extends PureComponent {
         }
 
         return data ? (
-            <ThemeProvider theme={getTheme()}>
+            <ThemeProvider theme={theme}>
                 <FloatPanels
                     panels={this.floatPanels}
                     onChangeOpenedPanel={this.setOpenedPanel}

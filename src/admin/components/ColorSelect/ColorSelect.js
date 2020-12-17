@@ -2,11 +2,13 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ColorSelect.module.css';
 import cx from 'classnames';
-import theme from '../../../constructorComponents/theme';
+import { useTheme } from 'emotion-theming';
 import ColorPicker from 'rc-color-picker';
 import { hexToRgba, rgbToHex } from '@utils/colors';
 
 const ColorSelect = ({ title, value, onChange }) => {
+    const theme = useTheme();
+
     if (value) {
         if (value[0] === '{'){
             value = JSON.parse(value);
@@ -20,18 +22,18 @@ const ColorSelect = ({ title, value, onChange }) => {
         <>
             <div className={styles.title}>{title}</div>
             <div className={styles.items}>
-                {theme.colors.map(color => (
+                {Object.keys(theme.colors).map(colorId => (
                     <div
-                        key={color.id}
-                        className={cx(styles.item, {[styles['item-selected']]: value && value.type === 'base' && color.id === value.value })}>
+                        key={colorId}
+                        className={cx(styles.item, {[styles['item-selected']]: value && value.type === 'base' && colorId === value.value })}>
                         <span
-                            style={{ background: color.value }}
+                            style={{ background: theme.colors[colorId].v }}
                             onClick={() => onChange(JSON.stringify({
                                 type: 'base',
-                                value: color.id
+                                value: colorId
                             }))}
                             className='rc-color-picker-trigger' />
-                        <div className={styles['item-title']}>{color.name}</div>
+                        <div className={styles['item-title']}>{theme.colors[colorId].n}</div>
                     </div>
                 ))}
                 <div className={cx(styles.item, {[styles['item-selected']]: value && value.type === 'custom' })}>

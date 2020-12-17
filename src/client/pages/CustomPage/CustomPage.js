@@ -4,7 +4,7 @@ import PageRender from '../../components/PageRender';
 import Meta from "../../components/Meta";
 import * as components from '@constructor-components';
 import { ThemeProvider } from 'emotion-theming';
-import { getTheme } from '../../../constructorComponents/theme';
+import theme from '../../../constructorComponents/theme';
 
 // TODO Удалить после перехода на node 15
 function replaceAll(find, replace, str) {
@@ -50,7 +50,7 @@ class CustomPage extends PureComponent {
 
     render() {
         return (
-            <ThemeProvider theme={getTheme()}>
+            <ThemeProvider theme={theme}>
                 <PageRender
                     header={this.renderSpecialComponent('header')}
                     footer={this.renderSpecialComponent('footer')}>

@@ -17,7 +17,7 @@ import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import Header from '../../components/Header';
 import formData from '../../formats/page-folder';
 import { ThemeProvider } from 'emotion-theming';
-import { getTheme } from '../../../constructorComponents/theme';
+import theme from '../../../constructorComponents/theme';
 import FieldsProvider from '@plugins/Fields/Provider';
 
 const breadcrumbs = [{
@@ -109,7 +109,7 @@ class Folder extends PureComponent {
 
         // TODO
         return data ? (
-            <ThemeProvider theme={getTheme()}>
+            <ThemeProvider theme={theme}>
                 <FloatPanels
                     panels={this.floatPanels}
                     onChangeOpenedPanel={this.setOpenedPanel}
