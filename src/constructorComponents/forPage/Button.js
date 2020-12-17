@@ -11,9 +11,9 @@ const Container = styled.div`
     display: flex;
     
     ${props => css`
-        max-width: ${props.styles.width ? { s: '728px', m: '1200px', l: '100%' }[props.styles.width] : ''};
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingTop] : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingBottom] : ''};
+        max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width] : ''};
+        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop] : ''};
+        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom] : ''};
         padding-left: ${props.styles.paddingLeft && props.styles.paddingLeft !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingLeft] : ''};
         padding-right: ${props.styles.paddingRight && props.styles.paddingRight !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingRight] : ''};
         justify-content: ${{ left: 'flex-start', center: 'center', right: 'flex-end' }[props.styles.align]};

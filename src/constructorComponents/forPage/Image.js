@@ -8,8 +8,8 @@ const Container = styled.img`
     max-width: 100%;
     margin: 0 auto;
     ${props => css`
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingTop] : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingBottom] : ''};
+        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop] : ''};
+        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom] : ''};
         object-fit: ${props.styles.objectFit};
         height: ${props.styles.height ? `${props.styles.height}px` : ''};
         width: ${props.styles.objectFit === 'fill' || props.styles.objectFit === 'cover' ? '100%' : ''};
