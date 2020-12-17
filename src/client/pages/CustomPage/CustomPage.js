@@ -6,6 +6,12 @@ import * as components from '@constructor-components';
 import { ThemeProvider } from 'emotion-theming';
 import { getTheme } from '../../../constructorComponents/theme';
 
+// TODO Удалить после перехода на node 15
+function replaceAll(find, replace, str) {
+    find = find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
 class CustomPage extends PureComponent {
     static propTypes = {
         customComponents: PropTypes.array,
@@ -43,21 +49,46 @@ class CustomPage extends PureComponent {
     };
 
     render() {
-        const { page } = this.props;
-
         return (
             <ThemeProvider theme={getTheme()}>
                 <PageRender
                     header={this.renderSpecialComponent('header')}
                     footer={this.renderSpecialComponent('footer')}>
                     <>
-                        {page.config.seoMeta ? <Meta meta={page.config.seoMeta} /> : null}
+                        {this.renderMeta()}
                         {this.renderPageContent()}
                     </>
                 </PageRender>
             </ThemeProvider>
         );
     }
+
+    renderMeta = () => {
+        const { page, templates } = this.props;
+        const meta = page.config.seoMeta || {};
+
+        if (page.config.template) {
+            const templateData = templates.find((t => t['_id'] === page.config.template));
+            const templateMeta = templateData.seoMeta;
+
+            if (templateMeta) {
+                Object.keys(templateMeta).forEach(metaKey => {
+                    if (!meta[metaKey] && typeof templateMeta[metaKey] === 'string') {
+                        meta[metaKey] = templateMeta[metaKey];
+                        const fields = page.config['template-fields'];
+
+                        meta[metaKey] = fields ? Object.keys(fields).reduce((text, fieldId) => {
+                            return replaceAll(`{{${fieldId}}}`, fields[fieldId] || '', text);
+                        }, meta[metaKey]) : meta[metaKey];
+                    }
+                });
+            }
+        }
+
+        return (
+            <Meta meta={meta} />
+        );
+    };
 
     renderSpecialComponent = (id) => {
         const { page, templates } = this.props;

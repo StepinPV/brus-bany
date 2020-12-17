@@ -16,7 +16,7 @@ export const config = [{
     }, {
         _id: 'description',
         title: 'SEO description',
-        type: 'text'
+        type: 'string'
     }]
 }, {
     _id: 'template',
