@@ -1,49 +1,115 @@
-const colors = [{
-    id: 'white',
-    value: '#fff',
-    name: 'Белый'
-}, {
-    id: 'black',
-    value: '#000',
-    name: 'Черный'
-}, {
-    id: 'red',
-    value: '#91001d',
-    name: 'Красный'
-}, {
-    id: 'yellow',
-    value: '#ffe100',
-    name: 'Желтый'
-}, {
-    id: 'grey',
-    value: '#efefef',
-    name: 'Серый'
-}];
-
-const values = {
-    'max-width': { s: '728px', m: '1200px', l: '100%' },
-    'padding-top': { s: '16px', m: '32px', l: '48px' },
-    'padding-bottom': { s: '16px', m: '32px', l: '48px' },
+const theme = {
+    colors: {
+        'white': { n: 'Белый', v: '#fff' },
+        'black': { n: 'Черный', v: '#000' },
+        'red': { n: 'Красный', v: '#91001d' },
+        'yellow': { n: 'Желтый', v: '#ffe100' },
+        'grey': { n: 'Серый', v: '#efefef' },
+    },
+    'max-width': {
+        s: { n: 'Маленькая', v: '728px' },
+        m: { n: 'Средняя', v: '1200px' },
+        l: { n: 'На всю ширину', v: '100%' }
+    },
+    'padding-top': {
+        s: { n: 'Маленький', v: '16px' },
+        m: { n: 'Средний', v: '32px' },
+        l: { n: 'Большой', v: '48px' }
+    },
+    'padding-bottom': {
+        s: { n: 'Маленький', v: '16px' },
+        m: { n: 'Средний', v: '32px' },
+        l: { n: 'Большой', v: '48px' }
+    },
     'caption': {
         'font-size': {
-            'standard': { s: '26px', m: '42px', l: '52px' },
-            '640': { s: '22px', m: '30px', l: '38px' },
-            '400': { s: '16px', m: '24px', l: '32px' },
-            '350': { s: '14px', m: '22px', l: '28px' }
+            s: {
+                n: 'Маленький',
+                v: {
+                    'standard': '26px',
+                    '640': '22px',
+                    '400': '16px',
+                    '350': '14px'
+                }
+            },
+            m: {
+                n: 'Средний',
+                v: {
+                    'standard': '42px',
+                    '640': '30px',
+                    '400': '24px',
+                    '350': '22px'
+                }
+            },
+            l: {
+                n: 'Большой',
+                v: {
+                    'standard': '52px',
+                    '640': '38px',
+                    '400': '32px',
+                    '350': '28px'
+                }
+            }
         }
     },
     'text': {
         'font-size': {
-            'standard': { s: '15px', m: '19px', l: '24px' },
-            '640': { s: '13px', m: '16px', l: '20px' },
-            '400': { s: '12px', m: '14px', l: '16px' },
-            '350': { s: '12px', m: '14px', l: '16px' }
+            s: {
+                n: 'Маленький',
+                v: {
+                    'standard': '15px',
+                    '640': '13px',
+                    '400': '12px',
+                    '350': '12px'
+                }
+            },
+            m: {
+                n: 'Средний',
+                v: {
+                    'standard': '19px',
+                    '640': '20px',
+                    '400': '14px',
+                    '350': '14px'
+                }
+            },
+            l: {
+                n: 'Большой',
+                v: {
+                    'standard': '24px',
+                    '640': '38px',
+                    '400': '16px',
+                    '350': '16px'
+                }
+            }
         },
         'line-height': {
-            'standard': { s: '20px', m: '24px', l: '30px' },
-            '640': { s: '16px', m: '18px', l: '20px' },
-            '400': { s: '16px', m: '18px', l: '20px' },
-            '350': { s: '16px', m: '18px', l: '20px' }
+            s: {
+                n: 'Маленький',
+                v: {
+                    'standard': '20px',
+                    '640': '16px',
+                    '400': '16px',
+                    '350': '16px'
+                }
+            },
+            m: {
+                n: 'Средний',
+                v: {
+                    'standard': '24px',
+                    '640': '18px',
+                    '400': '18px',
+                    '350': '18px'
+                }
+            },
+            l: {
+                n: 'Большой',
+                v: {
+                    'standard': '30px',
+                    '640': '20px',
+                    '400': '20px',
+                    '350': '20px'
+                }
+            }
         }
     }
 };
@@ -53,12 +119,5 @@ export default {
 };
 
 export function getTheme() {
-    const theme = { ...values };
-
-    colors.forEach(({ id, value }) => {
-        theme.colors = theme.colors || {};
-        theme.colors[id] = value;
-    });
-
     return theme;
 }

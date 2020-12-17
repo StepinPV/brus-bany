@@ -14,19 +14,19 @@ const Container = styled.div`
     ${props => css`
         background: ${getColor(props, 'background')};
         color: ${getColor(props)};
-        max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width] : ''};
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop] : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom] : ''};
+        max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
+        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
+        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
         text-align: ${{ left: 'left', center: 'center', right: 'right' }[props.styles.align]};
-        font-size: ${props.theme['caption']['font-size']['standard'][props.styles.size]};
+        font-size: ${props.theme['caption']['font-size'][props.styles.size].v['standard']};
         @media (max-width: 350px) {
-            font-size: ${props.theme['caption']['font-size']['350'][props.styles.size]};
+            font-size: ${props.theme['caption']['font-size'][props.styles.size].v['350']};
         }
         @media (max-width: 400px) {
-            font-size: ${props.theme['caption']['font-size']['400'][props.styles.size]};
+            font-size: ${props.theme['caption']['font-size'][props.styles.size].v['400']};
         }
         @media (max-width: 640px) {
-            font-size: ${props.theme['caption']['font-size']['640'][props.styles.size]};
+            font-size: ${props.theme['caption']['font-size'][props.styles.size].v['640']};
         }
     `}
 `;

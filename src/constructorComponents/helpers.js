@@ -5,12 +5,12 @@ export function getColor(props, field='color') {
         if (color[0] === '{') {
             color = JSON.parse(color);
             if (color.type === 'base') {
-                color = props.theme.colors[color.value];
+                color = props.theme.colors[color.value].v;
             } else {
                 color = color.value;
             }
         } else {
-            color = props.theme.colors[color];
+            color = props.theme.colors[color].v;
         }
     }
 

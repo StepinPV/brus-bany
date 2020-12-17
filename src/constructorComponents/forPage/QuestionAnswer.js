@@ -12,9 +12,9 @@ const Container = styled.div`
     padding-left: 0;
     padding-right: 0;
     ${props => css`
-        max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width] : ''};
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop] : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom] : ''};
+        max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
+        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
+        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
     `}
 `;
 

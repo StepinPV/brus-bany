@@ -12,7 +12,7 @@ const Container = styled.div`
     padding: 16px;
     
     ${props => css`
-        max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width] : ''};
+        max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
     `}
 `;
 

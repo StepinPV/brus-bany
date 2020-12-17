@@ -12,9 +12,9 @@ const Container = styled.ol`
     padding-right: 0;
     
     ${props => css`
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop] : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom] : ''};
-        max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width] : ''};
+        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
+        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
+        max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
         font-size: ${{ s: '15px', m: '19px', l: '24px' }[props.styles.size]};
         line-height: ${{ s: '20px', m: '24px', l: '30px' }[props.styles.size]};
         @media (max-width: 400px) {
