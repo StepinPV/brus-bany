@@ -113,13 +113,13 @@ class Quiz extends PureComponent {
                 {questionIndex === items.length ? (
                     <>
                         <Number>Спасибо!</Number>
-                        <Question>{resultText}</Question>
+                        <Question dangerouslySetInnerHTML={{ __html: resultText }} />
                         <Form source='Квиз' data={this.getAnswersData()} onSuccess={this.handleFormSuccess} buttonCaption='Отправить результаты опроса' />
                     </>
                 ) : (
                     <>
                         <Number>{`Вопрос ${questionIndex + 1} из ${items.length}`}</Number>
-                        <Question>{items[questionIndex].title}</Question>
+                        <Question dangerouslySetInnerHTML={{ __html: items[questionIndex].title }} />
                         <Items>
                             {this.renderItems(items[questionIndex])}
                         </Items>
@@ -139,7 +139,7 @@ class Quiz extends PureComponent {
                             key={question.title}
                             onClick={() => { this.handleChoose(question.title, item.title)}}>
                             <ImageItemImage src={__images__[question.image]} alt={question.title} loading='lazy' />
-                            <ImageItemTitle>{question.title}</ImageItemTitle>
+                            <ImageItemTitle dangerouslySetInnerHTML={{ __html: question.title }} />
                         </ImageItem>
                     );
                 }
@@ -147,7 +147,8 @@ class Quiz extends PureComponent {
                 return (
                     <TextItem
                         key={question.title}
-                        onClick={() => { this.handleChoose(question.title, item.title)}}>{question.title}</TextItem>
+                        onClick={() => { this.handleChoose(question.title, item.title)}}
+                        dangerouslySetInnerHTML={{ __html: question.title }} />
                 );
             });
         }
