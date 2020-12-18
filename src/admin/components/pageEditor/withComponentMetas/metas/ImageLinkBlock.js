@@ -31,37 +31,13 @@ export const props = [{
 }, {
     _id: 'paddingBottom',
     title: 'Нижний отступ',
-    type: 'select',
-    items: [{
-        id: 'none',
-        title: 'Без отступа'
-    }, {
-        id: 's',
-        title: 'Маленький'
-    }, {
-        id: 'm',
-        title: 'Средний'
-    }, {
-        id: 'l',
-        title: 'Большой'
-    }]
+    type: 'theme-param',
+    typeId: 'padding-bottom'
 }, {
     _id: 'paddingTop',
     title: 'Верхний отступ',
-    type: 'select',
-    items: [{
-        id: 'none',
-        title: 'Без отступа'
-    }, {
-        id: 's',
-        title: 'Маленький'
-    }, {
-        id: 'm',
-        title: 'Средний'
-    }, {
-        id: 'l',
-        title: 'Большой'
-    }]
+    type: 'theme-param',
+    typeId: 'padding-top'
 }];
 export const name = 'Блок с изображением, описанием и ссылкой';
 export const key = 'ImageLinkBlock';

@@ -17,15 +17,15 @@ const Container = styled.div`
         padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
         text-align: ${{ left: 'left', center: 'center', right: 'right' }[props.styles.align]};
-        font-size: ${props.theme['caption']['font-size'][props.styles.size].v['standard']};
+        font-size: ${props.theme['caption']['size'][props.styles.size].v['standard']};
         @media (max-width: 350px) {
-            font-size: ${props.theme['caption']['font-size'][props.styles.size].v['350']};
+            font-size: ${props.theme['caption']['size'][props.styles.size].v['350']};
         }
         @media (max-width: 400px) {
-            font-size: ${props.theme['caption']['font-size'][props.styles.size].v['400']};
+            font-size: ${props.theme['caption']['size'][props.styles.size].v['400']};
         }
         @media (max-width: 640px) {
-            font-size: ${props.theme['caption']['font-size'][props.styles.size].v['640']};
+            font-size: ${props.theme['caption']['size'][props.styles.size].v['640']};
         }
     `}
 `;

@@ -7,7 +7,8 @@ import TextEditor from '../TextEditor';
 import ImageUploader from '../ImageUploader';
 import SourceSelect from '../SourceSelect';
 import ColorSelect from '../ColorSelect';
-import Select from "../../../components/Select";
+import ThemeParamSelect from '../ThemeParamSelect';
+import Select from '../../../components/Select';
 import styles from './FormItem.module.css';
 
 import OneOf from '../OneOf';
@@ -158,6 +159,17 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                 <div className={styles.item}>
                     <ColorSelect
                         title={item.title}
+                        value={value}
+                        onChange={val => onChange(val, null, images)}
+                        error={error} />
+                </div>
+            );
+        case 'theme-param':
+            return (
+                <div className={styles.item}>
+                    <ThemeParamSelect
+                        title={item.title}
+                        typeId={item.typeId}
                         value={value}
                         onChange={val => onChange(val, null, images)}
                         error={error} />

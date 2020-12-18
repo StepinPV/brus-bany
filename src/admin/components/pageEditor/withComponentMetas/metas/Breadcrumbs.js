@@ -15,17 +15,8 @@ export const props = [{
 }, {
     _id: 'width',
     title: 'Ширина',
-    type: 'select',
-    items: [{
-        id: 'l',
-        title: 'На всю ширину'
-    }, {
-        id: 'm',
-        title: 'Среднаяя'
-    }, {
-        id: 's',
-        title: 'Маленькая'
-    }]
+    type: 'theme-param',
+    typeId: 'max-width'
 }];
 
 export const name = 'Хлебные крошки';

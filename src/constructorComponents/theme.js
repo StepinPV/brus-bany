@@ -12,17 +12,19 @@ export default {
         l: { n: 'На всю ширину', v: '100%' }
     },
     'padding-top': {
+        none: { n: 'Без отступа', v: 'none' },
         s: { n: 'Маленький', v: '16px' },
         m: { n: 'Средний', v: '32px' },
         l: { n: 'Большой', v: '48px' }
     },
     'padding-bottom': {
+        none: { n: 'Без отступа', v: 'none' },
         s: { n: 'Маленький', v: '16px' },
         m: { n: 'Средний', v: '32px' },
         l: { n: 'Большой', v: '48px' }
     },
     'caption': {
-        'font-size': {
+        'size': {
             s: {
                 n: 'Маленький',
                 v: {
@@ -53,61 +55,68 @@ export default {
         }
     },
     'text': {
-        'font-size': {
+        'size': {
             s: {
                 n: 'Маленький',
                 v: {
-                    'standard': '15px',
-                    '640': '13px',
-                    '400': '12px',
-                    '350': '12px'
+                    'standard': {
+                        'font-size': '15px',
+                        'line-height': '20px'
+                    },
+                    '640': {
+                        'font-size': '13px',
+                        'line-height': '16px'
+                    },
+                    '400': {
+                        'font-size': '12px',
+                        'line-height': '16px'
+                    },
+                    '350': {
+                        'font-size': '12px',
+                        'line-height': '16px'
+                    }
                 }
             },
             m: {
                 n: 'Средний',
                 v: {
-                    'standard': '19px',
-                    '640': '20px',
-                    '400': '14px',
-                    '350': '14px'
+                    'standard': {
+                        'font-size': '19px',
+                        'line-height': '24px'
+                    },
+                    '640': {
+                        'font-size': '20px',
+                        'line-height': '18px'
+                    },
+                    '400': {
+                        'font-size': '14px',
+                        'line-height': '18px'
+                    },
+                    '350': {
+                        'font-size': '14px',
+                        'line-height': '18px'
+                    }
                 }
             },
             l: {
                 n: 'Большой',
                 v: {
-                    'standard': '24px',
-                    '640': '38px',
-                    '400': '16px',
-                    '350': '16px'
-                }
-            }
-        },
-        'line-height': {
-            s: {
-                n: 'Маленький',
-                v: {
-                    'standard': '20px',
-                    '640': '16px',
-                    '400': '16px',
-                    '350': '16px'
-                }
-            },
-            m: {
-                n: 'Средний',
-                v: {
-                    'standard': '24px',
-                    '640': '18px',
-                    '400': '18px',
-                    '350': '18px'
-                }
-            },
-            l: {
-                n: 'Большой',
-                v: {
-                    'standard': '30px',
-                    '640': '20px',
-                    '400': '20px',
-                    '350': '20px'
+                    'standard': {
+                        'font-size': '24px',
+                        'line-height': '30px'
+                    },
+                    '640': {
+                        'font-size': '38px',
+                        'line-height': '20px'
+                    },
+                    '400': {
+                        'font-size': '16px',
+                        'line-height': '20px'
+                    },
+                    '350': {
+                        'font-size': '16px',
+                        'line-height': '20px'
+                    }
                 }
             }
         }

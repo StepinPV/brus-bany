@@ -13,17 +13,8 @@ export const props = [{
 }, {
     _id: 'size',
     title: 'Размер',
-    type: 'select',
-    items: [{
-        id: 's',
-        title: 'Маленький'
-    }, {
-        id: 'm',
-        title: 'Средний'
-    }, {
-        id: 'l',
-        title: 'Большой'
-    }]
+    type: 'theme-param',
+    typeId: 'text:size'
 }, {
     _id: 'align',
     title: 'Выравнивание',
@@ -41,51 +32,18 @@ export const props = [{
 }, {
     _id: 'paddingBottom',
     title: 'Нижний отступ',
-    type: 'select',
-    items: [{
-        id: 'none',
-        title: 'Без отступа'
-    }, {
-        id: 's',
-        title: 'Маленький'
-    }, {
-        id: 'm',
-        title: 'Средний'
-    }, {
-        id: 'l',
-        title: 'Большой'
-    }]
+    type: 'theme-param',
+    typeId: 'padding-bottom'
 }, {
     _id: 'paddingTop',
     title: 'Верхний отступ',
-    type: 'select',
-    items: [{
-        id: 'none',
-        title: 'Без отступа'
-    }, {
-        id: 's',
-        title: 'Маленький'
-    }, {
-        id: 'm',
-        title: 'Средний'
-    }, {
-        id: 'l',
-        title: 'Большой'
-    }]
+    type: 'theme-param',
+    typeId: 'padding-top'
 }, {
     _id: 'width',
     title: 'Ширина',
-    type: 'select',
-    items: [{
-        id: 'l',
-        title: 'На всю ширину'
-    }, {
-        id: 'm',
-        title: 'Среднаяя'
-    }, {
-        id: 's',
-        title: 'Маленькая'
-    }]
+    type: 'theme-param',
+    typeId: 'max-width'
 }, {
     _id: 'id',
     title: 'Якорь',
