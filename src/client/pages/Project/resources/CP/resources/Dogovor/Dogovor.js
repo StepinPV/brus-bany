@@ -186,7 +186,7 @@ function renderMiniName(fullName) {
 
     return '';
 }
-const renderDogovorHeader = (caption, project, formValue) => {
+const renderDogovorHeader = (caption, project, formValue, name1, name2) => {
     return (
         <>
             <h3 style={{ textAlign: 'center' }}>{caption} № {formValue.documentNumber}</h3>
@@ -199,8 +199,8 @@ const renderDogovorHeader = (caption, project, formValue) => {
             <div style={{ textAlign: 'justify' }}>
                 Общество с ограниченной ответственностью «Русская Баня» в лице генерального директора
                 Старикова Евгения Борисовича, действующего на основании Устава, именуемый в дальнейшем
-                “Продавец”, и Гражданин РФ {formValue.client.name || <span style={{ wordBreak: 'break-all' }}>_____________________________________________________________ </span> },
-                именуемый в дальнейшем "Покупатель",
+                “{name1}”, и Гражданин РФ {formValue.client.name || <span style={{ wordBreak: 'break-all' }}>_____________________________________________________________ </span> },
+                именуемый в дальнейшем "{name2}",
                 {renderPassport(formValue.client.passport)}
                 контактный телефон {formValue.client.phone || <span style={{ wordBreak: 'break-all' }}>_____________________ </span> } с
                 другой стороны, далее именуемые Стороны, заключили настоящий договор (далее – «Договор») о нижеследующем:
@@ -387,7 +387,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, project, formValue, data, 
                 <div style={{ flexGrow: 1 }}>
                     <br/>
                     <br/>
-                    {renderDogovorHeader(data.additions && data.additions['5eefcee55ec46c7ee0c91aaa'] ? 'ДОГОВОР НА ВЫПОЛНЕНИЕ ПОДРЯДНЫХ РАБОТ' : 'ДОГОВОР КУПЛИ - ПРОДАЖИ', project, formValue, data, finalPrice, projectName)}
+                    {renderDogovorHeader(data.additions && data.additions['5eefcee55ec46c7ee0c91aaa'] ? 'ДОГОВОР НА ВЫПОЛНЕНИЕ ПОДРЯДНЫХ РАБОТ' : 'ДОГОВОР КУПЛИ - ПРОДАЖИ', project, formValue, 'Продавец', 'Покупатель')}
                     <br/>
                     <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
                     <div style={{ textAlign: 'justify' }}>
@@ -632,6 +632,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, project, formValue, data, 
                     </div>
                     <br/><br/>
                     {renderSpecification(projectName, project, categoryId, data)}
+                    <br/>
                     <div style={{ textAlign: 'justify' }}>
                         Допускается стыковка: брус по всему периметру стен бани, вагонка по каждой стене и потолку в отдельно взятом
                         помещении, половой доски в каждой комнате.
@@ -709,7 +710,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                 <div style={{ flexGrow: 1 }}>
                     <br/>
                     <br/>
-                    {renderDogovorHeader('ДОГОВОР НА ВЫПОЛНЕНИЕ ПОДРЯДНЫХ РАБОТ', project, formValue, data, finalPrice, projectName)}
+                    {renderDogovorHeader('ДОГОВОР НА ВЫПОЛНЕНИЕ ПОДРЯДНЫХ РАБОТ', project, formValue, 'Подрядчик', 'Заказчик')}
                     <br/>
                     <h3 style={{ textAlign: 'center' }}>1. ПРЕДМЕТ ДОГОВОРА</h3>
                     <div style={{ textAlign: 'justify' }}>
@@ -964,7 +965,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     </div>
                     <div style={{ textAlign: 'justify' }}>
                         8.3 В случае задержки окончания Работ по Договору, Заказчик вправе взыскать с
-                        одрядчика неустойку в размере 0,1% от стоимости Договора, но не более 2% стоимости Договора.
+                        подрядчика неустойку в размере 0,1% от стоимости Договора, но не более 2% стоимости Договора.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
                         8.4 За нарушение договорных обязательств Заказчиком по оплате или приемке,
@@ -1324,7 +1325,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
     );
 };
 
-const renderTZ = (project, formValue, data, finalPrice, projectName) => {
+const renderTZ = (project, formValue, data, finalPrice, projectName, hasAddBlock) => {
     const { categoryId } = project;
     return (
         <div className={styles.container}>
@@ -1339,6 +1340,15 @@ const renderTZ = (project, formValue, data, finalPrice, projectName) => {
             <br/>
             <br/>
             {renderSpecification(projectName, project, categoryId, data)}
+            {hasAddBlock ? (
+                <>
+                    <br/>
+                    <div style={{ textAlign: 'justify' }}>
+                        Допускается стыковка: брус по всему периметру стен бани, вагонка по каждой стене и потолку в отдельно взятом
+                        помещении, половой доски в каждой комнате.
+                    </div>
+                </>
+            ) : null}
             <img src={formValue.images['scheme']} style={{ width: '100%' }} />
         </div>
     )
@@ -1367,14 +1377,16 @@ function Dogovor({ type, formValue, data, project, finalPrice, projectName }) {
         }
     }, [containerRef]);
 
+    const type1 = project.categoryId['_id'] !== '5e020c9f9d9c6faea68e88c7' || data.additions && data.additions['5eefcee55ec46c7ee0c91aaa'];
+
     switch(type) {
         case 'dogovor':
-            if (project.categoryId['_id'] !== '5e020c9f9d9c6faea68e88c7' || data.additions && data.additions['5eefcee55ec46c7ee0c91aaa']) {
+            if (type1) {
                 return renderDogovor2(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
             } else {
                 return renderDogovor1(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
             }
-        case 'tz': return renderTZ(project, formValue, data, finalPrice, projectName);
+        case 'tz': return renderTZ(project, formValue, data, finalPrice, projectName, !type1);
         default: return null;
     }
 }

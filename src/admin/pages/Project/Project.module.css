@@ -57,3 +57,8 @@
     margin: 4px;
 }
 
+.inputContainer {
+    padding-left: 8px;
+    border-left: 3px solid #7582b5;
+}
+

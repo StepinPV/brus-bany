@@ -310,7 +310,7 @@ class Project extends PureComponent {
 
     renderDelivery = () => {
         const { project } = this.props;
-        const { data: { delivery } } = this.state;
+        const { data: { delivery, complectation } } = this.state;
         const { categoryId } = project;
         const { deliveryData } = categoryId;
 
@@ -320,6 +320,8 @@ class Project extends PureComponent {
             if (value) {
                 const { layoutId: params } = project;
                 const deliveryLength = value.length;
+                const cubage = project.cubages ? (project.cubages[complectation || project.categoryId.complectationBlocks.defaultItemId] || 0) : 0;
+
                 delivery = {
                     length: value.length,
                     address: value.address,

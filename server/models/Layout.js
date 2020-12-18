@@ -41,46 +41,21 @@ const floorScheme = new Schema({
         required: REQUIRED_MSG
     },
     balconies: Array,
-    'toilet-bathroom': {
-        type: {
-            area
-        }
-    },
-    toilet: {
-        type: {
-            area
-        }
-    },
-    bathroom: {
-        type: {
-            area
-        }
-    },
-    restroom: {
-        type: {
-            area
-        }
-    },
-    pantry: {
-        type: {
-            area
-        }
-    },
-    vestibule: {
-        type: {
-            area
-        }
-    },
-    steamRoom: {
-        type: {
-            area
-        }
-    },
-    washingRoom: {
-        type: {
-            area
-        }
-    }
+    'toilet-bathroom': Array,
+    toilet: Array,
+    bathroom: Array,
+    restroom: Array,
+    pantry: Array,
+    steamRoom: Array,
+    washingRoom: Array,
+    hall: Array,
+    livingRoom: Array,
+    kitchen: Array,
+    'kitchen-livingRoom': Array,
+    wardrobe: Array,
+    utilityRoom: Array,
+    boilerRoom: Array,
+    vestibule: Array
 });
 
 const scheme = new Schema({
@@ -152,6 +127,7 @@ const scheme = new Schema({
         }
     },
     terraces: Array,
+    porches: Array,
     attic: Object,
     updated: Date
 }, {
