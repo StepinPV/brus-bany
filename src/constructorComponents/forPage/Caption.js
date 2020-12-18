@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import { applyFields } from '../helpers';
 
 const Container = styled.div`
     width: 100%;
@@ -34,7 +35,7 @@ function Caption(props) {
     return (
         <Container
             as={props.tag}
-            dangerouslySetInnerHTML={{ __html: props.children }}
+            dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.children) }}
             id={props.id || null}
             styles={{
                 background: props.background,
