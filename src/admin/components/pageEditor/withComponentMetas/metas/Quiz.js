@@ -7,7 +7,7 @@ export const props = [{
     format: [{
         _id: 'title',
         title: 'Вопрос',
-        type: 'text'
+        type: 'string'
     },{
         _id: 'items',
         title: 'Ответы',
@@ -16,7 +16,7 @@ export const props = [{
         format: [{
             _id: 'title',
             title: 'Заголовок',
-            type: 'text'
+            type: 'string'
         }, {
             _id: 'image',
             title: 'Изображение',
