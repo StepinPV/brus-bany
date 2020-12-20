@@ -5,13 +5,22 @@ export const props = [{
     type: 'image',
     props: {
         withoutLogo: true,
-        width: 400,
-        globalStore: true
+        globalStore: true,
+        withoutCompression: true
     }
 }, {
     _id: 'imageAlt',
     title: 'Alt изображения',
     type: 'string'
+}, {
+    _id: 'width',
+    title: 'Ширина',
+    type: 'theme-param',
+    typeId: 'max-width'
+}, {
+    _id: 'paddingLeftAndRight',
+    title: 'Отступы слева и справа',
+    type: 'boolean'
 }, {
     _id: 'paddingBottom',
     title: 'Нижний отступ',
@@ -40,11 +49,17 @@ export const props = [{
         id: 'cover',
         title: 'Сохранить пропорции и заполнить всю область'
     }]
-}];
+}, {
+    _id: 'title',
+    title: 'Подпись',
+    type: 'string'
+},];
 export const name = 'Изображение';
 export const key = 'Image';
 export const defaultProps = {
     paddingBottom: 'm',
     paddingTop: 'm',
-    objectFit: 'contain'
+    objectFit: 'contain',
+    width: 's',
+    paddingLeftAndRight: true
 };

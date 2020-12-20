@@ -9,7 +9,7 @@ const LOGO_SIZE = {
     height: 84
 };
 
-const prepareImage = async function(imageURL, callback, errback, { withLogo, width }) {
+const prepareImage = async function(imageURL, callback, errback, { withLogo, width, withoutCompression }) {
     let imageGM = gm(imageURL);
 
     imageGM.size((err, size) => {
@@ -43,7 +43,7 @@ const prepareImage = async function(imageURL, callback, errback, { withLogo, wid
                     }
 
                     // Cжимаем
-                    imageGM = imageGM.quality(45);
+                    imageGM = withoutCompression ? imageGM : imageGM.quality(45);
 
                     imageGM.write(imageURL, (err) => {
                         if (err) {

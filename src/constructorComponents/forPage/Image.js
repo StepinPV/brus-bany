@@ -3,16 +3,32 @@ import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 
-const Container = styled.img`
+const Title = styled.div`
+    text-align: center;
+    font-size: 14px;
+    margin-top: 8px;
+    color: #999;
+`;
+
+const Container = styled.div`
     display: block;
-    max-width: 100%;
+    width: 100%;
     margin: 0 auto;
+    box-sizing: border-box;
     ${props => css`
+        padding-left: ${props.styles.paddingLeftAndRight ? '16px' : ''}; 
+        padding-right: ${props.styles.paddingLeftAndRight ? '16px' : ''}; 
+        max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
         padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
+    `}
+`;
+
+const Img = styled.img`
+    width: 100%;
+    ${props => css`
         object-fit: ${props.styles.objectFit};
         height: ${props.styles.height ? `${props.styles.height}px` : ''};
-        width: ${props.styles.objectFit === 'fill' || props.styles.objectFit === 'cover' ? '100%' : ''};
     `}
 `;
 
@@ -22,22 +38,31 @@ function Image(props) {
             styles={{
                 paddingBottom: props.paddingBottom,
                 paddingTop: props.paddingTop,
-                objectFit: props.objectFit,
-                height: props.height
-            }}
-            src={props.__images__[props.image]}
-            alt={props.imageAlt}
-            loading='lazy' />
+                width: props.width,
+                paddingLeftAndRight: props.paddingLeftAndRight
+            }}>
+            <Img
+                styles={{
+                    objectFit: props.objectFit,
+                    height: props.height
+                }}
+                src={props.__images__[props.image]}
+                alt={props.imageAlt}
+                loading='lazy' />
+            {props.title ? <Title>{props.title}</Title> : null}
+        </Container>
     );
 }
 
 Image.propTypes = {
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
+    paddingLeftAndRight: PropTypes.bool,
     objectFit: PropTypes.oneOf(['fill', 'contain', 'cover']),
     image: PropTypes.string,
     imageAlt: PropTypes.string,
-    height: PropTypes.number
+    height: PropTypes.number,
+    title: PropTypes.string
 };
 
 Image.defaultProps = {
