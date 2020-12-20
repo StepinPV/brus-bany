@@ -45,9 +45,8 @@ const CKEditorBase = ({ value, title, onChange, fields, props }) => {
         let html = stateToHTML(editorState.getCurrentContent(), exportOptions);
 
         const match = html.match(/<div/g);
-
         // Проверяем, что совпадение единственное и div пустой и в начале
-        if (match.length === 1 && html.match(/^<div>/g)) {
+        if (match && match.length === 1 && html.match(/^<div>/g)) {
             const content = html.match(new RegExp('<div>((.|\n)*?)<\/div>'));
             html = html.replace(content[0], content[1]);
         }
