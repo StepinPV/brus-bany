@@ -14,8 +14,9 @@ body, h1, h2, h3, li {
   padding: 0;
 }
 
-ol {
+ol, ul {
   margin: 0;
+  padding-inline-start: 0;
 }
 
 :global(#root) {
