@@ -16,13 +16,14 @@ exports.generate = async function () {
         const layout = project.get('layoutId');
         const category = project.get('categoryId');
 
-        const name = category.get('name2');
+        const name = category.get('name');
+        const name2 = category.get('name2');
         const price = project.prices && category.complectationBlocks && project.prices[category.complectationBlocks.defaultItemId] ? project.prices[category.complectationBlocks.defaultItemId] : 0;
 
         offers.push({
             item: {
                 'g:id': project.get('_id').toString(),
-                'g:title': `${name[0].toUpperCase() + name.slice(1)} ${layout.get('name')} ${layout.get('width')}x${layout.get('length')}`,
+                'g:title': `${name2[0].toUpperCase() + name2.slice(1)} ${layout.get('name')} ${layout.get('width')}x${layout.get('length')}`,
                 'g:description': `Построим баню за ${project.get('buildTime')} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость`,
                 'g:link': `${DOMAIN}${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
                 'g:image_link': `${DOMAIN}${project.get('images').main}`,
@@ -30,6 +31,7 @@ exports.generate = async function () {
                 'g:price': `${price} RUB`,
                 'g:condition': 'new',
                 'g:google_product_category': `114`,
+                'g:product_type': `${name[0].toUpperCase() + name.slice(1)}`,
                 'g:identifier_exists': `false`,
                 'g:brand': 'Брус бани'
             }
