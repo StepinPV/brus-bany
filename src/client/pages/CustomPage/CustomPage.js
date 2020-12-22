@@ -24,6 +24,30 @@ class CustomPage extends PureComponent {
         pageFolders: []
     };
 
+    static getDerivedStateFromProps(nextProps) {
+        const { page, templates } = nextProps;
+        const componentFieldValues = {};
+
+        if (templates && page.config.template && page.config['template-fields']) {
+            const template = templates.find((item => item['_id'] === page.config.template));
+
+            if (template && template['page-fields']) {
+                template['page-fields'].forEach(field => {
+                    if (page.config['template-fields'][field.id] !== undefined) {
+                        componentFieldValues[field.id] = {
+                            type: field.type,
+                            value: page.config['template-fields'][field.id]
+                        }
+                    }
+                });
+            }
+        }
+
+        return { componentFieldValues };
+    }
+
+    state = {};
+
     constructor(props) {
         super(props);
 
@@ -200,6 +224,7 @@ class CustomPage extends PureComponent {
 
     renderComponent = ({ componentId, props, images }) => {
         const { customComponents, staticContext, pages, pageFolders, page } = this.props;
+        const { componentFieldValues } = this.state;
 
         if (components[componentId]) {
             const Component = components[componentId];
@@ -210,7 +235,7 @@ class CustomPage extends PureComponent {
                     __images__={images || {}}
                     __pages__={pages}
                     __pageFolders__={pageFolders}
-                    __fieldsValue__={page.config['template-fields']}
+                    __fieldsValue__={componentFieldValues}
                     staticContext={staticContext} />
             );
         }

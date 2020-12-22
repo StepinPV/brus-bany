@@ -43,6 +43,28 @@ class Page extends PureComponent {
         folders: PropTypes.array
     };
 
+    static getDerivedStateFromProps(nextProps) {
+        const { page, templates } = nextProps;
+        const componentFieldValues = {};
+
+        if (templates && page.config.template && page.config['template-fields']) {
+            const template = templates.find((item => item['_id'] === page.config.template));
+
+            if (template && template['page-fields']) {
+                template['page-fields'].forEach(field => {
+                    if (page.config['template-fields'][field.id] !== undefined) {
+                        componentFieldValues[field.id] = {
+                            type: field.type,
+                            value: page.config['template-fields'][field.id]
+                        }
+                    }
+                });
+            }
+        }
+
+        return { componentFieldValues };
+    }
+
     constructor(props) {
         super(props);
 
@@ -288,7 +310,7 @@ class Page extends PureComponent {
 
     renderPageContent = () => {
         const { page, templates } = this.props;
-        const { operations } = this.state;
+        const { operations, componentFieldValues } = this.state;
 
         let templateComponents = [0];
         let templateComponentsData = {
@@ -303,7 +325,6 @@ class Page extends PureComponent {
 
         if (page.config.template) {
             const templateData = templates.find((item => item['_id'] === page.config.template));
-
             templateComponents = templateData.config.components;
             templateComponentsData = templateData.config.componentsData;
         }
@@ -359,7 +380,7 @@ class Page extends PureComponent {
                                     componentId={tComponent.componentId}
                                     componentProps={tComponentProps}
                                     componentImages={tComponent.images}
-                                    componentFieldValues={page.config['template-fields']} />
+                                    componentFieldValues={componentFieldValues} />
                             </Operations>
                             { operations[tComponent.componentId] && operations[tComponent.componentId].propsFormVisible ? (
                                 <ComponentEditor
@@ -389,7 +410,7 @@ class Page extends PureComponent {
 
     renderSpecialComponent = (id, addTitle) => {
         const { page, templates, showNotification } = this.props;
-        const { operations } = this.state;
+        const { operations, componentFieldValues } = this.state;
 
         let configId = page.config[id];
         let component = page.config.componentsData[configId];
@@ -461,7 +482,7 @@ class Page extends PureComponent {
                             componentId={component.componentId}
                             componentProps={componentProps}
                             componentImages={component.images}
-                            componentFieldValues={page.config['template-fields']} />
+                            componentFieldValues={componentFieldValues} />
                     </Operations>
                     {operations[id] && operations[id].propsFormVisible ? (
                         <ComponentEditor
@@ -679,7 +700,7 @@ class Page extends PureComponent {
     };
 
     handleSave = async () => {
-        const { showNotification, actions, history, match } = this.props;
+        const { showNotification, actions, match } = this.props;
 
         const { message, status, data } = await actions.savePage();
 
