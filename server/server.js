@@ -17,7 +17,6 @@ const redirects = require('./redirects');
 const Links = require('./controllers/Links');
 
 const telegramBot = require('./telegram-bot');
-// const nodemailer = require('./nodemailer');
 // const sms = require('./sms');
 
 const utm = require('./utm');
@@ -102,7 +101,6 @@ db.init(config.db_url, config.db_name, () => {
     logger.error(`\nОшибка подключение к базе данных ${config.db_url}/${config.db_name}:`, err);
 });
 
-// nodemailer.init('smtp.yandex.ru', 465, 'brus-bany.ru', 'Brus@123');
 // sms.init('5327A0B1-137D-19A9-B7B9-3FE8D2F1CD21');
 telegramBot.init();
 
