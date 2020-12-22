@@ -58,19 +58,20 @@
     "react-helmet": "^5.2.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "react-yandex-maps": "^4.2.0",
+    "react-yandex-maps": "^4.6.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "serialize-javascript": "^2.1.2",
     "shelljs": "^0.8.3",
-    "terser-webpack-plugin": "^2.3.5",
+    "terser-webpack-plugin": "^2.3.8",
     "url": "^0.11.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-manifest-plugin": "^2.2.0",
     "webpack-merge": "^4.2.2",
     "webpack-node-externals": "^1.7.2",
-    "webpackbar": "^4.0.0"
+    "webpackbar": "^4.0.0",
+    "whatwg-fetch": "^3.5.0"
   },
   "devDependencies": {
     "babel-plugin-emotion": "^10.0.33",
