@@ -47,13 +47,13 @@ const auth = function (req, res, next) {
     return user.name === 'admin' && user.pass === 'brus-bany' ? next() : unauthorized(res);
 };
 
-app.use(morgan('dev', {
-    skip: function (req, res) { return res.statusCode < 400 }
-}));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
+
+app.use(morgan('combined', {
+    skip: function (req, res) { return res.statusCode < 400 }
+}));
 
 // Статика
 if (process.env.NODE_ENV !== 'production') {
