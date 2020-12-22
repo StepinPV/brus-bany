@@ -18,7 +18,8 @@ module.exports = (env) => {
                                 localIdentName: isProduction ? '[hash:base64:4]' : '[name]__[local]__[hash:base64:5]'
                             }
                         }
-                    }, {
+                    },
+                    {
                         loader: 'postcss-loader',
                         options: {
                             sourceMap: true,

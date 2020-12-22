@@ -106,7 +106,7 @@ const server = () => merge([
     {
         target: 'node',
         mode: isProduction ? 'production' : 'development',
-        devtool: 'source-map',
+        devtool: isProduction ? false : 'source-map',
         externals: [
             nodeExternals({ whitelist: [] })
         ],
