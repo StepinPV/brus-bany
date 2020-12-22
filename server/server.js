@@ -92,26 +92,29 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 db.init(config.db_url, config.db_name, () => {
-    logger.success(`Подключение к базе данных ${config.db_url}/${config.db_name} установлено!`);
+    logger.success(`\nПодключение к базе данных ${config.db_url}/${config.db_name} установлено`);
     app.listen(PORT);
-    logger.success(`Сервис запущен на ${PORT} порту!`);
+    logger.success(`Сервис запущен на ${PORT} порту`);
 }, (err) => {
     logger.error(`Ошибка подключение к базе данных ${config.db_url}/${config.db_name}:`, err);
 });
 
-telegramBot.init();
-
 function generateFeeds() {
+    logger.success(`\nГенерация фидов:`);
     sitemap.generate();
     yml.generate();
     google.generate();
     rss.generate();
 }
 
-generateFeeds();
 schedule.scheduleJob('0 0 * * *', function(){
     generateFeeds();
 });
+
+setTimeout(() => {
+    telegramBot.init();
+    generateFeeds();
+}, 2000);
 
 
 

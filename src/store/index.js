@@ -1,8 +1,7 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import { combineReducers } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
-const applyReduxDevtoolsExtension = !process.env.ssr &&
+const applyReduxDevtoolsExtension = typeof window !== 'undefined' &&
     process.env.NODE_ENV !== 'production' &&
     '__REDUX_DEVTOOLS_EXTENSION_COMPOSE__' in window;
 
@@ -27,15 +26,6 @@ const replaceStateReducer = (state = {}, action) => {
     }
 };
 
-/**
- * createReducerManager
- * @returns {{
- *  add: add,
- *  getReducerMap: (function()),
- *  reduce: (function(*=, *=): any),
- *  remove: remove
- * }}
- */
 export function createReducerManager() {
     // Create an object which maps keys to reducers
     const reducers = {};
@@ -91,11 +81,6 @@ export function createReducerManager() {
     };
 }
 
-/**
- * configureStore
- * @param {Object} state
- * @returns {Store}
- */
 export default (state) => {
     const reducerManager = createReducerManager();
     const stateHouse = { ...state };

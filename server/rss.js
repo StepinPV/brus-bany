@@ -138,7 +138,7 @@ exports.generate = async function () {
             if (err) {
                 logger.error(`Ошибка генерации RSS: ${err}`, );
             } else {
-                logger.success('RSS успешно обновлен!');
+                logger.success('RSS успешно обновлен');
             }
         });
 };

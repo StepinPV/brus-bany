@@ -77,10 +77,6 @@ const client = () => merge([
             new ManifestPlugin({
                 writeToFileEmit: true
             }),
-            new webpack.optimize.LimitChunkCountPlugin({
-                maxChunks: 100,
-                minChunkSize: 1024
-            }),
             new webpack.HashedModuleIdsPlugin(),
             new CleanWebpackPlugin(),
             new LoadablePlugin(),

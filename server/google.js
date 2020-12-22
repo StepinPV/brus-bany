@@ -59,7 +59,7 @@ exports.generate = async function () {
         if (err) {
             logger.error(`Ошибка генерации Google feed: ${err}`, );
         } else {
-            logger.success('Google feed успешно обновлен!');
+            logger.success('Google feed успешно обновлен');
         }
     });
 };

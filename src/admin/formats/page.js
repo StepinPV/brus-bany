@@ -1,4 +1,8 @@
 export const main = [{
+    _id: 'name',
+    title: 'Имя страницы',
+    type: 'string'
+}, {
     _id: 'url',
     title: 'URL',
     type: 'string',

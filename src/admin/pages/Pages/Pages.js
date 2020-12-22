@@ -36,7 +36,7 @@ class Pages extends PureComponent {
                 return {
                     key: item['_id'],
                     type: 'link',
-                    title: item['url'],
+                    title: item['name'] || item['url'],
                     link: `/admin/pages/page-${item['_id']}`
                 }
             });

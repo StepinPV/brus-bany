@@ -27,7 +27,10 @@
 
 .link-tile {
     background: linear-gradient(to right, #ffe4e9, #792939);
-    font-size: 22px;
+    font-size: 18px;
+    padding: 16px;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 .add-tile {

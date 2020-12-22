@@ -116,7 +116,7 @@ exports.generate = async function () {
         if (err) {
             logger.error(`Ошибка генерации YML: ${err}`, );
         } else {
-            logger.success('YML успешно обновлен!');
+            logger.success('YML успешно обновлен');
         }
     });
 };

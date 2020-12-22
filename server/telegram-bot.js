@@ -39,7 +39,7 @@ module.exports.init = async () => {
         bot.sendMessage(chatId, `Добро пожаловать! Твой уникальный ID ${chatId}. Перешли его Паше.`);
     }); */
 
-    logger.success('Telegram bot запущен!');
+    logger.success('\nTelegram bot запущен');
 };
 
 module.exports.send = async (userName, message) => {

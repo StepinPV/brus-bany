@@ -149,7 +149,7 @@ exports.generate = async function () {
         if (err) {
             logger.error(`Ошибка генерации sitemap: ${err}`, );
         } else {
-            logger.success('Sitemap успешно обновлен!');
+            logger.success('Sitemap успешно обновлен');
         }
     });
 };
