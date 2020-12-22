@@ -92,11 +92,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 db.init(config.db_url, config.db_name, () => {
-    logger.success(`\nПодключение к базе данных ${config.db_url}/${config.db_name} установлено!`);
+    logger.success(`Подключение к базе данных ${config.db_url}/${config.db_name} установлено!`);
     app.listen(PORT);
     logger.success(`Сервис запущен на ${PORT} порту!`);
 }, (err) => {
-    logger.error(`\nОшибка подключение к базе данных ${config.db_url}/${config.db_name}:`, err);
+    logger.error(`Ошибка подключение к базе данных ${config.db_url}/${config.db_name}:`, err);
 });
 
 telegramBot.init();

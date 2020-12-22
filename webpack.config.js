@@ -84,10 +84,6 @@ const client = () => merge([
             new webpack.HashedModuleIdsPlugin(),
             new CleanWebpackPlugin(),
             new LoadablePlugin(),
-            new webpack.DefinePlugin({
-                'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-                'process.env.ssr': false
-            }),
             new MiniCssExtractPlugin({
                 filename: '[name].[chunkhash:10].css',
                 chunkFilename: '[id].[chunkhash:10].css'
@@ -128,10 +124,6 @@ const server = () => merge([
             }),
             new CleanWebpackPlugin(),
             new LoadablePlugin(),
-            new webpack.DefinePlugin({
-                'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-                'process.env.ssr': true
-            }),
             new MiniCssExtractPlugin({
                 filename: 'server.css',
                 ignoreOrder: true

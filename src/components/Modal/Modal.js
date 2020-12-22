@@ -7,7 +7,7 @@ import cx from 'classnames';
 let modalRoot = null;
 const MIN_Z_INDEX = 6000;
 
-if (!process.env.ssr) {
+if (typeof window !== 'undefined') {
     modalRoot = document.getElementById('modal');
 }
 
@@ -35,7 +35,7 @@ class Modal extends PureComponent {
     constructor(props) {
         super(props);
 
-        if (!process.env.ssr) {
+        if (typeof window !== 'undefined') {
             if (modalRoot) {
                 this.el = document.createElement('div');
                 this.el.className = cx(styles.modal, styles.overlay);
@@ -70,7 +70,7 @@ class Modal extends PureComponent {
     }
 
     render() {
-        if (process.env.ssr || !modalRoot) {
+        if (typeof window === 'undefined' || !modalRoot) {
             return null;
         }
 
