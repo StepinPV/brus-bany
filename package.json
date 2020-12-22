@@ -61,7 +61,6 @@
     "react-yandex-maps": "^4.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "request": "^2.88.2",
     "serialize-javascript": "^2.1.2",
     "shelljs": "^0.8.3",
     "sms_ru": "0.0.1",
