@@ -1,4 +1,4 @@
-const storage = {};
+let storage = {};
 
 exports.get = (req) => {
     const key = req.originalUrl || req.url;
@@ -7,6 +7,11 @@ exports.get = (req) => {
 
 exports.add = (req, data, group) => {
     const key = req.originalUrl || req.url;
+
+    // TODO Очищаем кеш
+    if (Object.keys(storage).length > 100) {
+        storage = {};
+    }
 
     storage[key] = {
         group,
