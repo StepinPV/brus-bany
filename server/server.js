@@ -20,9 +20,10 @@ const telegramBot = require('./telegram-bot');
 const utm = require('./utm');
 
 const sitemap = require('./sitemap');
-const yml = require('./yml');
-const google = require('./google');
-const rss = require('./rss');
+
+const yml = require('./feeds/yml');
+const google = require('./feeds/google');
+const rss = require('./feeds/rss');
 
 const app = express();
 const PORT = config.port;

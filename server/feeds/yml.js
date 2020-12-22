@@ -1,8 +1,8 @@
 const fs = require('fs');
-const logger = require('./logger');
+const logger = require('../logger');
 
-const Categories = require('./controllers/Categories');
-const Projects = require('./controllers/Projects');
+const Categories = require('../controllers/Categories');
+const Projects = require('../controllers/Projects');
 
 const DOMAIN = 'https://brus-bany.ru';
 

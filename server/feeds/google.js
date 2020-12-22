@@ -1,12 +1,11 @@
 const fs = require('fs');
 const json2xml = require('json2xml');
-const logger = require('./logger');
-
-const Categories = require('./controllers/Categories');
-const Projects = require('./controllers/Projects');
+const logger = require('../logger');
+const Projects = require('../controllers/Projects');
 
 const ATTRIBUTES_KEY = 'attr';
 const DOMAIN = 'https://brus-bany.ru';
+
 exports.generate = async function () {
     let offers = [];
     // projects

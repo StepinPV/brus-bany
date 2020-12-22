@@ -1,8 +1,8 @@
 const fs = require('fs');
-const logger = require('./logger');
+const logger = require('../logger');
 const renderArticleContent = require('./turbo/renderArticleContent');
 
-const Articles = require('./controllers/Articles');
+const Articles = require('../controllers/Articles');
 
 const DOMAIN = 'https://brus-bany.ru';
 const YMetricId = '49126414';
