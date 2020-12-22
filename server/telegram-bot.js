@@ -20,8 +20,12 @@ const CHATS = [{
     name: 'Марина'
 }]
 
-module.exports.init = () => {
+module.exports.init = async () => {
     bot = new TelegramBot('1377613799:AAFMa15az8V0bILnrolTtjGDbabbnBCV4_Q', { polling: true });
+
+    if(bot.isPolling()) {
+        await bot.stopPolling();
+    }
 
     bot.onText(/\/start/, (msg) => {
         const chatId = msg.chat.id;
@@ -38,27 +42,13 @@ module.exports.init = () => {
     logger.success('Telegram bot запущен!');
 };
 
-module.exports.send = (userName, message) => {
+module.exports.send = async (userName, message) => {
     if (bot) {
+        await bot.startPolling();
+
         const user = CHATS.find(item => item.name === userName);
         bot.sendMessage(user.id, message);
+
+        await bot.stopPolling();
     }
 };
-
-/* bot.onText(/\/echo (.+)/, (msg, match) => {
-    const chatId = msg.chat.id;
-    const resp = match[1]; // the captured "whatever"
-
-    bot.sendMessage(chatId, resp);
-}); */
-
-// Listen for any kind of message. There are different kinds of
-// messages.
-/* bot.on('message', (msg) => {
-    // const chatId = msg.chat.id;
-
-    // console.log(chatId);
-
-    // send a message to the chat acknowledging receipt of their message
-    // bot.sendMessage(chatId, 'Received your message');
-}); */
