@@ -33,7 +33,7 @@ exports.generate = async function () {
         ['main', 'top', 'top2', '1', '2', '3', 'layout'].forEach(key => {
             if (project.images[key]) {
                 images += `
-                    <picture>${project.images[key]}</picture>
+                    <picture>${DOMAIN}${project.images[key]}</picture>
                 `;
             }
         });
