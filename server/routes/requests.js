@@ -1,5 +1,4 @@
 const express = require('express');
-// const sms = require('../sms');
 const bitrix = require('../bitrix');
 const utm = require('../utm');
 
@@ -19,7 +18,7 @@ router.post('/', async function(req, res, next) {
         const utmParams = utm.get(req);
 
         bitrix.send(requestData, req.headers.referer, utmParams);
-        // sms.send(requestData);
+
         send(res, req, 'success');
     } catch(err) {
         next(err);
