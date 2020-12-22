@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const errorhandler = require('errorhandler');
@@ -52,8 +51,8 @@ app.use(morgan('dev', {
     skip: function (req, res) { return res.statusCode < 400 }
 }));
 
-app.use(bodyParser.urlencoded());
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }));
 app.use(cookieParser());
 
 // Статика
