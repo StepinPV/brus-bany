@@ -114,7 +114,7 @@ const format = [{
             type: 'string'
         }, {
             _id: 'registration',
-            title: 'Зарегестрирован по адресу',
+            title: 'Зарегистрирован по адресу',
             type: 'string'
         }]
     }]
