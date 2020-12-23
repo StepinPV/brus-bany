@@ -101,10 +101,18 @@ function Pages(props) {
                 if (folder['page-fields'] && page.config['folder-fields'][props.folder]) {
                     folder['page-fields'].forEach(field => {
                         if (page.config['folder-fields'][props.folder][field.id] !== undefined) {
-                            fieldValues[field.id] = {
-                                type: field.type,
-                                value: page.config['folder-fields'][props.folder][field.id]
+                            let value;
+                            const folderFields = page.config['folder-fields'][props.folder];
+
+                            switch(field.type) {
+                                case 'image':
+                                    value = folderFields.__images__[folderFields[field.id]];
+                                    break;
+                                default:
+                                    value = folderFields[field.id];
                             }
+
+                            fieldValues[field.id] = { type: field.type, value }
                         }
                     });
                 }
