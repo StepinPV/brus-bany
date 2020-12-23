@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import {applyFields} from "../helpers";
 
 const Title = styled.div`
     text-align: center;
@@ -48,8 +49,8 @@ function Image(props) {
                     objectFit: props.objectFit,
                     height: props.height
                 }}
-                src={props.__images__[props.image]}
-                alt={props.imageAlt}
+                src={applyFields(props.__fieldsValue__, props.__images__[props.image])}
+                alt={applyFields(props.__fieldsValue__, props.imageAlt)}
                 loading='lazy' />
             {props.title ? <Title>{props.title}</Title> : null}
         </Container>
