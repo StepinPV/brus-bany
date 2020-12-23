@@ -39,7 +39,7 @@ const importOptions = {
 };
 
 const CKEditorBase = ({ value, title, onChange, fields, props }) => {
-    const [editorState, setEditorState] = useState(EditorState.createWithContent(stateFromHTML(value, importOptions)));
+    const [editorState, setEditorState] = useState(EditorState.createWithContent(stateFromHTML(value || '', importOptions)));
 
     useEffect(() => {
         let html = stateToHTML(editorState.getCurrentContent(), exportOptions);

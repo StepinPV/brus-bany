@@ -99,7 +99,7 @@ const format = [{
         }, {
             _id: 'where',
             title: 'Кем выдан',
-            type: 'text'
+            type: 'string'
         }, {
             _id: 'when',
             title: 'Дата выдачи',
@@ -111,11 +111,11 @@ const format = [{
         }, {
             _id: 'whereBirth',
             title: 'Место рождения',
-            type: 'text'
+            type: 'string'
         }, {
             _id: 'registration',
             title: 'Зарегестрирован по адресу',
-            type: 'text'
+            type: 'string'
         }]
     }]
 }];
@@ -280,7 +280,9 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
                             format={format}
                             value={formValue}
                             errors={{}}
-                            onChange={onChange} />
+                            onChange={(data) => {
+                                onChange(data)
+                            }} />
                     </div>
                 </>
             )}
