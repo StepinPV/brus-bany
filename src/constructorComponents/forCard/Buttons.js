@@ -2,10 +2,14 @@ import React, { memo } from 'react';
 import PropTypes from "prop-types";
 import styled from '@emotion/styled';
 import { Button } from '../index';
+import { css } from '@emotion/core';
 
 const Container = styled.div`
     display: flex;
     padding: 16px;
+    ${props => css`
+        ${props.containerStyles || ''}
+    `}
 `;
 
 const ButtonContainer = styled.div`
@@ -14,7 +18,7 @@ const ButtonContainer = styled.div`
 
 function Buttons(props) {
     return (
-        <Container>
+        <Container containerStyles={props.containerStyles}>
             {props.firstButton ? (
                 <ButtonContainer>
                     <Button

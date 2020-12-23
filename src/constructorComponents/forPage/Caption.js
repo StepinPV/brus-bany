@@ -28,6 +28,7 @@ const Container = styled.div`
         @media (max-width: 640px) {
             font-size: ${props.theme['caption']['size'][props.styles.size].v['640']};
         }
+        ${props.containerStyles || ''}
     `}
 `;
 
@@ -37,6 +38,7 @@ function Caption(props) {
             as={props.tag}
             dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.children) }}
             id={props.id || null}
+            containerStyles={props.containerStyles}
             styles={{
                 background: props.background,
                 color: props.color,

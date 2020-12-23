@@ -1,3 +1,5 @@
+import templateFields from './template-fields';
+
 export default [{
     _id: 'name',
     title: 'Имя',

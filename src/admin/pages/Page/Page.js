@@ -47,7 +47,7 @@ class Page extends PureComponent {
         const { page, templates } = nextProps;
         const componentFieldValues = {};
 
-        if (templates && page.config.template && page.config['template-fields']) {
+        if (templates && page && page.config.template && page.config['template-fields']) {
             const template = templates.find((item => item['_id'] === page.config.template));
 
             if (template && template['page-fields']) {

@@ -299,6 +299,13 @@ class Folder extends PureComponent {
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
                         componentImages={componentData.images}
+                        modifyProps={props => (
+                            [...props, {
+                                _id: 'stretched',
+                                title: 'Блок растягивается по высоте',
+                                type: 'boolean'
+                            }]
+                        )}
                         onChangeProps={(newProps, errors, images) => {
                             this.setConfig({
                                 componentsData: {

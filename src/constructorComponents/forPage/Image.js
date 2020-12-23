@@ -21,6 +21,7 @@ const Container = styled.div`
         max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
         padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
+        ${props.containerStyles || ''}
     `}
 `;
 
@@ -28,13 +29,14 @@ const Img = styled.img`
     width: 100%;
     ${props => css`
         object-fit: ${props.styles.objectFit};
-        height: ${props.styles.height ? `${props.styles.height}px` : ''};
+        height: ${props.styles.height ? `${props.styles.height}px` : '100%'};
     `}
 `;
 
 function Image(props) {
     return (
         <Container
+            containerStyles={props.containerStyles}
             styles={{
                 paddingBottom: props.paddingBottom,
                 paddingTop: props.paddingTop,

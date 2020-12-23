@@ -31,12 +31,14 @@ const Container = styled.div`
             font-size: ${props.theme['text']['size'][props.styles.size].v['640']['font-size']};
             line-height: ${props.theme['text']['size'][props.styles.size].v['640']['line-height']};
         }
+        ${props.containerStyles || ''}
     `}
 `;
 
 function Text(props) {
     return (
         <Container
+            containerStyles={props.containerStyles}
             styles={{
                 background: props.background,
                 color: props.color,

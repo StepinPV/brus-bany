@@ -96,6 +96,19 @@ function Pages(props) {
     return (
         <Container styles={{ paddingTop: props.paddingTop, paddingBottom: props.paddingBottom }}>
             {pages.map(page => {
+                const fieldValues = {};
+
+                if (folder['page-fields'] && page.config['folder-fields'][props.folder]) {
+                    folder['page-fields'].forEach(field => {
+                        if (page.config['folder-fields'][props.folder][field.id] !== undefined) {
+                            fieldValues[field.id] = {
+                                type: field.type,
+                                value: page.config['folder-fields'][props.folder][field.id]
+                            }
+                        }
+                    });
+                }
+
                 return (
                     <Item href={page.url}>
                         <ItemWrapper>
@@ -107,10 +120,11 @@ function Pages(props) {
                                     return (
                                         <Component
                                             {...componentData.props}
+                                            containerStyles={componentData.props && componentData.props.stretched ? css`flex-grow: 1;` : null}
                                             __images__={componentData.images}
                                             __pages__={pages}
                                             __pageFolders__={props['__pageFolders__']}
-                                            __fieldsValue__={page.config['folder-fields'][props.folder]}
+                                            __fieldsValue__={fieldValues}
                                             staticContext={props.staticContext} />
                                     );
                                 })

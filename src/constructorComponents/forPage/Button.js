@@ -17,6 +17,7 @@ const Container = styled.div`
         padding-left: ${props.styles.paddingLeft && props.styles.paddingLeft !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingLeft] : ''};
         padding-right: ${props.styles.paddingRight && props.styles.paddingRight !== 'none' ? { s: '16px', m: '32px', l: '48px' }[props.styles.paddingRight] : ''};
         justify-content: ${{ left: 'flex-start', center: 'center', right: 'flex-end' }[props.styles.align]};
+        ${props.containerStyles || ''}
     `}
 `;
 
@@ -62,6 +63,7 @@ function Button(props) {
     return (
         <Container
             {...(props.id ? { id: props.id } : {})}
+            containerStyles={props.containerStyles}
             styles={{
                 width: props.containerWidth,
                 align: props.align,
