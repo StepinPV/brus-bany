@@ -18,7 +18,7 @@ router.post('/', async function(req, res, next) {
         const utmParams = utm.get(req);
 
         // TODO Лог о заявке
-        const ip = req.headers['x-forwarded-for'] ||
+        const ip = req.headers['X-Forwarded-For'] ||
             req.connection.remoteAddress ||
             req.socket.remoteAddress ||
             (req.connection.socket ? req.connection.socket.remoteAddress : null);
