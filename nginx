@@ -65,6 +65,8 @@ server {
         # Максимальный размер запроса
         client_max_body_size 2M;
 
+        include blockips.conf;
+
         gzip on;
         gzip_disable "msie6";
         gzip_vary on;

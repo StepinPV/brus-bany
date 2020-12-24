@@ -17,13 +17,6 @@ router.post('/', async function(req, res, next) {
 
         const utmParams = utm.get(req);
 
-        // TODO Лог о заявке
-        const ip = req.headers['X-Forwarded-For'] ||
-            req.connection.remoteAddress ||
-            req.socket.remoteAddress ||
-            (req.connection.socket ? req.connection.socket.remoteAddress : null);
-        console.log(`request - ${new Date().toLocaleTimeString()} from ${ip}`);
-
         amo.send(requestData, req.headers.referer, utmParams);
 
         send(res, req, 'success');

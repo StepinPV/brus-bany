@@ -1,8 +1,13 @@
 const request = require('request');
-const loger = require('./logger');
+const logger = require('./logger');
 
 module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
     let message = '';
+
+    // Временная защита от спама
+    if (!host) {
+        return;
+    }
 
     function addTitle(title) {
         message += `${title}:\n\n`;
