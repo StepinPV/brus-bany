@@ -99,7 +99,7 @@ class Project extends PureComponent {
                 });
             }
 
-            breadcrumbs.push({ title: nextProps.project.categoryId.name, link: `${nextProps.project.categoryId.rootTranslateName === 'bany' ? '/bani' : ''}/${nextProps.project.categoryId.translateName}`});
+            breadcrumbs.push({ title: nextProps.project.categoryId.name, link: `${nextProps.project.categoryId.rootTranslateName === 'bani' ? '/bani' : ''}/${nextProps.project.categoryId.translateName}`});
             breadcrumbs.push({ title: nextProps.project.layoutId.name });
 
             newState = {

@@ -1,5 +1,5 @@
 const express = require('express');
-const bitrix = require('../bitrix');
+const amo = require('../amo');
 const utm = require('../utm');
 
 const router = express.Router();
@@ -17,7 +17,7 @@ router.post('/', async function(req, res, next) {
 
         const utmParams = utm.get(req);
 
-        bitrix.send(requestData, req.headers.referer, utmParams);
+        amo.send(requestData, req.headers.referer, utmParams);
 
         send(res, req, 'success');
     } catch(err) {

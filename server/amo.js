@@ -117,7 +117,7 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
         }
     }
 
-    request.post('https://' + 'brusbany' + '.amocrm.ru/api/v2/incoming_leads/form?login=' + 'admin@brus-bany.ru' + '&api_key=' + '1dce4c770e2e0bd53e31de4d319eebf32134b276' + '&', amoDataJson, function (error, response, body) {
+    /* request.post('https://' + 'brusbany' + '.amocrm.ru/api/v2/incoming_leads/form?login=' + 'admin@brus-bany.ru' + '&api_key=' + '1dce4c770e2e0bd53e31de4d319eebf32134b276' + '&', amoDataJson, function (error, response, body) {
         console.log('error', error);
-    });
+    }); */
 };
