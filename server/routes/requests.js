@@ -17,6 +17,9 @@ router.post('/', async function(req, res, next) {
 
         const utmParams = utm.get(req);
 
+        // TODO Лог о заявке
+        console.log(`request - ${new Date().toLocaleTimeString()} from ${req.headers['x-forwarded-for']}`);
+
         amo.send(requestData, req.headers.referer, utmParams);
 
         send(res, req, 'success');
