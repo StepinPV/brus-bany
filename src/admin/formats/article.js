@@ -5,7 +5,7 @@ const listFormat = [{
 }, {
     _id: 'text',
     title: 'Текст',
-    type: 'text'
+    type: 'text-simple'
 }, {
     _id: 'image',
     title: 'Изображение',
@@ -31,7 +31,7 @@ export default [{
 }, {
     _id: 'description',
     title: 'Описание',
-    type: 'text',
+    type: 'text-simple',
     required: true
 }, {
     _id: 'firstImage',
@@ -65,7 +65,7 @@ export default [{
 }, {
     _id: 'imageDescription',
     title: 'Описание для обложки',
-    type: 'text'
+    type: 'text-simple'
 }, {
     _id: 'content',
     title: 'Блоки',
@@ -87,7 +87,7 @@ export default [{
                 id: 'text',
                 typeTitle: 'Текстовый блок',
                 title: 'Текстовый блок',
-                type: 'text'
+                type: 'text-simple'
             }, {
                 id: 'image',
                 typeTitle: 'Изображение',

@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Input from '../../../components/Input';
+import TextArea from '../../../components/TextArea';
 import Date from '../../../components/Date';
 import CheckBox from '../../../components/CheckBox';
 import TextEditor from '../TextEditor';
@@ -58,6 +59,19 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         title={item.title}
                         required={item.required}
                         props={item.props}
+                        description={item.description}
+                        onChange={val => onChange(val, null, images)}
+                        error={error}
+                    />
+                </div>
+            );
+        case 'text-simple':
+            return (
+                <div className={styles.item}>
+                    <TextArea
+                        value={value}
+                        title={item.title}
+                        required={item.required}
                         description={item.description}
                         onChange={val => onChange(val, null, images)}
                         error={error}

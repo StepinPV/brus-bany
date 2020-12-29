@@ -86,7 +86,7 @@ const additions = {
         }, {
             _id: 'price',
             title: 'Формула цены',
-            type: 'text',
+            type: 'text-simple',
             required: true
         }]
     }]
@@ -106,7 +106,7 @@ const baseEquipment = {
     }, {
         _id: 'condition',
         title: 'Условие показа',
-        type: 'text',
+        type: 'text-simple',
         required: true
     }, {
         _id: 'value',
@@ -121,7 +121,7 @@ const baseEquipment = {
         }, {
             _id: 'condition',
             title: 'Условие показа',
-            type: 'text',
+            type: 'text-simple',
             required: true
         }, {
             _id: 'value',
@@ -131,7 +131,7 @@ const baseEquipment = {
                 id: 'base',
                 typeTitle: 'Стандартный элемент',
                 title: 'Наименование',
-                type: 'text'
+                type: 'text-simple'
             }, {
                 id: 'select',
                 typeTitle: 'Элемент с возможностью выбора',
@@ -145,7 +145,7 @@ const baseEquipment = {
                 }, {
                     _id: 'price',
                     title: 'Формула цены',
-                    type: 'text'
+                    type: 'text-simple'
                 }, {
                     _id: 'default',
                     title: 'Выбрано по умолчанию',
@@ -153,7 +153,7 @@ const baseEquipment = {
                 }, {
                     _id: 'condition',
                     title: 'Условие показа',
-                    type: 'text',
+                    type: 'text-simple',
                     required: true
                 }]
             }, {
@@ -172,7 +172,7 @@ const baseEquipment = {
                 }, {
                     _id: 'price',
                     title: 'Формула цены',
-                    type: 'text'
+                    type: 'text-simple'
                 }]
             }]
         }]
@@ -201,7 +201,7 @@ const complectationBlocks = {
     }, {
         _id: 'description',
         title: 'Описание',
-        type: 'text'
+        type: 'text-simple'
     }, {
         _id: 'defaultItemId',
         title: 'ID записи выбранной по умолчанию',
@@ -237,7 +237,7 @@ const complectationBlocks = {
         }, {
             _id: 'description',
             title: 'Описание',
-            type: 'text'
+            type: 'text-simple'
         }]
     }]
 };
@@ -264,7 +264,7 @@ const projectBlocks = {
     }, {
         _id: 'description',
         title: 'Описание',
-        type: 'text'
+        type: 'text-simple'
     }, {
         _id: 'items',
         title: 'Карточки',
@@ -291,7 +291,7 @@ const projectBlocks = {
         }, {
             _id: 'description',
             title: 'Описание',
-            type: 'text'
+            type: 'text-simple'
         }, {
             _id: 'condition',
             title: 'Формула показа блока',

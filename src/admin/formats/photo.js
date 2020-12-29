@@ -18,11 +18,11 @@ export default [{
 }, {
     _id: 'description',
     title: 'Описание бани',
-    type: 'text'
+    type: 'text-simple'
 }, {
     _id: 'feedback',
     title: 'Текстовый отзыв',
-    type: 'text'
+    type: 'text-simple'
 }, {
     _id: 'clientPhoto',
     title: 'Фотография клиента',
