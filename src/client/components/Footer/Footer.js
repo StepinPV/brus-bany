@@ -60,6 +60,7 @@ function Footer({ hasLinkToMain }) {
                     <div className={styles['items-header']}>ВЫБЕРИТЕ БАНЮ</div>
                     <a href='/bani' className={styles['items-item']}>Категории бань</a>
                     <a href='/bani/iz-brusa' className={styles['items-item']}>Бани из бруса</a>
+                    <a href='/doma-iz-brusa' className={styles['items-item']}>Дома из бруса</a>
                     <a href='/bani/karkasnie' className={styles['items-item']}>Каркасные бани</a>
                     <a href='/bani/gotovie' className={styles['items-item']}>Готовые бани</a>
                     <a href='/bani/iz-brevna' className={styles['items-item']}>Бани из бревна</a>

@@ -13,6 +13,12 @@ const categories = [{
     caption: 'Посмотреть бани',
     link: '/bani/iz-brusa'
 }, {
+    className: styles['doma-brus'],
+    name: 'Дома из бруса',
+    text: 'Экологичный дом, неповторимая красота которого сохранится навечно',
+    caption: 'Посмотреть дома',
+    link: '/doma-iz-brusa'
+}, {
     className: styles.karkas,
     name: 'Каркасные бани',
     text: 'Фасад не боится холодов, влажности и не дает усадки. А утеплители Paroc и Rockwool по теплоизоляции утирают нос даже бревну',
@@ -24,12 +30,6 @@ const categories = [{
     text: 'Недорого и без хлопот. Построим баню у себя, быстро привезем и установим на участке без шума и мусора',
     caption: 'Посмотреть бани',
     link: '/bani/gotovie'
-}, {
-    className: styles.brevn,
-    name: 'Бани из бревна',
-    text: 'Экологочная баня, неповторимая красота которой сохранится навечно',
-    caption: 'Посмотреть бани',
-    link: '/bani/iz-brevna'
 }];
 
 function Categories({ caption, captionTag, id }) {
@@ -58,9 +58,8 @@ function Categories({ caption, captionTag, id }) {
 }
 
 Categories.defaultProps = {
-    caption: 'Какую баню выбрать?',
+    caption: 'Что мы строим?',
     captionTag: 'h2'
-
 };
 
 export default memo(Categories);
