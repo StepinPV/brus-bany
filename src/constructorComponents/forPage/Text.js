@@ -19,17 +19,17 @@ const Container = styled.div`
         text-align: ${{ left: 'left', center: 'center', right: 'right' }[props.styles.align]};
         font-size: ${props.theme['text']['size'][props.styles.size].v['standard']['font-size']};
         line-height: ${props.theme['text']['size'][props.styles.size].v['standard']['line-height']};
-        @media (max-width: 350px) {
-            font-size: ${props.theme['text']['size'][props.styles.size].v['350']['font-size']};
-            line-height: ${props.theme['text']['size'][props.styles.size].v['350']['line-height']};
+        @media (max-width: 640px) {
+            font-size: ${props.theme['text']['size'][props.styles.size].v['640']['font-size']};
+            line-height: ${props.theme['text']['size'][props.styles.size].v['640']['line-height']};
         }
         @media (max-width: 400px) {
             font-size: ${props.theme['text']['size'][props.styles.size].v['400']['font-size']};
             line-height: ${props.theme['text']['size'][props.styles.size].v['400']['line-height']};
         }
-        @media (max-width: 640px) {
-            font-size: ${props.theme['text']['size'][props.styles.size].v['640']['font-size']};
-            line-height: ${props.theme['text']['size'][props.styles.size].v['640']['line-height']};
+        @media (max-width: 350px) {
+            font-size: ${props.theme['text']['size'][props.styles.size].v['350']['font-size']};
+            line-height: ${props.theme['text']['size'][props.styles.size].v['350']['line-height']};
         }
         ${props.containerStyles || ''}
     `}

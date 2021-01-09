@@ -17,12 +17,12 @@ const Container = styled.ol`
         max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
         font-size: ${{ s: '15px', m: '19px', l: '24px' }[props.styles.size]};
         line-height: ${{ s: '20px', m: '24px', l: '30px' }[props.styles.size]};
-        @media (max-width: 400px) {
-            font-size: ${{ s: '12px', m: '14px', l: '16px' }[props.styles.size]};
-            line-height: ${{ s: '16px', m: '18px', l: '20px' }[props.styles.size]};
-        }
         @media (max-width: 640px) {
             font-size: ${{ s: '13px', m: '16px', l: '20px' }[props.styles.size]};
+            line-height: ${{ s: '16px', m: '18px', l: '20px' }[props.styles.size]};
+        }
+        @media (max-width: 400px) {
+            font-size: ${{ s: '12px', m: '14px', l: '16px' }[props.styles.size]};
             line-height: ${{ s: '16px', m: '18px', l: '20px' }[props.styles.size]};
         }
     `}

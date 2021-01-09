@@ -19,14 +19,14 @@ const Container = styled.div`
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
         text-align: ${{ left: 'left', center: 'center', right: 'right' }[props.styles.align]};
         font-size: ${props.theme['caption']['size'][props.styles.size].v['standard']};
-        @media (max-width: 350px) {
-            font-size: ${props.theme['caption']['size'][props.styles.size].v['350']};
+        @media (max-width: 640px) {
+            font-size: ${props.theme['caption']['size'][props.styles.size].v['640']};
         }
         @media (max-width: 400px) {
             font-size: ${props.theme['caption']['size'][props.styles.size].v['400']};
         }
-        @media (max-width: 640px) {
-            font-size: ${props.theme['caption']['size'][props.styles.size].v['640']};
+        @media (max-width: 350px) {
+            font-size: ${props.theme['caption']['size'][props.styles.size].v['350']};
         }
         ${props.containerStyles || ''}
     `}
