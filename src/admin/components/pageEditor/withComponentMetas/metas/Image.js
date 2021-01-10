@@ -36,6 +36,10 @@ export const props = [{
     title: 'Задать высоту (px)',
     type: 'integer number'
 }, {
+    _id: 'height-width',
+    title: 'Задать отношение высоты к ширине (%)',
+    type: 'integer number'
+}, {
     _id: 'objectFit',
     title: 'Заполняемость',
     type: 'select',

@@ -16,6 +16,7 @@ const Container = styled.div`
     width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
+    
     ${props => css`
         padding-left: ${props.styles.paddingLeftAndRight ? '16px' : ''}; 
         padding-right: ${props.styles.paddingLeftAndRight ? '16px' : ''}; 
@@ -23,6 +24,10 @@ const Container = styled.div`
         padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
         ${props.containerStyles || ''}
+        ${props.styles.heightWidth ? `
+            padding-top: ${props.styles.heightWidth}% !important;
+            position: relative;
+        ` : ''}
     `}
 `;
 
@@ -30,7 +35,15 @@ const Img = styled.img`
     width: 100%;
     ${props => css`
         object-fit: ${props.styles.objectFit};
-        height: ${props.styles.height ? `${props.styles.height}px` : '100%'};
+        height: ${(props.styles.height && !props.styles.heightWidth) ? `${props.styles.height}px` : '100%'};
+        
+        ${props.styles.heightWidth ? `
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        ` : ''}
     `}
 `;
 
@@ -42,12 +55,14 @@ function Image(props) {
                 paddingBottom: props.paddingBottom,
                 paddingTop: props.paddingTop,
                 width: props.width,
-                paddingLeftAndRight: props.paddingLeftAndRight
+                paddingLeftAndRight: props.paddingLeftAndRight,
+                heightWidth: props['height-width']
             }}>
             <Img
                 styles={{
                     objectFit: props.objectFit,
-                    height: props.height
+                    height: props.height,
+                    heightWidth: props['height-width']
                 }}
                 src={applyFields(props.__fieldsValue__, props.__images__[props.image])}
                 alt={applyFields(props.__fieldsValue__, props.imageAlt)}
