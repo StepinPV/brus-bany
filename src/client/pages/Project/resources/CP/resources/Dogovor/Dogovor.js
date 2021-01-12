@@ -412,7 +412,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, project, formValue, data, 
                         НДС на основании п. 2 ст. 346.11 НК РФ.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
-                        2.2 Доставка осуществляется продавцом, выгрузка {data.additions && data.additions['5eefcee55ec46c7ee0c91aab'] ? 'входит' : 'не входит'} в стоимость продукции.
+                        2.2 Доставка осуществляется продавцом, выгрузка {data.additions && (data.additions['5eefcee55ec46c7ee0c91aab'] || data.additions['5f42afd7de8e69617c9ef29f']) ? 'входит' : 'не входит'} в стоимость продукции.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
                         2.3 Цена Договора остается неизменной в течение всего срока действия данного Договора.
