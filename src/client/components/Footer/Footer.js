@@ -41,7 +41,7 @@ function Footer({ hasLinkToMain }) {
                         </time>
                     </div>
                     <div className={styles['info-block']}>
-                        <div className={cx(styles['size-default'], styles['color-grey'])}>© «Брус бани» 2010-2020</div>
+                        <div className={cx(styles['size-default'], styles['color-grey'])}>© «Брус бани» 2010-2021</div>
                         <div className={cx(styles['size-default'], styles['color-grey'])}>Строительство бань под ключ</div>
                     </div>
                     <div className={styles['info-block']}>

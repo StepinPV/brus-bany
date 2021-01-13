@@ -117,7 +117,7 @@ function Footer(props) {
                         </Time>
                     </InfoBlock>
                     <InfoBlock>
-                        <DefaultSizeGrey>© «Брус бани» 2010-2020</DefaultSizeGrey>
+                        <DefaultSizeGrey>© «Брус бани» 2010-2021</DefaultSizeGrey>
                         <DefaultSizeGrey>Строительство бань под ключ</DefaultSizeGrey>
                     </InfoBlock>
                     <InfoBlock>

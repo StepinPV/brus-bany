@@ -654,7 +654,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, project, formValue, data, 
                     <br/>
                     <div style={{ display: 'flex', justifyContent: 'space-around'}}>
                         <span>___________________</span>
-                        <span>«____» ___________ 2020г.</span>
+                        <span>«____» ___________ 2021г.</span>
                     </div>
                     <br/><br/>
                     <div style={{ textAlign: 'justify' }}>
@@ -1278,7 +1278,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     <br/>
                     <div style={{ display: 'flex', justifyContent: 'space-around'}}>
                         <span>___________________</span>
-                        <span>«____» ___________ 2020г.</span>
+                        <span>«____» ___________ 2021г.</span>
                     </div>
                     <br/><br/>
                     <div style={{ textAlign: 'justify' }}>
