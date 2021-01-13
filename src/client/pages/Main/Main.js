@@ -87,7 +87,7 @@ class Main extends PureComponent {
                         __pageFolders__={this.props.pageFolders}
                         filter='index < 6'
                         folder='5f3afaae19c6b22d24b5d0a5'
-                        paddingBottom='m'
+                        paddingBottom='none'
                         paddingTop='none'
                         sort='page1[5242] > page2[5242] ? -1 : (page1[5242] === page2[5242] ? 0 : 1'
                     />
