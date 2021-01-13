@@ -8,6 +8,4 @@ export default class Api {
             withCategory: true
         }
     });
-
-    static getArticles = () => axios.get('/api/articles');
 }

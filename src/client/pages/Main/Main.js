@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import Page from '../../components/Page';
 import CardList from '../../../components/CardList';
 import PhotoCard from '../../../components/PhotoCard';
-import ArticleCard from '../../../components/ArticleCard';
 import { Link } from '../../../components/Button';
 import Meta from '../../components/Meta';
 import Top from './resources/Top';
@@ -15,9 +14,10 @@ import WhyMe from './resources/WhyMe';
 import OurProduction from './resources/OurProduction';
 import DataSection from '../../components/DataSection';
 import FormBlock from '../../components/FormBlock';
-import {getPhotos, getArticles, resetData} from './actions';
+import {getPhotos, resetData} from './actions';
 import PropTypes from 'prop-types';
 import styles from './Main.module.css';
+import { Pages } from '@constructor-components';
 
 const META = {
     title: 'Купить недорогие бани под ключ от производителя | Брус бани',
@@ -27,23 +27,18 @@ const META = {
 class Main extends PureComponent {
     static propTypes = {
         photos: PropTypes.array,
-        articles: PropTypes.array,
         actions: PropTypes.object
     };
 
     static initialAction({ dispatch }) {
-        return [dispatch(getPhotos()), dispatch(getArticles())];
+        return [dispatch(getPhotos())];
     }
 
     componentDidMount() {
-        const { actions, photos, articles } = this.props;
+        const { actions, photos } = this.props;
 
         if (!photos) {
             actions.getPhotos();
-        }
-
-        if (!articles) {
-            actions.getArticles();
         }
     }
 
@@ -53,7 +48,7 @@ class Main extends PureComponent {
     }
 
     render() {
-        const { photos, articles } = this.props;
+        const { photos } = this.props;
 
         return (
             <Page opacityHeader hasLinkToMain={false}>
@@ -82,52 +77,44 @@ class Main extends PureComponent {
                         </div>
                     </DataSection>
                 ) : null}
+                <DataSection
+                    captionTag='h2'
+                    bgStyle='white'
+                    caption='Делимся накопленным опытом'
+                    description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации'>
+                    <Pages
+                        __pages__={this.props.pages}
+                        __pageFolders__={this.props.pageFolders}
+                        filter='index < 6'
+                        folder='5f3afaae19c6b22d24b5d0a5'
+                        paddingBottom='m'
+                        paddingTop='none'
+                        sort='page1[5242] > page2[5242] ? -1 : (page1[5242] === page2[5242] ? 0 : 1'
+                    />
+                    <div className={styles['button-container']}>
+                        <Link href='/blog' caption='Читать больше' />
+                    </div>
+                </DataSection>
                 <OurProduction />
-                {articles.length ? (
-                    <DataSection
-                        captionTag='h2'
-                        bgStyle='grey'
-                        caption='Делимся накопленным опытом'
-                        description='Основываясь на нашем опыте и профессиональной экспертизе, мы ведем свой блог, в котором делимся с вами полезными советами не только о строительстве бань, но и о правилах эксплуатации'>
-                        <CardList items={articles.map(article => ({
-                            id: article._id,
-                            element: <ArticleCard article={article} />
-                        }))} />
-                        <div className={styles['button-container']}>
-                            <Link href='/blog' caption='Читать больше' />
-                        </div>
-                    </DataSection>
-                ) : null}
                 <FormBlock source='Главная страница' />
             </Page>
         );
     }
 }
 
-/**
- * mapDispatchToProps
- * @param {*} dispatch
- * @returns {Object}
- */
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getPhotos,
-            getArticles,
             resetData
         }, dispatch)
     };
 }
 
-/**
- * mapStateToProps
- * @param {*} state
- * @returns {Object}
- */
 function mapStateToProps(state) {
-    const { photos, articles } = state['client-main'];
+    const { photos } = state['client-main'];
 
-    return { photos, articles };
+    return { photos };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

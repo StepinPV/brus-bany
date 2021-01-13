@@ -2,7 +2,6 @@ const fs = require('fs');
 const json2xml = require('json2xml');
 const logger = require('./logger');
 
-const Articles = require('./controllers/Articles');
 const Categories = require('./controllers/Categories');
 const Photos = require('./controllers/Photos');
 const Projects = require('./controllers/Projects');
@@ -43,19 +42,6 @@ exports.generate = async function () {
         },
         'urlset': []
     };
-
-    // articles
-    let lastArticle;
-    const {data: articles} = await Articles.getAll();
-    articles.forEach(article => {
-        const date = article.get('updated');
-
-        if (!lastArticle || lastArticle < date) {
-            lastArticle = date;
-        }
-
-        data.urlset.push(getURLObject({ url: `/blog/${article.get('translateName')}`, date, changefreq: 'monthly', priority: '0.7' }));
-    });
 
     // categories
     const {data: categories} = await Categories.getAll();
@@ -139,11 +125,9 @@ exports.generate = async function () {
     });
 
     // main
-    data.urlset.push(getURLObject({ url: '/', date: getLastDate([lastArticle, lastPhoto]), changefreq: 'daily', priority: '1.0' }));
+    data.urlset.push(getURLObject({ url: '/', date: getLastDate([lastPhoto]), changefreq: 'daily', priority: '1.0' }));
     //photos
     data.urlset.push(getURLObject({ url: '/photos', date: lastPhoto, changefreq: 'daily', priority: '0.9' }));
-    //articles
-    data.urlset.push(getURLObject({ url: '/blog', date: lastArticle, changefreq: 'daily', priority: '0.9' }));
 
     fs.writeFile('./public/sitemap.xml', json2xml(data, {attributes_key: ATTRIBUTES_KEY}), function (err) {
         if (err) {
@@ -152,4 +136,7 @@ exports.generate = async function () {
             logger.success('Sitemap успешно обновлен');
         }
     });
+
+    // /blog - 0.9
+    // /blog/aaa - 0.7
 };

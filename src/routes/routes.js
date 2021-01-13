@@ -42,18 +42,6 @@ export default (initModule) => {
         path: '/doma-iz-brusa',
         component: loadable(() => import('../client/pages/Category'))
     }, {
-        id: 'site/blog',
-        path: '/blog',
-        exact: true,
-        component: loadable(() => import('../client/pages/Articles')),
-        simplePage: true
-    }, {
-        id: 'site/blog/article',
-        path: '/blog/:name',
-        exact: true,
-        component: loadable(() => import('../client/pages/Article')),
-        simplePage: true
-    }, {
         id: 'site/photos',
         path: '/photos',
         exact: true,
@@ -106,16 +94,6 @@ export default (initModule) => {
         path: '/admin/projects/:categoryId/:layoutId',
         exact: true,
         component: loadable(() => import('../admin/pages/Project'))
-    }, {
-        id: 'admin/articles',
-        path: '/admin/articles',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Articles'))
-    }, {
-        id: 'admin/articles/article',
-        path: '/admin/articles/:name',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Article'))
     }, {
         id: 'admin/photos',
         path: '/admin/photos',

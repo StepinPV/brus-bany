@@ -47,16 +47,19 @@ const render = async (req, res, axiosOptions = {}) => {
 
         const customComponentsRes = await axios.get(`/api/components`);
         const pageTemplatesRes = await axios.get(`/api/page-templates`);
-        const pagesRes = await axios.get(`/api/pages`);
-        const pageFoldersRes = await axios.get(`/api/page-folders`);
 
         if (pageRes.data && pageRes.data.status === 'success' && pageRes.data.data) {
             page = pageRes.data.data;
             customComponents = customComponentsRes.data.data;
             pageTemplates = pageTemplatesRes.data.data;
-            pages = pagesRes.data.data;
-            pageFolders = pageFoldersRes.data.data;
         }
+    }
+
+    if (matchRoute.id === 'page-generator' || matchRoute.id === 'site/main') {
+        const pagesRes = await axios.get(`/api/pages`);
+        const pageFoldersRes = await axios.get(`/api/page-folders`);
+        pages = pagesRes.data.data;
+        pageFolders = pageFoldersRes.data.data;
     }
 
     const extractor = new ChunkExtractor({

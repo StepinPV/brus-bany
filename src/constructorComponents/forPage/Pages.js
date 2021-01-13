@@ -64,6 +64,31 @@ function Pages(props) {
 
     const allFolders = [props.folder];
 
+    const getPageFields = page => {
+        const fieldValues = {};
+
+        if (folder['page-fields'] && page.config['folder-fields'][props.folder]) {
+            folder['page-fields'].forEach(field => {
+                if (page.config['folder-fields'][props.folder][field.id] !== undefined) {
+                    let value;
+                    const folderFields = page.config['folder-fields'][props.folder];
+
+                    switch(field.type) {
+                        case 'image':
+                            value = folderFields.__images__[folderFields[field.id]];
+                            break;
+                        default:
+                            value = folderFields[field.id];
+                    }
+
+                    fieldValues[field.id] = { type: field.type, value }
+                }
+            });
+        }
+
+        return fieldValues;
+    }
+
     const addChildFolders = (folderId) => {
         props['__pageFolders__'].forEach(folder => {
             if (folder.folder === folderId) {
@@ -75,7 +100,47 @@ function Pages(props) {
 
     addChildFolders(folder['_id']);
 
-    const pages = props['__pages__'].filter(page => allFolders.includes(page.config.folder));
+    let pages = props['__pages__'].filter(page => allFolders.includes(page.config.folder));
+
+    if (props.sort) {
+        const convertFieldsToValues = (fields) => {
+            return Object.keys(fields).reduce((values, id) => {
+                switch(fields[id].type) {
+                    case 'date':
+                        values[id] = new Date(fields[id].value);
+                        break;
+                    default:
+                        values[id] = fields[id].value;
+                }
+
+                return values;
+            }, {});
+        }
+
+        pages = pages.sort((p1, p2) => {
+            // eslint-disable-next-line
+            const page1 = convertFieldsToValues(getPageFields(p1));
+            // eslint-disable-next-line
+            const page2 = convertFieldsToValues(getPageFields(p2));
+            try {
+                return eval(props.sort);
+            } catch(err) {
+                return 0;
+            }
+        });
+    }
+
+    if (props.filter) {
+        pages = pages.filter((page, index) => {
+            // eslint-disable-next-line
+            const length = pages.length;
+            try {
+                return eval(props.filter);
+            } catch(err) {
+                return true;
+            }
+        });
+    }
 
     if (props.staticContext) {
         props.staticContext.data = props.staticContext.data || {};
@@ -96,26 +161,7 @@ function Pages(props) {
     return (
         <Container styles={{ paddingTop: props.paddingTop, paddingBottom: props.paddingBottom }}>
             {pages.map(page => {
-                const fieldValues = {};
-
-                if (folder['page-fields'] && page.config['folder-fields'][props.folder]) {
-                    folder['page-fields'].forEach(field => {
-                        if (page.config['folder-fields'][props.folder][field.id] !== undefined) {
-                            let value;
-                            const folderFields = page.config['folder-fields'][props.folder];
-
-                            switch(field.type) {
-                                case 'image':
-                                    value = folderFields.__images__[folderFields[field.id]];
-                                    break;
-                                default:
-                                    value = folderFields[field.id];
-                            }
-
-                            fieldValues[field.id] = { type: field.type, value }
-                        }
-                    });
-                }
+                const fieldValues = getPageFields(page);
 
                 return (
                     <Item href={page.url}>
@@ -150,7 +196,9 @@ function Pages(props) {
 Pages.propTypes = {
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
-    folder: PropTypes.string
+    folder: PropTypes.string,
+    filter: PropTypes.string,
+    sort: PropTypes.string
 };
 
 Pages.defaultProps = {

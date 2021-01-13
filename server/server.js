@@ -23,7 +23,6 @@ const sitemap = require('./sitemap');
 
 const yml = require('./feeds/yml');
 const google = require('./feeds/google');
-const rss = require('./feeds/rss');
 
 const app = express();
 const PORT = config.port;
@@ -105,7 +104,6 @@ function generateFeeds() {
     sitemap.generate();
     yml.generate();
     google.generate();
-    rss.generate();
 }
 
 schedule.scheduleJob('0 0 * * *', function(){

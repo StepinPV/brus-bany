@@ -9,6 +9,9 @@ import FormContext from '../../client/plugins/Form/Context';
 import Form from '../../client/plugins/Form/Form';
 import NotFound from '../NotFound';
 import styles from './App.module.css';
+// По итогу это должно быть не здесь
+import { ThemeProvider } from 'emotion-theming';
+import theme from '../../constructorComponents/theme';
 
 class App extends Component {
     static propTypes = {
@@ -28,7 +31,7 @@ class App extends Component {
         return (
             <NotificationsProvider>
                 <FormProvider>
-                    <>
+                    <ThemeProvider theme={theme}>
                         <Switch>
                             {routes.map(route => this.renderRoute(route))}
                         </Switch>
@@ -46,7 +49,7 @@ class App extends Component {
                                 return visible ? <Form onClose={hideForm} source={source} title={title} data={data} /> : null
                             }}
                         </FormContext.Consumer>
-                    </>
+                    </ThemeProvider>
                 </FormProvider>
             </NotificationsProvider>
         );
@@ -73,7 +76,12 @@ class App extends Component {
                 renderProps.component = NotFound;
             }
         } else {
-            renderProps.component = Component;
+            renderProps.render = (props) => (
+                <Component
+                    {...props}
+                    pages={pages}
+                    pageFolders={pageFolders} />
+            );
         }
 
         return (

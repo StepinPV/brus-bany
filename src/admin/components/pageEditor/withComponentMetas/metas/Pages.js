@@ -13,6 +13,14 @@ export const props = [{
     title: 'Верхний отступ',
     type: 'theme-param',
     typeId: 'padding-top'
+}, {
+    _id: 'sort',
+    title: 'Сортировка',
+    type: 'string'
+}, {
+    _id: 'filter',
+    title: 'Фильтр',
+    type: 'string'
 }];
 export const name = 'Список страниц';
 export const key = 'Pages';

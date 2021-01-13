@@ -1,13 +1,11 @@
 import {
     GET_PHOTOS, GET_PHOTOS_ERROR, GET_PHOTOS_SUCCESS,
-    GET_ARTICLES, GET_ARTICLES_ERROR, GET_ARTICLES_SUCCESS,
     RESET_DATA
 } from './constants';
 import { sortByDate } from '@utils/sort';
 
 export const initialState = {
-    photos: [],
-    articles: []
+    photos: []
 };
 
 /**
@@ -32,22 +30,6 @@ export default function(state = initialState, action) {
         case GET_PHOTOS_ERROR:
             return {
                 ...state
-            };
-
-        case GET_ARTICLES:
-            return {
-                ...state
-            };
-
-        case GET_ARTICLES_ERROR:
-            return {
-                ...state
-            };
-
-        case GET_ARTICLES_SUCCESS:
-            return {
-                ...state,
-                articles: action.payload ? sortByDate(action.payload).slice(0, 6) : []
             };
 
         case RESET_DATA:

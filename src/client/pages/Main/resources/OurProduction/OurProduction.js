@@ -11,7 +11,7 @@ import img6 from './resources/6.jpeg';
 function OurProduction() {
     return (
         <DataSection
-            bgStyle='white'
+            bgStyle='grey'
             caption='Наше производство'
             captionTag='h2'
             description='Мы строим бани в центре российского деревянного строительства, в городе Пестово. Подробнее о преимуществах региона читайте в <a style="color:#003093; font-weight: bold" href="/blog/pochemu-tak-populyarni-bani-iz-pestovo">нашей статье</a>'
