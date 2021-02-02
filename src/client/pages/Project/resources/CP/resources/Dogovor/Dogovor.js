@@ -1252,6 +1252,11 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     </div>
                     <br/><br/>
                     {renderSpecification(projectName.replace('Каркасная баня', 'Каркасное изделие').replace('Баня', 'Изделие'), project, categoryId, data)}
+                    <br/>
+                    <div style={{ textAlign: 'justify' }}>
+                        Допускается стыковка: брус по всему периметру стен бани, вагонка по каждой стене и потолку в отдельно взятом
+                        помещении, половой доски в каждой комнате.
+                    </div>
                 </div>
                 {renderRunningTitles(formValue)}
             </div>
@@ -1386,7 +1391,7 @@ function Dogovor({ type, formValue, data, project, finalPrice, projectName }) {
             } else {
                 return renderDogovor1(setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName);
             }
-        case 'tz': return renderTZ(project, formValue, data, finalPrice, projectName, !type1);
+        case 'tz': return renderTZ(project, formValue, data, finalPrice, projectName, type1);
         default: return null;
     }
 }
