@@ -19,7 +19,7 @@ export const getElementValue = (value, groupName, itemName) => {
     return itemValue;
 }
 
-export function getPrice(project, data = {}, formula) {
+export function getPrice(project, data = {}, formula, { item }) {
     // eslint-disable-next-line no-unused-vars
     const { layoutId: params } = project;
     // eslint-disable-next-line no-unused-vars
@@ -36,7 +36,7 @@ export function getPrice(project, data = {}, formula) {
     }
 }
 
-export function getText(project, data = {}, formula) {
+export function getText(project, data = {}, formula, { item }) {
     // eslint-disable-next-line no-unused-vars
     const { layoutId: layout } = project;
     // eslint-disable-next-line no-unused-vars
@@ -58,26 +58,42 @@ export function getText(project, data = {}, formula) {
 export const getFinalPrice = (project, data, equipment, values) => {
     let sumPrice = 0;
 
-    equipment.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).forEach(({ name: groupName, value }) => {
+    equipment.filter(({ condition }) => { return !condition || getText(project, data, condition, {}) === 'true' }).forEach(({ name: groupName, value }) => {
         if (value && value.length) {
-            value.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).forEach(({ name: itemName, value }) => {
-                const val = getElementValue(values, groupName, itemName);
-
+            value.filter(({ condition }) => { return !condition || getText(project, data, condition, {}) === 'true' }).forEach(({ name: itemName, value }) => {
                 switch(value.typeId) {
                     case 'select': {
+                        const val = getElementValue(values, groupName, itemName);
                         if (value && value.value) {
-                            const item = value.value.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
+                            const item = value.value.filter(({ condition }) => { return !condition || getText(project, data, condition, {}) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
 
                             if (item) {
-                                sumPrice += getPrice(project, data, item.price);
+                                sumPrice += getPrice(project, data, item.price, {});
                             }
                         }
                         break;
                     }
 
+                    case 'list': {
+                        const list = project.layoutId[value.value.source];
+                        if (list && list.length) {
+                            list.forEach((item, index) => {
+                                const val = getElementValue(values, groupName, `${itemName}[${index}]`);
+
+                                if (val) {
+                                    if (value.value.values[val]) {
+                                        sumPrice += getPrice(project, data, value.value.values[val].price, { item });
+                                    }
+                                }
+                            });
+                        }
+                        break;
+                    }
+
                     case 'number': {
+                        const val = getElementValue(values, groupName, itemName);
                         if (val && value && value.value) {
-                            sumPrice += (parseInt(val) - parseInt(getText(project, data, value.value.default))) * getPrice(project, data, value.value.price);
+                            sumPrice += (parseInt(val) - parseInt(getText(project, data, value.value.default, {}))) * getPrice(project, data, value.value.price, {});
                         }
                         break;
                     }
@@ -109,7 +125,7 @@ class Equipment extends PureComponent {
             <DataSection id='base' bgStyle='white' caption='Соберите комплектацию' captionTag='h2'>
                 <div className={styles.container}>
                     <div className={styles.header}>
-                        {equipment.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).map(({ name }, index) => (
+                        {equipment.filter(({ condition }) => { return !condition || getText(project, data, condition, {}) === 'true' }).map(({ name }, index) => (
                             <div
                                 key={name}
                                 className={cx(styles['header-item'], {[styles['header-item-selected']]: selected === index })}
@@ -118,12 +134,12 @@ class Equipment extends PureComponent {
                             </div>
                         ))}
                     </div>
-                    {equipment.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).map(({ name: groupName, value }, index) => (
+                    {equipment.filter(({ condition }) => { return !condition || getText(project, data, condition, {}) === 'true' }).map(({ name: groupName, value }, index) => (
                         <div key={groupName} className={cx(styles.items, {[styles['items-hidden']]: selected !== index })}>
-                            {
-                                value ? value.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }).map(({ name: itemName, value }) => (
-                                    <div className={styles.item} key={itemName}>{this.renderItem(groupName, itemName, value)}</div>
-                                )) : null
+                            {value ? value.filter(({ condition }) => {
+                                return !condition || getText(project, data, condition, {}) === 'true'
+                            }).map(({ name: itemName, value }) => this.renderItem(groupName, itemName, value))
+                                : null
                             }
                         </div>
                     ))}
@@ -138,36 +154,77 @@ class Equipment extends PureComponent {
         switch(typeId) {
             case 'select': {
                 let val = getElementValue(this.props.value, groupName, itemName);
-                const filteredValues = value ? value.filter(({ condition }) => { return !condition || getText(project, data, condition) === 'true' }) : [];
+                const filteredValues = value ? value.filter(({ condition }) => { return !condition || getText(project, data, condition, {}) === 'true' }) : [];
 
                 if (!filteredValues.some(item => val === stringHash(item.name))) {
                     val = null;
                 }
 
-                return filteredValues.map(item => (
-                    <div
-                        key={item.name}
-                        className={cx(styles['select-item'], val ? (val === stringHash(item.name) ? styles['select-item-checked'] : '') : (item.default ? styles['select-item-checked'] : ''))}
-                        onClick={() => {
-                            this.setElementValue(groupName, itemName, val === stringHash(item.name) || item.default ? undefined : item.name, {
-                                hashValue: true
-                            });
-                        }}>
-                        <div className={styles['select-item-checker']} />
-                        <div className={styles['item-text']}>{getText(project, data, item.name)}</div>
-                        { item.price ? <div className={styles['item-price']}>+ {numberWithSpaces(getPrice(project, data, item.price))} рублей</div> : null}
+                return (
+                    <div className={styles.item} key={itemName}>
+                        {filteredValues.map(item => (
+                            <div
+                                key={item.name}
+                                className={cx(styles['select-item'], val ? (val === stringHash(item.name) ? styles['select-item-checked'] : '') : (item.default ? styles['select-item-checked'] : ''))}
+                                onClick={() => {
+                                    this.setElementValue(groupName, itemName, val === stringHash(item.name) || item.default ? undefined : item.name, {
+                                        hashValue: true
+                                    });
+                                }}>
+                                <div className={styles['select-item-checker']} />
+                                <div className={styles['item-text']}>{getText(project, data, item.name, {})}</div>
+                                { item.price ? <div className={styles['item-price']}>+ {numberWithSpaces(getPrice(project, data, item.price, {}))} рублей</div> : null}
+                            </div>
+                        ))}
                     </div>
-                ));
+                )
+            }
+
+            case 'list': {
+                const list = project.layoutId[value.source];
+
+                return list && list.length ? list.map((item, listIndex) => {
+                    let val = getElementValue(this.props.value, groupName, `${itemName}[${listIndex}]`);
+
+                    return (
+                        <div className={styles.item} key={itemName + item.name}>
+                            <div
+                                className={cx(styles['select-item'], val ? false : styles['select-item-checked'])}
+                                onClick={() => {
+                                    this.setElementValue(groupName, `${itemName}[${listIndex}]`, undefined);
+                                }}>
+                                <div className={styles['select-item-checker']} />
+                                <div className={styles['item-text']}>{getText(project, data, value.default, { item })}</div>
+                            </div>
+                            {value.values ? value.values.map((v, index) => (
+                                <div
+                                    key={v.value}
+                                    className={cx(styles['select-item'], val ? (val === index.toString() ? styles['select-item-checked'] : '') : '')}
+                                    onClick={() => {
+                                        this.setElementValue(groupName, `${itemName}[${listIndex}]`, index.toString());
+                                    }}>
+                                    <div className={styles['select-item-checker']} />
+                                    <div className={styles['item-text']}>{getText(project, data, v.value, { item })}</div>
+                                    { v.price ? <div className={styles['item-price']}>+ {numberWithSpaces(getPrice(project, data, v.price, { item }))} рублей</div> : null}
+                                </div>
+                            )) : null}
+                        </div>
+                    )
+                }) : null;
             }
 
             case 'base':
-                return value ? <div className={cx(styles['item-text'], styles['base-item'])}>{getText(project, data, value)}</div> : null;
+                return value ? (
+                    <div className={styles.item} key={itemName}>
+                        <div className={cx(styles['item-text'], styles['base-item'])}>{getText(project, data, value, {})}</div>
+                    </div>
+                ) : null;
 
             case 'number': {
                 const val = parseInt(getElementValue(this.props.value, groupName, itemName));
                 return value ? (
-                    <div>
-                        <div className={cx(styles['item-text'], styles['base-item'])}>{getText(project, data, value.name)}</div>
+                    <div className={styles.item} key={itemName}>
+                        <div className={cx(styles['item-text'], styles['base-item'])}>{getText(project, data, value.name, {})}</div>
                         <div className={styles['number-item-block']}>
                             <div className={styles['number-item-block-content']}>
                                 <div
@@ -176,20 +233,20 @@ class Equipment extends PureComponent {
                                     }
                                     onClick={val ? () => {
                                         const newValue = parseInt(val) - 1;
-                                        this.setElementValue(groupName, itemName, newValue === parseInt(getText(project, data, value.default)) ? null : newValue.toString());
+                                        this.setElementValue(groupName, itemName, newValue === parseInt(getText(project, data, value.default, {})) ? null : newValue.toString());
                                     } : null}>-
                                 </div>
-                                <div className={styles['f-block-value']}>{val || getText(project, data, value.default)} шт</div>
+                                <div className={styles['f-block-value']}>{val || getText(project, data, value.default, {})} шт</div>
                                 <div
                                     className={
                                         cx(styles['number-item-block-button'], styles[`number-item-block-button-active`])
                                     }
                                     onClick={() => {
-                                        this.setElementValue(groupName, itemName, (parseInt(val || getText(project, data, value.default)) + 1).toString());
+                                        this.setElementValue(groupName, itemName, (parseInt(val || getText(project, data, value.default, {})) + 1).toString());
                                     }}>+
                                 </div>
                             </div>
-                            { val && value.price ? <div className={styles['item-price']}>+ {numberWithSpaces((val - parseInt(getText(project, data, value.default))) * getPrice(project, data, value.price))} рублей</div> : null}
+                            { val && value.price ? <div className={styles['item-price']}>+ {numberWithSpaces((val - parseInt(getText(project, data, value.default, {}))) * getPrice(project, data, value.price, {}))} рублей</div> : null}
                         </div>
                     </div>
                 ) : null;

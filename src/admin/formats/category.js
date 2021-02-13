@@ -174,6 +174,33 @@ const baseEquipment = {
                     title: 'Формула цены',
                     type: 'text-simple'
                 }]
+            }, {
+                id: 'list',
+                typeTitle: 'Список',
+                title: 'Список',
+                type: 'object',
+                format: [{
+                    _id: 'source',
+                    title: 'Источник списка',
+                    type: 'string'
+                }, {
+                    _id: 'default',
+                    title: 'Значение по умолчанию',
+                    type: 'string'
+                }, {
+                    _id: 'values',
+                    title: 'Значения и цены',
+                    type: 'array',
+                    format: [{
+                        _id: 'value',
+                        title: 'Значение',
+                        type: 'string'
+                    }, {
+                        _id: 'price',
+                        title: 'Формула цены',
+                        type: 'string'
+                    }]
+                }]
             }]
         }]
     }]

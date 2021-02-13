@@ -369,11 +369,13 @@ class Project extends PureComponent {
                 }}
                 images={{
                     scheme: project.images['layout'],
-                    other: Object.keys(project.images).filter(key => key !== 'layout').map(key => {
-                        return {
-                            image: project.images[key]
-                        };
-                    })
+                    other: [{
+                        image: project.images['main']
+                    }, {
+                        image: project.images['top']
+                    }, {
+                        image: project.images['3']
+                    }]
                 }}
                 projectName={`${this.renderInfoTitle(project.categoryId.name2)} «${project.layoutId.name}»`}
                 finalPrice={this.getFinalPrice()}

@@ -363,4 +363,22 @@ export default [{
         type: 'float number',
         required: true
     }]
+}, {
+    _id: 'windows',
+    title: 'Окна',
+    type: 'array',
+    format: [{
+        _id: 'name',
+        title: 'Заголовок',
+        type: 'string',
+        required: true
+    }, {
+        _id: 'width',
+        title: 'Ширина окна (м)',
+        type: 'float number'
+    }, {
+        _id: 'height',
+        title: 'Высота окна (м)',
+        type: 'float number'
+    }]
 }];

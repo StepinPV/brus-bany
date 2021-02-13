@@ -17,30 +17,49 @@ function renderManager(id) {
 
 function renderBaseEquipment(project, data, equipment, onlyPrice) {
     const renderItem = (groupName, itemName, { typeId, value }) => {
-        let val = getEquipmentElementValue(data.equipment, groupName, itemName);
-
         switch(typeId) {
             case 'select': {
+                let val = getEquipmentElementValue(data.equipment, groupName, itemName);
                 if (value) {
-                    const item = value.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
+                    const item = value.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition, {}) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
 
                     if (item) {
-                        const price = getEquipmentItemPrice(project, data, item.price);
+                        const price = getEquipmentItemPrice(project, data, item.price, {});
                         if (onlyPrice && !price) return;
-                        return <div className={styles['group-item']}>{getEquipmentText(project, data, item.name)} {price ? <span className={styles['price']}>{` ${numberWithSpaces(getEquipmentItemPrice(project, data, item.price))} рублей`}</span> : null}</div>;
+                        return <div className={styles['group-item']}>{getEquipmentText(project, data, item.name, {})} {price ? <span className={styles['price']}>{` ${numberWithSpaces(getEquipmentItemPrice(project, data, item.price, {}))} рублей`}</span> : null}</div>;
                     }
                 }
                 return;
             }
 
+            case 'list': {
+                const list = project.layoutId[value.source];
+
+                return list && list.length ? list.map((item, listIndex) => {
+                    let val = getEquipmentElementValue(data.equipment, groupName, `${itemName}[${listIndex}]`);
+
+                    if (val) {
+                        if (value.values[val]) {
+                            const price = getEquipmentItemPrice(project, data, value.values[val].price, { item });
+                            if (onlyPrice && !price) return;
+                            return <div className={styles['group-item']}>{getEquipmentText(project, data, value.values[val].value, { item })} {price ? <span className={styles['price']}>{` ${numberWithSpaces(getEquipmentItemPrice(project, data, value.values[val].price, { item }))} рублей`}</span> : null}</div>;
+                        }
+                    } else {
+                        if (onlyPrice) return;
+                        return <div className={styles['group-item']}>{getEquipmentText(project, data, value.default, { item })}</div>;
+                    }
+                }) : null;
+            }
+
             case 'base':
-                return value && !onlyPrice ? <div className={styles['group-item']}>{getEquipmentText(project, data, value)}</div> : null;
+                return value && !onlyPrice ? <div className={styles['group-item']}>{getEquipmentText(project, data, value, {})}</div> : null;
 
             case 'number': {
+                let val = getEquipmentElementValue(data.equipment, groupName, itemName);
                 if (value) {
-                    const price = val ? (parseInt(val) - parseInt(getEquipmentText(project, data, value.default))) * getEquipmentItemPrice(project, data, value.price) : 0;
+                    const price = val ? (parseInt(val) - parseInt(getEquipmentText(project, data, value.default, {}))) * getEquipmentItemPrice(project, data, value.price, {}) : 0;
                     if (onlyPrice && !price) return;
-                    return <div className={styles['group-item']}>{getEquipmentText(project, data, value.name)} {val ? val : getEquipmentText(project, data, value.default)} шт {price ? <span className={styles['price']}>{` ${numberWithSpaces(price)} рублей`}</span> : null}</div>;
+                    return <div className={styles['group-item']}>{getEquipmentText(project, data, value.name, {})} {val ? val : getEquipmentText(project, data, value.default, {})} шт {price ? <span className={styles['price']}>{` ${numberWithSpaces(price)} рублей`}</span> : null}</div>;
                 }
             }
         }
@@ -50,11 +69,11 @@ function renderBaseEquipment(project, data, equipment, onlyPrice) {
         <div className={styles['block']}>
             <b className={styles['block-caption']}>Комплектация</b>
             <div className={styles['block-content']}>
-                {equipment ? equipment.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).map(({ name: groupName, value }) => (
+                {equipment ? equipment.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition, {}) === 'true' }).map(({ name: groupName, value }) => (
                     <div className={styles['group']}>
                         { onlyPrice ? null : <div className={styles['group-caption']}>{groupName}</div> }
                         <div className={styles['group-items']}>
-                            {value ? value.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition) === 'true' }).map(({ name: itemName, value }) => {
+                            {value ? value.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition, {}) === 'true' }).map(({ name: itemName, value }) => {
                                 return renderItem(groupName, itemName, value);
                             }) : null}
                         </div>
