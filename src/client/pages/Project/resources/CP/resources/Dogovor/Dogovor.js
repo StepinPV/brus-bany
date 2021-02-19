@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { Fragment, memo, useEffect, useState } from 'react';
 import numberWithSpaces from '@utils/numberWithSpaces';
 import rubles from '@utils/rubles';
 import wordByNumber from '@utils/wordByNumber';
@@ -66,11 +66,11 @@ function renderBaseEquipment(project, data, equipment, onlyPrice) {
                         if (value.values[val]) {
                             const price = getEquipmentItemPrice(project, data, value.values[val].price, { item });
                             if (onlyPrice && !price) return;
-                            return <div>{getEquipmentText(project, data, value.values[val].value, { item })} {price && onlyPrice ? ` ${numberWithSpaces(getEquipmentItemPrice(project, data, value.values[val].price, { item }))} рублей` : null}</div>;
+                            return <div key={JSON.stringify(item)}>{getEquipmentText(project, data, value.values[val].value, { item })} {price && onlyPrice ? ` ${numberWithSpaces(getEquipmentItemPrice(project, data, value.values[val].price, { item }))} рублей` : null}</div>;
                         }
                     } else {
                         if (onlyPrice) return;
-                        return <div>{getEquipmentText(project, data, value.default, { item })}</div>;
+                        return <div key={JSON.stringify(item)}>{getEquipmentText(project, data, value.default, { item })}</div>;
                     }
                 }) : null;
             }
@@ -92,14 +92,18 @@ function renderBaseEquipment(project, data, equipment, onlyPrice) {
     return (
         <>
             {equipment ? equipment.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition, {}) === 'true' }).map(({ name: groupName, value }) => (
-                <>
+                <Fragment key={groupName}>
                     { onlyPrice ? null : <b>{groupName}</b>}
                     <div>
                         {value ? value.filter(({ condition }) => { return !condition || getEquipmentText(project, data, condition, {}) === 'true' }).map(({ name: itemName, value }) => {
-                            return renderItem(groupName, itemName, value);
+                            return (
+                                <Fragment key={itemName}>
+                                    {renderItem(groupName, itemName, value)}
+                                </Fragment>
+                            );
                         }) : null}
                     </div>
-                </>
+                </Fragment>
             )) : null}
         </>
     );
@@ -166,10 +170,10 @@ function renderAdditions(project, data, additions, withPrice) {
                     }
 
                     return items.length ? (
-                        <>
+                        <Fragment key={_id}>
                             <div>{name}</div>
                             {items}
-                        </>
+                        </Fragment>
                     ) : null;
                 }) : null}
             </>
@@ -277,7 +281,7 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
             <br/>
             {renderComplectation(project, data, true)}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
-                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data, true, true)}</> : null
+                return data.blocks && data.blocks[projectBlock._id] ? <Fragment key={projectBlock._id}>{renderProjectBlock(projectBlock, project, data, true, true)}</Fragment> : null
             }) : null}
             {data.equipment && project.categoryId.baseEquipment ? (
                 <>
@@ -295,7 +299,7 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
             {formValue && formValue.additionalData && formValue.additionalData.length ? (
                 <>
                     {formValue.additionalData.map(addition => {
-                        return <div>{addition.caption} {addition.price ? ` ${numberWithSpaces(addition.price)} рублей` : null}</div>
+                        return <div key={addition.caption}>{addition.caption} {addition.price ? ` ${numberWithSpaces(addition.price)} рублей` : null}</div>
                     })}
                 </>
             ) : null}
@@ -313,11 +317,11 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
                     const price = eval(item.price);
 
                     return (
-                        <>
+                        <Fragment key={projectBlock._id}>
                             <b>{projectBlock.itemTitle}</b>
                             <div>{item.name} {numberWithSpaces(price)} рублей</div>
                             <div>Примечание: по фундаменту заключается отдельный договор</div>
-                        </>
+                        </Fragment>
                     );
                 }
             }) : null}
@@ -332,7 +336,7 @@ const renderSpecification = (projectName, project, categoryId, data) => {
             <div>{projectName}</div>
             {renderComplectation(project, data)}
             {categoryId.projectBlocks && categoryId.projectBlocks.length ? categoryId.projectBlocks.map(projectBlock => {
-                return data.blocks && data.blocks[projectBlock._id] ? <>{renderProjectBlock(projectBlock, project, data)}</> : null
+                return data.blocks && data.blocks[projectBlock._id] ? <Fragment key={projectBlock._id}>{renderProjectBlock(projectBlock, project, data)}</Fragment> : null
             }) : null}
             {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipment(project, data, categoryId.baseEquipment) : null}
             {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}</> : null}
@@ -1255,11 +1259,6 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     {renderRequizits(formValue)}
                     <br/><br/>
                     {renderProtocol(project, formValue, finalPrice, categoryId, data)}
-                    <br/><br/><br/><br/><br/><br/>
-                    <br/><br/><br/><br/><br/><br/>
-                    <br/><br/><br/><br/><br/><br/>
-                    <br/><br/><br/><br/><br/><br/>
-                    <br/><br/><br/><br/><br/><br/>
                 </div>
                 {renderRunningTitles(formValue)}
             </div>
@@ -1383,23 +1382,23 @@ function Dogovor({ type, formValue, data, project, finalPrice, projectName }) {
     const [pageHeights, setPageHeights] = useState({});
 
     useEffect(() => {
-        if (containerRef) {
+        setPageHeights({});
+    }, [formValue]);
+
+    useEffect(() => {
+        if (containerRef && JSON.stringify(pageHeights) === '{}') {
             const pages = containerRef.querySelectorAll('[data-content="page"]');
 
             const newHeights = {};
 
             pages.forEach(page => {
-                let pagesCount = Math.floor(page.offsetHeight / PAGE_HEIGHT);
-                if (page.offsetHeight % PAGE_HEIGHT) {
-                    pagesCount++;
-                }
-
-                newHeights[page.getAttribute('data-page-id')] = pagesCount * PAGE_HEIGHT;
+                let pagesCount = Math.ceil(page.offsetHeight / (window.PAGE_HEIGHT || PAGE_HEIGHT));
+                newHeights[page.getAttribute('data-page-id')] = pagesCount * (window.PAGE_HEIGHT || PAGE_HEIGHT);
             });
 
             setPageHeights(newHeights);
         }
-    }, [containerRef]);
+    }, [containerRef, pageHeights]);
 
     const type1 = project.categoryId['_id'] !== '5e020c9f9d9c6faea68e88c7' || data.additions && data.additions['5eefcee55ec46c7ee0c91aaa'];
 

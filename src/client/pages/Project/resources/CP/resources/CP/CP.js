@@ -206,7 +206,7 @@ function getCustomAdditionsPrice(formValue) {
 function CP({ formValue, data, project, finalPrice, infoBlock }) {
     const { categoryId } = project;
     return (
-        <>
+        <div className={styles.container}>
             <div style={{ fontSize: '24px', fontWeight: 'bold', textAlign: 'center', marginTop: '32px' }}>Коммерческое предложение компании "Брус бани"</div>
             <div className={cx(styles['header'], styles['block'])}>
                 <Logo className={styles['logo']}/>
@@ -237,7 +237,7 @@ function CP({ formValue, data, project, finalPrice, infoBlock }) {
             {data.delivery && project.categoryId.deliveryData.delivery ? renderDelivery(data) : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? renderCustomAdditions(formValue.additionalData) : null}
             {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
-        </>
+        </div>
     );
 }
 

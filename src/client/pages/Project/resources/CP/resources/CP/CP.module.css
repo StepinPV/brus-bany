@@ -1,3 +1,7 @@
+.container {
+    padding: 16px;
+}
+
 .header {
     font-size: 16px;
     max-width: 100%;
