@@ -1,6 +1,6 @@
 .container {
     padding: 32px 0;
-    width: calc(50% + 153px);
+    width: calc(50% + 176px);
 }
 
 .content-preview {
@@ -8,7 +8,7 @@
     top: 16px;
     bottom: 16px;
     right: 16px;
-    left: calc(50% + 153px);
+    left: calc(50% + 176px);
     overflow: auto;
     border: 1px solid #000;
 }
