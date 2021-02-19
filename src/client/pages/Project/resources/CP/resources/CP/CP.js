@@ -217,7 +217,7 @@ function CP({ formValue, data, project, finalPrice, infoBlock }) {
                 </div>
             </div>
             <div className={styles['block']} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-                <img src={formValue.images.other[0].image} style={{ width: '100%', maxWidth: '300px', marginBottom: '16px' }} />
+                <img src={formValue.images.other[0].image} style={{ width: '100%', maxWidth: '250px', marginBottom: '16px' }} />
                 <div style={{ maxWidth: '400px' }}>
                     {infoBlock}
                 </div>
