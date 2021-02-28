@@ -17,6 +17,7 @@ import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import { ThemeProvider } from 'emotion-theming';
 import theme from '../../../constructorComponents/theme';
+import { applyFields } from '../../../constructorComponents/helpers';
 import styles from './Page.module.css';
 
 const breadcrumbs = [{
@@ -361,12 +362,19 @@ class Page extends PureComponent {
 
                     const togglePropsFormVisible = () => {
                         const newOperations = { ...this.state.operations };
-                        newOperations[tComponent.componentId] = {
-                            ...newOperations[tComponent.componentId],
-                            propsFormVisible: newOperations[tComponent.componentId] ? !newOperations[tComponent.componentId].propsFormVisible : true
+                        newOperations[tComponentId] = {
+                            ...newOperations[tComponentId],
+                            propsFormVisible: newOperations[tComponentId] ? !newOperations[tComponentId].propsFormVisible : true
                         };
 
                         this.setState({ operations: newOperations });
+                    }
+
+                    if (tComponentProps['__visible__']) {
+                        const value = applyFields(componentFieldValues, tComponentProps['__visible__']);
+                        if (!value || value === 'false') {
+                            return null;
+                        }
                     }
 
                     return (
@@ -382,7 +390,7 @@ class Page extends PureComponent {
                                     componentImages={tComponent.images}
                                     componentFieldValues={componentFieldValues} />
                             </Operations>
-                            { operations[tComponent.componentId] && operations[tComponent.componentId].propsFormVisible ? (
+                            { operations[tComponentId] && operations[tComponentId].propsFormVisible ? (
                                 <ComponentEditor
                                     componentId={tComponent.componentId}
                                     componentProps={tComponentProps}

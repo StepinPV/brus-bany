@@ -51,6 +51,10 @@ const CKEditorBase = ({ value, title, onChange, fields, props }) => {
             html = html.replace(content[0], content[1]);
         }
 
+        if (html === '<br>') {
+            html = '';
+        }
+
         onChange(html);
     }, [editorState]);
 

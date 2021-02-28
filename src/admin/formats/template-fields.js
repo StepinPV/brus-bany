@@ -32,6 +32,9 @@ export default {
         }, {
             id: 'integer number',
             title: 'Число'
+        }, {
+            id: 'boolean',
+            title: 'Флаг'
         }]
     }]
 };

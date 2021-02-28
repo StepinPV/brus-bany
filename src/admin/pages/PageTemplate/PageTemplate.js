@@ -429,6 +429,10 @@ class PageTemplate extends PureComponent {
                         componentImages={componentData.images}
                         modifyProps={props => {
                             return [...props, {
+                                _id: '__visible__',
+                                title: 'Переменная видимости',
+                                type: 'string'
+                            }, {
                                 _id: `__editable-options__`,
                                 title: `Редактируемые опции`,
                                 type: 'object',
@@ -492,7 +496,7 @@ class PageTemplate extends PureComponent {
     };
 
     handleDelete = async () => {
-        const { showNotification, actions, history } = this.props;
+        const { showNotification, actions } = this.props;
 
         if (window.confirm('Вы действительно хотите удалить шаблон?')) {
             const { message, status } = await actions.deleteTemplate();
