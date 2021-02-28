@@ -15,8 +15,9 @@ import * as Image from './Image';
 import * as Pages from './Pages';
 import * as ButtonsForCard from './ButtonsForCard';
 import * as SocialShare from './SocialShare';
+import * as ImageTiles from './ImageTiles';
 
 export default {
     Caption, Text, Button, List, Breadcrumbs, Banner, QuestionAnswer, ImageLinkBlock, Image,
-    Header, Footer, Contacts, FormBlock, Quiz, Pages, ButtonsForCard, SocialShare
+    Header, Footer, Contacts, FormBlock, Quiz, Pages, ButtonsForCard, SocialShare, ImageTiles
 }
