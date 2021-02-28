@@ -33,7 +33,7 @@ function ImageTiles(props) {
                 paddingTop: props.paddingTop
             }}>
             {props.images ? props.images.map(({ src, alt }) => (
-                <Item src={props.__images__[src]} alt={alt} />
+                <Item src={props.__images__[src]} alt={alt} loading='lazy' />
             )) : null}
         </Container>
     );
