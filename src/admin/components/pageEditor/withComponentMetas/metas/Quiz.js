@@ -23,7 +23,7 @@ export const props = [{
             type: 'image',
             props: {
                 withoutLogo: true,
-                width: 160,
+                width: 320,
                 globalStore: true
             }
         }]
