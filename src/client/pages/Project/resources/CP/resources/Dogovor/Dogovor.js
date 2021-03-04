@@ -14,12 +14,13 @@ function getFinalPrice(finalPrice, data, categoryId, project) {
     if (data.blocks &&
             (
                 data.blocks['5e1735a1c2db2613e7e3efc4'] && (data.blocks['5e1735a1c2db2613e7e3efc4'] === '5e1735a1c2db2613e7e3efc6' || data.blocks['5e1735a1c2db2613e7e3efc4'] === '5e80fbecf68b012247c5f037') ||
-                data.blocks['5e1745154dcf9f17f9860182'] && (data.blocks['5e1745154dcf9f17f9860182'] === '5e1745154dcf9f17f9860184' || data.blocks['5e1745154dcf9f17f9860182'] === '5e810014f68b012247c5f672')
+                data.blocks['5e1745154dcf9f17f9860182'] && (data.blocks['5e1745154dcf9f17f9860182'] === '5e1745154dcf9f17f9860184' || data.blocks['5e1745154dcf9f17f9860182'] === '5e810014f68b012247c5f672') ||
+                data.blocks['5f8725d48cd7e62aba44c521'] && (data.blocks['5f8725d48cd7e62aba44c521'] === '5f8725d48cd7e62aba44c523' || data.blocks['5f8725d48cd7e62aba44c521'] === '5f8725d48cd7e62aba44c524')
             )
         ) {
-        const block = categoryId.projectBlocks.find(projectBlock => projectBlock._id === '5e1735a1c2db2613e7e3efc4' || projectBlock._id === '5e1745154dcf9f17f9860182');
+        const block = categoryId.projectBlocks.find(projectBlock => projectBlock._id === '5e1735a1c2db2613e7e3efc4' || projectBlock._id === '5e1745154dcf9f17f9860182' || projectBlock._id === '5f8725d48cd7e62aba44c521');
 
-        const item = block.items.find(item => item._id === data.blocks['5e1735a1c2db2613e7e3efc4'] || item._id === data.blocks['5e1745154dcf9f17f9860182'])
+        const item = block.items.find(item => item._id === data.blocks['5e1735a1c2db2613e7e3efc4'] || item._id === data.blocks['5e1745154dcf9f17f9860182'] || item._id === data.blocks['5f8725d48cd7e62aba44c521'])
         const { layoutId: params } = project;
 
         return finalPrice - eval(item.price);
@@ -305,12 +306,15 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
             ) : null}
             <b>Итоговая стоимость: {numberWithSpaces(getFinalPrice(finalPrice, data, categoryId, project) + getCustomAdditionsPrice(formValue))} рублей</b>
             <br/><br/>
-            {data.blocks && (data.blocks['5e1735a1c2db2613e7e3efc4'] || data.blocks['5e1745154dcf9f17f9860182']) ? categoryId.projectBlocks.map(projectBlock => {
+            {data.blocks && (data.blocks['5e1735a1c2db2613e7e3efc4'] || data.blocks['5e1745154dcf9f17f9860182'] || data.blocks['5f8725d48cd7e62aba44c521']) ? categoryId.projectBlocks.map(projectBlock => {
                 if (
                     data.blocks[projectBlock._id] === '5e1735a1c2db2613e7e3efc6' ||
                     data.blocks[projectBlock._id] === '5e80fbecf68b012247c5f037' ||
                     data.blocks[projectBlock._id] === '5e1745154dcf9f17f9860184' ||
-                    data.blocks[projectBlock._id] === '5e810014f68b012247c5f672' ) {
+                    data.blocks[projectBlock._id] === '5e810014f68b012247c5f672' ||
+                    data.blocks[projectBlock._id] === '5f8725d48cd7e62aba44c523' ||
+                    data.blocks[projectBlock._id] === '5f8725d48cd7e62aba44c524'
+                ) {
                     const item = projectBlock.items.find(item => item._id === data.blocks[projectBlock._id])
 
                     const { layoutId: params } = project;
