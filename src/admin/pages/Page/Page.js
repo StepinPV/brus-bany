@@ -350,11 +350,19 @@ class Page extends PureComponent {
                         ...tComponent.props
                     };
 
+                    let tComponentImages = {
+                        ...(tComponent.images || {})
+                    };
+
                     if (tComponentProps['__editable-options__'] && page.config.componentsData[tComponentId]) {
                         Object.keys(tComponentProps['__editable-options__']).forEach(key => {
                             if (tComponentProps['__editable-options__'][key]) {
                                 if (page.config.componentsData[tComponentId].props[key] !== undefined) {
                                     tComponentProps[key] = page.config.componentsData[tComponentId].props[key];
+                                    tComponentImages = {
+                                        ...tComponentImages,
+                                        ...(page.config.componentsData[tComponentId].images || {})
+                                    }
                                 }
                             }
                         });
@@ -387,14 +395,14 @@ class Page extends PureComponent {
                                 <ComponentRender
                                     componentId={tComponent.componentId}
                                     componentProps={tComponentProps}
-                                    componentImages={tComponent.images}
+                                    componentImages={tComponentImages}
                                     componentFieldValues={componentFieldValues} />
                             </Operations>
                             { operations[tComponentId] && operations[tComponentId].propsFormVisible ? (
                                 <ComponentEditor
                                     componentId={tComponent.componentId}
                                     componentProps={tComponentProps}
-                                    componentImages={tComponent.images}
+                                    componentImages={tComponentImages}
                                     onlyEditableOptions
                                     onChangeProps={(newProps, errors, images) => {
                                         this.setConfig({
