@@ -1254,9 +1254,11 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     <div style={{ textAlign: 'justify' }}>
                         15.3 Приложение №3 – Акт приёма передачи
                     </div>
-                    <div style={{ textAlign: 'justify' }}>
-                        15.4 Приложение №4 – Правила эксплуатации
-                    </div>
+                    {project.categoryId['_id'] !== '5f86017e8cd7e62aba44b620' ? (
+                        <div style={{ textAlign: 'justify' }}>
+                            15.4 Приложение №4 – Правила эксплуатации
+                        </div>
+                    ) : null}
                     <br/>
                     <h3 style={{ textAlign: 'center' }}>16. ЮРИДИЧЕСКИЕ АДРЕСА И РЕКВИЗИТЫ СТОРОН</h3>
                     <br/>
@@ -1337,17 +1339,19 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                 </div>
                 {renderRunningTitles(formValue)}
             </div>
-            <div data-content='page' data-page-id='4' className={styles.page} style={pageHeights['4'] ? { height: `${pageHeights['4']}px` } : null}>
-                <div style={{ flexGrow: 1 }}>
-                    <br/><br/>
-                    <div style={{ textAlign: 'end' }}>
-                        Приложение №4 к договору на выполнение подрядных работ № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
+            {project.categoryId['_id'] !== '5f86017e8cd7e62aba44b620' ? (
+                <div data-content='page' data-page-id='4' className={styles.page} style={pageHeights['4'] ? { height: `${pageHeights['4']}px` } : null}>
+                    <div style={{ flexGrow: 1 }}>
+                        <br/><br/>
+                        <div style={{ textAlign: 'end' }}>
+                            Приложение №4 к договору на выполнение подрядных работ № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
+                        </div>
+                        <br/><br/>
+                        {pravila()}
                     </div>
-                    <br/><br/>
-                    {pravila()}
+                    {renderRunningTitles(formValue)}
                 </div>
-                {renderRunningTitles(formValue)}
-            </div>
+            ) : null}
         </div>
     );
 };
