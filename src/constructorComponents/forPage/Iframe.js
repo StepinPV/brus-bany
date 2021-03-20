@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from "prop-types";
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import { applyFields } from '../helpers';
 
 const Container = styled.div`
     width: 100%;
@@ -33,8 +34,8 @@ function Iframe(props) {
                 paddingTop: props.paddingTop
             }}>
             <IframeElement
-                title={props.title}
-                src={props.link}
+                title={applyFields(props.__fieldsValue__, props.title)}
+                src={applyFields(props.__fieldsValue__, props.link)}
                 frameBorder='0'
                 allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
                 allowFullScreen

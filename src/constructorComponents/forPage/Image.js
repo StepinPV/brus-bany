@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import {applyFields} from "../helpers";
+import { applyFields } from '../helpers';
 
 const Title = styled.div`
     text-align: center;
