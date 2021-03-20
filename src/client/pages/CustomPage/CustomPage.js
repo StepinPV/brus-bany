@@ -4,7 +4,8 @@ import PageRender from '../../components/PageRender';
 import Meta from "../../components/Meta";
 import * as components from '@constructor-components';
 import { ThemeProvider } from 'emotion-theming';
-import theme from '../../../constructorComponents/theme';
+import theme from '@constructor-components/theme';
+import { applyFields } from '@constructor-components/helpers';
 import replaceAll from '@utils/replaceAll';
 
 class CustomPage extends PureComponent {
@@ -152,6 +153,7 @@ class CustomPage extends PureComponent {
 
     renderPageContent = () => {
         const { page, templates } = this.props;
+        const { componentFieldValues } = this.state;
 
         let templateComponents = [0];
         let templateComponentsData = {
@@ -197,6 +199,13 @@ class CustomPage extends PureComponent {
                                 }
                             }
                         });
+                    }
+
+                    if (tComponentProps['__visible__']) {
+                        const value = applyFields(componentFieldValues, tComponentProps['__visible__']);
+                        if (!value || value === 'false') {
+                            return null;
+                        }
                     }
 
                     return this.renderComponent({
