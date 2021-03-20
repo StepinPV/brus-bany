@@ -6,7 +6,6 @@ import * as components from '@constructor-components';
 import { ThemeProvider } from 'emotion-theming';
 import theme from '@constructor-components/theme';
 import { applyFields } from '@constructor-components/helpers';
-import replaceAll from '@utils/replaceAll';
 
 class CustomPage extends PureComponent {
     static propTypes = {
@@ -97,9 +96,7 @@ class CustomPage extends PureComponent {
                         meta[metaKey] = templateMeta[metaKey];
                         const fields = page.config['template-fields'];
 
-                        meta[metaKey] = fields ? Object.keys(fields).reduce((text, fieldId) => {
-                            return replaceAll(`{{${fieldId}}}`, fields[fieldId] || '', text);
-                        }, meta[metaKey]) : meta[metaKey];
+                        meta[metaKey] = fields ? applyFields(fields, meta[metaKey]) : meta[metaKey];
                     }
                 });
             }
