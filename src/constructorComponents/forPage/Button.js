@@ -49,7 +49,7 @@ const Content = styled.a`
 function Button(props) {
     const options = {
         download: props.download,
-        href: props.href
+        href: applyFields(props.__fieldsValue__, props.href)
     };
 
     if (props.targetBlank) {
