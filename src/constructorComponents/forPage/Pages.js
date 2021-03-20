@@ -64,14 +64,14 @@ function Pages(props) {
 
     const allFolders = [props.folder];
 
-    const getPageFields = page => {
+    const getPageFields = (page, folder) => {
         const fieldValues = {};
 
-        if (folder['page-fields'] && page.config['folder-fields'][props.folder]) {
+        if (folder['page-fields'] && page.config['folder-fields'][folder['_id']]) {
             folder['page-fields'].forEach(field => {
-                if (page.config['folder-fields'][props.folder][field.id] !== undefined) {
+                if (page.config['folder-fields'][folder['_id']][field.id] !== undefined) {
                     let value;
-                    const folderFields = page.config['folder-fields'][props.folder];
+                    const folderFields = page.config['folder-fields'][folder['_id']];
 
                     switch(field.type) {
                         case 'image':
@@ -102,6 +102,17 @@ function Pages(props) {
 
     let pages = props['__pages__'].filter(page => allFolders.includes(page.config.folder));
 
+    let folderForViewed = folder;
+
+    // Ищем шаблон для отображения
+    while(!folderForViewed.pageViewConfig.components.length) {
+        if (folderForViewed.folder) {
+            folderForViewed = props['__pageFolders__'].find(folder => folder['_id'] === folderForViewed.folder);
+        } else {
+            break;
+        }
+    }
+
     if (props.sort) {
         const convertFieldsToValues = (fields) => {
             return Object.keys(fields).reduce((values, id) => {
@@ -118,10 +129,11 @@ function Pages(props) {
         }
 
         pages = pages.sort((p1, p2) => {
+            // TODO Вот здесь нужно собирать поля не только папки, которая имеет отображение, а всех по цепочке
             // eslint-disable-next-line
-            const page1 = convertFieldsToValues(getPageFields(p1));
+            const page1 = convertFieldsToValues(getPageFields(p1, folderForViewed));
             // eslint-disable-next-line
-            const page2 = convertFieldsToValues(getPageFields(p2));
+            const page2 = convertFieldsToValues(getPageFields(p2, folderForViewed));
             try {
                 return eval(props.sort);
             } catch(err) {
@@ -161,14 +173,14 @@ function Pages(props) {
     return (
         <Container styles={{ paddingTop: props.paddingTop, paddingBottom: props.paddingBottom }}>
             {pages.map(page => {
-                const fieldValues = getPageFields(page);
+                const fieldValues = getPageFields(page, folderForViewed);
 
                 return (
                     <Item href={page.url}>
                         <ItemWrapper>
                             {
-                                folder.pageViewConfig.components.map(id => {
-                                    const componentData = folder.pageViewConfig.componentsData[id];
+                                folderForViewed.pageViewConfig.components.map(id => {
+                                    const componentData = folderForViewed.pageViewConfig.componentsData[id];
                                     const Component = components[componentData.componentId];
 
                                     return (
