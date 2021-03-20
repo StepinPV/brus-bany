@@ -23,6 +23,11 @@ export const config = [{
         type: 'string'
     }]
 }, {
+    _id: 'priority',
+    title: 'Приоритет от 0 до 1',
+    type: 'string',
+    required: true
+}, {
     _id: 'template',
     title: 'Шаблон страницы',
     type: 'source-select',

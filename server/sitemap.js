@@ -120,7 +120,7 @@ exports.generate = async function () {
             url: page.get('url'),
             date: page.get('updated'),
             changefreq: 'monthly',
-            priority: '0.6'
+            priority: page.get('config').priority || '0.6'
         }));
     });
 
