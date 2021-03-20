@@ -17,9 +17,10 @@ import * as ButtonsForCard from './ButtonsForCard';
 import * as SocialShare from './SocialShare';
 import * as ImageTiles from './ImageTiles';
 import * as Iframe from './Iframe';
+import * as Links from './Links';
 
 export default {
     Caption, Text, Button, List, Breadcrumbs, Banner, QuestionAnswer, ImageLinkBlock, Image,
     Header, Footer, Contacts, FormBlock, Quiz, Pages, ButtonsForCard, SocialShare, ImageTiles,
-    Iframe
+    Iframe, Links
 }

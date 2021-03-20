@@ -21,6 +21,7 @@ export const Input = loadable(() => import('./forPage/Input'));
 export const SocialShare = loadable(() => import('./forPage/SocialShare'));
 export const ImageTiles = loadable(() => import('./forPage/ImageTiles'));
 export const Iframe = loadable(() => import('./forPage/Iframe'));
+export const Links = loadable(() => import('./forPage/Links'));
 
 export const ButtonsForCard = loadable(() => import('./forCard/Buttons'));
 
