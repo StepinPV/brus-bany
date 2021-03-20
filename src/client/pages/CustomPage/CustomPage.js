@@ -186,11 +186,19 @@ class CustomPage extends PureComponent {
                         ...tComponent.props
                     };
 
+                    let tComponentImages = {
+                        ...(tComponent.images || {})
+                    };
+
                     if (tComponentProps['__editable-options__'] && page.config.componentsData[tComponentId]) {
                         Object.keys(tComponentProps['__editable-options__']).forEach(key => {
                             if (tComponentProps['__editable-options__'][key]) {
                                 if (page.config.componentsData[tComponentId].props[key] !== undefined) {
                                     tComponentProps[key] = page.config.componentsData[tComponentId].props[key];
+                                    tComponentImages = {
+                                        ...tComponentImages,
+                                        ...(page.config.componentsData[tComponentId].images || {})
+                                    }
                                 }
                             }
                         });
@@ -206,7 +214,7 @@ class CustomPage extends PureComponent {
                     return this.renderComponent({
                         componentId: tComponent.componentId,
                         props: tComponentProps,
-                        images: tComponent.images
+                        images: tComponentImages
                     });
                 })}
             </>
