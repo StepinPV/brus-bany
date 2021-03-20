@@ -11,7 +11,8 @@ export const props = [{
         props: {
             withoutLogo: true,
             width: 1200,
-            globalStore: true
+            globalStore: true,
+            withoutCompression: true
         }
     }, {
         _id: 'alt',
