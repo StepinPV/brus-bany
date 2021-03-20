@@ -25,8 +25,7 @@ export const config = [{
 }, {
     _id: 'priority',
     title: 'Приоритет от 0 до 1',
-    type: 'string',
-    required: true
+    type: 'string'
 }, {
     _id: 'template',
     title: 'Шаблон страницы',

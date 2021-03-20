@@ -6,6 +6,7 @@ const Categories = require('./controllers/Categories');
 const Photos = require('./controllers/Photos');
 const Projects = require('./controllers/Projects');
 const Pages = require('./controllers/Pages');
+const PageTemplates = require('./controllers/PageTemplates');
 
 const ATTRIBUTES_KEY = 'attr';
 const DOMAIN = 'https://brus-bany.ru';
@@ -115,14 +116,24 @@ exports.generate = async function () {
     // pages
     const { data: pages } = await Pages.getAll();
 
-    pages.forEach(page => {
+    for (const page of pages) {
+        const pageConfig = page.get('config');
+        let priority = pageConfig.priority;
+
+        if (!priority && pageConfig.template) {
+            const template = (await PageTemplates.get(pageConfig.template)).data;
+            if (template) {
+                priority = template.get('priority');
+            }
+        }
+
         data.urlset.push(getURLObject({
             url: page.get('url'),
             date: page.get('updated'),
             changefreq: 'monthly',
             priority: page.get('config').priority || '0.6'
         }));
-    });
+    }
 
     // main
     data.urlset.push(getURLObject({ url: '/', date: getLastDate([lastPhoto]), changefreq: 'daily', priority: '1.0' }));

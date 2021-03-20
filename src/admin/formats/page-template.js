@@ -6,6 +6,10 @@ export default [{
     type: 'string',
     required: true
 }, {
+    _id: 'priority',
+    title: 'Приоритет от 0 до 1',
+    type: 'string'
+}, {
     _id: 'seoMeta',
     title: 'Шаблоны мета тегов',
     type: 'object',
