@@ -84,6 +84,7 @@ class CustomPage extends PureComponent {
 
     renderMeta = () => {
         const { page, templates } = this.props;
+        const { componentFieldValues } = this.state;
         const meta = page.config.seoMeta || {};
 
         if (page.config.template) {
@@ -93,10 +94,7 @@ class CustomPage extends PureComponent {
             if (templateMeta) {
                 Object.keys(templateMeta).forEach(metaKey => {
                     if (!meta[metaKey] && typeof templateMeta[metaKey] === 'string') {
-                        meta[metaKey] = templateMeta[metaKey];
-                        const fields = page.config['template-fields'];
-
-                        meta[metaKey] = fields ? applyFields(fields, meta[metaKey]) : meta[metaKey];
+                        meta[metaKey] = componentFieldValues ? applyFields(componentFieldValues, templateMeta[metaKey]) : templateMeta[metaKey];
                     }
                 });
             }
