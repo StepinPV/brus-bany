@@ -147,7 +147,4 @@ exports.generate = async function () {
             logger.success('Sitemap успешно обновлен');
         }
     });
-
-    // /blog - 0.9
-    // /blog/aaa - 0.7
 };

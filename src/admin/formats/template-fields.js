@@ -30,7 +30,7 @@ export default {
             id: 'image',
             title: 'Изображение'
         }, {
-            id: 'integer number',
+            id: 'float number',
             title: 'Число'
         }, {
             id: 'boolean',
