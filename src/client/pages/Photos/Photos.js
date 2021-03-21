@@ -78,7 +78,7 @@ class Photos extends PureComponent {
 
     render() {
         const { breadcrumbs } = this.state;
-        const { photosError } = this.props;
+        const { photosError, customComponents, staticContext } = this.props;
         const notFound = Boolean(photosError);
         let meta;
 
@@ -91,7 +91,7 @@ class Photos extends PureComponent {
         }
 
         return (
-            <Page breadcrumbs={breadcrumbs} notFound={notFound}>
+            <Page breadcrumbs={breadcrumbs} notFound={notFound} customComponents={customComponents} staticContext={staticContext}>
                 <Meta meta={meta} />
                 { this.renderContent() }
                 <FormBlock source='Страница готовых проектов' />
