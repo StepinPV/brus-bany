@@ -175,7 +175,7 @@ Header.defaultProps = {
     button: null,
     opacity: false,
     fixed: false,
-    hasLinkToMain: true
+    hasLinkToMain: false
 };
 
 export default memo(Header);
