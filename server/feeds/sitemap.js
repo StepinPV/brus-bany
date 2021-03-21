@@ -1,32 +1,13 @@
 const fs = require('fs');
-const json2xml = require('json2xml');
-const logger = require('./logger');
+const logger = require('../logger');
 
-const Categories = require('./controllers/Categories');
-const Photos = require('./controllers/Photos');
-const Projects = require('./controllers/Projects');
-const Pages = require('./controllers/Pages');
-const PageTemplates = require('./controllers/PageTemplates');
+const Categories = require('../controllers/Categories');
+const Photos = require('../controllers/Photos');
+const Projects = require('../controllers/Projects');
+const Pages = require('../controllers/Pages');
+const PageTemplates = require('../controllers/PageTemplates');
 
-const ATTRIBUTES_KEY = 'attr';
 const DOMAIN = 'https://brus-bany.ru';
-
-function getURLObject({ url, date, dateIsString, changefreq, priority }) {
-    return {
-        'url': [{
-            'loc': `${DOMAIN}${url}`,
-            ...(date ? {
-                'lastmod': dateIsString ? date : date.toISOString().split('T')[0]
-            } : {}),
-            ...(changefreq ? {
-                'changefreq': changefreq
-            } : {}),
-            ...(priority ? {
-                'priority': priority
-            } : {})
-        }]
-    }
-}
 
 function getLastDate(dates) {
     return dates.reduce((maxDate, current) => {
@@ -35,26 +16,30 @@ function getLastDate(dates) {
 }
 
 exports.generate = async function () {
-    const data = {
-        [ATTRIBUTES_KEY]: {
-            'xmlns': 'http://www.sitemaps.org/schemas/sitemap/0.9',
-            'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-            'xsi:schemaLocation': 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd'
-        },
-        'urlset': []
+    let pagesData = ``;
+
+    const addPages = ({ url, date, changefreq, priority }) => {
+        pagesData += `
+            <url>
+                <loc>${DOMAIN}${url}</loc>
+                <lastmod>${date.toISOString().split('T')[0]}</lastmod>
+                <changefreq>${changefreq || 'daily'}</changefreq>
+                <priority>${priority || '0.6'}</priority>
+            </url>
+        `
     };
 
     // categories
     const {data: categories} = await Categories.getAll();
     categories.forEach(category => {
-        data.urlset.push(getURLObject({ url: `${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' }));
+        addPages({ url: ``, date: category.get('updated'), changefreq: 'daily', priority: '0.9' });
 
         let addFilterPages = (filterGroups, href) => {
             if (filterGroups && filterGroups.length) {
                 filterGroups.forEach(filterGroup => {
                     if (filterGroup.filters && filterGroup.filters.length) {
                         filterGroup.filters.forEach(filter => {
-                            data.urlset.push(getURLObject({ url: `${href}/${filter.id}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' }));
+                            addPages({ url: `${href}/${filter.id}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' });
                             addFilterPages(filter.filters, `${href}/${filter.id}`);
                         });
                     }
@@ -74,7 +59,7 @@ exports.generate = async function () {
             const dates = photos.map(photo => photo.get('updated'));
             dates.push(categories[i].get('updated'));
 
-            data.urlset.push(getURLObject({ url: `/photos/${categories[i].get('translateName')}`, date: getLastDate(dates), changefreq: 'daily', priority: '0.9' }));
+            addPages({ url: `/photos/${categories[i].get('translateName')}`, date: getLastDate(dates), changefreq: 'daily', priority: '0.9' });
         }
     }
 
@@ -90,12 +75,12 @@ exports.generate = async function () {
             lastPhoto = last;
         }
 
-        data.urlset.push(getURLObject({
+        addPages({
             url: `/photos/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}_${photo.get('_id')}`,
             date: last,
             changefreq: 'monthly',
             priority: '0.7'
-        }));
+        });
     });
 
     // projects
@@ -105,12 +90,12 @@ exports.generate = async function () {
         const layout = project.get('layoutId');
         const category = project.get('categoryId');
 
-        data.urlset.push(getURLObject({
+        addPages({
             url: `${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
             date: getLastDate([category.get('updated'), layout.get('updated'), project.get('updated')]),
             changefreq: 'weekly',
             priority: '0.8'
-        }));
+        });
     });
 
     // pages
@@ -127,24 +112,30 @@ exports.generate = async function () {
             }
         }
 
-        data.urlset.push(getURLObject({
+        addPages({
             url: page.get('url'),
             date: page.get('updated'),
             changefreq: 'monthly',
             priority: priority || '0.6'
-        }));
+        });
     }
 
     // main
-    data.urlset.push(getURLObject({ url: '/', date: getLastDate([lastPhoto]), changefreq: 'daily', priority: '1.0' }));
+    addPages({ url: '/', date: getLastDate([lastPhoto]), changefreq: 'daily', priority: '1.0' });
     //photos
-    data.urlset.push(getURLObject({ url: '/photos', date: lastPhoto, changefreq: 'daily', priority: '0.9' }));
+    addPages({ url: '/photos', date: lastPhoto, changefreq: 'daily', priority: '0.9' });
 
-    fs.writeFile('./public/sitemap.xml', json2xml(data, {attributes_key: ATTRIBUTES_KEY}), function (err) {
-        if (err) {
-            logger.error(`Ошибка генерации sitemap: ${err}`, );
-        } else {
-            logger.success('Sitemap успешно обновлен');
-        }
-    });
+    const data =
+        `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+            ${pagesData}
+        </urlset>`;
+
+    fs.writeFile('./public/sitemap.xml', data,
+        function (err) {
+            if (err) {
+                logger.error(`Ошибка генерации sitemap: ${err}`, );
+            } else {
+                logger.success('Sitemap успешно обновлен');
+            }
+        });
 };

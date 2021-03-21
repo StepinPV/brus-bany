@@ -19,8 +19,7 @@ const telegramBot = require('./telegram-bot');
 
 const utm = require('./utm');
 
-const sitemap = require('./sitemap');
-
+const sitemap = require('./feeds/sitemap');
 const yml = require('./feeds/yml');
 const google = require('./feeds/google');
 
