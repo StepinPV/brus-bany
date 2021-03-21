@@ -194,7 +194,7 @@ class Category extends PureComponent {
     }
 
     render() {
-        const { isCategoryError } = this.props;
+        const { isCategoryError, customComponents, staticContext } = this.props;
         const { breadcrumbs, notFound, filteredProjects } = this.state;
         let meta;
 
@@ -206,7 +206,7 @@ class Category extends PureComponent {
         }
 
         return (
-            <Page breadcrumbs={breadcrumbs} notFound={notFound || isCategoryError}>
+            <Page breadcrumbs={breadcrumbs} notFound={notFound || isCategoryError} customComponents={customComponents} staticContext={staticContext}>
                 <Meta meta={meta} />
                 { this.renderContent() }
             </Page>

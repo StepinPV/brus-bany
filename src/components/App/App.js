@@ -73,13 +73,14 @@ class App extends Component {
                         customComponents={customComponents} />
                 )
             } else {
-                renderProps.component = NotFound;
+                renderProps.render = (props) => <NotFound {...props} customComponents={customComponents} />;
             }
         } else {
             renderProps.render = (props) => (
                 <Component
                     {...props}
                     pages={pages}
+                    customComponents={customComponents}
                     pageFolders={pageFolders} />
             );
         }

@@ -33,7 +33,6 @@ const render = async (req, res, axiosOptions = {}) => {
     const loadableComponent = matchRoute.component;
 
     let page = null;
-    let customComponents;
     let pageTemplates;
     let pages;
     let pageFolders;
@@ -45,12 +44,9 @@ const render = async (req, res, axiosOptions = {}) => {
             }
         });
 
-        const customComponentsRes = await axios.get(`/api/components`);
         const pageTemplatesRes = await axios.get(`/api/page-templates`);
-
         if (pageRes.data && pageRes.data.status === 'success' && pageRes.data.data) {
             page = pageRes.data.data;
-            customComponents = customComponentsRes.data.data;
             pageTemplates = pageTemplatesRes.data.data;
         }
     }
@@ -99,7 +95,7 @@ const render = async (req, res, axiosOptions = {}) => {
                     <App
                         preparedComponents={{ [matchRoute.id]: loadableComponent }}
                         page={page}
-                        customComponents={customComponents}
+                        customComponents={(await axios.get(`/api/components`)).data.data}
                         pageTemplates={pageTemplates}
                         pages={pages}
                         pageFolders={pageFolders}

@@ -27,7 +27,8 @@ const META = {
 class Main extends PureComponent {
     static propTypes = {
         photos: PropTypes.array,
-        actions: PropTypes.object
+        actions: PropTypes.object,
+        staticContext: PropTypes.object
     };
 
     static initialAction({ dispatch }) {
@@ -48,10 +49,10 @@ class Main extends PureComponent {
     }
 
     render() {
-        const { photos } = this.props;
+        const { photos, customComponents, staticContext } = this.props;
 
         return (
-            <Page opacityHeader hasLinkToMain={false}>
+            <Page opacityHeader hasLinkToMain={false} customComponents={customComponents} staticContext={staticContext}>
                 <Meta meta={META} />
                 <Top />
                 <Categories id='categories' />

@@ -94,14 +94,21 @@ const Logo = styled.i`
 `;
 
 function Footer(props) {
-    const { columns } = props;
+    const { columns, hasLinkToMain } = props;
+
+    const logoWrapperProps = hasLinkToMain ? {
+        href: '/',
+        title: 'Перейти на главную'
+    } : {
+        as: 'div'
+    }
 
     return (
         <Container>
             <Wrapper>
                 <Column itemScope itemType='http://schema.org/HomeAndConstructionBusiness'>
                     <meta itemProp="name" content="Брус бани" />
-                    <LogoWrapper href='/' title='Перейти на главную'>
+                    <LogoWrapper {...logoWrapperProps}>
                         <Logo style={{ backgroundImage: `url('${logo}')` }} />
                     </LogoWrapper>
                     <SocialNetworks paddingBottom='m' withoutMargins />
@@ -148,11 +155,13 @@ function Footer(props) {
 }
 
 Footer.propTypes = {
-    columns: PropTypes.array
+    columns: PropTypes.array,
+    hasLinkToMain: PropTypes.bool
 };
 
 Footer.defaultProps = {
-    columns: []
+    columns: [],
+    hasLinkToMain: true
 };
 
 export default memo(Footer);

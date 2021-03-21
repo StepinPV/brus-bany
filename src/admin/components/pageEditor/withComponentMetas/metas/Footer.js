@@ -21,6 +21,10 @@ export const props = [{
             type: 'string'
         }]
     }]
+}, {
+    _id: 'hasLinkToMain',
+    title: 'Ссылка на главную страницу',
+    type: 'boolean'
 }];
 
 export const name = 'Подвал';
@@ -62,5 +66,6 @@ export const defaultProps = {
             caption: 'Ссылка 3',
             link: '/'
         }]
-    }]
+    }],
+    hasLinkToMain: true
 };

@@ -113,7 +113,14 @@ const Email = styled.a`
 `;
 
 function Header(props) {
-    const { opacity, items, phone, email, button, fixed } = props;
+    const { opacity, items, phone, email, button, fixed, hasLinkToMain } = props;
+
+    const logoWrapperProps = hasLinkToMain ? {
+        href: '/',
+        title: 'Перейти на главную'
+    } : {
+        as: 'div'
+    }
 
     return (
         <HeaderElement>
@@ -121,7 +128,7 @@ function Header(props) {
                 <FixedHeader />
             ) : null}
             <Container styles={{ opacity, fixed }}>
-                <LogoWrapper href='/' title='Перейти на главную'>
+                <LogoWrapper {...logoWrapperProps}>
                     <Logo style={{ backgroundImage: `url('${logo}')` }} />
                 </LogoWrapper>
                 <Items>
@@ -157,7 +164,8 @@ Header.propTypes = {
     phone: PropTypes.string,
     email: PropTypes.string,
     button: PropTypes.object,
-    opacity: PropTypes.bool
+    opacity: PropTypes.bool,
+    hasLinkToMain: PropTypes.bool
 };
 
 Header.defaultProps = {
@@ -166,7 +174,8 @@ Header.defaultProps = {
     email: '',
     button: null,
     opacity: false,
-    fixed: false
+    fixed: false,
+    hasLinkToMain: true
 };
 
 export default memo(Header);

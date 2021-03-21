@@ -41,6 +41,10 @@ export const props = [{
     _id: 'fixed',
     title: 'Фиксированная',
     type: 'boolean'
+}, {
+    _id: 'hasLinkToMain',
+    title: 'Ссылка на главную страницу',
+    type: 'boolean'
 }];
 
 export const name = 'Шапка';
@@ -63,5 +67,6 @@ export const defaultProps = {
         link: '/'
     },
     opacity: false,
-    fixed: false
+    fixed: false,
+    hasLinkToMain: true
 };

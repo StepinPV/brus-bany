@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import loadable from '@loadable/component';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import Header from '../../components/Header';
 import CardList from '../../../components/CardList';
 import PhotoCard from '../../../components/PhotoCard';
 import Breadcrumbs from '../../../components/Breadcrumbs';
@@ -15,7 +14,6 @@ import Gallery from './resources/Gallery';
 import { getProject, resetData, getPhotos } from './actions';
 import styles from './Project.module.css';
 import DataSection from '../../components/DataSection';
-import Footer from "../../components/Footer";
 import { Button } from "../../../components/Button";
 import withForm from '../../plugins/Form/withForm';
 import FormBlock from '../../components/FormBlock';
@@ -23,6 +21,7 @@ import numberWithSpaces from '../../../utils/numberWithSpaces';
 import filterObject from '../../../utils/filterObject';
 import Meta from '../../components/Meta';
 import Page from "../../components/Page";
+import { Header, Footer } from '@constructor-components';
 
 function parseQuery(uri) {
     const [, params] = uri.split('?');
@@ -189,17 +188,27 @@ class Project extends PureComponent {
     }
 
     render() {
-        const { isProjectError, match, project } = this.props;
+        const { isProjectError, match, project, customComponents, staticContext } = this.props;
         const { width, length } = match.params;
         const { breadcrumbs, CPMode } = this.state;
         const notFound = Boolean(isProjectError) || project && (String(project.layoutId.width) !== width || String(project.layoutId.length) !== length);
 
         if (notFound) {
-            return <Page breadcrumbs={breadcrumbs} notFound={notFound} />
+            return <Page breadcrumbs={breadcrumbs} notFound={notFound} customComponents={customComponents} staticContext={staticContext} />
         }
 
         if (CPMode) {
             return this.renderCP();
+        }
+
+        const headerComponent = customComponents.find(component => component['_id'] === '5eca90f2003e3d332650c6ea');
+        const footerComponent = customComponents.find(component => component['_id'] === '5eca9461003e3d332650c862');
+
+        if (staticContext) {
+            staticContext.data = staticContext.data || {};
+            staticContext.data.customComponents = staticContext.data.customComponents || [];
+            staticContext.data.customComponents.push(headerComponent);
+            staticContext.data.customComponents.push(footerComponent);
         }
 
         return (
@@ -211,9 +220,15 @@ class Project extends PureComponent {
                     image: project.images ? project.images['main'] : undefined,
                     imageAlt: `Проект ${this.renderInfoTitle(project.categoryId['name5']).toLowerCase()} - ${project.layoutId.name}`
                 }} />
-                <Header />
+                <Header
+                    {...headerComponent.config.componentsData['8488'].props}
+                    button={{
+                        caption: 'Обратный звонок',
+                        link: '#requestForm'
+                    }}
+                />
                 { this.renderContent() }
-                <Footer />
+                <Footer {...footerComponent.config.componentsData['3912'].props} />
             </div>
         );
     }

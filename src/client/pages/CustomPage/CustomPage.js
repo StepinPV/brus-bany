@@ -235,7 +235,7 @@ class CustomPage extends PureComponent {
     };
 
     renderComponent = ({ componentId, props, images }) => {
-        const { customComponents, staticContext, pages, pageFolders, page } = this.props;
+        const { customComponents, staticContext, pages, pageFolders } = this.props;
         const { componentFieldValues } = this.state;
 
         if (components[componentId]) {

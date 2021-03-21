@@ -1,21 +1,33 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import Header from '../Header';
-import Footer from '../Footer';
+import { Header, Footer } from '@constructor-components';
 import NotFound from '../NotFound';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import styles from './Page.module.css';
 
 function Page(props) {
-    const { children, opacityHeader, breadcrumbs, notFound, hasLinkToMain, headerProps } = props;
+    const { children, opacityHeader, breadcrumbs, notFound, hasLinkToMain, customComponents, staticContext } = props;
+
+    const headerComponent = customComponents.find(component => component['_id'] === '5eca90f2003e3d332650c6ea');
+    const footerComponent = customComponents.find(component => component['_id'] === '5eca9461003e3d332650c862');
+
+    if (staticContext) {
+        staticContext.data = staticContext.data || {};
+        staticContext.data.customComponents = staticContext.data.customComponents || [];
+        staticContext.data.customComponents.push(headerComponent);
+        staticContext.data.customComponents.push(footerComponent);
+    }
 
     return (
         <>
             <Header
-                opacity={!notFound && opacityHeader}
-                requestLink={notFound ? '/#requestForm' : undefined}
+                {...headerComponent.config.componentsData['8488'].props}
+                opacity={opacityHeader}
                 hasLinkToMain={hasLinkToMain}
-                {...headerProps}
+                button={{
+                    caption: 'Обратный звонок',
+                    link: '#requestForm'
+                }}
             />
             {notFound ? (
                 <NotFound />
@@ -32,7 +44,10 @@ function Page(props) {
                 rel="noopener noreferrer">
                 <i className={styles['whats-app']} />
             </a>
-            <Footer hasLinkToMain={hasLinkToMain} />
+            <Footer
+                {...footerComponent.config.componentsData['3912'].props}
+                hasLinkToMain={hasLinkToMain}
+            />
         </>
     );
 }
