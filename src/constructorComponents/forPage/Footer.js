@@ -149,7 +149,7 @@ function Footer(props) {
                                     href: link
                                 };
 
-                                if (/^http:/.test(link)) {
+                                if (/^http/.test(link)) {
                                     options.target = '_blank';
                                     options.rel = 'noopener noreferrer';
                                 }
