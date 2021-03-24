@@ -90,7 +90,7 @@ class Main extends PureComponent {
                         folder='5f3afaae19c6b22d24b5d0a5'
                         paddingBottom='none'
                         paddingTop='none'
-                        sort='page1[5242] > page2[5242] ? -1 : (page1[5242] === page2[5242] ? 0 : 1'
+                        sort='page1[5242] > page2[5242] ? -1 : (page1[5242] === page2[5242] ? 0 : 1)'
                     />
                     <div className={styles['button-container']}>
                         <Link href='/blog' caption='Читать больше' />

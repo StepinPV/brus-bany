@@ -143,9 +143,19 @@ function Footer(props) {
                     return (
                         <Column as='nav' key={caption}>
                             <ItemsHeader>{caption.toUpperCase()}</ItemsHeader>
-                            {items ? items.map(({ link, caption }) => (
-                                <ItemsItem key={caption} href={link}>{caption}</ItemsItem>
-                            )) : null}
+                            {items ? items.map(({ link, caption }) => {
+                                const options = {
+                                    key: caption,
+                                    href: link
+                                };
+
+                                if (/^http:/.test(link)) {
+                                    options.target = '_blank';
+                                    options.rel = 'noopener noreferrer';
+                                }
+
+                                return <ItemsItem {...options}>{caption}</ItemsItem>;
+                            }) : null}
                         </Column>
                     );
                 })}
