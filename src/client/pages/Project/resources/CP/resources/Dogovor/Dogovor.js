@@ -406,6 +406,15 @@ const pravila = () => {
     )
 }
 
+const renderProjectType = (project) => {
+    switch(project.categoryId['name4']) {
+        case 'баню из бруса': return 'брусовое сооружение из хвойных пород';
+        case 'дом из бруса': return 'брусовое сооружение из хвойных пород';
+        case 'каркасную баню': return 'каркасное сооружение из хвойных пород';
+        default: return project.categoryId['name4'];
+    }
+}
+
 const renderDogovor1 = (setContainerRef, pageHeights, project, formValue, data, finalPrice, projectName) => {
     const { categoryId } = project;
     return (
@@ -661,7 +670,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, project, formValue, data, 
                     {renderSpecification(projectName, project, categoryId, data)}
                     <br/>
                     <div style={{ textAlign: 'justify' }}>
-                        Допускается стыковка: брус по всему периметру стен бани, вагонка по каждой стене и потолку в отдельно взятом
+                        Допускается стыковка: брус по всему периметру стен, вагонка по каждой стене и потолку в отдельно взятом
                         помещении, половой доски в каждой комнате.
                     </div>
                     <br/><br/>
@@ -743,7 +752,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     <div style={{ textAlign: 'justify' }}>
                         1.1 Подрядчик обязуется по заданию Заказчика в сроки и в порядке, предусмотренном Договором,
                         выполнить работы по изготовлению, доставке и сборке, на указанном Заказчиком земельном участке,
-                        {' '}{project.categoryId['name4']} {project.layoutId.width}x{project.layoutId.length}м, в комплектации согласно спецификации (Приложение №1и № 2, №3, №4 к Договору)
+                        {' '}{renderProjectType(project)} {project.layoutId.width}x{project.layoutId.length}м, в комплектации согласно спецификации (Приложение №1и № 2, №3, №4 к Договору)
                         (далее – Изделие, Результат работ), а Заказчик – принять Изделие в установленном порядке и оплатить
                         его в соответствии с разделом 3 Договора.
                     </div>
@@ -1278,7 +1287,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     {renderSpecification(projectName.replace('Каркасная баня', 'Каркасное изделие').replace('Баня', 'Изделие'), project, categoryId, data)}
                     <br/>
                     <div style={{ textAlign: 'justify' }}>
-                        Допускается стыковка: брус по всему периметру стен бани, вагонка по каждой стене и потолку в отдельно взятом
+                        Допускается стыковка: брус по всему периметру стен, вагонка по каждой стене и потолку в отдельно взятом
                         помещении, половой доски в каждой комнате.
                     </div>
                 </div>
@@ -1375,7 +1384,7 @@ const renderTZ = (project, formValue, data, finalPrice, projectName, hasAddBlock
                 <>
                     <br/>
                     <div style={{ textAlign: 'justify' }}>
-                        Допускается стыковка: брус по всему периметру стен бани, вагонка по каждой стене и потолку в отдельно взятом
+                        Допускается стыковка: брус по всему периметру стен, вагонка по каждой стене и потолку в отдельно взятом
                         помещении, половой доски в каждой комнате.
                     </div>
                 </>
