@@ -21,7 +21,7 @@ const CHATS = [{
 }]
 
 module.exports.init = async () => {
-    bot = new TelegramBot('1377613799:AAFMa15az8V0bILnrolTtjGDbabbnBCV4_Q', { polling: false });
+    bot = new TelegramBot('1377613799:AAFMa15az8V0bILnrolTtjGDbabbnBCV4_Q', { polling: true });
 
     // Пока просто отключаем pooling
     if(bot.isPolling()) {
