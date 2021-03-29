@@ -18,16 +18,19 @@ const CHATS = [{
 }, {
     id: 925807162,
     name: 'Марина Старикова'
+}, {
+    id: 775885755,
+    name: 'Марина Ланская'
 }]
 
 module.exports.init = async () => {
-    bot = new TelegramBot('1377613799:AAFMa15az8V0bILnrolTtjGDbabbnBCV4_Q', { polling: true });
+    bot = new TelegramBot('1377613799:AAFMa15az8V0bILnrolTtjGDbabbnBCV4_Q', { polling: false });
 
     // Пока просто отключаем pooling
     /*if(bot.isPolling()) {
         await bot.stopPolling();
     }*/
-    bot.onText(/\/start/, (msg) => {
+    /*bot.onText(/\/start/, (msg) => {
         const chatId = msg.chat.id;
         const user = CHATS.find(item => item.id === chatId);
 
@@ -37,7 +40,7 @@ module.exports.init = async () => {
         }
 
         bot.sendMessage(chatId, `Добро пожаловать! Твой уникальный ID ${chatId}.`);
-    });
+    });*/
     //
 
     logger.success('\nTelegram bot запущен');
