@@ -36,7 +36,7 @@ module.exports.init = async () => {
             return;
         }
 
-        bot.sendMessage(chatId, `Добро пожаловать! Твой уникальный ID ${chatId}. Перешли его Паше.`);
+        bot.sendMessage(chatId, `Добро пожаловать! Твой уникальный ID ${chatId}.`);
     });
     //
 
