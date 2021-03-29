@@ -24,9 +24,9 @@ module.exports.init = async () => {
     bot = new TelegramBot('1377613799:AAFMa15az8V0bILnrolTtjGDbabbnBCV4_Q', { polling: true });
 
     // Пока просто отключаем pooling
-    if(bot.isPolling()) {
+    /*if(bot.isPolling()) {
         await bot.stopPolling();
-    }
+    }*/
     bot.onText(/\/start/, (msg) => {
         const chatId = msg.chat.id;
         const user = CHATS.find(item => item.id === chatId);
