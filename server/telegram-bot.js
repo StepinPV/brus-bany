@@ -17,14 +17,14 @@ const CHATS = [{
     name: 'Вера'
 }, {
     id: 925807162,
-    name: 'Марина'
+    name: 'Марина Старикова'
 }]
 
 module.exports.init = async () => {
     bot = new TelegramBot('1377613799:AAFMa15az8V0bILnrolTtjGDbabbnBCV4_Q', { polling: false });
 
     // Пока просто отключаем pooling
-    /* if(bot.isPolling()) {
+    if(bot.isPolling()) {
         await bot.stopPolling();
     }
     bot.onText(/\/start/, (msg) => {
@@ -37,7 +37,8 @@ module.exports.init = async () => {
         }
 
         bot.sendMessage(chatId, `Добро пожаловать! Твой уникальный ID ${chatId}. Перешли его Паше.`);
-    }); */
+    });
+    //
 
     logger.success('\nTelegram bot запущен');
 };

@@ -144,8 +144,8 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
         let managerId = localStorage.getItem('MANAGER_ID');
 
         (function selectManager() {
-            if (!['1', '2', '3'].includes(managerId)) {
-                managerId = prompt('Введите номер менеджера:\n1. Марина \n2. Константинъ \n3. Вера');
+            if (!['1', '2', '3', '4'].includes(managerId)) {
+                managerId = prompt('Введите номер менеджера:\n1. Марина Cтарикова \n2. Константинъ \n3. Вера \n4. Марина Ланская');
                 selectManager();
             } else {
                 localStorage.setItem('MANAGER_ID', managerId);
@@ -158,9 +158,10 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
         if (formValue.viewMode) {
             const documentType = format.find(i => i._id === 'mode').items.find(i => i.id === formValue.mode);
             const manager = {
-                1: 'Марина',
+                1: 'Марина Старикова',
                 2: 'Константинъ',
                 3: 'Вера',
+                4: 'Марина Ланская',
             }[formValue.manager];
 
             if (manager) {

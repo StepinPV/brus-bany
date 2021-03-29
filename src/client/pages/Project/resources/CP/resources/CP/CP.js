@@ -9,9 +9,10 @@ import cx from "classnames";
 
 function renderManager(id) {
     switch(id) {
-        case '1': return 'C уважением, Марина: 8 (921) 204-65-12';
+        case '1': return 'C уважением, Марина Старикова: 8 (921) 204-65-12';
         case '2': return 'C уважением, Константинъ: 8 (901) 543-85-19';
         case '3': return 'C уважением, Вера: 8 (996) 927-81-28';
+        case '4': return 'C уважением, Марина Ланская';
     }
 }
 
