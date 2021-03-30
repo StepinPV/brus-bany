@@ -5,8 +5,7 @@ export const props = [{
     type: 'image',
     props: {
         withoutLogo: true,
-        globalStore: true,
-        withoutCompression: true
+        globalStore: true
     }
 }, {
     _id: 'imageAlt',
