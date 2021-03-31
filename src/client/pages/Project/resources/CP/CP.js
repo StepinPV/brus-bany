@@ -25,6 +25,23 @@ const format = [{
         title: 'ТЗ'
     }]
 }, {
+    _id: 'manager',
+    title: 'Менеджер',
+    type: 'select',
+    items: [{
+        id: '1',
+        title: 'Марина Старикова'
+    }, {
+        id: '2',
+        title: 'Константинъ'
+    }, {
+        id: '3',
+        title: 'Вера'
+    }, {
+        id: '4',
+        title: 'Марина Ланская'
+    }]
+}, {
     _id: 'images',
     title: 'Изображения',
     type: 'object',
@@ -142,16 +159,7 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
 
     if (!formValue.manager && localStorage) {
         let managerId = localStorage.getItem('MANAGER_ID');
-
-        (function selectManager() {
-            if (!['1', '2', '3', '4'].includes(managerId)) {
-                managerId = prompt('Введите номер менеджера:\n1. Марина Cтарикова \n2. Константинъ \n3. Вера \n4. Марина Ланская');
-                selectManager();
-            } else {
-                localStorage.setItem('MANAGER_ID', managerId);
-                onChange({ ...formValue, manager: managerId })
-            }
-        })();
+        onChange({ ...formValue, manager: managerId || '1' });
     }
 
     const sendViewEvent = async () => {
@@ -282,7 +290,10 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
                             value={formValue}
                             errors={{}}
                             onChange={(data) => {
-                                onChange(data)
+                                if (formValue.manager !== data.manager) {
+                                    localStorage.setItem('MANAGER_ID', data.manager);
+                                }
+                                onChange(data);
                             }} />
                     </div>
                 </>
