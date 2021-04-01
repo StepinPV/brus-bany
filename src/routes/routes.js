@@ -40,6 +40,7 @@ export default (initModule) => {
     }, {
         id: 'site/doma-iz-brusa',
         path: '/doma-iz-brusa',
+        exact: true,
         component: loadable(() => import('../client/pages/Category')),
         simplePage: true
     }, {
