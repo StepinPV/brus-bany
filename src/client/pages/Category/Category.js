@@ -7,11 +7,10 @@ import CardList from '../../../components/CardList';
 import ProjectCard from '../../../components/ProjectCard';
 import { Link } from '../../../components/Button';
 import Article from '../../components/Article';
-import PhotoCard from '../../../components/PhotoCard';
 import CustomProjectCard from '../../../components/CustomProjectCard';
 import DataSection from '../../components/DataSection';
 import H1Block from '../../../components/H1Block';
-import { getCategory, getProjects, resetData, getPhotos } from './actions';
+import { getCategory, getProjects, resetData } from './actions';
 import filterProjects from './resources/filter';
 import sortProjects from './resources/sort';
 import Filters from './resources/Filters';
@@ -19,6 +18,7 @@ import styles from './Category.module.css';
 import FormBlock from "../../components/FormBlock";
 import Meta from '../../components/Meta';
 import wordByNumber from '../../../utils/wordByNumber';
+import { Pages } from '@constructor-components';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -147,7 +147,7 @@ class Category extends PureComponent {
             name = match.url.split('/')[1];
         }
 
-        return [dispatch(getCategory(name)), dispatch(getProjects(name)), dispatch(getPhotos(name))];
+        return [dispatch(getCategory(name)), dispatch(getProjects(name))];
     }
 
     state = {
@@ -160,7 +160,7 @@ class Category extends PureComponent {
     };
 
     componentDidMount() {
-        const { match, actions, category, projects, photos } = this.props;
+        const { match, actions, category, projects } = this.props;
         const { name } = match.params;
 
         if (!category) {
@@ -169,10 +169,6 @@ class Category extends PureComponent {
 
         if (!projects) {
             actions.getProjects(name);
-        }
-
-        if (!photos) {
-            actions.getPhotos(name);
         }
     }
 
@@ -184,7 +180,6 @@ class Category extends PureComponent {
 
             actions.getCategory(name);
             actions.getProjects(name);
-            actions.getPhotos(name);
         }
     }
 
@@ -334,38 +329,35 @@ class Category extends PureComponent {
     };
 
     renderPhotos = () => {
-        const { photos, category } = this.props;
-        const { filters } = this.state;
+        const { category, pages, pageFolders, staticContext } = this.props;
 
-        if (photos && photos.length) {
-            const filteredPhotos = photos.filter(photo => {
-                const project = photo.projectId;
-                // eslint-disable-next-line
-                return filters.every(filter => eval(filter.condition));
-            });
+        const folderId = {
+            'iz-brusa': '6055e36770dc493b150730c5',
+            'doma-iz-brusa': null, // 60570c7171bbac64991e294a',
+            'karkasnie': '6055e37470dc493b150730c6',
+            'gotovie': '60570c6771bbac64991e2949'
+        }[category.translateName];
 
-            return (
-                <DataSection
-                    bgStyle='grey'
-                    caption='Фотоотчеты'
-                    captionTag='h2'>
-                    <CardList items={(filteredPhotos.length ? filteredPhotos : photos).slice(0, 6).map(photo => ({
-                        id: photo._id,
-                        element: (
-                            <PhotoCard
-                                photo={photo}
-                                category={category}
-                                layout={photo.projectId.layoutId} />
-                        )
-                    }))} />
-                    <div className={styles['photos-button-container']}>
-                        <Link href={`/photos/${category.translateName}`} caption='Смотреть все' />
-                    </div>
-                </DataSection>
-            );
-        }
-
-        return null;
+        return folderId ? (
+            <DataSection
+                captionTag='h2'
+                bgStyle='white'
+                caption='Фотоотчеты'>
+                <Pages
+                    __pages__={pages}
+                    __pageFolders__={pageFolders}
+                    filter='index < 6'
+                    folder={folderId}
+                    paddingBottom='none'
+                    paddingTop='none'
+                    sort='page1[6162] > page2[6162] ? -1 : (page1[6162] === page2[6162] ? 0 : 1)'
+                    staticContext={staticContext}
+                />
+                <div className={styles['button-container']}>
+                    <Link href={`/photos/${category.translateName}`} caption='Смотреть все' />
+                </div>
+            </DataSection>
+        ) : null;
     };
 
     getTitle = () => {
@@ -393,7 +385,6 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getCategory,
             getProjects,
-            getPhotos,
             resetData
         }, dispatch)
     };
@@ -405,9 +396,9 @@ function mapDispatchToProps(dispatch) {
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    const { category, isCategoryFetch, isCategoryError, projects, photos } = state['client-category'];
+    const { category, isCategoryFetch, isCategoryError, projects } = state['client-category'];
 
-    return { category, isCategoryFetch, isCategoryError, projects, photos };
+    return { category, isCategoryFetch, isCategoryError, projects };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Category);

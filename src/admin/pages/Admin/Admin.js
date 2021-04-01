@@ -17,12 +17,7 @@ const tiles = [{
     type: 'link',
     title: 'Проекты',
     link: '/admin/projects'
-}, /*{
-    key: '/admin/photos',
-    type: 'link',
-    title: 'Фотоотчеты',
-    link: '/admin/photos'
-},*/ {
+}, {
     key: '/admin/pages',
     type: 'link',
     title: 'Страницы',

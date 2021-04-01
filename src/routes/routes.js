@@ -44,24 +44,6 @@ export default (initModule) => {
         component: loadable(() => import('../client/pages/Category')),
         simplePage: true
     }, {
-        id: 'site/photos',
-        path: '/photos',
-        exact: true,
-        component: loadable(() => import('../client/pages/Photos')),
-        simplePage: true
-    }, {
-        id: 'site/photos/category',
-        path: '/photos/:name',
-        exact: true,
-        component: loadable(() => import('../client/pages/Photos')),
-        simplePage: true
-    }, {
-        id: 'site/photos/category/project',
-        path: '/photos/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)_:photoId',
-        exact: true,
-        component: loadable(() => import('../client/pages/Photo')),
-        simplePage: true
-    }, {
         id: 'admin',
         path: '/admin',
         exact: true,
@@ -96,16 +78,6 @@ export default (initModule) => {
         path: '/admin/projects/:categoryId/:layoutId',
         exact: true,
         component: loadable(() => import('../admin/pages/Project'))
-    }, {
-        id: 'admin/photos',
-        path: '/admin/photos',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Photos'))
-    }, {
-        id: 'admin/photos',
-        path: '/admin/photos/:categoryId/:id',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Photo'))
     }, {
         id: 'admin/pages',
         path: '/admin/pages',

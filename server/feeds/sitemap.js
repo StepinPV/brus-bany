@@ -2,7 +2,6 @@ const fs = require('fs');
 const logger = require('../logger');
 
 const Categories = require('../controllers/Categories');
-const Photos = require('../controllers/Photos');
 const Projects = require('../controllers/Projects');
 const Pages = require('../controllers/Pages');
 const PageTemplates = require('../controllers/PageTemplates');
@@ -22,7 +21,7 @@ exports.generate = async function () {
         pagesData += `
             <url>
                 <loc>${DOMAIN}${url}</loc>
-                <lastmod>${date.toISOString().split('T')[0]}</lastmod>
+                ${date ? `<lastmod>${date.toISOString().split('T')[0]}</lastmod>` : ''}
                 <changefreq>${changefreq || 'daily'}</changefreq>
                 <priority>${priority || '0.6'}</priority>
             </url>
@@ -48,39 +47,6 @@ exports.generate = async function () {
         };
 
         addFilterPages(category.get('filters'), `${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}`);
-    });
-
-    // photos
-    let lastPhoto;
-    for (let i = 0; i < categories.length; i++) {
-        const {data: photos} = await Photos.getAllForCategory(categories[i].get('_id').toString());
-
-        if (photos && photos.length) {
-            const dates = photos.map(photo => photo.get('updated'));
-            dates.push(categories[i].get('updated'));
-
-            addPages({ url: `/photos/${categories[i].get('translateName')}`, date: getLastDate(dates), changefreq: 'daily', priority: '0.9' });
-        }
-    }
-
-    const {data: photosAll} = await Photos.getAll({withCategory: true, withProject: true, withLayout: true});
-    photosAll.forEach(photo => {
-        const project = photo.get('projectId');
-        const layout = project.get('layoutId');
-        const category = project.get('categoryId');
-
-        const last = getLastDate([category.get('updated'), layout.get('updated'), photo.get('updated')]);
-
-        if (!lastPhoto || lastPhoto < last) {
-            lastPhoto = last;
-        }
-
-        addPages({
-            url: `/photos/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}_${photo.get('_id')}`,
-            date: last,
-            changefreq: 'monthly',
-            priority: '0.7'
-        });
     });
 
     // projects
@@ -121,9 +87,7 @@ exports.generate = async function () {
     }
 
     // main
-    addPages({ url: '/', date: getLastDate([lastPhoto]), changefreq: 'daily', priority: '1.0' });
-    //photos
-    addPages({ url: '/photos', date: lastPhoto, changefreq: 'daily', priority: '0.9' });
+    addPages({ url: '/', changefreq: 'daily', priority: '1.0' });
 
     const data =
         `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">

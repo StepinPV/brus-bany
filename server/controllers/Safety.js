@@ -2,7 +2,6 @@ const Status = require('./Status');
 const Projects = require('./Projects');
 const Layouts = require('./Layouts');
 const Categories = require('./Categories');
-const Photos = require('./Photos');
 
 class Safety {
     static async deleteLayout(id) {
@@ -34,14 +33,6 @@ class Safety {
     };
 
     static async deleteProject(id) {
-        const { data: photos } = await Photos.getAll();
-
-        const photosWithLayout = photos.find(photo => photo.projectId.toString() === id);
-
-        if (photosWithLayout) {
-            return Status.error(`Проект содержит фотографии готового проекта!`);
-        }
-
         await Projects.delete(id);
 
         return Status.success();

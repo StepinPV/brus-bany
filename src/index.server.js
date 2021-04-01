@@ -34,8 +34,6 @@ const render = async (req, res, axiosOptions = {}) => {
 
     let page = null;
     let pageTemplates;
-    let pages;
-    let pageFolders;
 
     if (matchRoute.id === 'page-generator') {
         const pageRes = await axios.get(`/api/pages/${encodeURIComponent(req.path)}`, {
@@ -49,13 +47,6 @@ const render = async (req, res, axiosOptions = {}) => {
             page = pageRes.data.data;
             pageTemplates = pageTemplatesRes.data.data;
         }
-    }
-
-    if (matchRoute.id === 'page-generator' || matchRoute.id === 'site/main') {
-        const pagesRes = await axios.get(`/api/pages`);
-        const pageFoldersRes = await axios.get(`/api/page-folders`);
-        pages = pagesRes.data.data;
-        pageFolders = pageFoldersRes.data.data;
     }
 
     const extractor = new ChunkExtractor({
@@ -88,6 +79,16 @@ const render = async (req, res, axiosOptions = {}) => {
     const cache = createCache();
     const { extractCritical } = createEmotionServer(cache);
 
+    const [
+        pagesRes,
+        pageFoldersRes,
+        customComponentsRes
+    ] = await Promise.all([
+        axios.get(`/api/pages`),
+        axios.get(`/api/page-folders`),
+        axios.get(`/api/components`)
+    ]);
+
     const jsx = extractor.collectChunks(
         <CacheProvider value={cache}>
             <Provider store={store}>
@@ -95,10 +96,10 @@ const render = async (req, res, axiosOptions = {}) => {
                     <App
                         preparedComponents={{ [matchRoute.id]: loadableComponent }}
                         page={page}
-                        customComponents={(await axios.get(`/api/components`)).data.data}
+                        customComponents={customComponentsRes.data.data}
                         pageTemplates={pageTemplates}
-                        pages={pages}
-                        pageFolders={pageFolders}
+                        pages={pagesRes.data.data}
+                        pageFolders={pageFoldersRes.data.data}
                         routes={[matchRoute]} />
                 </StaticRouter>
             </Provider>

@@ -29,7 +29,7 @@ function WhyMe() {
     };
 
     return (
-        <DataSection bgStyle='white' caption='Почему выбирают нас?' captionTag='h2'>
+        <DataSection bgStyle='grey' caption='Почему выбирают нас?' captionTag='h2'>
             <div className={styles.items}>
                 {<Item
                     icon={styles['money-icon']}

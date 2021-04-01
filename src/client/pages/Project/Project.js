@@ -3,17 +3,14 @@ import PropTypes from 'prop-types';
 import loadable from '@loadable/component';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import CardList from '../../../components/CardList';
-import PhotoCard from '../../../components/PhotoCard';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import Additions, { getAdditionsPrice } from './resources/Additions';
 import DeliveryMap from '../../components/DeliveryMap';
 import ProjectBlock from './resources/ProjectBlock';
 import Equipment, { getEquipmentFinalPrice } from './resources/Equipment';
 import Gallery from './resources/Gallery';
-import { getProject, resetData, getPhotos } from './actions';
+import { getProject, resetData } from './actions';
 import styles from './Project.module.css';
-import DataSection from '../../components/DataSection';
 import { Button } from "../../../components/Button";
 import withForm from '../../plugins/Form/withForm';
 import FormBlock from '../../components/FormBlock';
@@ -21,7 +18,7 @@ import numberWithSpaces from '../../../utils/numberWithSpaces';
 import filterObject from '../../../utils/filterObject';
 import Meta from '../../components/Meta';
 import Page from "../../components/Page";
-import { Header, Footer } from '@constructor-components';
+import { Header, Footer, Pages } from '@constructor-components';
 
 function parseQuery(uri) {
     const [, params] = uri.split('?');
@@ -44,7 +41,6 @@ class Project extends PureComponent {
     static propTypes = {
         isProjectError: PropTypes.string,
         project: PropTypes.object,
-        photos: PropTypes.array,
 
         actions: PropTypes.object,
         match: PropTypes.object,
@@ -121,10 +117,7 @@ class Project extends PureComponent {
             categoryName = match.url.split('/')[1];
         }
 
-        return [
-            dispatch(getProject(categoryName, layoutName)),
-            dispatch(getPhotos(categoryName, layoutName))
-        ];
+        return [dispatch(getProject(categoryName, layoutName))];
     }
 
     state = {
@@ -135,7 +128,7 @@ class Project extends PureComponent {
     };
 
     componentDidMount() {
-        const { match, actions, project, photos } = this.props;
+        const { match, actions, project } = this.props;
         let { categoryName, layoutName } = match.params;
 
         if (!project) {
@@ -147,10 +140,6 @@ class Project extends PureComponent {
             }
 
             actions.getProject(categoryName, layoutName);
-        }
-
-        if (!photos) {
-            actions.getPhotos(categoryName, layoutName);
         }
 
         document.addEventListener('keydown', (e) => {
@@ -177,7 +166,6 @@ class Project extends PureComponent {
                 }
 
                 actions.getProject(categoryName, layoutName);
-                actions.getPhotos(categoryName, layoutName);
             }
         }
     }
@@ -234,7 +222,7 @@ class Project extends PureComponent {
     }
 
     renderContent = () => {
-        const { project, photos, match } = this.props;
+        const { project, match, pages, pageFolders, staticContext } = this.props;
         const { breadcrumbs } = this.state;
 
         return project ? (
@@ -258,19 +246,16 @@ class Project extends PureComponent {
                 {this.renderDelivery()}
                 {this.renderAdditions()}
                 {this.renderFinalPrice()}
-                {photos && photos.length ? (
-                    <DataSection bgStyle='white' caption='Фотоотчеты'>
-                        <CardList items={photos.map(photo => ({
-                            id: photo._id,
-                            element: (
-                                <PhotoCard
-                                    photo={photo}
-                                    category={project.categoryId}
-                                    layout={photo.projectId.layoutId} />
-                            )
-                        }))} />
-                    </DataSection>
-                ) : null}
+                <Pages
+                    __pages__={pages}
+                    __pageFolders__={pageFolders}
+                    filter='page[3596] === location.pathname'
+                    folder='6055baddd48653323019b6aa'
+                    paddingBottom='none'
+                    paddingTop='none'
+                    sort='page1[3596] > page2[6162] ? -1 : (page1[6162] === page2[6162] ? 0 : 1)'
+                    staticContext={staticContext}
+                />
                 <FormBlock source={match.url} />
             </div>
         ) : null;
@@ -709,31 +694,20 @@ class Project extends PureComponent {
     };
 }
 
-/**
- * mapDispatchToProps
- * @param {*} dispatch
- * @returns {Object}
- */
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getProject,
-            getPhotos,
             resetData
         }, dispatch),
         dispatch
     };
 }
 
-/**
- * mapStateToProps
- * @param {*} state
- * @returns {Object}
- */
 function mapStateToProps(state) {
-    const { isProjectError, project, photos } = state['client-project'];
+    const { isProjectError, project } = state['client-project'];
 
-    return { isProjectError, project, photos };
+    return { isProjectError, project };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withForm(Project));

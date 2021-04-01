@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useLocation } from 'react-router';
 import PropTypes from "prop-types";
 import * as components from '@constructor-components';
 import { css } from '@emotion/core';
@@ -52,6 +53,9 @@ function renderNotFound() {
 }
 
 function Pages(props) {
+    // Для фильтра
+    const location = useLocation();
+
     if (!props.folder) {
         return renderNotFound();
     }
@@ -113,21 +117,36 @@ function Pages(props) {
         }
     }
 
+    const convertFieldsToValues = (fields) => {
+        return Object.keys(fields).reduce((values, id) => {
+            switch(fields[id].type) {
+                case 'date':
+                    values[id] = new Date(fields[id].value);
+                    break;
+                default:
+                    values[id] = fields[id].value;
+            }
+
+            return values;
+        }, {});
+    }
+
+    if (props.filter) {
+        pages = pages.filter((p, index) => {
+            // eslint-disable-next-line
+            const length = pages.length;
+            // eslint-disable-next-line
+            const page = convertFieldsToValues(getPageFields(p, folderForViewed));
+
+            try {
+                return eval(props.filter);
+            } catch(err) {
+                return true;
+            }
+        });
+    }
+
     if (props.sort) {
-        const convertFieldsToValues = (fields) => {
-            return Object.keys(fields).reduce((values, id) => {
-                switch(fields[id].type) {
-                    case 'date':
-                        values[id] = new Date(fields[id].value);
-                        break;
-                    default:
-                        values[id] = fields[id].value;
-                }
-
-                return values;
-            }, {});
-        }
-
         pages = pages.sort((p1, p2) => {
             // TODO Вот здесь нужно собирать поля не только папки, которая имеет отображение, а всех по цепочке
             // eslint-disable-next-line
@@ -138,18 +157,6 @@ function Pages(props) {
                 return eval(props.sort);
             } catch(err) {
                 return 0;
-            }
-        });
-    }
-
-    if (props.filter) {
-        pages = pages.filter((page, index) => {
-            // eslint-disable-next-line
-            const length = pages.length;
-            try {
-                return eval(props.filter);
-            } catch(err) {
-                return true;
             }
         });
     }
@@ -165,9 +172,12 @@ function Pages(props) {
             }
         });
 
-        if (!props.staticContext.data.pageFolders.find((f => f['_id'] === folder['_id']))) {
-            props.staticContext.data.pageFolders.push(folder);
-        }
+        allFolders.forEach(folderId => {
+            const folder = props['__pageFolders__'].find(folder => folder['_id'] === folderId);
+            if (!props.staticContext.data.pageFolders.find((f => f['_id'] === folder['_id']))) {
+                props.staticContext.data.pageFolders.push(folder);
+            }
+        });
     }
 
     return (
