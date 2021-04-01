@@ -21,6 +21,10 @@ export const props = [{
     _id: 'filter',
     title: 'Фильтр',
     type: 'string'
+}, {
+    _id: 'maxCount',
+    title: 'Максимальное количество элементов',
+    type: 'integer number'
 }];
 export const name = 'Список страниц';
 export const key = 'Pages';

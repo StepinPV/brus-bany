@@ -34,6 +34,7 @@ export default memo(function({ customComponents, staticContext, pages, pageFolde
                     __pages__={pages}
                     __pageFolders__={pageFolders}
                     filter='index < 6'
+                    maxCount={6}
                     folder='6055baddd48653323019b6aa'
                     paddingBottom='none'
                     paddingTop='none'
@@ -53,7 +54,7 @@ export default memo(function({ customComponents, staticContext, pages, pageFolde
                 <Pages
                     __pages__={pages}
                     __pageFolders__={pageFolders}
-                    filter='index < 6'
+                    maxCount={6}
                     folder='5f3afaae19c6b22d24b5d0a5'
                     paddingBottom='none'
                     paddingTop='none'

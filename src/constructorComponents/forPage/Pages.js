@@ -132,9 +132,7 @@ function Pages(props) {
     }
 
     if (props.filter) {
-        pages = pages.filter((p, index) => {
-            // eslint-disable-next-line
-            const length = pages.length;
+        pages = pages.filter((p) => {
             // eslint-disable-next-line
             const page = convertFieldsToValues(getPageFields(p, folderForViewed));
 
@@ -159,6 +157,10 @@ function Pages(props) {
                 return 0;
             }
         });
+    }
+
+    if (props.maxCount) {
+        pages = pages.slice(0, props.maxCount);
     }
 
     if (props.staticContext) {
@@ -220,6 +222,7 @@ Pages.propTypes = {
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     folder: PropTypes.string,
     filter: PropTypes.string,
+    maxCount: PropTypes.number,
     sort: PropTypes.string
 };
 

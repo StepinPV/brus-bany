@@ -346,7 +346,7 @@ class Category extends PureComponent {
                 <Pages
                     __pages__={pages}
                     __pageFolders__={pageFolders}
-                    filter='index < 6'
+                    maxCount={6}
                     folder={folderId}
                     paddingBottom='none'
                     paddingTop='none'
