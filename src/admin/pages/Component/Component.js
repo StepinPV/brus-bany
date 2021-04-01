@@ -192,7 +192,7 @@ class Component extends PureComponent {
         const { addComponentPosition } = this.state;
 
         const addComponent = (componentId, props) => {
-            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+            const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
             this.setConfig({
                 componentsData: {
                     ...data.config.componentsData,
@@ -244,7 +244,7 @@ class Component extends PureComponent {
                             this.setState({ operations: {} });
                         } : null,
                         clone: () => {
-                            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+                            const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
                             this.setConfig({
                                 componentsData: {
                                     ...data.config.componentsData,

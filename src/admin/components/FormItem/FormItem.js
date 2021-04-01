@@ -110,7 +110,7 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         onChange={val => {
                             if (item.props && item.props.globalStore) {
                                 if (val) {
-                                    const imageId = Math.floor(Math.random() * (9999 - 1000) + 1000);
+                                    const imageId = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
 
                                     onChange(imageId, null, {
                                         ...images,

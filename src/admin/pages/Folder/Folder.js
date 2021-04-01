@@ -158,7 +158,7 @@ class Folder extends PureComponent {
                                     newData['page-fields'] = newData['page-fields'].map((item) => {
                                         return item.id ? item : {
                                             ...item,
-                                            id: Math.floor(Math.random() * (9999 - 1000) + 1000)
+                                            id: Math.floor(Math.random() * (99999999 - 10000000) + 10000000)
                                         }
                                     });
                                 }
@@ -213,7 +213,7 @@ class Folder extends PureComponent {
         const { addComponentPosition } = this.state;
 
         const addComponent = (componentId, props) => {
-            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+            const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
             this.setConfig({
                 componentsData: {
                     ...data.pageViewConfig.componentsData,
@@ -265,7 +265,7 @@ class Folder extends PureComponent {
                             this.setState({ operations: {} });
                         } : null,
                         clone: () => {
-                            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+                            const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
                             this.setConfig({
                                 componentsData: {
                                     ...data.pageViewConfig.componentsData,

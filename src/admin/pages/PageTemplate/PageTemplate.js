@@ -136,7 +136,7 @@ class PageTemplate extends PureComponent {
                                     newData['page-fields'] = newData['page-fields'].map((item) => {
                                         return item.id ? item : {
                                             ...item,
-                                            id: Math.floor(Math.random() * (9999 - 1000) + 1000)
+                                            id: Math.floor(Math.random() * (99999999 - 10000000) + 10000000)
                                         }
                                     });
                                 }
@@ -302,7 +302,7 @@ class PageTemplate extends PureComponent {
         const addComponent = (componentId, props) => {
             this.setOpenedPanel(null);
 
-            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+            const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
             const newComponentData = { componentId, props };
             const newComponentsData = {
                 ...data.config.componentsData,
@@ -330,7 +330,7 @@ class PageTemplate extends PureComponent {
                 onSelect={addComponent}
                 hasCustomComponents
                 additions={addComponentPosition !== 'header' && addComponentPosition !== 'footer' ? [{
-                    key: `__content__(${Math.floor(Math.random() * (9999 - 1000) + 1000)})`,
+                    key: `__content__(${Math.floor(Math.random() * (99999999 - 10000000) + 10000000)})`,
                     name: 'Контентная область'
                 }] : null}
             />
@@ -393,7 +393,7 @@ class PageTemplate extends PureComponent {
                             this.setState({ operations: {} });
                         } : null,
                         clone: () => {
-                            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+                            const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
                             this.setConfig({
                                 componentsData: {
                                     ...data.config.componentsData,

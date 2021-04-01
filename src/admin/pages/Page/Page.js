@@ -562,7 +562,7 @@ class Page extends PureComponent {
         const addComponent = (componentId, props) => {
             this.setOpenedPanel(null);
 
-            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+            const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
             const newComponentData = { componentId, props };
             const newComponentsData = {
                 ...page.config.componentsData,
@@ -641,7 +641,7 @@ class Page extends PureComponent {
                             this.setState({ operations: {} });
                         } : null,
                         clone: () => {
-                            const id = Math.floor(Math.random() * (9999 - 1000) + 1000);
+                            const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
                             this.setConfig({
                                 componentsData: {
                                     ...page.config.componentsData,
