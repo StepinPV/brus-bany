@@ -32,23 +32,6 @@ const render = async (req, res, axiosOptions = {}) => {
 
     const loadableComponent = matchRoute.component;
 
-    let page = null;
-    let pageTemplates;
-
-    if (matchRoute.id === 'page-generator') {
-        const pageRes = await axios.get(`/api/pages/${encodeURIComponent(req.path)}`, {
-            params: {
-                byUrl: true
-            }
-        });
-
-        const pageTemplatesRes = await axios.get(`/api/page-templates`);
-        if (pageRes.data && pageRes.data.status === 'success' && pageRes.data.data) {
-            page = pageRes.data.data;
-            pageTemplates = pageTemplatesRes.data.data;
-        }
-    }
-
     const extractor = new ChunkExtractor({
         statsFile: path.resolve('public/mstatic/build/loadable-stats.json')
     });
@@ -79,15 +62,26 @@ const render = async (req, res, axiosOptions = {}) => {
     const cache = createCache();
     const { extractCritical } = createEmotionServer(cache);
 
-    const [
-        pagesRes,
-        pageFoldersRes,
-        customComponentsRes
-    ] = await Promise.all([
+    const promises = [
         axios.get(`/api/pages`),
         axios.get(`/api/page-folders`),
         axios.get(`/api/components`)
-    ]);
+    ];
+
+    if (matchRoute.id === 'page-generator') {
+        promises.push(
+            axios.get(`/api/pages/${encodeURIComponent(req.path)}`, { params: { byUrl: true } }),
+            axios.get(`/api/page-templates`)
+        );
+    }
+
+    const [
+        pagesRes,
+        pageFoldersRes,
+        customComponentsRes,
+        pageRes,
+        pageTemplatesRes
+    ] = await Promise.all(promises);
 
     const jsx = extractor.collectChunks(
         <CacheProvider value={cache}>
@@ -95,9 +89,9 @@ const render = async (req, res, axiosOptions = {}) => {
                 <StaticRouter location={req.url} context={context}>
                     <App
                         preparedComponents={{ [matchRoute.id]: loadableComponent }}
-                        page={page}
+                        page={pageRes ? pageRes.data.data : null}
                         customComponents={customComponentsRes.data.data}
-                        pageTemplates={pageTemplates}
+                        pageTemplates={pageTemplatesRes ? pageTemplatesRes.data.data : null}
                         pages={pagesRes.data.data}
                         pageFolders={pageFoldersRes.data.data}
                         routes={[matchRoute]} />
