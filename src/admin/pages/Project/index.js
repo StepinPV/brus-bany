@@ -4,8 +4,7 @@ import reducer, { initialState } from './reducer';
 export const info = {
     id: 'admin-project',
     reducer,
-    initialState,
-    initialAction: init
+    initialState
 };
 
 export default Project;
