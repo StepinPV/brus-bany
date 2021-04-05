@@ -50,7 +50,10 @@ const IMAGES_DATA = [{
     title: 'Вид сзади'
 }, {
     key: 'layout',
-    title: 'Планировка'
+    title: 'Планировка',
+    props: {
+        withoutLogo: true
+    }
 }, {
     key: 'card',
     title: 'Для карточки',
