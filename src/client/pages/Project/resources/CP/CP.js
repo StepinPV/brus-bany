@@ -40,6 +40,9 @@ const format = [{
     }, {
         id: '4',
         title: 'Марина Ланская'
+    }, {
+        id: '5',
+        title: 'Елена Давыдова'
     }]
 }, {
     _id: 'images',
@@ -170,6 +173,7 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
                 2: 'Константинъ',
                 3: 'Вера',
                 4: 'Марина Ланская',
+                5: 'Елена Давыдова'
             }[formValue.manager];
 
             if (manager) {
