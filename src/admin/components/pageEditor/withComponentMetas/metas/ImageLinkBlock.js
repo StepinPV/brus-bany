@@ -5,7 +5,7 @@ export const props = [{
     type: 'image',
     props: {
         withoutLogo: true,
-        width: 400,
+        width: 800,
         globalStore: true
     }
 }, {

@@ -27,6 +27,9 @@ const Container = styled.div`
 const Image = styled.img`
     display: block;
     max-width: 100%;
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
     @media (min-width: 401px) {
         margin: 0 16px 0 0;
     }

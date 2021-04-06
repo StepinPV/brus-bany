@@ -1,4 +1,5 @@
 import * as Banner from './Banner';
+import * as Banner2 from './Banner2';
 import * as Breadcrumbs from './Breadcrumbs';
 import * as Button from './Button';
 import * as Caption from './Caption';
@@ -7,6 +8,7 @@ import * as Footer from './Footer';
 import * as Header from './Header';
 import * as FormBlock from './FormBlock';
 import * as ImageLinkBlock from './ImageLinkBlock';
+import * as ImageLinkBlocks from './ImageLinkBlocks';
 import * as List from './List';
 import * as QuestionAnswer from './QuestionAnswer';
 import * as Quiz from './Quiz';
@@ -20,7 +22,7 @@ import * as Iframe from './Iframe';
 import * as Links from './Links';
 
 export default {
-    Caption, Text, Button, List, Breadcrumbs, Banner, QuestionAnswer, ImageLinkBlock, Image,
-    Header, Footer, Contacts, FormBlock, Quiz, Pages, ButtonsForCard, SocialShare, ImageTiles,
+    Caption, Text, Button, List, Breadcrumbs, Banner, Banner2, QuestionAnswer, ImageLinkBlock, ImageLinkBlocks,
+    Image, Header, Footer, Contacts, FormBlock, Quiz, Pages, ButtonsForCard, SocialShare, ImageTiles,
     Iframe, Links
 }

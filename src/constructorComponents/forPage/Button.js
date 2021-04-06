@@ -5,12 +5,12 @@ import styled from '@emotion/styled';
 import { applyFields } from '../helpers';
 
 const Container = styled.div`
-    width: 100%;
-    margin: 0 auto;
     box-sizing: border-box;
     display: flex;
     
     ${props => css`
+        width: ${props.styles.stretch ? '100%' : ''};
+        margin: ${props.styles.stretch ? '0 auto' : ''};
         max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
         padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
@@ -70,7 +70,8 @@ function Button(props) {
                 paddingTop: props.paddingTop,
                 paddingBottom: props.paddingBottom,
                 paddingLeft: props.paddingLeft,
-                paddingRight: props.paddingRight
+                paddingRight: props.paddingRight,
+                stretch: props.stretch,
             }}>
             <Content
                 dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.caption) }}
@@ -102,7 +103,8 @@ Button.propTypes = {
     caption: PropTypes.string,
     href: PropTypes.string,
     id: PropTypes.string,
-    type: PropTypes.oneOf(['a', 'button']).isRequired
+    type: PropTypes.oneOf(['a', 'button']).isRequired,
+    stretch: PropTypes.bool
 };
 
 Button.defaultProps = {
@@ -117,7 +119,8 @@ Button.defaultProps = {
     download: false,
     targetBlank: false,
     noOpener: false,
-    type: 'a'
+    type: 'a',
+    stretch: true
 };
 
 export default memo(Button);
