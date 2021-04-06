@@ -6,6 +6,7 @@ import * as components from '@constructor-components';
 import { ThemeProvider } from 'emotion-theming';
 import theme from '@constructor-components/theme';
 import { applyFields } from '@constructor-components/helpers';
+import styles from '../../components/Page/Page.module.css';
 
 class CustomPage extends PureComponent {
     static propTypes = {
@@ -76,6 +77,13 @@ class CustomPage extends PureComponent {
                     <>
                         {this.renderMeta()}
                         {this.renderPageContent()}
+                        <a
+                            href='https://api.whatsapp.com/send?phone=79210290107'
+                            title='Перейти в WatsApp'
+                            target='_blank'
+                            rel="noopener noreferrer">
+                            <i className={styles['whats-app']} />
+                        </a>
                     </>
                 </PageRender>
             </ThemeProvider>
