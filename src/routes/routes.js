@@ -16,13 +16,13 @@ export default (initModule) => {
         return baseLoadable(func);
     };
 
-    return [{
+    return [/*{
         id: 'site/main',
         path: '/',
         exact: true,
         component: loadable(() => import('../client/pages/Main')),
         simplePage: true
-    }, {
+    },*/ {
         id: 'site/bani/category/project',
         path: '/bani/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
         exact: true,
