@@ -25,6 +25,7 @@ export const ImageTiles = loadable(() => import('./forPage/ImageTiles'));
 export const Iframe = loadable(() => import('./forPage/Iframe'));
 export const Links = loadable(() => import('./forPage/Links'));
 export const HowWork = loadable(() => import('./forPage/HowWork'));
+export const WhyMe = loadable(() => import('./forPage/WhyMe'));
 
 export const ButtonsForCard = loadable(() => import('./forCard/Buttons'));
 

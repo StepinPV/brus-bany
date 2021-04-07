@@ -2,12 +2,11 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { Text } from '../index';
+import { Text, Caption } from '../index';
 
-import call from '../images/call.svg';
-import calc from '../images/calc.svg';
-import dogovor from '../images/dogovor.svg';
-import arrow from '../images/arrow.svg';
+import caska from '../images/caska.svg';
+import galka from '../images/galka.svg';
+import money from '../images/money.svg';
 
 const Container = styled.div`
     margin: 0 auto;
@@ -24,7 +23,7 @@ const Container = styled.div`
         padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
     `}
-   
+    
     @media (max-width: 640px) {
         flex-direction: column;
     }
@@ -42,35 +41,24 @@ const Item = styled.div`
 `;
 
 const Icon = styled.i`
-    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     width: 100px;
     height: 100px;
 `;
 
-const ArrowIcon = styled.i`
-    background-image: url('${arrow}');
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 60px;
-    height: 30px;
-    flex-shrink: 0;
-    
-    @media (max-width: 640px) {
-        transform: rotate(90deg);
-    }
-`;
-
 const items = [{
-    icon: call,
-    text: 'Позвоните нам<br><a href="tel:88002010729" style="color:#91001d;text-decoration:none;font-weight:bold">8&nbsp;(800)&nbsp;201-07-29</a><br>или <a href="#requestForm" style="color:#013885;font-weight:bold;cursor:pointer">оставьте заявку</a>'
+    icon: money,
+    caption: 'Работаем без предоплаты',
+    text: 'Оплата производится после успешной сдачи объекта. Более подробная информация в <a href="/usloviya-oplaty" style="color:#013885;font-weight:bold;text-decoration:none">условиях оплаты</a>'
 }, {
-    icon: calc,
-    text: 'Подберем оптимальный вариант бани, рассчитаем стоимость и пришлем подробную смету'
+    icon: caska,
+    caption: 'Построили более 350 объектов',
+    text: 'Накопили достаточно опыта, чтобы построить объект любой сложности, <a href="/photos" style="color:#013885;font-weight:bold;text-decoration:none">убедитесь сами</a>'
 }, {
-    icon: dogovor,
-    text: '<a href="/documents/dogovor.docx" download="" style="color:#013885;text-decoration:none;font-weight:bold;cursor:pointer">Заключим договор</a>, приступим к строительству бани или привезем уже готовую'
+    icon: galka,
+    caption: 'Гарантия качества',
+    text: 'Строим строго по <a href="/gosty-i-snipy" style="color:#013885;font-weight:bold;text-decoration:none">ГОСТу</a>. По договору обслуживаем постройку в течение 2-х лет'
 }];
 
 function FormBlock(props) {
@@ -85,16 +73,21 @@ function FormBlock(props) {
                     <>
                         <Item>
                             <Icon style={{ backgroundImage: `url('${item.icon}')` }} />
-                            <Text
+                            <Caption
                                 paddingTop='s'
+                                paddingBottom='s'
+                                size='s'
+                                align='center'>
+                                {item.caption}
+                            </Caption>
+                            <Text
+                                paddingTop='none'
                                 paddingBottom='none'
-                                align='center'
-                            >{item.text}
+                                size='m'
+                                align='center'>
+                                {item.text}
                             </Text>
                         </Item>
-                        {index !== items.length - 1 ? (
-                            <ArrowIcon />
-                        ) : null}
                     </>
                 );
             })}

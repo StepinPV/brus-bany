@@ -21,9 +21,10 @@ import * as ImageTiles from './ImageTiles';
 import * as Iframe from './Iframe';
 import * as Links from './Links';
 import * as HowWork from './HowWork';
+import * as WhyMe from './WhyMe';
 
 export default {
     Caption, Text, Button, List, Breadcrumbs, Banner, Banner2, QuestionAnswer, ImageLinkBlock, ImageLinkBlocks,
     Image, Header, Footer, Contacts, FormBlock, Quiz, Pages, ButtonsForCard, SocialShare, ImageTiles,
-    Iframe, Links, HowWork
+    Iframe, Links, HowWork, WhyMe
 }
