@@ -16,13 +16,7 @@ export default (initModule) => {
         return baseLoadable(func);
     };
 
-    return [/*{
-        id: 'site/main',
-        path: '/',
-        exact: true,
-        component: loadable(() => import('../client/pages/Main')),
-        simplePage: true
-    },*/ {
+    return [{
         id: 'site/bani/category/project',
         path: '/bani/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
         exact: true,
