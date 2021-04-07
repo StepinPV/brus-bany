@@ -31,7 +31,7 @@ exports.generate = async function () {
     // categories
     const {data: categories} = await Categories.getAll();
     categories.forEach(category => {
-        addPages({ url: ``, date: category.get('updated'), changefreq: 'daily', priority: '0.9' });
+        addPages({ url: `${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' });
 
         let addFilterPages = (filterGroups, href) => {
             if (filterGroups && filterGroups.length) {
