@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 const Container = styled.div`
     width: 1200px;
     max-width: 100%;
-    margin: 0 auto 32px;
+    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

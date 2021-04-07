@@ -13,12 +13,11 @@ const Container = styled.div`
     max-width: 1200px;
     width: 100%;
     box-sizing: border-box;
-    margin: 0 auto;
     padding-left: 16px;
     padding-right: 16px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     ${props => css`
         padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
@@ -32,6 +31,7 @@ const Container = styled.div`
 const Item = styled.div`
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     align-items: center;
     margin: 16px;
     width: 300px;
@@ -57,7 +57,7 @@ const items = [{
     text: 'Накопили достаточно опыта, чтобы построить объект любой сложности, <a href="/photos" style="color:#013885;font-weight:bold;text-decoration:none">убедитесь сами</a>'
 }, {
     icon: galka,
-    caption: 'Гарантия качества',
+    caption: 'Гарантия<br/>качества',
     text: 'Строим строго по <a href="/gosty-i-snipy" style="color:#013885;font-weight:bold;text-decoration:none">ГОСТу</a>. По договору обслуживаем постройку в течение 2-х лет'
 }];
 
