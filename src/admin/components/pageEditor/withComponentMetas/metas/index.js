@@ -20,9 +20,10 @@ import * as SocialShare from './SocialShare';
 import * as ImageTiles from './ImageTiles';
 import * as Iframe from './Iframe';
 import * as Links from './Links';
+import * as HowWork from './HowWork';
 
 export default {
     Caption, Text, Button, List, Breadcrumbs, Banner, Banner2, QuestionAnswer, ImageLinkBlock, ImageLinkBlocks,
     Image, Header, Footer, Contacts, FormBlock, Quiz, Pages, ButtonsForCard, SocialShare, ImageTiles,
-    Iframe, Links
+    Iframe, Links, HowWork
 }

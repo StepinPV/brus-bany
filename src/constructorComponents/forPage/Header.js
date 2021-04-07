@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from '../index';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import logo from '../logo.svg';
+import logo from '../images/logo.svg';
 
 const HeaderElement = styled.header`
     width: 100%;
