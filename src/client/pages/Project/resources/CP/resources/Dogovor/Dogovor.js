@@ -1394,16 +1394,16 @@ const renderTZ = (project, formValue, data, finalPrice, projectName, hasAddBlock
                 </>
             ) : null}
             <br/>
-            <div style={{ textAlign: 'center', fontStyle: 'italic', marginBottom: '4px' }}>Схема</div>
+            <div style={{ textAlign: 'center', fontStyle: 'italic' }}>Схема</div>
             <img src={formValue.images['scheme']} style={{ width: '100%' }} />
-            <br/>
-            <div style={{ textAlign: 'center', fontStyle: 'italic', marginBottom: '4px' }}>Визуализация</div>
+            <br/><br/>
+            <div style={{ textAlign: 'center', fontStyle: 'italic' }}>Визуализация</div>
             <img src={formValue.images['other'][0].image} style={{ width: '100%' }} />
             {formValue.images['forTZ'] && formValue.images['forTZ'].length ? (
                 formValue.images['forTZ'].map(({ comment, image }) => (
                     <>
-                        <br/>
-                        <div style={{ textAlign: 'center', fontStyle: 'italic', marginBottom: '4px' }}>{comment}</div>
+                        <br/><br/>
+                        <div style={{ textAlign: 'center', fontStyle: 'italic' }}>{comment}</div>
                         <img src={image} style={{ width: '100%' }} />
                     </>
                 ))
