@@ -142,7 +142,7 @@ function renderProjectBlock(projectBlock, project, data, withPrice, hideFund) {
     return hideFund && selectedId === '5e1735a1c2db2613e7e3efc6' || selectedId === '5e80fbecf68b012247c5f037' ? null : (
         <>
             <b>{projectBlock.itemTitle}</b>
-            <div>{item.name}{ item.title}{ withPrice ? ` ${numberWithSpaces(price)} рублей` : null}</div>
+            <div>{eval("eval(`'" + item.name + "'`)")} {item.title}{ withPrice ? ` ${numberWithSpaces(price)} рублей` : null}</div>
         </>
     );
 }
@@ -328,7 +328,7 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
                     return (
                         <Fragment key={projectBlock._id}>
                             <b>{projectBlock.itemTitle}</b>
-                            <div>{item.name} {numberWithSpaces(price)} рублей</div>
+                            <div>{eval("eval(`'" + item.name + "'`)")} {numberWithSpaces(price)} рублей</div>
                             <div>Примечание: по фундаменту заключается отдельный договор</div>
                         </Fragment>
                     );
@@ -460,7 +460,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, project, formValue, data, 
                         2.3 Цена Договора остается неизменной в течение всего срока действия данного Договора.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
-                        2.4 Срок поставки Бани {renderDate(new Date(formValue.projectDate))}, по согласованию с заказчиком.
+                        2.4 Ориентировочный срок поставки Бани {renderDate(new Date(formValue.projectDate))} , по согласованию с заказчиком.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
                         2.5 Авансирование Продавцу подлежащей поставке Бане не предусматривается.
@@ -768,7 +768,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                         2.1 Подрядчик обязуется:
                     </div>
                     <div style={{ textAlign: 'justify' }}>
-                        2.1.1 Скомплектовать и доставить составные части и комплектующие Изделия:
+                        2.1.1 Скомплектовать и доставить составные части и комплектующие Изделия: ориентировочно
                         {' '}{renderDate(new Date(formValue.projectDate))}, по согласованию с заказчиком
                     </div>
                     <div style={{ textAlign: 'justify' }}>

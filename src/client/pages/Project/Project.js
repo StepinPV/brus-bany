@@ -621,6 +621,10 @@ class Project extends PureComponent {
                 }}
                 getSecondButtonTitle={(item) => {
                     return `${numberWithSpaces(eval(item.price), '&nbsp;')}&nbsp;руб`
+                }}
+                getName={(item) => {
+                    const { layoutId: params } = project;
+                    return eval("eval(`'" + item.name + "'`)");
                 }} />
         );
     };

@@ -5,7 +5,7 @@ import styles from './ProjectBlock.module.css';
 
 import cx from "classnames";
 
-function ProjectBlock({ idField='id', selectedId, onChange, name, description, items, itemTitle, itemButtonTitle, required, getSecondButtonTitle }) {
+function ProjectBlock({ idField='id', selectedId, onChange, name, description, items, itemTitle, itemButtonTitle, required, getSecondButtonTitle, getName }) {
     return (
         <DataSection bgStyle='white' caption={name} captionTag='h2' description={description} isDescriptionHTML>
             <div className={styles.items}>
@@ -31,7 +31,7 @@ function ProjectBlock({ idField='id', selectedId, onChange, name, description, i
                             content={(
                                 <div className={styles['bake-info']}>
                                     <div className={styles['bake-title']}>{item.title}</div>
-                                    <div className={styles['bake-name']}>{item.name}</div>
+                                    <div className={styles['bake-name']}>{getName ? getName(item) : item.name}</div>
                                     <div className={styles['bake-params']} dangerouslySetInnerHTML={{ __html: item.description }} />
                                 </div>
                             )}
