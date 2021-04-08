@@ -61,6 +61,19 @@ const format = [{
             title: 'Главное изображение',
             type: 'image'
         }]
+    }, {
+        _id: 'forTZ',
+        title: 'Дополнительные изображения в ТЗ',
+        type: 'array',
+        format: [{
+            _id: 'comment',
+            title: 'Комментарий к изображению',
+            type: 'string'
+        }, {
+            _id: 'image',
+            title: 'Изображение',
+            type: 'image'
+        }]
     }]
 }, {
     _id: 'additionalData',

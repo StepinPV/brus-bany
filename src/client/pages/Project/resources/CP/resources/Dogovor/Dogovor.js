@@ -181,6 +181,17 @@ function renderAdditions(project, data, additions, withPrice) {
         </>
     );
 }
+
+function renderAdditionalFormData(formValue, withPrice) {
+    return (
+        <>
+            {formValue.additionalData.map(addition => {
+                return <div key={addition.caption}>{addition.caption} {withPrice && addition.price ? ` ${numberWithSpaces(addition.price)} рублей` : null}</div>
+            })}
+        </>
+    )
+}
+
 function getCustomAdditionsPrice(formValue) {
     let price = 0;
 
@@ -297,13 +308,7 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
                     <div>{data.delivery.address} ({data.delivery.length} км) {numberWithSpaces(data.delivery.price)} рублей</div>
                 </>
             ) : null}
-            {formValue && formValue.additionalData && formValue.additionalData.length ? (
-                <>
-                    {formValue.additionalData.map(addition => {
-                        return <div key={addition.caption}>{addition.caption} {addition.price ? ` ${numberWithSpaces(addition.price)} рублей` : null}</div>
-                    })}
-                </>
-            ) : null}
+            {formValue && formValue.additionalData && formValue.additionalData.length ? renderAdditionalFormData(formValue, true) : null}
             <b>Итоговая стоимость: {numberWithSpaces(getFinalPrice(finalPrice, data, categoryId, project) + getCustomAdditionsPrice(formValue))} рублей</b>
             <br/><br/>
             {data.blocks && (data.blocks['5e1735a1c2db2613e7e3efc4'] || data.blocks['5e1745154dcf9f17f9860182'] || data.blocks['5f8725d48cd7e62aba44c521']) ? categoryId.projectBlocks.map(projectBlock => {
@@ -332,7 +337,7 @@ const renderProtocol = (project, formValue, finalPrice, categoryId, data) => {
         </div>
     )
 }
-const renderSpecification = (projectName, project, categoryId, data) => {
+const renderSpecification = (projectName, project, formValue, categoryId, data) => {
     return (
         <>
             <h3 style={{ textAlign: 'center' }}>СПЕЦИФИКАЦИЯ</h3>
@@ -344,6 +349,7 @@ const renderSpecification = (projectName, project, categoryId, data) => {
             }) : null}
             {categoryId.baseEquipment && categoryId.baseEquipment.length ? renderBaseEquipment(project, data, categoryId.baseEquipment) : null}
             {data.additions && project.categoryId.additions ? <>{renderAdditions(project, data, project.categoryId.additions)}</> : null}
+            {formValue && formValue.additionalData && formValue.additionalData.length ? renderAdditionalFormData(formValue, false) : null}
         </>
     )
 }
@@ -667,7 +673,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, project, formValue, data, 
                         Приложение №1 к {data.additions && data.additions['5eefcee55ec46c7ee0c91aaa'] ? 'к договору на выполнение подрядных работ' : 'договору купли-продажи'} № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
                     </div>
                     <br/><br/>
-                    {renderSpecification(projectName, project, categoryId, data)}
+                    {renderSpecification(projectName, project, formValue, categoryId, data)}
                     <br/>
                     <div style={{ textAlign: 'justify' }}>
                         Допускается стыковка: брус по всему периметру стен, вагонка по каждой стене и потолку в отдельно взятом
@@ -1284,7 +1290,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                         Приложение №1 к договору на выполнение подрядных работ № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
                     </div>
                     <br/><br/>
-                    {renderSpecification(projectName.replace('Каркасная баня', 'Каркасное изделие').replace('Баня', 'Изделие'), project, categoryId, data)}
+                    {renderSpecification(projectName.replace('Каркасная баня', 'Каркасное изделие').replace('Баня', 'Изделие'), project, formValue, categoryId, data)}
                     <br/>
                     <div style={{ textAlign: 'justify' }}>
                         Допускается стыковка: брус по всему периметру стен, вагонка по каждой стене и потолку в отдельно взятом
@@ -1376,10 +1382,8 @@ const renderTZ = (project, formValue, data, finalPrice, projectName, hasAddBlock
             <br/>
             <div>{formValue.client.name}, {formValue.client.phone}, {renderDate(new Date(formValue.projectDate))}, {data.delivery ? `${data.delivery.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : ''}</div>
             <br/>
-            {renderProtocol(project, formValue, finalPrice, categoryId, data)}
             <br/>
-            <br/>
-            {renderSpecification(projectName, project, categoryId, data)}
+            {renderSpecification(projectName, project, formValue, categoryId, data)}
             {hasAddBlock ? (
                 <>
                     <br/>
@@ -1389,7 +1393,17 @@ const renderTZ = (project, formValue, data, finalPrice, projectName, hasAddBlock
                     </div>
                 </>
             ) : null}
+            <br/>
             <img src={formValue.images['scheme']} style={{ width: '100%' }} />
+            {formValue.images['forTZ'] && formValue.images['forTZ'].length ? (
+                formValue.images['forTZ'].map(({ comment, image }) => (
+                    <>
+                        <br/>
+                        <div style={{ textAlign: 'center', fontStyle: 'italic', marginBottom: '4px' }}>{comment}</div>
+                        <img src={image} style={{ width: '100%' }} />
+                    </>
+                ))
+            ) : null}
         </div>
     )
 }
