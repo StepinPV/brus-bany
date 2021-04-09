@@ -35,7 +35,7 @@ function ImageTiles(props) {
             background={props.containerBackground}>
             <Container>
                 {props.images ? props.images.map(({ src, alt }) => (
-                    <Item src={props.__images__[src]} alt={alt} loading='lazy' />
+                    <Item key={src} src={props.__images__[src]} alt={alt} loading='lazy' />
                 )) : null}
             </Container>
         </ContainerComponent>

@@ -100,7 +100,7 @@ Banner.propTypes = {
     text: PropTypes.string,
     buttonCaption: PropTypes.string,
     buttonLink: PropTypes.string,
-    image: PropTypes.string,
+    image: PropTypes.number,
     id: PropTypes.string
 };
 

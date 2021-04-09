@@ -37,7 +37,7 @@ Container.propTypes = {
     paddingLeft: PropTypes.bool,
     paddingRight: PropTypes.bool,
     background: PropTypes.string,
-    containerStyles: PropTypes.string,
+    containerStyles: PropTypes.object,
     id: PropTypes.string
 };
 

@@ -47,7 +47,7 @@ function Image(props) {
 
 Image.propTypes = {
     objectFit: PropTypes.oneOf(['fill', 'contain', 'cover']),
-    image: PropTypes.string,
+    image: PropTypes.number,
     imageAlt: PropTypes.string,
     height: PropTypes.number
 };

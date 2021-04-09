@@ -77,7 +77,7 @@ function FormBlock(props) {
 }
 
 FormBlock.propTypes = {
-    image: PropTypes.string
+    image: PropTypes.number
 };
 
 export default memo(FormBlock);

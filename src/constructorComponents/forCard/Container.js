@@ -34,7 +34,7 @@ Container.propTypes = {
     paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
     paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     background: PropTypes.string,
-    containerStyles: PropTypes.string,
+    containerStyles: PropTypes.object,
     stretched: PropTypes.bool
 };
 

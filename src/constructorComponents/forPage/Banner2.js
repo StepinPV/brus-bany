@@ -126,7 +126,7 @@ function Banner2(props) {
 }
 
 Banner2.propTypes = {
-    image: PropTypes.string,
+    image: PropTypes.number,
     caption: PropTypes.string,
     text: PropTypes.string,
     firstButton: PropTypes.object,

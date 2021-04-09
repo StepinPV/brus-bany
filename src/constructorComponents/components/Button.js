@@ -70,7 +70,7 @@ Button.propTypes = {
     caption: PropTypes.string,
     href: PropTypes.string,
     type: PropTypes.oneOf(['a', 'button']).isRequired,
-    containerStyles: PropTypes.string
+    containerStyles: PropTypes.object
 };
 
 Button.defaultProps = {

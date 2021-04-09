@@ -10,7 +10,7 @@ const Container = styled.form`
     padding: 16px;
 `;
 
-const Disclaimer = styled.form`
+const Disclaimer = styled.div`
     font-size: 16px;
     padding: 10px 0;
     display: block;

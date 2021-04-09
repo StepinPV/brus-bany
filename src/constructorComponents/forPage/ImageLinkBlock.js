@@ -86,7 +86,7 @@ function ImageLinkBlock(props) {
 }
 
 ImageLinkBlock.propTypes = {
-    image: PropTypes.string,
+    image: PropTypes.number,
     imageAlt: PropTypes.string,
     caption: PropTypes.string,
     text: PropTypes.string,
