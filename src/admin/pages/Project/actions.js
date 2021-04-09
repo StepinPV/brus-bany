@@ -20,7 +20,6 @@ export function getProject(categoryId, layoutId) {
 
             dispatch({ type: GET_PROJECT_SUCCESS, payload: res.data.data });
         } catch(err) {
-            // TODO
             dispatch({ type: GET_PROJECT_ERROR, payload: { message: 'Неизвестная ошибка!' }});
         }
     };
@@ -35,7 +34,6 @@ export function createProject() {
             const res = await Api.create(project);
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     }
@@ -50,7 +48,6 @@ export function updateProject() {
             const res = await Api.update(project);
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     }
@@ -65,7 +62,6 @@ export function deleteProject() {
             const res = await Api.delete(project);
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     }

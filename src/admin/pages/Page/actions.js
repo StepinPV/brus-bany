@@ -20,7 +20,6 @@ export function getPage(name) {
 
             dispatch({ type: GET_SUCCESS, payload: res.data.data });
         } catch(err) {
-            // TODO
             dispatch({ type: GET_ERROR, payload: { message: 'Неизвестная ошибка!' }});
         }
     };
@@ -40,7 +39,6 @@ export function getTemplates() {
 
             dispatch({ type: GET_TEMPLATES_SUCCESS, payload: res.data.data });
         } catch(err) {
-            // TODO
             dispatch({ type: GET_TEMPLATES_ERROR, payload: { message: 'Неизвестная ошибка!' }});
         }
     };
@@ -60,7 +58,6 @@ export function getFolders() {
 
             dispatch({ type: GET_FOLDERS_SUCCESS, payload: res.data.data });
         } catch(err) {
-            // TODO
             dispatch({ type: GET_FOLDERS_ERROR, payload: { message: 'Неизвестная ошибка!' }});
         }
     };
@@ -75,7 +72,6 @@ export function savePage() {
             const res = id ? await Api.save(id, page) : await Api.create(page);
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     }
@@ -91,7 +87,6 @@ export function deletePage() {
 
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     };

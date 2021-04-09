@@ -31,7 +31,6 @@ export function save() {
             const res = id ? await Api.save(id, data) : await Api.create(data);
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     }

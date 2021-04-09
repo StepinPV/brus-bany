@@ -18,7 +18,6 @@ export function get(name) {
 
             dispatch({ type: GET_SUCCESS, payload: res.data.data });
         } catch(err) {
-            // TODO
             dispatch({ type: GET_ERROR, payload: { message: 'Неизвестная ошибка!' }});
         }
     };
@@ -33,7 +32,6 @@ export function save() {
             const res = id ? await Api.save(id, data) : await Api.create(data);
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     }
@@ -49,7 +47,6 @@ export function deleteTemplate() {
 
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     };

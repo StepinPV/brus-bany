@@ -18,7 +18,6 @@ export function getCategory(name) {
 
             dispatch({ type: GET_CATEGORY_SUCCESS, payload: res.data.data });
         } catch(err) {
-            // TODO
             dispatch({ type: GET_CATEGORY_ERROR, payload: { message: 'Неизвестная ошибка!' }});
         }
     };
@@ -33,7 +32,6 @@ export function saveCategory() {
             const res = id ? await Api.saveCategory(id, category) : await Api.createCategory(category);
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     }
@@ -48,7 +46,6 @@ export function deleteCategory() {
             const res = await Api.deleteCategory(id);
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     }

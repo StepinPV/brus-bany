@@ -19,7 +19,6 @@ export function getCategory(name) {
 
             dispatch({ type: GET_CATEGORY_SUCCESS, payload: res.data.data });
         } catch(err) {
-            // TODO
             dispatch({ type: GET_CATEGORY_ERROR, payload: { message: 'Неизвестная ошибка!' }});
         }
     };

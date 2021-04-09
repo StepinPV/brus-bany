@@ -18,7 +18,6 @@ export function getLayout(name) {
 
             dispatch({ type: GET_LAYOUT_SUCCESS, payload: res.data.data });
         } catch(err) {
-            // TODO
             dispatch({ type: GET_LAYOUT_ERROR, payload: { message: 'Неизвестная ошибка!' }});
         }
     };
@@ -33,7 +32,6 @@ export function saveLayout() {
             const res = id ? await Api.saveLayout(id, layout) : await Api.createLayout(layout);
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     }
@@ -49,7 +47,6 @@ export function deleteLayout() {
 
             return res.data;
         } catch(err) {
-            // TODO
             alert(err);
         }
     };
