@@ -1,22 +1,19 @@
-import { props as captionProps, defaultProps as captionDefaultProps } from './Caption';
-import { props as textProps, defaultProps as textDefaultProps } from './Text';
-import { props as buttonProps, defaultProps as buttonDefaultProps } from './Button';
-
 export const props = [{
-    _id: 'captionProps',
+    _id: 'caption',
     title: 'Заголовок',
-    type: 'object',
-    format: [...captionProps]
+    type: 'string'
 }, {
-    _id: 'textProps',
+    _id: 'text',
     title: 'Текст',
-    type: 'object',
-    format: [...textProps]
+    type: 'text'
 }, {
-    _id: 'buttonProps',
-    title: 'Кнопка',
-    type: 'object',
-    format: [...buttonProps]
+    _id: 'buttonCaption',
+    title: 'Текст кнопки',
+    type: 'string'
+}, {
+    _id: 'buttonLink',
+    title: 'Ссылка',
+    type: 'string'
 }, {
     _id: 'image',
     title: 'Обложка',
@@ -35,17 +32,7 @@ export const name = 'Обложка с заголовком, текстом и �
 export const key = 'Banner';
 
 export const defaultProps = {
-    captionProps: {
-        ...captionDefaultProps,
-        color: 'white',
-        paddingBottom: 's',
-        size: 'l'
-    },
-    textProps: {
-        ...textDefaultProps,
-        color: 'white',
-        paddingTop: 's',
-        size: 'l'
-    },
-    buttonProps: buttonDefaultProps
+    caption: 'Заголовок',
+    text: 'Описание раздела',
+    buttonCaption: 'Текст кнопки'
 };

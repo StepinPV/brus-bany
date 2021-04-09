@@ -1,3 +1,5 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 export const props = [{
     _id: 'items',
     title: 'Элементы',
@@ -17,11 +19,12 @@ export const props = [{
     title: 'Ширина',
     type: 'theme-param',
     typeId: 'max-width'
-}];
+}, ...containerProps];
 
 export const name = 'Хлебные крошки';
 export const key = 'Breadcrumbs';
 export const defaultProps = {
+    ...defaultContainerProps,
     items: [{
         title: 'Главная',
         link: '/'

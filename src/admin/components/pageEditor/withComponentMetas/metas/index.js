@@ -9,7 +9,6 @@ import * as Header from './Header';
 import * as FormBlock from './FormBlock';
 import * as ImageLinkBlock from './ImageLinkBlock';
 import * as ImageLinkBlocks from './ImageLinkBlocks';
-import * as List from './List';
 import * as QuestionAnswer from './QuestionAnswer';
 import * as Quiz from './Quiz';
 import * as Text from './Text';
@@ -24,7 +23,7 @@ import * as HowWork from './HowWork';
 import * as WhyMe from './WhyMe';
 
 export default {
-    Caption, Text, Button, List, Breadcrumbs, Banner, Banner2, QuestionAnswer, ImageLinkBlock, ImageLinkBlocks,
+    Caption, Text, Button, Breadcrumbs, Banner, Banner2, QuestionAnswer, ImageLinkBlock, ImageLinkBlocks,
     Image, Header, Footer, Contacts, FormBlock, Quiz, Pages, ButtonsForCard, SocialShare, ImageTiles,
     Iframe, Links, HowWork, WhyMe
 }

@@ -2,11 +2,11 @@ import React, { memo } from 'react';
 import styled from '@emotion/styled'
 import { css } from '@emotion/core';
 
-import vk from './resources/vk.svg';
-import fb from './resources/fb.svg';
-import inst from './resources/inst.svg';
-import ok from './resources/ok.svg';
-import youtube from './resources/youtube.svg';
+import vk from '../images/vk.svg';
+import fb from '../images/fb.svg';
+import inst from '../images/inst.svg';
+import ok from '../images/ok.svg';
+import youtube from '../images/youtube.svg';
 
 const links = {
     vk: {

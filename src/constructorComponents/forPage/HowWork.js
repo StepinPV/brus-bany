@@ -1,29 +1,22 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
-import { Text } from '../index';
+import Text from '../components/Text';
+import ContainerComponent from './Container';
 
 import call from '../images/call.svg';
 import calc from '../images/calc.svg';
 import dogovor from '../images/dogovor.svg';
 import arrow from '../images/arrow.svg';
+import {css} from "@emotion/core";
 
 const Container = styled.div`
     margin: 0 auto;
-    max-width: 1200px;
     width: 100%;
     box-sizing: border-box;
-    margin: 0 auto;
-    padding-left: 16px;
-    padding-right: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
-    ${props => css`
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
-    `}
+    max-width: 1200px;
    
     @media (max-width: 640px) {
         flex-direction: column;
@@ -73,43 +66,37 @@ const items = [{
     text: '<a href="/documents/dogovor.docx" download="" style="color:#013885;text-decoration:none;font-weight:bold;cursor:pointer">Заключим договор</a>, приступим к строительству бани или привезем уже готовую'
 }];
 
-function FormBlock(props) {
+function HowWork(props) {
     return (
-        <Container
-            styles={{
-                paddingTop: props.paddingTop,
-                paddingBottom: props.paddingBottom
-            }}>
-            {items.map((item, index) => {
-                return (
-                    <>
-                        <Item>
-                            <Icon style={{ backgroundImage: `url('${item.icon}')` }} />
-                            <Text
-                                paddingTop='s'
-                                paddingBottom='none'
-                                align='center'
-                            >{item.text}
-                            </Text>
-                        </Item>
-                        {index !== items.length - 1 ? (
-                            <ArrowIcon />
-                        ) : null}
-                    </>
-                );
-            })}
-        </Container>
+        <ContainerComponent
+            paddingLeft
+            paddingRight
+            id={props.id}
+            paddingBottom={props.paddingBottom}
+            paddingTop={props.paddingTop}
+            background={props.containerBackground}>
+            <Container>
+                {items.map((item, index) => {
+                    return (
+                        <>
+                            <Item>
+                                <Icon style={{ backgroundImage: `url('${item.icon}')` }} />
+                                <Text
+                                    containerStyles={css`padding-top: 16px;`}
+                                    align='center'
+                                    __fieldsValue__={props.__fieldsValue__}>
+                                    {item.text}
+                                </Text>
+                            </Item>
+                            {index !== items.length - 1 ? (
+                                <ArrowIcon />
+                            ) : null}
+                        </>
+                    );
+                })}
+            </Container>
+        </ContainerComponent>
     );
 }
 
-FormBlock.propTypes = {
-    paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
-    paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l'])
-};
-
-FormBlock.defaultProps = {
-    paddingTop: 'm',
-    paddingBottom: 'm'
-};
-
-export default memo(FormBlock);
+export default memo(HowWork);

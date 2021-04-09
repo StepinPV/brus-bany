@@ -1,18 +1,17 @@
 import React, { memo, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Button, Text, Caption, SocialNetworks } from '../index';
+import Caption from '../components/Caption';
+import Text from '../components/Text';
+import Button from '../components/Button';
+import SocialNetworks from '../components/SocialNetworks';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import ContainerComponent from './Container';
 
 const Container = styled.div`
     display: flex;
     justify-content: space-around;
     max-width: 1168px;
     margin: 0 auto;
-    ${props => css`
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
-    `}
     @media (max-width: 600px) {
         flex-direction: column;
     }
@@ -92,62 +91,58 @@ function Contacts(props) {
     }, []);
 
     return (
-        <Container
-            itemScope
-            itemType='http://schema.org/HomeAndConstructionBusiness'
-            styles={{
-                paddingBottom: props.paddingBottom,
-                paddingTop: props.paddingTop
-            }}>
-            <Map>
-                {renderMap ? (
-                    <iframe title="Адресс офиса" src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=111422907145" width="100%" height="100%" frameBorder="0" />
-                ) : null }
-            </Map>
-            <Info>
-                <meta itemProp="name" content="Брус бани" />
-                <Caption size='s' align='left' paddingTop='none' paddingBottom='s'>Брус бани</Caption>
-                <Address itemProp="address" itemScope itemType="http://schema.org/PostalAddress">
-                    <span itemProp="postalCode">174510</span>, <span itemProp="addressRegion">Новгородская область</span>,
-                    <br/>
-                    <span itemProp="addressLocality">Пестово</span>, <span itemProp="streetAddress">Курганная, 12</span>
-                </Address>
-                <PhoneEmailContainer>
-                    <PhoneTitle>Звонок по России бесплатный</PhoneTitle>
-                    <Phone href="tel:88002010729" itemProp="telephone">8 (800) 201-07-29</Phone>
-                    <Email href="mailto:info@brus-bany.ru" itemProp="email">info@brus-bany.ru</Email>
-                </PhoneEmailContainer>
-                <Text align='left'>
-                    Построим баню или дом любой сложности с нуля или привезем готовый объект!
-                    Если вы не нашли на сайте проект интересующей вас бани, напишите или позвоните нам, мы с удовольствием вам поможем
-                </Text>
-                <Time>
-                    <span style={{ fontWeight: 'bold' }}>Время работы: </span>
-                    <time itemProp="openingHours" dateTime="Mo-Su 8:00−22:00">c 8:00 до 22:00 без выходных</time>
-                </Time>
-                <Button
-                    align='left'
-                    href='#requestForm'
-                    color='{ "type": "base", "value": "white" }'
-                    background='{ "type": "base", "value": "red" }'
-                    caption='Обсудить проект бани' />
-                <SocialNetworks paddingBottom='m' />
-                <Rekvizity href='/rekvizity'>Реквизиты компании</Rekvizity>
-            </Info>
-        </Container>
+        <ContainerComponent
+            id={props.id}
+            paddingBottom={props.paddingBottom}
+            paddingTop={props.paddingTop}
+            background={props.containerBackground}>
+            <Container
+                itemScope
+                itemType='http://schema.org/HomeAndConstructionBusiness'>
+                <Map>
+                    {renderMap ? (
+                        <iframe title="Адресс офиса" src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=111422907145" width="100%" height="100%" frameBorder="0" />
+                    ) : null }
+                </Map>
+                <Info>
+                    <meta itemProp="name" content="Брус бани" />
+                    <Caption
+                        size='s'
+                        align='left'
+                        containerStyles={css`padding-bottom: 16px;margin: 0 16px;`}>
+                        Брус бани
+                    </Caption>
+                    <Address itemProp="address" itemScope itemType="http://schema.org/PostalAddress">
+                        <span itemProp="postalCode">174510</span>, <span itemProp="addressRegion">Новгородская область</span>,
+                        <br/>
+                        <span itemProp="addressLocality">Пестово</span>, <span itemProp="streetAddress">Курганная, 12</span>
+                    </Address>
+                    <PhoneEmailContainer>
+                        <PhoneTitle>Звонок по России бесплатный</PhoneTitle>
+                        <Phone href="tel:88002010729" itemProp="telephone">8 (800) 201-07-29</Phone>
+                        <Email href="mailto:info@brus-bany.ru" itemProp="email">info@brus-bany.ru</Email>
+                    </PhoneEmailContainer>
+                    <Text align='left' __fieldsValue__={props.__fieldsValue__} containerStyles={css`margin: 16px;`}>
+                        Построим баню или дом любой сложности с нуля или привезем готовый объект!
+                        Если вы не нашли на сайте проект интересующей вас бани, напишите или позвоните нам, мы с удовольствием вам поможем
+                    </Text>
+                    <Time>
+                        <span style={{ fontWeight: 'bold' }}>Время работы: </span>
+                        <time itemProp="openingHours" dateTime="Mo-Su 8:00−22:00">c 8:00 до 22:00 без выходных</time>
+                    </Time>
+                    <Button
+                        href='#requestForm'
+                        color='{ "type": "base", "value": "white" }'
+                        background='{ "type": "base", "value": "red" }'
+                        containerStyles={css`margin: 16px;`}
+                        caption='Обсудить проект бани'
+                        __fieldsValue__={props.__fieldsValue__} />
+                    <SocialNetworks paddingBottom='m' />
+                    <Rekvizity href='/rekvizity'>Реквизиты компании</Rekvizity>
+                </Info>
+            </Container>
+        </ContainerComponent>
     );
 }
-
-Contacts.propTypes = {
-    background: PropTypes.oneOf(['white', 'grey']),
-    paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
-    paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l'])
-};
-
-Contacts.defaultProps = {
-    background: 'grey',
-    paddingTop: 'm',
-    paddingBottom: 'm'
-};
 
 export default memo(Contacts);

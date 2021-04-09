@@ -1,3 +1,5 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 // custom
 export const props = [{
     _id: 'images',
@@ -19,21 +21,10 @@ export const props = [{
         title: 'Alt изображения',
         type: 'string'
     }]
-},{
-    _id: 'paddingBottom',
-    title: 'Нижний отступ',
-    type: 'theme-param',
-    typeId: 'padding-bottom'
-}, {
-    _id: 'paddingTop',
-    title: 'Верхний отступ',
-    type: 'theme-param',
-    typeId: 'padding-top'
-}];
+}, ...containerProps];
 export const name = 'Плитка изображений';
 export const key = 'ImageTiles';
 export const defaultProps = {
-    paddingBottom: 'm',
-    paddingTop: 'm',
+    ...defaultContainerProps,
     images: []
 };

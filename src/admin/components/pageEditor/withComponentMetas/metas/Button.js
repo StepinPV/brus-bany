@@ -1,3 +1,5 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 export const props = [{
     _id: 'caption',
     title: 'Текст',
@@ -26,7 +28,7 @@ export const props = [{
     type: 'color-select'
 }, {
     _id: 'background',
-    title: 'Цвет фона',
+    title: 'Цвет кнопки',
     type: 'color-select'
 }, {
     _id: 'align',
@@ -42,16 +44,6 @@ export const props = [{
         id: 'right',
         title: 'По правому краю'
     }]
-}, {
-    _id: 'paddingBottom',
-    title: 'Нижний отступ',
-    type: 'theme-param',
-    typeId: 'padding-bottom'
-}, {
-    _id: 'paddingTop',
-    title: 'Верхний отступ',
-    type: 'theme-param',
-    typeId: 'padding-top'
 }, {
     _id: 'containerWidth',
     title: 'Ширина блока',
@@ -73,25 +65,18 @@ export const props = [{
     _id: 'noOpener',
     title: 'Закрыть от индексации цель, на которую ведет ссылка',
     type: 'boolean'
-}, {
-    _id: 'id',
-    title: 'Якорь',
-    type: 'string'
-}];
+}, ...containerProps];
 
 export const name = 'Кнопка';
 export const key = 'Button';
 export const defaultProps = {
+    ...defaultContainerProps,
     caption: 'Кнопка',
     size: 'm',
     align: 'center',
     color: 'black',
     background: 'red',
     href: '/',
-    paddingBottom: 'm',
-    paddingTop: 'm',
-    paddingLeft: 's',
-    paddingRight: 's',
     containerWidth: 'm',
     fullWidth: false,
     download: false,

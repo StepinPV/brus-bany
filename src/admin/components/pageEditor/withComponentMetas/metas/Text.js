@@ -1,3 +1,5 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 export const props = [{
     _id: 'children',
     title: 'Текст',
@@ -5,10 +7,6 @@ export const props = [{
 }, {
     _id: 'color',
     title: 'Цвет',
-    type: 'color-select'
-}, {
-    _id: 'background',
-    title: 'Цвет фона',
     type: 'color-select'
 }, {
     _id: 'size',
@@ -30,34 +28,18 @@ export const props = [{
         title: 'По правому краю'
     }]
 }, {
-    _id: 'paddingBottom',
-    title: 'Нижний отступ',
-    type: 'theme-param',
-    typeId: 'padding-bottom'
-}, {
-    _id: 'paddingTop',
-    title: 'Верхний отступ',
-    type: 'theme-param',
-    typeId: 'padding-top'
-}, {
     _id: 'width',
     title: 'Ширина',
     type: 'theme-param',
     typeId: 'max-width'
-}, {
-    _id: 'id',
-    title: 'Якорь',
-    type: 'string'
-}];
+}, ...containerProps];
 
 export const name = 'Текст';
 export const key = 'Text';
 export const defaultProps = {
+    ...defaultContainerProps,
     children: 'Текст',
     size: 'm',
     align: 'center',
-    paddingBottom: 'm',
-    paddingTop: 'm',
-    isHTML: false,
     width: 'm'
 };

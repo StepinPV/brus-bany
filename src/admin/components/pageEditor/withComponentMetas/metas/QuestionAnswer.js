@@ -1,3 +1,5 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 export const props = [{
     _id: 'items',
     title: 'Данные',
@@ -27,27 +29,12 @@ export const props = [{
     title: 'Ширина',
     type: 'theme-param',
     typeId: 'max-width'
-}, {
-    _id: 'paddingBottom',
-    title: 'Нижний отступ',
-    type: 'theme-param',
-    typeId: 'padding-bottom'
-}, {
-    _id: 'paddingTop',
-    title: 'Верхний отступ',
-    type: 'theme-param',
-    typeId: 'padding-top'
-}, {
-    _id: 'id',
-    title: 'Якорь',
-    type: 'string'
-}];
+}, ...containerProps];
 
 export const name = 'Вопрос-Ответ';
 export const key = 'QuestionAnswer';
 export const defaultProps = {
-    paddingBottom: 'm',
-    paddingTop: 'm',
+    ...defaultContainerProps,
     width: 's',
     items: [{
         name: 'Группа 1',

@@ -1,3 +1,5 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 // custom
 export const props = [{
     _id: 'image',
@@ -28,22 +30,11 @@ export const props = [{
     _id: 'buttonHref',
     title: 'Ссылка',
     type: 'string'
-}, {
-    _id: 'paddingBottom',
-    title: 'Нижний отступ',
-    type: 'theme-param',
-    typeId: 'padding-bottom'
-}, {
-    _id: 'paddingTop',
-    title: 'Верхний отступ',
-    type: 'theme-param',
-    typeId: 'padding-top'
-}];
+}, ...containerProps];
 export const name = 'Блок с изображением, описанием и ссылкой';
 export const key = 'ImageLinkBlock';
 export const defaultProps = {
-    paddingBottom: 'm',
-    paddingTop: 'm',
+    ...defaultContainerProps,
     caption: 'Заголовок',
     text: 'Текст',
     buttonCaption: 'Заголовок'

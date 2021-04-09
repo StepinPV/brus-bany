@@ -1,20 +1,18 @@
 import React, { memo } from 'react';
 import PropTypes from "prop-types";
-import { Caption, Text } from '../index';
+import Caption from '../components/Caption';
+import Text from '../components/Text';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import ContainerComponent from './Container';
 
 const Container = styled.div`
     width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
 
-    padding-left: 0;
-    padding-right: 0;
     ${props => css`
         max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
     `}
 `;
 
@@ -38,43 +36,46 @@ const Item = styled.div`
 
 function QuestionAnswer(props) {
     return (
-        <Container
-            {...(props.id ? { id: props.id } : {})}
-            styles={{
-                width: props.width,
-                paddingBottom: props.paddingBottom,
-                paddingTop: props.paddingTop
-            }}>
-            {props.items.map(({ name, items }) => {
-                return (
-                    <Group key={name}>
-                        <GroupName>{name}</GroupName>
-                        {(items || []).map(({ question, answer }) => {
-                            return (
-                                <Item key={question}>
-                                    <Caption paddingTop='none' paddingBottom='s' size='s' align='left'>{question}</Caption>
-                                    <Text paddingBottom='none' paddingTop='none' align='left' isHTML>{answer}</Text>
-                                </Item>
-                            );
-                        })}
-                    </Group>
-                )
-            })}
-        </Container>
+        <ContainerComponent
+            paddingLeft
+            paddingRight
+            id={props.id}
+            paddingBottom={props.paddingBottom}
+            paddingTop={props.paddingTop}
+            background={props.containerBackground}>
+            <Container styles={{ width: props.width }}>
+                {props.items.map(({ name, items }) => {
+                    return (
+                        <Group key={name}>
+                            <GroupName>{name}</GroupName>
+                            {(items || []).map(({ question, answer }) => {
+                                return (
+                                    <Item key={question}>
+                                        <Caption
+                                            containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}
+                                            size='s'
+                                            align='left'
+                                            __fieldsValue__={props.__fieldsValue__}>
+                                            {question}
+                                        </Caption>
+                                        <Text align='left' __fieldsValue__={props.__fieldsValue__}>{answer}</Text>
+                                    </Item>
+                                );
+                            })}
+                        </Group>
+                    )
+                })}
+            </Container>
+        </ContainerComponent>
     );
 }
 
 QuestionAnswer.propTypes = {
-    paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
-    paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     width: PropTypes.oneOf(['s', 'm', 'l']),
-    items: PropTypes.array,
-    id: PropTypes.string
+    items: PropTypes.array
 };
 
 QuestionAnswer.defaultProps = {
-    paddingTop: 'm',
-    paddingBottom: 'm',
     items: [],
     width: 'm'
 };

@@ -1,3 +1,5 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 export const props = [{
     _id: 'children',
     title: 'Заголовок',
@@ -8,10 +10,6 @@ export const props = [{
 }, {
     _id: 'color',
     title: 'Цвет',
-    type: 'color-select'
-}, {
-    _id: 'background',
-    title: 'Фон',
     type: 'color-select'
 }, {
     _id: 'size',
@@ -50,35 +48,20 @@ export const props = [{
         title: 'H3 заголовок'
     }]
 }, {
-    _id: 'paddingBottom',
-    title: 'Нижний отступ',
-    type: 'theme-param',
-    typeId: 'padding-bottom'
-}, {
-    _id: 'paddingTop',
-    title: 'Верхний отступ',
-    type: 'theme-param',
-    typeId: 'padding-top'
-}, {
     _id: 'width',
     title: 'Ширина',
     type: 'theme-param',
     typeId: 'max-width'
-}, {
-    _id: 'id',
-    title: 'Якорь',
-    type: 'string'
-}];
+}, ...containerProps];
 
 export const name = 'Заголовок';
 export const key = 'Caption';
 export const defaultProps = {
+    ...defaultContainerProps,
     children: 'Заголовок',
     size: 'm',
     align: 'center',
     tag: 'div',
-    paddingBottom: 'm',
-    paddingTop: 'm',
     isHTML: false,
     width: 'm'
 };

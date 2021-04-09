@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '../index';
+import Button from '../components/Button';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import logo from '../images/logo.svg';
@@ -150,8 +150,7 @@ function Header(props) {
                             caption={button.caption}
                             size='s'
                             href={button.link}
-                            paddingBottom='none'
-                            paddingTop='none' />
+                            __fieldsValue__={props.__fieldsValue__} />
                     ) : null}
                 </Info>
             </Container>

@@ -1,17 +1,18 @@
 import React, { memo } from 'react';
 import PropTypes from "prop-types";
-import { Caption, Text, Button } from '../index';
+import Caption from '../components/Caption';
+import Text from '../components/Text';
+import Button from '../components/Button';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import ContainerComponent from './Container';
 
 const Container = styled.div`
     display: flex;
     justify-content: center;
-    max-width: 1168px;
     margin: 0 auto;
     ${props => css`
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
+        max-width: ${props.theme['max-width']['m'].v};
     `}
     @media (min-width: 401px) {
         align-items: center;
@@ -46,41 +47,51 @@ const Info = styled.div`
 
 function ImageLinkBlock(props) {
     return (
-        <Container styles={{ paddingTop: props.paddingTop, paddingBottom: props.paddingBottom }}>
-            <Image src={props.__images__[props.image]} alt={props.imageAlt} loading='lazy' />
-            <Info>
-                <Caption size='s' align='left' paddingTop='s' paddingBottom='s'>{props.caption}</Caption>
-                <Text align='left' paddingTop='s' paddingBottom='s' isHTML>{props.text}</Text>
-                {props.buttonCaption ? (
-                    <Button
-                        paddingTop='s'
-                        paddingBottom='s'
-                        color='{ "type": "base", "value": "white" }'
-                        background='{ "type": "base", "value": "red" }'
+        <ContainerComponent
+            paddingLeft
+            paddingRight
+            id={props.id}
+            paddingBottom={props.paddingBottom}
+            paddingTop={props.paddingTop}
+            background={props.containerBackground}>
+            <Container>
+                <Image src={props.__images__[props.image]} alt={props.imageAlt} loading='lazy' />
+                <Info>
+                    <Caption
+                        size='s'
                         align='left'
-                        href={props.buttonHref}
-                        caption={props.buttonCaption}
-                        fullWidth />
-                ) : null}
-            </Info>
-        </Container>
+                        containerStyles={css`margin: 16px;`}
+                        __fieldsValue__={props.__fieldsValue__}>
+                        {props.caption}
+                    </Caption>
+                    <Text
+                        align='left'
+                        containerStyles={css`margin: 16px;`}
+                        __fieldsValue__={props.__fieldsValue__}>
+                        {props.text}
+                    </Text>
+                    {props.buttonCaption ? (
+                        <Button
+                            containerStyles={css`margin: 16px;`}
+                            color='{ "type": "base", "value": "white" }'
+                            background='{ "type": "base", "value": "red" }'
+                            href={props.buttonHref}
+                            caption={props.buttonCaption}
+                            __fieldsValue__={props.__fieldsValue__} />
+                    ) : null}
+                </Info>
+            </Container>
+        </ContainerComponent>
     );
 }
 
 ImageLinkBlock.propTypes = {
-    paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
-    paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     image: PropTypes.string,
     imageAlt: PropTypes.string,
     caption: PropTypes.string,
     text: PropTypes.string,
     buttonCaption: PropTypes.string,
     buttonHref: PropTypes.string
-};
-
-ImageLinkBlock.defaultProps = {
-    paddingTop: 'm',
-    paddingBottom: 'm'
 };
 
 export default memo(ImageLinkBlock);

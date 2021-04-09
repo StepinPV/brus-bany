@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { applyFields } from '../helpers';
+import ContainerComponent from './Container';
 
 const Container = styled.div`
     width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
 
-    padding: 16px;
-    
     ${props => css`
         max-width: ${props.styles.width ? props.theme['max-width'][props.styles.width].v : ''};
     `}
@@ -63,26 +62,34 @@ const LinkItem = styled.a`
 
 const Breadcrumbs = (props) => {
     return (
-        <Container styles={{ width: props.width }} itemScope itemType="http://schema.org/BreadcrumbList">
-            {props.items.map(({ title, link }, index) => {
-                const mobileItem = index === props.items.length - 2;
+        <ContainerComponent
+            paddingLeft
+            paddingRight
+            id={props.id}
+            paddingBottom={props.paddingBottom}
+            paddingTop={props.paddingTop}
+            background={props.containerBackground}>
+            <Container styles={{ width: props.width }} itemScope itemType="http://schema.org/BreadcrumbList">
+                {props.items.map(({ title, link }, index) => {
+                    const mobileItem = index === props.items.length - 2;
 
-                return (
-                    <Fragment key={title}>
-                        { index !== 0 ? <Arrow desktopElement>/</Arrow> : null }
-                        { link && index !== props.items.length - 1 ? (
-                            <span itemProp="itemListElement" itemScope itemType="http://schema.org/ListItem">
+                    return (
+                        <Fragment key={title}>
+                            { index !== 0 ? <Arrow desktopElement>/</Arrow> : null }
+                            { link && index !== props.items.length - 1 ? (
+                                <span itemProp="itemListElement" itemScope itemType="http://schema.org/ListItem">
                             <LinkItem href={link} desktopElement={!mobileItem} itemProp="item">
                                 {mobileItem ? <Arrow mobileElement>←</Arrow> : null}
                                 <span itemProp="name">{applyFields(props.__fieldsValue__, title)}</span>
                             </LinkItem>
                             <meta itemProp="position" content={index + 1} />
                         </span>
-                        ) : <Item desktopElement>{applyFields(props.__fieldsValue__, title)}</Item> }
-                    </Fragment>
-                );
-            })}
-        </Container>
+                            ) : <Item desktopElement>{applyFields(props.__fieldsValue__, title)}</Item> }
+                        </Fragment>
+                    );
+                })}
+            </Container>
+        </ContainerComponent>
     )
 };
 

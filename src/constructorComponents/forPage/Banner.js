@@ -1,6 +1,8 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { Caption, Text, Button } from '../index';
+import Caption from '../components/Caption';
+import Text from '../components/Text';
+import Button from '../components/Button';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 
@@ -43,6 +45,12 @@ const Content = styled.div`
     justify-content: center;
 `;
 
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin: 16px;
+`;
+
 function Banner(props) {
     return (
         <Container {...(props.id ? { id: props.id } : {})}>
@@ -52,18 +60,46 @@ function Banner(props) {
                 }} />
             <Layout />
             <Content>
-                { props.captionProps ? <Caption {...props.captionProps} /> : null }
-                { props.textProps ? <Text {...props.textProps} /> : null }
-                { props.buttonProps ? <Button {...props.buttonProps} /> : null }
+                { props.caption ? (
+                    <Caption
+                        tag='h1'
+                        color='white'
+                        containerStyles={css`margin: 16px;`}
+                        size='l'
+                        align='center'
+                        children={props.caption}
+                        __fieldsValue__={props.__fieldsValue__} />
+                ) : null }
+                { props.text ? (
+                    <Text
+                        color='white'
+                        containerStyles={css`margin: 16px 16px 32px;`}
+                        size='l'
+                        align='center'
+                        children={props.text}
+                        __fieldsValue__={props.__fieldsValue__} />
+                ) : null }
+                { props.buttonCaption ? (
+                    <ButtonContainer>
+                        <Button
+                            color='white'
+                            background='red'
+                            size='m'
+                            caption={props.buttonCaption}
+                            href={props.buttonLink}
+                            __fieldsValue__={props.__fieldsValue__} />
+                    </ButtonContainer>
+                ) : null }
             </Content>
         </Container>
     )
 }
 
 Banner.propTypes = {
-    captionProps: PropTypes.object,
-    textProps: PropTypes.object,
-    buttonProps: PropTypes.object,
+    caption: PropTypes.string,
+    text: PropTypes.string,
+    buttonCaption: PropTypes.string,
+    buttonLink: PropTypes.string,
     image: PropTypes.string,
     id: PropTypes.string
 };

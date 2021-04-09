@@ -1,3 +1,5 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 export const props = [{
     _id: 'items',
     title: 'Группы',
@@ -23,31 +25,16 @@ export const props = [{
         }]
     }]
 }, {
-    _id: 'paddingBottom',
-    title: 'Нижний отступ',
-    type: 'theme-param',
-    typeId: 'padding-bottom'
-}, {
-    _id: 'paddingTop',
-    title: 'Верхний отступ',
-    type: 'theme-param',
-    typeId: 'padding-top'
-}, {
     _id: 'width',
     title: 'Ширина',
     type: 'theme-param',
     typeId: 'max-width'
-}, {
-    _id: 'id',
-    title: 'Якорь',
-    type: 'string'
-}];
+}, ...containerProps];
 
 export const name = 'Ссылки';
 export const key = 'Links';
 export const defaultProps = {
-    paddingBottom: 'm',
-    paddingTop: 'm',
+    ...defaultContainerProps,
     width: 'm',
     items: [{
         title: 'Группа 1',

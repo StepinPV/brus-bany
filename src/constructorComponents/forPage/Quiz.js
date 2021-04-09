@@ -1,22 +1,19 @@
 import React, { PureComponent }from 'react';
 import PropTypes from "prop-types";
-import { Form } from '../index';
+import Form from '../components/Form';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import ContainerComponent from './Container';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    max-width: 1200px;
     margin: 0 auto;
     box-sizing: border-box;
-    padding-left: 16px;
-    padding-right: 16px;
     ${props => css`
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
+        max-width: ${props.theme['max-width']['m'].v};
     `}
 `;
 
@@ -106,26 +103,34 @@ class Quiz extends PureComponent {
         }
 
         const { questionIndex } = this.state;
-        const { items, resultText, paddingTop, paddingBottom } = this.props;
+        const { items, resultText, id, paddingBottom, paddingTop, containerBackground } = this.props;
 
         return (
-            <Container styles={{ paddingTop, paddingBottom }}>
-                {questionIndex === items.length ? (
-                    <>
-                        <Number>Спасибо!</Number>
-                        <Question dangerouslySetInnerHTML={{ __html: resultText }} />
-                        <Form source='Квиз' data={this.getAnswersData()} onSuccess={this.handleFormSuccess} buttonCaption='Отправить результаты опроса' />
-                    </>
-                ) : (
-                    <>
-                        <Number>{`Вопрос ${questionIndex + 1} из ${items.length}`}</Number>
-                        <Question dangerouslySetInnerHTML={{ __html: items[questionIndex].title }} />
-                        <Items>
-                            {this.renderItems(items[questionIndex])}
-                        </Items>
-                    </>
-                )}
-            </Container>
+            <ContainerComponent
+                paddingLeft
+                paddingRight
+                id={id}
+                paddingBottom={paddingBottom}
+                paddingTop={paddingTop}
+                background={containerBackground}>
+                <Container>
+                    {questionIndex === items.length ? (
+                        <>
+                            <Number>Спасибо!</Number>
+                            <Question dangerouslySetInnerHTML={{ __html: resultText }} />
+                            <Form source='Квиз' data={this.getAnswersData()} onSuccess={this.handleFormSuccess} buttonCaption='Отправить результаты опроса' />
+                        </>
+                    ) : (
+                        <>
+                            <Number>{`Вопрос ${questionIndex + 1} из ${items.length}`}</Number>
+                            <Question dangerouslySetInnerHTML={{ __html: items[questionIndex].title }} />
+                            <Items>
+                                {this.renderItems(items[questionIndex])}
+                            </Items>
+                        </>
+                    )}
+                </Container>
+            </ContainerComponent>
         )
     };
 

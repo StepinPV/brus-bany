@@ -1,8 +1,10 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button, Input } from '../index';
+import { Input } from '../index';
+import Button from './Button';
 import styled from '@emotion/styled';
+import {css} from "@emotion/core";
 
 const Container = styled.form`
     padding: 16px;
@@ -50,7 +52,8 @@ function Form(props) {
                 caption={buttonCaption}
                 color='{ "type": "base", "value": "white" }'
                 background='{ "type": "base", "value": "red" }'
-                fullWidth/>
+                containerStyles={css`margin-top: 32px;margin-bottom: 32px;`}
+                fullWidth />
             <Disclaimer>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных. <a href='/politika-konfidencialnosti' target='_blank'>Политика конфиденциальности.</a></Disclaimer>
         </Container>
     );

@@ -37,9 +37,7 @@ export const props = [{
     title: 'Обложка',
     props: {
         withoutLogo: true,
-        globalStore: true,
-        // TODO
-        withoutCompression: true
+        globalStore: true
     },
     type: 'image'
 }, {

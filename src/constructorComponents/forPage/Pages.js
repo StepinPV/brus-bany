@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import * as components from '@constructor-components';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import ContainerComponent from './Container';
 
 const Container = styled.div`
     width: 1200px;
@@ -12,10 +13,6 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    ${props => css`
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
-    `}
 `;
 
 const Item = styled.a`
@@ -183,52 +180,53 @@ function Pages(props) {
     }
 
     return (
-        <Container styles={{ paddingTop: props.paddingTop, paddingBottom: props.paddingBottom }}>
-            {pages.map(page => {
-                const fieldValues = getPageFields(page, folderForViewed);
+        <ContainerComponent
+            paddingLeft
+            paddingRight
+            id={props.id}
+            paddingBottom={props.paddingBottom}
+            paddingTop={props.paddingTop}
+            background={props.containerBackground}>
+            <Container>
+                {pages.map(page => {
+                    const fieldValues = getPageFields(page, folderForViewed);
 
-                return (
-                    <Item href={page.url}>
-                        <ItemWrapper>
-                            {
-                                folderForViewed.pageViewConfig.components.map(id => {
-                                    const componentData = folderForViewed.pageViewConfig.componentsData[id];
-                                    const Component = components[componentData.componentId];
+                    return (
+                        <Item href={page.url}>
+                            <ItemWrapper>
+                                {
+                                    folderForViewed.pageViewConfig.components.map(id => {
+                                        const componentData = folderForViewed.pageViewConfig.componentsData[id];
+                                        const Component = components[componentData.componentId];
 
-                                    return (
-                                        <Component
-                                            {...componentData.props}
-                                            containerStyles={componentData.props && componentData.props.stretched ? css`flex-grow: 1;` : null}
-                                            __images__={componentData.images}
-                                            __pages__={pages}
-                                            __pageFolders__={props['__pageFolders__']}
-                                            __fieldsValue__={fieldValues}
-                                            staticContext={props.staticContext} />
-                                    );
-                                })
-                            }
-                        </ItemWrapper>
-                    </Item>
-                )
-            })}
-            <Item as='div' />
-            <Item as='div' />
-        </Container>
+                                        return (
+                                            <Component
+                                                {...componentData.props}
+                                                containerStyles={componentData.props && componentData.props.stretched ? css`flex-grow: 1;` : null}
+                                                __images__={componentData.images}
+                                                __pages__={pages}
+                                                __pageFolders__={props['__pageFolders__']}
+                                                __fieldsValue__={fieldValues}
+                                                staticContext={props.staticContext} />
+                                        );
+                                    })
+                                }
+                            </ItemWrapper>
+                        </Item>
+                    )
+                })}
+                <Item as='div' />
+                <Item as='div' />
+            </Container>
+        </ContainerComponent>
     );
 }
 
 Pages.propTypes = {
-    paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
-    paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     folder: PropTypes.string,
     filter: PropTypes.string,
     maxCount: PropTypes.number,
     sort: PropTypes.string
-};
-
-Pages.defaultProps = {
-    paddingTop: 'm',
-    paddingBottom: 'm'
 };
 
 export default memo(Pages);

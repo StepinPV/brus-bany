@@ -1,8 +1,9 @@
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { Text, Caption } from '../index';
+import Caption from '../components/Caption';
+import Text from '../components/Text';
+import ContainerComponent from './Container';
 
 import caska from '../images/caska.svg';
 import galka from '../images/galka.svg';
@@ -10,17 +11,13 @@ import money from '../images/money.svg';
 
 const Container = styled.div`
     margin: 0 auto;
-    max-width: 1200px;
     width: 100%;
     box-sizing: border-box;
-    padding-left: 16px;
-    padding-right: 16px;
     display: flex;
     justify-content: center;
     align-items: stretch;
     ${props => css`
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
+        max-width: ${props.theme['max-width']['m'].v};
     `}
     
     @media (max-width: 640px) {
@@ -61,48 +58,41 @@ const items = [{
     text: 'Строим строго по <a href="/gosty-i-snipy" style="color:#013885;font-weight:bold;text-decoration:none">ГОСТу</a>. По договору обслуживаем постройку в течение 2-х лет'
 }];
 
-function FormBlock(props) {
+function WhyMe(props) {
     return (
-        <Container
-            styles={{
-                paddingTop: props.paddingTop,
-                paddingBottom: props.paddingBottom
-            }}>
-            {items.map((item, index) => {
-                return (
-                    <>
-                        <Item>
-                            <Icon style={{ backgroundImage: `url('${item.icon}')` }} />
-                            <Caption
-                                paddingTop='s'
-                                paddingBottom='s'
-                                size='s'
-                                align='center'>
-                                {item.caption}
-                            </Caption>
-                            <Text
-                                paddingTop='none'
-                                paddingBottom='none'
-                                size='m'
-                                align='center'>
-                                {item.text}
-                            </Text>
-                        </Item>
-                    </>
-                );
-            })}
-        </Container>
+        <ContainerComponent
+            paddingLeft
+            paddingRight
+            id={props.id}
+            paddingBottom={props.paddingBottom}
+            paddingTop={props.paddingTop}
+            background={props.containerBackground}>
+            <Container>
+                {items.map((item, index) => {
+                    return (
+                        <>
+                            <Item>
+                                <Icon style={{ backgroundImage: `url('${item.icon}')` }} />
+                                <Caption
+                                    containerStyles={css`padding-top: 16px;padding-bottom: 16px;`}
+                                    align='center'
+                                    size='s'
+                                    __fieldsValue__={props.__fieldsValue__}>
+                                    {item.caption}
+                                </Caption>
+                                <Text
+                                    size='m'
+                                    align='center'
+                                    __fieldsValue__={props.__fieldsValue__}>
+                                    {item.text}
+                                </Text>
+                            </Item>
+                        </>
+                    );
+                })}
+            </Container>
+        </ContainerComponent>
     );
 }
 
-FormBlock.propTypes = {
-    paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
-    paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l'])
-};
-
-FormBlock.defaultProps = {
-    paddingTop: 'm',
-    paddingBottom: 'm'
-};
-
-export default memo(FormBlock);
+export default memo(WhyMe);

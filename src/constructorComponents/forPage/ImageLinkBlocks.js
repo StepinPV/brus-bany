@@ -1,21 +1,19 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { Caption, Button } from '../index';
+import Caption from '../components/Caption';
+import Button from '../components/Button';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import ContainerComponent from './Container';
 
 const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    max-width: 1200px;
     width: 100%;
     box-sizing: border-box;
     margin: 0 auto;
-    ${props => css`
-        padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
-        padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
-    `}
+    max-width: 1200px;
 `;
 
 const Overlay = styled.div`
@@ -57,47 +55,47 @@ const Content = styled.div`
 
 function ImageLinkBlocks(props) {
     return (
-        <Container styles={{ paddingTop: props.paddingTop, paddingBottom: props.paddingBottom }}>
-            {props.items.map(({ title, buttonTitle, link, image }) => {
-                return (
-                    <Item href={link} key={link} styles={{ image: props.__images__[image] }}>
-                        <Overlay />
-                        <Content>
-                            <Caption
-                                color='{ "type": "base", "value": "white" }'
-                                size='m'
-                                align='center'
-                                paddingTop='s'
-                                paddingBottom='m'
-                                __fieldsValue__={props.__fieldsValue__}>
-                                {title}
-                            </Caption>
-                            <Button
-                                color='{ "type": "base", "value": "white" }'
-                                background='{ "type": "base", "value": "red" }'
-                                paddingTop='s'
-                                paddingBottom='s'
-                                caption={buttonTitle}
-                                type='button'
-                                size='m'
-                                __fieldsValue__={props.__fieldsValue__} />
-                        </Content>
-                    </Item>
-                )
-            })}
-        </Container>
+        <ContainerComponent
+            id={props.id}
+            paddingBottom={props.paddingBottom}
+            paddingTop={props.paddingTop}
+            background={props.containerBackground}>
+            <Container>
+                {props.items.map(({ title, buttonTitle, link, image }) => {
+                    return (
+                        <Item href={link} key={link} styles={{ image: props.__images__[image] }}>
+                            <Overlay />
+                            <Content>
+                                <Caption
+                                    color='{ "type": "base", "value": "white" }'
+                                    size='m'
+                                    align='center'
+                                    containerStyles={css`padding-top: 16px;padding-bottom: 32px;`}
+                                    __fieldsValue__={props.__fieldsValue__}>
+                                    {title}
+                                </Caption>
+                                <Button
+                                    color='{ "type": "base", "value": "white" }'
+                                    background='{ "type": "base", "value": "red" }'
+                                    containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}
+                                    caption={buttonTitle}
+                                    type='button'
+                                    size='m'
+                                    __fieldsValue__={props.__fieldsValue__} />
+                            </Content>
+                        </Item>
+                    )
+                })}
+            </Container>
+        </ContainerComponent>
     );
 }
 
 ImageLinkBlocks.propTypes = {
-    paddingTop: PropTypes.oneOf(['none', 's', 'm', 'l']),
-    paddingBottom: PropTypes.oneOf(['none', 's', 'm', 'l']),
     items: PropTypes.array
 };
 
 ImageLinkBlocks.defaultProps = {
-    paddingTop: 'm',
-    paddingBottom: 'm',
     items: []
 };
 

@@ -1,3 +1,5 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 // custom
 export const props = [{
     _id: 'items',
@@ -26,21 +28,10 @@ export const props = [{
             withoutCompression: true
         }
     }]
-},{
-    _id: 'paddingBottom',
-    title: 'Нижний отступ',
-    type: 'theme-param',
-    typeId: 'padding-bottom'
-}, {
-    _id: 'paddingTop',
-    title: 'Верхний отступ',
-    type: 'theme-param',
-    typeId: 'padding-top'
-}];
+}, ...containerProps];
 export const name = 'Блоки с изображением, заголовками и ссылкой';
 export const key = 'ImageLinkBlocks';
 export const defaultProps = {
-    paddingBottom: 'm',
-    paddingTop: 'm',
+    ...defaultContainerProps,
     items: []
 };

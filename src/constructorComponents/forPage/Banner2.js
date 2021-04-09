@@ -1,6 +1,8 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { Caption, Text, Button } from '../index';
+import Caption from '../components/Caption';
+import Text from '../components/Text';
+import Button from '../components/Button';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 
@@ -90,8 +92,7 @@ function Banner2(props) {
                         <Caption
                             tag='h1'
                             color='white'
-                            paddingBottom='s'
-                            paddingTop='s'
+                            containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}
                             size='l'
                             align='left'
                             __fieldsValue__={props.__fieldsValue__}>
@@ -101,8 +102,7 @@ function Banner2(props) {
                     <Description>
                         <Text
                             color='white'
-                            paddingBottom='m'
-                            paddingTop='s'
+                            containerStyles={css`padding-top: 16px;padding-bottom: 32px;`}
                             size='l'
                             align='left'
                             __fieldsValue__={props.__fieldsValue__}>
@@ -115,21 +115,17 @@ function Banner2(props) {
                                 background='{ "type": "base", "value": "yellow" }'
                                 color='{ "type": "base", "value": "black" }'
                                 caption={props.firstButton.title}
-                                paddingBottom='s'
-                                paddingTop='s'
+                                containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}
                                 href={props.firstButton.href}
-                                stretch={false}
                                 __fieldsValue__={props.__fieldsValue__} />
                         ) : null}
                         {props.secondButton ? (
                             <Button
                                 background='{ "type": "base", "value": "red" }'
                                 color='{ "type": "base", "value": "white" }'
-                                paddingBottom='s'
-                                paddingTop='s'
+                                style={{ paddingTop: '16px', paddingBottom: '16px' }}
                                 caption={props.secondButton.title}
                                 href={props.secondButton.href}
-                                stretch={false}
                                 __fieldsValue__={props.__fieldsValue__} />
                         ) : null}
                     </Buttons>

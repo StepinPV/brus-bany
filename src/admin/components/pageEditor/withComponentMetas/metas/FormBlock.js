@@ -1,15 +1,7 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 // custom
 export const props = [{
-    _id: 'paddingBottom',
-    title: 'Нижний отступ',
-    type: 'theme-param',
-    typeId: 'padding-bottom'
-}, {
-    _id: 'paddingTop',
-    title: 'Верхний отступ',
-    type: 'theme-param',
-    typeId: 'padding-top'
-}, {
     _id: 'background',
     title: 'Цвет блока',
     type: 'color-select'
@@ -22,10 +14,9 @@ export const props = [{
         width: 580,
         globalStore: true
     }
-}];
+}, ...containerProps];
 export const name = 'Блок с изображением и формой';
 export const key = 'FormBlock';
 export const defaultProps = {
-    paddingBottom: 'm',
-    paddingTop: 'm'
+    ...defaultContainerProps
 };

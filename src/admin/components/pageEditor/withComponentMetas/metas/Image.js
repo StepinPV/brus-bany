@@ -1,3 +1,5 @@
+import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
+
 // custom
 export const props = [{
     _id: 'image',
@@ -21,16 +23,6 @@ export const props = [{
     title: 'Отступы слева и справа',
     type: 'boolean'
 }, {
-    _id: 'paddingBottom',
-    title: 'Нижний отступ',
-    type: 'theme-param',
-    typeId: 'padding-bottom'
-}, {
-    _id: 'paddingTop',
-    title: 'Верхний отступ',
-    type: 'theme-param',
-    typeId: 'padding-top'
-}, {
     _id: 'height',
     title: 'Задать высоту (px)',
     type: 'integer number'
@@ -52,16 +44,11 @@ export const props = [{
         id: 'cover',
         title: 'Сохранить пропорции и заполнить всю область'
     }]
-}, {
-    _id: 'title',
-    title: 'Подпись',
-    type: 'string'
-},];
+}, ...containerProps];
 export const name = 'Изображение';
 export const key = 'Image';
 export const defaultProps = {
-    paddingBottom: 'm',
-    paddingTop: 'm',
+    ...defaultContainerProps,
     objectFit: 'contain',
     width: 's',
     paddingLeftAndRight: true

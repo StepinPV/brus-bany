@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { SocialNetworks } from '../index';
+import SocialNetworks from '../components/SocialNetworks';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import logo from '../images/logo.svg';
