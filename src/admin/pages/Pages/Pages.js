@@ -39,6 +39,10 @@ class Pages extends PureComponent {
                     title: item['name'] || item['url'],
                     link: `/admin/pages/page-${item['_id']}`
                 }
+            }).sort((item1, item2) => {
+                if (item1.title > item2.title) return 1;
+                if (item1.title === item2.title) return 0;
+                return -1;
             });
 
             newState = {
