@@ -64,7 +64,7 @@ function Banner(props) {
                     <Caption
                         tag='h1'
                         color='white'
-                        containerStyles={css`margin: 16px;`}
+                        containerStyles={css`max-width: 1200px; margin: 0 auto; padding: 16px;`}
                         size='l'
                         align='center'
                         children={props.caption}
@@ -73,7 +73,7 @@ function Banner(props) {
                 { props.text ? (
                     <Text
                         color='white'
-                        containerStyles={css`margin: 16px 16px 32px;`}
+                        containerStyles={css`max-width: 1200px; margin: 0 auto; padding: 16px 16px 32px;`}
                         size='l'
                         align='center'
                         children={props.text}

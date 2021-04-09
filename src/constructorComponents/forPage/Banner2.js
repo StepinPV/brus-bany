@@ -73,14 +73,6 @@ const Description = styled.div`
     }
 `;
 
-const Buttons = styled.div`
-    display: flex;
-    
-    @media (max-width: 640px) {
-        flex-direction: column;
-    }
-`;
-
 function Banner2(props) {
     return (
         <Container>
@@ -109,26 +101,24 @@ function Banner2(props) {
                             {props.text}
                         </Text>
                     </Description>
-                    <Buttons>
-                        {props.firstButton ? (
-                            <Button
-                                background='{ "type": "base", "value": "yellow" }'
-                                color='{ "type": "base", "value": "black" }'
-                                caption={props.firstButton.title}
-                                containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}
-                                href={props.firstButton.href}
-                                __fieldsValue__={props.__fieldsValue__} />
-                        ) : null}
-                        {props.secondButton ? (
-                            <Button
-                                background='{ "type": "base", "value": "red" }'
-                                color='{ "type": "base", "value": "white" }'
-                                style={{ paddingTop: '16px', paddingBottom: '16px' }}
-                                caption={props.secondButton.title}
-                                href={props.secondButton.href}
-                                __fieldsValue__={props.__fieldsValue__} />
-                        ) : null}
-                    </Buttons>
+                    {props.firstButton ? (
+                        <Button
+                            background='{ "type": "base", "value": "yellow" }'
+                            color='{ "type": "base", "value": "black" }'
+                            caption={props.firstButton.title}
+                            containerStyles={css`margin: 16px 16px 16px 0;`}
+                            href={props.firstButton.href}
+                            __fieldsValue__={props.__fieldsValue__} />
+                    ) : null}
+                    {props.secondButton ? (
+                        <Button
+                            background='{ "type": "base", "value": "red" }'
+                            color='{ "type": "base", "value": "white" }'
+                            style={{ paddingTop: '16px', paddingBottom: '16px' }}
+                            caption={props.secondButton.title}
+                            href={props.secondButton.href}
+                            __fieldsValue__={props.__fieldsValue__} />
+                    ) : null}
                 </Content>
             </ContentContainer>
         </Container>
