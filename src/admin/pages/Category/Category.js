@@ -5,12 +5,12 @@ import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import { getCategory, setCategory, saveCategory, resetData, deleteCategory } from './actions';
-import withNotification from '../../../plugins/Notifications/withNotification';
+import showNotification from '@utils/showNotification';
 import Filters from './resources/Filters';
 import categoryFormat from '../../formats/category';
 import Form from '../../components/Form';
 import styles from './Category.module.css';
-import {Button} from "../../../components/Button";
+import { Button } from "../../../components/Button";
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -28,7 +28,6 @@ class Category extends PureComponent {
 
         actions: PropTypes.object,
         match: PropTypes.object,
-        showNotification: PropTypes.func,
         history: PropTypes.object
     };
 
@@ -123,7 +122,7 @@ class Category extends PureComponent {
     };
 
     handleSave = async () => {
-        const { showNotification, actions, history } = this.props;
+        const { actions } = this.props;
         const { message, status, data } = await actions.saveCategory();
 
         showNotification({ message, status });
@@ -143,7 +142,7 @@ class Category extends PureComponent {
     };
 
     handleDelete = async () => {
-        const { showNotification, actions, history } = this.props;
+        const { actions } = this.props;
 
         if (window.confirm('Вы действительно хотите удалить категорию?')) {
             const { message, status } = await actions.deleteCategory();
@@ -186,4 +185,4 @@ function mapStateToProps(state) {
     return { category, isCategoryFetch, isCategoryError };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Category));
+export default connect(mapStateToProps, mapDispatchToProps)(Category);

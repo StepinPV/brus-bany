@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import PageRender from '../../../client/components/PageRender';
 import { getPage, setPage, savePage, reset, deletePage, getTemplates, getFolders } from './actions';
-import withNotification from '../../../plugins/Notifications/withNotification';
+import showNotification from '@utils/showNotification';
 import Form from '../../components/Form';
 import { main as mainFormat, config as configFormat } from '../../formats/page';
 import { Button } from "../../../components/Button";
@@ -38,7 +38,6 @@ class Page extends PureComponent {
 
         actions: PropTypes.object,
         match: PropTypes.object,
-        showNotification: PropTypes.func,
         history: PropTypes.object,
         templates: PropTypes.array,
         folders: PropTypes.array
@@ -427,7 +426,7 @@ class Page extends PureComponent {
     };
 
     renderSpecialComponent = (id, addTitle) => {
-        const { page, templates, showNotification } = this.props;
+        const { page, templates } = this.props;
         const { operations, componentFieldValues } = this.state;
 
         let configId = page.config[id];
@@ -600,7 +599,7 @@ class Page extends PureComponent {
     };
 
     renderComponentByIndex = (blockId, index) => {
-        const { page, showNotification } = this.props;
+        const { page } = this.props;
         const { operations } = this.state;
 
         const components = page.config.components[blockId];
@@ -722,7 +721,7 @@ class Page extends PureComponent {
     };
 
     handleSave = async () => {
-        const { showNotification, actions, match } = this.props;
+        const { actions, match } = this.props;
 
         const { message, status, data } = await actions.savePage();
 
@@ -743,7 +742,7 @@ class Page extends PureComponent {
     };
 
     handleDelete = async () => {
-        const { showNotification, actions, history } = this.props;
+        const { actions } = this.props;
 
         if (window.confirm('Вы действительно хотите удалить страницу?')) {
             const { message, status } = await actions.deletePage();
@@ -782,4 +781,4 @@ function mapStateToProps(state) {
     return { page, isPageFetch, isPageError, templates, folders };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Page));
+export default connect(mapStateToProps, mapDispatchToProps)(Page);

@@ -1,4 +1,4 @@
-import React, {Fragment, PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -16,7 +16,7 @@ import {
     deleteProject,
     getCategory
 } from './actions';
-import withNotification from '../../../plugins/Notifications/withNotification';
+import showNotification from '@utils/showNotification';
 import ImageUploader from '../../components/ImageUploader';
 import Input from '../../../components/Input';
 import { Button } from '../../../components/Button';
@@ -76,7 +76,6 @@ class Project extends PureComponent {
 
         actions: PropTypes.object,
         match: PropTypes.object,
-        showNotification: PropTypes.func,
         history: PropTypes.object
     };
 
@@ -324,7 +323,7 @@ class Project extends PureComponent {
 
     handleSave = async () => {
         const { addMode } = this.state;
-        const { showNotification, actions, history } = this.props;
+        const { actions } = this.props;
         const errors = this.getErrors();
 
         if (errors) {
@@ -343,7 +342,7 @@ class Project extends PureComponent {
     };
 
     handleDelete = async () => {
-        const { showNotification, actions, history } = this.props;
+        const { actions } = this.props;
 
         if (window.confirm('Вы действительно хотите удалить проект?')) {
             const { message, status } = await actions.deleteProject();
@@ -402,4 +401,4 @@ function mapStateToProps(state) {
     return { project, isProjectFetch, isProjectError, layouts, category };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Project));
+export default connect(mapStateToProps, mapDispatchToProps)(Project);

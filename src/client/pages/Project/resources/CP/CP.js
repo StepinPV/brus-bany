@@ -2,7 +2,7 @@ import React, { memo, useEffect } from 'react';
 import Caption from '../../../../components/Caption';
 import { Button } from '../../../../../components/Button';
 import Form from '../../../../../admin/components/Form';
-import withNotification from '@plugins/Notifications/withNotification';
+import showNotification from '@utils/showNotification';
 import styles from './CP.module.css';
 import loadable from '@loadable/component';
 import axios from 'axios';
@@ -153,7 +153,7 @@ const format = [{
     }]
 }];
 
-function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, showNotification, images, projectName }) {
+function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, images, projectName }) {
     let containerRef = null;
 
     const formValue = {
@@ -322,4 +322,4 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, s
     );
 }
 
-export default memo(withNotification(CP));
+export default memo(CP);

@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import { get, set, save, reset, deleteData } from './actions';
-import withNotification from '../../../plugins/Notifications/withNotification';
+import showNotification from '@utils/showNotification';
 import Form from '../../components/Form';
 import mainFormat from '../../formats/component';
 import { Button } from '../../../components/Button';
@@ -37,7 +37,6 @@ class Component extends PureComponent {
 
         actions: PropTypes.object,
         match: PropTypes.object,
-        showNotification: PropTypes.func,
         history: PropTypes.object
     };
 
@@ -331,7 +330,7 @@ class Component extends PureComponent {
     };
 
     handleSave = async () => {
-        const { showNotification, actions, match, history } = this.props;
+        const { actions, match } = this.props;
 
         const { message, status, data } = await actions.save();
 
@@ -351,7 +350,7 @@ class Component extends PureComponent {
     };
 
     handleDelete = async () => {
-        const { showNotification, actions, history } = this.props;
+        const { actions } = this.props;
 
         if (window.confirm('Вы действительно хотите удалить компонент?')) {
             const { message, status } = await actions.deleteData();
@@ -388,4 +387,4 @@ function mapStateToProps(state) {
     return { data, isFetch, isError };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Component));
+export default connect(mapStateToProps, mapDispatchToProps)(Component);

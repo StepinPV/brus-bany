@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ImageLoader from '../ImageLoader';
 import axios from 'axios';
-import toFormData from "../../../utils/MultipartFormData";
-import withNotification from '../../../plugins/Notifications/withNotification';
+import toFormData from '@utils/MultipartFormData';
+import showNotification from '@utils/showNotification';
 
 class ImageUploader extends PureComponent {
     static propTypes = {
@@ -11,8 +11,7 @@ class ImageUploader extends PureComponent {
         image: PropTypes.string,
         images: PropTypes.object,
         title: PropTypes.string,
-        props: PropTypes.object,
-        showNotification: PropTypes.func
+        props: PropTypes.object
     };
 
     render() {
@@ -28,7 +27,7 @@ class ImageUploader extends PureComponent {
     }
 
     handleChange = async (file) => {
-        const { onChange, showNotification, props } = this.props;
+        const { onChange, props } = this.props;
 
         if (file) {
             const data = {
@@ -57,4 +56,4 @@ class ImageUploader extends PureComponent {
     };
 }
 
-export default withNotification(ImageUploader);
+export default ImageUploader;

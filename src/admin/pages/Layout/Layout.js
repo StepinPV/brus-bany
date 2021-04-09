@@ -6,7 +6,7 @@ import Header from '../../components/Header';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import Form from '../../components/Form';
 import { getLayout, setLayout, saveLayout, resetData, deleteLayout } from './actions';
-import withNotification from '../../../plugins/Notifications/withNotification';
+import showNotification from '@utils/showNotification';
 import format from '../../formats/layout';
 import styles from './Layout.module.css';
 import {Button} from "../../../components/Button";
@@ -27,7 +27,6 @@ class Layout extends PureComponent {
 
         actions: PropTypes.object,
         match: PropTypes.object,
-        showNotification: PropTypes.func,
         history: PropTypes.object
     };
 
@@ -116,7 +115,7 @@ class Layout extends PureComponent {
     };
 
     handleSave = async () => {
-        const { showNotification, actions, history } = this.props;
+        const { actions } = this.props;
 
         const { message, status, data } = await actions.saveLayout();
 
@@ -137,7 +136,7 @@ class Layout extends PureComponent {
     };
 
     handleDelete = async () => {
-        const { showNotification, actions, history } = this.props;
+        const { actions } = this.props;
 
         if (window.confirm('Вы действительно хотите удалить планировку?')) {
             const { message, status } = await actions.deleteLayout();
@@ -180,4 +179,4 @@ function mapStateToProps(state) {
     return { layout, isLayoutFetch, isLayoutError };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNotification(Layout));
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);
