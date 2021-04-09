@@ -20,7 +20,7 @@ function Page(props) {
 
     return (
         <>
-            <components.Header
+            <components.forPage.Header
                 {...headerComponent.config.componentsData['8488'].props}
                 opacity={opacityHeader}
                 hasLinkToMain={hasLinkToMain}
@@ -44,7 +44,7 @@ function Page(props) {
                 rel="noopener noreferrer">
                 <i className={styles['whats-app']} />
             </a>
-            <components.Footer
+            <components.forPage.Footer
                 {...footerComponent.config.componentsData['3912'].props}
                 hasLinkToMain={hasLinkToMain}
             />
