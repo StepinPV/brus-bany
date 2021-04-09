@@ -7,7 +7,7 @@ const ContainerElem = styled.div`
     padding-left: 16px;
     padding-right: 16px;
     ${props => css`
-        flex-grow: ${props.styles.stretched ? '1' : ''}
+        flex-grow: ${props.styles.stretched ? '1' : ''};
         padding-top: ${props.styles.paddingTop && props.styles.paddingTop !== 'none' ? props.theme['padding-top'][props.styles.paddingTop].v : ''};
         padding-bottom: ${props.styles.paddingBottom && props.styles.paddingBottom !== 'none' ? props.theme['padding-bottom'][props.styles.paddingBottom].v : ''};
         background: ${props.styles.background ? props.theme.colors[props.styles.background[0] !== '{' ? props.styles.background : JSON.parse(props.styles.background).value].v : ''};
