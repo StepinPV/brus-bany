@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { useLocation } from 'react-router';
 import PropTypes from "prop-types";
-import * as components from '@constructor-components';
+import components from '@constructor-components';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import ContainerComponent from './Container';
@@ -197,12 +197,11 @@ function Pages(props) {
                                 {
                                     folderForViewed.pageViewConfig.components.map(id => {
                                         const componentData = folderForViewed.pageViewConfig.componentsData[id];
-                                        const Component = components[componentData.componentId];
+                                        const Component = components['forCard'][componentData.componentId];
 
                                         return (
                                             <Component
                                                 {...componentData.props}
-                                                containerStyles={componentData.props && componentData.props.stretched ? css`flex-grow: 1;` : null}
                                                 __images__={componentData.images}
                                                 __pages__={pages}
                                                 __pageFolders__={props['__pageFolders__']}

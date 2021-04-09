@@ -7,11 +7,12 @@ class ComponentSelect extends PureComponent {
     static propTypes = {
         componentMetas: PropTypes.object,
         onSelect: PropTypes.func,
-        additions: PropTypes.array
+        additions: PropTypes.array,
+        type: PropTypes.string
     };
 
     render = () => {
-        const { componentMetas, onSelect, additions } = this.props;
+        const { componentMetas, onSelect, additions, type } = this.props;
 
         let savedComponent = localStorage.getItem('PAGE_EDITOR_COMPONENT_BUFFER');
         if (savedComponent) {
@@ -28,8 +29,8 @@ class ComponentSelect extends PureComponent {
                         Вставить из буфера
                     </div>
                 ) : null}
-                {Object.keys(componentMetas).map(key => {
-                    const meta = componentMetas[key];
+                {Object.keys(componentMetas[type]).map(key => {
+                    const meta = componentMetas[type][key];
                     return meta.disabled ? null : (
                         <div
                             key={meta.key}

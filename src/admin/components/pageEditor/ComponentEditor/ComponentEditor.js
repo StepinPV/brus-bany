@@ -13,6 +13,7 @@ class ComponentEditor extends PureComponent {
         onChangeProps: PropTypes.func,
         modifyProps: PropTypes.func,
         onlyEditableOptions: PropTypes.bool,
+        type: PropTypes.string,
 
         // withComponentMeta
         componentMetas: PropTypes.object
@@ -23,13 +24,15 @@ class ComponentEditor extends PureComponent {
     };
 
     render = () => {
-        const { componentId, componentMetas, componentProps, componentImages, onChangeProps, modifyProps, onlyEditableOptions } = this.props;
+        const { componentId, componentMetas, type, componentProps, componentImages, onChangeProps, modifyProps, onlyEditableOptions } = this.props;
 
-        if (!componentMetas[componentId]) {
+        let componentMeta = componentMetas[type][componentId];
+
+        if (!componentMeta) {
             return null;
         }
 
-        let props = componentMetas[componentId].props;
+        let props = componentMeta.props;
 
         if (onlyEditableOptions) {
             props = componentProps['__editable-options__'] && Object.keys(componentProps['__editable-options__']).length ?

@@ -228,13 +228,15 @@ class PageTemplate extends PureComponent {
                     <ComponentRender
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
-                        componentImages={componentData.images} />
+                        componentImages={componentData.images}
+                        type='forPage' />
                 </Operations>
                 {operations[id] && operations[id].propsFormVisible ? (
                     <ComponentEditor
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
                         componentImages={componentData.images}
+                        type='forPage'
                         modifyProps={props => {
                             return [...props, {
                                 _id: `__editable-options__`,
@@ -328,6 +330,7 @@ class PageTemplate extends PureComponent {
         return (
             <ComponentSelect
                 onSelect={addComponent}
+                type='forPage'
                 hasCustomComponents
                 additions={addComponentPosition !== 'header' && addComponentPosition !== 'footer' ? [{
                     key: `__content__(${Math.floor(Math.random() * (99999999 - 10000000) + 10000000)})`,
@@ -420,13 +423,15 @@ class PageTemplate extends PureComponent {
                     <ComponentRender
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
-                        componentImages={componentData.images} />
+                        componentImages={componentData.images}
+                        type='forPage' />
                 </Operations>
                 {operations[index] && operations[index].propsFormVisible ? (
                     <ComponentEditor
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
                         componentImages={componentData.images}
+                        type='forPage'
                         modifyProps={props => {
                             return [...props, {
                                 _id: '__visible__',

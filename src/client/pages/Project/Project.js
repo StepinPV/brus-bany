@@ -18,7 +18,7 @@ import numberWithSpaces from '../../../utils/numberWithSpaces';
 import filterObject from '../../../utils/filterObject';
 import Meta from '../../components/Meta';
 import Page from "../../components/Page";
-import { Header, Footer, Pages } from '@constructor-components';
+import components from '@constructor-components';
 
 function parseQuery(uri) {
     const [, params] = uri.split('?');
@@ -208,7 +208,7 @@ class Project extends PureComponent {
                     image: project.images ? project.images['main'] : undefined,
                     imageAlt: `Проект ${this.renderInfoTitle(project.categoryId['name5']).toLowerCase()} - ${project.layoutId.name}`
                 }} />
-                <Header
+                <components.Header
                     {...headerComponent.config.componentsData['8488'].props}
                     button={{
                         caption: 'Обратный звонок',
@@ -216,7 +216,7 @@ class Project extends PureComponent {
                     }}
                 />
                 { this.renderContent() }
-                <Footer {...footerComponent.config.componentsData['3912'].props} />
+                <components.Footer {...footerComponent.config.componentsData['3912'].props} />
             </div>
         );
     }
@@ -246,7 +246,7 @@ class Project extends PureComponent {
                 {this.renderDelivery()}
                 {this.renderAdditions()}
                 {this.renderFinalPrice()}
-                <Pages
+                <components.Pages
                     __pages__={pages}
                     __pageFolders__={pageFolders}
                     filter='page[3596] === location.pathname'

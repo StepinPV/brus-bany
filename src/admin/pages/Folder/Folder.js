@@ -227,7 +227,7 @@ class Folder extends PureComponent {
             this.setOpenedPanel(null);
         }
 
-        return <ComponentSelect onSelect={addComponent} />;
+        return <ComponentSelect onSelect={addComponent} type='forCard' />;
     };
 
     renderComponentByIndex = (index) => {
@@ -292,20 +292,15 @@ class Folder extends PureComponent {
                     <ComponentRender
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
-                        componentImages={componentData.images} />
+                        componentImages={componentData.images}
+                        type='forCard' />
                 </Operations>
                 {operations[index] && operations[index].propsFormVisible ? (
                     <ComponentEditor
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
                         componentImages={componentData.images}
-                        modifyProps={props => (
-                            [...props, {
-                                _id: 'stretched',
-                                title: 'Блок растягивается по высоте',
-                                type: 'boolean'
-                            }]
-                        )}
+                        type='forCard'
                         onChangeProps={(newProps, errors, images) => {
                             this.setConfig({
                                 componentsData: {

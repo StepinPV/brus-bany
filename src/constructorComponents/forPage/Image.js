@@ -46,8 +46,8 @@ const Img = styled.img`
 function Image(props) {
     return (
         <ContainerComponent
-            paddingLeft={props.paddingLeftAndRight}
-            paddingRight={props.paddingLeftAndRight}
+            paddingLeft
+            paddingRight
             id={props.id}
             paddingBottom={props.paddingBottom}
             paddingTop={props.paddingTop}
@@ -73,7 +73,6 @@ function Image(props) {
 }
 
 Image.propTypes = {
-    paddingLeftAndRight: PropTypes.bool,
     objectFit: PropTypes.oneOf(['fill', 'contain', 'cover']),
     image: PropTypes.string,
     imageAlt: PropTypes.string,

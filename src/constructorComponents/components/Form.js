@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Input } from '../index';
+import Input from './Input';
 import Button from './Button';
 import styled from '@emotion/styled';
 import {css} from "@emotion/core";

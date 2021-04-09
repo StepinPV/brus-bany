@@ -14,8 +14,8 @@ export const props = [{
     }
 }];
 
-export const name = 'Кнопки для карточки';
-export const key = 'ButtonsForCard';
+export const name = 'Две кнопки';
+export const key = 'Buttons';
 export const defaultProps = {
     firstButton: 'Кнопка1',
     secondButton: 'Кнопка2'

@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { Header, Footer } from '@constructor-components';
+import components from '@constructor-components';
 import NotFound from '../NotFound';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import styles from './Page.module.css';
@@ -20,7 +20,7 @@ function Page(props) {
 
     return (
         <>
-            <Header
+            <components.Header
                 {...headerComponent.config.componentsData['8488'].props}
                 opacity={opacityHeader}
                 hasLinkToMain={hasLinkToMain}
@@ -44,7 +44,7 @@ function Page(props) {
                 rel="noopener noreferrer">
                 <i className={styles['whats-app']} />
             </a>
-            <Footer
+            <components.Footer
                 {...footerComponent.config.componentsData['3912'].props}
                 hasLinkToMain={hasLinkToMain}
             />

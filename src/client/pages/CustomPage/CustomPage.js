@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import PageRender from '../../components/PageRender';
 import Meta from "../../components/Meta";
-import * as components from '@constructor-components';
+import components from '@constructor-components';
 import { ThemeProvider } from 'emotion-theming';
 import theme from '@constructor-components/theme';
 import { applyFields } from '@constructor-components/helpers';
@@ -246,8 +246,8 @@ class CustomPage extends PureComponent {
         const { customComponents, staticContext, pages, pageFolders } = this.props;
         const { componentFieldValues } = this.state;
 
-        if (components[componentId]) {
-            const Component = components[componentId];
+        if (components['forPage'][componentId]) {
+            const Component = components['forPage'][componentId];
 
             return (
                 <Component

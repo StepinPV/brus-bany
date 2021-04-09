@@ -22,8 +22,7 @@ function Text(props) {
             id={props.id}
             paddingBottom={props.paddingBottom}
             paddingTop={props.paddingTop}
-            background={props.containerBackground}
-            containerStyles={props.containerStyles}>
+            background={props.containerBackground}>
             <Container styles={{ width: props.width }}>
                 <TextComponent
                     children={props.children}

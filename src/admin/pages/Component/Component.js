@@ -206,7 +206,7 @@ class Component extends PureComponent {
             this.setOpenedPanel(null);
         }
 
-        return <ComponentSelect onSelect={addComponent} />;
+        return <ComponentSelect onSelect={addComponent} type='forPage' />;
     };
 
     renderComponentByIndex = (index) => {
@@ -271,13 +271,15 @@ class Component extends PureComponent {
                     <ComponentRender
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
-                        componentImages={componentData.images} />
+                        componentImages={componentData.images}
+                        type='forPage' />
                 </Operations>
                 {operations[index] && operations[index].propsFormVisible ? (
                     <ComponentEditor
                         componentId={componentData.componentId}
                         componentProps={componentData.props}
                         componentImages={componentData.images}
+                        type='forPage'
                         modifyProps={props => {
                             return [...props, {
                                 _id: `__editable-options__`,

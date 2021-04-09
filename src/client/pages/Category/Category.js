@@ -18,7 +18,7 @@ import styles from './Category.module.css';
 import FormBlock from "../../components/FormBlock";
 import Meta from '../../components/Meta';
 import wordByNumber from '../../../utils/wordByNumber';
-import { Pages } from '@constructor-components';
+import components from '@constructor-components';
 
 const breadcrumbsDefault = [{
     title: 'Главная',
@@ -343,7 +343,7 @@ class Category extends PureComponent {
                 captionTag='h2'
                 bgStyle='white'
                 caption='Фотоотчеты'>
-                <Pages
+                <components.Pages
                     __pages__={pages}
                     __pageFolders__={pageFolders}
                     maxCount={6}

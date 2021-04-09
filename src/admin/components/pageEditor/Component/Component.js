@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import * as components from '@constructor-components';
+import components from '@constructor-components';
 import withCustomComponents from '../withCustomComponents';
 import axios from 'axios';
 
@@ -25,6 +25,7 @@ class Component extends PureComponent {
         componentProps: PropTypes.object,
         componentImages: PropTypes.object,
         componentFieldValues: PropTypes.object,
+        type: PropTypes.string,
 
         // withCustomComponents
         customComponents: PropTypes.array,
@@ -56,11 +57,11 @@ class Component extends PureComponent {
     };
 
     renderComponent = (componentId, props, images, fieldValues) => {
-        const { customComponents } = this.props;
+        const { customComponents, type } = this.props;
 
-        if (components[componentId]) {
-            const Component = components[componentId];
+        const Component = components[type][componentId];
 
+        if (Component) {
             return (
                 <Component
                     {...props}

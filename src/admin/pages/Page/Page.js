@@ -396,13 +396,15 @@ class Page extends PureComponent {
                                     componentId={tComponent.componentId}
                                     componentProps={tComponentProps}
                                     componentImages={tComponentImages}
-                                    componentFieldValues={componentFieldValues} />
+                                    componentFieldValues={componentFieldValues}
+                                    type='forPage' />
                             </Operations>
                             { operations[tComponentId] && operations[tComponentId].propsFormVisible ? (
                                 <ComponentEditor
                                     componentId={tComponent.componentId}
                                     componentProps={tComponentProps}
                                     componentImages={tComponentImages}
+                                    type='forPage'
                                     onlyEditableOptions
                                     onChangeProps={(newProps, errors, images) => {
                                         this.setConfig({
@@ -498,7 +500,8 @@ class Page extends PureComponent {
                             componentId={component.componentId}
                             componentProps={componentProps}
                             componentImages={component.images}
-                            componentFieldValues={componentFieldValues} />
+                            componentFieldValues={componentFieldValues}
+                            type='forPage' />
                     </Operations>
                     {operations[id] && operations[id].propsFormVisible ? (
                         <ComponentEditor
@@ -506,6 +509,7 @@ class Page extends PureComponent {
                             componentProps={componentProps}
                             onlyEditableOptions={isTemplateComponent}
                             componentImages={component.images}
+                            type='forPage'
                             onChangeProps={(newProps, errors, images) => {
                                 this.setConfig({
                                     componentsData: {
@@ -592,7 +596,7 @@ class Page extends PureComponent {
             });
         }
 
-        return <ComponentSelect onSelect={addComponent} hasCustomComponents />;
+        return <ComponentSelect onSelect={addComponent} hasCustomComponents type='forPage' />;
     };
 
     renderComponentByIndex = (blockId, index) => {
@@ -679,13 +683,15 @@ class Page extends PureComponent {
                         componentId={component.componentId}
                         componentProps={component.props}
                         componentImages={component.images}
-                        componentFieldValues={page.config['template-fields']} />
+                        componentFieldValues={page.config['template-fields']}
+                        type='forPage' />
                 </Operations>
                 { operations[`${blockId}:${index}`] && operations[`${blockId}:${index}`].propsFormVisible ? (
                     <ComponentEditor
                         componentId={component.componentId}
                         componentProps={component.props}
                         componentImages={component.images}
+                        type='forPage'
                         onChangeProps={(newProps, errors, images) => {
                             this.setConfig({
                                 componentsData: {

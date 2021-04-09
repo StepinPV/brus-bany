@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import { Header, Footer } from '@constructor-components';
+import components from '@constructor-components';
 import NotFoundComponent from '../../client/components/NotFound';
 import Meta from '../../client/components/Meta';
 
@@ -22,7 +22,7 @@ function NotFound({ customComponents, staticContext }) {
     return (
         <>
             <Meta meta={META} />
-            <Header
+            <components.Header
                 {...headerComponent.config.componentsData['8488'].props}
                 button={{
                     caption: 'Обратный звонок',
@@ -30,7 +30,7 @@ function NotFound({ customComponents, staticContext }) {
                 }}
             />
             <NotFoundComponent />
-            <Footer {...footerComponent.config.componentsData['3912'].props} />
+            <components.Footer {...footerComponent.config.componentsData['3912'].props} />
         </>
     );
 }

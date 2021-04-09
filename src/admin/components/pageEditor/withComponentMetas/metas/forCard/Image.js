@@ -1,5 +1,3 @@
-import { props as containerProps, defaultProps as defaultContainerProps } from './Container';
-
 // custom
 export const props = [{
     _id: 'image',
@@ -13,15 +11,6 @@ export const props = [{
     _id: 'imageAlt',
     title: 'Alt изображения',
     type: 'string'
-}, {
-    _id: 'width',
-    title: 'Ширина',
-    type: 'theme-param',
-    typeId: 'max-width'
-}, {
-    _id: 'paddingLeftAndRight',
-    title: 'Отступы слева и справа',
-    type: 'boolean'
 }, {
     _id: 'height',
     title: 'Задать высоту (px)',
@@ -44,12 +33,9 @@ export const props = [{
         id: 'cover',
         title: 'Сохранить пропорции и заполнить всю область'
     }]
-}, ...containerProps];
+}];
 export const name = 'Изображение';
 export const key = 'Image';
 export const defaultProps = {
-    ...defaultContainerProps,
-    objectFit: 'contain',
-    width: 's',
-    paddingLeftAndRight: true
+    objectFit: 'contain'
 };

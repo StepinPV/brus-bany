@@ -22,11 +22,9 @@ function Caption(props) {
             id={props.id}
             paddingBottom={props.paddingBottom}
             paddingTop={props.paddingTop}
-            background={props.containerBackground}
-            containerStyles={props.containerStyles}>
+            background={props.containerBackground}>
             <Container styles={{ width: props.width }}>
                 <CaptionComponent
-                    as={props.tag}
                     children={props.children}
                     size={props.size}
                     color={props.color}
