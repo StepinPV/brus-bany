@@ -5,10 +5,10 @@ import ContainerComponent from './Container';
 function Text(props) {
     return (
         <ContainerComponent
+            stretched={props.stretched}
             paddingBottom={props.paddingBottom}
             paddingTop={props.paddingTop}
-            background={props.containerBackground}
-            containerStyles={props.containerStyles}>
+            background={props.containerBackground}>
             <TextComponent
                 children={props.children}
                 align={props.align}

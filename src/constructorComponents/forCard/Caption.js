@@ -5,10 +5,10 @@ import CaptionComponent from '../components/Caption';
 function Caption(props) {
     return (
         <ContainerComponent
+            stretched={props.stretched}
             paddingBottom={props.paddingBottom}
             paddingTop={props.paddingTop}
-            background={props.containerBackground}
-            containerStyles={props.containerStyles}>
+            background={props.containerBackground}>
             <CaptionComponent
                 children={props.children}
                 size={props.size}
