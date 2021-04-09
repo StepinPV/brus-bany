@@ -2,7 +2,6 @@ import React, { memo } from 'react';
 import { useLocation } from 'react-router';
 import PropTypes from "prop-types";
 import components from '@constructor-components';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import ContainerComponent from './Container';
 

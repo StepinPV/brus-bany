@@ -343,7 +343,7 @@ class Category extends PureComponent {
                 captionTag='h2'
                 bgStyle='white'
                 caption='Фотоотчеты'>
-                <components.Pages
+                <components.forPage.Pages
                     __pages__={pages}
                     __pageFolders__={pageFolders}
                     maxCount={6}

@@ -22,7 +22,7 @@ function NotFound({ customComponents, staticContext }) {
     return (
         <>
             <Meta meta={META} />
-            <components.Header
+            <components.forPage.Header
                 {...headerComponent.config.componentsData['8488'].props}
                 button={{
                     caption: 'Обратный звонок',
@@ -30,7 +30,7 @@ function NotFound({ customComponents, staticContext }) {
                 }}
             />
             <NotFoundComponent />
-            <components.Footer {...footerComponent.config.componentsData['3912'].props} />
+            <components.forPage.Footer {...footerComponent.config.componentsData['3912'].props} />
         </>
     );
 }

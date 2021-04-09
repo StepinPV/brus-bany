@@ -208,7 +208,7 @@ class Project extends PureComponent {
                     image: project.images ? project.images['main'] : undefined,
                     imageAlt: `Проект ${this.renderInfoTitle(project.categoryId['name5']).toLowerCase()} - ${project.layoutId.name}`
                 }} />
-                <components.Header
+                <components.forPage.Header
                     {...headerComponent.config.componentsData['8488'].props}
                     button={{
                         caption: 'Обратный звонок',
@@ -216,7 +216,7 @@ class Project extends PureComponent {
                     }}
                 />
                 { this.renderContent() }
-                <components.Footer {...footerComponent.config.componentsData['3912'].props} />
+                <components.forPage.Footer {...footerComponent.config.componentsData['3912'].props} />
             </div>
         );
     }
@@ -246,7 +246,7 @@ class Project extends PureComponent {
                 {this.renderDelivery()}
                 {this.renderAdditions()}
                 {this.renderFinalPrice()}
-                <components.Pages
+                <components.forPage.Pages
                     __pages__={pages}
                     __pageFolders__={pageFolders}
                     filter='page[3596] === location.pathname'
