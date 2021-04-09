@@ -71,6 +71,7 @@ router.get('*', async (req, res, next) => {
                 link: head.link.toString(),
                 initialData: serialize(context.simplePage ? {} : initialData),
                 data: serialize(context.simplePage ? {} : (context.data || {})),
+                needShareScript: Boolean(context.needShareScript),
                 app: markup,
                 css,
                 cssIds,

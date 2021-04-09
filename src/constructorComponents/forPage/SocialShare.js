@@ -8,6 +8,10 @@ const Share = styled.form`
 `;
 
 function SocialShare(props) {
+    if (props.staticContext) {
+        props.staticContext.needShareScript = true;
+    }
+
     return (
         <ContainerComponent
             paddingLeft
