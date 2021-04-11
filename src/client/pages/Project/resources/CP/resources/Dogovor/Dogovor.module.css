@@ -1,6 +1,8 @@
 .container {
     margin-left: 48px;
     padding: 0 16px;
+    width: 650px;
+    box-sizing: border-box;
 }
 
 .container div,
