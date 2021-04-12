@@ -136,9 +136,8 @@ class Equipment extends PureComponent {
                     </div>
                     {equipment.filter(({ condition }) => { return !condition || getText(project, data, condition, {}) === 'true' }).map(({ name: groupName, value }, index) => (
                         <div key={groupName} className={cx(styles.items, {[styles['items-hidden']]: selected !== index })}>
-                            {value ? value.filter(({ condition }) => {
-                                return !condition || getText(project, data, condition, {}) === 'true'
-                            }).map(({ name: itemName, value }) => this.renderItem(groupName, itemName, value))
+                            {value ?
+                                value.map(({ name: itemName, value, condition }) => this.renderItem(groupName, itemName, value, !condition || getText(project, data, condition, {}) === 'true'))
                                 : null
                             }
                         </div>
@@ -148,7 +147,7 @@ class Equipment extends PureComponent {
         );
     }
 
-    renderItem = (groupName, itemName, { typeId, value }) => {
+    renderItem = (groupName, itemName, { typeId, value }, enabled) => {
         const { project, data } = this.props;
 
         switch(typeId) {
@@ -161,12 +160,15 @@ class Equipment extends PureComponent {
                 }
 
                 return (
-                    <div className={styles.item} key={itemName}>
+                    <div className={cx(styles.item, {[styles['item-disabled']]: !enabled})} key={itemName}>
                         {filteredValues.map(item => (
                             <div
                                 key={item.name}
                                 className={cx(styles['select-item'], val ? (val === stringHash(item.name) ? styles['select-item-checked'] : '') : (item.default ? styles['select-item-checked'] : ''))}
                                 onClick={() => {
+                                    if (!enabled) {
+                                        return;
+                                    }
                                     this.setElementValue(groupName, itemName, val === stringHash(item.name) || item.default ? undefined : item.name, {
                                         hashValue: true
                                     });
@@ -187,10 +189,13 @@ class Equipment extends PureComponent {
                     let val = getElementValue(this.props.value, groupName, `${itemName}[${listIndex}]`);
 
                     return (
-                        <div className={styles.item} key={itemName + item.name}>
+                        <div className={cx(styles.item, {[styles['item-disabled']]: !enabled})} key={itemName + item.name}>
                             <div
                                 className={cx(styles['select-item'], val ? false : styles['select-item-checked'])}
                                 onClick={() => {
+                                    if (!enabled) {
+                                        return;
+                                    }
                                     this.setElementValue(groupName, `${itemName}[${listIndex}]`, undefined);
                                 }}>
                                 <div className={styles['select-item-checker']} />
@@ -201,6 +206,9 @@ class Equipment extends PureComponent {
                                     key={v.value}
                                     className={cx(styles['select-item'], val ? (val === index.toString() ? styles['select-item-checked'] : '') : '')}
                                     onClick={() => {
+                                        if (!enabled) {
+                                            return;
+                                        }
                                         this.setElementValue(groupName, `${itemName}[${listIndex}]`, index.toString());
                                     }}>
                                     <div className={styles['select-item-checker']} />
@@ -215,7 +223,7 @@ class Equipment extends PureComponent {
 
             case 'base':
                 return value ? (
-                    <div className={styles.item} key={itemName}>
+                    <div className={cx(styles.item, {[styles['item-disabled']]: !enabled})} key={itemName}>
                         <div className={cx(styles['item-text'], styles['base-item'])}>{getText(project, data, value, {})}</div>
                     </div>
                 ) : null;
@@ -223,7 +231,7 @@ class Equipment extends PureComponent {
             case 'number': {
                 const val = parseInt(getElementValue(this.props.value, groupName, itemName));
                 return value ? (
-                    <div className={styles.item} key={itemName}>
+                    <div className={cx(styles.item, {[styles['item-disabled']]: !enabled})} key={itemName}>
                         <div className={cx(styles['item-text'], styles['base-item'])}>{getText(project, data, value.name, {})}</div>
                         <div className={styles['number-item-block']}>
                             <div className={styles['number-item-block-content']}>
@@ -232,6 +240,9 @@ class Equipment extends PureComponent {
                                         cx(styles['number-item-block-button'], styles[`number-item-block-button-${val ? 'active' : 'inactive'}`])
                                     }
                                     onClick={val ? () => {
+                                        if (!enabled) {
+                                            return;
+                                        }
                                         const newValue = parseInt(val) - 1;
                                         this.setElementValue(groupName, itemName, newValue === parseInt(getText(project, data, value.default, {})) ? null : newValue.toString());
                                     } : null}>-
@@ -242,6 +253,9 @@ class Equipment extends PureComponent {
                                         cx(styles['number-item-block-button'], styles[`number-item-block-button-active`])
                                     }
                                     onClick={() => {
+                                        if (!enabled) {
+                                            return;
+                                        }
                                         this.setElementValue(groupName, itemName, (parseInt(val || getText(project, data, value.default, {})) + 1).toString());
                                     }}>+
                                 </div>

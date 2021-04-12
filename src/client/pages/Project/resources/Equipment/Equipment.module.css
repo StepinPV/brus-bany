@@ -124,6 +124,28 @@
     margin: 0 8px;
 }
 
+.item-disabled {
+    background: #f9f9f9 !important;
+}
+
+.item-disabled .select-item {
+    background: #f9f9f9 !important;
+    cursor: default !important;
+}
+
+.item-disabled .select-item-checker {
+    border-color: #cfd8d2;
+}
+
+.item-disabled .select-item-checked .select-item-checker {
+    background: #cfd8d2;
+}
+
+.item-disabled .item-price,
+.item-disabled .item-text {
+    opacity: 0.3;
+}
+
 @media screen and (min-width: 641px) {
     .item {
         width: calc(50% - 8px);
