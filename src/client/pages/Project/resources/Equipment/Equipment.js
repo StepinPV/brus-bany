@@ -45,6 +45,8 @@ export function getText(project, data = {}, formula, { item }) {
     const complectation = data.complectation;
     // eslint-disable-next-line no-unused-vars
     const equipment = data.equipment;
+    // eslint-disable-next-line no-unused-vars
+    const additions = data.additions;
 
     // eslint-disable-next-line
     try {
