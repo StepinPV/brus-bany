@@ -266,8 +266,8 @@ class Project extends PureComponent {
                 <components.forPage.FormBlock
                     {...formBlockComponent.config.componentsData['72350294'].props}
                     __images__={formBlockComponent.config.componentsData['72350294'].images}
-                    containerBackground='{ "type": "base", "value": "grey" }'
-                    background='{ "type": "base", "value": "white" }' />
+                    containerBackground='{ "type": "base", "value": "white" }'
+                    background='{ "type": "base", "value": "grey" }' />
             </div>
         ) : null;
     };
