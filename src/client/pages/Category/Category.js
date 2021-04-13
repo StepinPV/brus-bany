@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import Page from '../../components/Page';
 import CardList from '../../../components/CardList';
@@ -15,7 +15,6 @@ import filterProjects from './resources/filter';
 import sortProjects from './resources/sort';
 import Filters from './resources/Filters';
 import styles from './Category.module.css';
-import FormBlock from "../../components/FormBlock";
 import Meta from '../../components/Meta';
 import wordByNumber from '../../../utils/wordByNumber';
 import components from '@constructor-components';
@@ -209,9 +208,16 @@ class Category extends PureComponent {
     }
 
     renderContent = () => {
-        const { category, match } = this.props;
+        const { category, customComponents, staticContext } = this.props;
         const { filteredProjects } = this.state;
-        const { name } = match.params;
+
+        const formBlockComponent = customComponents.find(component => component['_id'] === '6075adcfec1d085b54e01146');
+
+        if (staticContext) {
+            staticContext.data = staticContext.data || {};
+            staticContext.data.customComponents = staticContext.data.customComponents || [];
+            staticContext.data.customComponents.push(formBlockComponent);
+        }
 
         return category && filteredProjects ? (
             <>
@@ -224,7 +230,11 @@ class Category extends PureComponent {
                 {this.renderPhotos()}
                 {this.renderNotFoundProject()}
                 {this.renderAdditionalProjects()}
-                <FormBlock source={name} />
+                <components.forPage.FormBlock
+                    {...formBlockComponent.config.componentsData['72350294'].props}
+                    __images__={formBlockComponent.config.componentsData['72350294'].images}
+                    containerBackground='{ "type": "base", "value": "grey" }'
+                    background='{ "type": "base", "value": "white" }' />
                 {this.renderArticle()}
             </>
         ) : null;

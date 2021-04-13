@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Caption from '../Caption';
+import Caption from '@components/Caption';
 import styles from './NotFound.module.css';
 
 function NotFound(props) {

@@ -1,7 +1,7 @@
 import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
-import Caption from '../../components/Caption';
-import Text from '../../components/Text';
+import Caption from '@components/Caption';
+import Text from '@components/Text';
 import renderDate from '@utils/RenderDate';
 import styles from './Article.module.css';
 

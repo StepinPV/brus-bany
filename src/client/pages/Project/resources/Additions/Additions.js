@@ -1,6 +1,6 @@
 import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
-import Text from '../../../../components/Text';
+import Text from '@components/Text';
 import DataSection from '../../../../components/DataSection';
 import cx from 'classnames';
 import styles from './Additions.module.css';

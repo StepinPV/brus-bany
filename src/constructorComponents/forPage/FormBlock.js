@@ -50,7 +50,7 @@ function FormBlock(props) {
         <ContainerComponent
             paddingLeft
             paddingRight
-            id='requestForm'
+            id={props.id}
             paddingBottom={props.paddingBottom}
             paddingTop={props.paddingTop}
             background={props.containerBackground}>

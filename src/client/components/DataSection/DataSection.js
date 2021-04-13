@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Section from '../Section';
-import Caption from '../Caption';
-import Text from '../Text';
+import Caption from '@components/Caption';
+import Text from '@components/Text';
 import styles from './DataSection.module.css';
 
 function DataSection(props) {

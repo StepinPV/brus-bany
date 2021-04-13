@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import FormProvider from '../../client/plugins/Form/Provider';
-import FormContext from '../../client/plugins/Form/Context';
-import Form from '../../client/plugins/Form/Form';
+import FormProvider from '@plugins/Form/Provider';
+import FormContext from '@plugins/Form/Context';
+import Form from '@plugins/Form/Form';
 import NotFound from '../NotFound';
 // По итогу это должно быть не здесь
 import { ThemeProvider } from 'emotion-theming';

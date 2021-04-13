@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import Caption from '../../client/components/Caption';
-import Text from '../../client/components/Text';
+import Caption from '@components/Caption';
+import Text from '@components/Text';
 import styles from './H1Block.module.css';
 
 function H1Block(props) {

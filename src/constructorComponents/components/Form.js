@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useRouteMatch } from 'react-router';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Input from './Input';
@@ -22,7 +23,8 @@ const Disclaimer = styled.div`
 `;
 
 function Form(props) {
-    const { buttonCaption, source, data } = props;
+    const { buttonCaption } = props;
+    const match = useRouteMatch();
 
     return (
         <Container action='/api/requests' method='post'>
@@ -39,13 +41,7 @@ function Form(props) {
                 required
                 paddingBottom='s' />
 
-            {source ? (
-                <input type="hidden" name='source' value={source} />
-            ) : null}
-
-            {data ? (
-                <input type="hidden" name='data' value={JSON.stringify(data)} />
-            ) : null}
+            <input type='hidden' name='source' value={match.url} />
 
             <Button
                 type='button'
@@ -60,8 +56,6 @@ function Form(props) {
 }
 
 Form.propTypes = {
-    source: PropTypes.string,
-    data: PropTypes.array,
     onSuccess: PropTypes.func,
     buttonCaption: PropTypes.string
 };

@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from 'react';
-import Caption from '../../../../components/Caption';
+import Caption from '@components/Caption';
 import { Button } from '../../../../../components/Button';
 import Form from '../../../../../admin/components/Form';
 import showNotification from '@utils/showNotification';

@@ -22,11 +22,12 @@ const Iframe = loadable(() => import('./Iframe'));
 const Links = loadable(() => import('./Links'));
 const HowWork = loadable(() => import('./HowWork'));
 const WhyMe = loadable(() => import('./WhyMe'));
+const ProductCard = loadable(() => import('./ProductCard'));
 
 export default {
     Caption, Text, Button, Breadcrumbs, Banner, Banner2, QuestionAnswer, ImageLinkBlock, ImageLinkBlocks,
     Image, Header, Footer, Contacts, FormBlock, Quiz, Pages, SocialShare, ImageTiles,
-    Iframe, Links, HowWork, WhyMe
+    Iframe, Links, HowWork, WhyMe, ProductCard
 }
 
 

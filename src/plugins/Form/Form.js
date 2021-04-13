@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FormComponent from '../../components/Form';
 import Caption from '../../components/Caption';
 import Text from '../../components/Text';
-import Modal from '../../../components/Modal';
+import Modal from '../../components/Modal';
 import styles from './Form.module.css';
 
 const Form = ({ onClose, source, title, data }) => (

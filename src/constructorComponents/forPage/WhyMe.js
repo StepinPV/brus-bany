@@ -50,12 +50,12 @@ const items = [{
     text: 'Оплата производится после успешной сдачи объекта. Более подробная информация в <a href="/usloviya-oplaty" style="color:#013885;font-weight:bold;text-decoration:none">условиях оплаты</a>'
 }, {
     icon: caska,
-    caption: 'Построили более 350 объектов',
+    caption: 'Построили более 1000 объектов',
     text: 'Накопили достаточно опыта, чтобы построить объект любой сложности, <a href="/photos" style="color:#013885;font-weight:bold;text-decoration:none">убедитесь сами</a>'
 }, {
     icon: galka,
     caption: 'Гарантия<br/>качества',
-    text: 'Строим строго по <a href="/gosty-i-snipy" style="color:#013885;font-weight:bold;text-decoration:none">ГОСТу</a>. По договору обслуживаем постройку в течение 2-х лет'
+    text: 'Строим строго по <a href="/gosty-i-snipy" style="color:#013885;font-weight:bold;text-decoration:none">ГОСТу</a>. По договору обслуживаем постройку в течение 3-х лет'
 }];
 
 function WhyMe(props) {

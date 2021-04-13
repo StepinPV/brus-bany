@@ -12,8 +12,7 @@ import Gallery from './resources/Gallery';
 import { getProject, resetData } from './actions';
 import styles from './Project.module.css';
 import { Button } from "../../../components/Button";
-import withForm from '../../plugins/Form/withForm';
-import FormBlock from '../../components/FormBlock';
+import withForm from '@plugins/Form/withForm';
 import numberWithSpaces from '../../../utils/numberWithSpaces';
 import filterObject from '../../../utils/filterObject';
 import Meta from '../../components/Meta';
@@ -222,8 +221,16 @@ class Project extends PureComponent {
     }
 
     renderContent = () => {
-        const { project, match, pages, pageFolders, staticContext } = this.props;
+        const { project, pages, pageFolders, staticContext, customComponents } = this.props;
         const { breadcrumbs } = this.state;
+
+        const formBlockComponent = customComponents.find(component => component['_id'] === '6075adcfec1d085b54e01146');
+
+        if (staticContext) {
+            staticContext.data = staticContext.data || {};
+            staticContext.data.customComponents = staticContext.data.customComponents || [];
+            staticContext.data.customComponents.push(formBlockComponent);
+        }
 
         return project ? (
             <div className={styles.container} itemScope itemType="http://schema.org/Product">
@@ -256,7 +263,11 @@ class Project extends PureComponent {
                     sort='page1[3596] > page2[6162] ? -1 : (page1[6162] === page2[6162] ? 0 : 1)'
                     staticContext={staticContext}
                 />
-                <FormBlock source={match.url} />
+                <components.forPage.FormBlock
+                    {...formBlockComponent.config.componentsData['72350294'].props}
+                    __images__={formBlockComponent.config.componentsData['72350294'].images}
+                    containerBackground='{ "type": "base", "value": "grey" }'
+                    background='{ "type": "base", "value": "white" }' />
             </div>
         ) : null;
     };
