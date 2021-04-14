@@ -148,6 +148,7 @@ class CustomPage extends PureComponent {
         }
 
         return this.renderComponent({
+            key: id,
             componentId: component.componentId,
             props: componentProps,
             images: component.images
@@ -220,6 +221,7 @@ class CustomPage extends PureComponent {
                     }
 
                     return this.renderComponent({
+                        key: tComponentId,
                         componentId: tComponent.componentId,
                         props: tComponentProps,
                         images: tComponentImages
@@ -236,13 +238,14 @@ class CustomPage extends PureComponent {
         const component = page.config.componentsData[components[index]];
 
         return this.renderComponent({
+            key: components[index],
             componentId: component.componentId,
             props: component.props,
             images: component.images,
         });
     };
 
-    renderComponent = ({ componentId, props, images }) => {
+    renderComponent = ({ key, componentId, props, images }) => {
         const { customComponents, staticContext, pages, pageFolders } = this.props;
         const { componentFieldValues } = this.state;
 
@@ -252,6 +255,7 @@ class CustomPage extends PureComponent {
             return (
                 <Component
                     {...props}
+                    key={key}
                     __images__={images || {}}
                     __pages__={pages}
                     __pageFolders__={pageFolders}
@@ -272,27 +276,32 @@ class CustomPage extends PureComponent {
         }
 
         if (customComponent && customComponent.config && customComponent.config.components) {
-            return customComponent.config.components.map(cId => {
-                const componentData = customComponent.config.componentsData[cId];
+            return (
+                <>
+                    {customComponent.config.components.map(cId => {
+                        const componentData = customComponent.config.componentsData[cId];
 
-                const finalProps = { ...componentData.props };
+                        const finalProps = { ...componentData.props };
 
-                Object.keys(props).forEach(propKey => {
-                    const [_cId, paramId] = propKey.split(':');
-                    if (_cId === cId.toString() && componentData.props['__editable-options__'] && componentData.props['__editable-options__'][paramId]) {
-                        finalProps[paramId] = props[propKey];
-                    }
-                });
+                        Object.keys(props).forEach(propKey => {
+                            const [_cId, paramId] = propKey.split(':');
+                            if (_cId === cId.toString() && componentData.props['__editable-options__'] && componentData.props['__editable-options__'][paramId]) {
+                                finalProps[paramId] = props[propKey];
+                            }
+                        });
 
-                return this.renderComponent({
-                    componentId: componentData.componentId,
-                    props: finalProps,
-                    images: {
-                        ...componentData.images,
-                        ...images
-                    }
-                });
-            });
+                        return this.renderComponent({
+                            key: {cId},
+                            componentId: componentData.componentId,
+                            props: finalProps,
+                            images: {
+                                ...componentData.images,
+                                ...images
+                            }
+                        });
+                    })}
+                </>
+            );
         }
 
         return null;

@@ -8,7 +8,6 @@ import Additions, { getAdditionsPrice } from './resources/Additions';
 import DeliveryMap from '../../components/DeliveryMap';
 import ProjectBlock from './resources/ProjectBlock';
 import Equipment, { getEquipmentFinalPrice } from './resources/Equipment';
-import Gallery from './resources/Gallery';
 import { getProject, resetData } from './actions';
 import styles from './Project.module.css';
 import { Button } from "../../../components/Button";
@@ -233,11 +232,46 @@ class Project extends PureComponent {
         }
 
         return project ? (
-            <div className={styles.container} itemScope itemType="http://schema.org/Product">
-                <div className={styles['top-block']}>
-                    {this.renderGallery()}
-                    {this.renderInfo()}
-                </div>
+            <div itemScope itemType="http://schema.org/Product">
+                <components.forPage.ProductCard
+                    staticContext={staticContext}
+                    images={this.getImages().map((image, index) => ({
+                        src: index,
+                        alt: image.alt
+                    }))}
+                    __images__={this.getImages().reduce((acc, image, index) => {
+                        acc[index] = image.src;
+                        return acc;
+                    }, {})}
+                    title={`${this.renderInfoTitle(project.categoryId.name2)} <span style="color: #963113">${project.layoutId.name}</span>`}
+                    description={`
+                        <div>Общая площадь - ${project.layoutId.area}м<sup>2</sup></div>
+                        <div>Площадь сруба - ${project.layoutId.frameArea}м<sup>2</sup></div>
+                        ${project.layoutId.terrace && project.layoutId.terrace.area ? `<div>Площадь террасы - ${project.layoutId.terrace.area}м<sup>2</sup></div>` : ``}
+                        ${project.layoutId.porch && project.layoutId.porch.area ? `<div>Площадь крыльца - ${project.layoutId.porch.area}м<sup>2</sup></div>` : ``}
+                        ${project.layoutId.attic && project.layoutId.attic.area ? `<div>Площадь мансарды - ${project.layoutId.attic.area}м<sup>2</sup></div>` : ``}
+                    `}
+                    price={this.getDefaultPrice()}
+                    firstButton={{
+                        caption: project.categoryId.payButton,
+                        formCaption: 'Оформление заявки'
+                    }}
+                    secondButton={{
+                        caption: 'Обсудить проект со специалистом'
+                    }}
+                    additionalInfo={`
+                        <div style="font-size: 20px;margin-bottom: 32px;">Срок строительства - ${project.buildTime} дней</div>
+                        <div style="line-height: 20px;margin-bottom: 16px;">
+                            ★ Гарантируем <span style="font-weight:bold;color:#5e9300">лучшую цену</span>, так как являемся прямым производителем
+                        </div>
+                        <div style="line-height: 20px;margin-bottom: 16px;">
+                            ★ Работаем <span style="font-weight:bold;color:#359bd0">без предоплаты</span>
+                        </div>
+                        <div style="line-height: 20px;margin-bottom: 16px;">
+                            ★ Имеем <span style="font-weight:bold;color:#d7b32a">более 10 лет</span> опыта
+                        </div>
+                    `}
+                />
                 <Breadcrumbs items={breadcrumbs} />
                 <div className={styles['page-info']}>
                     <div className={styles['page-info-icon']}>!</div>
@@ -410,23 +444,6 @@ class Project extends PureComponent {
         );
     }
 
-    renderGallery = () => {
-        const { project } = this.props;
-
-        // TODO Это надо исключить!
-        if (!project.images) {
-            return null;
-        }
-
-        const images = this.getImages();
-
-        return (
-            <div className={styles.gallery}>
-                <Gallery images={images} />
-            </div>
-        )
-    };
-
     getImages = () => {
         const { project } = this.props;
 
@@ -462,47 +479,6 @@ class Project extends PureComponent {
 
         return images;
     }
-
-    renderInfo = () => {
-        const { project, showForm, match } = this.props;
-        const price = this.getDefaultPrice();
-
-        return (
-            <div className={styles['info']}>
-                <h1 className={styles['info-title']} itemProp="name">
-                    {`${this.renderInfoTitle(project.categoryId.name2)} `}
-                    <span className={styles['info-title-layout']}>«{project.layoutId.name}»</span>
-                </h1>
-                <div className={styles['info-addition']} itemProp="description">
-                    <div>Общая площадь - {project.layoutId.area}м<sup>2</sup></div>
-                    <div>Площадь сруба - {project.layoutId.frameArea}м<sup>2</sup></div>
-                    {project.layoutId.terrace && project.layoutId.terrace.area ? (<div>Площадь террасы - {project.layoutId.terrace.area}м<sup>2</sup></div>) : null}
-                    {project.layoutId.porch && project.layoutId.porch.area ? (<div>Площадь крыльца - {project.layoutId.porch.area}м<sup>2</sup></div>) : null}
-                    {project.layoutId.attic && project.layoutId.attic.area ? (<div>Площадь мансарды - {project.layoutId.attic.area}м<sup>2</sup></div>) : null}
-                </div>
-                <div className={styles['info-price']} itemProp="offers" itemScope itemType="http://schema.org/Offer">
-                    <meta itemProp="price" content={price} />
-                    <meta itemProp="priceCurrency" content="RUB" />
-                    <link itemProp="availability" href="http://schema.org/InStock" />
-                    {`${numberWithSpaces(price)} руб`}
-                </div>
-                <div className={styles['info-buttons']}>
-                    <Button onClick={() => { showForm({ source: match.url, title: 'Оформление заявки' }) }} className={styles['info-button']} caption={project.categoryId.payButton} size='s' />
-                    <Button onClick={() => { showForm({ source: match.url }) }} className={styles['info-button']} caption='Обсудить проект со специалистом' size='s' type='yellow' />
-                </div>
-                <div className={styles['info-build-time']}>Срок строительства - {project.buildTime} дней</div>
-                <div className={styles['info-block-promo']}>
-                    ★ Гарантируем <span style={{ fontWeight: 'bold', color: '#5e9300' }}>лучшую цену</span>, так как являемся прямым производителем
-                </div>
-                <div className={styles['info-block-promo']}>
-                    ★ Работаем <span style={{ fontWeight: 'bold', color: '#359bd0' }}>без предоплаты</span>
-                </div>
-                <div className={styles['info-block-promo']}>
-                    ★ Имеем <span style={{ fontWeight: 'bold', color: '#d7b32a' }}>более 10 лет</span> опыта
-                </div>
-            </div>
-        )
-    };
 
     renderInfoTitle = (categoryName) => {
         const { project: { layoutId } } = this.props;

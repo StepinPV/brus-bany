@@ -8,7 +8,17 @@ import ContainerComponent from './Container';
 import { applyFields } from '../helpers';
 import numberWithSpaces from '@utils/numberWithSpaces';
 import withForm from '@plugins/Form/withForm';
-import {css} from "@emotion/core";
+import { css } from '@emotion/core';
+
+const Container = styled.div`
+    display: flex;
+    @media (min-width: 641px) {
+        margin: 0 16px;
+    }
+    @media (max-width: 640px) {
+        flex-wrap: wrap;
+    }
+`;
 
 const LeftContainer = styled.div`
     flex-basis: 928px;
@@ -19,7 +29,12 @@ const LeftContainer = styled.div`
 `;
 
 const RightContainer = styled.div`
-    margin: 0 32px;
+    @media (min-width: 641px) {
+        margin: 0 32px;
+    }
+    @media (max-width: 640px) {
+        margin: 0 8px;
+    } 
 `;
 
 const H1 = styled.h1`
@@ -62,9 +77,12 @@ function ProductCard(props) {
             paddingBottom={props.paddingBottom}
             paddingTop={props.paddingTop}
             background={props.containerBackground}>
-            <>
+            <Container>
                 <LeftContainer>
-                    <Gallery images={props.images} staticContext={props.staticContext} />
+                    <Gallery
+                        images={props.images}
+                        __images__={props.__images__}
+                        staticContext={props.staticContext} />
                 </LeftContainer>
                 <RightContainer>
                     <H1 itemProp='name' dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.title) }} />
@@ -81,27 +99,31 @@ function ProductCard(props) {
                                 onClick={() => {
                                     props.showForm({ source: match.url, title: props.firstButton.formCaption });
                                 }}
-                                containerStyles={css`margin-bottom: 16px;`}
+                                containerStyles={css`margin-bottom: 16px;display: block;`}
                                 caption={props.firstButton.caption}
-                                color='{ "type": "base", "value": "red" }'
-                                size='s' />
+                                color='{ "type": "base", "value": "white" }'
+                                background='{ "type": "base", "value": "red" }'
+                                size='s'
+                                type='button' />
                         ) : null}
                         {props.secondButton ? (
                             <Button
                                 onClick={() => {
                                     props.showForm({ source: match.url, title: props.secondButton.formCaption });
                                 }}
-                                containerStyles={css`margin-bottom: 16px;`}
+                                containerStyles={css`margin-bottom: 16px;display: block;`}
                                 caption={props.secondButton.caption}
-                                color='{ "type": "base", "value": "yellow" }'
-                                size='s' />
+                                color='{ "type": "base", "value": "black" }'
+                                background='{ "type": "base", "value": "yellow" }'
+                                size='s'
+                                type='button' />
                         ) : null}
                     </Buttons>
                     {props.additionalInfo ? (
                         <div dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.additionalInfo) }} />
                     ) : null}
                 </RightContainer>
-            </>
+            </Container>
         </ContainerComponent>
     );
 }

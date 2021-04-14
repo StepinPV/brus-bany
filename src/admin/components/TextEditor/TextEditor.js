@@ -15,15 +15,19 @@ const exportOptions = {
         BOLD: { element: 'b' }
     },
     inlineStyleFn: (styles) => {
-        let key = 'color-';
-        let color = styles.filter((value) => value.startsWith(key)).first();
+        const colorKey = 'color-';
+        const fontSizeKey = 'fontsize-';
 
-        if (color) {
+        const color = styles.filter((value) => value.startsWith(colorKey)).first();
+        const fontsize = styles.filter((value) => value.startsWith(fontSizeKey)).first();
+
+        if (color || fontsize) {
             return {
                 element: 'span',
                 style: {
-                    color: color.replace(key, ''),
-                },
+                    color: color ? color.replace(colorKey, '') : null,
+                    'font-size': fontsize ? fontsize.replace(fontSizeKey, '') : null
+                }
             };
         }
     },
@@ -55,6 +59,7 @@ const CKEditorBase = ({ value, title, onChange, fields, props }) => {
             html = '';
         }
 
+        console.log(html);
         onChange(html);
     }, [editorState]);
 
@@ -68,7 +73,7 @@ const CKEditorBase = ({ value, title, onChange, fields, props }) => {
                 toolbarHidden={props.withoutEditor && !fields}
                 stripPastedStyles
                 toolbar={{
-                    options: props.withoutEditor ? [] : ['inline', 'colorPicker', 'list', 'link'],
+                    options: props.withoutEditor ? [] : ['inline', 'colorPicker', 'fontSize', 'list', 'link'],
                     colorPicker: { component: ColorPic },
                     inline: {
                         inDropdown: true

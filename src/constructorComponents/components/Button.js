@@ -37,7 +37,8 @@ function Button(props) {
         href: applyFields(props.__fieldsValue__, props.href),
         containerStyles: props.containerStyles,
         as: props.type,
-        dangerouslySetInnerHTML: { __html: applyFields(props.__fieldsValue__, props.caption) }
+        dangerouslySetInnerHTML: { __html: applyFields(props.__fieldsValue__, props.caption) },
+        onClick: props.onClick
     };
 
     if (props.targetBlank) {
@@ -70,7 +71,8 @@ Button.propTypes = {
     caption: PropTypes.string,
     href: PropTypes.string,
     type: PropTypes.oneOf(['a', 'button']).isRequired,
-    containerStyles: PropTypes.object
+    containerStyles: PropTypes.object,
+    onClick: PropTypes.func
 };
 
 Button.defaultProps = {
