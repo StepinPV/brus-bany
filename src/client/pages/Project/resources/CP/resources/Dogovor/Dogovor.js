@@ -793,7 +793,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, project, formValue, data, 
                     </div>
                     <div style={{ textAlign: 'justify' }}>
                         3.3 Предоплата в размере 70% от стоимости изделия {renderPriceWithWords(Math.round((getFinalPrice(finalPrice, data, categoryId, project) + getCustomAdditionsPrice(formValue)) * 0.7 / 100) * 100)} без
-                        НДС на основании п. 2 ст. 346.11 НК РФ оплачивается Покупателем в день доставки и разгрузки составных частей и комплектующих Изделия по адресу, указанному в п. 2.5 Договора.
+                        НДС на основании п. 2 ст. 346.11 НК РФ оплачивается Покупателем в день доставки и разгрузки составных частей и комплектующих Изделия по адресу, указанному в п. 2.3 Договора.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
                         3.4 Окончательная оплата в размере 30% от стоимости изделия {renderPriceWithWords(Math.round((getFinalPrice(finalPrice, data, categoryId, project) + getCustomAdditionsPrice(formValue)) * 0.3 / 100) * 100)} без
