@@ -153,7 +153,7 @@ const format = [{
     }]
 }];
 
-function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, images, projectName }) {
+function CP({ CPData, data, project, finalPrice, onClose, onChange, images, projectName }) {
     let containerRef = null;
 
     const formValue = {
@@ -276,7 +276,7 @@ function CP({ CPData, data, project, infoBlock, finalPrice, onClose, onChange, i
     const renderPreview = () => {
         return (
             <div ref={ref => { containerRef = ref; }}>
-                {formValue.mode ==='cp' ? <CPRender project={project} formValue={formValue} data={data} finalPrice={finalPrice} infoBlock={infoBlock} /> : null}
+                {formValue.mode ==='cp' ? <CPRender project={project} formValue={formValue} data={data} finalPrice={finalPrice} /> : null}
                 {formValue.mode ==='dogovor' || formValue.mode === 'tz' ? (
                     <Dogovor
                         type={formValue.mode}

@@ -7,6 +7,30 @@ import Logo from '@components/Logo';
 import styles from './CP.module.css';
 import cx from "classnames";
 
+const renderInfoTitle = (categoryName, layoutId) => {
+    let title = `${categoryName} ${layoutId.width}x${layoutId.length}`;
+
+    const { terrace, attic, porch } = layoutId;
+
+    if (terrace && attic && porch) {
+        title += ' c террасой, мансардой и крыльцом';
+    } else if (terrace && attic) {
+        title += ' c террасой и мансардой';
+    } else if (terrace && porch) {
+        title += ' c террасой и крыльцом';
+    } else if (terrace) {
+        title += ' c террасой';
+    } else if (attic && porch) {
+        title += ' c мансардой и крыльцом';
+    } else if (attic) {
+        title += ' c мансардой';
+    } else if (porch) {
+        title += ' c крыльцом';
+    }
+
+    return title;
+};
+
 function renderManager(id) {
     switch(id) {
         case '1': return 'C уважением, Марина Старикова: 8 (921) 204-65-12';
@@ -205,7 +229,7 @@ function getCustomAdditionsPrice(formValue) {
     return price;
 }
 
-function CP({ formValue, data, project, finalPrice, infoBlock }) {
+function CP({ formValue, data, project, finalPrice }) {
     const { categoryId } = project;
     return (
         <div className={styles.container}>
@@ -220,8 +244,16 @@ function CP({ formValue, data, project, finalPrice, infoBlock }) {
             </div>
             <div className={styles['block']} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start' }}>
                 <img src={formValue.images.other[0].image} style={{ width: '100%', maxWidth: '250px', marginBottom: '16px' }} />
-                <div style={{ maxWidth: '400px' }}>
-                    {infoBlock}
+                <div style={{ maxWidth: '400px', marginLeft: '16px' }}>
+                    <h2>
+                        {`${renderInfoTitle(project.categoryId.name2, project.layoutId)} `}
+                        <span>«{project.layoutId.name}»</span>
+                    </h2>
+                    <div>Общая площадь - {project.layoutId.area}м<sup>2</sup></div>
+                    <div>Площадь сруба - {project.layoutId.frameArea}м<sup>2</sup></div>
+                    {project.layoutId.terrace && project.layoutId.terrace.area ? (<div>Площадь террасы - {project.layoutId.terrace.area}м<sup>2</sup></div>) : null}
+                    {project.layoutId.porch && project.layoutId.porch.area ? (<div>Площадь крыльца - {project.layoutId.porch.area}м<sup>2</sup></div>) : null}
+                    {project.layoutId.attic && project.layoutId.attic.area ? (<div>Площадь мансарды - {project.layoutId.attic.area}м<sup>2</sup></div>) : null}
                 </div>
             </div>
             <div className={cx(styles['block'], styles['images'])}>

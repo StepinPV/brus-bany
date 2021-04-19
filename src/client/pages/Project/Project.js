@@ -243,7 +243,7 @@ class Project extends PureComponent {
                         acc[index] = image.src;
                         return acc;
                     }, {})}
-                    title={`${this.renderInfoTitle(project.categoryId.name2)} <span style="color: #963113">${project.layoutId.name}</span>`}
+                    title={`${this.renderInfoTitle(project.categoryId.name2)} <span style="color: #963113">«${project.layoutId.name}»</span>`}
                     description={`
                         <div>Общая площадь - ${project.layoutId.area}м<sup>2</sup></div>
                         <div>Площадь сруба - ${project.layoutId.frameArea}м<sup>2</sup></div>
@@ -425,21 +425,6 @@ class Project extends PureComponent {
                 projectName={`${this.renderInfoTitle(project.categoryId.name2)} «${project.layoutId.name}»`}
                 finalPrice={this.getFinalPrice()}
                 project={this.props.project}
-                infoBlock={(
-                    <div className={styles['info']}>
-                        <h1 className={styles['info-title']} itemProp="name">
-                            {`${this.renderInfoTitle(project.categoryId.name2)} `}
-                            <span className={styles['info-title-layout']}>«{project.layoutId.name}»</span>
-                        </h1>
-                        <div className={styles['info-addition']}>
-                            <div>Общая площадь - {project.layoutId.area}м<sup>2</sup></div>
-                            <div>Площадь сруба - {project.layoutId.frameArea}м<sup>2</sup></div>
-                            {project.layoutId.terrace && project.layoutId.terrace.area ? (<div>Площадь террасы - {project.layoutId.terrace.area}м<sup>2</sup></div>) : null}
-                            {project.layoutId.porch && project.layoutId.porch.area ? (<div>Площадь крыльца - {project.layoutId.porch.area}м<sup>2</sup></div>) : null}
-                            {project.layoutId.attic && project.layoutId.attic.area ? (<div>Площадь мансарды - {project.layoutId.attic.area}м<sup>2</sup></div>) : null}
-                        </div>
-                    </div>
-                )}
             />
         );
     }
