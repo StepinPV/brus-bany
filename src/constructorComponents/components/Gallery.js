@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+import { applyFields, applyImages } from '../helpers';
 
 const ImageContainer = styled.div`
     position: relative;
@@ -96,7 +97,7 @@ const Image = styled.img`
     `}
 `;
 
-function Gallery({ images, __images__, staticContext }) {
+function Gallery({ images, __images__, __fieldsValue__, staticContext }) {
     const [index, setIndex] = useState(0);
 
     if (staticContext && staticContext.simplePage) {
@@ -120,7 +121,10 @@ function Gallery({ images, __images__, staticContext }) {
                 </NextArrowContainer>
                 {images && images.length ? (
                     <div itemScope itemType='http://schema.org/ImageObject'>
-                        <ActiveImage itemProp='contentUrl' src={__images__[images[index].src]} alt={images[index].alt} />
+                        <ActiveImage
+                            itemProp='contentUrl'
+                            src={applyImages(__fieldsValue__, __images__, images[index].src)}
+                            alt={applyFields(__fieldsValue__, images[index].alt)} />
                     </div>
                 ) : null}
             </ImageContainer>
@@ -135,8 +139,8 @@ function Gallery({ images, __images__, staticContext }) {
                         styles={{
                             selected: index === i
                         }}
-                        src={__images__[image.src]}
-                        alt={image.alt} />
+                        src={applyImages(__fieldsValue__, __images__, image.src)}
+                        alt={applyFields(__fieldsValue__, image.alt)} />
                 ))}
             </Images>
         </>

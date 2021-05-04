@@ -1,0 +1,23 @@
+.container {
+    margin: 0 16px 0 64px;
+    /*width: 618px;*/
+}
+
+.container div,
+.container td,
+.container b,
+.container h3 {
+    font-size: 13px;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+}
+
+.running-title {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 16px;
+}

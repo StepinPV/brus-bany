@@ -353,6 +353,13 @@ class Page extends PureComponent {
                         ...(tComponent.images || {})
                     };
 
+                    if (page.config['template-fields'] && page.config['template-fields']['__images__']) {
+                        tComponentImages = {
+                            ...tComponentImages,
+                            ...page.config['template-fields']['__images__']
+                        }
+                    }
+
                     if (tComponentProps['__editable-options__'] && page.config.componentsData[tComponentId]) {
                         Object.keys(tComponentProps['__editable-options__']).forEach(key => {
                             if (tComponentProps['__editable-options__'][key]) {

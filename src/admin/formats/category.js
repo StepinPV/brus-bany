@@ -91,7 +91,6 @@ const additions = {
         }]
     }]
 };
-
 const baseEquipment = {
     _id: 'baseEquipment',
     title: 'Комплектация',

@@ -1,0 +1,35 @@
+.wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #fff;
+    z-index: 1000;
+}
+
+.container {
+    padding: 32px 0;
+    width: calc(50% + 180px);
+}
+
+.content-preview {
+    position: fixed;
+    top: 16px;
+    bottom: 16px;
+    right: 16px;
+    left: calc(50% + 180px);
+    overflow: auto;
+    border: 1px solid #000;
+}
+
+.form {
+    width: 100%;
+    padding: 32px 48px 48px;
+    box-sizing: border-box;
+}
+
+.print-button {
+    margin: 0 16px 0 0;
+}
+

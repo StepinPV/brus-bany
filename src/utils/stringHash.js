@@ -1,4 +1,6 @@
 export default function(str) {
+    if (!str) return '';
+
     let hash = 0, i, chr;
     for (i = 0; i < str.length; i++) {
         chr   = str.charCodeAt(i);

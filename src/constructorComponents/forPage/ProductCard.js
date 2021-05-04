@@ -82,16 +82,20 @@ function ProductCard(props) {
                     <Gallery
                         images={props.images}
                         __images__={props.__images__}
+                        __fieldsValue__={props.__fieldsValue__}
                         staticContext={props.staticContext} />
                 </LeftContainer>
                 <RightContainer>
                     <H1 itemProp='name' dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.title) }} />
                     <Description itemProp='description' dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.description) }} />
-                    <Price itemProp='offers' itemScope itemType='http://schema.org/Offer'>
-                        <meta itemProp='price' content={props.price} />
-                        <meta itemProp='priceCurrency' content="RUB" />
-                        <link itemProp='availability' href='http://schema.org/InStock' />
-                        {`${numberWithSpaces(props.price)} руб`}
+                    <meta itemProp='price' content={props.price} />
+                    <meta itemProp='priceCurrency' content="RUB" />
+                    <link itemProp='availability' href='http://schema.org/InStock' />
+                    <Price
+                        itemProp='offers'
+                        itemScope
+                        itemType='http://schema.org/Offer'
+                        dangerouslySetInnerHTML={{ __html: `${numberWithSpaces(applyFields(props.__fieldsValue__, props.price))} руб` }}>
                     </Price>
                     <Buttons>
                         {props.firstButton ? (

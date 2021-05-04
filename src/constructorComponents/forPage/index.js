@@ -24,10 +24,12 @@ const HowWork = loadable(() => import('./HowWork'));
 const WhyMe = loadable(() => import('./WhyMe'));
 const ProductCard = loadable(() => import('./ProductCard'));
 
+const Calculator = loadable(() => import('./custom/Calculator'));
+
 export default {
     Caption, Text, Button, Breadcrumbs, Banner, Banner2, QuestionAnswer, ImageLinkBlock, ImageLinkBlocks,
     Image, Header, Footer, Contacts, FormBlock, Quiz, Pages, SocialShare, ImageTiles,
-    Iframe, Links, HowWork, WhyMe, ProductCard
+    Iframe, Links, HowWork, WhyMe, ProductCard, Calculator
 }
 
 
