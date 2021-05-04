@@ -170,12 +170,29 @@ function Pages(props) {
             }
         });
 
-        allFolders.forEach(folderId => {
-            const folder = props['__pageFolders__'].find(folder => folder['_id'] === folderId);
+        const addFolder = (folder) => {
             if (!props.staticContext.data.pageFolders.find((f => f['_id'] === folder['_id']))) {
                 props.staticContext.data.pageFolders.push(folder);
             }
+        };
+
+        allFolders.forEach(folderId => {
+            const folder = props['__pageFolders__'].find(folder => folder['_id'] === folderId);
+            addFolder(folder);
         });
+
+        const addParentFolder = (folder) => {
+            if (folder.folder) {
+                props['__pageFolders__'].forEach(f => {
+                    if (f['_id'] === folder.folder) {
+                        addFolder(f)
+                        addParentFolder(f);
+                    }
+                });
+            }
+        };
+
+        addParentFolder(folder);
     }
 
     return (
