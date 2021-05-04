@@ -27,8 +27,10 @@ const projectBlockItemFormat = [{
     title: 'Изображение',
     type: 'image',
     props: {
+        // TODO
+        withoutCompression: true,
+        // width: 600,
         withoutLogo: true,
-        width: 600,
         globalStore: true
     }
 }, {
@@ -286,8 +288,10 @@ export const props = [{
         title: 'Титульное изображение',
         type: 'image',
         props: {
+            // TODO
+            withoutCompression: true,
+            // width: 800,
             withoutLogo: true,
-            width: 800,
             globalStore: true
         }
     }, {
@@ -295,8 +299,10 @@ export const props = [{
         title: 'Изображение схемы',
         type: 'image',
         props: {
+            // TODO
+            withoutCompression: true,
+            // width: 800,
             withoutLogo: true,
-            width: 800,
             globalStore: true
         }
     }]
