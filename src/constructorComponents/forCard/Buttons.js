@@ -2,7 +2,21 @@ import React, { memo } from 'react';
 import PropTypes from "prop-types";
 import Button from '../components/Button';
 import { css } from '@emotion/core';
-import ContainerComponent from "./Container";
+import ContainerComponent from './Container';
+import styled from '@emotion/styled';
+import { applyFields } from '../helpers';
+
+const SecondButton = styled.div`
+    font-size: 13px;
+    font-weight: bold;
+    padding: 9px 29px;
+    margin-right: 16px;
+    border-radius: 4px;
+    display: inline-block;
+    text-align: center;
+    color: #000;
+    border: 1px solid #000;
+`;
 
 function Buttons(props) {
     return (
@@ -13,8 +27,8 @@ function Buttons(props) {
             background={props.containerBackground}>
             {props.firstButton ? (
                 <Button
-                    color='{ "type": "base", "value": "black" }'
-                    background='{ "type": "base", "value": "yellow" }'
+                    color={props.firstButtonColor}
+                    background={props.firstButtonBg}
                     size='s'
                     caption={props.firstButton}
                     type='button'
@@ -22,13 +36,8 @@ function Buttons(props) {
                     __fieldsValue__={props.__fieldsValue__} />
             ) : null}
             {props.secondButton ? (
-                <Button
-                    color='{ "type": "base", "value": "black" }'
-                    background='{ "type": "base", "value": "yellow" }'
-                    size='s'
-                    caption={props.secondButton}
-                    type='button'
-                    __fieldsValue__={props.__fieldsValue__} />
+                <SecondButton
+                    dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.secondButton) }} />
             ) : null}
         </ContainerComponent>
     );
@@ -36,7 +45,9 @@ function Buttons(props) {
 
 Buttons.propTypes = {
     firstButton: PropTypes.string,
-    secondButton: PropTypes.string
+    secondButton: PropTypes.string,
+    firstButtonColor: PropTypes.string,
+    firstButtonBg: PropTypes.string
 };
 
 export default memo(Buttons);
