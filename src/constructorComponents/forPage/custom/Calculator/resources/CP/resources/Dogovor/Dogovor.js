@@ -38,7 +38,7 @@ function renderBaseEquipment({ customEval, data, equipment, onlyPrice }) {
     const renderItem = (groupName, itemName, { typeId, value }) => {
         switch(typeId) {
             case 'select': {
-                let val = getEquipmentElementValue(data.e, groupName, itemName);
+                let val = getEquipmentElementValue(data.equipment, groupName, itemName);
                 if (value) {
                     const item = value.filter(({ condition }) => { return !condition || getEquipmentText(customEval, condition, {}) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
 
@@ -55,7 +55,7 @@ function renderBaseEquipment({ customEval, data, equipment, onlyPrice }) {
                 const list = project.layoutId[value.source];
 
                 return list && list.length ? list.map((item, listIndex) => {
-                    let val = getEquipmentElementValue(data.e, groupName, `${itemName}[${listIndex}]`);
+                    let val = getEquipmentElementValue(data.equipment, groupName, `${itemName}[${listIndex}]`);
 
                     if (val) {
                         if (value.values[val]) {
@@ -74,7 +74,7 @@ function renderBaseEquipment({ customEval, data, equipment, onlyPrice }) {
                 return value && !onlyPrice ? <div>{getEquipmentText(customEval, value, {})}</div> : null;
 
             case 'number': {
-                let val = getEquipmentElementValue(data.e, groupName, itemName);
+                let val = getEquipmentElementValue(data.equipment, groupName, itemName);
                 if (value) {
                     const price = val ? (parseInt(val) - parseInt(getEquipmentText(customEval, value.default, {}))) * getEquipmentItemPrice(customEval, value.price, {}) : 0;
                     if (onlyPrice && !price) return;
@@ -105,10 +105,10 @@ function renderBaseEquipment({ customEval, data, equipment, onlyPrice }) {
 }
 
 function renderComplectation({ customEval, blocks, data, withPrice }) {
-    const { c } = data;
+    const { complectation } = data;
     const { complectationBlocks } = blocks;
 
-    const item = complectationBlocks.items.find(item => item.id === (c || complectationBlocks.defaultItemId))
+    const item = complectationBlocks.items.find(item => item.id === (complectation || complectationBlocks.defaultItemId))
     const price = customEval(item.price);
 
     return (
@@ -230,7 +230,7 @@ const renderDogovorHeader = (caption, formValue, name1, name2) => {
 };
 
 const renderDeliveryAddress = (data, formValue) => {
-    return data.del ? `${data.del.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : '';
+    return data.delivery ? `${data.delivery.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : '';
 };
 
 const renderRequizits = (formValue) => {
@@ -283,17 +283,17 @@ const renderProtocol = ({ customEval, blocks, formValue, finalPrice, data }) => 
             {blocks.projectBlocks && blocks.projectBlocks.length ? blocks.projectBlocks.map(projectBlock => {
                 return data.b && data.b[projectBlock.id] ? <Fragment key={projectBlock.id}>{renderProjectBlock({ projectBlock, customEval, data, withPrice: true, hideFund: true })}</Fragment> : null
             }) : null}
-            {data.e && blocks.baseEquipment ? (
+            {data.equipment && blocks.baseEquipment ? (
                 <>
                     <b>Комплектация</b>
                     {renderBaseEquipment({ customEval, data, equipment: blocks.baseEquipment, onlyPrice: true })}
                 </>
             ) : null}
             {data.add && blocks.additions ? <>{renderAdditions({ customEval, data, additions: blocks.additions, withPrice: true })}</> : null}
-            {data.del && blocks.deliveryData.delivery ? (
+            {data.delivery && blocks.deliveryData.delivery ? (
                 <>
                     <b>Адрес доставки</b>
-                    <div>{data.del.address} ({data.del.length} км) {numberWithSpaces(data.del.price)} рублей</div>
+                    <div>{data.delivery.address} ({data.delivery.length} км) {numberWithSpaces(data.delivery.price)} рублей</div>
                 </>
             ) : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? renderAdditionalFormData(formValue, true) : null}
@@ -1351,7 +1351,7 @@ const renderTZ = (blocks, cpSettings, customEval, formValue, data, finalPrice, h
             <h3 style={{ textAlign: 'center' }}>ТЗ ДОГОВОР №{formValue.documentNumber}</h3>
             <div style={{ fontSize: '22px', fontWeight: 'bold', textAlign: 'center' }}>{customEval("eval(`'" + cpSettings['product-cp-name'] + "'`)")}</div>
             <br/>
-            <div>{formValue.client.name}, {formValue.client.phone}, {renderDate(new Date(formValue.projectDate))}, {data.del ? `${data.del.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : ''}</div>
+            <div>{formValue.client.name}, {formValue.client.phone}, {renderDate(new Date(formValue.projectDate))}, {data.delivery ? `${data.delivery.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : ''}</div>
             <br/>
             <br/>
             {renderSpecification({ projectName: customEval("eval(`'" + cpSettings['product-cp-name'] + "'`)").toLowerCase(), customEval, blocks, formValue, data })}

@@ -137,9 +137,9 @@ class Calculator extends PureComponent {
                     __images__={__images__}
                     required
                     customEval={this.eval}
-                    selectedId={data.c || complectationBlocks.defaultItemId}
+                    selectedId={data.complectation || complectationBlocks.defaultItemId}
                     onChange={value => {
-                        this.setData({ ...data, c: value === complectationBlocks.defaultItemId ? null : value })
+                        this.setData({ ...data, complectation: value === complectationBlocks.defaultItemId ? null : value })
                     }} />
             </div>
         ) : null;
@@ -186,24 +186,24 @@ class Calculator extends PureComponent {
             <div className={styles.block}>
                 <Caption tag='h2' align='center' containerStyles={css`padding: 0 16px 32px`}>Соберите комплектацию</Caption>
                 <Equipment
-                    value={data.e}
+                    value={data.equipment}
                     customEval={this.eval}
                     equipment={baseEquipment}
                     onChange={(equipment) => {
-                        this.setData({ ...data, e: equipment });
+                        this.setData({ ...data, equipment });
                     }} />
             </div>
         ) : null;
     }
     renderDelivery = () => {
-        const { data: { del } } = this.state;
+        const { data: { delivery } } = this.state;
         const { deliveryData } = this.props;
 
         const handleDelivery = (value) => {
-            let del;
+            let delivery;
 
             if (value) {
-                del = {
+                delivery = {
                     length: value.length,
                     address: value.address,
                     price: this.eval(deliveryData ? deliveryData.delivery : 0, {
@@ -212,18 +212,18 @@ class Calculator extends PureComponent {
                 }
             }
 
-            this.setData({ ...this.state.data, del });
+            this.setData({ ...this.state.data, delivery });
         };
 
         return deliveryData && deliveryData.delivery ? (
             <div className={styles.delivery}>
                 <DeliveryMap
-                    defaultAddress={del ? del.address : ''}
+                    defaultAddress={delivery ? delivery.address : ''}
                     onChange={handleDelivery}
-                    content={del ? (
+                    content={delivery ? (
                         <>
-                            <div>{`Расстояние: ${del.length} км`}</div>
-                            <div>{`Стоимость доставки: ${numberWithSpaces(del.price)} руб`}</div>
+                            <div>{`Расстояние: ${delivery.length} км`}</div>
+                            <div>{`Стоимость доставки: ${numberWithSpaces(delivery.price)} руб`}</div>
                         </>
                     ) : null} />
             </div>
@@ -329,7 +329,7 @@ class Calculator extends PureComponent {
         }
 
         if (complectationBlocks && complectationBlocks.items) {
-            const selectedComplectation = complectationBlocks.items.find(block => block.id === (data.c || complectationBlocks.defaultItemId));
+            const selectedComplectation = complectationBlocks.items.find(block => block.id === (data.complectation || complectationBlocks.defaultItemId));
             if (selectedComplectation) {
                 try {
                     finalPrice += parseInt(this.eval(selectedComplectation.price));
@@ -337,15 +337,15 @@ class Calculator extends PureComponent {
             }
         }
 
-        if (data.e) {
-            finalPrice += getEquipmentFinalPrice(this.eval, baseEquipment, data.e);
+        if (data.equipment) {
+            finalPrice += getEquipmentFinalPrice(this.eval, baseEquipment, data.equipment);
         }
 
         if (data.add) {
             finalPrice += getAdditionsPrice(this.eval, additions, data.add);
         }
 
-        if (data.del && data.del.price) finalPrice += data.del.price;
+        if (data.delivery && data.delivery.price) finalPrice += data.delivery.price;
 
         finalPrice = Math.round(finalPrice / 100) * 100;
 

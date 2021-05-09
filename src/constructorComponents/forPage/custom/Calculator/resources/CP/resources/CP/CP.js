@@ -21,7 +21,7 @@ function renderBaseEquipment(customEval, data, equipment) {
     const renderItem = (groupName, itemName, { typeId, value }) => {
         switch(typeId) {
             case 'select': {
-                let val = getEquipmentElementValue(data.e, groupName, itemName);
+                let val = getEquipmentElementValue(data.equipment, groupName, itemName);
                 if (value) {
                     const item = value.filter(({ condition }) => { return !condition || getEquipmentText(customEval, condition, {}) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
 
@@ -37,7 +37,7 @@ function renderBaseEquipment(customEval, data, equipment) {
                 const list = project.layoutId[value.source];
 
                 return list && list.length ? list.map((item, listIndex) => {
-                    let val = getEquipmentElementValue(data.e, groupName, `${itemName}[${listIndex}]`);
+                    let val = getEquipmentElementValue(data.equipment, groupName, `${itemName}[${listIndex}]`);
 
                     if (val) {
                         if (value.values[val]) {
@@ -54,7 +54,7 @@ function renderBaseEquipment(customEval, data, equipment) {
                 return value ? <div className={styles['group-item']}>{getEquipmentText(customEval, value, {})}</div> : null;
 
             case 'number': {
-                let val = getEquipmentElementValue(data.e, groupName, itemName);
+                let val = getEquipmentElementValue(data.equipment, groupName, itemName);
                 if (value) {
                     const price = val ? (parseInt(val) - parseInt(getEquipmentText(customEval, value.default, {}))) * getEquipmentItemPrice(customEval, value.price, {}) : 0;
                     return <div className={styles['group-item']}>{getEquipmentText(customEval, value.name, {})} {val ? val : getEquipmentText(customEval, value.default, {})} шт {price ? <span className={styles['price']}>{` ${numberWithSpaces(price)} рублей`}</span> : null}</div>;
@@ -85,7 +85,7 @@ function renderBaseEquipment(customEval, data, equipment) {
 function renderComplectation(customEval, blocks, data, withPrice) {
     const { complectationBlocks } = blocks;
 
-    const item = complectationBlocks.items.find(item => item.id === (data.c || complectationBlocks.defaultItemId))
+    const item = complectationBlocks.items.find(item => item.id === (data.complectation || complectationBlocks.defaultItemId))
 
     const price = customEval(item.price);
 
@@ -152,13 +152,13 @@ function renderAdditions(customEval, data, additions, withPrice) {
 }
 
 function renderDelivery(data) {
-    const { del } = data;
+    const { delivery } = data;
 
     return (
         <div className={styles['block']}>
             <b className={styles['block-caption']}>Адрес доставки</b>
             <div className={styles['block-content']}>
-                <div className={styles['group-caption']}>{del.address} ({del.length} км)<span className={styles['price']}>{` ${numberWithSpaces(del.price)} рублей`}</span></div>
+                <div className={styles['group-caption']}>{delivery.address} ({delivery.length} км)<span className={styles['price']}>{` ${numberWithSpaces(delivery.price)} рублей`}</span></div>
             </div>
         </div>
     );
@@ -217,7 +217,7 @@ function CP({ formValue, data, blocks, finalPrice, customEval, cpSettings }) {
             }) : null}
             {blocks.baseEquipment && blocks.baseEquipment.length ? renderBaseEquipment(customEval, data, blocks.baseEquipment) : null}
             {data.add && blocks.additions ? renderAdditions(customEval, data, blocks.additions, true) : null}
-            {data.del && blocks.deliveryData.delivery ? renderDelivery(data) : null}
+            {data.delivery && blocks.deliveryData.delivery ? renderDelivery(data) : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? renderCustomAdditions(formValue.additionalData) : null}
             {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
         </div>
