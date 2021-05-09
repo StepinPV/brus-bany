@@ -344,8 +344,7 @@ class Category extends PureComponent {
         const folderId = {
             'iz-brusa': '6055e36770dc493b150730c5',
             'doma-iz-brusa': null, // 60570c7171bbac64991e294a',
-            'karkasnie': '6055e37470dc493b150730c6',
-            'gotovie': '60570c6771bbac64991e2949'
+            'karkasnie': '6055e37470dc493b150730c6'
         }[category.translateName];
 
         return folderId ? (

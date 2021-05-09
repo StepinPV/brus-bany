@@ -17,6 +17,11 @@ export default (initModule) => {
     };
 
     return [{
+        id: 'page-generator',
+        path: '/bani/gotovie',
+        component: loadable(() => import('../client/pages/CustomPage')),
+        simplePage: true
+    }, {
         id: 'site/bani/category/project',
         path: '/bani/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
         exact: true,
