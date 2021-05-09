@@ -67,7 +67,7 @@ app.use('/api', routes);
 
 app.get('*', async (req, res, next) => {
     const regexp = redirects.FROM.find(regexp => {
-        return new RegExp(regexp).test(req.originalUrl);
+        return new RegExp('^' + regexp).test(req.originalUrl);
     });
 
     const index = regexp ? redirects.FROM.indexOf(regexp) : -1;
