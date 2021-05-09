@@ -12,7 +12,7 @@ import filterObject from '@utils/filterObject';
 import Caption from '../../../components/Caption';
 import Text from '../../../components/Text';
 import Button from '../../../components/Button';
-import { applyFields, applyImages } from '../../../helpers';
+import { applyFields } from '../../../helpers';
 import styles from './Calculator.module.css';
 import { css } from '@emotion/core';
 
@@ -274,13 +274,6 @@ class Calculator extends PureComponent {
                             color='{ "type": "base", "value": "black" }'
                             background='{ "type": "base", "value": "yellow" }' />
                     </div>
-                    <a
-                        href='https://api.whatsapp.com/send?phone=79210290107'
-                        title='Перейти в WatsApp'
-                        target='_blank'
-                        rel="noopener noreferrer">
-                        <i className={styles['whats-app']} />
-                    </a>
                 </div>
             </>
         )

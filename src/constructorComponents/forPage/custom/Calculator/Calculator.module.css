@@ -63,11 +63,6 @@
     .final-price-block-title-mobile {
         display: none;
     }
-
-    .whats-app {
-        width: 48px;
-        height: 48px;
-    }
 }
 
 @media screen and (max-width: 640px) {
@@ -78,21 +73,6 @@
     .final-price-block-title-desktop {
         display: none;
     }
-
-    .whats-app {
-        width: 32px;
-        height: 32px;
-    }
-}
-
-.whats-app {
-    background-image: url('./resources/whatsapp.svg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: block;
-    cursor: pointer;
-    margin-right: 12px;
 }
 
 .page-info {
