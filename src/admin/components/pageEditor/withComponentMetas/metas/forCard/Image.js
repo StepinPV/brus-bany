@@ -34,6 +34,19 @@ export const props = [{
         id: 'cover',
         title: 'Сохранить пропорции и заполнить всю область'
     }]
+}, {
+    _id: 'sticker',
+    title: 'Стикер',
+    type: 'object',
+    format: [{
+        _id: 'condition',
+        title: 'Флаг показа',
+        type: 'string'
+    }, {
+        _id: 'text',
+        title: 'Стикер',
+        type: 'string'
+    }]
 }];
 export const name = 'Изображение';
 export const key = 'Image';

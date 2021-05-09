@@ -29,9 +29,23 @@ const Img = styled.img`
     `}
 `;
 
+const Sticker = styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4px;
+    font-size: 12px;
+    margin: 8px;
+    border-radius: 4px;
+    color: #000;
+    background: #ffe100;
+    z-index: 1;
+`;
+
 function Image(props) {
     return (
         <Container styles={{ heightWidth: props['height-width'] }}>
+            {props.sticker && applyFields(props.__fieldsValue__, props.sticker.condition) ? <Sticker>{applyFields(props.__fieldsValue__, props.sticker.text)}</Sticker> : null}
             <Img
                 styles={{
                     objectFit: props.objectFit,
@@ -49,7 +63,8 @@ Image.propTypes = {
     objectFit: PropTypes.oneOf(['fill', 'contain', 'cover']),
     image: PropTypes.number,
     imageAlt: PropTypes.string,
-    height: PropTypes.number
+    height: PropTypes.number,
+    sticker: PropTypes.object
 };
 
 Image.defaultProps = {
