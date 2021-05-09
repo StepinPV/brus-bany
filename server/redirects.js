@@ -271,7 +271,6 @@ module.exports.FROM = [
     '/gotovie/mobilnie/sukopohya',
     '/bani/iz-brusa/6x4',
     '/bani/karkasnie/6x4',
-    '/bani/iz-brevna/6x4',
     '/photos/iz-brusa/chekhov_6x6_5e6e42aa4304fa6b84918b5a',
     '/bani/iz-brusa/3x4/nedorogie',
     '/bani/individualnyy-proekt',
@@ -308,7 +307,8 @@ module.exports.FROM = [
     '/photos/iz-brusa/vologda_7x8_5e622382d85f5171c573a779',
     '/karkasnie-bani/kupit-banu-5x8m-viborg',
     '/photos/karkasnie/vsevolozhsk_6x6_5e677a344304fa6b84912e29',
-    '/bani/iz-brusa/6x6/dvukhetazhnyye'
+    '/bani/iz-brusa/6x6/dvukhetazhnyye',
+    '/bani/iz-brevna*'
 ];
 
 module.exports.TO = [
@@ -584,7 +584,6 @@ module.exports.TO = [
     '/photos/gotovie/kama_2.3x7_5e6df7934304fa6b849176d3',
     '/bani/iz-brusa/4x6',
     '/bani/karkasnie/4x6',
-    '/bani/iz-brevna/4x6',
     '/photos/iz-brusa/chekhov_6x6_5e5ffd986d7ec43bda9e2b78',
     '/bani/iz-brusa/3x4',
     '/individualnyy-proekt',
@@ -621,5 +620,6 @@ module.exports.TO = [
     '/bani/iz-brusa/7x8',
     '/bani/karkasnie/5x7',
     '/bani/karkasnie/vsevolozhsk_6x6',
-    '/bani/iz-brusa/6x6'
+    '/bani/iz-brusa/6x6',
+    '/'
 ];

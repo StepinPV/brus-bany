@@ -66,7 +66,11 @@ app.use('/admin', auth, function(req, res, next) {
 app.use('/api', routes);
 
 app.get('*', async (req, res, next) => {
-    const index = redirects.FROM.indexOf(req.originalUrl);
+    const regexp = redirects.FROM.find(regexp => {
+        return new RegExp(regexp).test(req.originalUrl);
+    });
+
+    const index = regexp ? redirects.FROM.indexOf(regexp) : -1;
 
     if (index !== -1) {
         res.redirect(301, redirects.TO[index]);
