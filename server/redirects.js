@@ -308,7 +308,9 @@ module.exports.FROM = [
     '/karkasnie-bani/kupit-banu-5x8m-viborg',
     '/photos/karkasnie/vsevolozhsk_6x6_5e677a344304fa6b84912e29',
     '/bani/iz-brusa/6x6/dvukhetazhnyye',
-    '/bani/iz-brevna*'
+    '/bani/iz-brevna*',
+    '/bani/gotovie/do-100000-rub',
+    '/bani/gotovie/do-120000-rub'
 ];
 
 module.exports.TO = [
@@ -621,5 +623,7 @@ module.exports.TO = [
     '/bani/karkasnie/5x7',
     '/bani/karkasnie/vsevolozhsk_6x6',
     '/bani/iz-brusa/6x6',
-    '/'
+    '/',
+    '/bani/gotovie',
+    '/bani/gotovie'
 ];
