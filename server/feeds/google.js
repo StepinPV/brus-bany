@@ -1,6 +1,7 @@
 const fs = require('fs');
 const logger = require('../logger');
 const Projects = require('../controllers/Projects');
+const Pages = require('../controllers/Pages');
 
 const DOMAIN = 'https://brus-bany.ru';
 
@@ -30,6 +31,33 @@ exports.generate = async function () {
                 <g:condition>new</g:condition>
                 <g:google_product_category>114</g:google_product_category>
                 <g:product_type>${name[0].toUpperCase() + name.slice(1)}</g:product_type>
+                <g:identifier_exists>false</g:identifier_exists>
+                <g:brand>Брус бани</g:brand>
+            </item>
+        `;
+    });
+
+    const { data: pages } = await Pages.getAll();
+
+    // Готовые
+    pages.filter(page => page.config.folder === '60957448b78ce30d280284a5').forEach(page => {
+        const fields = page.get('config')['template-fields'];
+        if (/^\/test/.test(page.get('url'))) return;
+
+        offers += `
+            <item>
+                <g:id>${page.get('_id').toString()}</g:id>
+                <g:title>Готовая баня ${fields[47907680]} 2.3x${fields[78523731]}</g:title>
+                <g:description>Построим баню за 14 дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</g:description>
+                <g:link>${DOMAIN}${page.get('url')}</g:link>
+                <g:image_link>https://brus-bany.ru${fields['__images__'][fields[72733367]]}</g:image_link>
+                <g:additional_image_link>https://brus-bany.ru${fields['__images__'][fields[79944259]]}</g:additional_image_link>
+                <g:additional_image_link>https://brus-bany.ru${fields['__images__'][fields[14098748]]}</g:additional_image_link>
+                <g:availability>in stock</g:availability>
+                <g:price>${fields[84963727]} RUB</g:price>
+                <g:condition>new</g:condition>
+                <g:google_product_category>114</g:google_product_category>
+                <g:product_type>Готовые бани</g:product_type>
                 <g:identifier_exists>false</g:identifier_exists>
                 <g:brand>Брус бани</g:brand>
             </item>

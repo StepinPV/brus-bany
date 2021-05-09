@@ -4,6 +4,8 @@ const logger = require('../logger');
 const Categories = require('../controllers/Categories');
 const Projects = require('../controllers/Projects');
 
+const Pages = require('../controllers/Pages');
+
 const DOMAIN = 'https://brus-bany.ru';
 
 function convertIdToNumber(val) {
@@ -20,7 +22,39 @@ exports.generate = async function () {
         `;
     });
 
+    categories += `
+        <category id="5020999668">Готовые бани</category>
+    `;
+
+    const { data: pages } = await Pages.getAll();
+
     let offers = ``;
+
+    // Готовые
+    pages.filter(page => page.config.folder === '60957448b78ce30d280284a5').forEach(page => {
+        const fields = page.get('config')['template-fields'];
+
+        if (/^\/test/.test(page.get('url'))) return;
+
+        offers += `
+            <offer id="${convertIdToNumber(page.get('_id'))}">
+                <name>Готовая баня 2.3x${fields[78523731]} «${fields[47907680]}»</name>
+                <url>${DOMAIN}${page.get('url')}</url>
+                <price>${fields[84963727]}</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>5020999668</categoryId>
+                <picture>https://brus-bany.ru${fields['__images__'][fields[72733367]]}</picture>
+                <picture>https://brus-bany.ru${fields['__images__'][fields[79944259]]}</picture>
+                <picture>https://brus-bany.ru${fields['__images__'][fields[14098748]]}</picture>
+                <description>
+                    <![CDATA[
+                        <p>Построим баню за 14 дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</p>
+                    ]]>
+                </description>
+            </offer>
+        `;
+    });
+
     // projects
     const { data: projects } = await Projects.getAll({withCategory: true, withLayout: true});
 
