@@ -18,17 +18,17 @@ export const getElementValue = (value, groupName, itemName) => {
     return itemValue;
 }
 
-export function getPrice(customEval, formula, { item }) {
+export function getPrice(customEval, formula, vars) {
     try {
-        return Math.round(customEval(formula) / 100) * 100 || 0;
+        return Math.round(customEval(formula, vars) / 100) * 100 || 0;
     } catch(err) {
         return 0;
     }
 }
 
-export function getText(customEval, formula, { item }) {
+export function getText(customEval, formula, vars) {
     try {
-        return customEval("eval(`'" + formula + "'`)");
+        return customEval("eval(`'" + formula + "'`)", vars);
     } catch(err) {
         return '';
     }
@@ -54,7 +54,12 @@ export const getFinalPrice = (customEval, equipment, values) => {
                     }
 
                     case 'list': {
-                        const list = project.layoutId[value.value.source];
+                        let list = null;
+
+                        try {
+                            list = value.value.source ? customEval(value.value.source) : null;
+                        } catch(err){}
+
                         if (list && list.length) {
                             list.forEach((item, index) => {
                                 const val = getElementValue(values, groupName, `${itemName}[${index}]`);
@@ -162,7 +167,11 @@ class Equipment extends PureComponent {
             }
 
             case 'list': {
-                const list = project.layoutId[value.source];
+                let list = null;
+
+                try {
+                    list = value && value.source ? customEval(value.source) : null;
+                } catch(err) {}
 
                 return list && list.length ? list.map((item, listIndex) => {
                     let val = getElementValue(this.props.value, groupName, `${itemName}[${listIndex}]`);

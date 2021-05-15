@@ -52,7 +52,11 @@ function renderBaseEquipment({ customEval, data, equipment, onlyPrice }) {
             }
 
             case 'list': {
-                const list = project.layoutId[value.source];
+                let list = null;
+
+                try {
+                    list = value.source ? customEval(value.source) : null;
+                } catch(err){}
 
                 return list && list.length ? list.map((item, listIndex) => {
                     let val = getEquipmentElementValue(data.equipment, groupName, `${itemName}[${listIndex}]`);
