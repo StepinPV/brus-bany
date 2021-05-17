@@ -130,7 +130,7 @@ class Calculator extends PureComponent {
         return complectationBlocks ? (
             <div className={styles.block}>
                 {complectationBlocks.name ? <Caption tag='h2' align='center' containerStyles={css`padding: 0 16px 32px`}>{complectationBlocks.name}</Caption> : null}
-                {complectationBlocks.description ? <Text align='center' containerStyles={css`padding: 0 16px 32px`}>{complectationBlocks.description}</Text> : null}
+                {complectationBlocks.description ? <Text align='center' containerStyles={css`padding: 0 16px 32px; margin: 0 auto; max-width: 1200px;`}>{complectationBlocks.description}</Text> : null}
                 <ProjectBlock
                     {...complectationBlocks}
                     __fieldsValue__={__fieldsValue__}
@@ -146,27 +146,27 @@ class Calculator extends PureComponent {
     };
     renderProjectBlocks = () => {
         const { projectBlocks, __fieldsValue__, __images__ } = this.props;
-        const { data: { b={} } } = this.state;
+        const { data: { blocks={} } } = this.state;
 
         return projectBlocks && projectBlocks.length ? projectBlocks.map(projectBlock => (
             <div className={styles.block} key={projectBlock.id}>
                 {projectBlock.name ? <Caption tag='h2' align='center' containerStyles={css`padding: 0 16px 32px`}>{projectBlock.name}</Caption> : null}
-                {projectBlock.description ? <Text align='center' containerStyles={css`padding: 0 16px 32px`}>{projectBlock.description}</Text> : null}
+                {projectBlock.description ? <Text align='center' containerStyles={css`padding: 0 16px 32px; margin: 0 auto; max-width: 1200px;`}>{projectBlock.description}</Text> : null}
                 <ProjectBlock
                     {...projectBlock}
                     __fieldsValue__={__fieldsValue__}
                     __images__={__images__}
-                    selectedId={b[projectBlock.id]}
+                    selectedId={blocks[projectBlock.id]}
                     customEval={this.eval}
                     onChange={value => {
                         const newProjectValues = {
-                            ...b,
+                            ...blocks,
                             [projectBlock.id]: value
                         };
 
                         this.setData({
                             ...this.state.data,
-                            b: Object.keys(newProjectValues).reduce((calc, key) => {
+                            blocks: Object.keys(newProjectValues).reduce((calc, key) => {
                                 if (newProjectValues[key]) {
                                     calc = calc || {};
                                     calc[key] = newProjectValues[key];
@@ -312,9 +312,9 @@ class Calculator extends PureComponent {
 
         let finalPrice = 0;
 
-        if (projectBlocks && data.b) {
+        if (projectBlocks && data.blocks) {
             projectBlocks.forEach(block => {
-                const selectedItemId = data.b[block.id];
+                const selectedItemId = data.blocks[block.id];
 
                 if (selectedItemId) {
                     const selectedItem = block.items.find(item => item.id === selectedItemId);

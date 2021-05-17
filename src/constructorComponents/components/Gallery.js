@@ -129,19 +129,22 @@ function Gallery({ images, __images__, __fieldsValue__, staticContext }) {
                 ) : null}
             </ImageContainer>
             <Images>
-                {images.map((image, i) => (
-                    <Image
-                        itemProp='image'
-                        key={image.src}
-                        onClick={() => {
-                            setIndex(i);
-                        }}
-                        styles={{
-                            selected: index === i
-                        }}
-                        src={applyImages(__fieldsValue__, __images__, image.src)}
-                        alt={applyFields(__fieldsValue__, image.alt)} />
-                ))}
+                {images.map((image, i) => {
+                    const src = applyImages(__fieldsValue__, __images__, image.src);
+                    return src && /^\/uploads/.test(src) ? (
+                        <Image
+                            itemProp='image'
+                            key={image.src}
+                            onClick={() => {
+                                setIndex(i);
+                            }}
+                            styles={{
+                                selected: index === i
+                            }}
+                            src={src}
+                            alt={applyFields(__fieldsValue__, image.alt)} />
+                    ) : null;
+                })}
             </Images>
         </>
     );

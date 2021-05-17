@@ -305,6 +305,10 @@ export const props = [{
             withoutLogo: true,
             globalStore: true
         }
+    }, {
+        _id: 'fund-block-id',
+        title: 'Id блока выбора фундамента',
+        type: 'string'
     }]
 }];
 export const name = 'Калькулятор бани/дома';

@@ -103,8 +103,8 @@ function renderComplectation(customEval, blocks, data, withPrice) {
     );
 }
 function renderProjectBlock(customEval, projectBlock, data, withPrice) {
-    const { b={} } = data;
-    const selectedId = b[projectBlock.id];
+    const { blocks={} } = data;
+    const selectedId = blocks[projectBlock.id];
 
     if (!selectedId) {
         return;

@@ -10,10 +10,10 @@ import styles from './Dogovor.module.css';
 
 const PAGE_HEIGHT = 1048;
 
-function getFinalPrice({ customEval, finalPrice, data, blocks }) {
-    if (data.b && data.b.f && data.b.f !== '0') {
-        const block = blocks.projectBlocks.find(projectBlock => projectBlock.id === 'f');
-        const item = block.items.find(item => item.id === data.b.f);
+function getFinalPrice({ customEval, finalPrice, data, blocks, cpSettings }) {
+    if (data.blocks && data.blocks[cpSettings['fund-block-id']] && data.blocks[cpSettings['fund-block-id']] !== '0') {
+        const block = blocks.projectBlocks.find(projectBlock => projectBlock.id === cpSettings['fund-block-id']);
+        const item = block.items.find(item => item.id === data.blocks[cpSettings['fund-block-id']]);
 
         return finalPrice - customEval(item.price);
     }
@@ -123,9 +123,9 @@ function renderComplectation({ customEval, blocks, data, withPrice }) {
     );
 }
 
-function renderProjectBlock({ customEval, projectBlock, data, withPrice, hideFund }) {
-    const { b={} } = data;
-    const selectedId = b[projectBlock.id];
+function renderProjectBlock({ customEval, projectBlock, data, withPrice, hideFund, cpSettings }) {
+    const { blocks={} } = data;
+    const selectedId = blocks[projectBlock.id];
 
     if (!selectedId) {
         return;
@@ -134,7 +134,7 @@ function renderProjectBlock({ customEval, projectBlock, data, withPrice, hideFun
     const item = projectBlock.items.find(item => item.id === selectedId)
     const price = customEval(item.price);
 
-    return hideFund && projectBlock.id === 'f' && selectedId !== '0' ? null : (
+    return hideFund && projectBlock.id === cpSettings['fund-block-id'] && selectedId !== '0' ? null : (
         <>
             <b>{projectBlock.itemTitle}</b>
             <div>{customEval("eval(`'" + item.name + "'`)")} {item.title}{ withPrice ? ` ${numberWithSpaces(price)} рублей` : null}</div>
@@ -278,14 +278,14 @@ const renderRequizits = (formValue) => {
     );
 }
 
-const renderProtocol = ({ customEval, blocks, formValue, finalPrice, data }) => {
+const renderProtocol = ({ customEval, blocks, formValue, finalPrice, data, cpSettings }) => {
     return (
         <div>
             <h3 style={{ textAlign: 'center' }}>ПРОТОКОЛ СОГЛАСОВАНИЯ ЦЕНЫ</h3>
             <br/>
             {renderComplectation({ customEval, blocks, data, withPrice: true })}
             {blocks.projectBlocks && blocks.projectBlocks.length ? blocks.projectBlocks.map(projectBlock => {
-                return data.b && data.b[projectBlock.id] ? <Fragment key={projectBlock.id}>{renderProjectBlock({ projectBlock, customEval, data, withPrice: true, hideFund: true })}</Fragment> : null
+                return data.blocks && data.blocks[projectBlock.id] ? <Fragment key={projectBlock.id}>{renderProjectBlock({ projectBlock, customEval, data, withPrice: true, hideFund: true, cpSettings })}</Fragment> : null
             }) : null}
             {data.equipment && blocks.baseEquipment ? (
                 <>
@@ -301,11 +301,11 @@ const renderProtocol = ({ customEval, blocks, formValue, finalPrice, data }) => 
                 </>
             ) : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? renderAdditionalFormData(formValue, true) : null}
-            <b>Итоговая стоимость: {numberWithSpaces(getFinalPrice({ customEval, finalPrice, data, blocks }) + getCustomAdditionsPrice(formValue))} рублей</b>
+            <b>Итоговая стоимость: {numberWithSpaces(getFinalPrice({ customEval, finalPrice, data, blocks, cpSettings }) + getCustomAdditionsPrice(formValue))} рублей</b>
             <br/><br/>
-            {data.b && data.b.f && data.b.f !== '0' ? blocks.projectBlocks.map(projectBlock => {
-                if (projectBlock.id === 'f') {
-                    const item = projectBlock.items.find(item => item.id === data.b.f)
+            {data.blocks && data.blocks[cpSettings['fund-block-id']] && data.blocks[cpSettings['fund-block-id']] !== '0' ? blocks.projectBlocks.map(projectBlock => {
+                if (projectBlock.id === cpSettings['fund-block-id']) {
+                    const item = projectBlock.items.find(item => item.id === data.blocks[cpSettings['fund-block-id']])
                     const price = customEval(item.price);
 
                     return (
@@ -321,7 +321,7 @@ const renderProtocol = ({ customEval, blocks, formValue, finalPrice, data }) => 
     )
 }
 
-const renderSpecification = ({ projectName, customEval, blocks, formValue, data }) => {
+const renderSpecification = ({ projectName, customEval, blocks, formValue, data, cpSettings }) => {
     return (
         <>
             <h3 style={{ textAlign: 'center' }}>СПЕЦИФИКАЦИЯ</h3>
@@ -329,7 +329,7 @@ const renderSpecification = ({ projectName, customEval, blocks, formValue, data 
             <div>{projectName}</div>
             {renderComplectation({ customEval, blocks, data })}
             {blocks.projectBlocks && blocks.projectBlocks.length ? blocks.projectBlocks.map(projectBlock => {
-                return data.b && data.b[projectBlock.id] ? <Fragment key={projectBlock.id}>{renderProjectBlock({ projectBlock, customEval, data })}</Fragment> : null
+                return data.blocks && data.blocks[projectBlock.id] ? <Fragment key={projectBlock.id}>{renderProjectBlock({ projectBlock, customEval, data, cpSettings })}</Fragment> : null
             }) : null}
             {blocks.baseEquipment && blocks.baseEquipment.length ? renderBaseEquipment({ customEval, data, equipment: blocks.baseEquipment }) : null}
             {data.add && blocks.add ? <>{renderAdditions({ customEval, data, additions: blocks.additions })}</> : null}
@@ -424,7 +424,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, cpSettings, blocks, custom
                     <br/>
                     <h3 style={{ textAlign: 'center' }}>2. ЦЕНА ДОГОВОРА, СРОКИ, ПОРЯДОК ОПЛАТЫ ТОВАРА</h3>
                     <div style={{ textAlign: 'justify' }}>
-                        2.1 Цена настоящего договора составляет {renderPriceWithWords(getFinalPrice({ customEval, finalPrice, data, blocks }) + getCustomAdditionsPrice(formValue))} без
+                        2.1 Цена настоящего договора составляет {renderPriceWithWords(getFinalPrice({ customEval, finalPrice, data, blocks, cpSettings }) + getCustomAdditionsPrice(formValue))} без
                         НДС на основании п. 2 ст. 346.11 НК РФ.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
@@ -638,7 +638,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, cpSettings, blocks, custom
                     <br/>
                     {renderRequizits(formValue)}
                     <br/><br/>
-                    {renderProtocol({ customEval, blocks, formValue, finalPrice, data })}
+                    {renderProtocol({ customEval, blocks, formValue, finalPrice, data, cpSettings })}
                 </div>
                 {renderRunningTitles(formValue)}
             </div>
@@ -649,7 +649,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, cpSettings, blocks, custom
                         Приложение №1 к договору купли-продажи № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
                     </div>
                     <br/><br/>
-                    {renderSpecification({ projectName: customEval("eval(`'" + cpSettings['product-dogovor-name'] + "'`)"), customEval, blocks, formValue, data })}
+                    {renderSpecification({ projectName: customEval("eval(`'" + cpSettings['product-dogovor-name'] + "'`)"), customEval, blocks, formValue, data, cpSettings })}
                     <br/>
                     <div style={{ textAlign: 'justify' }}>
                         Допускается стыковка: брус по всему периметру стен, вагонка по каждой стене и потолку в отдельно взятом
@@ -761,18 +761,18 @@ const renderDogovor2 = (setContainerRef, pageHeights, cpSettings, blocks, custom
                     <br/>
                     <h3 style={{ textAlign: 'center' }}>3. СТОИМОСТЬ РАБОТ И ПОРЯДОК РАСЧЕТОВ</h3>
                     <div style={{ textAlign: 'justify' }}>
-                        3.1 Стоимость Изделия по Договору в соответствии со спецификацией составляет {renderPriceWithWords(getFinalPrice({ customEval, finalPrice, data, blocks }) + getCustomAdditionsPrice(formValue))},
+                        3.1 Стоимость Изделия по Договору в соответствии со спецификацией составляет {renderPriceWithWords(getFinalPrice({ customEval, finalPrice, data, blocks, cpSettings }) + getCustomAdditionsPrice(formValue))},
                         НДС не облагается на основании п. 2 ст. 346.11 НК РФ.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
                         3.2 Расчеты между Сторонами производятся в два этапа:
                     </div>
                     <div style={{ textAlign: 'justify' }}>
-                        3.3 Предоплата в размере 70% от стоимости изделия {renderPriceWithWords(Math.round((getFinalPrice({ customEval, finalPrice, data, blocks }) + getCustomAdditionsPrice(formValue)) * 0.7 / 100) * 100)} без
+                        3.3 Предоплата в размере 70% от стоимости изделия {renderPriceWithWords(Math.round((getFinalPrice({ customEval, finalPrice, data, blocks, cpSettings }) + getCustomAdditionsPrice(formValue)) * 0.7 / 100) * 100)} без
                         НДС на основании п. 2 ст. 346.11 НК РФ оплачивается Покупателем в день доставки и разгрузки составных частей и комплектующих Изделия по адресу, указанному в п. 2.3 Договора.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
-                        3.4 Окончательная оплата в размере 30% от стоимости изделия {renderPriceWithWords(Math.round((getFinalPrice({ customEval, finalPrice, data, blocks }) + getCustomAdditionsPrice(formValue)) * 0.3 / 100) * 100)} без
+                        3.4 Окончательная оплата в размере 30% от стоимости изделия {renderPriceWithWords(Math.round((getFinalPrice({ customEval, finalPrice, data, blocks, cpSettings }) + getCustomAdditionsPrice(formValue)) * 0.3 / 100) * 100)} без
                         НДС на основании п.2 ст. 346.11 НК РФ в день подписания Акта-сдачи приемки изделия.
                     </div>
                     <div style={{ textAlign: 'justify' }}>
@@ -1266,7 +1266,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, cpSettings, blocks, custom
                         Приложение №1 к договору на выполнение подрядных работ № {formValue.documentNumber} от {renderDate(new Date(formValue.date))}
                     </div>
                     <br/><br/>
-                    {renderSpecification({ projectName: customEval("eval(`'" + cpSettings['product-dogovor-name'] + "'`)"), customEval, blocks, formValue, data })}
+                    {renderSpecification({ projectName: customEval("eval(`'" + cpSettings['product-dogovor-name'] + "'`)"), customEval, blocks, formValue, data, cpSettings })}
                     <br/>
                     <div style={{ textAlign: 'justify' }}>
                         Допускается стыковка: брус по всему периметру стен, вагонка по каждой стене и потолку в отдельно взятом
@@ -1358,7 +1358,7 @@ const renderTZ = (blocks, cpSettings, customEval, formValue, data, finalPrice, h
             <div>{formValue.client.name}, {formValue.client.phone}, {renderDate(new Date(formValue.projectDate))}, {data.delivery ? `${data.delivery.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : ''}</div>
             <br/>
             <br/>
-            {renderSpecification({ projectName: customEval("eval(`'" + cpSettings['product-cp-name'] + "'`)").toLowerCase(), customEval, blocks, formValue, data })}
+            {renderSpecification({ projectName: customEval("eval(`'" + cpSettings['product-cp-name'] + "'`)").toLowerCase(), customEval, blocks, formValue, data, cpSettings })}
             {hasAddBlock ? (
                 <>
                     <br/>
