@@ -11,7 +11,7 @@ import styles from './Dogovor.module.css';
 const PAGE_HEIGHT = 1048;
 
 function getFinalPrice({ customEval, finalPrice, data, blocks, cpSettings }) {
-    if (data.blocks && data.blocks[cpSettings['fund-block-id']] && data.blocks[cpSettings['fund-block-id']] !== '0') {
+    if (data.blocks && data.blocks[cpSettings['fund-block-id']] && cpSettings['fund-block-items-id'] && cpSettings['fund-block-items-id'].includes(data.blocks[cpSettings['fund-block-id']])) {
         const block = blocks.projectBlocks.find(projectBlock => projectBlock.id === cpSettings['fund-block-id']);
         const item = block.items.find(item => item.id === data.blocks[cpSettings['fund-block-id']]);
 
@@ -134,7 +134,7 @@ function renderProjectBlock({ customEval, projectBlock, data, withPrice, hideFun
     const item = projectBlock.items.find(item => item.id === selectedId)
     const price = customEval(item.price);
 
-    return hideFund && projectBlock.id === cpSettings['fund-block-id'] && selectedId !== '0' ? null : (
+    return hideFund && projectBlock.id === cpSettings['fund-block-id'] && cpSettings['fund-block-items-id'] && cpSettings['fund-block-items-id'].includes(selectedId) ? null : (
         <>
             <b>{projectBlock.itemTitle}</b>
             <div>{customEval("eval(`'" + item.name + "'`)")} {item.title}{ withPrice ? ` ${numberWithSpaces(price)} рублей` : null}</div>
@@ -303,7 +303,7 @@ const renderProtocol = ({ customEval, blocks, formValue, finalPrice, data, cpSet
             {formValue && formValue.additionalData && formValue.additionalData.length ? renderAdditionalFormData(formValue, true) : null}
             <b>Итоговая стоимость: {numberWithSpaces(getFinalPrice({ customEval, finalPrice, data, blocks, cpSettings }) + getCustomAdditionsPrice(formValue))} рублей</b>
             <br/><br/>
-            {data.blocks && data.blocks[cpSettings['fund-block-id']] && data.blocks[cpSettings['fund-block-id']] !== '0' ? blocks.projectBlocks.map(projectBlock => {
+            {data.blocks && data.blocks[cpSettings['fund-block-id']] && cpSettings['fund-block-items-id'] && cpSettings['fund-block-items-id'].includes(data.blocks[cpSettings['fund-block-id']]) ? blocks.projectBlocks.map(projectBlock => {
                 if (projectBlock.id === cpSettings['fund-block-id']) {
                     const item = projectBlock.items.find(item => item.id === data.blocks[cpSettings['fund-block-id']])
                     const price = customEval(item.price);

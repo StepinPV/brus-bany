@@ -309,6 +309,10 @@ export const props = [{
         _id: 'fund-block-id',
         title: 'Id блока выбора фундамента',
         type: 'string'
+    }, {
+        _id: 'fund-block-items-id',
+        title: 'Id блоков фундаментов, по которым заключается отдельный договор (через запятую)',
+        type: 'string'
     }]
 }];
 export const name = 'Калькулятор бани/дома';
