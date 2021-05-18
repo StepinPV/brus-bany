@@ -34,11 +34,9 @@ class CustomPage extends PureComponent {
 
             if (template && template['page-fields']) {
                 template['page-fields'].forEach(field => {
-                    if (page.config['template-fields'][field.id] !== undefined) {
-                        componentFieldValues[field.id] = {
-                            type: field.type,
-                            value: page.config['template-fields'][field.id]
-                        }
+                    componentFieldValues[field.id] = {
+                        type: field.type,
+                        value: page.config['template-fields'][field.id]
                     }
                 });
             }

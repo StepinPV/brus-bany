@@ -52,11 +52,9 @@ class Page extends PureComponent {
 
             if (template && template['page-fields']) {
                 template['page-fields'].forEach(field => {
-                    if (page.config['template-fields'][field.id] !== undefined) {
-                        componentFieldValues[field.id] = {
-                            type: field.type,
-                            value: page.config['template-fields'][field.id]
-                        }
+                    componentFieldValues[field.id] = {
+                        type: field.type,
+                        value: page.config['template-fields'][field.id]
                     }
                 });
             }
@@ -609,7 +607,7 @@ class Page extends PureComponent {
 
     renderComponentByIndex = (blockId, index) => {
         const { page } = this.props;
-        const { operations } = this.state;
+        const { operations, componentFieldValues } = this.state;
 
         const components = page.config.components[blockId];
         const component = page.config.componentsData[components[index]];
@@ -691,7 +689,7 @@ class Page extends PureComponent {
                         componentId={component.componentId}
                         componentProps={component.props}
                         componentImages={component.images}
-                        componentFieldValues={page.config['template-fields']}
+                        componentFieldValues={componentFieldValues}
                         type='forPage' />
                 </Operations>
                 { operations[`${blockId}:${index}`] && operations[`${blockId}:${index}`].propsFormVisible ? (

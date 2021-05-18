@@ -13,6 +13,9 @@ export function applyFields(fields, text) {
             case 'boolean':
                 value = fields[fieldId].value || false;
                 break;
+            case 'float number':
+                value = fields[fieldId].value || 0;
+                break;
             default:
                 value = fields[fieldId].value || '';
         }
