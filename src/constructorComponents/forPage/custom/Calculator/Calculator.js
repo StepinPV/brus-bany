@@ -92,6 +92,7 @@ class Calculator extends PureComponent {
                 e.preventDefault();
                 e.stopPropagation();
                 this.historyPush({ CPMode: !this.state.CPMode });
+                window.scrollTo(0, 0);
             }
         });
     }
