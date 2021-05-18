@@ -1255,7 +1255,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, cpSettings, blocks, custom
                     <br/>
                     {renderRequizits(formValue)}
                     <br/><br/>
-                    {renderProtocol({ customEval, blocks, formValue, finalPrice, data })}
+                    {renderProtocol({ customEval, blocks, formValue, finalPrice, data, cpSettings })}
                 </div>
                 {renderRunningTitles(formValue)}
             </div>
@@ -1371,7 +1371,7 @@ const renderTZ = (blocks, cpSettings, customEval, formValue, data, finalPrice, h
             {hasAddBlock ? (
                 <>
                     <br/><br/>
-                    {renderProtocol({ customEval, blocks, formValue, finalPrice, data })}
+                    {renderProtocol({ customEval, blocks, formValue, finalPrice, data, cpSettings })}
                 </>
             ) : null}
             <br/>
