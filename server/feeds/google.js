@@ -64,6 +64,31 @@ exports.generate = async function () {
         `;
     });
 
+    // Бани из бруса
+    pages.filter(page => page.config.folder === '60a25547e2ce70443ea25f61').forEach(page => {
+        const fields = page.get('config')['template-fields'];
+        if (/^\/test/.test(page.get('url'))) return;
+
+        offers += `
+            <item>
+                <g:id>${page.get('_id').toString()}</g:id>
+                <g:title>Готовая баня ${fields[57276360]} ${fields[93433362]}x${fields[85257964]}</g:title>
+                <g:description>Построим баню за ${fields[46818917]} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</g:description>
+                <g:link>${DOMAIN}${page.get('url')}</g:link>
+                <g:image_link>https://brus-bany.ru${fields['__images__'][fields[65110217]]}</g:image_link>
+                <g:additional_image_link>https://brus-bany.ru${fields['__images__'][fields[29687109]]}</g:additional_image_link>
+                <g:additional_image_link>https://brus-bany.ru${fields['__images__'][fields[15918864]]}</g:additional_image_link>
+                <g:availability>in stock</g:availability>
+                <g:price>${fields[56818364]} RUB</g:price>
+                <g:condition>new</g:condition>
+                <g:google_product_category>114</g:google_product_category>
+                <g:product_type>Бани из бруса</g:product_type>
+                <g:identifier_exists>false</g:identifier_exists>
+                <g:brand>Брус бани</g:brand>
+            </item>
+        `;
+    });
+
     const data =
         `<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
          <channel>

@@ -23,6 +23,7 @@ exports.generate = async function () {
     });
 
     categories += `
+        <category id="5020819966">Бани из бруса</category>
         <category id="5020999668">Готовые бани</category>
     `;
 
@@ -49,6 +50,31 @@ exports.generate = async function () {
                 <description>
                     <![CDATA[
                         <p>Построим баню за 14 дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</p>
+                    ]]>
+                </description>
+            </offer>
+        `;
+    });
+
+    // Бани из бруса
+    pages.filter(page => page.config.folder === '60a25547e2ce70443ea25f61').forEach(page => {
+        const fields = page.get('config')['template-fields'];
+
+        if (/^\/test/.test(page.get('url'))) return;
+
+        offers += `
+            <offer id="${convertIdToNumber(page.get('_id'))}">
+                <name>Баня из бруса ${fields[93433362]}x${fields[85257964]} «${fields[57276360]}»</name>
+                <url>${DOMAIN}${page.get('url')}</url>
+                <price>${fields[56818364]}</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>5020819966</categoryId>
+                <picture>https://brus-bany.ru${fields['__images__'][fields[65110217]]}</picture>
+                <picture>https://brus-bany.ru${fields['__images__'][fields[29687109]]}</picture>
+                <picture>https://brus-bany.ru${fields['__images__'][fields[15918864]]}</picture>
+                <description>
+                    <![CDATA[
+                        <p>Построим баню за ${fields[46818917]} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</p>
                     ]]>
                 </description>
             </offer>
