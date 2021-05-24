@@ -9,7 +9,7 @@ import { applyFields } from '../helpers';
 const SecondButton = styled.div`
     font-size: 13px;
     font-weight: bold;
-    padding: 9px 29px;
+    padding: 9px 12px;
     margin-right: 16px;
     border-radius: 4px;
     display: inline-block;

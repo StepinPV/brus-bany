@@ -104,32 +104,37 @@ function Gallery({ images, __images__, __fieldsValue__, staticContext }) {
         staticContext.simplePage = false;
     }
 
+    const filteredImages = images ? images.filter(image => {
+        const src = applyImages(__fieldsValue__, __images__, image.src);
+        return Boolean(src && /^\/uploads/.test(src));
+    }) : [];
+
     return (
         <>
             <ImageContainer>
                 <PrevArrowContainer onClick={() => {
                     const newIndex = index - 1;
-                    setIndex(newIndex === -1 ? images.length - 1 : newIndex)
+                    setIndex(newIndex === -1 ? filteredImages.length - 1 : newIndex)
                 }}>
                     <PrevArrow />
                 </PrevArrowContainer>
                 <NextArrowContainer onClick={() => {
                     const newIndex = index + 1;
-                    setIndex(newIndex === images. length ? 0 : newIndex);
+                    setIndex(newIndex === filteredImages.length ? 0 : newIndex);
                 }}>
                     <NextArrow />
                 </NextArrowContainer>
-                {images && images.length ? (
+                {filteredImages && filteredImages.length ? (
                     <div itemScope itemType='http://schema.org/ImageObject'>
                         <ActiveImage
                             itemProp='contentUrl'
-                            src={applyImages(__fieldsValue__, __images__, images[index].src)}
-                            alt={applyFields(__fieldsValue__, images[index].alt)} />
+                            src={applyImages(__fieldsValue__, __images__, filteredImages[index].src)}
+                            alt={applyFields(__fieldsValue__, filteredImages[index].alt)} />
                     </div>
                 ) : null}
             </ImageContainer>
             <Images>
-                {images.map((image, i) => {
+                {filteredImages.map((image, i) => {
                     const src = applyImages(__fieldsValue__, __images__, image.src);
                     return src && /^\/uploads/.test(src) ? (
                         <Image
