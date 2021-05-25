@@ -22,6 +22,11 @@ export default (initModule) => {
         component: loadable(() => import('../client/pages/CustomPage')),
         simplePage: true
     }, {
+        id: 'page-generator',
+        path: '/bani/iz-brusa',
+        component: loadable(() => import('../client/pages/CustomPage')),
+        simplePage: true
+    }, {
         id: 'site/bani/category/project',
         path: '/bani/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
         exact: true,
