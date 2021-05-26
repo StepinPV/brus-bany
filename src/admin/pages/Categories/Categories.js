@@ -35,7 +35,7 @@ class Categories extends PureComponent {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!prevState.tiles && nextProps.categories) {
             const tiles = nextProps.categories.map(item => {
-                if (item['translateName'] === 'iz-brusa') {
+                if (item['translateName'] === 'karkasnie') {
                     return {
                         key: item['_id'],
                         type: 'link',
