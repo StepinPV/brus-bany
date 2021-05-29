@@ -15,8 +15,6 @@ const redirects = require('./redirects');
 
 const Links = require('./controllers/Links');
 
-const telegramBot = require('./telegram-bot');
-
 const utm = require('./utm');
 
 const sitemap = require('./feeds/sitemap');
@@ -114,7 +112,6 @@ schedule.scheduleJob('0 0 * * *', function(){
 });
 
 setTimeout(() => {
-    telegramBot.init();
     generateFeeds();
 }, 2000);
 
