@@ -780,9 +780,6 @@ const renderDogovor2 = (setContainerRef, pageHeights, cpSettings, blocks, custom
                         с Заказчика взимается штраф в размере 0,1 % от суммы платежа за каждые сутки просрочки,
                         но не более 5 %, начиная с даты сдачи Изделия, подписания акта приёма передачи, Результата работ Заказчику.
                     </div>
-                    <div style={{ textAlign: 'justify' }}>
-                        3.6 Договорная стоимость не может быть пересмотрена на всем протяжении исполнения договора.
-                    </div>
                     <br/>
                     <h3 style={{ textAlign: 'center' }}>4. ТРАНСПОРТНЫЕ УСЛУГИ</h3>
                     <div style={{ textAlign: 'justify' }}>

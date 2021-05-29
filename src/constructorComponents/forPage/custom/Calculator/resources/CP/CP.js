@@ -178,38 +178,6 @@ function CP({ CPData, data, blocks, customEval, finalPrice, onClose, onChange, p
         onChange({ ...formValue, manager: managerId || '1' });
     }
 
-    const sendViewEvent = async () => {
-        if (formValue.viewMode) {
-            const documentType = format.find(i => i._id === 'mode').items.find(i => i.id === formValue.mode);
-            const manager = {
-                1: 'Марина Старикова',
-                2: 'Константинъ',
-                3: 'Вера',
-                4: 'Марина Ланская',
-                5: 'Елена Давыдова'
-            }[formValue.manager];
-
-            if (manager) {
-                await axios.post(`/api/events`, {
-                    data: {
-                        event: 'document_view',
-                        manager,
-                        client: formValue.client,
-                        documentNumber: formValue.documentNumber,
-                        documentName: documentType.title,
-                        projectName,
-                        host: document.location.origin,
-                        pathname: document.location.pathname + document.location.search
-                    }
-                });
-            }
-        }
-    };
-
-    useEffect(() => {
-        sendViewEvent();
-    }, []);
-
     useEffect(() => {
         const keydownHandler = async (e) => {
             if(e.keyCode === 51 && e.shiftKey) {

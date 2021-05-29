@@ -89,6 +89,31 @@ exports.generate = async function () {
         `;
     });
 
+    // Каркасные бани
+    pages.filter(page => page.config.folder === '60ae24ba3a5b276a9a905ab4').forEach(page => {
+        const fields = page.get('config')['template-fields'];
+        if (/^\/test/.test(page.get('url'))) return;
+
+        offers += `
+            <item>
+                <g:id>${page.get('_id').toString()}</g:id>
+                <g:title>Готовая баня ${fields[45217104]} ${fields[70129279]}x${fields[37814436]}</g:title>
+                <g:description>Построим баню за ${fields[44889802]} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</g:description>
+                <g:link>${DOMAIN}${page.get('url')}</g:link>
+                <g:image_link>https://brus-bany.ru${fields['__images__'][fields[24879013]]}</g:image_link>
+                <g:additional_image_link>https://brus-bany.ru${fields['__images__'][fields[60361373]]}</g:additional_image_link>
+                <g:additional_image_link>https://brus-bany.ru${fields['__images__'][fields[65209859]]}</g:additional_image_link>
+                <g:availability>in stock</g:availability>
+                <g:price>${fields[49173770]} RUB</g:price>
+                <g:condition>new</g:condition>
+                <g:google_product_category>114</g:google_product_category>
+                <g:product_type>Каркасные бани</g:product_type>
+                <g:identifier_exists>false</g:identifier_exists>
+                <g:brand>Брус бани</g:brand>
+            </item>
+        `;
+    });
+
     const data =
         `<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
          <channel>
