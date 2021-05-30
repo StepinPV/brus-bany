@@ -67,20 +67,21 @@ app.get('*', async (req, res, next) => {
     const settings = await getSettings();
 
     let redirectMatch;
-    do {
-        const match = settings.redirects.find(item => {
-            if (new RegExp('^' + item.from).test(redirectMatch ? redirectMatch.to : req.originalUrl)) {
-                return true;
+    if (settings && settings.redirects) {
+        do {
+            const match = settings.redirects.find(item => {
+                if (new RegExp('^' + item.from).test(redirectMatch ? redirectMatch.to : req.originalUrl)) {
+                    return true;
+                }
+            });
+
+            if (match) {
+                redirectMatch = match;
+            } else {
+                break;
             }
-        });
-
-        if (match) {
-            redirectMatch = match;
-        } else {
-            break;
-        }
-    } while(true);
-
+        } while(true);
+    }
 
     if (redirectMatch) {
         res.redirect(301, redirectMatch.to);
