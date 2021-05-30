@@ -25,7 +25,7 @@ const breadcrumbs = [{
     link: '/admin'
 }, {
     title: 'Страницы',
-    link: '/admin/pages'
+    link: '/admin'
 }, {
     title: 'Редактирование'
 }];
@@ -741,7 +741,7 @@ class Page extends PureComponent {
                 break;
             case 'success':
                 if (match.params.id === 'add') {
-                    window.location = '/admin/pages';
+                    window.location = '/admin';
                 }
                 break;
         }
@@ -756,7 +756,7 @@ class Page extends PureComponent {
             showNotification({ message, status });
 
             if (status === 'success') {
-                window.location = '/admin/pages';
+                window.location = '/admin';
             }
         }
     };
