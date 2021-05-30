@@ -165,9 +165,7 @@ class Page extends PureComponent {
                     case 'image': {
                         f.props = {
                             withoutLogo: true,
-                            globalStore: true,
-                            // TODO
-                            withoutCompression: true
+                            globalStore: true
                         }
                         break;
                     }

@@ -24,8 +24,7 @@ export const props = [{
         props: {
             withoutLogo: true,
             width: 800,
-            globalStore: true,
-            withoutCompression: true
+            globalStore: true
         }
     }]
 }, ...containerProps];
