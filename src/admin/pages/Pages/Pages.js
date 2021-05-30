@@ -12,8 +12,6 @@ import { resetData, init } from './actions';
 const breadcrumbsItems = [{
     title: 'Главная',
     link: '/admin'
-}, {
-    title: 'Страницы'
 }];
 
 const loadingTile = {
@@ -64,10 +62,7 @@ class Pages extends PureComponent {
                     folderId = f.folder;
                 } while(folderId);
 
-                const breadcrumbs = [breadcrumbsItems[0], {
-                    title: breadcrumbsItems[1].title,
-                    link: `${breadcrumbsItems[0].link}/pages`
-                }];
+                const breadcrumbs = [...breadcrumbsItems];
 
                 folders.reverse().forEach((f, index) => {
                     breadcrumbs.push({
@@ -128,7 +123,6 @@ class Pages extends PureComponent {
 
     render() {
         const { tiles, defaultTiles, breadcrumbs } = this.state;
-        const { match } = this.props;
 
         return (
             <>
