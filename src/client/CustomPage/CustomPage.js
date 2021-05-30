@@ -1,12 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import PageRender from '../../components/PageRender';
-import Meta from "../../components/Meta";
+import PageRender from '../components/PageRender';
+import Meta from '../components/Meta';
 import components from '@constructor-components';
 import { ThemeProvider } from 'emotion-theming';
 import theme from '@constructor-components/theme';
 import { applyFields } from '@constructor-components/helpers';
-import styles from '../../components/Page/Page.module.css';
+import styles from './CustomPage.module.css';
 
 class CustomPage extends PureComponent {
     static propTypes = {

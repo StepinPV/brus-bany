@@ -1,7 +1,3 @@
-.content {
-    flex-grow: 1;
-}
-
 .whats-app {
     background-image: url('./resources/whatsapp.svg');
     background-size: cover;

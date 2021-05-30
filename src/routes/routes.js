@@ -17,43 +17,8 @@ export default (initModule) => {
     };
 
     return [{
-        id: 'admin',
-        path: '/admin',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Admin'))
-    }, {
-        id: 'admin/layouts',
-        path: '/admin/layouts',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Layouts'))
-    }, {
-        id: 'admin/layouts/layout',
-        path: '/admin/layouts/:name',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Layout'))
-    }, {
-        id: 'admin/categories',
-        path: '/admin/categories',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Categories'))
-    }, {
-        id: 'admin/categories/category',
-        path: '/admin/categories/:name',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Category'))
-    }, {
-        id: 'admin/projects',
-        path: '/admin/projects',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Projects'))
-    }, {
-        id: 'admin/projects/category/project',
-        path: '/admin/projects/:categoryId/:layoutId',
-        exact: true,
-        component: loadable(() => import('../admin/pages/Project'))
-    }, {
         id: 'admin/pages',
-        path: '/admin/pages',
+        path: '/admin',
         exact: true,
         component: loadable(() => import('../admin/pages/Pages'))
     }, {
@@ -100,7 +65,7 @@ export default (initModule) => {
         id: 'page-generator',
         path: '*',
         exact: true,
-        component: loadable(() => import('../client/pages/CustomPage')),
+        component: loadable(() => import('../client/CustomPage')),
         simplePage: true
     }];
 };

@@ -1,8 +1,5 @@
 const fs = require('fs');
 const logger = require('../logger');
-
-const Categories = require('../controllers/Categories');
-
 const Pages = require('../controllers/Pages');
 
 const DOMAIN = 'https://brus-bany.ru';
@@ -12,16 +9,7 @@ function convertIdToNumber(val) {
 }
 
 exports.generate = async function () {
-    let categories = ``;
-    // categories
-    const { data: _categories } = await Categories.getAll();
-    _categories.forEach(category => {
-        categories += `
-            <category id="${convertIdToNumber(category.get('_id'))}">${category.get('name')}</category>
-        `;
-    });
-
-    categories += `
+    const categories = `
         <category id="5860178762">Дома из бруса</category>
         <category id="5020819966">Бани из бруса</category>
         <category id="5020049966">Каркасные бани</category>
