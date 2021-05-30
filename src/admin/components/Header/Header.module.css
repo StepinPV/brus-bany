@@ -24,6 +24,23 @@
 .title {
     color: #fff;
     font-size: 20px;
+}
+
+.left {
+    display: flex;
     flex-grow: 1;
-    text-align: right;
+}
+
+.items {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.item {
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0 16px;
 }

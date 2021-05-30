@@ -11,5 +11,6 @@ router.use('/components', require('./components'));
 router.use('/page-templates', require('./page-templates'));
 router.use('/page-folders', require('./page-folders'));
 router.use('/links', require('./links'));
+router.use('/settings', require('./settings'));
 
 module.exports = router;

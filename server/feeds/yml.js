@@ -2,7 +2,6 @@ const fs = require('fs');
 const logger = require('../logger');
 
 const Categories = require('../controllers/Categories');
-const Projects = require('../controllers/Projects');
 
 const Pages = require('../controllers/Pages');
 
@@ -23,6 +22,7 @@ exports.generate = async function () {
     });
 
     categories += `
+        <category id="5860178762">Дома из бруса</category>
         <category id="5020819966">Бани из бруса</category>
         <category id="5020049966">Каркасные бани</category>
         <category id="5020999668">Готовые бани</category>
@@ -107,70 +107,29 @@ exports.generate = async function () {
         `;
     });
 
-    // projects
-    const { data: projects } = await Projects.getAll({withCategory: true, withLayout: true});
+    // Дома из бруса
+    pages.filter(page => page.config.folder === '60b24246fba072768bebdbd9').forEach(page => {
+        const fields = page.get('config')['template-fields'];
 
-    projects.forEach(project => {
-        const layout = project.get('layoutId');
-        const category = project.get('categoryId');
+        if (/^\/test/.test(page.get('url'))) return;
 
-        let images = ``;
-
-        ['main', 'top', 'top2', '1', '2', '3', 'layout'].forEach(key => {
-            if (project.images[key]) {
-                images += `
-                    <picture>${DOMAIN}${project.images[key]}</picture>
-                `;
-            }
-        });
-
-        function renderInfoTitle() {
-            const { terrace, attic, porch } = layout;
-
-            if (terrace && attic && porch) {
-                return ' c террасой, мансардой и крыльцом';
-            } else if (terrace && attic) {
-                return ' c террасой и мансардой';
-            } else if (terrace && porch) {
-                return ' c террасой и крыльцом';
-            } else if (terrace) {
-                return ' c террасой';
-            } else if (attic && porch) {
-                return ' c мансардой и крыльцом';
-            } else if (attic) {
-                return ' c мансардой';
-            } else if (porch) {
-                return ' c крыльцом';
-            }
-
-            return '';
-        }
-
-        const name = `${category.name2} ${layout.width}x${layout.length} ${renderInfoTitle()} «${project.layoutId.name}»`;
-        const price = project.prices && category.complectationBlocks && project.prices[category.complectationBlocks.defaultItemId] ? project.prices[category.complectationBlocks.defaultItemId] : 0;
-
-        if (price) {
-            offers += `
-                <offer id="${convertIdToNumber(project.get('_id'))}">
-                    <name>${name}</name>
-                    <url>${DOMAIN}${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}</url>
-                    <price>${price}</price>
-                    <currencyId>RUR</currencyId>
-                    <categoryId>${convertIdToNumber(category.get('_id'))}</categoryId>
-                    ${images}
-                    <description>
-                        <![CDATA[
-                            <p>Построим баню за ${project.get('buildTime')} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</p>
-                        ]]>
-                    </description>
-                    <param name="Общая площадь">${layout.area} м2</param>
-                    <param name="Площадь сруба">${layout.frameArea} м2</param>
-                    ${layout.terrace && layout.terrace.area ? `<param name="Площадь терассы">${layout.terrace.area} м2</param>` : ''}
-                    ${layout.porch && layout.porch.area ? `<param name="Площадь крыльца">${layout.porch.area} м2</param>` : ''}
-                    ${layout.attic && layout.attic.area ? `<param name="Площадь мансарды">${layout.attic.area} м2</param>` : ''}
-                </offer>
-            `;
-        }
+        offers += `
+            <offer id="${convertIdToNumber(page.get('_id'))}">
+                <name>Дом из бруса ${fields[61555365]}x${fields[26719389]} «${fields[52747966]}»</name>
+                <url>${DOMAIN}${page.get('url')}</url>
+                <price>${fields[90281349]}</price>
+                <currencyId>RUR</currencyId>
+                <categoryId>5860178762</categoryId>
+                <picture>https://brus-bany.ru${fields['__images__'][fields[97818608]]}</picture>
+                <picture>https://brus-bany.ru${fields['__images__'][fields[91676979]]}</picture>
+                <picture>https://brus-bany.ru${fields['__images__'][fields[77397334]]}</picture>
+                <description>
+                    <![CDATA[
+                        <p>Построим баню за ${fields[56940202]} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</p>
+                    ]]>
+                </description>
+            </offer>
+        `;
     });
 
     const date = new Date();

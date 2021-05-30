@@ -1,18 +1,10 @@
 const fs = require('fs');
 const logger = require('../logger');
 
-const Categories = require('../controllers/Categories');
-const Projects = require('../controllers/Projects');
 const Pages = require('../controllers/Pages');
 const PageTemplates = require('../controllers/PageTemplates');
 
 const DOMAIN = 'https://brus-bany.ru';
-
-function getLastDate(dates) {
-    return dates.reduce((maxDate, current) => {
-        return new Date(current) > new Date(maxDate) ? current : maxDate
-    }, dates[0])
-}
 
 exports.generate = async function () {
     let pagesData = ``;
@@ -27,42 +19,6 @@ exports.generate = async function () {
             </url>
         `
     };
-
-    // categories
-    const {data: categories} = await Categories.getAll();
-    categories.forEach(category => {
-        addPages({ url: `${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' });
-
-        let addFilterPages = (filterGroups, href) => {
-            if (filterGroups && filterGroups.length) {
-                filterGroups.forEach(filterGroup => {
-                    if (filterGroup.filters && filterGroup.filters.length) {
-                        filterGroup.filters.forEach(filter => {
-                            addPages({ url: `${href}/${filter.id}`, date: category.get('updated'), changefreq: 'daily', priority: '0.9' });
-                            addFilterPages(filter.filters, `${href}/${filter.id}`);
-                        });
-                    }
-                });
-            }
-        };
-
-        addFilterPages(category.get('filters'), `${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}`);
-    });
-
-    // projects
-    const {data: projects} = await Projects.getAll({withCategory: true, withLayout: true});
-
-    projects.forEach(project => {
-        const layout = project.get('layoutId');
-        const category = project.get('categoryId');
-
-        addPages({
-            url: `${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}`,
-            date: getLastDate([category.get('updated'), layout.get('updated'), project.get('updated')]),
-            changefreq: 'weekly',
-            priority: '0.8'
-        });
-    });
 
     // pages
     const { data: pages } = await Pages.getAll();
@@ -82,8 +38,8 @@ exports.generate = async function () {
             addPages({
                 url: page.get('url'),
                 date: page.get('updated'),
-                changefreq: 'monthly',
-                priority: priority || '0.6'
+                changefreq: 'weekly',
+                priority
             });
         }
     }

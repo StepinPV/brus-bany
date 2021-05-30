@@ -11,7 +11,7 @@ const logger = require('./logger');
 const routes = require('./routes');
 const config = require('./config');
 const renderRoute = require('./renderRoute');
-const redirects = require('./redirects');
+const { get: getSettings, update: updateSettings } = require('./redirects');
 
 const Links = require('./controllers/Links');
 
@@ -64,14 +64,26 @@ app.use('/admin', auth, function(req, res, next) {
 app.use('/api', routes);
 
 app.get('*', async (req, res, next) => {
-    const regexp = redirects.FROM.find(regexp => {
-        return new RegExp('^' + regexp).test(req.originalUrl);
-    });
+    const settings = await getSettings();
 
-    const index = regexp ? redirects.FROM.indexOf(regexp) : -1;
+    let redirectMatch;
+    do {
+        const match = settings.redirects.find(item => {
+            if (new RegExp('^' + item.from).test(redirectMatch ? redirectMatch.to : req.originalUrl)) {
+                return true;
+            }
+        });
 
-    if (index !== -1) {
-        res.redirect(301, redirects.TO[index]);
+        if (match) {
+            redirectMatch = match;
+        } else {
+            break;
+        }
+    } while(true);
+
+
+    if (redirectMatch) {
+        res.redirect(301, redirectMatch.to);
     } else if(/^\/link_/.test(req.url)) {
         const { status, data } = await Links.get({ from: req.url });
 
@@ -96,6 +108,12 @@ db.init(config.db_url, config.db_name, () => {
     logger.success(`\nПодключение к базе данных ${config.db_url}/${config.db_name} установлено`);
     app.listen(PORT);
     logger.success(`Сервис запущен на ${PORT} порту`);
+
+    setTimeout(() => {
+        generateFeeds();
+    }, 2000);
+
+    updateSettings();
 }, (err) => {
     logger.error(`Ошибка подключение к базе данных ${config.db_url}/${config.db_name}:`, err);
 });
@@ -110,10 +128,6 @@ function generateFeeds() {
 schedule.scheduleJob('0 0 * * *', function(){
     generateFeeds();
 });
-
-setTimeout(() => {
-    generateFeeds();
-}, 2000);
 
 
 

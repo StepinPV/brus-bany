@@ -17,42 +17,6 @@ export default (initModule) => {
     };
 
     return [{
-        id: 'page-generator',
-        path: '/bani/gotovie',
-        component: loadable(() => import('../client/pages/CustomPage')),
-        simplePage: true
-    }, {
-        id: 'page-generator',
-        path: '/bani/iz-brusa',
-        component: loadable(() => import('../client/pages/CustomPage')),
-        simplePage: true
-    }, {
-        id: 'page-generator',
-        path: '/bani/karkasnie',
-        component: loadable(() => import('../client/pages/CustomPage')),
-        simplePage: true
-    }, {
-        id: 'site/bani/category/project',
-        path: '/bani/:categoryName/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
-        exact: true,
-        component: loadable(() => import('../client/pages/Project'))
-    }, {
-        id: 'site/bani/category',
-        path: '/bani/:name',
-        component: loadable(() => import('../client/pages/Category')),
-        simplePage: true
-    }, {
-        id: 'site/doma-iz-brusa/project',
-        path: '/doma-iz-brusa/:layoutName\\_:width([\\d|\\.]+)x:length([\\d|\\.]+)',
-        exact: true,
-        component: loadable(() => import('../client/pages/Project'))
-    }, {
-        id: 'site/doma-iz-brusa',
-        path: '/doma-iz-brusa',
-        exact: true,
-        component: loadable(() => import('../client/pages/Category')),
-        simplePage: true
-    }, {
         id: 'admin',
         path: '/admin',
         exact: true,
@@ -127,6 +91,11 @@ export default (initModule) => {
         path: '/admin/page-templates/:id',
         exact: true,
         component: loadable(() => import('../admin/pages/PageTemplate'))
+    }, {
+        id: 'admin/settings',
+        path: '/admin/settings',
+        exact: true,
+        component: loadable(() => import('../admin/pages/Settings'))
     }, {
         id: 'page-generator',
         path: '*',

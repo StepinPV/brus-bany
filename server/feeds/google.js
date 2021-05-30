@@ -1,41 +1,11 @@
 const fs = require('fs');
 const logger = require('../logger');
-const Projects = require('../controllers/Projects');
 const Pages = require('../controllers/Pages');
 
 const DOMAIN = 'https://brus-bany.ru';
 
 exports.generate = async function () {
     let offers = ``;
-    const { data: projects } = await Projects.getAll({withCategory: true, withLayout: true});
-
-    projects.forEach(project => {
-        const layout = project.get('layoutId');
-        const category = project.get('categoryId');
-
-        const name = category.get('name');
-        const name2 = category.get('name2');
-        const price = project.prices && category.complectationBlocks && project.prices[category.complectationBlocks.defaultItemId] ? project.prices[category.complectationBlocks.defaultItemId] : 0;
-
-        offers += `
-            <item>
-                <g:id>${project.get('_id').toString()}</g:id>
-                <g:title>${name2[0].toUpperCase() + name2.slice(1)} ${layout.get('name')} ${layout.get('width')}x${layout.get('length')}</g:title>
-                <g:description>Построим баню за ${project.get('buildTime')} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</g:description>
-                <g:link>${DOMAIN}${category.get('translateName') !== 'doma-iz-brusa' ? '/bani' : ''}/${category.get('translateName')}/${layout.get('translateName')}_${layout.get('width')}x${layout.get('length')}</g:link>
-                <g:image_link>${DOMAIN}${project.get('images').main}</g:image_link>
-                <g:additional_image_link>${DOMAIN}${project.get('images').top}</g:additional_image_link>
-                <g:additional_image_link>${DOMAIN}${project.get('images')['1']}</g:additional_image_link>
-                <g:availability>in stock</g:availability>
-                <g:price>${price} RUB</g:price>
-                <g:condition>new</g:condition>
-                <g:google_product_category>114</g:google_product_category>
-                <g:product_type>${name[0].toUpperCase() + name.slice(1)}</g:product_type>
-                <g:identifier_exists>false</g:identifier_exists>
-                <g:brand>Брус бани</g:brand>
-            </item>
-        `;
-    });
 
     const { data: pages } = await Pages.getAll();
 
@@ -72,7 +42,7 @@ exports.generate = async function () {
         offers += `
             <item>
                 <g:id>${page.get('_id').toString()}</g:id>
-                <g:title>Готовая баня ${fields[57276360]} ${fields[93433362]}x${fields[85257964]}</g:title>
+                <g:title>Баня из бруса ${fields[57276360]} ${fields[93433362]}x${fields[85257964]}</g:title>
                 <g:description>Построим баню за ${fields[46818917]} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</g:description>
                 <g:link>${DOMAIN}${page.get('url')}</g:link>
                 <g:image_link>https://brus-bany.ru${fields['__images__'][fields[65110217]]}</g:image_link>
@@ -97,7 +67,7 @@ exports.generate = async function () {
         offers += `
             <item>
                 <g:id>${page.get('_id').toString()}</g:id>
-                <g:title>Готовая баня ${fields[45217104]} ${fields[70129279]}x${fields[37814436]}</g:title>
+                <g:title>Каркасная баня ${fields[45217104]} ${fields[70129279]}x${fields[37814436]}</g:title>
                 <g:description>Построим баню за ${fields[44889802]} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</g:description>
                 <g:link>${DOMAIN}${page.get('url')}</g:link>
                 <g:image_link>https://brus-bany.ru${fields['__images__'][fields[24879013]]}</g:image_link>
@@ -108,6 +78,31 @@ exports.generate = async function () {
                 <g:condition>new</g:condition>
                 <g:google_product_category>114</g:google_product_category>
                 <g:product_type>Каркасные бани</g:product_type>
+                <g:identifier_exists>false</g:identifier_exists>
+                <g:brand>Брус бани</g:brand>
+            </item>
+        `;
+    });
+
+    // Дома из бруса
+    pages.filter(page => page.config.folder === '60b24246fba072768bebdbd9').forEach(page => {
+        const fields = page.get('config')['template-fields'];
+        if (/^\/test/.test(page.get('url'))) return;
+
+        offers += `
+            <item>
+                <g:id>${page.get('_id').toString()}</g:id>
+                <g:title>Дом из бруса ${fields[52747966]} ${fields[61555365]}x${fields[26719389]}</g:title>
+                <g:description>Построим баню за ${fields[56940202]} дней. Возможна перепланировка и изменение комплектации. Оставьте заявку на сайте, чтобы узнать итоговую стоимость</g:description>
+                <g:link>${DOMAIN}${page.get('url')}</g:link>
+                <g:image_link>https://brus-bany.ru${fields['__images__'][fields[97818608]]}</g:image_link>
+                <g:additional_image_link>https://brus-bany.ru${fields['__images__'][fields[91676979]]}</g:additional_image_link>
+                <g:additional_image_link>https://brus-bany.ru${fields['__images__'][fields[77397334]]}</g:additional_image_link>
+                <g:availability>in stock</g:availability>
+                <g:price>${fields[90281349]} RUB</g:price>
+                <g:condition>new</g:condition>
+                <g:google_product_category>114</g:google_product_category>
+                <g:product_type>Дома из бруса</g:product_type>
                 <g:identifier_exists>false</g:identifier_exists>
                 <g:brand>Брус бани</g:brand>
             </item>
