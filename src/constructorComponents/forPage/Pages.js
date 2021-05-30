@@ -100,7 +100,13 @@ function Pages(props) {
 
     addChildFolders(folder['_id']);
 
-    let pages = props['__pages__'].filter(page => allFolders.includes(page.config.folder));
+    let pages = props['__pages__'].filter(page => {
+        if (page.test) {
+            return false;
+        }
+
+        return allFolders.includes(page.config.folder);
+    });
 
     let folderForViewed = folder;
 

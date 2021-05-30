@@ -78,12 +78,14 @@ exports.generate = async function () {
             }
         }
 
-        addPages({
-            url: page.get('url'),
-            date: page.get('updated'),
-            changefreq: 'monthly',
-            priority: priority || '0.6'
-        });
+        if (!page.get('test')) {
+            addPages({
+                url: page.get('url'),
+                date: page.get('updated'),
+                changefreq: 'monthly',
+                priority: priority || '0.6'
+            });
+        }
     }
 
     const data =

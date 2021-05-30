@@ -7,6 +7,10 @@ export const main = [{
     title: 'URL',
     type: 'string',
     required: true
+}, {
+    _id: 'test',
+    title: 'Страница в работе',
+    type: 'boolean'
 }];
 
 export const config = [{
