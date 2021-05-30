@@ -67,7 +67,7 @@ app.get('*', async (req, res, next) => {
     const settings = await getSettings();
 
     let redirectMatch;
-    if (settings && settings.redirects) {
+    if (settings.redirects) {
         do {
             const match = settings.redirects.find(item => {
                 if (new RegExp('^' + item.from).test(redirectMatch ? redirectMatch.to : req.originalUrl)) {

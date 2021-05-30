@@ -4,7 +4,9 @@ let settings = null;
 
 const update = async () => {
     const { data } = await SettingsController.get('main');
-    settings = JSON.parse(data);
+    if (data) {
+        settings = JSON.parse(data);
+    }
 };
 
 const get = async () => {
@@ -12,7 +14,7 @@ const get = async () => {
         await update();
     }
 
-    return settings;
+    return settings || {};
 };
 
 exports.update = update;
