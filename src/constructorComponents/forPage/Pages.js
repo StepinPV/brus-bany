@@ -3,7 +3,6 @@ import { useLocation } from 'react-router';
 import PropTypes from "prop-types";
 import components from '@constructor-components';
 import styled from '@emotion/styled';
-import { applyImages } from '../helpers';
 import ContainerComponent from './Container';
 
 const Container = styled.div`
@@ -76,7 +75,7 @@ function Pages(props) {
 
                     switch(field.type) {
                         case 'image':
-                            value = applyImages(folderFields, folderFields.__images__, field.id);
+                            value = folderFields.__images__[folderFields[field.id]];
                             break;
                         default:
                             value = folderFields[field.id];
