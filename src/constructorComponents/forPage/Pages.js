@@ -75,7 +75,7 @@ function Pages(props) {
 
                     switch(field.type) {
                         case 'image':
-                            value = folderFields.__images__[folderFields[field.id]];
+                            value = folderFields[field.id] ? folderFields.__images__[folderFields[field.id]] : '';
                             break;
                         default:
                             value = folderFields[field.id];
