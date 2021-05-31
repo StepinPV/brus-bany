@@ -6,7 +6,6 @@ import FormContext from '@plugins/Form/Context';
 import Form from '@plugins/Form/Form';
 // По итогу это должно быть не здесь
 import { ThemeProvider } from 'emotion-theming';
-import theme from '../../constructorComponents/theme';
 
 class App extends Component {
     static propTypes = {
@@ -16,11 +15,12 @@ class App extends Component {
         customComponents: PropTypes.array,
         pageTemplates: PropTypes.array,
         pages: PropTypes.array,
-        pageFolders: PropTypes.array
+        pageFolders: PropTypes.array,
+        theme: PropTypes.object
     };
 
     render() {
-        const { routes } = this.props;
+        const { routes, theme } = this.props;
 
         return (
             <FormProvider>

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import PageRender from '../PageRender';
 import Meta from '../Meta';
 import components from '@constructor-components';
-import { ThemeProvider } from 'emotion-theming';
-import theme from '@constructor-components/theme';
 import { applyFields } from '@constructor-components/helpers';
 import styles from './CustomPage.module.css';
 
@@ -68,23 +66,21 @@ class CustomPage extends PureComponent {
 
     render() {
         return (
-            <ThemeProvider theme={theme}>
-                <PageRender
-                    header={this.renderSpecialComponent('header')}
-                    footer={this.renderSpecialComponent('footer')}>
-                    <>
-                        {this.renderMeta()}
-                        {this.renderPageContent()}
-                        <a
-                            href='https://api.whatsapp.com/send?phone=79210290107'
-                            title='Перейти в WatsApp'
-                            target='_blank'
-                            rel="noopener noreferrer">
-                            <i className={styles['whats-app']} />
-                        </a>
-                    </>
-                </PageRender>
-            </ThemeProvider>
+            <PageRender
+                header={this.renderSpecialComponent('header')}
+                footer={this.renderSpecialComponent('footer')}>
+                <>
+                    {this.renderMeta()}
+                    {this.renderPageContent()}
+                    <a
+                        href='https://api.whatsapp.com/send?phone=79210290107'
+                        title='Перейти в WatsApp'
+                        target='_blank'
+                        rel="noopener noreferrer">
+                        <i className={styles['whats-app']} />
+                    </a>
+                </>
+            </PageRender>
         );
     }
 

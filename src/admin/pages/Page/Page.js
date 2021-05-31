@@ -15,8 +15,6 @@ import Operations from '../../components/pageEditor/Operations';
 import ComponentEditor from '../../components/pageEditor/ComponentEditor';
 import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
-import { ThemeProvider } from 'emotion-theming';
-import theme from '../../../constructorComponents/theme';
 import { applyFields } from '../../../constructorComponents/helpers';
 import styles from './Page.module.css';
 
@@ -133,18 +131,16 @@ class Page extends PureComponent {
 
         // TODO
         return page && page.config && page.config.componentsData ? (
-            <ThemeProvider theme={theme}>
-                <FloatPanels
-                    panels={this.floatPanels}
-                    onChangeOpenedPanel={this.setOpenedPanel}
-                    openedPanelId={openedPanelId}>
-                    <PageRender
-                        header={this.renderSpecialComponent('header', 'Добавить шапку')}
-                        footer={this.renderSpecialComponent('footer', 'Добавить подвал')}>
-                        {this.renderPageContent()}
-                    </PageRender>
-                </FloatPanels>
-            </ThemeProvider>
+            <FloatPanels
+                panels={this.floatPanels}
+                onChangeOpenedPanel={this.setOpenedPanel}
+                openedPanelId={openedPanelId}>
+                <PageRender
+                    header={this.renderSpecialComponent('header', 'Добавить шапку')}
+                    footer={this.renderSpecialComponent('footer', 'Добавить подвал')}>
+                    {this.renderPageContent()}
+                </PageRender>
+            </FloatPanels>
         ) : null;
     }
 

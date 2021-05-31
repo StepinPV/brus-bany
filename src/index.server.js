@@ -94,6 +94,7 @@ const render = async (req, res, axiosOptions = {}, settings) => {
             <Provider store={store}>
                 <StaticRouter location={req.url} context={context}>
                     <App
+                        theme={settings.theme || {}}
                         preparedComponents={{ [matchRoute.id]: loadableComponent }}
                         page={pageRes ? pageRes.data.data : null}
                         customComponents={customComponentsRes ? customComponentsRes.data.data : null}
@@ -115,7 +116,8 @@ const render = async (req, res, axiosOptions = {}, settings) => {
         context,
         extractor,
         css,
-        cssIds
+        cssIds,
+        theme: settings.theme || {}
     };
 };
 

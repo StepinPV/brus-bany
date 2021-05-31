@@ -36,7 +36,8 @@ router.get('*', async (req, res, next) => {
             extractor,
             context,
             css,
-            cssIds
+            cssIds,
+            theme
         } = await render(req, res, axiosOptions, await getSettings());
 
         if (context.status === 404) {
@@ -72,6 +73,7 @@ router.get('*', async (req, res, next) => {
                 link: head.link.toString(),
                 initialData: serialize(context.simplePage ? {} : initialData),
                 data: serialize(context.simplePage ? {} : (context.data || {})),
+                theme: serialize(context.simplePage ? {} : theme),
                 needShareScript: Boolean(context.needShareScript),
                 app: markup,
                 css,

@@ -27,6 +27,11 @@ async function run () {
     delete window.__data__;
     /* eslint-enable no-underscore-dangle */
 
+    /* eslint-disable no-underscore-dangle */
+    const theme = window.__theme__;
+    delete window.__theme__;
+    /* eslint-enable no-underscore-dangle */
+
     await loadableReady();
 
     // TODO Вот тут не нужно добавлять все модули
@@ -44,6 +49,7 @@ async function run () {
             <Provider store={store}>
                 <BrowserRouter>
                     <App
+                        theme={theme}
                         routes={[matchRoute]}
                         page={data.page}
                         customComponents={data.customComponents}
