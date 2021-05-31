@@ -83,8 +83,8 @@ const render = async (req, res, axiosOptions = {}, settings) => {
         if (!pageRes.data.data) {
             context.status = 404;
 
-            if (settings['not-found-page-id']) {
-                pageRes = await axios.get(`/api/pages/${settings['not-found-page-id']}`);
+            if (settings['not-found-page']) {
+                pageRes = await axios.get(`/api/pages/${settings['not-found-page']}`);
             }
         }
     }
