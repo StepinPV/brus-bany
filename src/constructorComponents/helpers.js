@@ -1,8 +1,6 @@
 import replaceAll from '@utils/replaceAll';
 import renderDate from '@utils/RenderDate';
 
-const fieldRegexp = /{{(.*?)}}/g;
-
 export function applyFields(fields, text) {
     let res = fields ? Object.keys(fields).reduce((text, fieldId) => {
         let value;
@@ -23,14 +21,14 @@ export function applyFields(fields, text) {
         return replaceAll(`{{${fieldId}}}`, value, text);
     }, text) : text;
 
-    return res ? res.toString().replace(fieldRegexp, '') : res;
+    return res ? res.toString().replace(/{{(.*?)}}/g, '') : res;
 }
 
 export function applyImages(fields, images, src) {
     while(/^\d+$/g.test(src)) {
         src = images[src];
 
-        if (fieldRegexp.test(src)) {
+        if (/{{(.*?)}}/g.test(src)) {
             src = applyFields(fields, src);
         }
     }
