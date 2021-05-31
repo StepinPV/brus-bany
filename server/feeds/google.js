@@ -87,7 +87,9 @@ exports.generate = async function () {
     // Дома из бруса
     pages.filter(page => page.config.folder === '60b24246fba072768bebdbd9').forEach(page => {
         const fields = page.get('config')['template-fields'];
+
         if (/^\/test/.test(page.get('url'))) return;
+        if (page.get('test')) return;
 
         offers += `
             <item>

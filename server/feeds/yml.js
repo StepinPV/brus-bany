@@ -100,6 +100,7 @@ exports.generate = async function () {
         const fields = page.get('config')['template-fields'];
 
         if (/^\/test/.test(page.get('url'))) return;
+        if (page.get('test')) return;
 
         offers += `
             <offer id="${convertIdToNumber(page.get('_id'))}">
