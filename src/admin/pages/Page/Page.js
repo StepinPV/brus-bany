@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import PageRender from '../../../client/components/PageRender';
+import PageRender from '../../../components/PageRender';
 import { getPage, setPage, savePage, reset, deletePage, getTemplates, getFolders } from './actions';
 import showNotification from '@utils/showNotification';
 import Form from '../../components/Form';

@@ -6,7 +6,7 @@ import Breadcrumbs from '../../../components/Breadcrumbs';
 import { get, set, save, reset, deleteTemplate } from './actions';
 import showNotification from '@utils/showNotification';
 import { Button } from "../../../components/Button";
-import PageRender from '../../../client/components/PageRender';
+import PageRender from '../../../components/PageRender';
 import FloatPanels from '../../components/FloatPanels';
 import ComponentEditor from '../../components/pageEditor/ComponentEditor';
 import Operations from '../../components/pageEditor/Operations';

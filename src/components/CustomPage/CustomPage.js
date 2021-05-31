@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import PageRender from '../components/PageRender';
-import Meta from '../components/Meta';
+import PageRender from '../PageRender';
+import Meta from '../Meta';
 import components from '@constructor-components';
 import { ThemeProvider } from 'emotion-theming';
 import theme from '@constructor-components/theme';

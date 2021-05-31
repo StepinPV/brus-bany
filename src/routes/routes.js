@@ -65,7 +65,7 @@ export default (initModule) => {
         id: 'page-generator',
         path: '*',
         exact: true,
-        component: loadable(() => import('../client/CustomPage')),
+        component: loadable(() => import('../components/CustomPage')),
         simplePage: true
     }];
 };
