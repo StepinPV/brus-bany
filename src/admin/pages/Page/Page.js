@@ -153,7 +153,7 @@ class Page extends PureComponent {
         const { errors } = this.state;
         const { id } = match.params;
 
-        const prepareFields = fields => {
+        const prepareFields = (fields, isFolder) => {
             return fields.map(item => {
                 const f = {
                     _id: item.id,
@@ -164,9 +164,8 @@ class Page extends PureComponent {
                 switch(item.type) {
                     case 'image': {
                         f.props = {
-                            withoutLogo: true,
                             globalStore: true,
-                            withoutCompression: true
+                            width: isFolder ? 600 : 1200
                         }
                         break;
                     }
@@ -187,7 +186,7 @@ class Page extends PureComponent {
             const template = templates.find((item => item['_id'] === id));
 
             if (template && template['page-fields']) {
-                const format = prepareFields(template['page-fields']);
+                const format = prepareFields(template['page-fields'], false);
 
                 return (
                     <>
@@ -218,7 +217,7 @@ class Page extends PureComponent {
 
             if (folder) {
                 if (folder['page-fields']) {
-                    const format = prepareFields(folder['page-fields']);
+                    const format = prepareFields(folder['page-fields'], true);
 
                     return (
                         <>
