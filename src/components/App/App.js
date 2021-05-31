@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import FormProvider from '@plugins/Form/Provider';
 import FormContext from '@plugins/Form/Context';
 import Form from '@plugins/Form/Form';
-import NotFound from '../NotFound';
 // По итогу это должно быть не здесь
 import { ThemeProvider } from 'emotion-theming';
 import theme from '../../constructorComponents/theme';
@@ -17,8 +16,7 @@ class App extends Component {
         customComponents: PropTypes.array,
         pageTemplates: PropTypes.array,
         pages: PropTypes.array,
-        pageFolders: PropTypes.array,
-        location: PropTypes.object
+        pageFolders: PropTypes.array
     };
 
     render() {
@@ -41,13 +39,13 @@ class App extends Component {
     }
 
     renderRoute = (route) => {
-        const { preparedComponents, page, location, customComponents, pageTemplates, pages, pageFolders } = this.props;
+        const { preparedComponents, page, customComponents, pageTemplates, pages, pageFolders } = this.props;
         const Component = preparedComponents ? preparedComponents[route.id] : route.component;
 
         const renderProps = {};
 
         if (route.id === 'page-generator') {
-            if (page && page.url === location.pathname) {
+            if (page) {
                 renderProps.render = (props) => (
                     <Component
                         {...props}
@@ -58,15 +56,11 @@ class App extends Component {
                         customComponents={customComponents} />
                 )
             } else {
-                renderProps.render = (props) => <NotFound {...props} customComponents={customComponents} />;
+                renderProps.render = () => <h1 style={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>404</h1>;
             }
         } else {
             renderProps.render = (props) => (
-                <Component
-                    {...props}
-                    pages={pages}
-                    customComponents={customComponents}
-                    pageFolders={pageFolders} />
+                <Component {...props} />
             );
         }
 
@@ -80,4 +74,4 @@ class App extends Component {
     }
 }
 
-export default withRouter(App);
+export default App;

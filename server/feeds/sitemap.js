@@ -34,7 +34,7 @@ exports.generate = async function () {
             }
         }
 
-        if (!page.get('test')) {
+        if (!page.get('test') && page.get('url')) {
             addPages({
                 url: page.get('url'),
                 date: page.get('updated'),

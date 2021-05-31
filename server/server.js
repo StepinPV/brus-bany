@@ -11,7 +11,7 @@ const logger = require('./logger');
 const routes = require('./routes');
 const config = require('./config');
 const renderRoute = require('./renderRoute');
-const { get: getSettings, update: updateSettings } = require('./redirects');
+const { get: getSettings, update: updateSettings } = require('./settings');
 
 const Links = require('./controllers/Links');
 

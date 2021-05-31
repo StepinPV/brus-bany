@@ -1,6 +1,6 @@
 const express = require('express');
 const Settings = require('../controllers/Settings');
-const { update: updateSettings } = require('../redirects');
+const { update: updateSettings } = require('../settings');
 
 const router = express.Router();
 
@@ -32,7 +32,7 @@ router.put('/:name', async function(req, res, next) {
     try {
         const { status, data, message } = await Settings.update(req.params.name, req.body.data);
 
-        if (req.body.name === 'main') {
+        if (req.params.name === 'main') {
             await updateSettings();
         }
 

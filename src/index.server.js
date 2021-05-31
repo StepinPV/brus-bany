@@ -15,7 +15,7 @@ import axios from 'axios';
 
 const routes = getRoutes();
 
-const render = async (req, res, axiosOptions = {}) => {
+const render = async (req, res, axiosOptions = {}, settings) => {
     axios.defaults.baseURL = axiosOptions.apiURL;
 
     const matchRoute = routes.find(route => matchPath(req.path, route) || false);
@@ -62,26 +62,32 @@ const render = async (req, res, axiosOptions = {}) => {
     const cache = createCache();
     const { extractCritical } = createEmotionServer(cache);
 
-    const promises = [
-        axios.get(`/api/pages`),
-        axios.get(`/api/page-folders`),
-        axios.get(`/api/components`)
-    ];
+    let pagesRes, pageFoldersRes, customComponentsRes, pageRes, pageTemplatesRes;
 
     if (matchRoute.id === 'page-generator') {
-        promises.push(
+        const res = await Promise.all([
+            axios.get(`/api/pages`),
+            axios.get(`/api/page-folders`),
+            axios.get(`/api/components`),
             axios.get(`/api/pages/${encodeURIComponent(req.path)}`, { params: { byUrl: true } }),
             axios.get(`/api/page-templates`)
-        );
-    }
+        ]);
 
-    const [
-        pagesRes,
-        pageFoldersRes,
-        customComponentsRes,
-        pageRes,
-        pageTemplatesRes
-    ] = await Promise.all(promises);
+        pagesRes = res[0];
+        pageFoldersRes = res[1];
+        customComponentsRes = res[2];
+        pageRes = res[3];
+        pageTemplatesRes = res[4];
+
+        // Обрабатываем кейс с 404
+        if (!pageRes.data.data) {
+            context.status = 404;
+
+            if (settings['not-found-page-id']) {
+                pageRes = await axios.get(`/api/pages/${settings['not-found-page-id']}`);
+            }
+        }
+    }
 
     const jsx = extractor.collectChunks(
         <CacheProvider value={cache}>
@@ -90,10 +96,10 @@ const render = async (req, res, axiosOptions = {}) => {
                     <App
                         preparedComponents={{ [matchRoute.id]: loadableComponent }}
                         page={pageRes ? pageRes.data.data : null}
-                        customComponents={customComponentsRes.data.data}
+                        customComponents={customComponentsRes ? customComponentsRes.data.data : null}
                         pageTemplates={pageTemplatesRes ? pageTemplatesRes.data.data : null}
-                        pages={pagesRes.data.data}
-                        pageFolders={pageFoldersRes.data.data}
+                        pages={pagesRes ? pagesRes.data.data : null}
+                        pageFolders={pageFoldersRes ? pageFoldersRes.data.data : null}
                         routes={[matchRoute]} />
                 </StaticRouter>
             </Provider>

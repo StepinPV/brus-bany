@@ -4,6 +4,7 @@ const { render } = require('../dist/server/server');
 const assetsManifest = require('../public/mstatic/build/manifest.json');
 const logger = require('./logger');
 const config = require('./config');
+const { get: getSettings } = require('./settings');
 
 const cache = require('./cache');
 
@@ -36,7 +37,7 @@ router.get('*', async (req, res, next) => {
             context,
             css,
             cssIds
-        } = await render(req, res, axiosOptions);
+        } = await render(req, res, axiosOptions, await getSettings());
 
         if (context.status === 404) {
             res.status(404);
