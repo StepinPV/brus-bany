@@ -28,3 +28,9 @@ exports.clear = (groups) => {
         }
     }
 };
+
+exports.clearAll = () => {
+    for (let key in storage) {
+        delete storage[key];
+    }
+};

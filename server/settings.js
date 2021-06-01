@@ -1,4 +1,5 @@
 const SettingsController = require('./controllers/Settings');
+const cache = require('./cache');
 
 let settings = null;
 
@@ -7,6 +8,8 @@ const update = async () => {
     if (data) {
         settings = JSON.parse(data);
     }
+
+    cache.clearAll();
 };
 
 const get = async () => {
