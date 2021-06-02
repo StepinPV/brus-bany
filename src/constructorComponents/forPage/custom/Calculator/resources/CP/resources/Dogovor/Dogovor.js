@@ -34,18 +34,18 @@ function renderPriceWithWords(value) {
     return `${numberWithSpaces(value)} ( ${rubles(value)}) ${wordByNumber(value, 'рубль', 'рубля', 'рублей')}`;
 }
 
-function renderBaseEquipment({ customEval, data, equipment, onlyPrice }) {
+function renderBaseEquipment({ customEval, data, equipment, onlyPrice, isTZ }) {
     const renderItem = (groupName, itemName, { typeId, value }) => {
         switch(typeId) {
             case 'select': {
                 let val = getEquipmentElementValue(data.equipment, groupName, itemName);
                 if (value) {
-                    const item = value.filter(({ condition }) => { return !condition || getEquipmentText(customEval, condition, {}) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
+                    const item = value.filter(({ condition }) => { return !condition || getEquipmentText(customEval, condition, {}, isTZ) === 'true' }).find(item => val ? val === stringHash(item.name) : item.default);
 
                     if (item) {
                         const price = getEquipmentItemPrice(customEval, item.price, {});
                         if (onlyPrice && !price) return;
-                        return <div>{getEquipmentText(customEval, item.name, {})} {price && onlyPrice ? ` ${numberWithSpaces(getEquipmentItemPrice(customEval, item.price, {}))} рублей` : null}</div>;
+                        return <div>{getEquipmentText(customEval, item.name, {}, isTZ)} {price && onlyPrice ? ` ${numberWithSpaces(getEquipmentItemPrice(customEval, item.price, {}))} рублей` : null}</div>;
                     }
                 }
                 return;
@@ -65,24 +65,24 @@ function renderBaseEquipment({ customEval, data, equipment, onlyPrice }) {
                         if (value.values[val]) {
                             const price = getEquipmentItemPrice(customEval, value.values[val].price, { item });
                             if (onlyPrice && !price) return;
-                            return <div key={JSON.stringify(item)}>{getEquipmentText(customEval, value.values[val].value, { item })} {price && onlyPrice ? ` ${numberWithSpaces(getEquipmentItemPrice(customEval, value.values[val].price, { item }))} рублей` : null}</div>;
+                            return <div key={JSON.stringify(item)}>{getEquipmentText(customEval, value.values[val].value, { item }, isTZ)} {price && onlyPrice ? ` ${numberWithSpaces(getEquipmentItemPrice(customEval, value.values[val].price, { item }))} рублей` : null}</div>;
                         }
                     } else {
                         if (onlyPrice) return;
-                        return <div key={JSON.stringify(item)}>{getEquipmentText(customEval, value.default, { item })}</div>;
+                        return <div key={JSON.stringify(item)}>{getEquipmentText(customEval, value.default, { item }, isTZ)}</div>;
                     }
                 }) : null;
             }
 
             case 'base':
-                return value && !onlyPrice ? <div>{getEquipmentText(customEval, value, {})}</div> : null;
+                return value && !onlyPrice ? <div>{getEquipmentText(customEval, value, {}, isTZ)}</div> : null;
 
             case 'number': {
                 let val = getEquipmentElementValue(data.equipment, groupName, itemName);
                 if (value) {
-                    const price = val ? (parseInt(val) - parseInt(getEquipmentText(customEval, value.default, {}))) * getEquipmentItemPrice(customEval, value.price, {}) : 0;
+                    const price = val ? (parseInt(val) - parseInt(getEquipmentText(customEval, value.default, {}, isTZ))) * getEquipmentItemPrice(customEval, value.price, {}) : 0;
                     if (onlyPrice && !price) return;
-                    return <div>{getEquipmentText(customEval, value.name, {})} {val ? val : getEquipmentText(customEval, value.default, {})} шт {price ? ` ${numberWithSpaces(price)} рублей` : null}</div>;
+                    return <div>{getEquipmentText(customEval, value.name, {}, isTZ)} {val ? val : getEquipmentText(customEval, value.default, {}, isTZ)} шт {price ? ` ${numberWithSpaces(price)} рублей` : null}</div>;
                 }
             }
         }
@@ -90,11 +90,11 @@ function renderBaseEquipment({ customEval, data, equipment, onlyPrice }) {
 
     return (
         <>
-            {equipment ? equipment.filter(({ condition }) => { return !condition || getEquipmentText(customEval, condition, {}) === 'true' }).map(({ name: groupName, value }) => (
+            {equipment ? equipment.filter(({ condition }) => { return !condition || getEquipmentText(customEval, condition, {}, isTZ) === 'true' }).map(({ name: groupName, value }) => (
                 <Fragment key={groupName}>
                     { onlyPrice ? null : <b>{groupName}</b>}
                     <div>
-                        {value ? value.filter(({ condition }) => { return !condition || getEquipmentText(customEval, condition, {}) === 'true' }).map(({ name: itemName, value }) => {
+                        {value ? value.filter(({ condition }) => { return !condition || getEquipmentText(customEval, condition, {}, isTZ) === 'true' }).map(({ name: itemName, value }) => {
                             return (
                                 <Fragment key={itemName}>
                                     {renderItem(groupName, itemName, value)}
@@ -321,7 +321,7 @@ const renderProtocol = ({ customEval, blocks, formValue, finalPrice, data, cpSet
     )
 }
 
-const renderSpecification = ({ projectName, customEval, blocks, formValue, data, cpSettings }) => {
+const renderSpecification = ({ projectName, customEval, blocks, formValue, data, cpSettings, isTZ }) => {
     return (
         <>
             <h3 style={{ textAlign: 'center' }}>СПЕЦИФИКАЦИЯ</h3>
@@ -331,7 +331,7 @@ const renderSpecification = ({ projectName, customEval, blocks, formValue, data,
             {blocks.projectBlocks && blocks.projectBlocks.length ? blocks.projectBlocks.map(projectBlock => {
                 return data.blocks && data.blocks[projectBlock.id] ? <Fragment key={projectBlock.id}>{renderProjectBlock({ projectBlock, customEval, data, cpSettings })}</Fragment> : null
             }) : null}
-            {blocks.baseEquipment && blocks.baseEquipment.length ? renderBaseEquipment({ customEval, data, equipment: blocks.baseEquipment }) : null}
+            {blocks.baseEquipment && blocks.baseEquipment.length ? renderBaseEquipment({ customEval, data, equipment: blocks.baseEquipment, isTZ }) : null}
             {data.add && blocks.add ? <>{renderAdditions({ customEval, data, additions: blocks.additions })}</> : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? renderAdditionalFormData(formValue, false) : null}
         </>
@@ -1094,6 +1094,14 @@ const renderDogovor2 = (setContainerRef, pageHeights, cpSettings, blocks, custom
                         Подрядчик обязуется вернуть Заказчику денежные средства, полученные в качестве
                         аванса, за вычетом стоимости фактически доставленного Изделия и стоимости произведенных Работ.
                     </div>
+                    <div style={{ textAlign: 'justify' }}>
+                        11.4 Согласно ст. 485 п.3 ГК РФ, в случае непредвиденного подорожания материала,
+                        используемого для изготовления Изделия или комплектующих, стоимости транспортных услуг,
+                        Продавец в праве увеличить стоимость договора на сумму равную сумме увеличенной
+                        стоимости материалов и транспортных услуг. Если поставка
+                        бани была отложена по просьбе Покупателя на неопределенный срок, то цена договора может быть
+                        увеличена.
+                    </div>
                     <br/>
                     <h3 style={{ textAlign: 'center' }}>12. СРОК ДЕЙСТВИЯ ДОГОВОРА, ПОРЯДОК ЕГО ИЗМЕНЕНИЯ И РАСТОРЖЕНИЯ</h3>
                     <div style={{ textAlign: 'justify' }}>
@@ -1355,7 +1363,7 @@ const renderTZ = (blocks, cpSettings, customEval, formValue, data, finalPrice, h
             <div>{formValue.client.name}, {formValue.client.phone}, {renderDate(new Date(formValue.projectDate))}, {data.delivery ? `${data.delivery.address} ${(formValue.addressAddition ? `(${formValue.addressAddition})` : '')}` : ''}</div>
             <br/>
             <br/>
-            {renderSpecification({ projectName: customEval("eval(`'" + cpSettings['product-cp-name'] + "'`)").toLowerCase(), customEval, blocks, formValue, data, cpSettings })}
+            {renderSpecification({ projectName: customEval("eval(`'" + cpSettings['product-cp-name'] + "'`)").toLowerCase(), customEval, blocks, formValue, data, cpSettings, isTZ: true })}
             {hasAddBlock ? (
                 <>
                     <br/>

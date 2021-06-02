@@ -4,6 +4,7 @@ import cx from 'classnames';
 import stringHash from '@utils/stringHash';
 import filterObject from '@utils/filterObject';
 import numberWithSpaces from '@utils/numberWithSpaces';
+import replaceAll from '@utils/replaceAll';
 import styles from './Equipment.module.css';
 
 export const getElementValue = (value, groupName, itemName) => {
@@ -26,8 +27,13 @@ export function getPrice(customEval, formula, vars) {
     }
 }
 
-export function getText(customEval, formula, vars) {
+export function getText(customEval, formula, vars, isTZ) {
     try {
+        if (isTZ) {
+            formula = formula.replace(new RegExp('\\[\\{', 'g'), '(').replace(new RegExp('\\}\\]', 'g'), ')');
+        } else {
+            formula = formula.replace(new RegExp('\\[\\{(.)*\\}\\]', 'g'), '');
+        }
         return customEval("eval(`'" + formula + "'`)", vars);
     } catch(err) {
         return '';
