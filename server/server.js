@@ -117,6 +117,7 @@ db.init(config.db_url, config.db_name, () => {
     updateSettings();
 }, (err) => {
     logger.error(`Ошибка подключение к базе данных ${config.db_url}/${config.db_name}:`, err);
+    process.exit(1);
 });
 
 function generateFeeds() {
