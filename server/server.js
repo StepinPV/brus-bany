@@ -105,23 +105,34 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(errorhandler());
 }
 
-db.init(config.db_url, config.db_name, () => {
-    logger.success(`\nПодключение к базе данных ${config.db_url}/${config.db_name} установлено`);
-    app.listen(PORT);
-    logger.success(`Сервис запущен на ${PORT} порту`);
+let serverStarted = false;
 
-    setTimeout(() => {
-        generateFeeds();
-    }, 2000);
+const startApp = async () => {
+    if (serverStarted) {
+        return Promise.resolve();
+    }
 
+    return new Promise((resolve) => {
+        app.listen(PORT, () => {
+            serverStarted = true;
+            logger.success(`\nСервис запущен на ${PORT} порту`);
+            resolve();
+        }).on('error', (e) => {
+            logger.error(`\nОшибка прослушивания порта ${PORT}: `, e.message);
+            process.exit(1);
+        });
+    });
+};
+
+db.init(config.db_url, config.db_name, async () => {
+    await startApp();
+
+    generateFeeds();
     updateSettings();
-}, (err) => {
-    logger.error(`Ошибка подключение к базе данных ${config.db_url}/${config.db_name}:`, err);
-    process.exit(1);
 });
 
 function generateFeeds() {
-    logger.success(`\nГенерация фидов:`);
+    logger.info(`\nГенерация фидов:`);
     sitemap.generate();
     yml.generate();
     google.generate();
