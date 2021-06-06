@@ -58,7 +58,17 @@
     margin-top: 64px;
 }
 
-.pageView {
+.caption {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 16px 0;
+}
+
+.sub-container {
     width: 400px;
     margin: 0 auto;
+}
+
+.pageViewComponents {
+    border: 4px solid #dcdbdb;
 }

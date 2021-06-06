@@ -52,8 +52,8 @@ class Folder extends PureComponent {
                 },
                 caption: 'Настройки',
                 containerStyle: {
-                    left: 'max(-100%, -600px)',
-                    width: '600px'
+                    left: 'max(-100%, -900px)',
+                    width: '900px'
                 },
                 content: this.renderSettingsBlock
             },
@@ -112,20 +112,23 @@ class Folder extends PureComponent {
                 openedPanelId={openedPanelId}>
                 <>
                     <Header />
-                    {this.renderData()}
+                    {this.renderPageView()}
                 </>
             </FloatPanels>
         ) : null;
     }
 
-    renderData = () => {
+    renderPageView = () => {
         const { data } = this.props;
         const { components } = data.pageViewConfig || {};
 
         const render = () => (
-            <div className={styles.pageView}>
-                {components ? components.map((componentId, index) => this.renderComponentByIndex(index)) : null}
-                {(!components || !components.length) ? this.renderAddComponent() : null}
+            <div className={styles['sub-container']}>
+                <div className={styles.caption}>Шаблон карточки</div>
+                <div className={styles.pageViewComponents}>
+                    {components ? components.map((componentId, index) => this.renderComponentByIndex(index)) : null}
+                    {(!components || !components.length) ? this.renderAddComponent() : null}
+                </div>
             </div>
         );
 

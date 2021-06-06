@@ -20,6 +20,7 @@ const utm = require('./utm');
 const sitemap = require('./feeds/sitemap');
 const yml = require('./feeds/yml');
 const google = require('./feeds/google');
+const feeds = require('./feeds/feeds');
 
 const app = express();
 const PORT = config.port;
@@ -132,10 +133,10 @@ db.init(config.db_url, config.db_name, async () => {
 });
 
 function generateFeeds() {
-    logger.info(`\nГенерация фидов:`);
     sitemap.generate();
     yml.generate();
     google.generate();
+    feeds.generate();
 }
 
 schedule.scheduleJob('0 0 * * *', function(){

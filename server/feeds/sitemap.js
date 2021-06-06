@@ -7,6 +7,8 @@ const PageTemplates = require('../controllers/PageTemplates');
 const DOMAIN = 'https://brus-bany.ru';
 
 exports.generate = async function () {
+    logger.info('\nГенерация sitemap.xml...');
+
     let pagesData = ``;
 
     const addPages = ({ url, date, changefreq, priority }) => {
@@ -52,9 +54,9 @@ exports.generate = async function () {
     fs.writeFile('./public/sitemap.xml', data,
         function (err) {
             if (err) {
-                logger.error(`Ошибка генерации sitemap: ${err}`, );
+                logger.error(`Ошибка генерации sitemap.xml: ${err}`, );
             } else {
-                logger.success('Sitemap успешно обновлен');
+                logger.success('sitemap.xml успешно обновлен');
             }
         });
 };

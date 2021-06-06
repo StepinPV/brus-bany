@@ -36,8 +36,3 @@ https://jpuri.github.io/react-draft-wysiwyg/#/docs?_k=jjqinp
 ОП:
 root@brusbany:~# ps axu | awk  '{print $6 " " $11 $12 $13 $14 " "  $2}' | awk '{ proc_list[$2] += $1; } END \
 > { for (proc in proc_list) { printf("%d\t%s\n", proc_list[proc],proc); }}' | sort -n | tail -n 10 | sort -rn | awk '{$1/=1024;printf "%.0fMB\t",$1}{print $2}'
-
-3. Карточки для статей
-2. contentEditable = true
-4. Продумать иерархию компонентов
-5. Разные наборы опций для карточки/страницы (можно опциям давать тип применения)
