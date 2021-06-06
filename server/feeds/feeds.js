@@ -60,7 +60,8 @@ exports.generate = async function () {
                         const fieldValues = {
                             pageId: { type: 'string', value: page.get('_id').toString() },
                             pageUrl: { type: 'string', value: page.get('url') },
-                            folderName: { type: 'string', value: pageFolder.get('name') }
+                            folderName: { type: 'string', value: pageFolder.get('name') },
+                            folderId: { type: 'string', value: pageConfig.folder },
                         };
 
                         folderFields.forEach(field => {
