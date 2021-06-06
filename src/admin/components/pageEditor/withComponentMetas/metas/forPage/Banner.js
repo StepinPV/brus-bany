@@ -18,8 +18,7 @@ export const props = [{
     _id: 'image',
     title: 'Обложка',
     props: {
-        withoutLogo: true,
-        globalStore: true
+        withoutLogo: true
     },
     type: 'image'
 }, {

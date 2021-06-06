@@ -11,8 +11,7 @@ export const props = [{
     type: 'image',
     props: {
         withoutLogo: true,
-        width: 580,
-        globalStore: true
+        width: 580
     }
 }, ...containerProps];
 export const name = 'Блок с изображением и формой';

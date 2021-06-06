@@ -28,8 +28,7 @@ const projectBlockItemFormat = [{
     type: 'image',
     props: {
         // width: 600,
-        withoutLogo: true,
-        globalStore: true
+        withoutLogo: true
     }
 }, {
     _id: 'imageAlt',
@@ -287,8 +286,7 @@ export const props = [{
         type: 'image',
         props: {
             // width: 800,
-            withoutLogo: true,
-            globalStore: true
+            withoutLogo: true
         }
     }, {
         _id: 'schemeImage',
@@ -296,8 +294,7 @@ export const props = [{
         type: 'image',
         props: {
             // width: 800,
-            withoutLogo: true,
-            globalStore: true
+            withoutLogo: true
         }
     }, {
         _id: 'fund-block-id',

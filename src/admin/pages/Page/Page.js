@@ -160,7 +160,6 @@ class Page extends PureComponent {
                 switch(item.type) {
                     case 'image': {
                         f.props = {
-                            globalStore: true,
                             width: isFolder ? 600 : 1200
                         }
                         break;

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import showNotification from '@utils/showNotification';
 import Input from '../../../components/Input';
 
 import cx from 'classnames';
@@ -10,7 +11,12 @@ class ImageLoader extends PureComponent {
         onChange: PropTypes.func,
         onChangeURL: PropTypes.func,
         image: PropTypes.string,
-        title: PropTypes.string
+        title: PropTypes.string,
+        allowedTypes: PropTypes.array
+    };
+
+    static defaultProps = {
+        allowedTypes: ['image/jpeg', 'image/jpg', 'image/png']
     };
 
     render() {
@@ -42,12 +48,15 @@ class ImageLoader extends PureComponent {
     }
 
     handleChangeInput = (event) => {
+        const { allowedTypes } = this.props;
+
         if (!FileReader) {
             return;
         }
 
         Array.from(event.target.files).forEach(file => {
-            if (!file.type.match('image.*')) {
+            if (!allowedTypes.includes(file.type)) {
+                showNotification({ status: 'error', message: 'Недопустимый формат файла!' })
                 return;
             }
 

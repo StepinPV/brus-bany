@@ -15,13 +15,14 @@ class ImageUploader extends PureComponent {
     };
 
     render() {
-        const { image, images, title, props, onChange } = this.props;
+        const { image, images, title, onChange, props } = this.props;
 
         return (
             <ImageLoader
                 title={title}
-                image={props && props.globalStore ? images[image] : image}
+                image={images[image]}
                 onChange={this.handleChange}
+                allowedTypes={props ? props.allowedTypes : undefined}
                 onChangeURL={onChange} />
         );
     }

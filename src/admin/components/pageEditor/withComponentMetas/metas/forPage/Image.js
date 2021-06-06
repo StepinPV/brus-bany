@@ -6,8 +6,7 @@ export const props = [{
     title: 'Изображение',
     type: 'image',
     props: {
-        withoutLogo: true,
-        globalStore: true
+        withoutLogo: true
     }
 }, {
     _id: 'imageAlt',

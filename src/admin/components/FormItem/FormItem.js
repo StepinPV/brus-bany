@@ -108,21 +108,17 @@ const FormItem = ({ item, value, onChange, error, images }) => {
                         props={item.props}
                         title={item.title}
                         onChange={val => {
-                            if (item.props && item.props.globalStore) {
-                                if (val) {
-                                    const imageId = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
+                            if (val) {
+                                const imageId = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
 
-                                    onChange(imageId, null, {
-                                        ...images,
-                                        [imageId]: val
-                                    });
-                                } else {
-                                    const newImages = { ...images };
-                                    delete newImages[value];
-                                    onChange(null, null, newImages);
-                                }
+                                onChange(imageId, null, {
+                                    ...images,
+                                    [imageId]: val
+                                });
                             } else {
-                                onChange(val, null, images);
+                                const newImages = { ...images };
+                                delete newImages[value];
+                                onChange(null, null, newImages);
                             }
                         }}
                     />

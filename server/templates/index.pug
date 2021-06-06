@@ -5,13 +5,16 @@ html(lang='ru')
 
         meta(charset='utf-8')
         meta(name='viewport', content='width=device-width, initial-scale=1')
+
         meta(property='og:url', content=url)
+        meta(property='og:image', content='/apple-touch-icon.png')
+        meta(property='og:image:alt', content='Логотип компании Бруса бани')
+        meta(property='og:type', content='website')
 
         | !{meta}
 
         link(rel='shortcut icon', href='/favicon.ico', type='image/x-icon')
         link(rel='apple-touch-icon', href='/apple-touch-icon.png')
-        link(rel='manifest', href='/manifest.json')
 
         | !{assets.styleTags}
         | !{assets.linkTags}

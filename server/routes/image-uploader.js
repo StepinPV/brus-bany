@@ -8,24 +8,34 @@ const router = express.Router();
 
 const MAX_FILE_SIZE = 1024 * 1024 * 2;
 
+const TYPES = {
+    'image/jpeg': 'jpg',
+    'image/jpg': 'jpg',
+    'image/png': 'png',
+    'image/x-icon': 'ico',
+    'image/vnd.microsoft.icon': 'ico'
+}
+
+const PREPARED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
+
 const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const folderPath = req.body.globalStore === 'true' ? './public/uploads/global' : './public/buffer';
+        const folderPath = './public/uploads/global';
         shell.mkdir('-p', folderPath);
         cb(null, folderPath)
     },
     filename: function (req, file, cb) {
         const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
-        req.imageName = `${id}.jpg`;
+        req.imageName = `${id}.${TYPES[file.mimetype]}`;
         cb(null, req.imageName);
     }
 });
 
 const fileFilter = (req, file, cb) => {
-    if(file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg'){
+    if(file.mimetype.match('image.*')){
         cb(null, true);
     }
-    else{
+    else {
         cb(null, false);
     }
 };
@@ -42,26 +52,33 @@ const send = (res, { status, code, message, data }) => {
 };
 
 router.put('/', upload.single('file'), async function(req, res, next) {
+    const sendSuccess = () => {
+        send(res, {
+            message: `Изображение загружено!`,
+            data: `/uploads/global/${req.imageName}`,
+            status: 'success'
+        });
+    };
+
     try {
         if (req.imageName) {
-            const folderPath = req.body.globalStore === 'true' ? '../../public/uploads/global/' : '../../public/buffer/';
-            prepareImage(path.join(__dirname, `${folderPath}${req.imageName}`),function () {
-                send(res, {
-                    message: `Изображение загружено!`,
-                    data: `${req.body.globalStore === 'true' ? '/uploads/global/' : '/buffer/'}${req.imageName}`,
-                    status: 'success'
+            if (PREPARED_IMAGE_TYPES.includes(req.file.mimetype)) {
+                prepareImage(path.join(__dirname, `../../${req.file.path}`),function () {
+                    sendSuccess();
+                }, function (err) {
+                    const message = `Не удалось обработать изображение: ${err}`;
+                    send(res, { status: 'error', message });
+                    console.log(message);
+                }, {
+                    withLogo: !(req.body.withoutLogo === 'true'),
+                    width: req.body.width,
+                    withoutCompression: req.body.withoutCompression
                 });
-            }, function (err) {
-                const message = `Не удалось обработать изображение: ${err}`;
-                send(res, { status: 'error', message });
-                console.log(message);
-            }, {
-                withLogo: !(req.body.withoutLogo === 'true'),
-                width: req.body.width,
-                withoutCompression: req.body.withoutCompression
-            });
+            } else {
+                sendSuccess();
+            }
         } else {
-            send(res, { status: 'error', message: 'Изображение не загружено. Допустимый формат: "jpg"' });
+            send(res, { status: 'error', message: 'Изображение не загружено. Недопустимый формат!' });
         }
     } catch(err) {
         next(err);

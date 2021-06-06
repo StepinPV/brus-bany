@@ -12,8 +12,7 @@ export const props = [{
         type: 'image',
         props: {
             withoutLogo: true,
-            width: 1200,
-            globalStore: true
+            width: 1200
         }
     }, {
         _id: 'alt',
