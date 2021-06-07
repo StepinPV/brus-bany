@@ -1,8 +1,0 @@
-User-agent: *
-Disallow: /admin*
-Disallow: /test*
-Disallow: /api*
-Disallow: /link_*
-Disallow: /thanks
-Disallow: /*?*
-Sitemap: https://brus-bany.ru/sitemap.xml

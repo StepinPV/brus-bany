@@ -4,9 +4,7 @@ const logger = require('../logger');
 const Pages = require('../controllers/Pages');
 const PageTemplates = require('../controllers/PageTemplates');
 
-const DOMAIN = 'https://brus-bany.ru';
-
-exports.generate = async function () {
+exports.generate = async function (domain) {
     logger.info('\nГенерация sitemap.xml...');
 
     let pagesData = ``;
@@ -14,7 +12,7 @@ exports.generate = async function () {
     const addPages = ({ url, date, changefreq, priority }) => {
         pagesData += `
             <url>
-                <loc>${DOMAIN}${url}</loc>
+                <loc>${domain}${url}</loc>
                 ${date ? `<lastmod>${date.toISOString().split('T')[0]}</lastmod>` : ''}
                 <changefreq>${changefreq || 'daily'}</changefreq>
                 <priority>${priority || '0.6'}</priority>

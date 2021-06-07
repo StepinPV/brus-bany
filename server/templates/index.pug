@@ -7,14 +7,16 @@ html(lang='ru')
         meta(name='viewport', content='width=device-width, initial-scale=1')
 
         meta(property='og:url', content=url)
-        meta(property='og:image', content='/apple-touch-icon.png')
-        meta(property='og:image:alt', content='Логотип компании Бруса бани')
+        // TODO Унести в настройки страницы
+        meta(property='og:image', content=logo152x152)
+        // TODO Унести в настройки страницы
+        meta(property='og:image:alt', content='Логотип')
         meta(property='og:type', content='website')
 
         | !{meta}
 
-        link(rel='shortcut icon', href='/favicon.ico', type='image/x-icon')
-        link(rel='apple-touch-icon', href='/apple-touch-icon.png')
+        link(rel='shortcut icon', href=favicon, type='image/x-icon')
+        link(rel='apple-touch-icon', href=logo152x152)
 
         | !{assets.styleTags}
         | !{assets.linkTags}

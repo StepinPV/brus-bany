@@ -29,6 +29,8 @@ router.get('*', async (req, res, next) => {
             apiURL: `http://localhost:${config.port}`
         };
 
+        const settings = await getSettings();
+
         const {
             head,
             markup,
@@ -38,7 +40,7 @@ router.get('*', async (req, res, next) => {
             css,
             cssIds,
             theme
-        } = await render(req, res, axiosOptions, await getSettings());
+        } = await render(req, res, axiosOptions, settings);
 
         if (context.status === 404) {
             res.status(404);
@@ -67,7 +69,7 @@ router.get('*', async (req, res, next) => {
             const isAdminPage = /^\/admin/.test(req.url);
             const data = {
                 needCounters: process.env.NODE_ENV === 'production' && !isAdminPage,
-                url: `https://brus-bany.ru${req.url}`,
+                url: `${settings.domain || req.get('host')}${req.url}`,
                 title: head.title.toString(),
                 meta: head.meta.toString(),
                 link: head.link.toString(),
@@ -76,6 +78,8 @@ router.get('*', async (req, res, next) => {
                 theme: serialize(context.simplePage ? {} : theme),
                 needShareScript: Boolean(context.needShareScript),
                 app: markup,
+                favicon: settings && settings['__images__'] ? settings['__images__'][settings['favicon']] : '',
+                logo152x152: settings && settings['__images__'] ? settings['__images__'][settings['logo152x152']] : '',
                 css,
                 cssIds,
                 assets: {
