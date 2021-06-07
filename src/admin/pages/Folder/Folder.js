@@ -1,9 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import {connect} from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import { get, set, save, reset, deleteData } from './actions';
 import showNotification from '@utils/showNotification';
 import Form from '../../components/Form';
 import { Button } from '../../../components/Button';
@@ -17,24 +14,17 @@ import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import Header from '../../components/Header';
 import formData from '../../formats/page-folder';
 import FieldsProvider from '@plugins/Fields/Provider';
+import axios from 'axios';
 
 const breadcrumbs = [{
     title: 'Главная',
     link: '/admin'
-}, {
-    title: 'Страницы',
-    link: '/admin/pages'
 }, {
     title: 'Редактирование папки'
 }];
 
 class Folder extends PureComponent {
     static propTypes = {
-        data: PropTypes.object,
-        isError: PropTypes.string,
-        isFetch: PropTypes.bool,
-
-        actions: PropTypes.object,
         match: PropTypes.object,
         history: PropTypes.object
     };
@@ -76,33 +66,11 @@ class Folder extends PureComponent {
     };
 
     componentDidMount() {
-        const { match, actions } = this.props;
-        const { id } = match.params;
-
-        if (id === 'add') {
-            actions.set({
-                pageViewConfig: {
-                    components: [],
-                    componentsData: {}
-                }
-            });
-        } else {
-            actions.get(id);
-        }
-    }
-
-    componentWillUnmount() {
-        const { actions } = this.props;
-        actions.reset();
+        this.update();
     }
 
     render() {
-        const { isError, data } = this.props;
-        const { openedPanelId } = this.state;
-
-        if (isError) {
-            return <div className={styles.error}>{isError}</div>;
-        }
+        const { openedPanelId, data } = this.state;
 
         // TODO
         return data ? (
@@ -119,7 +87,7 @@ class Folder extends PureComponent {
     }
 
     renderPageView = () => {
-        const { data } = this.props;
+        const { data } = this.state;
         const { components } = data.pageViewConfig || {};
 
         const render = () => (
@@ -140,7 +108,8 @@ class Folder extends PureComponent {
     }
 
     renderSettingsBlock = () => {
-        const { data, match, actions } = this.props;
+        const { data } = this.state;
+        const { match } = this.props;
         const { id } = match.params;
 
         return (
@@ -161,9 +130,11 @@ class Folder extends PureComponent {
                                     });
                                 }
 
-                                actions.set({
-                                    ...data,
-                                    ...newData
+                                this.setState({
+                                    data: {
+                                        ...data,
+                                        ...newData
+                                    }
                                 });
                             }}
                             errors={{}} />
@@ -207,8 +178,7 @@ class Folder extends PureComponent {
     }
 
     renderComponentSelect = () => {
-        const { data } = this.props;
-        const { addComponentPosition } = this.state;
+        const { addComponentPosition, data } = this.state;
 
         const addComponent = (componentId, props) => {
             const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
@@ -229,8 +199,7 @@ class Folder extends PureComponent {
     };
 
     renderComponentByIndex = (index) => {
-        const { data } = this.props;
-        const { operations } = this.state;
+        const { operations, data } = this.state;
 
         const componentData = data.pageViewConfig.componentsData[data.pageViewConfig.components[index]];
 
@@ -317,21 +286,31 @@ class Folder extends PureComponent {
     };
 
     setConfig = (newConfig) => {
-        const { actions, data } = this.props;
+        const { data } = this.state;
 
-        actions.set({
-            ...data,
-            pageViewConfig: {
-                ...data.pageViewConfig,
-                ...newConfig
+        this.setState({
+            data: {
+                ...data,
+                pageViewConfig: {
+                    ...data.pageViewConfig,
+                    ...newConfig
+                }
             }
         });
     };
 
     handleSave = async () => {
-        const { actions, match } = this.props;
+        const { match } = this.props;
+        const { data: folder } = this.state;
 
-        const { message, status, data } = await actions.save();
+        let res;
+        if (folder['_id']) {
+            res = await axios.put(`/api/page-folders/${folder['_id']}`, { data: folder });
+        } else {
+            res = await axios.post('/api/page-folders', { data: folder });
+        }
+
+        const { message, status, data } = res.data;
 
         showNotification({ message, status });
 
@@ -343,47 +322,62 @@ class Folder extends PureComponent {
                 break;
             case 'success':
                 if (match.params.id === 'add') {
-                    window.location = '/admin/pages';
+                    window.location = '/admin';
                 }
         }
     };
 
     handleDelete = async () => {
-        const { actions } = this.props;
+        const { data } = this.state;
 
         if (window.confirm('Вы действительно хотите удалить папку?')) {
-            const { message, status } = await actions.deleteData();
+            const res = await axios.delete(`/api/page-folders/${data['_id']}`);
+            const { message, status } = res.data;
 
             showNotification({ message, status });
 
             if (status === 'success') {
-                window.location = '/admin/pages';
+                window.location = '/admin';
             }
         }
     };
 
     setOpenedPanel = (id) => {
         this.setState({ openedPanelId: id })
+    };
+
+    update = async () => {
+        const { match } = this.props;
+        const { id } = match.params;
+
+        if (id === 'add') {
+            this.setState({
+                data: {
+                    pageViewConfig: {
+                        components: [],
+                        componentsData: {}
+                    }
+                }
+            });
+        } else {
+            const res = await axios.get(`/api/page-folders/${id}`);
+
+            if (res.data && res.data.status === 'error') {
+                showNotification({ status: 'error', message: res.data.message });
+                return;
+            }
+
+            this.setState({
+                data: {
+                    pageViewConfig: {
+                        components: [],
+                        componentsData: {}
+                    },
+                    ...res.data.data
+                }
+            })
+        }
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            get,
-            set,
-            save,
-            reset,
-            deleteData
-        }, dispatch),
-        dispatch
-    };
-}
-
-function mapStateToProps(state) {
-    const { data, isFetch, isError } = state['admin-folder'];
-
-    return { data, isFetch, isError };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Folder);
+export default Folder;

@@ -1,11 +1,8 @@
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import { reset, init } from './actions';
+import axios from "axios";
 
 const breadcrumbsItems = [{
     title: 'Главная',
@@ -26,43 +23,13 @@ const addTile = {
 };
 
 class PageTemplates extends PureComponent {
-    static propTypes = {
-        data: PropTypes.array,
-        isFetch: PropTypes.bool,
-        actions: PropTypes.object
-    };
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (!prevState.tiles && nextProps.data) {
-            const tiles = nextProps.data.map(item => {
-                return {
-                    key: item['_id'],
-                    type: 'link',
-                    title: item.name,
-                    link: `/admin/page-templates/${item['_id']}`
-                }
-            });
-            return {
-                tiles: [addTile, ...tiles]
-            }
-        }
-
-        return null;
-    }
-
     state = {
         tiles: null,
         defaultTiles: [loadingTile]
     };
 
     componentDidMount() {
-        const { actions } = this.props;
-        actions.init();
-    }
-
-    componentWillUnmount() {
-        const { actions } = this.props;
-        actions.reset();
+        this.update();
     }
 
     render() {
@@ -76,22 +43,22 @@ class PageTemplates extends PureComponent {
             </>
         );
     }
+
+    update = async () => {
+        const res = await axios.get('/api/page-templates');
+        const templates = res.data.data;
+
+        const tiles = templates.map(item => {
+            return {
+                key: item['_id'],
+                type: 'link',
+                title: item.name,
+                link: `/admin/page-templates/${item['_id']}`
+            }
+        });
+
+        this.setState({ data: templates, tiles: [addTile, ...tiles] });
+    }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            reset,
-            init
-        }, dispatch),
-        dispatch
-    };
-}
-
-function mapStateToProps(state) {
-    const {data, isFetch, isError} = state['admin-page-templates'];
-
-    return {data, isFetch, isError};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PageTemplates);
+export default PageTemplates;

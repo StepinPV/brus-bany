@@ -1,13 +1,10 @@
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import { Link } from '../../../components/Button';
 import styles from './Pages.module.css';
-import { resetData, init } from './actions';
+import axios from "axios";
 
 const breadcrumbsItems = [{
     title: 'Главная',
@@ -20,105 +17,14 @@ const loadingTile = {
 };
 
 class Pages extends PureComponent {
-    static propTypes = {
-        pages: PropTypes.array,
-        isPagesFetch: PropTypes.bool,
-        actions: PropTypes.object
-    };
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        let newState = {};
-
-        if (!prevState.tiles && nextProps.pages) {
-            const tiles = nextProps.pages.map(item => {
-                return {
-                    key: item['_id'],
-                    type: 'link',
-                    title: item['name'] || item['url'],
-                    link: `/admin/pages/page-${item['_id']}`
-                }
-            }).sort((item1, item2) => {
-                if (item1.title > item2.title) return 1;
-                if (item1.title === item2.title) return 0;
-                return -1;
-            });
-
-            newState = {
-                ...newState,
-                tiles
-            }
-        }
-
-        if (!prevState.breadcrumbs && nextProps.folders) {
-            const { match } = nextProps;
-            let folderId = match.params.folderId;
-
-            if (folderId) {
-                let folders = [];
-
-                do {
-                    const f = nextProps.folders.find(folder => folder['_id'] === folderId);
-                    folders.push(f)
-                    folderId = f.folder;
-                } while(folderId);
-
-                const breadcrumbs = [...breadcrumbsItems];
-
-                folders.reverse().forEach((f, index) => {
-                    breadcrumbs.push({
-                        title: f['name'],
-                        link: index !== folders.length - 1 ? `${breadcrumbsItems[0].link}/pages/${f['_id']}` : null
-                    })
-                });
-
-                newState = {
-                   ...newState,
-                    breadcrumbs
-                }
-
-            } else {
-                newState = {
-                    ...newState,
-                    breadcrumbs: breadcrumbsItems
-                }
-            }
-
-            if (!prevState.newFolderData && nextProps.folders) {
-                const { match } = nextProps;
-                let folderId = match.params.folderId;
-
-                const folder = nextProps.folders.find(folder => folder['_id'] === folderId);
-
-                if (folder) {
-                    newState = {
-                        ...newState,
-                        newFolderData: folder
-                    }
-                }
-            }
-        }
-
-        return newState;
-    }
-
     state = {
         tiles: null,
         defaultTiles: [loadingTile],
-        currentFolder: null,
-        breadcrumbs: null,
-        newFolderData: null
+        breadcrumbs: null
     };
 
     componentDidMount() {
-        const { match, actions } = this.props;
-        const { folderId } = match.params;
-
-        actions.init(folderId);
-    }
-
-    componentWillUnmount() {
-        const { actions } = this.props;
-        actions.resetData();
+        this.update();
     }
 
     render() {
@@ -151,7 +57,8 @@ class Pages extends PureComponent {
     }
 
     renderFolders = () => {
-        const { folders, match } = this.props;
+        const { match } = this.props;
+        const { folders } = this.state;
         const { folderId } = match.params;
 
         return folders ? (
@@ -172,28 +79,57 @@ class Pages extends PureComponent {
             </div>
         ) : null;
     };
+
+    update = async () => {
+        const { match } = this.props;
+        const { folderId } = match.params;
+
+        const [resPages, resFolders] = await Promise.all([axios.get('/api/pages'), axios.get('/api/page-folders')]);
+
+        const pages = resPages.data.data.filter(page => !page.config.folder && !folderId || page.config.folder === folderId);
+        const folders = resFolders.data.data;
+
+        const newState = { pages, folders };
+
+        newState.tiles = pages.map(item => {
+            return {
+                key: item['_id'],
+                type: 'link',
+                title: item['name'] || item['url'],
+                link: `/admin/pages/page-${item['_id']}`
+            }
+        }).sort((item1, item2) => {
+            if (item1.title > item2.title) return 1;
+            if (item1.title === item2.title) return 0;
+            return -1;
+        });
+
+        if (folderId) {
+            let _folders = [];
+
+            let _folderId = folderId;
+            do {
+                const f = folders.find(folder => folder['_id'] === _folderId);
+                _folders.push(f)
+                _folderId = f.folder;
+            } while(_folderId);
+
+            const breadcrumbs = [...breadcrumbsItems];
+
+            _folders.reverse().forEach((f, index) => {
+                breadcrumbs.push({
+                    title: f['name'],
+                    link: index !== folders.length - 1 ? `${breadcrumbsItems[0].link}/pages/${f['_id']}` : null
+                })
+            });
+
+            newState.breadcrumbs = breadcrumbs;
+        } else {
+            newState.breadcrumbs = breadcrumbsItems;
+        }
+
+        this.setState(newState);
+    }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            resetData,
-            init
-        }, dispatch),
-        dispatch
-    };
-}
-
-function mapStateToProps(state) {
-    const {
-        pages, isPagesFetch, isPagesError,
-        folders, isFoldersFetch, isFoldersError
-    } = state['admin-pages'];
-
-    return {
-        pages, isPagesFetch, isPagesError,
-        folders, isFoldersFetch, isFoldersError
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Pages);
+export default Pages;

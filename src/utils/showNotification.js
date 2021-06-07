@@ -7,7 +7,7 @@ export default function showNotification({ message, status }) {
                     success: 'Успешно!',
                     error: 'Ошибка!'
                 }[status],
-                icon: '/apple-touch-icon.png'
+                icon: ''
             });
         } catch (error) {}
     })();

@@ -1,9 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import {connect} from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import { get, set, save, reset, deleteData } from './actions';
 import showNotification from '@utils/showNotification';
 import Form from '../../components/Form';
 import mainFormat from '../../formats/component';
@@ -16,6 +13,7 @@ import ComponentRender from '../../components/pageEditor/Component';
 import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import Header from '../../components/Header';
+import axios from 'axios';
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -29,11 +27,6 @@ const breadcrumbs = [{
 
 class Component extends PureComponent {
     static propTypes = {
-        data: PropTypes.object,
-        isError: PropTypes.string,
-        isFetch: PropTypes.bool,
-
-        actions: PropTypes.object,
         match: PropTypes.object,
         history: PropTypes.object
     };
@@ -75,33 +68,11 @@ class Component extends PureComponent {
     };
 
     componentDidMount() {
-        const { match, actions } = this.props;
-        const { id } = match.params;
-
-        if (id === 'add') {
-            actions.set({
-                config: {
-                    components: [],
-                    componentsData: {}
-                }
-            });
-        } else {
-            actions.get(id);
-        }
-    }
-
-    componentWillUnmount() {
-        const { actions } = this.props;
-        actions.reset();
+        this.updateComponent();
     }
 
     render() {
-        const { isError, data } = this.props;
-        const { openedPanelId } = this.state;
-
-        if (isError) {
-            return <div className={styles.error}>{isError}</div>;
-        }
+        const { openedPanelId, data } = this.state;
 
         // TODO
         return data && data.config.componentsData ? (
@@ -118,7 +89,7 @@ class Component extends PureComponent {
     }
 
     renderData = () => {
-        const { data } = this.props;
+        const { data } = this.state;
         const { components } = data.config;
 
         return (
@@ -130,7 +101,8 @@ class Component extends PureComponent {
     }
 
     renderSettingsBlock = () => {
-        const { data, match } = this.props;
+        const { data } = this.state;
+        const { match } = this.props;
         const { id } = match.params;
 
         return (
@@ -183,8 +155,7 @@ class Component extends PureComponent {
     }
 
     renderComponentSelect = () => {
-        const { data } = this.props;
-        const { addComponentPosition } = this.state;
+        const { addComponentPosition, data } = this.state;
 
         const addComponent = (componentId, props) => {
             const id = Math.floor(Math.random() * (99999999 - 10000000) + 10000000);
@@ -205,8 +176,7 @@ class Component extends PureComponent {
     };
 
     renderComponentByIndex = (index) => {
-        const { data } = this.props;
-        const { operations } = this.state;
+        const { operations, data } = this.state;
 
         const componentData = data.config.componentsData[data.config.components[index]];
 
@@ -307,28 +277,35 @@ class Component extends PureComponent {
     };
 
     setConfig = (newConfig) => {
-        const { actions, data } = this.props;
+        const { data } = this.state;
 
-        actions.set({
-            ...data,
-            config: {
-                ...data.config,
-                ...newConfig
+        this.setState({
+            data: {
+                ...data,
+                config: {
+                    ...data.config,
+                    ...newConfig
+                }
             }
         });
     };
 
     handleChange = (data, errors) => {
-        const { actions } = this.props;
-
-        this.setState({ errors });
-        actions.set(data);
+        this.setState({ errors, data });
     };
 
     handleSave = async () => {
-        const { actions, match } = this.props;
+        const { match } = this.props;
+        const { data: component } = this.state;
 
-        const { message, status, data } = await actions.save();
+        let res;
+        if (component['_id']) {
+            res = await axios.put(`/api/components/${component['_id']}`, { component });
+        } else {
+            res = await axios.post(`/api/components`, { component });
+        }
+
+        const { message, status, data } = res.data;
 
         showNotification({ message, status });
 
@@ -346,10 +323,11 @@ class Component extends PureComponent {
     };
 
     handleDelete = async () => {
-        const { actions } = this.props;
+        const { data } = this.state;
 
         if (window.confirm('Вы действительно хотите удалить компонент?')) {
-            const { message, status } = await actions.deleteData();
+            const res = await axios.delete(`/api/components/${data['_id']}`);
+            const { message, status } = res.data;
 
             showNotification({ message, status });
 
@@ -359,28 +337,34 @@ class Component extends PureComponent {
         }
     };
 
+    updateComponent = async () => {
+        const { match } = this.props;
+        const { id } = match.params;
+
+        if (id === 'add') {
+            this.setState({
+                data: {
+                    config: {
+                        components: [],
+                        componentsData: {}
+                    }
+                }
+            });
+        } else {
+            const res = await axios.get(`/api/components/${id}`);
+
+            if (res.data && res.data.status === 'error') {
+                showNotification({ status: 'error', message: res.data.message });
+                return;
+            }
+
+            this.setState({ data: res.data.data })
+        }
+    }
+
     setOpenedPanel = (id) => {
         this.setState({ openedPanelId: id })
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            get,
-            set,
-            save,
-            reset,
-            deleteData
-        }, dispatch),
-        dispatch
-    };
-}
-
-function mapStateToProps(state) {
-    const { data, isFetch, isError } = state['admin-component'];
-
-    return { data, isFetch, isError };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default Component;

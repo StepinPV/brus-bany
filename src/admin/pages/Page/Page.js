@@ -1,10 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import PageRender from '../../../components/PageRender';
-import { getPage, setPage, savePage, reset, deletePage, getTemplates, getFolders } from './actions';
 import showNotification from '@utils/showNotification';
 import Form from '../../components/Form';
 import { main as mainFormat, config as configFormat } from '../../formats/page';
@@ -17,12 +14,10 @@ import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
 import { applyFields } from '../../../constructorComponents/helpers';
 import styles from './Page.module.css';
+import axios from "axios";
 
 const breadcrumbs = [{
     title: 'Главная',
-    link: '/admin'
-}, {
-    title: 'Страницы',
     link: '/admin'
 }, {
     title: 'Редактирование'
@@ -30,36 +25,9 @@ const breadcrumbs = [{
 
 class Page extends PureComponent {
     static propTypes = {
-        page: PropTypes.object,
-        isPageError: PropTypes.string,
-        isPageFetch: PropTypes.bool,
-
-        actions: PropTypes.object,
         match: PropTypes.object,
-        history: PropTypes.object,
-        templates: PropTypes.array,
-        folders: PropTypes.array
+        history: PropTypes.object
     };
-
-    static getDerivedStateFromProps(nextProps) {
-        const { page, templates } = nextProps;
-        const componentFieldValues = {};
-
-        if (templates && page && page.config.template && page.config['template-fields']) {
-            const template = templates.find((item => item['_id'] === page.config.template));
-
-            if (template && template['page-fields']) {
-                template['page-fields'].forEach(field => {
-                    componentFieldValues[field.id] = {
-                        type: field.type,
-                        value: page.config['template-fields'][field.id]
-                    }
-                });
-            }
-        }
-
-        return { componentFieldValues };
-    }
 
     constructor(props) {
         super(props);
@@ -98,36 +66,11 @@ class Page extends PureComponent {
     };
 
     componentDidMount() {
-        const { match, actions } = this.props;
-        const { id } = match.params;
-
-        if (id === 'add') {
-            actions.setPage({
-                config: {
-                    components: [],
-                    componentsData: {}
-                }
-            });
-        } else {
-            actions.getPage(id);
-        }
-
-        actions.getTemplates();
-        actions.getFolders();
-    }
-
-    componentWillUnmount() {
-        const { actions } = this.props;
-        actions.reset();
+        this.update();
     }
 
     render() {
-        const { isPageError, page } = this.props;
-        const { openedPanelId } = this.state;
-
-        if (isPageError) {
-            return <div className={styles.error}>{isPageError}</div>;
-        }
+        const { openedPanelId, page } = this.state;
 
         // TODO
         return page && page.config && page.config.componentsData ? (
@@ -145,8 +88,8 @@ class Page extends PureComponent {
     }
 
     renderSettingsBlock = () => {
-        const { page, match, folders, templates } = this.props;
-        const { errors } = this.state;
+        const { match } = this.props;
+        const { errors, page, folders, templates } = this.state;
         const { id } = match.params;
 
         const prepareFields = (fields, isFolder) => {
@@ -302,8 +245,7 @@ class Page extends PureComponent {
     };
 
     renderPageContent = () => {
-        const { page, templates } = this.props;
-        const { operations, componentFieldValues } = this.state;
+        const { operations, componentFieldValues, page, templates } = this.state;
 
         let templateComponents = [0];
         let templateComponentsData = {
@@ -426,8 +368,7 @@ class Page extends PureComponent {
     };
 
     renderSpecialComponent = (id, addTitle) => {
-        const { page, templates } = this.props;
-        const { operations, componentFieldValues } = this.state;
+        const { operations, componentFieldValues, page, templates } = this.state;
 
         let configId = page.config[id];
         let component = page.config.componentsData[configId];
@@ -547,20 +488,21 @@ class Page extends PureComponent {
     }
 
     setConfig = (newConfig) => {
-        const { actions, page } = this.props;
+        const { page } = this.state;
 
-        actions.setPage({
-            ...page,
-            config: {
-                ...page.config,
-                ...newConfig
+        this.setState({
+            page: {
+                ...page,
+                config: {
+                    ...page.config,
+                    ...newConfig
+                }
             }
-        });
+        })
     };
 
     renderComponentSelect = () => {
-        const { addComponentPosition } = this.state;
-        const { page } = this.props;
+        const { addComponentPosition, page } = this.state;
 
         const addComponent = (componentId, props) => {
             this.setOpenedPanel(null);
@@ -599,8 +541,7 @@ class Page extends PureComponent {
     };
 
     renderComponentByIndex = (blockId, index) => {
-        const { page } = this.props;
-        const { operations, componentFieldValues } = this.state;
+        const { operations, componentFieldValues, page } = this.state;
 
         const components = page.config.components[blockId];
         const component = page.config.componentsData[components[index]];
@@ -709,21 +650,28 @@ class Page extends PureComponent {
     };
 
     handleChange = (page, errors) => {
-        const { actions } = this.props;
-
-        this.setState({ errors });
-        actions.setPage(page);
+        this.setState({ errors, page });
     };
 
     handleChangeConfig = (config) => {
-        const { actions, page } = this.props;
-        actions.setPage({ ...page, config });
+        const { page } = this.state;
+        this.setState({
+            page: { ...page, config }
+        });
     };
 
     handleSave = async () => {
-        const { actions, match } = this.props;
+        const { match } = this.props;
+        const { page } = this.state;
 
-        const { message, status, data } = await actions.savePage();
+        let res;
+        if (page['_id']) {
+            res = await axios.put(`/api/pages/${page['_id']}`, { page })
+        } else {
+            res = await axios.post(`/api/pages`, { page });
+        }
+
+        const { message, status, data } = res.data;
 
         showNotification({ message, status });
 
@@ -742,10 +690,11 @@ class Page extends PureComponent {
     };
 
     handleDelete = async () => {
-        const { actions } = this.props;
+        const { page } = this.state;
 
         if (window.confirm('Вы действительно хотите удалить страницу?')) {
-            const { message, status } = await actions.deletePage();
+            const res = await axios.delete(`/api/pages/${page['_id']}`);
+            const { message, status } = res.data;
 
             showNotification({ message, status });
 
@@ -758,27 +707,76 @@ class Page extends PureComponent {
     setOpenedPanel = (id) => {
         this.setState({ openedPanelId: id })
     }
+
+    update = async () => {
+        const { match } = this.props;
+        const { id } = match.params;
+
+        let page;
+        if (id === 'add') {
+            page = {
+                config: {
+                    components: [],
+                    componentsData: {}
+                }
+            };
+        } else {
+            const res = await axios.get(`/api/pages/${id}`);
+
+            if (res.data && res.data.status === 'error') {
+                showNotification({ status: 'error', message: res.data.message })
+                return;
+            }
+
+            page = {
+                ...res.data.data,
+                config: {
+                    componentsData: {},
+                    components: {},
+                    ...res.data.data.config
+                }
+            };
+        }
+
+        this.setState({ page });
+
+        const resTemplates = await axios.get('/api/page-templates');
+
+        if (resTemplates.data && resTemplates.data.status === 'error') {
+            showNotification({ status: 'error', message: resTemplates.data.message })
+            return;
+        }
+
+        this.setState({ templates: resTemplates.data.data });
+
+        const resFolders = await axios.get('/api/page-folders');
+
+        if (resFolders.data && resFolders.data.status === 'error') {
+            showNotification({ status: 'error', message: resFolders.data.message })
+            return;
+        }
+
+        this.setState({ folders: resFolders.data.data });
+
+        const componentFieldValues = {};
+
+        const templates = resTemplates.data.data;
+
+        if (templates && page && page.config.template && page.config['template-fields']) {
+            const template = templates.find((item => item['_id'] === page.config.template));
+
+            if (template && template['page-fields']) {
+                template['page-fields'].forEach(field => {
+                    componentFieldValues[field.id] = {
+                        type: field.type,
+                        value: page.config['template-fields'][field.id]
+                    }
+                });
+            }
+        }
+
+        this.setState({ componentFieldValues });
+    }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getPage,
-            setPage,
-            savePage,
-            reset,
-            deletePage,
-            getTemplates,
-            getFolders
-        }, dispatch),
-        dispatch
-    };
-}
-
-function mapStateToProps(state) {
-    const { page, isPageFetch, isPageError, templates, folders } = state['admin-page'];
-
-    return { page, isPageFetch, isPageError, templates, folders };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Page);
+export default Page;

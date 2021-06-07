@@ -1,10 +1,2 @@
-import Page from './PageTemplate';
-import reducer, { initialState } from './reducer';
-
-export const info = {
-    id: 'admin-page-template',
-    reducer,
-    initialState
-};
-
-export default Page;
+import PageTemplate from './PageTemplate';
+export default PageTemplate;

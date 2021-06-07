@@ -1,11 +1,8 @@
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import {connect} from 'react-redux';
 import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import { reset, init } from './actions';
+import axios from 'axios';
 
 const breadcrumbsItems = [{
     title: 'Главная',
@@ -26,43 +23,13 @@ const addTile = {
 };
 
 class Components extends PureComponent {
-    static propTypes = {
-        data: PropTypes.array,
-        isFetch: PropTypes.bool,
-        actions: PropTypes.object
-    };
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (!prevState.tiles && nextProps.data) {
-            const tiles = nextProps.data.map(item => {
-                return {
-                    key: item['_id'],
-                    type: 'link',
-                    title: item.name,
-                    link: `/admin/components/${item['_id']}`
-                }
-            });
-            return {
-                tiles: [addTile, ...tiles]
-            }
-        }
-
-        return null;
-    }
-
     state = {
         tiles: null,
         defaultTiles: [loadingTile]
     };
 
     componentDidMount() {
-        const { actions } = this.props;
-        actions.init();
-    }
-
-    componentWillUnmount() {
-        const { actions } = this.props;
-        actions.reset();
+        this.update();
     }
 
     render() {
@@ -76,32 +43,22 @@ class Components extends PureComponent {
             </>
         );
     }
-}
 
-/**
- * mapDispatchToProps
- * @param {*} dispatch
- * @returns {Object}
- */
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            reset,
-            init
-        }, dispatch),
-        dispatch
+    update = async () => {
+        const res = await axios.get('/api/components');
+        this.setState({ data: res.data.data });
+
+        const tiles = res.data.data.map(item => {
+            return {
+                key: item['_id'],
+                type: 'link',
+                title: item.name,
+                link: `/admin/components/${item['_id']}`
+            }
+        });
+
+        this.setState({ tiles: [addTile, ...tiles] });
     };
 }
 
-/**
- * mapStateToProps
- * @param {*} state
- * @returns {Object}
- */
-function mapStateToProps(state) {
-    const {data, isFetch, isError} = state['admin-components'];
-
-    return {data, isFetch, isError};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Components);
+export default Components;

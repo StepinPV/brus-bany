@@ -1,9 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import Breadcrumbs from '../../../components/Breadcrumbs';
-import { get, set, save, reset, deleteTemplate } from './actions';
 import showNotification from '@utils/showNotification';
 import { Button } from "../../../components/Button";
 import PageRender from '../../../components/PageRender';
@@ -17,6 +14,7 @@ import Form from '../../components/Form';
 import format from '../../formats/page-template';
 import styles from './PageTemplate.module.css';
 import FieldsProvider from '@plugins/Fields/Provider';
+import axios from "axios";
 
 const breadcrumbs = [{
     title: 'Главная',
@@ -30,11 +28,6 @@ const breadcrumbs = [{
 
 class PageTemplate extends PureComponent {
     static propTypes = {
-        data: PropTypes.object,
-        isDataError: PropTypes.string,
-        isDataFetch: PropTypes.bool,
-
-        actions: PropTypes.object,
         match: PropTypes.object,
         history: PropTypes.object
     };
@@ -76,32 +69,11 @@ class PageTemplate extends PureComponent {
     };
 
     componentDidMount() {
-        const { match, actions } = this.props;
-        const { id } = match.params;
-
-        if (id === 'add') {
-            actions.set({
-                config: {
-                    components: []
-                }
-            });
-        } else {
-            actions.get(id);
-        }
-    }
-
-    componentWillUnmount() {
-        const { actions } = this.props;
-        actions.reset();
+        this.update();
     }
 
     render() {
-        const { isDataError, data } = this.props;
-        const { openedPanelId } = this.state;
-
-        if (isDataError) {
-            return <div className={styles.error}>{isDataError}</div>;
-        }
+        const { openedPanelId, data } = this.state;
 
         return data ? (
             <FloatPanels
@@ -114,8 +86,8 @@ class PageTemplate extends PureComponent {
     }
 
     renderSettingsBlock = () => {
-        const { match, data } = this.props;
-        const { errors } = this.state;
+        const { match } = this.props;
+        const { errors, data } = this.state;
         const { id } = match.params;
 
         return (
@@ -164,7 +136,7 @@ class PageTemplate extends PureComponent {
     };
 
     renderPage = () => {
-        const { data } = this.props;
+        const { data } = this.state;
         const { components, header, footer } = data.config;
 
         const render = () => (
@@ -186,8 +158,7 @@ class PageTemplate extends PureComponent {
     }
 
     renderSpecialComponent = (id) => {
-        const { data } = this.props;
-        const { operations } = this.state;
+        const { operations, data } = this.state;
 
         const togglePropsFormVisible = () => {
             const newOperations = { ...this.state.operations };
@@ -281,20 +252,21 @@ class PageTemplate extends PureComponent {
     }
 
     setConfig = (newConfig) => {
-        const { actions, data } = this.props;
+        const { data } = this.state;
 
-        actions.set({
-            ...data,
-            config: {
-                ...data.config,
-                ...newConfig
+        this.setState({
+            data: {
+                ...data,
+                config: {
+                    ...data.config,
+                    ...newConfig
+                }
             }
         });
     };
 
     renderComponentSelect = () => {
-        const { addComponentPosition } = this.state;
-        const { data } = this.props;
+        const { addComponentPosition, data } = this.state;
 
         const addComponent = (componentId, props) => {
             this.setOpenedPanel(null);
@@ -336,8 +308,7 @@ class PageTemplate extends PureComponent {
     };
 
     renderComponentByIndex = (index) => {
-        const { data } = this.props;
-        const { operations } = this.state;
+        const { operations, data } = this.state;
 
         const togglePropsFormVisible = () => {
             const newOperations = { ...this.state.operations };
@@ -463,21 +434,29 @@ class PageTemplate extends PureComponent {
     };
 
     handleChange = (data, errors) => {
-        const { actions } = this.props;
 
-        this.setState({ errors });
-        actions.set(data);
+        this.setState({ errors, data });
     };
 
     handleChangeConfig = (config) => {
-        const { actions, data } = this.props;
-        actions.set({ ...data, config });
+        const { data } = this.state;
+        this.setState({
+            data: { ...data, config }
+        });
     };
 
     handleSave = async () => {
-        const { actions, match } = this.props;
+        const { data: template } = this.state;
+        const { match } = this.props;
 
-        const { message, status, data } = await actions.save();
+        let res;
+        if (template['_id']) {
+            res = await axios.put(`/api/page-templates/${template['_id']}`, { data: template });
+        } else {
+            res = await axios.post(`/api/page-templates`, { data: template });
+        }
+
+        const { message, status, data } = res.data;
 
         showNotification({ message, status });
 
@@ -496,10 +475,11 @@ class PageTemplate extends PureComponent {
     };
 
     handleDelete = async () => {
-        const { actions } = this.props;
+        const { data } = this.state;
 
         if (window.confirm('Вы действительно хотите удалить шаблон?')) {
-            const { message, status } = await actions.deleteTemplate();
+            const res = await axios.delete(`/api/page-templates/${data['_id']}`);
+            const { message, status } = res.data;
 
             showNotification({ message, status });
 
@@ -512,25 +492,32 @@ class PageTemplate extends PureComponent {
     setOpenedPanel = (id) => {
         this.setState({ openedPanelId: id })
     }
+
+    update = async () => {
+        const { match } = this.props;
+        const { id } = match.params;
+
+        if (id === 'add') {
+            this.setState({
+                data: {
+                    config: {
+                        components: []
+                    }
+                }
+            })
+        } else {
+            const res = await axios.get(`/api/page-templates/${id}`);
+
+            if (res.data && res.data.status === 'error') {
+                showNotification({ status: 'error', message: res.data.message });
+                return;
+            }
+
+            this.setState({
+                data: res.data.data
+            });
+        }
+    }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            get,
-            set,
-            save,
-            reset,
-            deleteTemplate
-        }, dispatch),
-        dispatch
-    };
-}
-
-function mapStateToProps(state) {
-    const { data, isDataFetch, isDataError } = state['admin-page-template'];
-
-    return { data, isDataFetch, isDataError };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PageTemplate);
+export default PageTemplate;
