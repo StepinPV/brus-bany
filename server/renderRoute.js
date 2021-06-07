@@ -34,7 +34,6 @@ router.get('*', async (req, res, next) => {
         const {
             head,
             markup,
-            initialData,
             extractor,
             context,
             css,
@@ -73,7 +72,6 @@ router.get('*', async (req, res, next) => {
                 title: head.title.toString(),
                 meta: head.meta.toString(),
                 link: head.link.toString(),
-                initialData: serialize(context.simplePage ? {} : initialData),
                 data: serialize(context.simplePage ? {} : (context.data || {})),
                 theme: serialize(context.simplePage ? {} : theme),
                 needShareScript: Boolean(context.needShareScript),

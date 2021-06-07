@@ -1,19 +1,15 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
 import path from 'path';
 import { ChunkExtractor } from '@loadable/server';
 import createEmotionServer from 'create-emotion-server'
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/core';
-import configureStore from './store';
-import getRoutes from './routes';
+import routes from './routes';
 import App from './components/App';
 import axios from 'axios';
-
-const routes = getRoutes();
 
 const render = async (req, res, axiosOptions = {}, settings) => {
     axios.defaults.baseURL = axiosOptions.apiURL;
@@ -28,32 +24,9 @@ const render = async (req, res, axiosOptions = {}, settings) => {
         throw new Error('У route не указан id!');
     }
 
-    const store = configureStore({});
-
-    const loadableComponent = matchRoute.component;
-
     const extractor = new ChunkExtractor({
         statsFile: path.resolve('public/mstatic/build/loadable-stats.json')
     });
-
-    const component = await loadableComponent.load(extractor);
-
-    if (component.info && component.info.id && component.info.reducer) {
-        store.addReducer(component.info.id, component.info.reducer, component.info.initialState);
-    }
-
-    const wrappedComponent = component.default && component.default.WrappedComponent;
-
-    if (wrappedComponent && wrappedComponent.initialAction) {
-        await Promise.all(wrappedComponent.initialAction({
-            match: matchPath(req.path, matchRoute),
-            dispatch: store.dispatch,
-            location: {
-                pathname: req.path,
-                query: req.query
-            }
-        }));
-    }
 
     const context = {
         simplePage: matchRoute.simplePage
@@ -91,19 +64,17 @@ const render = async (req, res, axiosOptions = {}, settings) => {
 
     const jsx = extractor.collectChunks(
         <CacheProvider value={cache}>
-            <Provider store={store}>
-                <StaticRouter location={req.url} context={context}>
-                    <App
-                        theme={settings.theme || {}}
-                        preparedComponents={{ [matchRoute.id]: loadableComponent }}
-                        page={pageRes ? pageRes.data.data : null}
-                        customComponents={customComponentsRes ? customComponentsRes.data.data : null}
-                        pageTemplates={pageTemplatesRes ? pageTemplatesRes.data.data : null}
-                        pages={pagesRes ? pagesRes.data.data : null}
-                        pageFolders={pageFoldersRes ? pageFoldersRes.data.data : null}
-                        routes={[matchRoute]} />
-                </StaticRouter>
-            </Provider>
+            <StaticRouter location={req.url} context={context}>
+                <App
+                    theme={settings.theme || {}}
+                    preparedComponents={{ [matchRoute.id]: matchRoute.component }}
+                    page={pageRes ? pageRes.data.data : null}
+                    customComponents={customComponentsRes ? customComponentsRes.data.data : null}
+                    pageTemplates={pageTemplatesRes ? pageTemplatesRes.data.data : null}
+                    pages={pagesRes ? pagesRes.data.data : null}
+                    pageFolders={pageFoldersRes ? pageFoldersRes.data.data : null}
+                    routes={[matchRoute]} />
+            </StaticRouter>
         </CacheProvider>
     );
 
@@ -111,7 +82,6 @@ const render = async (req, res, axiosOptions = {}, settings) => {
 
     return {
         head: Helmet.renderStatic(),
-        initialData: store.getState(),
         markup,
         context,
         extractor,
