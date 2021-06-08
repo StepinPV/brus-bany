@@ -19,6 +19,7 @@ const utm = require('./utm');
 
 const sitemap = require('./feeds/sitemap');
 const feeds = require('./feeds/feeds');
+const robots = require('./feeds/robots');
 
 const app = express();
 const PORT = config.port;
@@ -55,24 +56,6 @@ app.use(morgan('combined', {
 if (process.env.NODE_ENV !== 'production') {
     app.use('/', express.static(path.join(__dirname, '../public')));
 }
-
-app.get('/robots.txt', async (req, res) => {
-    const settings = await getSettings();
-
-    res.type('text/plain');
-
-    let data = '';
-    data += 'User-agent: *\n';
-    data += 'Disallow: /admin*\n';
-    data += 'Disallow: /test*\n';
-    data += 'Disallow: /api*\n';
-    data += 'Disallow: /link_*\n';
-    data += 'Disallow: /thanks\n';
-    data += 'Disallow: /*?*\n';
-    data += `Sitemap: ${settings.domain || req.get('host')}/sitemap.xml`;
-
-    res.send(data);
-});
 
 app.use('/admin', auth, function(req, res, next) {
     next();
@@ -149,6 +132,7 @@ db.init(config.db_url, config.db_name, async () => {
 
 async function generateFeeds() {
     const settings = await getSettings();
+    await robots.generate(settings.domain);
     await sitemap.generate(settings.domain);
     await feeds.generate();
 }

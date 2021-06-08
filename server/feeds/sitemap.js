@@ -49,12 +49,16 @@ exports.generate = async function (domain) {
             ${pagesData}
         </urlset>`;
 
-    fs.writeFile('./public/sitemap.xml', data,
-        function (err) {
-            if (err) {
-                logger.error(`Ошибка генерации sitemap.xml: ${err}`, );
-            } else {
-                logger.success('sitemap.xml успешно обновлен');
-            }
-        });
+    return new Promise((resolve, reject) => {
+        return fs.writeFile('./public/sitemap.xml', data,
+            function (err) {
+                if (err) {
+                    logger.error(`Ошибка генерации sitemap.xml: ${err}`, );
+                    reject();
+                } else {
+                    logger.success('sitemap.xml успешно обновлен');
+                    resolve();
+                }
+            });
+    })
 };
