@@ -6,7 +6,7 @@ import Caption from '../../../../../components/Caption';
 import Button from '../../../../../components/Button';
 import Form from '../../../../../../admin/components/Form';
 import axios from 'axios';
-import {css} from "@emotion/core";
+import {css} from "@emotion/react";
 import { applyImages } from '../../../../../helpers';
 
 const Dogovor = loadable(() => import('./resources/Dogovor'));

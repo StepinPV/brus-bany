@@ -14,7 +14,7 @@ import Text from '../../../components/Text';
 import Button from '../../../components/Button';
 import { applyFields } from '../../../helpers';
 import styles from './Calculator.module.css';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 function parseQuery(uri) {
     const [, params] = uri.split('?');

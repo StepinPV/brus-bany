@@ -3,7 +3,7 @@ import Caption from '../components/Caption';
 import Text from '../components/Text';
 import Button from '../components/Button';
 import SocialNetworks from '../components/SocialNetworks';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ContainerComponent from './Container';
 

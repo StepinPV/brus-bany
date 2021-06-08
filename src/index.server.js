@@ -4,9 +4,9 @@ import { StaticRouter, matchPath } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import path from 'path';
 import { ChunkExtractor } from '@loadable/server';
-import createEmotionServer from 'create-emotion-server'
+import createEmotionServer from '@emotion/server/create-instance'
 import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import routes from './routes';
 import App from './components/App';
 import axios from 'axios';
@@ -32,7 +32,7 @@ const render = async (req, res, axiosOptions = {}, settings) => {
         simplePage: matchRoute.simplePage
     };
 
-    const cache = createCache();
+    const cache = createCache({ key: 'custom' });
     const { extractCritical } = createEmotionServer(cache);
 
     let pagesRes, pageFoldersRes, customComponentsRes, pageRes, pageTemplatesRes;
@@ -91,4 +91,4 @@ const render = async (req, res, axiosOptions = {}, settings) => {
     };
 };
 
-export { render };
+export default { render };

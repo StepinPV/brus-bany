@@ -7,7 +7,7 @@ import call from '../images/call.svg';
 import calc from '../images/calc.svg';
 import dogovor from '../images/dogovor.svg';
 import arrow from '../images/arrow.svg';
-import {css} from "@emotion/core";
+import {css} from "@emotion/react";
 
 const Container = styled.div`
     margin: 0 auto;

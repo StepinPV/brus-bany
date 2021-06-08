@@ -8,7 +8,7 @@ import ContainerComponent from './Container';
 import { applyFields } from '../helpers';
 import numberWithSpaces from '@utils/numberWithSpaces';
 import withForm from '@plugins/Form/withForm';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 const Container = styled.div`
     display: flex;

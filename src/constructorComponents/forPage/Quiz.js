@@ -1,7 +1,7 @@
 import React, { PureComponent }from 'react';
 import PropTypes from "prop-types";
 import Form from '../components/Form';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import ContainerComponent from './Container';
 

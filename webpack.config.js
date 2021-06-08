@@ -1,20 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-const merge = require('webpack-merge');
 const nodeExternals = require('webpack-node-externals');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
-const resolve = require('./webpack/resolve.js');
-const stats = require('./webpack/stats.js');
-
-const babelLoader = require('./webpack/loaders/babel.js');
-const stylusLoader = require('./webpack/loaders/stylus.js');
-const assetsLoader = require('./webpack/loaders/assets.js');
 
 const NODE_ENV = process.env.NODE_ENV;
 const ANALIZE_MODE = process.env.ANALIZE_MODE;
@@ -23,11 +14,86 @@ const isProduction = NODE_ENV === 'production';
 
 const publicPath = '/mstatic/build/';
 
-const commonConfig = () => merge([resolve, stats, stylusLoader(process.env), assetsLoader(publicPath)]);
+const common = {
+    mode: isProduction ? 'production' : 'development',
+    stats: {
+        assets: true,
+        chunks: false,
+        chunkModules: false,
+        chunkOrigins: false,
+        modules: false,
+        reasons: false,
+        children: false,
+        source: false,
+        errors: true,
+        errorDetails: true,
+        warnings: true,
+        colors: true
+    },
+    resolve: {
+        alias: {
+            '@components': path.resolve(__dirname, 'src/components/'),
+            '@utils': path.resolve(__dirname, 'src/utils/'),
+            '@plugins': path.resolve(__dirname, 'src/plugins/'),
+            '@constructor-components': path.resolve(__dirname, 'src/constructorComponents')
+        },
+        extensions: ['.js']
+    },
+    module: {
+        rules: [{
+            test: /\.css/,
+            use: [
+                MiniCssExtractPlugin.loader,
+                {
+                    loader: 'css-loader',
+                    options: {
+                        importLoaders: 1,
+                        modules: {
+                            localIdentName: '[name]-[local]-[hash:base64:5]'
+                        }
+                    }
+                },
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        postcssOptions: {
+                            plugins: [
+                                'autoprefixer',
+                                ['postcss-calc', {
+                                    mediaQueries: true,
+                                    selectors: true
+                                }]
+                            ]
+                        }
+                    }
+                }
+            ]
+        }, {
+            test: /\.(png|jpg|jpeg|gif|webp|svg|woff|woff2)$/,
+            type: 'asset/resource'
+        }, {
+            test: /\.js$/,
+            include: [
+                /src/
+            ],
+            use: [{
+                loader: 'thread-loader',
+                options: {
+                    workers: 2
+                }
+            }, {
+                loader: 'babel-loader',
+                options: {
+                    cacheDirectory: true
+                }
+            }]
+        }]
+    }
+};
 
-const client = () => merge([
-    {
-        mode: isProduction ? 'production' : 'development',
+const client = {
+        ...common,
+        name: 'client',
         devtool: isProduction ? false : 'source-map',
         entry: {
             main: [
@@ -40,22 +106,24 @@ const client = () => merge([
             path: path.join(__dirname, 'public' + publicPath),
             publicPath: publicPath,
             filename: '[name].[chunkhash:10].js',
-            chunkFilename: '[id].[chunkhash:10].js'
+            chunkFilename: '[name].[chunkhash:10].js',
+            clean: true
         },
         optimization: {
             minimizer: [
                 new TerserPlugin({
-                    cache: true,
-                    parallel: true,
                     extractComments: 'all',
                     terserOptions: {
                         mangle: {
                             safari10: true
+                        },
+                        compress: {
+                            evaluate: false
                         }
                     }
                 })
             ],
-            runtimeChunk: 'multiple',
+            runtimeChunk: 'single',
             splitChunks: {
                 chunks: 'all',
                 cacheGroups: {
@@ -74,61 +142,54 @@ const client = () => merge([
             }
         },
         plugins: [
-            new ManifestPlugin({
+            new WebpackBar({
+                name: 'client'
+            }),
+            new WebpackManifestPlugin({
                 writeToFileEmit: true
             }),
-            new webpack.HashedModuleIdsPlugin(),
-            new CleanWebpackPlugin(),
             new LoadablePlugin(),
             new MiniCssExtractPlugin({
                 filename: '[name].[chunkhash:10].css',
-                chunkFilename: '[id].[chunkhash:10].css'
+                chunkFilename: '[name].[chunkhash:10].css'
             }),
-            new WebpackBar(),
+            new webpack.ProvidePlugin({
+                process: 'process/browser'
+            }),
             ...[...(ANALIZE_MODE ? [new (require('webpack-bundle-analyzer')['BundleAnalyzerPlugin'])] : [])]
         ]
-    },
-    commonConfig(),
-    babelLoader({ browsers: ['last 2 versions', 'safari >= 9'] },
-        isProduction ? [['transform-react-remove-prop-types', { removeImport: true }]] : []
-    )
-]);
+    };
 
-const server = () => merge([
-    {
+const server = {
+        ...common,
+        name: 'server',
+        devtool: 'source-map',
         target: 'node',
-        mode: isProduction ? 'production' : 'development',
-        devtool: isProduction ? false : 'source-map',
         externals: [
-            nodeExternals({ whitelist: [] })
+            nodeExternals({ allowlist: [] })
         ],
+        externalsPresets: {
+            node: true
+        },
         entry: [
-            './src/index.server'
+            './src/index.server.js'
         ],
         output: {
-            path: path.join(__dirname, 'dist/server/'),
             filename: 'server.js',
             libraryTarget: 'commonjs2',
-            publicPath: publicPath
-        },
-        optimization: {
-            minimizer: [new TerserPlugin()]
+            path: path.join(__dirname, 'dist/server/'),
+            publicPath: publicPath,
+            clean: true
         },
         plugins: [
+            new WebpackBar({
+                name: 'server'
+            }),
+            new MiniCssExtractPlugin(),
             new webpack.optimize.LimitChunkCountPlugin({
                 maxChunks: 1
-            }),
-            new CleanWebpackPlugin(),
-            new LoadablePlugin(),
-            new MiniCssExtractPlugin({
-                filename: 'server.css',
-                ignoreOrder: true
-            }),
-            new WebpackBar()
+            })
         ]
-    },
-    commonConfig(),
-    babelLoader({ node: '10.15.3' })
-]);
+};
 
 module.exports = [client, server];

@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from "prop-types";
 import Button from '../components/Button';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import ContainerComponent from './Container';
 import styled from '@emotion/styled';
 import { applyFields } from '../helpers';

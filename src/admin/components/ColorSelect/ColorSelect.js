@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ColorSelect.module.css';
 import cx from 'classnames';
-import { useTheme } from 'emotion-theming';
+import { useTheme } from '@emotion/react';
 
 const ColorSelect = ({ title, value, onChange }) => {
     const theme = useTheme();

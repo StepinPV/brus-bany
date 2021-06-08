@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import Caption from '../components/Caption';
 import Text from '../components/Text';
 import ContainerComponent from './Container';

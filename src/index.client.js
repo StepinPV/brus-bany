@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, matchPath } from 'react-router-dom';
 import { loadableReady } from '@loadable/component';
 import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import App from './components/App';
 import routes from './routes';
 import './index.css';
@@ -30,6 +30,7 @@ async function run () {
     const matchRoute = routes.find(route => matchPath(window.location.pathname, route) || false);
 
     const cache = createCache();
+
     ReactDOM.hydrate(
         <CacheProvider value={cache}>
             <BrowserRouter>

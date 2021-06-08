@@ -5,7 +5,7 @@ import Caption from '../components/Caption';
 import Text from '../components/Text';
 import ContainerComponent from './Container';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 const Container = styled.div`
     display: flex;

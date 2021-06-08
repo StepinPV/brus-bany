@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Input from './Input';
 import Button from './Button';
 import styled from '@emotion/styled';
-import {css} from "@emotion/core";
+import {css} from "@emotion/react";
 
 const Container = styled.form`
     padding: 16px;

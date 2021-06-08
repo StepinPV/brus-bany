@@ -5,7 +5,7 @@ import FormProvider from '@plugins/Form/Provider';
 import FormContext from '@plugins/Form/Context';
 import Form from '@plugins/Form/Form';
 // По итогу это должно быть не здесь
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 
 class App extends Component {
     static propTypes = {
