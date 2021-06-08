@@ -91,4 +91,4 @@ const render = async (req, res, axiosOptions = {}, settings) => {
     };
 };
 
-export default { render };
+export { render };

@@ -12,8 +12,8 @@ const router = express.Router();
 
 router.get('*', async (req, res, next) => {
     try {
-        function sendRes(preloadList, data) {
-            res.set('Link', preloadList);
+        function sendRes(preloadLinks, data) {
+            res.set('Link', preloadLinks);
             res.setHeader('Cache-Control', 'no-cache');
             res.render('index.pug', data);
         }
@@ -21,7 +21,7 @@ router.get('*', async (req, res, next) => {
         let fromCache = cache.get(req);
         if (fromCache) {
             fromCache = JSON.parse(fromCache);
-            sendRes(fromCache.preloadList, fromCache.data);
+            sendRes(fromCache.preloadLinks, fromCache.data);
             return;
         }
 
@@ -53,17 +53,15 @@ router.get('*', async (req, res, next) => {
             const linkTags = extractor.getLinkTags();
             const styleTags = extractor.getStyleTags();
 
-            let preloadList = [
-                `<${assetsManifest['main.css']}>; rel=preload; as=style`
-            ];
+            const mainAssets = extractor.getChunkAssets(['main']);
 
-            if (!context.simplePage) {
-                preloadList = [
-                    `<${assetsManifest['runtime~main.js']}>; rel=preload; as=script`,
-                    `<${assetsManifest['main.js']}>; rel=preload; as=script`,
-                    ...preloadList
-                ]
-            }
+            const preloadLinks = [];
+            mainAssets.forEach((asset) => {
+                if (context.simplePage && asset.scriptType === 'script') {
+                    return;
+                }
+                preloadLinks.push(`<${asset.url}>; rel=preload; as=${asset.scriptType}`);
+            });
 
             const isAdminPage = /^\/admin/.test(req.url);
             const data = {
@@ -88,10 +86,10 @@ router.get('*', async (req, res, next) => {
             };
 
             if (context.status !== 404 && !isAdminPage) {
-                cache.add(req, JSON.stringify({ preloadList, data }), 'main');
+                cache.add(req, JSON.stringify({ preloadLinks, data }), 'main');
             }
 
-            sendRes(preloadList, data);
+            sendRes(preloadLinks, data);
         }
     } catch (error) {
         logger.error(`Error 500: ${req.url} ${error}`);

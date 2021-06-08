@@ -16,13 +16,14 @@ module.exports = (api) => {
         },
         presets: [
             '@babel/preset-react',
-            '@emotion/babel-preset-css-prop',
             ['@babel/preset-env', {
                 useBuiltIns: 'entry',
                 modules: isNode ? 'commonjs' : false,
                 corejs: 3
-            }]
+            }],
+            '@emotion/babel-preset-css-prop'
         ],
+        plugins: ["@babel/transform-runtime"],
         compact: true,
         env: {
             production: {

@@ -29,7 +29,7 @@ async function run () {
 
     const matchRoute = routes.find(route => matchPath(window.location.pathname, route) || false);
 
-    const cache = createCache();
+    const cache = createCache({ key: 'custom' });
 
     ReactDOM.hydrate(
         <CacheProvider value={cache}>
