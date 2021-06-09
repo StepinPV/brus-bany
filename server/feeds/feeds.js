@@ -53,7 +53,7 @@ exports.generate = async function () {
 
                 pages.forEach(page => {
                     const pageConfig = page.get('config');
-                    if (neededFolders.includes(pageConfig.folder)) {
+                    if (neededFolders.includes(pageConfig.folder) && !page.get('test')) {
                         const folderFieldValues = pageConfig['folder-fields'][folderId];
                         const pageFolder = folders.find(f => f.get('_id').toString() === pageConfig.folder);
 
