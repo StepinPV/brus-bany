@@ -1,13 +1,6 @@
 module.exports = (api) => {
     const isNode = api.caller(({ target }) => target === 'node');
 
-    const plugins = [
-        '@emotion',
-        ['@babel/plugin-proposal-decorators', { legacy: true }],
-        '@loadable/babel-plugin',
-        'babel-plugin-lodash'
-    ];
-
     return {
         targets: isNode ? {
             node: 'current'
@@ -23,17 +16,18 @@ module.exports = (api) => {
             }],
             '@emotion/babel-preset-css-prop'
         ],
-        plugins: ["@babel/transform-runtime"],
+        plugins: [
+            '@emotion',
+            ['@babel/plugin-proposal-decorators', { legacy: true }],
+            '@loadable/babel-plugin',
+            'babel-plugin-lodash'
+        ],
         compact: true,
         env: {
             production: {
                 plugins: [
-                    ...plugins,
                     ['transform-react-remove-prop-types', { removeImport: true }]
                 ]
-            },
-            development: {
-                plugins
             }
         }
     };

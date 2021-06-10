@@ -99,6 +99,7 @@ const client = {
             main: [
                 'whatwg-fetch',
                 'core-js/stable',
+                'regenerator-runtime/runtime',
                 path.join(__dirname, 'src/index.client.js')
             ]
         },
