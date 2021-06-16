@@ -19,21 +19,17 @@
     margin: 16px;
     text-decoration: none;
     font-weight: bold;
-}
-
-.loading-tile {
-    background: linear-gradient(to right, #ffffff, #eaeaea);
+    font-size: 16px;
 }
 
 .link-tile {
-    background: linear-gradient(to right, #ffe4e9, #792939);
-    font-size: 18px;
+    background: #92011e;
     padding: 16px;
     box-sizing: border-box;
     text-align: center;
 }
 
 .add-tile {
-    background: linear-gradient(to right, #b6e4c0, #19712c);
+    background: #19712c;
     font-size: 36px;
 }

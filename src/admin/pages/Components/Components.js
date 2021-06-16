@@ -11,11 +11,6 @@ const breadcrumbsItems = [{
     title: 'Компоненты'
 }];
 
-const loadingTile = {
-    type: 'loading',
-    key: 'loading'
-};
-
 const addTile = {
     type: 'add',
     link: '/admin/components/add',
@@ -24,8 +19,7 @@ const addTile = {
 
 class Components extends PureComponent {
     state = {
-        tiles: null,
-        defaultTiles: [loadingTile]
+        tiles: null
     };
 
     componentDidMount() {
@@ -33,13 +27,13 @@ class Components extends PureComponent {
     }
 
     render() {
-        const { tiles, defaultTiles } = this.state;
+        const { tiles } = this.state;
 
         return (
             <>
                 <Header/>
                 <Breadcrumbs items={breadcrumbsItems}/>
-                <Tiles items={tiles || defaultTiles} />
+                <Tiles items={tiles || []} />
             </>
         );
     }
