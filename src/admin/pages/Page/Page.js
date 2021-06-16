@@ -103,7 +103,8 @@ class Page extends PureComponent {
                 switch(item.type) {
                     case 'image': {
                         f.props = {
-                            width: isFolder ? 600 : 1200
+                            width: isFolder ? 600 : 1200,
+                            withoutLogo: true
                         }
                         break;
                     }
