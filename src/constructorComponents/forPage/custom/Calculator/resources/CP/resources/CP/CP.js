@@ -209,12 +209,12 @@ function CP({ formValue, data, blocks, finalPrice, customEval, cpSettings }) {
                 </div>
             </div>
             <div className={styles['block']} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-                <img src={formValue.images.main} style={{ width: '100%', maxWidth: '250px', marginBottom: '16px' }} />
+                <img src={formValue.__images__[formValue.images.main]} style={{ width: '100%', maxWidth: '250px', marginBottom: '16px' }} />
                 <div style={{ maxWidth: '400px', marginLeft: '16px' }}>
                     <h2>{customEval("eval(`'" + cpSettings['product-cp-name'] + "'`)")}</h2>
                 </div>
             </div>
-            <img src={formValue.images.scheme} style={{ width: '100%' }} />
+            <img src={formValue.__images__[formValue.images.scheme]} style={{ width: '100%' }} />
             {renderComplectation(customEval, blocks, data, true)}
             {blocks.projectBlocks && blocks.projectBlocks.length ? blocks.projectBlocks.map(projectBlock => {
                 return renderProjectBlock(customEval, projectBlock, data, true)

@@ -150,11 +150,15 @@ const format = [{
     }]
 }];
 
-function CP({ CPData, data, blocks, customEval, finalPrice, onClose, onChange, projectName, cpSettings, __fieldsValue__, __images__ }) {
+function CP({ CPData, data, blocks, customEval, finalPrice, onClose, onChange, cpSettings, __fieldsValue__, __images__ }) {
     let containerRef = null;
 
     const formValue = {
         images: CPData && CPData.images || {
+            main: 'main',
+            scheme: 'scheme'
+        },
+        __images__: CPData && CPData.__images__ || {
             main: applyImages(__fieldsValue__, __images__, cpSettings.mainImage),
             scheme: applyImages(__fieldsValue__, __images__, cpSettings.schemeImage)
         },
@@ -296,12 +300,16 @@ function CP({ CPData, data, blocks, customEval, finalPrice, onClose, onChange, p
                             <Form
                                 format={format}
                                 value={formValue}
+                                images={formValue.__images__}
                                 errors={{}}
-                                onChange={(data) => {
+                                onChange={(data, error, __images__) => {
                                     if (formValue.manager !== data.manager) {
                                         localStorage.setItem('MANAGER_ID', data.manager);
                                     }
-                                    onChange(data);
+                                    onChange({
+                                        ...data,
+                                        __images__: __images__
+                                    });
                                 }} />
                         </div>
                     </>

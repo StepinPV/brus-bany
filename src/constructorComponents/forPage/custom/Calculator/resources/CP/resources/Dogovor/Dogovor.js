@@ -657,7 +657,7 @@ const renderDogovor1 = (setContainerRef, pageHeights, cpSettings, blocks, custom
                     </div>
                     <br/><br/>
                     <div>Планировка:</div>
-                    <img src={formValue.images['scheme']} style={{ width: '100%' }} />
+                    <img src={formValue.__images__[formValue.images['scheme']]} style={{ width: '100%' }} />
                 </div>
                 {renderRunningTitles(formValue)}
             </div>
@@ -1288,7 +1288,7 @@ const renderDogovor2 = (setContainerRef, pageHeights, cpSettings, blocks, custom
                     </div>
                     <br/><br/>
                     <h3 style={{ textAlign: 'center' }}>СХЕМА</h3>
-                    <img src={formValue.images['scheme']} style={{ width: '100%' }} />
+                    <img src={formValue.__images__[formValue.images['scheme']]} style={{ width: '100%' }} />
                 </div>
                 {renderRunningTitles(formValue)}
             </div>
@@ -1381,16 +1381,16 @@ const renderTZ = (blocks, cpSettings, customEval, formValue, data, finalPrice, h
             ) : null}
             <br/>
             <div style={{ textAlign: 'center', fontStyle: 'italic' }}>Схема</div>
-            <img src={formValue.images.scheme} style={{ width: '100%' }} />
+            <img src={formValue.__images__[formValue.images.scheme]} style={{ width: '100%' }} />
             <br/><br/>
             <div style={{ textAlign: 'center', fontStyle: 'italic' }}>Визуализация</div>
-            <img src={formValue.images.main} style={{ width: '100%' }} />
+            <img src={formValue.__images__[formValue.images.main]} style={{ width: '100%' }} />
             {formValue.images['forTZ'] && formValue.images['forTZ'].length ? (
                 formValue.images['forTZ'].map(({ comment, image }) => (
                     <>
                         <br/><br/>
                         <div style={{ textAlign: 'center', fontStyle: 'italic' }}>{comment}</div>
-                        <img src={image} style={{ width: '100%' }} />
+                        <img src={formValue.__images__[image]} style={{ width: '100%' }} />
                     </>
                 ))
             ) : null}
