@@ -1,5 +1,5 @@
 const fs = require('fs');
-const logger = require('../logger');
+const logger = require('../../utils/logger');
 
 exports.generate = async function (domain) {
     logger.info('\nГенерация robots.txt...');

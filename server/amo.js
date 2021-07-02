@@ -1,5 +1,5 @@
 const request = require('request');
-const logger = require('./logger');
+const logger = require('../utils/logger');
 
 module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
     let message = '';

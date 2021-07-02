@@ -1,5 +1,5 @@
 const fs = require('fs');
-const logger = require('../logger');
+const logger = require('../../utils/logger');
 
 const Pages = require('../controllers/Pages');
 const PageTemplates = require('../controllers/PageTemplates');

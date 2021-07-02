@@ -30,7 +30,7 @@ CRON: https://losst.ru/nastrojka-cron
 
 Чек сервера
 * * * * * /root/brus-bany/check-server.sh >> /root/brus-bany/cron.log 2>&1
-* */1 * * * /root/brus-bany/restart-server.sh >> /root/brus-bany/cron.log 2>&1
+0,30 * * * * /root/brus-bany/restart-server.sh >> /root/brus-bany/cron.log 2>&1
 
 https://jpuri.github.io/react-draft-wysiwyg/#/docs?_k=jjqinp
 

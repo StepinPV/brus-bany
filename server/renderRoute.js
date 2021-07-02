@@ -2,7 +2,7 @@ const express = require('express');
 const serialize = require('serialize-javascript');
 const { render } = require('../dist/server/server');
 const assetsManifest = require('../public/mstatic/build/manifest.json');
-const logger = require('./logger');
+const logger = require('../utils/logger');
 const config = require('./config');
 const { get: getSettings } = require('./settings');
 

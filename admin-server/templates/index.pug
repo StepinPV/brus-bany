@@ -1,0 +1,63 @@
+doctype html
+html(lang='ru')
+    head
+        | !{title}
+
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+
+        meta(property='og:url', content=url)
+        // TODO Унести в настройки страницы
+        meta(property='og:image', content=logo152x152)
+        // TODO Унести в настройки страницы
+        meta(property='og:image:alt', content='Логотип')
+        meta(property='og:type', content='website')
+
+        | !{meta}
+
+        link(rel='shortcut icon', href=favicon, type='image/x-icon')
+        link(rel='apple-touch-icon', href=logo152x152)
+
+        | !{assets.styleTags}
+        | !{assets.linkTags}
+        | !{link}
+
+        style(data-emotion-css=cssIds.join(' '))
+            | !{css}
+
+    body()
+        div#root !{app}
+        div#modal
+
+        script(type='text/javascript')
+            | window.__data__ = !{data};
+            | window.__theme__ = !{theme};
+
+        | !{assets.scriptTags}
+
+        if needCounters
+            script(type='text/javascript')
+                include counters/yaMetrica.js
+
+            script(type='text/javascript')
+                include counters/gTag.js
+
+            script(type='text/javascript')
+                include counters/vk.js
+
+            script(type='text/javascript')
+                include counters/facebook.js
+
+            noscript
+                // Яндекс.Метрика
+                img(src='https://mc.yandex.ru/watch/49126414', style='position:absolute; left:-9999px;', alt='')
+                // ВК
+                img(src='https://vk.com/rtrg?p=VK-RTRG-245296-ebffg', style='position:fixed; left:-999px;', alt='')
+                // Facebook
+                img(src='https://www.facebook.com/tr?id=622371654798982&ev=PageView&noscript=1', height='1', width='1', style='display:none', alt='')
+
+            script(type='text/javascript', src='https://www.googletagmanager.com/gtag/js?id=UA-120219094-1', async)
+
+        if needShareScript
+            script(type='text/javascript', src='https://yastatic.net/share2/share.js', async)
+

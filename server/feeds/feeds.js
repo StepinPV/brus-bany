@@ -1,5 +1,5 @@
 const fs = require('fs');
-const logger = require('../logger');
+const logger = require('../../utils/logger');
 const Folders = require('../controllers/PageFolders');
 const Pages = require('../controllers/Pages');
 const applyFields = require('../utils/applyFields');

@@ -4,22 +4,13 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const errorhandler = require('errorhandler');
 const basicAuth = require('basic-auth');
-const schedule = require('node-schedule');
+const { fork, exec } = require('child_process');
 
 const db = require('./db');
 const logger = require('../utils/logger');
-const routes = require('./routes');
+// const routes = require('./routes');
 const config = require('./config');
-const renderRoute = require('./renderRoute');
-const { get: getSettings, update: updateSettings } = require('./settings');
-
-const Links = require('./controllers/Links');
-
-const utm = require('./utm');
-
-const sitemap = require('./feeds/sitemap');
-const feeds = require('./feeds/feeds');
-const robots = require('./feeds/robots');
+// const renderRoute = require('./renderRoute');
 
 const app = express();
 const PORT = config.port;
@@ -61,45 +52,9 @@ app.use('/admin', auth, function(req, res, next) {
     next();
 });
 
-app.use('/api', routes);
+// app.use('/api', routes);
 
-app.get('*', async (req, res, next) => {
-    const settings = await getSettings();
-
-    let redirectMatch;
-    if (settings.redirects) {
-        do {
-            const match = settings.redirects.find(item => {
-                if (new RegExp('^' + item.from).test(redirectMatch ? redirectMatch.to : req.originalUrl)) {
-                    return true;
-                }
-            });
-
-            if (match) {
-                redirectMatch = match;
-            } else {
-                break;
-            }
-        } while(true);
-    }
-
-    if (redirectMatch) {
-        res.redirect(301, redirectMatch.to);
-    } else if(/^\/link_/.test(req.url)) {
-        const { status, data } = await Links.get({ from: req.url });
-
-        if (status === 'success') {
-            res.redirect(301, data.get('to'));
-        } else {
-            next();
-        }
-    } else {
-        next();
-    }
-});
-
-app.get('*', utm.middleware);
-app.get('*', renderRoute);
+// app.get('*', renderRoute);
 
 if (process.env.NODE_ENV !== 'production') {
     app.use(errorhandler());
@@ -115,7 +70,7 @@ const startApp = async () => {
     return new Promise((resolve) => {
         app.listen(PORT, () => {
             serverStarted = true;
-            logger.success(`\nСервис запущен на ${PORT} порту`);
+            logger.success(`\nСервис администрирования запущен на ${PORT} порту`);
             resolve();
         }).on('error', (e) => {
             logger.error(`\nОшибка прослушивания порта ${PORT}: `, e.message);
@@ -126,19 +81,20 @@ const startApp = async () => {
 
 db.init(config.db_url, config.db_name, async () => {
     await startApp();
-    await updateSettings();
-    await generateFeeds();
-});
 
-async function generateFeeds() {
-    const settings = await getSettings();
-    await robots.generate(settings.domain);
-    await sitemap.generate(settings.domain);
-    await feeds.generate();
-}
+    const siteServer = fork('./server/server');
 
-schedule.scheduleJob('0 0 * * *', async function(){
-    await generateFeeds();
+    setInterval(() => {
+        exec(`ps -o cpu -p ${siteServer.pid}`, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`exec error: ${error}`);
+                return;
+            }
+            const res = stdout.split('\n')[1].trim().split(' ');
+
+            console.log(`CPU: ${res[0]}`);
+        });
+    }, 1000);
 });
 
 
