@@ -79,23 +79,56 @@ const startApp = async () => {
     });
 };
 
-db.init(config.db_url, config.db_name, async () => {
-    await startApp();
+let site;
+const restartSite = () => {
+    if (site) {
+        site.kill();
+    }
 
-    const siteServer = fork('./server/server');
+    site = fork('./server/server', { env: process.env });
 
-    setInterval(() => {
-        exec(`ps -o cpu -p ${siteServer.pid}`, (error, stdout, stderr) => {
+    let cpuCount = 0;
+
+    site.on('close', (code) =>
+        console.log(`Процесс с сайтом завершен. Код: ${code}`)
+    );
+
+    const intervalId = setInterval(() => {
+        exec(`ps -o %cpu,%mem -p ${site.pid}`, (error, stdout, stderr) => {
             if (error) {
-                console.error(`exec error: ${error}`);
+                logger.error(`Ошибка проверки статуса процесса: ${error}`);
+                clearInterval(intervalId);
+                restartSite();
                 return;
             }
-            const res = stdout.split('\n')[1].trim().split(' ');
 
-            console.log(`CPU: ${res[0]}`);
-            console.log(`stdout: ${stdout}`);
+            if (stderr) {
+                clearInterval(intervalId);
+                restartSite();
+                return;
+            }
+
+            const res = stdout.split('\n')[1].trim().split('  ');
+
+            const cpu = parseFloat(res[0]);
+
+            if (cpu > 25) {
+                cpuCount++;
+            } else{
+                cpuCount = 0;
+            }
+
+            if (cpuCount >= 4) {
+                clearInterval(intervalId);
+                restartSite();
+            }
         });
-    }, 1000);
+    }, 5000);
+}
+
+db.init(config.db_url, config.db_name, async () => {
+    await startApp();
+    restartSite();
 });
 
 
