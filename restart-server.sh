@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd /root/brus-bany
-pm2 restart server
+# pm2 restart server
