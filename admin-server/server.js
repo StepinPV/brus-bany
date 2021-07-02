@@ -93,6 +93,7 @@ db.init(config.db_url, config.db_name, async () => {
             const res = stdout.split('\n')[1].trim().split(' ');
 
             console.log(`CPU: ${res[0]}`);
+            console.log(`stdout: ${stdout}`);
         });
     }, 1000);
 });
