@@ -21,8 +21,8 @@ async function run () {
     /* eslint-enable no-underscore-dangle */
 
     /* eslint-disable no-underscore-dangle */
-    const theme = window.__theme__;
-    delete window.__theme__;
+    const settings = window.__settings__;
+    delete window.__settings__;
     /* eslint-enable no-underscore-dangle */
 
     await loadableReady();
@@ -35,7 +35,8 @@ async function run () {
         <CacheProvider value={cache}>
             <BrowserRouter>
                 <App
-                    theme={theme}
+                    theme={settings.theme}
+                    whatsAppWidget={settings.whatsAppWidget}
                     routes={[matchRoute]}
                     page={data.page}
                     customComponents={data.customComponents}

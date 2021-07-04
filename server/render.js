@@ -36,7 +36,7 @@ router.get('*', async (req, res, next) => {
             context,
             css,
             cssIds,
-            theme
+            settings: settingsForClient
         } = await render(req, res, axiosOptions, settings);
 
         if (context.status === 404) {
@@ -69,7 +69,7 @@ router.get('*', async (req, res, next) => {
                 meta: head.meta.toString(),
                 link: head.link.toString(),
                 data: serialize(context.simplePage ? {} : (context.data || {})),
-                theme: serialize(context.simplePage ? {} : theme),
+                settings: serialize(context.simplePage ? {} : settingsForClient),
                 needShareScript: Boolean(context.needShareScript),
                 app: markup,
                 favicon: settings && settings['__images__'] ? settings['__images__'][settings['favicon']] : '',

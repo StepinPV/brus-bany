@@ -88,7 +88,10 @@ const render = async (req, res, axiosOptions = {}, settings) => {
         extractor,
         css,
         cssIds,
-        theme: settings.theme || {}
+        settings: {
+            theme: settings.theme || {},
+            whatsAppWidget: settings.whatsAppWidget
+        }
     };
 };
 
