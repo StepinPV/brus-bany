@@ -36,7 +36,7 @@ server {
         # Редирект со слэшом на конце на без слэша
         rewrite ^/(.*)/$ /$1 permanent;
 
-		root /root/brus-bany/sites/brus-bany/;
+		root /root/brus-bany;
         access_log /root/brus-bany/logs/nginx-access-logs.log;
 		error_log /root/brus-bany/logs/nginx-error-logs.log;
 
@@ -63,7 +63,7 @@ server {
         proxy_set_header X-NginX-Proxy true;
 
         # Максимальный размер запроса
-        client_max_body_size 2M;
+        client_max_body_size 3M;
 
         gzip on;
         gzip_disable "msie6";
@@ -75,12 +75,12 @@ server {
         gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
 
         location ~* \.(jpg|jpeg|gif|png|ico|txt|woff|otf|eot|svg|ttf|css|js|json|html)$ {
+                try_files /public/$uri /sites/brus-bany/$uri @notfound;
                 expires 365d;
-                error_page 404 @notfound;
         }
 
         location ~* \.(xml|docx|pdf)$ {
-                error_page 404 @notfound;
+                try_files /public/$uri /sites/brus-bany/$uri @notfound;
         }
 
         location / {
