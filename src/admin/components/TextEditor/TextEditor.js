@@ -25,8 +25,12 @@ const exportOptions = {
             return {
                 element: 'span',
                 style: {
-                    color: color ? color.replace(colorKey, '') : null,
-                    'font-size': fontsize ? fontsize.replace(fontSizeKey, '') : null
+                    ...(color ? {
+                        color: color.replace(colorKey, '')
+                    } : {}),
+                    ...(fontsize ? {
+                        'font-size': fontsize.replace(fontSizeKey, '')
+                    } : {})
                 }
             };
         }
