@@ -28,31 +28,6 @@ class Pages extends PureComponent {
             <>
                 <Header/>
                 <Breadcrumbs items={breadcrumbs || breadcrumbsItems} />
-                <div className={styles['container']}>
-                    <Link
-                        href='/admin/pages/folder-add'
-                        className={styles['control-panel-button']}
-                        onClick={() => {}}
-                        size='s'
-                        caption='Создать папку'
-                        type='yellow' />
-                    <Link
-                        href='/admin/pages/page-add'
-                        className={styles['control-panel-button']}
-                        onClick={() => {}}
-                        size='s'
-                        caption='Создать страницу'
-                        type='yellow' />
-                    {folderId ? (
-                        <Link
-                            href={`/admin/pages/folder-${folderId}`}
-                            className={styles['control-panel-button']}
-                            onClick={() => {}}
-                            size='s'
-                            caption='Настроить папку'
-                            type='yellow' />
-                    ) : null}
-                </div>
                 {this.renderFolders()}
                 {this.renderPages()}
             </>
@@ -63,7 +38,12 @@ class Pages extends PureComponent {
         const { pages } = this.state;
 
         return pages ? (
-            <div className={styles.pages}>
+            <div className={styles.container}>
+                <a
+                    href='/admin/pages/page-add'
+                    className={styles.page}>
+                    <div className={styles['page-name']}>+ создать страницу</div>
+                </a>
                 {pages.map(page => (
                     <a
                         key={page['_id']}
@@ -84,10 +64,27 @@ class Pages extends PureComponent {
 
         return folders ? (
             <div className={styles['container']}>
-                {folders.filter(f => !f.folder && !folderId || f.folder === folderId).map(folder => (
-                    <a className={styles.folder} href={`/admin/pages/${folder['_id']}`}>
-                        📂&#8194;{folder.name}
+                <div className={styles.folder}>
+                    <a
+                        className={styles['folder-name']}
+                        href='/admin/pages/folder-add'>
+                        <div className={styles['folder-name-name']}>+ создать папку</div>
                     </a>
+                </div>
+                {folders.filter(f => !f.folder && !folderId || f.folder === folderId).map(folder => (
+                    <div className={styles.folder}>
+                        <a
+                            className={styles['folder-name']}
+                            href={`/admin/pages/${folder['_id']}`}>
+                            <div className={styles['folder-name-icon']}>📂</div>
+                            <div className={styles['folder-name-name']}>{folder.name}</div>
+                        </a>
+                        <a
+                            className={styles['folder-settings']}
+                            href={`/admin/pages/folder-${folder['_id']}`}>
+                            ⚙
+                        </a>
+                    </div>
                 ))}
             </div>
         ) : null;
