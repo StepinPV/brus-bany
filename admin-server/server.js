@@ -6,11 +6,11 @@ const errorhandler = require('errorhandler');
 const basicAuth = require('basic-auth');
 const { fork, exec } = require('child_process');
 
-// const db = require('./db');
+// const db = require('../utils/db');
 const logger = require('../utils/logger');
 // const routes = require('./routes');
 const config = require('./config');
-// const renderRoute = require('./renderRoute');
+// const render = require('./render');
 
 const app = express();
 const PORT = config.port;
@@ -54,7 +54,7 @@ app.use('/admin', auth, function(req, res, next) {
 
 // app.use('/api', routes);
 
-// app.get('*', renderRoute);
+// app.get('*', render);
 
 if (process.env.NODE_ENV !== 'production') {
     app.use(errorhandler());
@@ -133,7 +133,7 @@ const startSite = (config) => {
     restartSite();
 }
 
-/* db.init(config.db_url, config.db_name, async () => {
+/* db.init(`${config.db_url}/${config.db_name}`, 'Админка', async () => {
     await startApp();
     restartSite();
 }); */

@@ -7,10 +7,10 @@ const basicAuth = require('basic-auth');
 const schedule = require('node-schedule');
 const fs = require('fs');
 
-const db = require('./db');
+const db = require('../utils/db');
 const logger = require('../utils/logger');
 const routes = require('./routes');
-const renderRoute = require('./renderRoute');
+const render = require('./render');
 const { get: getSettings, update: updateSettings } = require('./settings');
 
 const Links = require('./controllers/Links');
@@ -106,7 +106,7 @@ app.get('*', async (req, res, next) => {
 });
 
 app.get('*', utm.middleware);
-app.get('*', renderRoute);
+app.get('*', render);
 
 if (process.env.NODE_ENV !== 'production') {
     app.use(errorhandler());
@@ -131,7 +131,7 @@ const startApp = async () => {
     });
 };
 
-db.init(process.env.DB_URL, async () => {
+db.init(process.env.DB_URL, process.env.NAME, async () => {
     await startApp();
     await updateSettings();
     await generateFeeds();
