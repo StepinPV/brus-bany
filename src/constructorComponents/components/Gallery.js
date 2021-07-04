@@ -125,12 +125,9 @@ function Gallery({ images, __images__, __fieldsValue__, staticContext }) {
                     <NextArrow />
                 </NextArrowContainer>
                 {filteredImages && filteredImages.length ? (
-                    <div itemScope itemType='http://schema.org/ImageObject'>
-                        <ActiveImage
-                            itemProp='contentUrl'
-                            src={applyImages(__fieldsValue__, __images__, filteredImages[index].src)}
-                            alt={applyFields(__fieldsValue__, filteredImages[index].alt)} />
-                    </div>
+                    <ActiveImage
+                        src={applyImages(__fieldsValue__, __images__, filteredImages[index].src)}
+                        alt={applyFields(__fieldsValue__, filteredImages[index].alt)} />
                 ) : null}
             </ImageContainer>
             <Images>
@@ -138,7 +135,6 @@ function Gallery({ images, __images__, __fieldsValue__, staticContext }) {
                     const src = applyImages(__fieldsValue__, __images__, image.src);
                     return src && /^\/uploads/.test(src) ? (
                         <Image
-                            itemProp='image'
                             key={image.src}
                             onClick={() => {
                                 setIndex(i);

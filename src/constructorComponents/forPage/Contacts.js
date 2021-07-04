@@ -96,31 +96,28 @@ function Contacts(props) {
             paddingBottom={props.paddingBottom}
             paddingTop={props.paddingTop}
             background={props.containerBackground}>
-            <Container
-                itemScope
-                itemType='http://schema.org/HomeAndConstructionBusiness'>
+            <Container>
                 <Map>
                     {renderMap ? (
                         <iframe title="Адресс офиса" src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=111422907145" width="100%" height="100%" frameBorder="0" />
                     ) : null }
                 </Map>
                 <Info>
-                    <meta itemProp="name" content="Брус бани" />
                     <Caption
                         size='s'
                         align='left'
                         containerStyles={css`padding-bottom: 16px;margin: 0 16px;`}>
                         Брус бани
                     </Caption>
-                    <Address itemProp="address" itemScope itemType="http://schema.org/PostalAddress">
-                        <span itemProp="postalCode">174510</span>, <span itemProp="addressRegion">Новгородская область</span>,
+                    <Address>
+                        <span>174510</span>, <span>Новгородская область</span>,
                         <br/>
-                        <span itemProp="addressLocality">Пестово</span>, <span itemProp="streetAddress">Курганная, 12</span>
+                        <span>Пестово</span>, <span>Курганная, 12</span>
                     </Address>
                     <PhoneEmailContainer>
                         <PhoneTitle>Звонок по России бесплатный</PhoneTitle>
-                        <Phone href="tel:88002010729" itemProp="telephone">8 (800) 201-07-29</Phone>
-                        <Email href="mailto:info@brus-bany.ru" itemProp="email">info@brus-bany.ru</Email>
+                        <Phone href="tel:88002010729">8 (800) 201-07-29</Phone>
+                        <Email href="mailto:info@brus-bany.ru">info@brus-bany.ru</Email>
                     </PhoneEmailContainer>
                     <Text align='left' __fieldsValue__={props.__fieldsValue__} containerStyles={css`margin: 16px;`}>
                         Построим баню или дом любой сложности с нуля или привезем готовый объект!
@@ -128,7 +125,7 @@ function Contacts(props) {
                     </Text>
                     <Time>
                         <span style={{ fontWeight: 'bold' }}>Время работы: </span>
-                        <time itemProp="openingHours" dateTime="Mo-Su 8:00−22:00">c 8:00 до 22:00 без выходных</time>
+                        <span>c 8:00 до 22:00 без выходных</span>
                     </Time>
                     <Button
                         href='#requestForm'

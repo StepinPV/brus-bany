@@ -106,22 +106,18 @@ function Footer(props) {
     return (
         <Container>
             <Wrapper>
-                <Column itemScope itemType='http://schema.org/HomeAndConstructionBusiness'>
-                    <meta itemProp="name" content="Брус бани" />
+                <Column>
                     <LogoWrapper {...logoWrapperProps}>
                         <Logo style={{ backgroundImage: `url('${logo}')` }} />
                     </LogoWrapper>
                     <SocialNetworks paddingBottom='m' withoutMargins />
                     <InfoBlock>
-                        <Phone href="tel:88002010729" itemProp="telephone">8 (800) 201-07-29</Phone>
+                        <Phone href="tel:88002010729">8 (800) 201-07-29</Phone>
                         <DefaultSizeWhite>Звонок по России бесплатный</DefaultSizeWhite>
-                        <Email href="mailto:info@brus-bany.ru" itemProp="email">info@brus-bany.ru</Email>
+                        <Email href="mailto:info@brus-bany.ru">info@brus-bany.ru</Email>
                     </InfoBlock>
                     <InfoBlock>
-                        <Time
-                            itemProp="openingHours"
-                            dateTime="Mo-Su 8:00−22:00">Время работы:<br />c 8:00 до 22:00 без выходных
-                        </Time>
+                        Время работы:<br />c 8:00 до 22:00 без выходных
                     </InfoBlock>
                     <InfoBlock>
                         <DefaultSizeGrey>© «Брус бани» 2010-2021</DefaultSizeGrey>
@@ -132,10 +128,10 @@ function Footer(props) {
                         <DefaultSizeGrey>ИНН 5313015082</DefaultSizeGrey>
                     </InfoBlock>
                     <InfoBlock>
-                        <DefaultSizeGrey itemProp="address" itemScope itemType="http://schema.org/PostalAddress">
-                            <span itemProp="postalCode">174510</span>, <span itemProp="addressRegion">Новгородская область</span>,
+                        <DefaultSizeGrey>
+                            <span>174510</span>, <span>Новгородская область</span>,
                             <br />
-                            <span itemProp="addressLocality">Пестово</span>, <span itemProp="streetAddress">Курганная, 12</span>
+                            <span>Пестово</span>, <span>Курганная, 12</span>
                         </DefaultSizeGrey>
                     </InfoBlock>
                 </Column>
