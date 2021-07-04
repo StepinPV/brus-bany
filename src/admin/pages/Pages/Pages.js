@@ -72,7 +72,7 @@ class Pages extends PureComponent {
                     </a>
                 </div>
                 {folders.filter(f => !f.folder && !folderId || f.folder === folderId).map(folder => (
-                    <div className={styles.folder}>
+                    <div className={styles.folder} key={folder['_id']}>
                         <a
                             className={styles['folder-name']}
                             href={`/admin/pages/${folder['_id']}`}>

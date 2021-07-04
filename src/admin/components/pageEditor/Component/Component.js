@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import components from '@constructor-components';
 import withCustomComponents from '../withCustomComponents';
@@ -91,10 +91,14 @@ class Component extends PureComponent {
                         });
                     }
 
-                    return this.renderComponent(componentData.componentId, finalProps, {
-                        ...componentData.images,
-                        ...images
-                    });
+                    return (
+                        <Fragment key={componentId}>
+                            {this.renderComponent(componentData.componentId, finalProps, {
+                                ...componentData.images,
+                                ...images
+                            })}
+                        </Fragment>
+                    );
                 });
             }
         }
