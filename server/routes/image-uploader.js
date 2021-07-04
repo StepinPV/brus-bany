@@ -13,7 +13,8 @@ const TYPES = {
     'image/jpg': 'jpg',
     'image/png': 'png',
     'image/x-icon': 'ico',
-    'image/vnd.microsoft.icon': 'ico'
+    'image/vnd.microsoft.icon': 'ico',
+    'image/svg+xml': 'svg'
 }
 
 const PREPARED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];

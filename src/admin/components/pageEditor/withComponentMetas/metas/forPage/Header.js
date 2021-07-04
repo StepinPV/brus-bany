@@ -32,7 +32,15 @@ export const props = [{
         _id: 'link',
         title: 'Ссылка',
         type: 'string'
-    }]
+    }, {
+        _id: 'color',
+        title: 'Цвет текста',
+        type: 'color-select'
+    }, {
+        _id: 'background',
+        title: 'Цвет фона',
+        type: 'color-select'
+    },]
 }, {
     _id: 'opacity',
     title: 'Прозрачная',
@@ -45,6 +53,17 @@ export const props = [{
     _id: 'hasLinkToMain',
     title: 'Ссылка на главную страницу',
     type: 'boolean'
+}, {
+    _id: 'background',
+    title: 'Цвет шапки',
+    type: 'color-select'
+}, {
+    _id: 'logo',
+    title: 'Логотип',
+    type: 'image',
+    props: {
+        allowedTypes: ['image/svg+xml', 'image/jpeg', 'image/jpeg', 'image/jpg', 'image/png']
+    }
 }];
 
 export const name = 'Шапка';

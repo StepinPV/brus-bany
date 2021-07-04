@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '../components/Button';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import logo from '../images/logo.svg';
+import { applyFields } from "@constructor-components/helpers";
 
 const HeaderElement = styled.header`
     width: 100%;
@@ -16,7 +16,6 @@ const FixedHeader = styled.header`
 
 const Container = styled.div`
     height: 80px;
-    background: #91001d;
     transition: background-color 300ms ease-in-out;
     display: flex;
     align-items: center;
@@ -26,6 +25,7 @@ const Container = styled.div`
         padding: 0 24px;
     }
     ${props => css`
+        background-color: ${props.styles.background ? props.theme.colors[props.styles.background[0] !== '{' ? props.styles.background : JSON.parse(props.styles.background).value].v : ''};
         ${props.styles.opacity || props.styles.fixed ? `
             z-index: 2;
             left: 0;
@@ -34,7 +34,7 @@ const Container = styled.div`
         ` : null}
         
         ${props.styles.opacity && !props.styles.fixed ? `
-            background: rgba(145, 0, 29, 0);
+            background: rgba(0, 0, 0, 0);
             position: absolute;
         ` : null}
         
@@ -113,7 +113,19 @@ const Email = styled.a`
 `;
 
 function Header(props) {
-    const { opacity, items, phone, email, button, fixed, hasLinkToMain } = props;
+    const {
+        opacity,
+        items,
+        phone,
+        email,
+        button,
+        fixed,
+        hasLinkToMain,
+        background,
+        logo,
+        __fieldsValue__,
+        __images__
+    } = props;
 
     const logoWrapperProps = hasLinkToMain ? {
         href: '/',
@@ -127,9 +139,9 @@ function Header(props) {
             { fixed ? (
                 <FixedHeader />
             ) : null}
-            <Container styles={{ opacity, fixed }}>
+            <Container styles={{ opacity, fixed, background }}>
                 <LogoWrapper {...logoWrapperProps}>
-                    <Logo style={{ backgroundImage: `url('${logo}')` }} />
+                    <Logo style={{ backgroundImage: `url('${applyFields(__fieldsValue__, __images__[logo])}')` }} />
                 </LogoWrapper>
                 <Items>
                     {items.map(item => (
@@ -145,8 +157,8 @@ function Header(props) {
                     </PhoneContainer>
                     {button ? (
                         <Button
-                            color='{ "type": "base", "value": "black" }'
-                            background='{ "type": "base", "value": "yellow" }'
+                            color={button.color}
+                            background={button.background}
                             caption={button.caption}
                             size='s'
                             href={button.link}
@@ -164,7 +176,8 @@ Header.propTypes = {
     email: PropTypes.string,
     button: PropTypes.object,
     opacity: PropTypes.bool,
-    hasLinkToMain: PropTypes.bool
+    hasLinkToMain: PropTypes.bool,
+    background: PropTypes.object
 };
 
 Header.defaultProps = {
@@ -174,7 +187,8 @@ Header.defaultProps = {
     button: null,
     opacity: false,
     fixed: false,
-    hasLinkToMain: false
+    hasLinkToMain: false,
+    background: 'black'
 };
 
 export default memo(Header);
