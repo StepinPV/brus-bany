@@ -137,8 +137,6 @@ db.init(process.env.DB_URL, process.env.NAME, async () => {
     await startApp();
     await updateSettings();
     await generateFeeds();
-
-    await removeUnusedImages();
 });
 
 async function generateFeeds() {
@@ -150,6 +148,10 @@ async function generateFeeds() {
 
 schedule.scheduleJob('0 0 * * *', async function(){
     await generateFeeds();
+});
+
+schedule.scheduleJob('0 1 * * *', async function(){
+    await removeUnusedImages();
 });
 
 
