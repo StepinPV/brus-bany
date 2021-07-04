@@ -70,7 +70,7 @@ Button.propTypes = {
     targetBlank: PropTypes.bool,
     caption: PropTypes.string,
     href: PropTypes.string,
-    type: PropTypes.oneOf(['a', 'button']).isRequired,
+    type: PropTypes.oneOf(['a', 'button', 'div']).isRequired,
     containerStyles: PropTypes.object,
     onClick: PropTypes.func
 };

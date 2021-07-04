@@ -31,7 +31,7 @@ function Buttons(props) {
                     background={props.firstButtonBg}
                     size='s'
                     caption={props.firstButton}
-                    type='button'
+                    type='div'
                     containerStyles={css`margin-right: 16px;`}
                     __fieldsValue__={props.__fieldsValue__} />
             ) : null}
