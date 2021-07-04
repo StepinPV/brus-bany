@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const logger = require('../utils/logger');
 
-exports.init = (url, name, callBack) => {
+exports.init = (url, callBack) => {
    const connect = () => {
-      mongoose.connect(`${url}/${name}`, {
+      mongoose.connect(url, {
          useNewUrlParser: true,
          useUnifiedTopology: true
       }).then(callBack);

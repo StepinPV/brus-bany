@@ -2,7 +2,6 @@ const express = require('express');
 const serialize = require('serialize-javascript');
 const { render } = require('../dist/server/server');
 const logger = require('../utils/logger');
-const config = require('./config');
 const { get: getSettings } = require('./settings');
 
 const cache = require('./cache');
@@ -25,7 +24,7 @@ router.get('*', async (req, res, next) => {
         }
 
         const axiosOptions = {
-            apiURL: `http://localhost:${process.env.PORT || config.port}`
+            apiURL: `http://localhost:${process.env.PORT}`
         };
 
         const settings = await getSettings();

@@ -10,7 +10,6 @@ const fs = require('fs');
 const db = require('./db');
 const logger = require('../utils/logger');
 const routes = require('./routes');
-const config = require('./config');
 const renderRoute = require('./renderRoute');
 const { get: getSettings, update: updateSettings } = require('./settings');
 
@@ -23,7 +22,7 @@ const feeds = require('./feeds/feeds');
 const robots = require('./feeds/robots');
 
 const app = express();
-const PORT = process.env.PORT || config.port;
+const PORT = process.env.PORT;
 
 app.set('port', PORT);
 app.set('view engine', 'pug');
@@ -132,7 +131,7 @@ const startApp = async () => {
     });
 };
 
-db.init(config.db_url, process.env.NAME || config.db_name, async () => {
+db.init(process.env.DB_URL, async () => {
     await startApp();
     await updateSettings();
     await generateFeeds();
