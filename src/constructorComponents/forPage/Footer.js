@@ -55,7 +55,7 @@ const Email = styled.a`
     ${DefaultSize}
 `;
 
-const Time = styled.time`
+const Time = styled.span`
     ${DefaultSize}
     color: #fff;
 `;
@@ -117,7 +117,7 @@ function Footer(props) {
                         <Email href="mailto:info@brus-bany.ru">info@brus-bany.ru</Email>
                     </InfoBlock>
                     <InfoBlock>
-                        Время работы:<br />c 8:00 до 22:00 без выходных
+                        <Time>Время работы:<br />c 8:00 до 22:00 без выходных</Time>
                     </InfoBlock>
                     <InfoBlock>
                         <DefaultSizeGrey>© «Брус бани» 2010-2021</DefaultSizeGrey>

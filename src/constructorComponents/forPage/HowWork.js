@@ -63,7 +63,7 @@ const items = [{
     text: 'Подберем оптимальный вариант бани, рассчитаем стоимость и пришлем подробную смету'
 }, {
     icon: dogovor,
-    text: '<a href="/documents/dogovor.docx" download="" style="color:#013885;text-decoration:none;font-weight:bold;cursor:pointer">Заключим договор</a>, приступим к строительству бани или привезем уже готовую'
+    text: '<a href="https://disk.yandex.ru/i/bxhXk_gIuhV22g" target="_blank" rel="noopener noreferrer" style="color:#013885;text-decoration:none;font-weight:bold;cursor:pointer">Заключим договор</a>, приступим к строительству бани или привезем уже готовую'
 }];
 
 function HowWork(props) {
