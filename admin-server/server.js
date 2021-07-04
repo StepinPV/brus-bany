@@ -94,22 +94,18 @@ const startSite = (config) => {
             }
         });
 
+        console.info(`Процесс с сайтом ${config.NAME} запущен.`)
+
         let cpuCount = 0;
 
         site.on('close', (code) =>
-            console.log(`Процесс с сайтом завершен. Код: ${code}`)
+            console.info(`Процесс с сайтом ${config.NAME} завершен. Код: ${code}`)
         );
 
         const intervalId = setInterval(() => {
             exec(`ps -o %cpu,%mem -p ${site.pid}`, (error, stdout, stderr) => {
-                if (error) {
-                    logger.error(`Ошибка проверки статуса процесса: ${error}`);
-                    clearInterval(intervalId);
-                    restartSite();
-                    return;
-                }
-
-                if (stderr) {
+                if (error || stderr) {
+                    logger.error(`Ошибка проверки статуса процесса ${config.NAME}: ${error}`);
                     clearInterval(intervalId);
                     restartSite();
                     return;
@@ -126,6 +122,7 @@ const startSite = (config) => {
                 }
 
                 if (cpuCount >= 4) {
+                    logger.error(`Процесса ${config.NAME} завис, перезапускаем...: ${error}`);
                     clearInterval(intervalId);
                     restartSite();
                 }

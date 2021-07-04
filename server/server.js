@@ -122,7 +122,7 @@ const startApp = async () => {
     return new Promise((resolve) => {
         app.listen(PORT, () => {
             serverStarted = true;
-            logger.success(`\nСервис запущен на ${PORT} порту`);
+            logger.success(`\nСайт ${process.env.NAME} запущен на ${PORT} порту`);
             resolve();
         }).on('error', (e) => {
             logger.error(`\nОшибка прослушивания порта ${PORT}: `, e.message);

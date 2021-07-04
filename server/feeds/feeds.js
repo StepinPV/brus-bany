@@ -24,10 +24,10 @@ const writeFile = (name, data) => {
             function (err) {
                 if (err) {
                     reject();
-                    logger.error(`Ошибка генерации feed ${name}: ${err}`, );
+                    logger.error(`Ошибка генерации feed ${name} для сайта ${process.env.NAME}: ${err}`, );
                 } else {
                     resolve();
-                    logger.success(`Feed ${name} успешно обновлен`);
+                    logger.success(`Feed ${name} для сайта ${process.env.NAME} успешно обновлен`);
                 }
             });
     });
@@ -37,9 +37,9 @@ exports.generate = async function () {
     const { data: folders } = await Folders.getAll();
     const { data: pages } = await Pages.getAll();
 
-    for (const folder of folders) {
-        logger.info(`\nГенерация feeds...`);
+    logger.info(`\nГенерация feeds для сайта ${process.env.NAME}...`);
 
+    for (const folder of folders) {
         const folderFeeds = folder.get('feeds');
 
         if (folderFeeds && folderFeeds.length) {
@@ -86,4 +86,6 @@ exports.generate = async function () {
             }
         }
     }
+
+    logger.info(`Генерация feeds для сайта ${process.env.NAME} закончена`);
 };

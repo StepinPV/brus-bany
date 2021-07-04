@@ -2,7 +2,7 @@ const fs = require('fs');
 const logger = require('../../utils/logger');
 
 exports.generate = async function (domain) {
-    logger.info('\nГенерация robots.txt...');
+    logger.info(`\nГенерация robots.txt для сайта ${process.env.NAME}...`);
 
     let data = '';
 
@@ -17,10 +17,10 @@ exports.generate = async function (domain) {
         fs.writeFile(`./sites/${process.env.NAME}/robots.txt`, data,
             function (err) {
                 if (err) {
-                    logger.error(`Ошибка генерации robots.txt: ${err}`);
+                    logger.error(`Ошибка генерации robots.txt для сайта ${process.env.NAME}: ${err}`);
                     reject();
                 } else {
-                    logger.success('robots.txt успешно обновлен');
+                    logger.success(`robots.txt успешно для сайта ${process.env.NAME} обновлен`);
                     resolve();
                 }
             });

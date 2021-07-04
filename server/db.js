@@ -10,23 +10,23 @@ exports.init = (url, callBack) => {
    };
 
    mongoose.connection.on('connecting', function() {
-      logger.info('\nПодключаемся к MongoDB...');
+      logger.info(`\nПодключаемся к MongoDB для сайта ${process.env.NAME}...`);
    });
 
    mongoose.connection.on('connected', function() {
-      logger.success(`Подключение к MongoDB установлено`);
+      logger.success(`Подключение к MongoDB для сайта ${process.env.NAME} установлено`);
    });
 
    mongoose.connection.on('reconnected', function () {
-      logger.success('Переподключились к MongoDB');
+      logger.success(`Переподключились к MongoDB для сайта ${process.env.NAME}`);
    });
 
    mongoose.connection.on('error', function(error) {
-      logger.error('Ошибка подключения к MongoDB: ' + error);
+      logger.error(`Ошибка подключения к MongoDB для сайта ${process.env.NAME}: ` + error);
    });
 
    mongoose.connection.on('disconnected', function() {
-      logger.error('\nСвязь с MongoDB разорвана!');
+      logger.error(`\nСвязь с MongoDB для сайта ${process.env.NAME} разорвана!`);
       connect();
    });
 

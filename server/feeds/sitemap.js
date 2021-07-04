@@ -5,7 +5,7 @@ const Pages = require('../controllers/Pages');
 const PageTemplates = require('../controllers/PageTemplates');
 
 exports.generate = async function (domain) {
-    logger.info('\nГенерация sitemap.xml...');
+    logger.info(`\nГенерация sitemap.xml для сайта ${process.env.NAME}...`);
 
     let pagesData = ``;
 
@@ -53,10 +53,10 @@ exports.generate = async function (domain) {
         return fs.writeFile(`./sites/${process.env.NAME}/sitemap.xml`, data,
             function (err) {
                 if (err) {
-                    logger.error(`Ошибка генерации sitemap.xml: ${err}`, );
+                    logger.error(`Ошибка генерации sitemap.xml для сайта ${process.env.NAME}: ${err}`, );
                     reject();
                 } else {
-                    logger.success('sitemap.xml успешно обновлен');
+                    logger.success(`sitemap.xml для сайта ${process.env.NAME} успешно обновлен`);
                     resolve();
                 }
             });
