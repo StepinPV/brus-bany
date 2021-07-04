@@ -91,12 +91,14 @@ module.exports = async function() {
 
     const imagesFolderName = `./sites/${process.env.NAME}/uploads/global`;
     fs.readdir(imagesFolderName, (err, images) => {
-        images.filter(image => {
-            if (!usedImages.includes(image)) {
-                fs.unlinkSync(`${imagesFolderName}/${image}`);
-                logger.success(`Изображение ${image} удалено`);
-            }
-        });
+        if (images) {
+            images.filter(image => {
+                if (!usedImages.includes(image)) {
+                    fs.unlinkSync(`${imagesFolderName}/${image}`);
+                    logger.success(`Изображение ${image} удалено`);
+                }
+            });
+        }
 
         logger.success(`Процесс чистки изображений для сайта ${process.env.NAME} завершен`);
     });
