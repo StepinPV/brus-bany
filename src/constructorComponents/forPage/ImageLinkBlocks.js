@@ -79,7 +79,7 @@ function ImageLinkBlocks(props) {
                                     background='{ "type": "base", "value": "red" }'
                                     containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}
                                     caption={buttonTitle}
-                                    type='button'
+                                    type='div'
                                     size='m'
                                     __fieldsValue__={props.__fieldsValue__} />
                             </Content>
