@@ -176,8 +176,7 @@ Header.propTypes = {
     email: PropTypes.string,
     button: PropTypes.object,
     opacity: PropTypes.bool,
-    hasLinkToMain: PropTypes.bool,
-    background: PropTypes.object
+    hasLinkToMain: PropTypes.bool
 };
 
 Header.defaultProps = {

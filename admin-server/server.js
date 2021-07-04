@@ -122,7 +122,7 @@ const startSite = (config) => {
                 }
 
                 if (cpuCount >= 4) {
-                    logger.error(`Процесса ${config.NAME} завис, перезапускаем...: ${error}`);
+                    logger.error(`Процесс ${config.NAME} завис, перезапускаем...`);
                     clearInterval(intervalId);
                     restartSite();
                 }

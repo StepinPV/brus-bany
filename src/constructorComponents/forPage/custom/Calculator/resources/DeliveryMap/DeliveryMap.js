@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styles from './DeliveryMap.module.css';
-import Caption from '@components/Caption';
+import Caption from '@constructor-components/components/Caption';
 
 let Map;
 
@@ -96,7 +96,7 @@ class DeliveryMap extends PureComponent {
         return (
             <div id={id} className={styles.container}>
                 <div className={styles.title}>
-                    <Caption align='center' color='black' tag='h2'>Рассчитайте стоимость доставки</Caption>
+                    <Caption align='center' tag='h2'>Рассчитайте стоимость доставки</Caption>
                 </div>
                 {content ? (
                     <div className={styles.coastContainer}>

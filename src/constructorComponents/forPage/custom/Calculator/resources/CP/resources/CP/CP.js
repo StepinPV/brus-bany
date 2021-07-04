@@ -155,14 +155,14 @@ function renderAdditions(customEval, data, additions, withPrice) {
     );
 }
 
-function renderDelivery(data) {
+function renderDelivery(data, formValue) {
     const { delivery } = data;
 
     return (
         <div className={styles['block']}>
             <b className={styles['block-caption']}>Адрес доставки</b>
             <div className={styles['block-content']}>
-                <div className={styles['group-caption']}>{delivery.address} ({delivery.length} км)<span className={styles['price']}>{` ${numberWithSpaces(delivery.price)} рублей`}</span></div>
+                <div className={styles['group-caption']}>{delivery.address} ({formValue.addressAddition}) ({delivery.length} км)<span className={styles['price']}>{` ${numberWithSpaces(delivery.price)} рублей`}</span></div>
             </div>
         </div>
     );
@@ -221,7 +221,7 @@ function CP({ formValue, data, blocks, finalPrice, customEval, cpSettings }) {
             }) : null}
             {blocks.baseEquipment && blocks.baseEquipment.length ? renderBaseEquipment(customEval, data, blocks.baseEquipment) : null}
             {data.add && blocks.additions ? renderAdditions(customEval, data, blocks.additions, true) : null}
-            {data.delivery && blocks.deliveryData.delivery ? renderDelivery(data) : null}
+            {data.delivery && blocks.deliveryData.delivery ? renderDelivery(data, formValue) : null}
             {formValue && formValue.additionalData && formValue.additionalData.length ? renderCustomAdditions(formValue.additionalData) : null}
             {renderFinalPrice(finalPrice + getCustomAdditionsPrice(formValue))}
         </div>

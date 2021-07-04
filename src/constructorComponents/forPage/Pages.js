@@ -214,7 +214,7 @@ function Pages(props) {
                     const fieldValues = getPageFields(page, folderForViewed);
 
                     return (
-                        <Item href={page.url}>
+                        <Item key={page.url} href={page.url}>
                             <ItemWrapper>
                                 {
                                     folderForViewed.pageViewConfig.components.map(id => {
@@ -223,6 +223,7 @@ function Pages(props) {
 
                                         return (
                                             <Component
+                                                key={id}
                                                 {...componentData.props}
                                                 __images__={componentData.images}
                                                 __pages__={pages}

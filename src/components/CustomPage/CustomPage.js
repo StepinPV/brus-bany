@@ -146,12 +146,15 @@ class CustomPage extends PureComponent {
             });
         }
 
-        return this.renderComponent({
-            key: id,
-            componentId: component.componentId,
-            props: componentProps,
-            images: component.images
-        });
+        return (
+            <Fragment key={id}>
+                {this.renderComponent({
+                    componentId: component.componentId,
+                    props: componentProps,
+                    images: component.images
+                })}
+            </Fragment>
+        )
     };
 
     renderPageContent = () => {
@@ -183,8 +186,7 @@ class CustomPage extends PureComponent {
                         return (
                             <Fragment key={tComponentId}>
                                 {components ? components.map((componentId, index) => {
-                                    const res = this.renderComponentByIndex(tComponent.componentId, index);
-                                    return res;
+                                    return this.renderComponentByIndex(tComponent.componentId, index);
                                 }) : null}
                             </Fragment>
                         );
@@ -226,12 +228,15 @@ class CustomPage extends PureComponent {
                         }
                     }
 
-                    return this.renderComponent({
-                        key: tComponentId,
-                        componentId: tComponent.componentId,
-                        props: tComponentProps,
-                        images: tComponentImages
-                    });
+                    return (
+                        <Fragment key={tComponentId}>
+                            {this.renderComponent({
+                                componentId: tComponent.componentId,
+                                props: tComponentProps,
+                                images: tComponentImages
+                            })}
+                        </Fragment>
+                    )
                 })}
             </>
         )
@@ -243,15 +248,18 @@ class CustomPage extends PureComponent {
         const components = page.config.components[blockId];
         const component = page.config.componentsData[components[index]];
 
-        return this.renderComponent({
-            key: components[index],
-            componentId: component.componentId,
-            props: component.props,
-            images: component.images,
-        });
+        return (
+            <Fragment key={components[index]}>
+                {this.renderComponent({
+                    componentId: component.componentId,
+                    props: component.props,
+                    images: component.images,
+                })}
+            </Fragment>
+        )
     };
 
-    renderComponent = ({ key, componentId, props, images }) => {
+    renderComponent = ({ componentId, props, images }) => {
         const { customComponents, staticContext, pages, pageFolders } = this.props;
         const { componentFieldValues } = this.state;
 
@@ -261,7 +269,6 @@ class CustomPage extends PureComponent {
             return (
                 <Component
                     {...props}
-                    key={key}
                     __images__={images || {}}
                     __pages__={pages}
                     __pageFolders__={pageFolders}
@@ -296,15 +303,18 @@ class CustomPage extends PureComponent {
                             }
                         });
 
-                        return this.renderComponent({
-                            key: {cId},
-                            componentId: componentData.componentId,
-                            props: finalProps,
-                            images: {
-                                ...componentData.images,
-                                ...images
-                            }
-                        });
+                        return (
+                            <Fragment key={cId}>
+                                {this.renderComponent({
+                                    componentId: componentData.componentId,
+                                    props: finalProps,
+                                    images: {
+                                        ...componentData.images,
+                                        ...images
+                                    }
+                                })}
+                            </Fragment>
+                        )
                     })}
                 </>
             );

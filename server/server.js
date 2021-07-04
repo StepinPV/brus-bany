@@ -13,9 +13,8 @@ const routes = require('./routes');
 const render = require('./render');
 const { get: getSettings, update: updateSettings } = require('./settings');
 
-const Links = require('./controllers/Links');
-
 const utm = require('./utm');
+const redirects = require('./redirects');
 
 const sitemap = require('./feeds/sitemap');
 const feeds = require('./feeds/feeds');
@@ -72,41 +71,7 @@ app.use('/admin', auth, function(req, res, next) {
 
 app.use('/api', routes);
 
-app.get('*', async (req, res, next) => {
-    const settings = await getSettings();
-
-    let redirectMatch;
-    if (settings.redirects) {
-        do {
-            const match = settings.redirects.find(item => {
-                if (new RegExp('^' + item.from).test(redirectMatch ? redirectMatch.to : req.originalUrl)) {
-                    return true;
-                }
-            });
-
-            if (match) {
-                redirectMatch = match;
-            } else {
-                break;
-            }
-        } while(true);
-    }
-
-    if (redirectMatch) {
-        res.redirect(301, redirectMatch.to);
-    } else if(/^\/link_/.test(req.url)) {
-        const { status, data } = await Links.get({ from: req.url });
-
-        if (status === 'success') {
-            res.redirect(301, data.get('to'));
-        } else {
-            next();
-        }
-    } else {
-        next();
-    }
-});
-
+app.get('*', redirects);
 app.get('*', utm.middleware);
 app.get('*', render);
 
