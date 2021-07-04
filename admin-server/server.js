@@ -121,11 +121,11 @@ const startSite = (config) => {
                     cpuCount = 0;
                 }
 
-                if (cpuCount >= 4) {
+                /* if (cpuCount >= 4) {
                     logger.error(`Процесса ${config.NAME} завис, перезапускаем...: ${error}`);
                     clearInterval(intervalId);
                     restartSite();
-                }
+                } */
             });
         }, 5000);
     }
@@ -143,12 +143,12 @@ const startSite = (config) => {
         NAME: 'brus-bany',
         DB_URL: `${config.db_url}/brus-bany`,
         PORT: 3000
-    }, {
+    }/*, {
         NAME: 'stanki-stark',
         DB_URL: `${config.db_url}/stanki-stark`,
         PORT: 3001,
         NODE_ENV: 'development'
-    }];
+    }*/];
 
     // await startApp();
     for (const site of sites) {

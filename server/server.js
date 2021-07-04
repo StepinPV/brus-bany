@@ -21,6 +21,8 @@ const sitemap = require('./feeds/sitemap');
 const feeds = require('./feeds/feeds');
 const robots = require('./feeds/robots');
 
+const removeUnusedImages = require('./removeUnusedImages');
+
 const app = express();
 const PORT = process.env.PORT;
 
@@ -135,6 +137,8 @@ db.init(process.env.DB_URL, process.env.NAME, async () => {
     await startApp();
     await updateSettings();
     await generateFeeds();
+
+    await removeUnusedImages();
 });
 
 async function generateFeeds() {
