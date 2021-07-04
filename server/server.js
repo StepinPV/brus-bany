@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const errorhandler = require('errorhandler');
 const basicAuth = require('basic-auth');
 const schedule = require('node-schedule');
+const fs = require('fs');
 
 const db = require('./db');
 const logger = require('../utils/logger');
@@ -22,7 +23,7 @@ const feeds = require('./feeds/feeds');
 const robots = require('./feeds/robots');
 
 const app = express();
-const PORT = config.port;
+const PORT = process.env.PORT || config.port;
 
 app.set('port', PORT);
 app.set('view engine', 'pug');
@@ -53,7 +54,14 @@ app.use(morgan('combined', {
 }));
 
 // Статика
+const publicFolder = path.join(__dirname, `../sites/${process.env.NAME}`);
+
+if (!fs.existsSync(publicFolder)){
+    fs.mkdirSync(publicFolder);
+}
+
 if (process.env.NODE_ENV !== 'production') {
+    app.use('/', express.static(publicFolder));
     app.use('/', express.static(path.join(__dirname, '../public')));
 }
 
@@ -124,7 +132,7 @@ const startApp = async () => {
     });
 };
 
-db.init(config.db_url, config.db_name, async () => {
+db.init(config.db_url, process.env.NAME || config.db_name, async () => {
     await startApp();
     await updateSettings();
     await generateFeeds();

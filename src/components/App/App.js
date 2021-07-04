@@ -16,7 +16,8 @@ class App extends Component {
         pageTemplates: PropTypes.array,
         pages: PropTypes.array,
         pageFolders: PropTypes.array,
-        theme: PropTypes.object
+        theme: PropTypes.object,
+        whatsAppWidget: PropTypes.object
     };
 
     render() {
@@ -39,7 +40,7 @@ class App extends Component {
     }
 
     renderRoute = (route) => {
-        const { preparedComponents, page, customComponents, pageTemplates, pages, pageFolders } = this.props;
+        const { preparedComponents, page, customComponents, pageTemplates, pages, pageFolders, whatsAppWidget } = this.props;
         const Component = preparedComponents ? preparedComponents[route.id] : route.component;
 
         const renderProps = {};
@@ -53,6 +54,7 @@ class App extends Component {
                         templates={pageTemplates}
                         pages={pages}
                         pageFolders={pageFolders}
+                        whatsAppWidget={whatsAppWidget}
                         customComponents={customComponents} />
                 )
             } else {

@@ -1,16 +1,24 @@
+if [ -z "$1" ]
+  then
+    echo "Укажите имя сайта: npm run create-backup -- my-site"
+    exit 0
+fi
+
+backupFolderName="backup-$1"
+
 # создаем папку
-mkdir backup
+mkdir $backupFolderName
 
 # date=`date +%Y-%m-%d-%H:%M`
 
 # сохраняем базу
-mongodump -d brus-bany -o ./backup/dump/
+mongodump -d $1 -o ./$backupFolderName/dump/
 
 # сохраняем изображения
-cp -r ./public/uploads ./backup
+cp -r ./sites/$1/uploads ./${backupFolderName}
 
 # создаем архив
-tar -cvf ./backup.tar ./backup
+tar -cvf ./${backupFolderName}.tar ./${backupFolderName}
 
 # удаляем папку
-rm -R ./backup
+rm -R ./${backupFolderName}

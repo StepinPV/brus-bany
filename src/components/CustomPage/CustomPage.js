@@ -13,7 +13,8 @@ class CustomPage extends PureComponent {
         pages: PropTypes.array,
         pageFolders: PropTypes.array,
         staticContext: PropTypes.object,
-        page: PropTypes.object
+        page: PropTypes.object,
+        whatsAppWidget: PropTypes.object
     };
 
     static defaultProps = {
@@ -65,6 +66,8 @@ class CustomPage extends PureComponent {
     };
 
     render() {
+        const { whatsAppWidget } = this.props;
+
         return (
             <PageRender
                 header={this.renderSpecialComponent('header')}
@@ -72,13 +75,15 @@ class CustomPage extends PureComponent {
                 <>
                     {this.renderMeta()}
                     {this.renderPageContent()}
-                    <a
-                        href='https://api.whatsapp.com/send?phone=79210290107'
-                        title='Перейти в WatsApp'
-                        target='_blank'
-                        rel="noopener noreferrer">
-                        <i className={styles['whats-app']} />
-                    </a>
+                    {whatsAppWidget && whatsAppWidget.phone ? (
+                        <a
+                            href={`https://api.whatsapp.com/send?phone=${whatsAppWidget.phone}`}
+                            title='Перейти в WatsApp'
+                            target='_blank'
+                            rel="noopener noreferrer">
+                            <i className={styles['whats-app']} />
+                        </a>
+                    ) : null}
                 </>
             </PageRender>
         );

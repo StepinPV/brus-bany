@@ -20,7 +20,7 @@ const PREPARED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const folderPath = './public/uploads/global';
+        const folderPath = `./sites/${process.env.NAME}/uploads/global`;
         shell.mkdir('-p', folderPath);
         cb(null, folderPath)
     },

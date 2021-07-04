@@ -1,7 +1,6 @@
 const express = require('express');
 const serialize = require('serialize-javascript');
 const { render } = require('../dist/server/server');
-const assetsManifest = require('../public/mstatic/build/manifest.json');
 const logger = require('../utils/logger');
 const config = require('./config');
 const { get: getSettings } = require('./settings');
@@ -26,7 +25,7 @@ router.get('*', async (req, res, next) => {
         }
 
         const axiosOptions = {
-            apiURL: `http://localhost:${config.port}`
+            apiURL: `http://localhost:${process.env.PORT || config.port}`
         };
 
         const settings = await getSettings();
@@ -78,6 +77,7 @@ router.get('*', async (req, res, next) => {
                 logo152x152: settings && settings['__images__'] ? settings['__images__'][settings['logo152x152']] : '',
                 css,
                 cssIds,
+                code: settings.code || {},
                 assets: {
                     styleTags,
                     linkTags: context.simplePage ? null : linkTags.split('\n').filter(str => str.includes('as="script"')).join('\n'),

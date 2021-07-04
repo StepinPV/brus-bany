@@ -5,5 +5,5 @@ RESULT=$(netstat -tulpn | grep ':3005 ')
 
 if [[ -z $RESULT ]]
 then
-  npm run admin-server:production
+  npm run server:production
 fi

@@ -6,7 +6,7 @@ const errorhandler = require('errorhandler');
 const basicAuth = require('basic-auth');
 const { fork, exec } = require('child_process');
 
-const db = require('./db');
+// const db = require('./db');
 const logger = require('../utils/logger');
 // const routes = require('./routes');
 const config = require('./config');
@@ -79,57 +79,83 @@ const startApp = async () => {
     });
 };
 
-let site;
-const restartSite = () => {
-    if (site) {
-        site.kill();
-    }
+const startSite = (config) => {
+    let site;
 
-    site = fork('./server/server', { env: process.env });
+    const restartSite = () => {
+        if (site) {
+            site.kill();
+        }
 
-    let cpuCount = 0;
-
-    site.on('close', (code) =>
-        console.log(`Процесс с сайтом завершен. Код: ${code}`)
-    );
-
-    const intervalId = setInterval(() => {
-        exec(`ps -o %cpu,%mem -p ${site.pid}`, (error, stdout, stderr) => {
-            if (error) {
-                logger.error(`Ошибка проверки статуса процесса: ${error}`);
-                clearInterval(intervalId);
-                restartSite();
-                return;
-            }
-
-            if (stderr) {
-                clearInterval(intervalId);
-                restartSite();
-                return;
-            }
-
-            const res = stdout.split('\n')[1].trim().split('  ');
-
-            const cpu = parseFloat(res[0]);
-
-            if (cpu > 25) {
-                cpuCount++;
-            } else{
-                cpuCount = 0;
-            }
-
-            if (cpuCount >= 4) {
-                clearInterval(intervalId);
-                restartSite();
+        site = fork('./server/server', {
+            env: {
+                ...process.env,
+                ...config
             }
         });
-    }, 5000);
+
+        let cpuCount = 0;
+
+        site.on('close', (code) =>
+            console.log(`Процесс с сайтом завершен. Код: ${code}`)
+        );
+
+        const intervalId = setInterval(() => {
+            exec(`ps -o %cpu,%mem -p ${site.pid}`, (error, stdout, stderr) => {
+                if (error) {
+                    logger.error(`Ошибка проверки статуса процесса: ${error}`);
+                    clearInterval(intervalId);
+                    restartSite();
+                    return;
+                }
+
+                if (stderr) {
+                    clearInterval(intervalId);
+                    restartSite();
+                    return;
+                }
+
+                const res = stdout.split('\n')[1].trim().split('  ');
+
+                const cpu = parseFloat(res[0]);
+
+                if (cpu > 25) {
+                    cpuCount++;
+                } else{
+                    cpuCount = 0;
+                }
+
+                if (cpuCount >= 4) {
+                    clearInterval(intervalId);
+                    restartSite();
+                }
+            });
+        }, 5000);
+    }
+
+    restartSite();
 }
 
-db.init(config.db_url, config.db_name, async () => {
+/* db.init(config.db_url, config.db_name, async () => {
     await startApp();
     restartSite();
-});
+}); */
+
+(async () => {
+    const sites = [{
+        NAME: 'brus-bany',
+        PORT: 3000
+    }, {
+        NAME: 'stanki-stark',
+        PORT: 3001,
+        NODE_ENV: 'development'
+    }];
+
+    await startApp();
+    for (const site of sites) {
+        startSite(site);
+    }
+})();
 
 
 

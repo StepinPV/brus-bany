@@ -24,6 +24,28 @@ export default [{
     title: 'ID 404 Страницы',
     type: 'string'
 }, {
+    _id: 'whatsAppWidget',
+    title: 'WhatsApp виджет',
+    type: 'object',
+    format: [{
+        _id: 'phone',
+        title: 'Номер в формат (89999999999)',
+        type: 'string',
+    }]
+}, {
+    _id: 'code',
+    title: 'Дополнительный код',
+    type: 'object',
+    format: [{
+        _id: 'head',
+        title: 'Код в head',
+        type: 'text-simple'
+    }, {
+        _id: 'body',
+        title: 'Код в body',
+        type: 'text-simple'
+    }]
+},{
     _id: 'theme',
     title: 'Настройки темы',
     type: 'text-simple'

@@ -36,9 +36,9 @@ server {
         # Редирект со слэшом на конце на без слэша
         rewrite ^/(.*)/$ /$1 permanent;
 
-		root /root/brus-bany/public/;
-        access_log /root/brus-bany/nginx-access-logs.log;
-		error_log /root/brus-bany/nginx-error-logs.log;
+		root /root/brus-bany/sites/brus-bany/;
+        access_log /root/brus-bany/logs/nginx-access-logs.log;
+		error_log /root/brus-bany/logs/nginx-error-logs.log;
 
         ssl on;
         ssl_certificate /etc/letsencrypt/live/brus-bany.ru/fullchain.pem; # managed by Certbot
@@ -64,8 +64,6 @@ server {
 
         # Максимальный размер запроса
         client_max_body_size 2M;
-
-        include blockips.conf;
 
         gzip on;
         gzip_disable "msie6";

@@ -50,7 +50,7 @@ exports.generate = async function (domain) {
         </urlset>`;
 
     return new Promise((resolve, reject) => {
-        return fs.writeFile('./public/sitemap.xml', data,
+        return fs.writeFile(`./sites/${process.env.NAME}/sitemap.xml`, data,
             function (err) {
                 if (err) {
                     logger.error(`Ошибка генерации sitemap.xml: ${err}`, );

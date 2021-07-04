@@ -67,6 +67,7 @@ const render = async (req, res, axiosOptions = {}, settings) => {
             <StaticRouter location={req.url} context={context}>
                 <App
                     theme={settings.theme || {}}
+                    whatsAppWidget={settings.whatsAppWidget}
                     preparedComponents={{ [matchRoute.id]: matchRoute.component }}
                     page={pageRes ? pageRes.data.data : null}
                     customComponents={customComponentsRes ? customComponentsRes.data.data : null}

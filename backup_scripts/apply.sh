@@ -1,21 +1,29 @@
+if [ -z "$1" ]
+  then
+    echo "Укажите имя сайта: npm run apply-backup -- my-site"
+    exit 0
+fi
+
+backupFolderName="backup-$1"
+
 # извлекаем архив
-tar -xvf backup.tar
+tar -xvf $backupFolderName.tar
 
 # удаляем старый uploads
-rm -R ./public/uploads
+rm -R ./sites/$1/uploads
 
 # сохраняем новый uploads
-cp -r ./backup/uploads ./public/uploads
+cp -r ./$backupFolderName/uploads ./sites/$1/uploads
 
 # удаляем старую базу
-mongo brus-bany --eval "db.dropDatabase()"
+mongo $1 --eval "db.dropDatabase()"
 
 # накатываем базу
-mongorestore ./backup/dump
+mongorestore ./$backupFolderName/dump
 
 # удаляем папку
-rm -R ./backup
+rm -R ./$backupFolderName
 
 # удаляем архив
-rm -R ./backup.tar
+rm -R ./$backupFolderName.tar
 

@@ -20,7 +20,7 @@ const getIncludedFolders = (folderId, folders) => {
 
 const writeFile = (name, data) => {
     return new Promise((resolve, reject) => {
-        fs.writeFile(`./public/${name}`, data,
+        fs.writeFile(`./sites/${process.env.NAME}/${name}`, data,
             function (err) {
                 if (err) {
                     reject();
@@ -34,12 +34,12 @@ const writeFile = (name, data) => {
 };
 
 exports.generate = async function () {
-    logger.info(`\nГенерация feeds...`);
-
     const { data: folders } = await Folders.getAll();
     const { data: pages } = await Pages.getAll();
 
     for (const folder of folders) {
+        logger.info(`\nГенерация feeds...`);
+
         const folderFeeds = folder.get('feeds');
 
         if (folderFeeds && folderFeeds.length) {
