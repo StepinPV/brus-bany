@@ -33,6 +33,10 @@ const Info = styled.div`
     flex-shrink: 0;
 `;
 
+const InfoBlock = styled.div`
+   
+`;
+
 function Contacts(props) {
     if (props.staticContext && props.staticContext.simplePage) {
         props.staticContext.simplePage = false;
@@ -55,11 +59,11 @@ function Contacts(props) {
             <Container>
                 <Map>
                     {renderMap && props.map ? (
-                        <iframe title={props.map} src={props.link} width="100%" height="100%" frameBorder="0" />
+                        <iframe title={props.map.title} src={props.map.link} width="100%" height="100%" frameBorder="0" />
                     ) : null }
                 </Map>
                 <Info>
-                    {props.info ? <div dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.info) }} /> : null}
+                    {props.info ? <InfoBlock dangerouslySetInnerHTML={{ __html: applyFields(props.__fieldsValue__, props.info) }} /> : null}
                     {props.button ? (
                         <Button
                             color={props.button.color}
