@@ -6,7 +6,6 @@ const Button = loadable(() => import('./Button'));
 const Breadcrumbs = loadable(() => import('./Breadcrumbs'));
 const QuestionAnswer = loadable(() => import('./QuestionAnswer'));
 const Banner = loadable(() => import('./Banner'));
-const Banner2 = loadable(() => import('./Banner2'));
 const Header = loadable(() => import('./Header'));
 const Footer = loadable(() => import('./Footer'));
 const FormBlock = loadable(() => import('./FormBlock'));

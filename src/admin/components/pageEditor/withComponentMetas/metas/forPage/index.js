@@ -1,5 +1,4 @@
 import * as Banner from './Banner';
-import * as Banner2 from './Banner2';
 import * as Breadcrumbs from './Breadcrumbs';
 import * as Button from './Button';
 import * as Caption from './Caption';
