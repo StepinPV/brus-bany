@@ -61,15 +61,19 @@ export const props = [{
     title: 'Выравнивание',
     type: 'select',
     items: [{
-        id: 'flex-start',
+        id: 'left',
         title: 'По левому краю'
     }, {
         id: 'center',
         title: 'По центру'
     }, {
-        id: 'flex-end',
+        id: 'right',
         title: 'По правому краю'
     }]
+}, {
+    _id: 'overlay',
+    title: 'Затемнение',
+    type: 'boolean',
 }, {
     _id: 'id',
     title: 'Якорь',
@@ -83,5 +87,6 @@ export const defaultProps = {
     caption: 'Заголовок',
     text: 'Описание раздела',
     buttonCaption: 'Текст кнопки',
-    align: 'center'
+    align: 'center',
+    overlay: true
 };

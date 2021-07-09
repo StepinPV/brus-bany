@@ -47,7 +47,7 @@ const Content = styled.div`
     box-sizing: border-box;
     
     ${props => css`
-        align-items: ${props.styles.align}
+        align-items: ${{ left: 'flex-start', center: 'center', right: 'flex-end' }[props.styles.align]}
     `}
 `;
 
@@ -64,7 +64,7 @@ function Banner(props) {
                 styles={{
                     backgroundImage: props.image ? `url(${props.__images__[props.image]})` : null
                 }} />
-            <Layout />
+            {props.overlay ? <Layout /> : null}
             <Content styles={{ align: props.align }}>
                 { props.caption ? (
                     <Caption
@@ -72,7 +72,7 @@ function Banner(props) {
                         color='white'
                         containerStyles={css`max-width: 1200px; padding: 16px;`}
                         size='l'
-                        align='center'
+                        align={props.align}
                         children={props.caption}
                         __fieldsValue__={props.__fieldsValue__} />
                 ) : null }
@@ -81,7 +81,7 @@ function Banner(props) {
                         color='white'
                         containerStyles={css`max-width: 1200px; padding: 16px 16px 32px;`}
                         size='l'
-                        align='center'
+                        align={props.align}
                         children={props.text}
                         __fieldsValue__={props.__fieldsValue__} />
                 ) : null }
@@ -115,11 +115,13 @@ Banner.propTypes = {
     text: PropTypes.string,
     image: PropTypes.number,
     id: PropTypes.string,
-    align: PropTypes.string
+    align: PropTypes.string,
+    overlay: PropTypes.bool
 };
 
 Banner.defaultProps = {
-    align: 'center'
+    align: 'center',
+    overlay: true
 }
 
 export default memo(Banner);
