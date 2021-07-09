@@ -61,7 +61,7 @@ export const props = [{
     _id: 'additional',
     title: 'Дополнительная информация',
     type: 'text'
-},];
+}];
 
 export const name = 'Подвал';
 export const key = 'Footer';
