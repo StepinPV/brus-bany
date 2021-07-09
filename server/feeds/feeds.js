@@ -71,7 +71,7 @@ exports.generate = async function () {
                             }
                         });
 
-                        if (feed.filter && eval(applyFields(fieldValues, feed.filter, folderFieldValues['__images__']))) {
+                        if (feed.filter ? eval(applyFields(fieldValues, feed.filter, folderFieldValues['__images__'])) : true) {
                             items += applyFields(fieldValues, feed.body, folderFieldValues['__images__']);
                         }
                     }
