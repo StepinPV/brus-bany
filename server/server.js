@@ -10,17 +10,18 @@ const fs = require('fs');
 const db = require('../utils/db');
 const logger = require('../utils/logger');
 const routes = require('./routes');
-const render = require('./render');
 const { get: getSettings, update: updateSettings } = require('./settings');
 
-const utm = require('./utm');
-const redirects = require('./redirects');
+const utmMiddleware = require('./middlewares/utm');
+const redirectsMiddleware = require('./middlewares/redirects');
+const renderMiddleware = require('./middlewares/render');
 
 const sitemap = require('./feeds/sitemap');
 const feeds = require('./feeds/feeds');
 const robots = require('./feeds/robots');
 
 const removeUnusedImages = require('./removeUnusedImages');
+const generatePages = require('./generatePages');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -61,8 +62,11 @@ if (!fs.existsSync(publicFolder)){
 }
 
 if (process.env.NODE_ENV !== 'production') {
-    app.use('/', express.static(publicFolder));
-    app.use('/', express.static(path.join(__dirname, '../public')));
+    app.use(express.static(publicFolder, {
+        redirect: false,
+        index: false
+    }));
+    app.use(express.static(path.join(__dirname, '../public')));
 }
 
 app.use('/admin', auth, function(req, res, next) {
@@ -71,9 +75,9 @@ app.use('/admin', auth, function(req, res, next) {
 
 app.use('/api', routes);
 
-app.get('*', redirects);
-app.get('*', utm.middleware);
-app.get('*', render);
+app.get('*', redirectsMiddleware);
+app.get('*', utmMiddleware.middleware);
+app.get('*', renderMiddleware);
 
 if (process.env.NODE_ENV !== 'production') {
     app.use(errorhandler());
@@ -102,6 +106,7 @@ db.init(process.env.DB_URL, process.env.NAME, async () => {
     await startApp();
     await updateSettings();
     await generateFeeds();
+    await generatePages();
 });
 
 async function generateFeeds() {

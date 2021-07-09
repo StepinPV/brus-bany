@@ -11,13 +11,13 @@ import routes from './routes';
 import App from './components/App';
 import axios from 'axios';
 
-const render = async (req, res, axiosOptions = {}, settings) => {
-    axios.defaults.baseURL = axiosOptions.apiURL;
+axios.defaults.baseURL = `http://localhost:${process.env.PORT}`;
 
-    const matchRoute = routes.find(route => matchPath(req.path, route) || false);
+const render = async (pageData, settings) => {
+    const matchRoute = routes.find(route => matchPath(pageData.path, route) || false);
 
     if (!matchRoute) {
-        throw new Error(`Не найден подходящий route для ${req.url}!`);
+        throw new Error(`Не найден подходящий route для ${pageData.path}!`);
     }
 
     if (!matchRoute.id) {
@@ -42,7 +42,7 @@ const render = async (req, res, axiosOptions = {}, settings) => {
             axios.get(`/api/pages`),
             axios.get(`/api/page-folders`),
             axios.get(`/api/components`),
-            axios.get(`/api/pages/${encodeURIComponent(req.path)}`, { params: { byUrl: true } }),
+            axios.get(`/api/pages/${encodeURIComponent(pageData.path)}`, { params: { byUrl: true } }),
             axios.get(`/api/page-templates`)
         ]);
 
@@ -64,7 +64,7 @@ const render = async (req, res, axiosOptions = {}, settings) => {
 
     const jsx = extractor.collectChunks(
         <CacheProvider value={cache}>
-            <StaticRouter location={req.url} context={context}>
+            <StaticRouter location={pageData.url} context={context}>
                 <App
                     theme={settings.theme || {}}
                     whatsAppWidget={settings.whatsAppWidget}

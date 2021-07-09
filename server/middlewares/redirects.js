@@ -1,5 +1,5 @@
-const { get: getSettings } = require('./settings');
-const Links = require('./controllers/Links');
+const { get: getSettings } = require('../settings');
+const Links = require('../controllers/Links');
 
 module.exports = async (req, res, next) => {
     const settings = await getSettings();

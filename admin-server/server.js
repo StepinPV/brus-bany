@@ -96,11 +96,12 @@ const startSite = (config) => {
 
         console.info(`Процесс с сайтом ${config.NAME} запущен.`)
 
-        let cpuCount = 0;
-
         site.on('close', (code) =>
             console.info(`Процесс с сайтом ${config.NAME} завершен. Код: ${code}`)
         );
+
+        /*
+        let cpuCount = 0;
 
         const intervalId = setInterval(() => {
             exec(`ps -o %cpu,%mem -p ${site.pid}`, (error, stdout, stderr) => {
@@ -127,7 +128,7 @@ const startSite = (config) => {
                     restartSite();
                 }
             });
-        }, 5000);
+        }, 5000);*/
     }
 
     restartSite();

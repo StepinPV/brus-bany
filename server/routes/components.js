@@ -1,6 +1,7 @@
 const express = require('express');
 const Components = require('../controllers/Components');
 const cache = require('../cache');
+const generatePages = require('../generatePages');
 
 const router = express.Router();
 
@@ -51,7 +52,7 @@ router.post('/', async function(req, res, next) {
 
 router.get('/:id', async function(req, res, next) {
     try {
-        const { status, data, message } = cache.get(req) || cache.add(req, await Components.get(req.params.id), `components`);
+        const { status, data, message } = await Components.get(req.params.id);
 
         switch(status) {
             case 'success':
@@ -77,6 +78,7 @@ router.put('/:id', async function(req, res, next) {
         switch(status) {
             case 'success':
                 send(res, { data, status, message: `Компонент успешно обновлен!` });
+                generatePages();
                 break;
             case 'error':
                 send(res, { message, status, data });
@@ -98,6 +100,7 @@ router.delete('/:id', async function(req, res, next) {
         switch(status) {
             case 'success':
                 send(res, { data, status, message: `Компонент успешно удален!` });
+                generatePages();
                 break;
             case 'error':
                 send(res, { message, status, data });

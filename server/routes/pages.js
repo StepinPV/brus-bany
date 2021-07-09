@@ -1,6 +1,7 @@
 const express = require('express');
 const Pages = require('../controllers/Pages');
 const cache = require('../cache');
+const generatePages = require('../generatePages');
 
 const router = express.Router();
 
@@ -37,6 +38,7 @@ router.post('/', async function(req, res, next) {
         switch(status) {
             case 'success':
                 send(res, { data, status, message: `Страница успешно создана!` });
+                generatePages();
                 break;
             case 'error':
                 send(res, { message, status, data });
@@ -52,7 +54,7 @@ router.post('/', async function(req, res, next) {
 router.get('/:id', async function(req, res, next) {
     try {
         const searchByUrl = req.query && req.query.byUrl;
-        const { status, data, message } = cache.get(req) || cache.add(req, searchByUrl ? await Pages.getByUrl(decodeURIComponent(req.params.id)) : await Pages.get(req.params.id), `pages`);
+        const { status, data, message } = searchByUrl ? await Pages.getByUrl(decodeURIComponent(req.params.id)) : await Pages.get(req.params.id);
 
         switch(status) {
             case 'success':
@@ -78,6 +80,7 @@ router.put('/:id', async function(req, res, next) {
         switch(status) {
             case 'success':
                 send(res, { data, status, message: `Страница успешно обновлена!` });
+                generatePages();
                 break;
             case 'error':
                 send(res, { message, status, data });
@@ -97,6 +100,7 @@ router.delete('/:id', async function(req, res, next) {
         switch(status) {
             case 'success':
                 send(res, { data, status, message: `Страница успешно удалена!` });
+                generatePages();
                 break;
             case 'error':
                 send(res, { message, status, data });

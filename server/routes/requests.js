@@ -1,6 +1,6 @@
 const express = require('express');
 const amo = require('../amo');
-const utm = require('../utm');
+const utm = require('../middlewares/utm');
 
 const router = express.Router();
 
