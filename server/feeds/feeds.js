@@ -71,7 +71,9 @@ exports.generate = async function () {
                             }
                         });
 
-                        items += applyFields(fieldValues, feed.body, folderFieldValues['__images__']);
+                        if (feed.filter && eval(applyFields(fieldValues, feed.filter, folderFieldValues['__images__']))) {
+                            items += applyFields(fieldValues, feed.body, folderFieldValues['__images__']);
+                        }
                     }
                 });
 

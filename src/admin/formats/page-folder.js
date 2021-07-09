@@ -30,5 +30,9 @@ export default [{
         title: 'Тело',
         type: 'text-simple',
         required: true
+    }, {
+        _id: 'filter',
+        title: 'Фильтр',
+        type: 'text-simple'
     }]
 }];
