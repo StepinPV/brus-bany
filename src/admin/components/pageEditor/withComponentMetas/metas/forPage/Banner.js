@@ -1,26 +1,75 @@
 export const props = [{
     _id: 'caption',
     title: 'Заголовок',
-    type: 'string'
+    type: 'text'
 }, {
     _id: 'text',
     title: 'Текст',
     type: 'text'
 }, {
-    _id: 'buttonCaption',
-    title: 'Текст кнопки',
-    type: 'string'
+    _id: 'button',
+    title: 'Кнопка',
+    type: 'object',
+    format: [{
+        _id: 'caption',
+        title: 'Текст',
+        type: 'string'
+    }, {
+        _id: 'link',
+        title: 'Ссылка',
+        type: 'string'
+    }, {
+        _id: 'color',
+        title: 'Цвет текста',
+        type: 'color-select'
+    }, {
+        _id: 'background',
+        title: 'Цвет фона',
+        type: 'color-select'
+    },]
 }, {
-    _id: 'buttonLink',
-    title: 'Ссылка',
-    type: 'string'
+    _id: 'button2',
+    title: 'Кнопка 2',
+    type: 'object',
+    format: [{
+        _id: 'caption',
+        title: 'Текст',
+        type: 'string'
+    }, {
+        _id: 'link',
+        title: 'Ссылка',
+        type: 'string'
+    }, {
+        _id: 'color',
+        title: 'Цвет текста',
+        type: 'color-select'
+    }, {
+        _id: 'background',
+        title: 'Цвет фона',
+        type: 'color-select'
+    },]
 }, {
     _id: 'image',
     title: 'Обложка',
     props: {
-        withoutLogo: true
+        withoutLogo: true,
+        withoutCompression: true
     },
     type: 'image'
+}, {
+    _id: 'align',
+    title: 'Выравнивание',
+    type: 'select',
+    items: [{
+        id: 'flex-start',
+        title: 'По левому краю'
+    }, {
+        id: 'center',
+        title: 'По центру'
+    }, {
+        id: 'flex-end',
+        title: 'По правому краю'
+    }]
 }, {
     _id: 'id',
     title: 'Якорь',
@@ -33,5 +82,6 @@ export const key = 'Banner';
 export const defaultProps = {
     caption: 'Заголовок',
     text: 'Описание раздела',
-    buttonCaption: 'Текст кнопки'
+    buttonCaption: 'Текст кнопки',
+    align: 'center'
 };

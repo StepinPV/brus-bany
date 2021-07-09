@@ -43,12 +43,18 @@ const Content = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 0 14%;
+    box-sizing: border-box;
+    
+    ${props => css`
+        align-items: ${props.styles.align}
+    `}
 `;
 
-const ButtonContainer = styled.div`
+const Buttons = styled.div`
+    margin: 16px 8px;
     display: flex;
     justify-content: center;
-    margin: 16px;
 `;
 
 function Banner(props) {
@@ -59,12 +65,12 @@ function Banner(props) {
                     backgroundImage: props.image ? `url(${props.__images__[props.image]})` : null
                 }} />
             <Layout />
-            <Content>
+            <Content styles={{ align: props.align }}>
                 { props.caption ? (
                     <Caption
                         tag='h1'
                         color='white'
-                        containerStyles={css`max-width: 1200px; margin: 0 auto; padding: 16px;`}
+                        containerStyles={css`max-width: 1200px; padding: 16px;`}
                         size='l'
                         align='center'
                         children={props.caption}
@@ -73,23 +79,32 @@ function Banner(props) {
                 { props.text ? (
                     <Text
                         color='white'
-                        containerStyles={css`max-width: 1200px; margin: 0 auto; padding: 16px 16px 32px;`}
+                        containerStyles={css`max-width: 1200px; padding: 16px 16px 32px;`}
                         size='l'
                         align='center'
                         children={props.text}
                         __fieldsValue__={props.__fieldsValue__} />
                 ) : null }
-                { props.buttonCaption ? (
-                    <ButtonContainer>
+                <Buttons>
+                    { props.button ? (
                         <Button
-                            color='white'
-                            background='red'
-                            size='m'
-                            caption={props.buttonCaption}
-                            href={props.buttonLink}
+                            background={props.button.background}
+                            color={props.button.color}
+                            caption={props.button.caption}
+                            containerStyles={css`margin: 0 8px`}
+                            href={props.button.link}
                             __fieldsValue__={props.__fieldsValue__} />
-                    </ButtonContainer>
-                ) : null }
+                    ) : null }
+                    { props.button2 ? (
+                        <Button
+                            background={props.button2.background}
+                            color={props.button2.color}
+                            caption={props.button2.caption}
+                            containerStyles={css`margin: 0 8px`}
+                            href={props.button2.link}
+                            __fieldsValue__={props.__fieldsValue__} />
+                    ) : null }
+                </Buttons>
             </Content>
         </Container>
     )
@@ -98,11 +113,14 @@ function Banner(props) {
 Banner.propTypes = {
     caption: PropTypes.string,
     text: PropTypes.string,
-    buttonCaption: PropTypes.string,
-    buttonLink: PropTypes.string,
     image: PropTypes.number,
-    id: PropTypes.string
+    id: PropTypes.string,
+    align: PropTypes.string
 };
+
+Banner.defaultProps = {
+    align: 'center'
+}
 
 export default memo(Banner);
 
