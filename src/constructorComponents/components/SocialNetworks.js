@@ -10,27 +10,22 @@ import youtube from '../images/youtube.svg';
 
 const links = {
     vk: {
-        link: 'https://vk.com/brusbany',
         label: 'Группа VK',
         source: vk
     },
     fb: {
-        link: 'https://www.facebook.com/brusbany',
         label: 'Группа Facebook',
         source: fb
     },
     ok: {
-        link: 'https://ok.ru/group/54273947861165',
         label: 'Группа в OK',
         source: ok
     },
     youtube: {
-        link: 'https://www.youtube.com/channel/UCCYbDVOPWfPm9gJgLdJ5OaQ',
         label: 'Канал на Youtube',
         source: youtube
     },
     inst: {
-        link: 'https://www.instagram.com/brus_bany',
         label: 'Аккаунт в Instagram',
         source: inst
     }
@@ -57,10 +52,10 @@ const I = styled.i`
     margin-right: 8px;
 `;
 
-function Icon({ type }) {
+function Icon({ type, link }) {
     return (
         <a
-            href={links[type].link}
+            href={link}
             title={links[type].label}
             target='_blank'
             rel="noopener noreferrer">
@@ -70,20 +65,20 @@ function Icon({ type }) {
 }
 
 function SocialNetworks(props) {
-    return (
+    return props.items ? (
         <Container
             styles={{
                 paddingBottom: props.paddingBottom,
                 paddingTop: props.paddingTop,
                 withoutMargins: props.withoutMargins
             }}>
-            <Icon type='vk' />
-            <Icon type='fb' />
-            <Icon type='ok' />
-            <Icon type='inst' />
-            <Icon type='youtube' />
+            {props.items.vk ? <Icon type='vk' link={props.items.vk} /> : null}
+            {props.items.fb ? <Icon type='fb' link={props.items.fb} /> : null}
+            {props.items.ok ? <Icon type='ok' link={props.items.ok} /> : null}
+            {props.items.inst ? <Icon type='inst' link={props.items.inst} /> : null}
+            {props.items.youtube ? <Icon type='youtube' link={props.items.youtube} /> : null}
         </Container>
-    );
+    ) : null;
 }
 
 export default memo(SocialNetworks);
