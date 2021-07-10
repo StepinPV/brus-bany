@@ -2,12 +2,11 @@ import React, { memo } from 'react';
 import styled from '@emotion/styled';
 import Text from '../components/Text';
 import ContainerComponent from './Container';
+import { applyFields } from "@constructor-components/helpers";
 
-import call from '../images/call.svg';
-import calc from '../images/calc.svg';
-import dogovor from '../images/dogovor.svg';
 import arrow from '../images/arrow.svg';
-import {css} from "@emotion/react";
+import { css } from "@emotion/react";
+import Caption from "@constructor-components/components/Caption";
 
 const Container = styled.div`
     margin: 0 auto;
@@ -55,17 +54,6 @@ const ArrowIcon = styled.i`
     }
 `;
 
-const items = [{
-    icon: call,
-    text: 'Позвоните нам<br><a href="tel:88002010729" style="color:#91001d;text-decoration:none;font-weight:bold">8&nbsp;(800)&nbsp;201-07-29</a><br>или <a href="#requestForm" style="color:#013885;font-weight:bold;cursor:pointer">оставьте заявку</a>'
-}, {
-    icon: calc,
-    text: 'Подберем оптимальный вариант бани, рассчитаем стоимость и пришлем подробную смету'
-}, {
-    icon: dogovor,
-    text: '<a href="https://disk.yandex.ru/i/bxhXk_gIuhV22g" target="_blank" rel="noopener noreferrer" style="color:#013885;text-decoration:none;font-weight:bold;cursor:pointer">Заключим договор</a>, приступим к строительству бани или привезем уже готовую'
-}];
-
 function HowWork(props) {
     return (
         <ContainerComponent
@@ -76,24 +64,33 @@ function HowWork(props) {
             paddingTop={props.paddingTop}
             background={props.containerBackground}>
             <Container>
-                {items.map((item, index) => {
+                {props.items ? props.items.map((item, index) => {
                     return (
                         <>
                             <Item>
-                                <Icon style={{ backgroundImage: `url('${item.icon}')` }} />
-                                <Text
-                                    containerStyles={css`padding-top: 16px;`}
-                                    align='center'
-                                    __fieldsValue__={props.__fieldsValue__}>
-                                    {item.text}
-                                </Text>
+                                {item.icon ? <Icon style={{ backgroundImage: `url('${applyFields(props.__fieldsValue__, props.__images__[item.icon])}')` }} /> : null}
+                                {item.caption ? (
+                                    <Caption
+                                        containerStyles={css`padding-top: 16px;`}
+                                        align='center'
+                                        size='s'
+                                        children={item.caption}
+                                        __fieldsValue__={props.__fieldsValue__} />
+                                ) : null}
+                                {item.text ? (
+                                    <Text
+                                        containerStyles={css`padding-top: 16px;`}
+                                        align='center'
+                                        children={item.text}
+                                        __fieldsValue__={props.__fieldsValue__} />
+                                ) : null}
                             </Item>
-                            {index !== items.length - 1 ? (
+                            {props.hasArrows && props.items && index !== props.items.length - 1 ? (
                                 <ArrowIcon />
                             ) : null}
                         </>
                     );
-                })}
+                }) : null}
             </Container>
         </ContainerComponent>
     );
