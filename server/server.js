@@ -124,6 +124,16 @@ schedule.scheduleJob('0 1 * * *', async function(){
     await removeUnusedImages();
 });
 
+setInterval(() => {
+    console.log(`Данные для ${process.env.NAME} от ${new Date().toLocaleString()}:`)
+    const used = process.memoryUsage();
+    let res = '';
+    for (let key in used) {
+        res += `${res ? ', ' : ''}${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`;
+    }
+    console.log(res);
+}, 1000)
+
 
 
 
