@@ -13,7 +13,7 @@ class Provider extends PureComponent {
 
     render() {
         const { children } = this.props;
-        const { visible, source, title, data } = this.state;
+        const { visible, source, title, buttonColor, buttonBackground } = this.state;
 
         const providerProps = {
             showForm: this.showForm,
@@ -21,7 +21,8 @@ class Provider extends PureComponent {
             visible,
             source,
             title,
-            data
+            buttonColor,
+            buttonBackground
         };
 
         return (
@@ -29,8 +30,8 @@ class Provider extends PureComponent {
         );
     }
 
-    showForm = ({ source, title, data }) => {
-        this.setState({ visible: true, source, title, data });
+    showForm = ({ source, title, buttonColor, buttonBackground }) => {
+        this.setState({ visible: true, source, title, buttonColor, buttonBackground });
     };
 
     hideForm = () => {

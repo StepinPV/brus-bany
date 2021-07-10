@@ -1,17 +1,18 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import FormComponent from '../../components/Form';
-import Caption from '../../components/Caption';
-import Text from '../../components/Text';
+import FormComponent from '@constructor-components/components/Form';
+import Caption from '@constructor-components/components/Caption';
+import Text from '@constructor-components/components/Text';
 import Modal from '../../components/Modal';
 import styles from './Form.module.css';
+import {css} from "@emotion/react";
 
-const Form = ({ onClose, source, title, data }) => (
+const Form = ({ onClose, source, title, buttonColor, buttonBackground }) => (
     <Modal onOverlayClick={onClose}>
         <div className={styles.container}>
-            <Caption align='center' className={styles.caption}>{title || 'Обратный звонок'}</Caption>
-            <Text align='center' className={styles.description}>Перезвоним в самое ближайшее время</Text>
-            <FormComponent source={source} data={data} onSuccess={onClose} />
+            <Caption align='center' containerStyles={css`margin-bottom: 8px;`}>{title || 'Обратный звонок'}</Caption>
+            <Text align='center' containerStyles={css`margin-bottom: 16px;`}>Перезвоним в самое ближайшее время</Text>
+            <FormComponent source={source} onSuccess={onClose} buttonColor={buttonColor} buttonBackground={buttonBackground} />
         </div>
     </Modal>
 );

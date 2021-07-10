@@ -95,24 +95,34 @@ function ProductCard(props) {
                         {props.firstButton ? (
                             <Button
                                 onClick={() => {
-                                    props.showForm({ source: match.url, title: props.firstButton.formCaption });
+                                    props.showForm({
+                                        source: match.url,
+                                        title: props.firstButton.formCaption,
+                                        buttonColor: props.firstButton.formButtonColor,
+                                        buttonBackground: props.firstButton.formButtonBackground
+                                    });
                                 }}
                                 containerStyles={css`margin-bottom: 16px;display: block;`}
                                 caption={props.firstButton.caption}
-                                color='{ "type": "base", "value": "white" }'
-                                background='{ "type": "base", "value": "red" }'
+                                color={props.firstButton.color}
+                                background={props.firstButton.background}
                                 size='s'
                                 type='button' />
                         ) : null}
                         {props.secondButton ? (
                             <Button
                                 onClick={() => {
-                                    props.showForm({ source: match.url, title: props.secondButton.formCaption });
+                                    props.showForm({
+                                        source: match.url,
+                                        title: props.firstButton.formCaption,
+                                        buttonColor: props.firstButton.formButtonColor,
+                                        buttonBackground: props.firstButton.formButtonBackground
+                                    });
                                 }}
                                 containerStyles={css`margin-bottom: 16px;display: block;`}
                                 caption={props.secondButton.caption}
-                                color='{ "type": "base", "value": "black" }'
-                                background='{ "type": "base", "value": "yellow" }'
+                                color={props.secondButton.color}
+                                background={props.secondButton.background}
                                 size='s'
                                 type='button' />
                         ) : null}

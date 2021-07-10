@@ -40,9 +40,25 @@ export const props = [{
         title: 'Заголовок',
         type: 'string',
     }, {
+        _id: 'color',
+        title: 'Цвет текста',
+        type: 'color-select'
+    }, {
+        _id: 'background',
+        title: 'Цвет фона',
+        type: 'color-select'
+    }, {
         _id: 'formCaption',
         title: 'Заголовок формы',
         type: 'string',
+    }, {
+        _id: 'formButtonColor',
+        title: 'Цвет текста кнопки в форме',
+        type: 'color-select'
+    }, {
+        _id: 'formButtonBackground',
+        title: 'Цвет кнопки в форме',
+        type: 'color-select'
     }]
 }, {
     _id: 'secondButton',
@@ -53,9 +69,25 @@ export const props = [{
         title: 'Заголовок',
         type: 'string',
     }, {
+        _id: 'color',
+        title: 'Цвет текста',
+        type: 'color-select'
+    }, {
+        _id: 'background',
+        title: 'Цвет фона',
+        type: 'color-select'
+    }, {
         _id: 'formCaption',
         title: 'Заголовок формы',
         type: 'string',
+    }, {
+        _id: 'formButtonColor',
+        title: 'Цвет текста кнопки в форме',
+        type: 'color-select'
+    }, {
+        _id: 'formButtonBackground',
+        title: 'Цвет кнопки в форме',
+        type: 'color-select'
     }]
 }, {
     _id: 'additionalInfo',
