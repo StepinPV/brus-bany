@@ -16,19 +16,32 @@ export const props = [{
 }, {
     _id: 'caption',
     title: 'Заголовок',
-    type: 'string'
+    type: 'text'
 }, {
     _id: 'text',
     title: 'Текст',
     type: 'text'
 }, {
-    _id: 'buttonCaption',
-    title: 'Текст кнопки',
-    type: 'string'
-}, {
-    _id: 'buttonHref',
-    title: 'Ссылка',
-    type: 'string'
+    _id: 'button',
+    title: 'Кнопка',
+    type: 'object',
+    format: [{
+        _id: 'caption',
+        title: 'Текст',
+        type: 'string'
+    }, {
+        _id: 'link',
+        title: 'Ссылка',
+        type: 'string'
+    }, {
+        _id: 'color',
+        title: 'Цвет текста',
+        type: 'color-select'
+    }, {
+        _id: 'background',
+        title: 'Цвет фона',
+        type: 'color-select'
+    },]
 }, ...containerProps];
 export const name = 'Блок с изображением, описанием и ссылкой';
 export const key = 'ImageLinkBlock';

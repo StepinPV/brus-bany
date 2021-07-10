@@ -70,13 +70,13 @@ function ImageLinkBlock(props) {
                         __fieldsValue__={props.__fieldsValue__}>
                         {props.text}
                     </Text>
-                    {props.buttonCaption ? (
+                    {props.button ? (
                         <Button
                             containerStyles={css`margin: 16px;`}
-                            color='{ "type": "base", "value": "white" }'
-                            background='{ "type": "base", "value": "red" }'
-                            href={props.buttonHref}
-                            caption={props.buttonCaption}
+                            color={props.button.color}
+                            background={props.button.background}
+                            href={props.button.link}
+                            caption={props.button.caption}
                             __fieldsValue__={props.__fieldsValue__} />
                     ) : null}
                 </Info>
@@ -89,9 +89,7 @@ ImageLinkBlock.propTypes = {
     image: PropTypes.number,
     imageAlt: PropTypes.string,
     caption: PropTypes.string,
-    text: PropTypes.string,
-    buttonCaption: PropTypes.string,
-    buttonHref: PropTypes.string
+    text: PropTypes.string
 };
 
 export default memo(ImageLinkBlock);
