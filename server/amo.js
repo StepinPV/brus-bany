@@ -5,11 +5,9 @@ const { get: getSettings } = require('./settings');
 module.exports.send = async ({ name, phone, source }, host, utmParams) => {
     const settings = await getSettings();
 
-    if (settings.amo && settings.amo.name && settings.amo.login && settings.amo.apiKey) {
+    if (!(settings.amo && settings.amo.name && settings.amo.login && settings.amo.apiKey)) {
         return;
     }
-
-    let message = '';
 
     // Временная защита от спама
     if (!host) {
