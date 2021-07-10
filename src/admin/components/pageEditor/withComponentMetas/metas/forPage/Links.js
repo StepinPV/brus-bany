@@ -25,6 +25,14 @@ export const props = [{
         }]
     }]
 }, {
+    _id: 'item-text-color',
+    title: 'Цвет текста элемента',
+    type: 'color-select'
+}, {
+    _id: 'item-bg-color',
+    title: 'Цвет фона элемента',
+    type: 'color-select'
+}, {
     _id: 'width',
     title: 'Ширина',
     type: 'theme-param',

@@ -37,10 +37,12 @@ const Item = css`
 `;
 
 const LinkItem = styled.a`
-    ${Item}
-    color: #000;
-    background: #98c4e8;
+    ${Item}    
     cursor: pointer;
+    ${props => css`
+        color: ${props.styles.color ? props.theme.colors[props.styles.color[0] !== '{' ? props.styles.color : JSON.parse(props.styles.color).value].v : ''};
+        background: ${props.styles.bg ? props.theme.colors[props.styles.bg[0] !== '{' ? props.styles.bg : JSON.parse(props.styles.bg).value].v : ''};
+    `}
 `;
 
 const FakeItem = styled.div`
@@ -72,7 +74,17 @@ function Links(props) {
                                             return <FakeItem>{applyFields(props.__fieldsValue__, title)}</FakeItem>
                                         }
 
-                                        return <LinkItem key={link} href={link}>{applyFields(props.__fieldsValue__, title)}</LinkItem>;
+                                        return (
+                                            <LinkItem
+                                                key={link}
+                                                href={link}
+                                                styles={{
+                                                    color: props['item-text-color'],
+                                                    bg: props['item-bg-color'],
+                                                }}>
+                                                {applyFields(props.__fieldsValue__, title)}
+                                            </LinkItem>
+                                        );
                                     })
                                 }
                             </Items>
