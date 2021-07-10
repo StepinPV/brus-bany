@@ -77,7 +77,7 @@
     "build:production": "NODE_ENV=production webpack",
     "build:production:analize": "NODE_ENV=production ANALIZE_MODE=true webpack",
     "server": "nodemon admin-server/server.js",
-    "server:production": "NODE_ENV=production pm2 start admin-server/server.js --max-memory-restart 200M -o ./logs/pm2-logs.log -e ./logs/pm2-errors.log",
+    "server:production": "NODE_ENV=production pm2 start admin-server/server.js --node-args='--prof' --max-memory-restart 200M -o ./logs/pm2-logs.log -e ./logs/pm2-errors.log",
     "mongo": "mongod --dbpath /Users/pvstepin/dev/mongodb",
     "mongo:production": "pm2 start 'mongod --dbpath /var/lib/mongodb' -o ./logs/pm2-mongoose-logs.log -e ./logs/pm2-mongoose-errors.log",
     "create-backup": "sh backup_scripts/create.sh",
