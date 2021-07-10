@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import styles from './Additions.module.css';
 import numberWithSpaces from '@utils/numberWithSpaces';
-import stringHash from '@utils/stringHash';
+import stringHash from '../stringHash';
 
 export function getPrice(customEval, formula) {
     try {

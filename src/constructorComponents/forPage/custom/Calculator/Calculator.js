@@ -8,7 +8,7 @@ import ProjectBlock from './resources/ProjectBlock';
 import Equipment, { getEquipmentFinalPrice } from './resources/Equipment';
 import withForm from '@plugins/Form/withForm';
 import numberWithSpaces from '@utils/numberWithSpaces';
-import filterObject from '@utils/filterObject';
+import filterObject from './resources/filterObject';
 import Caption from '../../../components/Caption';
 import Text from '../../../components/Text';
 import Button from '../../../components/Button';

@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import stringHash from '@utils/stringHash';
-import filterObject from '@utils/filterObject';
+import stringHash from '../stringHash';
+import filterObject from '../filterObject';
 import numberWithSpaces from '@utils/numberWithSpaces';
 import replaceAll from '@utils/replaceAll';
 import styles from './Equipment.module.css';

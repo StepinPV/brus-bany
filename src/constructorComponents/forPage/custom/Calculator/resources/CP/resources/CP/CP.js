@@ -3,7 +3,7 @@ import { getItemPrice as getAdditionPrice } from '../../../Additions';
 import { getEquipmentItemPrice, getEquipmentText, getEquipmentElementValue } from '../../../Equipment';
 import logo from '../../../../../../../images/logo.svg';
 import numberWithSpaces from '@utils/numberWithSpaces';
-import stringHash from '@utils/stringHash';
+import stringHash from '../../../stringHash';
 import styles from './CP.module.css';
 import cx from "classnames";
 

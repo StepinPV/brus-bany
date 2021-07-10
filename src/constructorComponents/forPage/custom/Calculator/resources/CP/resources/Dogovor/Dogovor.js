@@ -3,7 +3,7 @@ import numberWithSpaces from '@utils/numberWithSpaces';
 import rubles from '@utils/rubles';
 import wordByNumber from '@utils/wordByNumber';
 import renderDate from '@utils/RenderDate';
-import stringHash from "@utils/stringHash";
+import stringHash from "../../../stringHash";
 import { getItemPrice as getAdditionPrice } from '../../../Additions';
 import { getEquipmentItemPrice, getEquipmentText, getEquipmentElementValue } from '../../../Equipment';
 import styles from './Dogovor.module.css';
