@@ -10,13 +10,26 @@ export const props = [{
         title: 'Заголовок',
         type: 'string'
     }, {
-        _id: 'buttonTitle',
-        title: 'Текст кнопки',
-        type: 'string'
-    }, {
         _id: 'link',
         title: 'Ссылка',
         type: 'string'
+    }, {
+        _id: 'button',
+        title: 'Кнопка',
+        type: 'object',
+        format: [{
+            _id: 'caption',
+            title: 'Текст',
+            type: 'string'
+        }, {
+            _id: 'color',
+            title: 'Цвет текста',
+            type: 'color-select'
+        }, {
+            _id: 'background',
+            title: 'Цвет фона',
+            type: 'color-select'
+        },]
     }, {
         _id: 'image',
         title: 'Изображение',

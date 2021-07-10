@@ -61,7 +61,7 @@ function ImageLinkBlocks(props) {
             paddingTop={props.paddingTop}
             background={props.containerBackground}>
             <Container>
-                {props.items.map(({ title, buttonTitle, link, image }) => {
+                {props.items.map(({ title, link, image, button }) => {
                     return (
                         <Item href={link} key={link} styles={{ image: props.__images__[image] }}>
                             <Overlay />
@@ -74,14 +74,16 @@ function ImageLinkBlocks(props) {
                                     __fieldsValue__={props.__fieldsValue__}>
                                     {title}
                                 </Caption>
-                                <Button
-                                    color='{ "type": "base", "value": "white" }'
-                                    background='{ "type": "base", "value": "red" }'
-                                    containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}
-                                    caption={buttonTitle}
-                                    type='div'
-                                    size='m'
-                                    __fieldsValue__={props.__fieldsValue__} />
+                                {button ? (
+                                    <Button
+                                        color={button.color}
+                                        background={button.background}
+                                        containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}
+                                        caption={button.caption}
+                                        type='div'
+                                        size='m'
+                                        __fieldsValue__={props.__fieldsValue__} />
+                                ) : null}
                             </Content>
                         </Item>
                     )
