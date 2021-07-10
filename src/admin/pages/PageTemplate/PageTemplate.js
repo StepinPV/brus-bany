@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import showNotification from '@utils/showNotification';
-import { Button } from "../../../components/Button";
+import { Button } from "../../components/Button";
 import PageRender from '../../../components/PageRender';
 import FloatPanels from '../../components/FloatPanels';
 import ComponentEditor from '../../components/pageEditor/ComponentEditor';

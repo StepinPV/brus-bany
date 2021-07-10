@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import Header from '../../components/Header';
 import Tiles from '../../components/Tiles';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import axios from "axios";
 
 const breadcrumbsItems = [{

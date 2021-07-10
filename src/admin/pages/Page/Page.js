@@ -1,18 +1,18 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import PageRender from '../../../components/PageRender';
 import showNotification from '@utils/showNotification';
 import Form from '../../components/Form';
 import { main as mainFormat, config as configFormat } from '../../formats/page';
-import { Button } from "../../../components/Button";
+import { Button } from "../../components/Button";
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
 import Operations from '../../components/pageEditor/Operations';
 import ComponentEditor from '../../components/pageEditor/ComponentEditor';
 import OperationsHelper from '../../components/pageEditor/operationsHelper';
 import ComponentSelect from '../../components/pageEditor/ComponentSelect';
-import { applyFields } from '../../../constructorComponents/helpers';
+import { applyFields } from '@constructor-components/helpers';
 import styles from './Page.module.css';
 import axios from "axios";
 

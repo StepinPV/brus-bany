@@ -1,15 +1,15 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import Input from '../../../components/Input';
-import TextArea from '../../../components/TextArea';
-import Date from '../../../components/Date';
-import CheckBox from '../../../components/CheckBox';
+import Input from '../../components/Input';
+import TextArea from '../../components/TextArea';
+import Date from '../../components/Date';
+import CheckBox from '../../components/CheckBox';
 import TextEditor from '../TextEditor';
 import ImageUploader from '../ImageUploader';
 import SourceSelect from '../SourceSelect';
 import ColorSelect from '../ColorSelect';
 import ThemeParamSelect from '../ThemeParamSelect';
-import Select from '../../../components/Select';
+import Select from '../../components/Select';
 import styles from './FormItem.module.css';
 
 import OneOf from '../OneOf';

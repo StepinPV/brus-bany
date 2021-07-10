@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../../components/Breadcrumbs';
-import { Link } from '../../../components/Button';
+import Breadcrumbs from '../../components/Breadcrumbs';
 import renderDate from '@utils/RenderDate';
 import styles from './Pages.module.css';
 import axios from "axios";

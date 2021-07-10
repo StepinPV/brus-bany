@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import FormItem from '../FormItem';
-import Select from '../../../components/Select';
+import Select from '../../components/Select';
 import styles from './OneOf.module.css';
 
 const getSelectedVariant = (variants, value) => {

@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import Select from '../../../components/Select';
+import Select from '../../components/Select';
 import { useTheme } from '@emotion/react';
 
 const ThemeParamSelect = ({ title, value, required, error, onChange, typeId }) => {

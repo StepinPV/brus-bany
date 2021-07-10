@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import showNotification from '@utils/showNotification';
-import Input from '../../../components/Input';
+import Input from '../../components/Input';
 
 import cx from 'classnames';
 import styles from './ImageLoader.module.css';

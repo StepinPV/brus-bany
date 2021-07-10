@@ -1,7 +1,7 @@
 import React, { memo, useState, useEffect } from 'react';
 import Header from '../../components/Header';
-import Breadcrumbs from '../../../components/Breadcrumbs';
-import { Button } from '../../../components/Button';
+import Breadcrumbs from '../../components/Breadcrumbs';
+import { Button } from '../../components/Button';
 import settingsFormat from '../../formats/settings';
 import showNotification from '@utils/showNotification';
 import Form from '../../components/Form';

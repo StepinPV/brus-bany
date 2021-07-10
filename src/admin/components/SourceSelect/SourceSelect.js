@@ -1,6 +1,6 @@
 import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Select from '../../../components/Select';
+import Select from '../../components/Select';
 import getData from './getData';
 
 const SourceSelect = ({ title, source, selectedKey, onChange, error, hasEmpty, images, required }) => {
