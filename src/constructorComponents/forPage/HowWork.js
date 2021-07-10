@@ -8,6 +8,7 @@ import arrow from '../images/arrow.svg';
 import { css } from "@emotion/react";
 import Caption from "@constructor-components/components/Caption";
 
+//TODO min-height - для того, чтобы можно было кликнуть в админке, когда нет данных
 const Container = styled.div`
     margin: 0 auto;
     width: 100%;
@@ -35,7 +36,6 @@ const Item = styled.div`
 `;
 
 const Icon = styled.i`
-    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     width: 100px;

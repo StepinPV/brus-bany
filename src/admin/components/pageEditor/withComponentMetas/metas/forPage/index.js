@@ -18,7 +18,6 @@ import * as ImageTiles from './ImageTiles';
 import * as Iframe from './Iframe';
 import * as Links from './Links';
 import * as HowWork from './HowWork';
-import * as WhyMe from './WhyMe';
 import * as ProductCard from './ProductCard';
 
 import * as Calculator from './custom/Calculator';
@@ -26,5 +25,5 @@ import * as Calculator from './custom/Calculator';
 export default {
     Caption, Text, Button, Breadcrumbs, Banner, QuestionAnswer, ImageLinkBlock, ImageLinkBlocks,
     Image, Header, Footer, Contacts, FormBlock, Quiz, Pages, SocialShare, ImageTiles,
-    Iframe, Links, HowWork, WhyMe, ProductCard, Calculator
+    Iframe, Links, HowWork, ProductCard, Calculator
 }

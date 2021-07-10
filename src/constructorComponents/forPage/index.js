@@ -20,7 +20,6 @@ const ImageTiles = loadable(() => import('./ImageTiles'));
 const Iframe = loadable(() => import('./Iframe'));
 const Links = loadable(() => import('./Links'));
 const HowWork = loadable(() => import('./HowWork'));
-const WhyMe = loadable(() => import('./WhyMe'));
 const ProductCard = loadable(() => import('./ProductCard'));
 
 const Calculator = loadable(() => import('./custom/Calculator'));
@@ -28,7 +27,7 @@ const Calculator = loadable(() => import('./custom/Calculator'));
 export default {
     Caption, Text, Button, Breadcrumbs, Banner, QuestionAnswer, ImageLinkBlock, ImageLinkBlocks,
     Image, Header, Footer, Contacts, FormBlock, Quiz, Pages, SocialShare, ImageTiles,
-    Iframe, Links, HowWork, WhyMe, ProductCard, Calculator
+    Iframe, Links, HowWork, ProductCard, Calculator
 }
 
 

@@ -26,7 +26,7 @@ export const props = [{
     title: 'Стрелки',
     type: 'boolean'
 },...containerProps];
-export const name = 'Как мы работаем';
+export const name = 'Как мы работаем/Преимущества';
 export const key = 'HowWork';
 export const defaultProps = {
     ...defaultContainerProps,
