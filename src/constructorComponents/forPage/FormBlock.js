@@ -9,7 +9,6 @@ import { css } from '@emotion/react';
 
 const Container = styled.div`
     display: flex;
-    justify-content: space-around;
     margin: 0 auto;
     
     ${props => css`
@@ -32,6 +31,7 @@ const SecondColumn = styled.div`
     flex-direction: column;
     justify-content: center;
     padding: 16px;
+    flex-grow: 1;
     ${props => css`
         background: ${props.styles.background ? props.theme.colors[props.styles.background[0] !== '{' ? props.styles.background : JSON.parse(props.styles.background).value].v : ''};
     `}
@@ -58,18 +58,24 @@ function FormBlock(props) {
                 <FirstColumn>
                     <Image
                         src={props.__images__[props.image]}
-                        alt='Фотография бани'
+                        alt={props.imageAlt}
                         loading='lazy' />
                 </FirstColumn>
                 <SecondColumn styles={{ background: props.background }}>
-                    <Caption containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}>Закажите обратный звонок!</Caption>
-                    <Text
-                        size='l'
-                        containerStyles={css`padding-top: 16px;`}
-                        __fieldsValue__={props.__fieldsValue__}>
-                        Перезвоним вам в кратчайшие сроки, расскажем о домах и банях все и поможем с выбором
-                    </Text>
-                    <Form />
+                    {props.title ? <Caption containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}>{props.title}</Caption> : null}
+                    {props.description ? (
+                        <Text
+                            size='l'
+                            containerStyles={css`padding-top: 16px;`}
+                            children={props.description}
+                            __fieldsValue__={props.__fieldsValue__} />
+                    ) : null}
+                    <Form
+                        buttonCaption={props.buttonCaption}
+                        buttonBackground={props.buttonBackground}
+                        buttonColor={props.buttonColor}
+                        disclaimer={props.disclaimer}
+                        __fieldsValue__={props.__fieldsValue__} />
                 </SecondColumn>
             </Container>
         </ContainerComponent>

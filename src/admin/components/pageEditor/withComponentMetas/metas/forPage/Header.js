@@ -40,7 +40,7 @@ export const props = [{
         _id: 'background',
         title: 'Цвет фона',
         type: 'color-select'
-    },]
+    }]
 }, {
     _id: 'opacity',
     title: 'Прозрачная',

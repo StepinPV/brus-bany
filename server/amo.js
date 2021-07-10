@@ -1,40 +1,19 @@
 const request = require('request');
 const logger = require('../utils/logger');
+const { get: getSettings } = require('./settings');
 
-module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
+module.exports.send = async ({ name, phone, source }, host, utmParams) => {
+    const settings = await getSettings();
+
+    if (settings.amo && settings.amo.name && settings.amo.login && settings.amo.apiKey) {
+        return;
+    }
+
     let message = '';
 
     // Временная защита от спама
     if (!host) {
         return;
-    }
-
-    function addTitle(title) {
-        message += `${title}:\n\n`;
-    }
-
-    function addField(id, name, value) {
-        message += `${name}: ${value}\n`;
-    }
-
-    function addFields(fields) {
-        fields.forEach(({ id, name, value }) => addField(id, name, value));
-        message += '\n';
-    }
-
-    if (data) {
-        data = JSON.parse(data);
-        data.forEach(elem => {
-            switch(elem.type) {
-                case 'fields':
-                    addTitle(elem.title);
-                    addFields(elem.fields);
-                    message += `---\n\n`;
-                    break;
-                default:
-                    break;
-            }
-        });
     }
 
     const utmData = [];
@@ -75,8 +54,6 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
         });
     }
 
-
-
     const amoDataJson = {
         json: {
             add: [
@@ -88,11 +65,6 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
                             {
                                 name: "Заявка с сайта",
                                 custom_fields: [{
-                                    id: 187315,
-                                    values: [{
-                                        value: message
-                                    }]
-                                }, {
                                     id: 221103,
                                     values: [{
                                         value: host
@@ -123,7 +95,7 @@ module.exports.send = ({ name, phone, source, data }, host, utmParams) => {
         }
     }
 
-    request.post('https://' + 'brusbany' + '.amocrm.ru/api/v2/incoming_leads/form?login=' + 'admin@brus-bany.ru' + '&api_key=' + '1dce4c770e2e0bd53e31de4d319eebf32134b276' + '&', amoDataJson, function (error) {
+    request.post('https://' + settings.amo.name + '.amocrm.ru/api/v2/incoming_leads/form?login=' + settings.amo.login + '&api_key=' + settings.amo.apiKey + '&', amoDataJson, function (error) {
         if (error) {
             logger.error(`Amo sending error: ${error}`);
         }

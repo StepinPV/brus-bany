@@ -45,7 +45,7 @@ export default [{
         title: 'Код в body',
         type: 'text-simple'
     }]
-},{
+}, {
     _id: 'theme',
     title: 'Настройки темы',
     type: 'text-simple'
@@ -60,6 +60,23 @@ export default [{
     }, {
         _id: 'to',
         title: 'Куда (Относительный URL)',
+        type: 'string'
+    }]
+}, {
+    _id: 'amo',
+    title: 'Настройки amo',
+    type: 'object',
+    format: [{
+        _id: 'name',
+        title: 'Имя проекта',
+        type: 'string'
+    }, {
+        _id: 'login',
+        title: 'Логин',
+        type: 'string'
+    }, {
+        _id: 'apiKey',
+        title: 'API key',
         type: 'string'
     }]
 }];
