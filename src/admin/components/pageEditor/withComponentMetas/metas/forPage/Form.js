@@ -5,11 +5,11 @@ export const props = [{
     type: 'string'
 }, {
     _id: 'buttonColor',
-    title: 'Цвет текста',
+    title: 'Цвет текста кнопки',
     type: 'color-select'
 }, {
     _id: 'buttonBackground',
-    title: 'Цвет фона',
+    title: 'Цвет фона кнопки',
     type: 'color-select'
 }, {
     _id: 'disclaimer',

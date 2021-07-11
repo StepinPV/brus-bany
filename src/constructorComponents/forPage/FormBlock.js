@@ -62,10 +62,11 @@ function FormBlock(props) {
                         loading='lazy' />
                 </FirstColumn>
                 <SecondColumn styles={{ background: props.background }}>
-                    {props.title ? <Caption containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}>{props.title}</Caption> : null}
+                    {props.title ? <Caption color={props.titleColor} containerStyles={css`margin-top: 16px;margin-bottom: 16px;`}>{props.title}</Caption> : null}
                     {props.description ? (
                         <Text
                             size='l'
+                            color={props.descriptionColor}
                             containerStyles={css`padding-top: 16px;`}
                             children={props.description}
                             __fieldsValue__={props.__fieldsValue__} />

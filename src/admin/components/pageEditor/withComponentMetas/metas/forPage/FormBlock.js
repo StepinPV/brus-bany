@@ -7,9 +7,17 @@ export const props = [{
     title: 'Заголовок',
     type: 'string'
 }, {
+    _id: 'titleColor',
+    title: 'Цвет заголовка',
+    type: 'color-select'
+}, {
     _id: 'description',
     title: 'Текст',
     type: 'string'
+}, {
+    _id: 'descriptionColor',
+    title: 'Цвет текста',
+    type: 'color-select'
 }, {
     _id: 'background',
     title: 'Цвет блока',
