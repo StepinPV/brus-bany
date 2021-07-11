@@ -73,7 +73,7 @@ Form.propTypes = {
 Form.defaultProps = {
     buttonCaption: 'Перезвоните мне',
     buttonColor: '{ "type": "base", "value": "white" }',
-    buttonBackground: '{ "type": "base", "value": "red" }',
+    buttonBackground: '{ "type": "base", "value": "black" }',
     disclaimer: 'Нажимая на кнопку, вы даете согласие на обработку своих персональных данных.',
     __fieldsValue__: {}
 };

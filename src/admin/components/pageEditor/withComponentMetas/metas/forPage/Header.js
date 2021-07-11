@@ -62,6 +62,7 @@ export const props = [{
     title: 'Логотип',
     type: 'image',
     props: {
+        withoutLogo: true,
         allowedTypes: ['image/svg+xml', 'image/jpeg', 'image/jpeg', 'image/jpg', 'image/png']
     }
 }];

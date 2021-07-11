@@ -50,6 +50,7 @@ const ItemsItem = styled.a`
 const Logo = styled.i`
     background-position: center;
     background-repeat: no-repeat;
+    background-size: contain;
     display: block;
     width: 160px;
     height: 40px;

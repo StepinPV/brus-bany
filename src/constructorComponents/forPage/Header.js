@@ -57,6 +57,7 @@ const Logo = styled.i`
     height: 50px;
     max-width: 100%;
     object-fit: contain;
+    background-size: contain;
     @media (max-width: 600px) {
         width: 160px;
         height: 40px;
