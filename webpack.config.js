@@ -35,7 +35,8 @@ const common = {
             '@components': path.resolve(__dirname, 'src/components/'),
             '@utils': path.resolve(__dirname, 'src/utils/'),
             '@plugins': path.resolve(__dirname, 'src/plugins/'),
-            '@constructor-components': path.resolve(__dirname, 'src/constructorComponents')
+            '@constructor-components': path.resolve(__dirname, 'src/constructorComponents'),
+            'draft-js-import-element': path.resolve(__dirname, 'draft-js-import-element/main.js')
         },
         extensions: ['.js']
     },

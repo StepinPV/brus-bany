@@ -40,8 +40,18 @@ const exportOptions = {
 
 const importOptions = {
     customInlineFn: (element, { Style }) => {
+        let styles = [];
+
         if (element.style.color) {
-            return Style('color-' + element.style.color);
+            styles.push(`color-${element.style.color}`);
+        }
+
+        if (element.style.fontSize) {
+            styles.push(`fontsize-${parseInt(element.style.fontSize)}`);
+        }
+
+        if (styles.length) {
+            return Style(styles);
         }
     }
 };
