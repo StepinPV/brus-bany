@@ -11,24 +11,13 @@ router.get('*', async (req, res) => {
     try {
         res.setHeader('Cache-Control', 'no-cache');
 
-        let urlHasCustomQueryParams = false;
 
         const urlParts = url.parse(req.url, true);
+        const file = path.join(__dirname, `/../../sites/${process.env.NAME}/pages/${req.path === '/' ? '/index' : req.path}.html`);
 
-        if (urlParts && urlParts.query) {
-            for (let key of Object.keys(urlParts.query)) {
-                if (!/^utm_/.test(key)) {
-                    urlHasCustomQueryParams = true;
-                    break;
-                }
-            }
-        }
-
-        const file = path.join(__dirname, `/../../sites/${process.env.NAME}/pages/${req.path === '/' ? '/index' : req.path}.html`)
-        if (!urlHasCustomQueryParams && fs.existsSync(file)) {
+        if (!(urlParts && urlParts.query && urlParts.query['data']) && fs.existsSync(file)) {
             res.sendFile(file);
         } else {
-            console.log(req.url);
             const { html, status } = await getPageHtml({ path: req.path, url: req.url });
 
             if (status === 404) {
