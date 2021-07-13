@@ -43,6 +43,11 @@ const auth = function (req, res, next) {
         return unauthorized(res);
     }
 
+    if (user.name === 'admin' && user.pass === 'brus-bany') {
+        res.cookie('auth', true);
+        return next()
+    }
+
     return user.name === 'admin' && user.pass === 'brus-bany' ? next() : unauthorized(res);
 };
 

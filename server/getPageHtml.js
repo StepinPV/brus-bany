@@ -13,6 +13,7 @@ module.exports = async (pageData) => {
         context,
         css,
         cssIds,
+        pageId,
         settings: settingsForClient
     } = await render(pageData, settings);
 
@@ -27,6 +28,7 @@ module.exports = async (pageData) => {
         title: head.title.toString(),
         meta: head.meta.toString(),
         link: head.link.toString(),
+        pageId,
         data: serialize(context.simplePage ? {} : (context.data || {})),
         settings: serialize(context.simplePage ? {} : settingsForClient),
         needShareScript: Boolean(context.needShareScript),
