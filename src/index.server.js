@@ -88,7 +88,7 @@ const render = async (pageData, settings) => {
         extractor,
         css,
         cssIds,
-        pageId: pageRes ? pageRes.data.data['_id'] : null,
+        pageId: (pageRes && pageRes.data.data) ? pageRes.data.data['_id'] : null,
         settings: {
             theme: settings.theme || {},
             whatsAppWidget: settings.whatsAppWidget

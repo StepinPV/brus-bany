@@ -20,7 +20,7 @@ export default [{
     type: 'string',
     required: true
 }, {
-    _id: 'not-found-page-id',
+    _id: 'not-found-page',
     title: 'ID 404 Страницы',
     type: 'string'
 }, {
