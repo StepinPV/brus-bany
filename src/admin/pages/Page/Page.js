@@ -5,7 +5,7 @@ import PageRender from '../../../components/PageRender';
 import showNotification from '@utils/showNotification';
 import Form from '../../components/Form';
 import { main as mainFormat, config as configFormat } from '../../formats/page';
-import { Button } from "../../components/Button";
+import { Button, Link } from "../../components/Button";
 import FloatPanels from '../../components/FloatPanels';
 import ComponentRender from '../../components/pageEditor/Component';
 import Operations from '../../components/pageEditor/Operations';
@@ -241,6 +241,17 @@ class Page extends PureComponent {
                         />
                     ) : null}
                 </div>
+                {page.url ? (
+                    <div className={styles['settings-block-buttons']}>
+                        <Link
+                            caption='Открыть страницу'
+                            type='yellow'
+                            href={page.url}
+                            size='s'
+                            className={styles['settings-block-button']}
+                        />
+                    </div>
+                ) : null}
             </div>
         )
     };
