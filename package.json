@@ -59,6 +59,7 @@
     "shelljs": "^0.8.4",
     "terser-webpack-plugin": "^5.1.2",
     "thread-loader": "^3.0.4",
+    "tick": "^0.1.1",
     "url": "^0.11.0",
     "webpack": "^5.38.1",
     "webpack-cli": "^4.7.0",
