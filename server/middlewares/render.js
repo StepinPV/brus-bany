@@ -14,7 +14,7 @@ router.get('*', async (req, res) => {
         const urlParts = url.parse(req.url, true);
         const file = path.join(__dirname, `/../../sites/${process.env.NAME}/pages/${req.path === '/' ? '/index' : req.path}.html`);
 
-        if (!(urlParts && urlParts.query && urlParts.query['data']) && fs.existsSync(file)) {
+        if (false && !(urlParts && urlParts.query && urlParts.query['data']) && fs.existsSync(file)) {
             res.sendFile(file);
         } else {
             const { html, status } = await getPageHtml({ path: req.path, url: req.url });
