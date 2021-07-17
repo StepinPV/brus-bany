@@ -1,11 +1,11 @@
 require('colors');
 
 exports.success = (message) => {
-    // console.log(message.green);
+    console.log(message.green);
 };
 
 exports.info = (message) => {
-    // console.log(message);
+    console.log(message);
 };
 
 exports.error = (message) => {

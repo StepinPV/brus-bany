@@ -11,7 +11,6 @@ router.get('*', async (req, res) => {
     try {
         res.setHeader('Cache-Control', 'no-cache');
 
-
         const urlParts = url.parse(req.url, true);
         const file = path.join(__dirname, `/../../sites/${process.env.NAME}/pages/${req.path === '/' ? '/index' : req.path}.html`);
 
